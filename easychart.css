@@ -1,0 +1,224 @@
+/* General */
+.ec-container * {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.ec-container {
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.ec-container h2,
+.ec-container h3,
+.ec-container h4 {
+  margin: 0 0 0.5em;
+}
+
+/* Structure */
+.ec-container {
+  min-height: 100%;
+}
+.ec-container .aside {
+  width: 25%;
+  float: left;
+  padding: 1em 0 1em 1em;
+  border-radius: 6px;
+}
+
+.ec-container .chart {
+  width: 75%;
+  float: right;
+}
+.ec-container .chart-wrapper {
+  padding: 1em;
+  min-height: 500px;
+}
+
+.ec-container h3 {
+  background: #57544a; /* Old browsers */
+  background: -moz-linear-gradient(top,  #57544a 0%, #37342a 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#57544a), color-stop(100%,#37342a)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #57544a 0%,#37342a 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #57544a 0%,#37342a 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #57544a 0%,#37342a 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #57544a 0%,#37342a 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#57544a', endColorstr='#37342a',GradientType=0 ); /* IE6-8 */
+  border-bottom: 1px solid #333;
+  color: #fff;
+  margin: 0;
+  padding: 1em;
+  font-weight: normal;
+  text-shadow: 0 1px 0 #000;
+}
+
+.ec-container .step.light h3 {
+  background: #74726a; /* Old browsers */
+  background: -moz-linear-gradient(top,  #74726a 0%, #67645a 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#74726a), color-stop(100%,#67645a)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #74726a 0%,#67645a 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #74726a 0%,#67645a 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #74726a 0%,#67645a 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #74726a 0%,#67645a 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#74726a', endColorstr='#67645a',GradientType=0 ); /* IE6-8 */
+  font-style: italic;
+}
+
+.ec-container .step-content {
+  padding: 1em 1em 0;
+  display: none;
+  width: 100%;
+  background-color: #eee;
+}
+
+.ec-container .step-content.open {
+  display: block;
+}
+
+/* form */
+.ec-container label {
+  font-weight: normal !important;
+  font-size: 1em !important;
+}
+.ec-container textarea,
+.ec-container input[type=text],
+.ec-container select {
+  width: 100% !important;
+  border: 1px solid #fff !important;
+  padding: 0.5em !important;
+  background: #fff !important;
+  color: #444 !important;
+  -moz-border-radius: 2px !important;
+  -webkit-border-radius: 2px !important;
+  border-radius: 2px !important;
+  box-shadow: 1px 1px 1px #ccc !important;
+  -webkit-appearance: none;
+}
+.ec-container textarea[disabled],
+.ec-container input[disabled=disabled],
+.ec-container select[disabled] {
+  color: #ccc !important;
+}
+
+.ec-container .form-item {
+  margin-bottom: 1em !important;
+}
+.ec-container .form-type-select label,
+.ec-container .form-type-text label {
+  display: block !important;
+  margin-bottom: 0.5em !important;
+}
+.ec-container textarea:focus,
+.ec-container input[type=text]:focus,
+.ec-container select:focus {
+  border: 1px solid #F09F47 !important;
+  box-shadow: 0 0 3px #F09F47 !important;
+}
+
+.ec-container textarea {
+  resize: vertical;
+}
+
+.ec-container a.button {
+  padding: 0.5em !important;
+  display: inline-block !important;
+  *zoom: 1 !important;
+  *display: inline !important;
+  background: #3EA377 none !important;
+  border: 0 none !important;
+  color: #fff !important;
+  cursor: pointer !important;
+  margin-bottom: 1em !important;
+  border-radius: 6px !important;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 1px 1px 1px #ccc !important;
+}
+
+.ec-container a.action {
+  background-color: #F09F47 !important;
+}
+.ec-container a.action.next {
+  float: right;
+}
+.ec-container a.action.next:after {
+  padding-left: 5px;
+  content: '\2192';
+}
+.ec-container a.action.prev {
+  float: left;
+}
+.ec-container a.action.prev:before {
+  padding-right: 5px;
+  content: '\2190';
+}
+.ec-container a.action:hover {
+  background-color: #f68e1e !important;
+}
+
+.ec-container fieldset {
+  border: 0 none !important;
+  border-top: 1px solid #ccc !important;
+}
+.ec-container fieldset fieldset .fieldset-content {
+  margin-left: 1em !important;
+}
+.ec-container fieldset legend {
+  cursor: pointer;
+}
+
+.ec-container fieldset.collapsed .fieldset-content {
+  display: none;
+}
+
+.ec-container .form-type-radio > label {
+  width: 40%;
+  float: left;
+}
+
+.ec-container .form-type-radio .radio {
+  width: 60%;
+  float: right;
+}
+
+.ec-container .form-type-checkbox label {
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.ec-container .hidden {
+  display: none;
+}
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+
+.clearfix:before,
+.clearfix:after {
+  content: " "; /* 1 */
+  display: table; /* 2 */
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+  *zoom: 1;
+}
