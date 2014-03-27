@@ -97,7 +97,7 @@
 
 
       // Prepare the stored options.
-      ec.storedConfig = (ec.storedConfig == null || ec.storedConfig == '') ? {} : JSON.parse(ec.storedConfig);// : this.options.storedTextarea.val().length > 0 ? jQuery.parseJSON(this.options.storedTextarea.val()) : {}; // An object that holds values who differ from default values as a flat JSONstring.
+      ec.storedConfig = (ec.storedConfig == null || ec.storedConfig == '' || $.isEmptyObject(ec.storedConfig)) ? {} : JSON.parse(ec.storedConfig);// : this.options.storedTextarea.val().length > 0 ? jQuery.parseJSON(this.options.storedTextarea.val()) : {}; // An object that holds values who differ from default values as a flat JSONstring.
 
       // Build a tree with options based on the defined options and the default options.
       ec.unnestedOptions = $.extend(true,{},highchartsConfigurationOptions.Options.options);
@@ -227,6 +227,7 @@
 
       // Make the chart sticky when scrolling in the chart container.
       $container.scroll(function() {
+
         if (sidebarHigherThanChart) { // Only take action if the sidebar is higher than the chart.
           var chartPosition   = $chart.position();
 
@@ -399,12 +400,9 @@
       if(_biggest > 0) {
         ec.dataSeparator = ec.dataSeparators[_indexMostOccuringSeparator].value;
         $dataSeparator.find('option:selected').attr('selected', false);
-        // very interesting: the 'attr'-method didn't work out in firefox nor safari, the 'prop'-method does...
-        // http://api.jquery.com/prop/
         $dataSeparator.find('option[value=\'' + _indexMostOccuringSeparator + '\']').attr('selected', true);
       }
       else {
-        // todo: error-handling
       }
     },
 
@@ -526,7 +524,7 @@
 
       switch(_returnType) {
         /*
-         todo: handle these options.
+         TODO: handle these options.
          case "":
          case "Function":
          case "Mixed":
@@ -680,7 +678,7 @@
             var _value = e.target.value;
 
             if(plugin._RealTypeOf(_value) != 'boolean' && plugin._RealTypeOf(_value) != 'null'){
-              _value = _value.replace(/[\[\]]|\'|\"|\\"|\\'/g, ''); // TODO: find a solution to escape the quotes in a better way
+              _value = _value.replace(/[\[\]]|\'|\"|\\"|\\'/g, '');
             }
             var _default = value.defaults;
 
@@ -832,7 +830,7 @@
                 series.name = item;
               }
               else {
-                series.data.push(parseFloat(item)); // orig
+                series.data.push(parseFloat(item));
               }
             });
 
