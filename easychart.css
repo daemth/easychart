@@ -161,12 +161,15 @@
 .ec-container fieldset {
   border: 0 none !important;
   border-top: 1px solid #ccc !important;
+  padding: 4px 7px 9px; !important;
+  margin: 0 !important;
 }
 .ec-container fieldset fieldset .fieldset-content {
   margin-left: 1em !important;
 }
 .ec-container fieldset legend {
   cursor: pointer;
+  font-weight: normal !important;
 }
 
 .ec-container fieldset.collapsed .fieldset-content {
@@ -176,11 +179,19 @@
 .ec-container .form-type-radio > label {
   width: 40%;
   float: left;
+
 }
 
 .ec-container .form-type-radio .radio {
   width: 60%;
   float: right;
+}
+
+.ec-container .form-type-radio .radio label {
+  display: inline-block !important;
+  *zoom: 1;
+  *display: inline;
+  padding-left: 5px;
 }
 
 .ec-container .form-type-checkbox label {

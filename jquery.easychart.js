@@ -1,26 +1,3 @@
-// Todo: turn into translatabel default options.
-/*Highcharts.setOptions({
-  lang: {
-    months: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-    shortMonths: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
-    weekdays: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-    contextButtonTitle: 'context menu',
-    decimalPoint: ',',
-    downloadJPEG: 'Download JPEG-afbeelding',
-    downloadPDF: 'Download PDF-document',
-    downloadPNG: 'Download PNG-afbeelding',
-    downloadSVG: 'Download SVG-vector-afbeelding',
-    loading: 'laden...',
-    //numericSymbols: [' duizend', ' miljoen'],
-    printChart: 'Print grafiek',
-    resetZoom: 'Reset zoom',
-    resetZoomTitle: 'Reset zoom niveau 1:1',
-    thousandsSep: ' '
-  },
-});*/
-
-
-
 ;(function($) {
 
   var pluginName = 'easychart',
@@ -32,7 +9,8 @@
       unwantedReturnTypes : 'Function, CSSObject, null', // These return types should not be taken into account.
       optionsStep1        : 'chart--type', // The options for step 1 in the configuration form.
       optionsStep2        : 'title--text, chart--backgroundColor, subtitle--text, yAxis-title--text', // The options for step 2 in the configuration form.
-      defaultColors       : null
+      defaultColors       : null,
+      lang                : {} // An object holding the translations for the chart.
 };
 
   function Plugin( element, options ) {
@@ -83,18 +61,17 @@
         name: 'tab',
         value: '\t'
       }];
-
-      ec._containerID                    = 'ec-container',
-      ec._chartRenderAreaID              = 'ec-chart-render-area',
-      ec._dataSeparatorID                = 'ec-data-separator',
-      ec._pasteDataID                    = 'ec-paste-data',
-      ec._pasteDataUrlID                 = 'ec-data-url',
-      ec._categoriesInFirstRowID         = 'ec-categories-in-first-row',
-      ec._seriesNameInFirstColumnID      = 'ec-series-name-in-first-column-id',
-      ec._transposeDataButtonID          = 'ec-transpose-data',
-      ec._formID                         = 'ec-configuration-form',
-      ec._autoFindSeparatorID            = 'ec-auto-find-separator';
-
+      ec.lang                        = this.options.lang, // An object holding the translations for the chart.
+      ec._containerID                = 'ec-container',
+      ec._chartRenderAreaID          = 'ec-chart-render-area',
+      ec._dataSeparatorID            = 'ec-data-separator',
+      ec._pasteDataID                = 'ec-paste-data',
+      ec._pasteDataUrlID             = 'ec-data-url',
+      ec._categoriesInFirstRowID     = 'ec-categories-in-first-row',
+      ec._seriesNameInFirstColumnID  = 'ec-series-name-in-first-column-id',
+      ec._transposeDataButtonID      = 'ec-transpose-data',
+      ec._formID                     = 'ec-configuration-form',
+      ec._autoFindSeparatorID        = 'ec-auto-find-separator';
 
       // Prepare the stored options.
       ec.storedConfig = (ec.storedConfig == null || ec.storedConfig == '' || $.isEmptyObject(ec.storedConfig)) ? {} : JSON.parse(ec.storedConfig);// : this.options.storedTextarea.val().length > 0 ? jQuery.parseJSON(this.options.storedTextarea.val()) : {}; // An object that holds values who differ from default values as a flat JSONstring.
@@ -837,7 +814,11 @@
             options.series.push(series);
           }
         });
-        // Store
+
+        // Add translations.
+        options.lang = ec.lang;
+
+        // Store the entire configuration.
         ec.chartOptions = options;
       }
     },
