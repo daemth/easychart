@@ -53,6 +53,7 @@
   padding: 1em;
   font-weight: normal;
   text-shadow: 0 1px 0 #000;
+  font-size: 14px;
 }
 
 .ec-container .step.light h3 {
@@ -163,6 +164,7 @@
   border-top: 1px solid #ccc !important;
   padding: 4px 7px 9px; !important;
   margin: 0 !important;
+  height: auto !important;
 }
 .ec-container fieldset fieldset .fieldset-content {
   margin-left: 1em !important;
@@ -170,6 +172,10 @@
 .ec-container fieldset legend {
   cursor: pointer;
   font-weight: normal !important;
+  background: transparent !important;
+  font-size: 1em !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .ec-container fieldset.collapsed .fieldset-content {
@@ -179,12 +185,13 @@
 .ec-container .form-type-radio > label {
   width: 40%;
   float: left;
-
+  margin: 0;
 }
 
 .ec-container .form-type-radio .radio {
   width: 60%;
   float: right;
+  margin: 0;
 }
 
 .ec-container .form-type-radio .radio label {
