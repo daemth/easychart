@@ -81,7 +81,7 @@
       ec.optionsObject = this._growTree(null, ec.unnestedOptions);
 
       // Print UI after the original textarea.
-      $(this.element).html(this._printPage());
+      $(this.element).html($(this._printPage()));
 
       // Print step 1.
       this._printPartialConfigForm(ec.optionsObject, $('#' + ec._containerID + ' form#step1'), ec.optionsStep1);
