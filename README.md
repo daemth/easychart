@@ -1,7 +1,7 @@
-Easy Chart
+Easychart
 ==========
 
-The Easy Chart jQuery plugin provides a GUI to create charts based on the Highcharts library (http://www.highcharts.com/).
+The Easychart jQuery plugin provides a GUI to create charts based on the Highcharts library (http://www.highcharts.com/).
 
 Requirements
 ------------
@@ -24,7 +24,7 @@ lang                : {} // An object holding the translations for the chart.
 
 Example
 -------
-The Easy Chart plugin can be called on any div.
+The Easychart plugin can be called on any div.
 
 1. Add this in your javascript file:
     $(document).ready(function() {
