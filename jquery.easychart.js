@@ -5,7 +5,7 @@
     defaults = {
       csvData             : '', // The data in CSV format.
       storedConfig        : {}, // A stored configuration as a flat JSON string.
-      unwantedOptions     : 'global, lang, exporting, series, labels, navigation, loading, pane', // These options types should not be taken into account.
+      unwantedOptions     : 'global, lang, exporting, series, labels, navigation, loading, pane, plotOptions, xAxis-plotLines', // These options types should not be taken into account.
       unwantedReturnTypes : 'Function, CSSObject, null', // These return types should not be taken into account.
       optionsStep1        : 'chart--type', // The options for step 1 in the configuration form.
       optionsStep2        : 'title--text, chart--backgroundColor, subtitle--text, yAxis-title--text', // The options for step 2 in the configuration form.
@@ -67,8 +67,6 @@
       ec._dataSeparatorID            = 'ec-data-separator',
       ec._pasteDataID                = 'ec-paste-data',
       ec._pasteDataUrlID             = 'ec-data-url',
-      ec._categoriesInFirstRowID     = 'ec-categories-in-first-row',
-      ec._seriesNameInFirstColumnID  = 'ec-series-name-in-first-column-id',
       ec._transposeDataButtonID      = 'ec-transpose-data',
       ec._formID                     = 'ec-configuration-form',
       ec._autoFindSeparatorID        = 'ec-auto-find-separator';
@@ -156,18 +154,6 @@
           // Print the chart.
           plugin._printChart();
         }
-      });
-
-      // Listener for checkbox 'categories in first row'.
-      $('#' + ec._categoriesInFirstRowID).click(function(){
-        ec.csvCategoriesInFirstRow = $(this).is(':checked');
-        plugin._printChart();
-      });
-
-      // Listener for checkbox 'series name in first column'.
-      $('#' + ec._seriesNameInFirstColumnID).click(function(){
-        ec.csvSeriesNameInFirstColumn = $(this).is(':checked');
-        plugin._printChart();
       });
 
       // Listener for button 'transpose data'.
@@ -322,8 +308,6 @@
       output += '<div class="step-content clearfix">';
       output += '<div class="form-item form-type-text"><input type="text" id="' + ec._pasteDataUrlID + '" placeholder="paste url to csv here" /></div>'
       output += '<div class="form-item form-type-textarea"><textarea id="' + ec._pasteDataID + '" placeholder="paste csv data here" rows="10">' + ec.csvData +'</textarea></div>';
-      output += '<div class="form-item form-type-checkbox"><input id="' + ec._categoriesInFirstRowID + '" class="ecHeadersInFirstRow" type="checkbox" checked="checked" /><label for="' + ec._categoriesInFirstRowID + '">Show categories in first row</label></div>';
-      output += '<div class="form-item form-type-checkbox"><input id="' + ec._seriesNameInFirstColumnID + '" class="ecSeriesNameInFirstColumn" type="checkbox" checked="checked" /><label for="' + ec._seriesNameInFirstColumnID + '">Show series name in first column</label></div>';
       output += '<div class="form-item form-type-checkbox"><input id="' + ec._autoFindSeparatorID + '" type="checkbox" checked="checked" /><label for="' + ec._autoFindSeparatorID + '">Auto find separator</label></div>';
       output += '<div class="form-item form-type-select hidden">';
       output += '<select id="' + ec._dataSeparatorID + '" class="ecDataSeparator">';
@@ -774,10 +758,11 @@
         eval('var options = {' +  ec.optionsString + '}');
 
         // Extend the existing options object with placeholders.
-        if (ec.csvCategoriesInFirstRow) {
+        if (typeof options.xAxis === undefined) {
           options.xAxis = {};
-          options.xAxis.categories = [];
         }
+
+        var _categories = [];
         options.series = [];
 
         // Get the CSV data
@@ -790,10 +775,10 @@
         $.each(lines, function(lineNo, line) {
           var items = line.split(ec.dataSeparator);
 
-          // header line containes categories
-          if (lineNo == 0 && ec.csvCategoriesInFirstRow) {
+          // header line contains categories
+          if (lineNo == 0) {
             $.each(items, function(itemNo, item) {
-              if (itemNo > 0) options.xAxis.categories.push(item);
+              if (itemNo > 0) _categories.push(item);
             });
           }
 
@@ -803,15 +788,16 @@
               data: []
             };
             $.each(items, function(itemNo, item) {
-              if (ec.csvSeriesNameInFirstColumn && itemNo == 0) {
+              if (itemNo == 0) {
                 series.name = item;
               }
               else {
-                series.data.push(parseFloat(item));
+                series.data.push([_categories[itemNo-1],parseFloat(item)]);
               }
             });
 
             options.series.push(series);
+
           }
         });
 
