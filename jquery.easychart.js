@@ -40,8 +40,6 @@
       ec.optionsObject              = {};     // An object that holds the current configuration.
       ec.optionsString              = '';     // A string to store the different options to create the js.
       ec.optionsStringDepth         = 0;      // Used to keep track of the depth of our object while traversing it.
-      ec.csvCategoriesInFirstRow    = true;   // if headers present in first row of csv-data, categories can be derived
-      ec.csvSeriesNameInFirstColumn = true;
       ec.defaultDataSeparator       = ';';
       ec.dataSeparator              = ';';
       ec.autoFindSeparator          = true;
@@ -137,7 +135,17 @@
 
         if(_extension = 'csv' && _url.length > 0){
           $.get(_url, function(data) {
-            $('#' + ec._pasteDataID).val(data);
+
+            // Clear the textarea
+            $('#' + ec._pasteDataID).val('');
+
+            ec.csvData = $.trim(data);
+
+            if (ec.autoFindSeparator) {
+              plugin._getDataSeparator(ec.csvData);
+            }
+            // Print the chart.
+            plugin._printChart();
           });
         }
       });
@@ -146,6 +154,9 @@
       $('#' + ec._pasteDataID).bind ('blur keyup', function (e) {
         var _data = $(this).val();
         if (_data.length > 0 && _data != ec.csvData) {
+          // Clear the url.
+          $('#' + ec._pasteDataUrlID).val('');
+
           ec.csvData = $.trim(_data);
 
           if (ec.autoFindSeparator) {
