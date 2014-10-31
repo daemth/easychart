@@ -42,5 +42,5 @@ Available under the MIT license.
 
 Sponsoring
 ----------
-This plugin is sponsored by Bestuurszaken, Vlaamse Overheid: http://www.bestuurszaken.be
+This plugin is sponsored by Bestuurszaken, Vlaamse Overheid: http://www.bestuurszaken.be 
 
