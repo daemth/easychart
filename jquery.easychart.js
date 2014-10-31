@@ -4,14 +4,15 @@
     document = window.document,
     defaults = {
       csvData             : '', // The data in CSV format.
+      csvDataUrl          : '', // A url with the CSV data.
       storedConfig        : {}, // A stored configuration as a flat JSON string.
       unwantedOptions     : 'global, lang, exporting, series, labels, navigation, loading, pane, plotOptions, xAxis-plotLines', // These options types should not be taken into account.
       unwantedReturnTypes : 'Function, CSSObject, null', // These return types should not be taken into account.
       optionsStep1        : 'chart--type', // The options for step 1 in the configuration form.
       optionsStep2        : 'title--text, chart--backgroundColor, subtitle--text, yAxis-title--text', // The options for step 2 in the configuration form.
       defaultColors       : null,
-      lang                : {} // An object holding the translations for the chart.
-};
+      lang                : {} // An object holding the translations for the chart.	
+      };
 
   function Plugin( element, options ) {
     this.element = element;
@@ -45,6 +46,7 @@
       ec.autoFindSeparator          = true;
       ec.storedConfig               = this.options.storedConfig;     // An object that holds values who differ from default values as a flat JSONstring.
       ec.csvData                    = this.options.csvData;     // The CSV data
+      ec.csvDataUrl                 = this.options.csvDataUrl;  // A url with the CSV data
       ec.chartOptions               = {}; // The final chart options including the csv data.
       ec.dataSeparators             = [{
         name: 'comma',
@@ -69,8 +71,10 @@
       ec._formID                     = 'ec-configuration-form',
       ec._autoFindSeparatorID        = 'ec-auto-find-separator';
 
+      var plugin = this;
+
       // Prepare the stored options.
-      ec.storedConfig = (ec.storedConfig == null || ec.storedConfig == '' || $.isEmptyObject(ec.storedConfig)) ? {} : JSON.parse(ec.storedConfig);// : this.options.storedTextarea.val().length > 0 ? jQuery.parseJSON(this.options.storedTextarea.val()) : {}; // An object that holds values who differ from default values as a flat JSONstring.
+      ec.storedConfig = (ec.storedConfig == null || ec.storedConfig == '' || $.isEmptyObject(ec.storedConfig)) ? {} : JSON.parse(ec.storedConfig); // An object that holds values who differ from default values as a flat JSONstring.
 
       // Build a tree with options based on the defined options and the default options.
       ec.unnestedOptions = $.extend(true,{},highchartsConfigurationOptions.Options.options);
@@ -91,6 +95,15 @@
       // Update the configurationJS and the textarea with the new data.
       this._buildJSONConfigurationString(ec.optionsObject);
 
+      // Print the CSV data or the CSV url.
+      if (ec.csvDataUrl != '') {
+        $('#' + ec._pasteDataUrlID).val(ec.csvDataUrl);
+        plugin._getDataFromUrl(ec.csvDataUrl);
+      }
+      else if (ec.csvData != '') {
+        $('#' + ec._pasteDataID).val(ec.csvData);
+      }
+
       // Try to find the default data separator.
       this._getDataSeparator(ec.csvData);
 
@@ -98,12 +111,10 @@
       this._printChart();
 
 
-
       /*
        * Eventlisteners.
        */
 
-      var plugin = this;
       // Listener for select 'separator'.
       $('#' + ec._dataSeparatorID).change(function(){
         var _value = $(this).val();
@@ -129,25 +140,10 @@
 
       // Listener for 'pasteDataUrl'
       $('#' + ec._pasteDataUrlID).blur(function(){
-
         var _url = $(this).val();
-        var _extension = _url.split('.').pop();
+        plugin._getDataFromUrl(_url);
 
-        if(_extension = 'csv' && _url.length > 0){
-          $.get(_url, function(data) {
-
-            // Clear the textarea
-            $('#' + ec._pasteDataID).val('');
-
-            ec.csvData = $.trim(data);
-
-            if (ec.autoFindSeparator) {
-              plugin._getDataSeparator(ec.csvData);
-            }
-            // Print the chart.
-            plugin._printChart();
-          });
-        }
+        $('#' + ec._transposeDataButtonID).css({'visibility':'hidden'});
       });
 
       // Listener for 'data-textarea'.
@@ -156,6 +152,7 @@
         if (_data.length > 0 && _data != ec.csvData) {
           // Clear the url.
           $('#' + ec._pasteDataUrlID).val('');
+          $('#' + ec._transposeDataButtonID).css({'visibility':'visible'});
 
           ec.csvData = $.trim(_data);
 
@@ -169,8 +166,10 @@
 
       // Listener for button 'transpose data'.
       $('#' + ec._transposeDataButtonID).click(function(){
-        $('#' + ec._pasteDataID).val(plugin._transposeData(ec.csvData));
-        ec.csvData = $('#' + ec._pasteDataID).val();
+        ec.csvData = plugin._transposeData(ec.csvData);
+        if ($('#' + ec._pasteDataID).val() != '') {
+          $('#' + ec._pasteDataID).val(ec.csvData);
+        };
         plugin._printChart();
       });
 
@@ -256,6 +255,11 @@
         return $('#' + ec._pasteDataID).val();
       }
 
+      // Return the csv url.
+      this.getCsvUrl = function () {
+        return $('#' + ec._pasteDataUrlID).val();
+      }
+
       // Return the options in a format that can be stored in the database.
       this.getStoredValues = function () {
         if ($.isEmptyObject(ec.storedConfig)) {
@@ -272,9 +276,14 @@
           return '';
         }
         else {
+          var options = ec.chartOptions;
           // First we need to remove the renderTo option to avoid circular references
-          ec.chartOptions.chart.renderTo = null;
-          return JSON.stringify(ec.chartOptions);
+          options.chart.renderTo = null;
+
+          // Remove the csv data, since this should be returned in the other public functions.
+          delete options.series;
+
+          return JSON.stringify(options);
         }
       }
 
@@ -328,7 +337,7 @@
       });
       output += '</select>';
       output += '</div>';
-      output += '<a id="' + ec._transposeDataButtonID + '"class="button ecTransposeData">transpose data</a>';
+      output += '<a id="' + ec._transposeDataButtonID + '" class="button ecTransposeData">transpose data</a>';
       output += '<div class="action-wrapper">';
       output += '<a class="button action prev">Previous</a>';
       output += '<a class="button action next">Finish</a>';
@@ -367,7 +376,6 @@
         }
       }
       var $dataSeparator = $('#' + ec._dataSeparatorID);
-      // Todo: is attr the same as prop in older jquery versions?
       $dataSeparator.find('option:selected').attr('selected', false);
       if(_biggest > 0) {
         ec.dataSeparator = ec.dataSeparators[_indexMostOccuringSeparator].value;
@@ -398,11 +406,41 @@
           _transposedData += _newLine.join(ec.dataSeparator) + '\n';
         }
         _transposedData = _transposedData.substring(0, _transposedData.length - 1);
+
         return _transposedData;
       }
       else {
         alert('Please select a separator before transposing data');
         return data;
+      }
+    },
+
+
+    /*
+     * function getDataFromUrl()
+     * params:
+     * - url: url to file with csv data
+     */
+    _getDataFromUrl: function (url) {
+      var plugin = this;
+
+      var _extension = url.split('.').pop();
+
+      if(_extension = 'csv' && url.length > 0){
+        $.get(url, function(data) {
+
+          // Clear the textarea
+          $('#' + ec._pasteDataID).val('');
+
+          ec.csvData = $.trim(data);
+
+          if (ec.autoFindSeparator) {
+            plugin._getDataSeparator(ec.csvData);
+          }
+
+          // Update the chart.
+          plugin._printChart();
+        });
       }
     },
 
@@ -437,13 +475,35 @@
           // Don't add items in the unwantedOptions or unwantendReturnTypes strings.
           if (_obj != null && $.inArray(_obj.name, ec.unwantedOptions) == -1 && $.inArray(_obj.returnType, ec.unwantedReturnTypes) == -1 && _obj.parent == parentId) {
 
-            // als in storedValues een waarde zit voor dit object, dan wordt dit meteen toegevoegd aan het geneste object ook... todo storedValues worden nu wel op 2 plaatsen bijgehouden...
             if(ec.storedConfig.hasOwnProperty(_obj.name)){
               _obj.storedValue = ec.storedConfig[_obj.name]; // attention: _obj is a reference to value (= child from unnestedlist), this means we're adding a property to the unnestedlist!
             }
 
             output[_obj.name] = _obj;
             _obj.children = {};
+
+            // Check if the object that we are extending is already defined in the _output.
+            var _extending = _output[_obj.extending];
+            if(typeof _extending != 'undefined') {
+              // Clone the children of the object that we are extending and add it to the current object.
+              // TODO: this approach requires a certain order in processing. We need to change this in 2 loops
+              _obj.children = $.extend(true, {}, _extending.children);
+              for (var key in _obj.children) {
+                // Todo: this does not work for plotOptions-bar
+                var obj = _obj.children[key];
+                for (var prop in obj) {
+                    if (prop == 'parent') {
+                      obj[prop] = _obj.title;
+                    }
+                    if (prop == 'fullname') {
+                      obj[prop] = _obj.title + '.' + obj.title;
+                    }
+                    if (prop == 'name') {
+                      obj[prop] = _obj.title + '--' + obj.title;
+                    }
+                }
+              }
+            }
             _createBranch(_obj.children, _obj.name, unnestedList);
           }
         });
@@ -762,7 +822,7 @@
     /*
      * Combine the series and the configuration to the chart.
      */
-    _preprocessChart: function () {
+    /*_preprocessChart: function () {
 
       if (ec.optionsString != null && ec.csvData) {
         // We start with the options.
@@ -818,13 +878,25 @@
         // Store the entire configuration.
         ec.chartOptions = options;
       }
-    },
+    },*/
 
     /*
      * Print the actual chart.
      */
     _printChart: function () {
-      this._preprocessChart();
+      // Prepare the options.
+      eval('var options = {' +  ec.optionsString + '}');
+      // Extend the existing options object with placeholders.
+      if (typeof options.xAxis === undefined) {
+        options.xAxis = {};
+      }
+      // Combine options and CSV
+      _preprocessHighchartsData(options, ec.csvData);
+      // Add translations.
+      options.lang = ec.lang;
+      // Store the entire configuration.
+      ec.chartOptions = options;
+
       if (!$.isEmptyObject(ec.chartOptions)) {
         $('#' + ec._chartRenderAreaID).highcharts(ec.chartOptions);
       }
@@ -913,6 +985,5 @@
       return returns !== undefined ? returns : this;
     }
   };
-
 
 })(jQuery);
