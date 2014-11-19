@@ -148,13 +148,19 @@
 
       // Listener for 'data-textarea'.
       $('#' + ec._pasteDataID).bind ('blur keyup', function (e) {
+
+        // Cleanup the csv data.
         var _data = $(this).val();
+        _data = $.trim(_data.replace(/(^[ \t]*\n)/gm, ""));
+        $(this).val(_data);
+
         if (_data.length > 0 && _data != ec.csvData) {
           // Clear the url.
           $('#' + ec._pasteDataUrlID).val('');
           $('#' + ec._transposeDataButtonID).css({'visibility':'visible'});
 
-          ec.csvData = $.trim(_data);
+          // Store this value.
+          ec.csvData = _data;
 
           if (ec.autoFindSeparator) {
             plugin._getDataSeparator(ec.csvData);
@@ -458,9 +464,9 @@
       /*
        * private function _createBranch
        * params:
-       * - output, array, hier komt de uiteindelijke output, deze wordt geretourneerd door growTree()
-       * - parentId, string of null, het id van de root van de boom
-       * - unnestedList, array, de platte lijst zonder hiërarchie
+       * - output, array, the final output
+       * - parentId, string of null, the id of the root of the tree.
+       * - unnestedList, array, flat list without hierarchy
        */
 
       function _createBranch(output, parentId, unnestedList) {
@@ -482,33 +488,49 @@
             output[_obj.name] = _obj;
             _obj.children = {};
 
-            // Check if the object that we are extending is already defined in the _output.
-            var _extending = _output[_obj.extending];
-            if(typeof _extending != 'undefined') {
-              // Clone the children of the object that we are extending and add it to the current object.
-              // TODO: this approach requires a certain order in processing. We need to change this in 2 loops
-              _obj.children = $.extend(true, {}, _extending.children);
-              for (var key in _obj.children) {
-                // Todo: this does not work for plotOptions-bar
-                var obj = _obj.children[key];
-                for (var prop in obj) {
-                    if (prop == 'parent') {
-                      obj[prop] = _obj.title;
-                    }
-                    if (prop == 'fullname') {
-                      obj[prop] = _obj.title + '.' + obj.title;
-                    }
-                    if (prop == 'name') {
-                      obj[prop] = _obj.title + '--' + obj.title;
-                    }
-                }
-              }
-            }
             _createBranch(_obj.children, _obj.name, unnestedList);
           }
         });
       }
       _createBranch(_output, _parentId, _unnestedList);
+
+      /*
+       * private function _extendTree
+       * All object that have an 'extending' option are handled here.
+       */
+
+      function _extendTree(output, parentId) {
+        $.each(output, function(i, value) {
+          var _obj = value; // copy by reference of an object (child) from the "working copy" of the unnested options list, created in init()
+
+          if (_obj != null && _obj.parent == parentId) {
+
+            // Check if the object that we are extending is already defined in the _output.
+            var _extending = _output[_obj.extending];
+            if(typeof _extending != 'undefined') {
+              // Clone the children of the object that we are extending and add it to the current object.
+              _obj.children = $.extend(true, {}, _extending.children);
+              for (var key in _obj.children) {
+                // Todo: this does not work for plotOptions-bar
+                var obj = _obj.children[key];
+                for (var prop in obj) {
+                  if (prop == 'parent') {
+                    obj[prop] = _obj.title;
+                  }
+                  if (prop == 'fullname') {
+                    obj[prop] = _obj.title + '.' + obj.title;
+                  }
+                  if (prop == 'name') {
+                    obj[prop] = _obj.title + '--' + obj.title;
+                  }
+                }
+              }
+            }
+            _extendTree(_obj.children, _obj.name);
+          }
+        });
+      }
+      _extendTree(_output, _parentId);
       return _output;
     },
 
@@ -818,67 +840,6 @@
         }
       });
     },
-
-    /*
-     * Combine the series and the configuration to the chart.
-     */
-    /*_preprocessChart: function () {
-
-      if (ec.optionsString != null && ec.csvData) {
-        // We start with the options.
-        eval('var options = {' +  ec.optionsString + '}');
-
-        // Extend the existing options object with placeholders.
-        if (typeof options.xAxis === undefined) {
-          options.xAxis = {};
-        }
-
-        var _categories = [];
-        options.series = [];
-
-        // Get the CSV data
-        var data = ec.csvData;
-
-        // Split the lines
-        var lines = data.split('\n');
-
-        // Iterate over the lines and add categories or series
-        $.each(lines, function(lineNo, line) {
-          var items = line.split(ec.dataSeparator);
-
-          // header line contains categories
-          if (lineNo == 0) {
-            $.each(items, function(itemNo, item) {
-              if (itemNo > 0) _categories.push(item);
-            });
-          }
-
-          // the rest of the lines contain data with their name in the first position
-          else {
-            var series = {
-              data: []
-            };
-            $.each(items, function(itemNo, item) {
-              if (itemNo == 0) {
-                series.name = item;
-              }
-              else {
-                series.data.push([_categories[itemNo-1],parseFloat(item)]);
-              }
-            });
-
-            options.series.push(series);
-
-          }
-        });
-
-        // Add translations.
-        options.lang = ec.lang;
-
-        // Store the entire configuration.
-        ec.chartOptions = options;
-      }
-    },*/
 
     /*
      * Print the actual chart.
