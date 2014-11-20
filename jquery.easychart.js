@@ -509,7 +509,7 @@
             var _extending = _output[_obj.extending];
             if(typeof _extending != 'undefined') {
               // Clone the children of the object that we are extending and add it to the current object.
-              _obj.children = $.extend(true, {}, _extending.children);
+              _obj.children = $.extend(true, {}, _extending.children, _obj.children);
               for (var key in _obj.children) {
                 // Todo: this does not work for plotOptions-bar
                 var obj = _obj.children[key];
