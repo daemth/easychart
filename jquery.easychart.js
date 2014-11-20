@@ -12,7 +12,7 @@
       optionsStep2        : 'title--text, chart--backgroundColor, subtitle--text, yAxis-title--text', // The options for step 2 in the configuration form.
       defaultColors       : null,
       lang                : {} // An object holding the translations for the chart.	
-      };
+    };
 
   function Plugin( element, options ) {
     this.element = element;
@@ -62,14 +62,14 @@
         value: '\t'
       }];
       ec.lang                        = this.options.lang, // An object holding the translations for the chart.
-      ec._containerID                = 'ec-container',
-      ec._chartRenderAreaID          = 'ec-chart-render-area',
-      ec._dataSeparatorID            = 'ec-data-separator',
-      ec._pasteDataID                = 'ec-paste-data',
-      ec._pasteDataUrlID             = 'ec-data-url',
-      ec._transposeDataButtonID      = 'ec-transpose-data',
-      ec._formID                     = 'ec-configuration-form',
-      ec._autoFindSeparatorID        = 'ec-auto-find-separator';
+        ec._containerID                = 'ec-container',
+        ec._chartRenderAreaID          = 'ec-chart-render-area',
+        ec._dataSeparatorID            = 'ec-data-separator',
+        ec._pasteDataID                = 'ec-paste-data',
+        ec._pasteDataUrlID             = 'ec-data-url',
+        ec._transposeDataButtonID      = 'ec-transpose-data',
+        ec._formID                     = 'ec-configuration-form',
+        ec._autoFindSeparatorID        = 'ec-auto-find-separator';
 
       var plugin = this;
 
@@ -397,7 +397,7 @@
      * params:
      * - data: csv-data
      */
-      _transposeData: function (data) {
+    _transposeData: function (data) {
       if(ec.dataSeparator){
         var _lines = data.split('\n');
         var _linesCount = _lines.length;
@@ -543,15 +543,13 @@
 
       var _output = '';
       var _label = '';
-      var _val = '';
+      var _selected = '';
 
       var _object = object;
       var _optionName = _object.name;
       var _values = _object.values;
-      var _description = _object.description;
       var _defaults = _object.defaults;
       var _returnType = _object.returnType;
-      var _children = _object.children;
       var _elementType = 'text';
 
       if(showLabel === undefined || showLabel) {
@@ -569,11 +567,9 @@
         _defaults = '';
       }
 
+      // Check which value was stored already.
       if(_object.hasOwnProperty('storedValue')){
-        _val = _object.storedValue;
-
-        // Overwrite default-value with stored value to mark the right element as checked or selected later in this function.
-        _defaults = _val;
+        _selected = _object.storedValue;
       }
 
       switch(_returnType) {
@@ -597,7 +593,13 @@
           $.each(_values,function(index,value) {
             var radio = '<input type="radio" value="'+ value +'" id="'+ _optionName + '-' + index +'" name="'+ _optionName + '"';
 
-            if (value == _defaults || value == _defaults.toString()) {
+            // Check the stored value
+            if (value == _selected || value == _selected.toString()) {
+              radio += ' checked="checked"';
+            }
+
+            // Or check the default value if there was no stored value.
+            if (_selected == '' && (value == _defaults || value == _defaults.toString())) {
               radio += ' checked="checked"';
             }
             radio += ' />';
@@ -624,7 +626,11 @@
           _output +=  '<label for=\'' + _optionName + '\'>' + _label + '</label>';
           if(_values === null || _values === "")
           {
-            _output += '<input type=\'text\' id=\'' + _optionName + '\' name=\'' + _optionName + '\' value=\'' + _defaults + '\' />';
+            // Fallback to the default value if no stored value was found.
+            if (_selected == '') {
+              _selected = _defaults;
+            }
+            _output += '<input type=\'text\' id=\'' + _optionName + '\' name=\'' + _optionName + '\' value=\'' + _selected + '\' />';
           }
           else {
             // Transform the string to an array and display as option items in a select-box
@@ -634,9 +640,17 @@
             // otherwise _values like [null, \"x\", \"y\", \"xy\"] can't be transformed to a descent array
             _values = _values.replace(/[\[\]]|\'|\"|\\"|\\'/g, '').replace(/, |, /g, ',').split(',');
 
-            $.each(_values,function(index,value){
-              if(value == _defaults || value == _defaults.toString())
-              {
+            // Set the default as the first option so we can always go back to that.
+            if ($.inArray(_defaults, _values) < 0) {
+              _output += '<option value=\''+ _defaults +'\' selected=\'selected\'>' + _defaults + '</option>';
+            }
+
+
+            $.each(_values,function(index, value){
+              if(_selected == '' && (value == _defaults || value == _defaults.toString())) {
+                _output += '<option value=\''+ value +'\' selected=\'selected\'>' + value + '</option>';
+              }
+              else if(value == _selected || value == _selected.toString()) {
                 _output += '<option value=\''+ value +'\' selected=\'selected\'>' + value + '</option>';
               }
               else {
@@ -652,8 +666,11 @@
         case "null":
         case "Object":
         default:
+          if (_selected == '') {
+            _selected = _defaults;
+          }
           _output +=  '<label for=\'' + _optionName + '\'>' + _label + '</label>';
-          _output += '<textarea id=\'' + _optionName + '\' name=\'' + _optionName + '\'>' + _defaults + '</textarea>';
+          _output += '<textarea id=\'' + _optionName + '\' name=\'' + _optionName + '\'>' + _selected + '</textarea>';
           break;
       }
 
@@ -887,64 +904,64 @@
   },
 
 
-  // A really lightweight plugin wrapper around the constructor,
-  // preventing against multiple instantiations
-  $.fn[pluginName] = function ( options ) {
-    var args = arguments;
+    // A really lightweight plugin wrapper around the constructor,
+    // preventing against multiple instantiations
+    $.fn[pluginName] = function ( options ) {
+      var args = arguments;
 
-    // Is the first parameter an object (options), or was omitted,
-    // instantiate a new instance of the plugin.
-    if (options === undefined || typeof options === 'object') {
-      return this.each(function () {
+      // Is the first parameter an object (options), or was omitted,
+      // instantiate a new instance of the plugin.
+      if (options === undefined || typeof options === 'object') {
+        return this.each(function () {
 
-        // Only allow the plugin to be instantiated once,
-        // so we check that the element has no plugin instantiation yet
-        if (!$.data(this, 'plugin_' + pluginName)) {
-          // if it has no instance, create a new one,
-          // pass options to our plugin constructor,
-          // and store the plugin instance
-          // in the elements jQuery data object.
-          $.data(this, 'plugin_' + pluginName, new Plugin( this, options ));
-        }
-      });
-
-      // If the first parameter is a string and it doesn't start
-      // with an underscore or "contains" the `init`-function,
-      // treat this as a call to a public method.
-    } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
-
-      // Cache the method call
-      // to make it possible
-      // to return a value
-      var returns;
-
-      this.each(function () {
-        var instance = $.data(this, 'plugin_' + pluginName);
-        if (instance != null) {
-          // Tests that there's already a plugin-instance
-          // and checks that the requested public method exists
-          if (instance instanceof Plugin && typeof instance[options] === 'function') {
-            // Call the method of our plugin instance,
-            // and pass it the supplied arguments.
-            returns = instance[options].apply( instance, Array.prototype.slice.call( args, 1 ) );
+          // Only allow the plugin to be instantiated once,
+          // so we check that the element has no plugin instantiation yet
+          if (!$.data(this, 'plugin_' + pluginName)) {
+            // if it has no instance, create a new one,
+            // pass options to our plugin constructor,
+            // and store the plugin instance
+            // in the elements jQuery data object.
+            $.data(this, 'plugin_' + pluginName, new Plugin( this, options ));
           }
+        });
 
-          var methodName = (options == 'destroy' ? '_destroy' : options);
-          if (typeof instance[methodName] === 'function')
-            returns = instance[methodName].apply(instance, args);
+        // If the first parameter is a string and it doesn't start
+        // with an underscore or "contains" the `init`-function,
+        // treat this as a call to a public method.
+      } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
 
-          // Allow instances to be destroyed via the 'destroy' method
-          if (options === 'destroy') {
-            $.data(this, 'plugin_' + pluginName, null);
+        // Cache the method call
+        // to make it possible
+        // to return a value
+        var returns;
+
+        this.each(function () {
+          var instance = $.data(this, 'plugin_' + pluginName);
+          if (instance != null) {
+            // Tests that there's already a plugin-instance
+            // and checks that the requested public method exists
+            if (instance instanceof Plugin && typeof instance[options] === 'function') {
+              // Call the method of our plugin instance,
+              // and pass it the supplied arguments.
+              returns = instance[options].apply( instance, Array.prototype.slice.call( args, 1 ) );
+            }
+
+            var methodName = (options == 'destroy' ? '_destroy' : options);
+            if (typeof instance[methodName] === 'function')
+              returns = instance[methodName].apply(instance, args);
+
+            // Allow instances to be destroyed via the 'destroy' method
+            if (options === 'destroy') {
+              $.data(this, 'plugin_' + pluginName, null);
+            }
           }
-        }
-      });
+        });
 
-      // If the earlier cached method
-      // gives a value back return the value,
-      // otherwise return this to preserve chainability.
-      return returns !== undefined ? returns : this;
-    }
-  };
+        // If the earlier cached method
+        // gives a value back return the value,
+        // otherwise return this to preserve chainability.
+        return returns !== undefined ? returns : this;
+      }
+    };
 
 })(jQuery);
