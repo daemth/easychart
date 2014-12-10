@@ -799,38 +799,37 @@
             var _values = object.values;
             var _defaults = object.defaults;
 
-            // empty string to null if it's original _values === null
-            if(_val === '' && _defaults === null) {
-              return false; // no need to save this in the configuration string
-            }
-
             // no need to put quotes around null
             if(_val === 'null' || _val === "null") {
               _val = null;
             }
 
-            // arrays need square brackets around the object
-            var _arrayFamily = ['Array', 'Array<Color>', 'Array<Number>', 'Array<Object>', 'Array<String>', 'Array<String|Number>'];
-            if($.inArray(_returnType, _arrayFamily) > -1 && _val !== null && _val !== '' && _val != undefined)
-            {
-              // some array items don't need quotes...
-              if(_returnType == 'Array<Number>' || _returnType == 'Array<Object>') {
-                _val = '[' + _val + ']';
-              }
-              // others do
-              else
-              {
-                _val = _val.replace(/\s/g, ''); // remove spaces
-                _val = '[\'' + _val.replace(/\,/g, '\',\'') + '\']'; // put array between square-brackets en put quotes around each item
-              }
-            }
+            // no need to save this in the configuration string
+            if(!(_val === '' && _defaults === null)) {
 
-            // values of elements with a certain returntype need to be quoted others don't
-            if(_returnType != 'Number' && _returnType != 'Boolean' && _val !== null && $.inArray(_returnType, _arrayFamily) == -1) {
-              _val = '\'' + _val + '\'';
+	            // arrays need square brackets around the object
+	            var _arrayFamily = ['Array', 'Array<Color>', 'Array<Number>', 'Array<Object>', 'Array<String>', 'Array<String|Number>'];
+	            if($.inArray(_returnType, _arrayFamily) > -1 && _val !== null && _val !== '' && _val != undefined)
+	            {
+	              // some array items don't need quotes...
+	              if(_returnType == 'Array<Number>' || _returnType == 'Array<Object>') {
+	                _val = '[' + _val + ']';
+	              }
+	              // others do
+	              else
+	              {
+	                _val = _val.replace(/\s/g, ''); // remove spaces
+	                _val = '[\'' + _val.replace(/\,/g, '\',\'') + '\']'; // put array between square-brackets en put quotes around each item
+	              }
+	            }
+	
+	            // values of elements with a certain returntype need to be quoted others don't
+	            if(_returnType != 'Number' && _returnType != 'Boolean' && _val !== null && $.inArray(_returnType, _arrayFamily) == -1) {
+	              _val = '\'' + _val + '\'';
+	            }
+	
+	            ec.optionsString += _spaces + object.title + ': ' + _val + ',\n';
             }
-
-            ec.optionsString += _spaces + object.title + ': ' + _val + ',\n';
           }
         }
       });
