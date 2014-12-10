@@ -543,7 +543,7 @@
 
       var _output = '';
       var _label = '';
-      var _selected = '';
+      var _stored = '';
 
       var _object = object;
       var _optionName = _object.name;
@@ -569,7 +569,7 @@
 
       // Check which value was stored already.
       if(_object.hasOwnProperty('storedValue')){
-        _selected = _object.storedValue;
+        _stored = _object.storedValue;
       }
 
       switch(_returnType) {
@@ -594,12 +594,12 @@
             var radio = '<input type="radio" value="'+ value +'" id="'+ _optionName + '-' + index +'" name="'+ _optionName + '"';
 
             // Check the stored value
-            if (value == _selected || value == _selected.toString()) {
+            if (value == _stored || value == _stored.toString()) {
               radio += ' checked="checked"';
             }
 
             // Or check the default value if there was no stored value.
-            if (_selected == '' && (value == _defaults || value == _defaults.toString())) {
+            if (_stored == '' && (value == _defaults || value == _defaults.toString())) {
               radio += ' checked="checked"';
             }
             radio += ' />';
@@ -627,10 +627,10 @@
           if(_values === null || _values === "")
           {
             // Fallback to the default value if no stored value was found.
-            if (_selected == '') {
-              _selected = _defaults;
+            if (_stored == '') {
+              _stored = _defaults;
             }
-            _output += '<input type=\'text\' id=\'' + _optionName + '\' name=\'' + _optionName + '\' value=\'' + _selected + '\' />';
+            _output += '<input type=\'text\' id=\'' + _optionName + '\' name=\'' + _optionName + '\' value=\'' + _stored + '\' />';
           }
           else {
             // Transform the string to an array and display as option items in a select-box
@@ -647,10 +647,10 @@
 
 
             $.each(_values,function(index, value){
-              if(_selected == '' && (value == _defaults || value == _defaults.toString())) {
+              if(_stored == '' && (value == _defaults || value == _defaults.toString())) {
                 _output += '<option value=\''+ value +'\' selected=\'selected\'>' + value + '</option>';
               }
-              else if(value == _selected || value == _selected.toString()) {
+              else if(value == _stored || value == _stored.toString()) {
                 _output += '<option value=\''+ value +'\' selected=\'selected\'>' + value + '</option>';
               }
               else {
@@ -666,11 +666,11 @@
         case "null":
         case "Object":
         default:
-          if (_selected == '') {
-            _selected = _defaults;
+          if (_stored == '') {
+            _stored = _defaults;
           }
           _output +=  '<label for=\'' + _optionName + '\'>' + _label + '</label>';
-          _output += '<textarea id=\'' + _optionName + '\' name=\'' + _optionName + '\'>' + _selected + '</textarea>';
+          _output += '<textarea id=\'' + _optionName + '\' name=\'' + _optionName + '\'>' + _stored + '</textarea>';
           break;
       }
 
