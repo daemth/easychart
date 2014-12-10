@@ -748,9 +748,15 @@
           if(e.type == 'change') {
             var _value = e.target.value;
 
-            if(plugin._RealTypeOf(_value) != 'boolean' && plugin._RealTypeOf(_value) != 'null'){
+            /*if(plugin._RealTypeOf(_value) != 'boolean' && plugin._RealTypeOf(_value) != 'null'){
               _value = _value.replace(/[\[\]]|\'|\"|\\"|\\'/g, '');
+            }*/
+            
+            // Replace single quotes to avoid formatting issues.
+            if(plugin._RealTypeOf(_value) != 'boolean' && plugin._RealTypeOf(_value) != 'null'){
+              _value = _value.replace(/'/g, "\\'");
             }
+            
             var _default = value.defaults;
 
             if(_value != _default) {
