@@ -846,21 +846,27 @@
      *
      */
     _printPartialConfigForm: function (list, container, options) {
+
+      var printedFormItems = new Array();
       var _options = options;
       var _container = container;
 
       var plugin = this;
+      printPartialConfigFormItem(list, _container, _options);
 
-      $.each (list, function (i, value) {
-        if (!$.isEmptyObject(value.children)) {
-          plugin._printPartialConfigForm(value.children, _container, _options);
-        }
-        else {
-          if ($.inArray(value.name, _options) >= 0 ) {
-            container.append(plugin._buildFormElement(value, true, true));
+      function printPartialConfigFormItem(list, _container, _options) {
+        $.each (list, function (i, value) {
+          if (!$.isEmptyObject(value.children)) {
+            printPartialConfigFormItem(value.children, _container, _options);
           }
-        }
-      });
+          else {
+            if ($.inArray(value.name, _options) >= 0 && $.inArray(value.name, printedFormItems) < 0) {
+              container.append(plugin._buildFormElement(value, true, true));
+              printedFormItems.push(value.name);
+            }
+          }
+        });
+      }
     },
 
     /*
