@@ -1,132 +1,63 @@
-#Easychart
-The Easychart jQuery plugin provides a GUI to create charts based on the Highcharts library (http://www.highcharts.com/).
+# Easychart
+**A visual editor for the world's best web charting tool: [Highcharts] (http://www.highcharts.com/)**
+
+## Features
+* Support for Highcharts 4.1.7
+* Built on top of the [Highcharts Configuration Options] (http://api.highcharts.com/highcharts/option/dump.json)
+* More chart-types available: 
+  * area
+  * arearange
+  * areaspline
+  * areasplinerange
+  * boxplot
+  * bubble
+  * column
+  * columnrange
+  * errorbar
+  * funnel
+  * gauge
+  * line
+  * pie
+  * scatter
+  * spline
+  * waterfall
+* Brand spanking new UI, customizable through JSON-object. Absolutely awesome!
+* In-page help through tooltips for every option in the configuration form
+* Copy-paste data from libreoffice/numbers/excel/csv-file and manage in easy-to-use table
+* Huge performance improvements
+* Inheritance bug solved
+
+![v2 0-preview](https://cloud.githubusercontent.com/assets/3327763/9276906/12817b34-42a7-11e5-8826-c96b6049cb58.png)
+
+## WHAT IS EASYCHART?
+
+Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library.
+ 
+It was born (somewhere in 2013) out of the need to make it possible for website-editors to embed and configure Highcharts in our websites in a more intuitive way than writing javascript code in the backend. So it has evolved from a sneaky textarea to a simple yet customizable user-interface where one can create a "Highcharts Options Object" (and thus a Highchart-chart) by pasting csv-data and clicking around. 
+
+## Integration 
+Easychart is written as a jquery-plugin, very easy to integrate in your specific project or content management system. In fact, the Easychart-plugin isn't really made for standalone-use, it is made to shine in the backend of content management systems.
+ 
+We've already built an [**Easychart-module for Drupal**] (https://www.drupal.org/project/easychart) which blends seamlessly with our Easychart-plugin. This module makes it possible to manage your charts in a convenient Drupal-manner. Even more, a chart only needs to be made once and can be reused in other nodes, views, panels... Not enough? It even has *WYSIWYG-integration* so it's possible to add charts through your texteditor.
+ 
+*The Easychart-plugin and -Drupal-module are free.*
+ 
+**Attention**
+[Highcharts] (http://www.highcharts.com/) is free for personal, school or non-profit projects under the Creative Commons Attribution - Non Commercial 3.0 License.
+For commercial and governmental websites and projects, you need to buy a license. (But they're absolutely worth every penny.) See [License and Pricing] (http://shop.highsoft.com/highcharts.html). 
+
+
+
+With Easychart we hope to make the beauty of Highcharts accessible to almost everyone.
+*The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
+
 
 ##Requirements
 jQuery 1.4.4: http://jquery.com/download/
 
 Highcharts: http://www.highcharts.com/download
 
-Note that it is possible that you have to buy a license for Highcharts: http://shop.highsoft.com/
-
-##Options
-These are the available options and their defaults:
-
-csvData             : '' // The data in CSV format.
-
-storedConfig        : {} // A stored configuration as a flat JSON string.
-
-unwantedOptions     : 'global, lang, series, labels, navigation, loading, pane, xAxis-plotLines' // These options types should not be taken into account.
-
-unwantedReturnTypes : 'Mixed, plotOptions-series-states' // These return types should not be taken into account.
-
-guiConfig           :     {
-                                  "panels": [
-                                    {
-                                      "panelTitle": "Chart settings",
-                                      "pane": [
-                                        {
-                                          "title": "Chart type and interaction",
-                                          "options": [{"name":"chart.type","defaults":"column"},"chart.inverted","chart.zoomType"]
-                                        },
-                                        {
-                                          "title": "Size and margins",
-                                          "options": ["chart.width","chart.height","chart.spacingTop","chart.spacingRight","chart.spacingBottom","chart.spacingLeft"]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "panelTitle": "Colors and borders",
-                                      "pane": [
-                                        {
-                                          "title": "default colors",
-                                          "options":["colors"]
-                                        },
-                                        {
-                                          "title": "Chart area",
-                                          "options": ["chart.backgroundColor","chart.borderWidth","chart.borderRadius","chart.borderColor"]
-                                        },
-                                        {
-                                          "title": "Plot area",
-                                          "options": ["chart.plotBackgroundColor","chart.plotBackgroundImage","chart.plotBorderWidth","chart.plotBorderColor"]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "panelTitle": "Titles",
-                                      "pane": [
-                                        {
-                                          "title":"Titles",
-                                          "options": ["title.text","subtitle.text","yAxis.title.text","xAxis.title.text"]
-                                        },
-                                        {
-                                          "title":"Title advanced",
-                                          "options": ["title.style"]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "panelTitle": "Axes",
-                                      "pane": [
-                                        {
-                                          "title":"Axes setup",
-                                          "options": []
-                                        },
-                                        {
-                                          "title":"X axis",
-                                          "options": [{"name":"xAxis.type","defaults":"category"},"xAxis.min","xAxis.opposite","xAxis.reversed","xAxis.tickInterval","xAxis.labels.format","xAxis.labels.rotation","xAxis.labels.align"]
-                                        },
-                                        {
-                                          "title":"Value axis",
-                                          "options": ["yAxis.type","yAxis.min","yAxis.opposite","yAxis.reversed","yAxis.labels.format","yAxis.labels.rotation"]
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "panelTitle": "Legend",
-                                      "pane": [
-                                        {
-                                          "title":"General",
-                                          "options": ["legend.enabled","legend.layout"]
-                                        },
-                                        {
-                                          "title":"Placement",
-                                          "options": ["legend.align","legend.verticalAlign"]
-                                        },
-                                        {
-                                          "title":"Color and border",
-                                          "options": []
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "panelTitle": "Tooltip",
-                                      "pane": [
-                                        {
-                                          "title":"General",
-                                          "options": ["tooltip.headerFormat","tooltip.pointFormat","tooltip.valuePrefix","tooltip.valueSuffix"]
-                                        },
-                                        {
-                                          "title":"Color and border",
-                                          "options": []
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "panelTitle": "Exporting",
-                                      "pane": [
-                                        {
-                                          "title":"Exporting",
-                                          "options": ["exporting.enabled"]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                } // A configuration of the UI and optional default values
-
-lang                : {} // An object holding the translations for the chart.
-
 ## Example
-
 The Easychart plugin can be called on any div.
 
 1. Add this in your javascript file:
@@ -147,5 +78,5 @@ Available under the MIT license.
 
 
 ## Sponsoring
-This plugin is sponsored by Bestuurszaken, Vlaamse Overheid: http://www.bestuurszaken.be 
+This plugin is sponsored by The Flemish Government: http://www.bestuurszaken.be
 
