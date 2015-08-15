@@ -54,6 +54,7 @@ With Easychart we hope to make the beauty of Highcharts accessible to almost eve
 
 ##Requirements
 jQuery 1.4.4: http://jquery.com/download/
+
 Highcharts: http://www.highcharts.com/download
 
 ## Example
