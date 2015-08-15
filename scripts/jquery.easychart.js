@@ -142,21 +142,22 @@
       ec.optionsString              = '';     // A string to store the different options to create the js.
       ec.optionsStringDepth         = 0;      // Used to keep track of the depth of our object while traversing it.
       ec.storedConfig               = this.options.storedConfig;     // An object that holds values who differ from default values as a flat JSONstring.
-      ec.csvData                    = this.options.csvData;     // The CSV data
+      ec.csvData                    = this.options.csvData;     // The CSV data url
+      ec.csvDataUrl                 = this.options.csvDataUrl;     // The CSV data
       ec.dataTable                  = []; // CSV data will be transformed in this 2D-array
       ec.chartOptions               = {}; // The final chart options including the csv data.
-      ec.lang                        = this.options.lang; // An object holding the translations for the chart.
-      ec._containerID                = 'ec-container';
-      ec._chartRenderAreaID          = 'ec-chart-render-area';
-      ec._dataSeparatorID            = 'ec-data-separator';
-      ec._pasteDataID                = 'ec-paste-data';
-      ec._pasteDataUrlID             = 'ec-data-url';
-      ec._transposeDataButtonID      = 'ec-transpose-data';
-      ec._parseCsvDataButtonID       = 'ec-parse-csv-data-button';
-      ec._clearUrlDataButtonID       = 'ec-clear-csv-url-button';
-      ec._newDataButtonID            = 'ec-new-data-button';
-      ec._dataTableID                = 'ec-data-table';
-      ec._formID                     = 'ec-configuration-form';
+      ec.lang                       = this.options.lang; // An object holding the translations for the chart.
+      ec._containerID               = 'ec-container';
+      ec._chartRenderAreaID         = 'ec-chart-render-area';
+      ec._dataSeparatorID           = 'ec-data-separator';
+      ec._pasteDataID               = 'ec-paste-data';
+      ec._pasteDataUrlID            = 'ec-data-url';
+      ec._transposeDataButtonID     = 'ec-transpose-data';
+      ec._parseCsvDataButtonID      = 'ec-parse-csv-data-button';
+      ec._clearUrlDataButtonID      = 'ec-clear-csv-url-button';
+      ec._newDataButtonID           = 'ec-new-data-button';
+      ec._dataTableID               = 'ec-data-table';
+      ec._formID                    = 'ec-configuration-form';
 
       // Prepare the stored options.
       ec.storedConfig = (ec.storedConfig == null || ec.storedConfig == '' || $.isEmptyObject(ec.storedConfig)) ? {} : JSON.parse(ec.storedConfig);// : this.options.storedTextarea.val().length > 0 ? jQuery.parseJSON(this.options.storedTextarea.val()) : {}; // An object that holds values who differ from default values as a flat JSONstring.
@@ -168,11 +169,15 @@
       ec.optionsObject = this._getDefaultOptions(null, $.extend(true,{},highchartsConfigurationOptions.options));
 
       // Prepare the CSV data.
+      if (ec.csvDataUrl) {
+        $('#' + ec._parseUrlDataButtonID);
+      }
       if (ec.csvData && typeof ec.csvData == 'string') {
         ec.csvData = JSON.parse(ec.csvData);
         ec.dataTable = ec.csvData;
         ec.csvData = Papa.unparse(ec.csvData);
       }
+
       $('#' + ec._dataTableID).html(_createTable(ec.dataTable));
       $('#' + ec._newDataButtonID).attr('disabled',false);
 
@@ -187,7 +192,6 @@
 
       // Print the chart.
       this._printChart();
-
 
       /*
        * UI calulations for optimal width/height
@@ -229,7 +233,7 @@
         var _url = $(this).val();
         var _extension = _url.split('.').pop();
 
-        if(_extension == 'csv' && _url.length > 0){
+        if((_url.substring(0, 4) == 'http') && _extension == 'csv' && _url.length > 0){
           $('#' + ec._parseUrlDataButtonID).attr('disabled',false);
         }
         else {
@@ -340,13 +344,6 @@
         // Print the chart
         plugin._printChart();
       });
-
-
-
-
-
-
-
 
       // Listener for datatable
       $('#' + ec._dataTableID).click(function(e){
@@ -474,6 +471,14 @@
       // first tab active on initialization
       $('#' + ec._containerID + ' .ec-configTabs li:first a').addClass('active');
 
+      // Set the first tab to the url if it was set
+      if (ec.csvDataUrl) {
+        $('.data-input-types .url').click();
+        $('#' + ec._parseUrlDataButtonID).attr('disabled',true);
+        $('.data-input-table').addClass('disabled');
+        $('.data-input-csv').addClass('disabled');
+        $('#' + ec._clearUrlDataButtonID).attr('disabled',false);
+      }
 
       /*
        * Public functions.
@@ -482,12 +487,12 @@
       // Return the csv data.
       this.getCsvData = function () {
         return JSON.stringify(ec.dataTable);
-      }
+      };
 
       // Return the csv url.
       this.getCsvUrl = function () {
         return $('#' + ec._pasteDataUrlID).val();
-      }
+      };
 
       // Return the options in a format that can be stored in the database.
       this.getStoredValues = function () {
@@ -497,7 +502,7 @@
         else {
           return JSON.stringify(ec.storedConfig);
         }
-      }
+      };
 
       // Return the full Chart options to be able to print the chart.
       this.getChartOptions = function () {
@@ -566,7 +571,8 @@
       output += '    </div>';
       output += '  </div>';
       output += '  <div class="data-input-url">';
-      output += '    <div class="form-item form-type-text"><input type="text" id="' + ec._pasteDataUrlID + '" placeholder="paste url to csv here" /></div>'
+      output += '    <div class="form-item form-type-text"><input type="text" id="' + ec._pasteDataUrlID + '" placeholder="paste url to csv here" value="' + ec.csvDataUrl + '" /></div>'
+      output += '    <p>Enter a link to a csv file on this server. Example: http://my-url/my-file.csv</p>';
       output += '    <button id="' + ec._parseUrlDataButtonID + '" type="button" disabled="disabled" class="button ecParseUrlData">update</button>';
       output += '    <button id="' + ec._clearUrlDataButtonID + '" type="button" disabled="disabled" class="button ecParseUrlData">clear</button>';
       output += '  </div>';
