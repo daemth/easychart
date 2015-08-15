@@ -6,15 +6,22 @@
    */
   _preprocessHighchartsData = function(options, data) {
 
-    // Support for CMS modules that need to send the data as a one-line string.
-    data = data.replace(/EC_EOL/g, '\r\n');
-
     if (typeof options == 'string') {
-      options = Papa.parse(options).data;
+      options = JSON.parse(options);
     }
 
     if (data && typeof data == 'string') {
-      data = Papa.parse(data).data;
+      // Support for CMS modules that need to send the data as a one-line string.
+      data = data.replace(/EC_EOL/g, '\r\n');
+
+      // Is it a String formatted as an object?
+      if (data.charAt(0) == '[') {
+        data = JSON.parse(data);
+      }
+      // Or just a string with csv data
+      else {
+        data = Papa.parse(data).data;
+      }
     }
 
     options.series = [];
