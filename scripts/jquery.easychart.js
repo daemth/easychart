@@ -572,7 +572,7 @@
       output += '  </div>';
       output += '  <div class="data-input-url">';
       output += '    <div class="form-item form-type-text"><input type="text" id="' + ec._pasteDataUrlID + '" placeholder="paste url to csv here" value="' + ec.csvDataUrl + '" /></div>'
-      output += '    <p>Enter a link to a csv file on this server. Example: http://my-url/my-file.csv</p>';
+      output += '    <p>Enter a link to a csv file on this server.<br />Example: <strong>/my-relative-url/my-file.csv</strong> (relative path, preferable)<br />or http://my-absulute-url/my-file.csv (absolute path)</p>';
       output += '    <button id="' + ec._parseUrlDataButtonID + '" type="button" disabled="disabled" class="button ecParseUrlData">update</button>';
       output += '    <button id="' + ec._clearUrlDataButtonID + '" type="button" disabled="disabled" class="button ecParseUrlData">clear</button>';
       output += '  </div>';
