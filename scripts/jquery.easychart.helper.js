@@ -135,17 +135,14 @@
         }
 
         _options.series = _series.map(function (seriesName, index) {                    // convert array with series-names to array of series-objects
-            var _column = _getColumn(_data, index, _vpp);                               // get corresponding data for given serie
+            var _column = _getColumn(_data, index, _vpp);                               // get corresponding data (column) for given serie
 
-            if (_categoriesInFirstColumn) {
+            if (_categoriesInFirstColumn) {                                             // if category-names present in data-set: combine category-name with corresponding data-point(s)
                 _column = _column.map(function (_cell, i) {                             // turn column into array of named points [["category 1", dataPoint],["category 2", anotherDataPoint]]
                     return _realTypeOf(_cell) == 'array' ? [_categories[i]].concat(_cell) : [_categories[i], _cell];    // if there are multiple values per datapoint, _cell is an array // else _cell is a float
                 });
-            } else {
-                _column = _column.map(function (_cell) {
-                    return _cell;
-                });
             }
+
             return {                                                                    // return the series-object, on to the next series-name...
                 "name": seriesName,
                 "data": _column
