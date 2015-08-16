@@ -142,8 +142,8 @@
       ec.optionsString              = '';     // A string to store the different options to create the js.
       ec.optionsStringDepth         = 0;      // Used to keep track of the depth of our object while traversing it.
       ec.storedConfig               = this.options.storedConfig;     // An object that holds values who differ from default values as a flat JSONstring.
-      ec.csvData                    = this.options.csvData;     // The CSV data url
-      ec.csvDataUrl                 = this.options.csvDataUrl;     // The CSV data
+      ec.csvData                    = this.options.csvData;     // The CSV data
+      ec.csvDataUrl                 = this.options.csvDataUrl ? this.options.csvDataUrl : '';     // The CSV data url
       ec.dataTable                  = []; // CSV data will be transformed in this 2D-array
       ec.chartOptions               = {}; // The final chart options including the csv data.
       ec.lang                       = this.options.lang; // An object holding the translations for the chart.
@@ -222,7 +222,7 @@
       // Listener for 'pasteDataUrl'
       $('#' + ec._pasteDataUrlID).bind('keyup', function(){
 
-        // check is something was keyed in.
+        // check if something was keyed in.
         var _data = $(this).val();
         if (_data.length > 0) {
           $('#' + ec._clearUrlDataButtonID).attr('disabled',false);
@@ -233,7 +233,7 @@
         var _url = $(this).val();
         var _extension = _url.split('.').pop();
 
-        if((_url.substring(0, 4) == 'http') && _extension == 'csv' && _url.length > 0){
+        if(_extension == 'csv' && _url.length > 0){
           $('#' + ec._parseUrlDataButtonID).attr('disabled',false);
         }
         else {
