@@ -17,7 +17,7 @@
             "pane": [
               {
                 "title": "Chart type and interaction",
-                "options": [{"name":"chart.type","defaults":"column"},"chart.inverted","chart.zoomType"]
+                "options": [{"name":"chart.type"},"chart.inverted","chart.zoomType"]
               },
               {
                 "title": "Size and margins",
@@ -176,6 +176,7 @@
         ec.csvData = JSON.parse(ec.csvData);
         ec.dataTable = ec.csvData;
         ec.csvData = Papa.unparse(ec.csvData);
+
       }
 
       $('#' + ec._dataTableID).html(_createTable(ec.dataTable));
@@ -416,25 +417,22 @@
           $(_target).find('input').focus().select().bind('blur',function(){
             $(this).parent().removeClass('active-cell');
 
-            var _newVal = $(this).val();
+              var _newVal = $.trim($(this).val());
 
-            if(_val != _newVal){
+              if(_val != _newVal){
+                var _num = new Number(_newVal);
 
-              var _num = new Number(_newVal);
+                if(_newVal != '' && !isNaN(_num)){ // if number -> parse as float
+                                                   // empty string will be set to null in _parseData()
+                  _newVal = parseFloat(_num);
+                }
 
-              if(_newVal != ''){ // empty string will turn into null
-                _newVal = !isNaN(_num) ? parseFloat(_num) : _newVal;
+                $(this).parent().html(_newVal);
+                ec.dataTable[_row][_col] = _newVal;
+                plugin._printChart();
               } else {
-                _newVal = ""; // will be set to null in _parseData()
+                $(this).parent().html(_val);
               }
-
-              $(this).parent().html(_newVal);
-              ec.dataTable[_row][_col] = _newVal;
-              plugin._printChart();
-            }
-            else {
-              $(this).parent().html(_val);
-            }
           });
 
         }
@@ -678,80 +676,6 @@
       }
       _createBranch(_output, _parentId, _minimalOptions);
 
-      /*
-       * private function _extendOptions
-       * All objects that have an 'extending'-option are handled here.
-       */
-      function _extendOptions(output, parentId) {
-
-        $.each(output, function(i, value) {
-          var _obj = value;
-
-          if (_obj != null && _obj.parent == parentId && _obj.extending != null && _obj.extending != "") {
-
-            // Get the object that we are extending.
-            var _extending = plugin._getObjectPropertyByName(_obj.extending, _unnestedList);
-
-            if(typeof _extending != 'undefined' && !$.isEmptyObject(_extending)) {
-
-              // Clone the children of the object that we are extending and add it to the current object.
-              _obj.children = $.extend(true, {}, _extending.children, _obj.children);
-
-              // Remove the children that have been indicated as 'excluded'.
-              if (_obj.excluding != null && _obj.excluding != "") {
-                var excluding = _obj.excluding.split(',');
-                $.each(excluding, function (i, exclude) {
-                  delete _obj.children[exclude];
-                });
-              }
-
-             for (var key in _obj.children) {
-                var obj = _obj.children[key];
-
-                // Change the properties to reflect the new parent.
-                var parentTitle = _obj.title;
-                if (_obj.parent != null) {
-                  parentTitle = _obj.parent + '.' + parentTitle;
-                }
-                for (var prop in obj) {
-                  if (prop == 'parent') {
-                    obj[prop] = parentTitle.replace('.', '-');
-                  }
-                  if (prop == 'fullname') {
-                    obj[prop] = parentTitle + '.' + obj.title;
-                  }
-                  if (prop == 'name') {
-                    obj[prop] = parentTitle.replace('.', '-') + '--' + obj.title;
-                  }
-                }
-
-                // Also change the properties of all children.
-                if(obj.isParent){
-                  _extendChildren(obj.children,_extending.name,_obj.name);
-                }
-              }
-            }
-          }
-          _extendOptions(_obj.children, _obj.name);
-
-        });
-      }
-      _extendOptions(_output, _parentId);
-
-      function _extendChildren(_children, _search,_replace){
-        for(var key in _children){
-          var _child = _children[key];
-          _child.name = _child.name.replace(_search,_replace);
-          _child.fullname = _child.fullname.replace(_search,_replace);
-          _child.title = _child.title.replace(_search,_replace);
-          _child.parent = _child.parent.replace(_search,_replace);
-
-          if(_child.isParent){
-            _extendChildren(_child.children,_search,_replace);
-          }
-        }
-      }
-
       return _output;
     },
 
@@ -777,7 +701,7 @@
       $.each(ec.optionsObject, function(i,option){
         if(option.title == _ancestors[0]){
           _selected = option;
-          for(var j = 1; j < _ancestors.length; j++) {
+          for(var j = 1, len = _ancestors.length; j < len; j++) {
             if (_selected.children[_ancestors[j]] != undefined) {
               _selected = _selected.children[_ancestors[j]];
             }
@@ -981,7 +905,6 @@
               _value = _value.replace(/'/g, "\\'");
             }
 
-
             value.storedValue = _value;
             ec.storedConfig[_propertyName] = _value;
 
@@ -1127,7 +1050,7 @@
 
       // Add colorpicker to color fields.
       var colorInputs = document.getElementsByClassName('color');
-      for(var i = 0; i < colorInputs.length; i++){
+      for(var i = 0, len = colorInputs.length; i < len; i++){
         var myPicker = new jscolor.color(document.getElementById(colorInputs[i].id), {});
       }
 
@@ -1172,10 +1095,10 @@
       // Prepare the options.
       eval('var options = {' +  ec.optionsString + '}');
 
-        // Extend the existing options object with placeholders.
-        if (typeof options.xAxis === undefined) {
-            options.xAxis = {};
-        }
+      //Extend the existing options object with placeholders.
+      if (typeof options.xAxis === undefined) {
+          options.xAxis = {};
+      }
 
       // Combine options and csvData
       _preprocessHighchartsData(options, ec.dataTable);

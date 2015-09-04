@@ -76,52 +76,16 @@
         var _options = options,
             _vpp = valuesPerPoint,
             _series = [],
-            _categories = [],
-            _categoriesInFirstColumn = _data[0][0] == "",
+            _categories = [];
+
+        _data[0][0] = _data[0][0].trim().toLowerCase() == 'categories' ? '' : _data[0][0].trim();
+
+        var _categoriesInFirstColumn = _data[0][0] == '',
             _dataStartsInCol = _categoriesInFirstColumn ? 1 : 0,
+            _series = _data[0].slice(_dataStartsInCol, _tableWidth),                        // put series-names in _series-array
+            _data = _data.slice(1, _tableHeight);                                           // remove series from multi-dimensional data array, they are in _series-array now
+        // ==> cell{0,0} is gone now
 
-            _cleanCell = function (cell, axisType) {
-
-                cell = $.trim(cell);                                        // Aaaaaah, such a shame :-)
-
-                if (axisType == 'category') {
-
-                    if (cell === 'null' || cell === '') {
-                        return null;
-                    }
-                    return cell;                                            // when axisType == category, cell needs to be parsed as string
-                } else {
-                    if (cell === 'null' || cell === '' || isNaN(cell)) {
-                        return null;
-                    }
-                    return parseFloat(cell);                                // when axisType != category, cell needs to be parsed as float
-                }
-            },
-
-        /*
-         * _getColumn -> extracts column (as array) or multiple columns (as array from arrays) from a table
-         * axisType -> important when the extracted column is a category-column, otherwise (for numeric column-data) this parameter can/must be empty
-         */
-            _getColumn = function (table, colNo, vpp, axisType) {
-                var _column = table.map(function (row) {
-
-                    var _point = vpp == 1 ? row[colNo] : row.slice(((colNo) * vpp), ((colNo) * vpp) + vpp);
-
-                    if (_realTypeOf(_point) == 'array') {
-                        return _point.map(function (value) {
-                            return _cleanCell(value, axisType);
-                        });
-                    } else {
-                        return _cleanCell(_point, axisType);
-                    }
-
-                });
-                return _column;
-            };
-
-        _series = _data[0].slice(_dataStartsInCol, _tableWidth);                        // put series-names in _series-array
-        _data = _data.slice(1, _tableHeight);                                           // remove series from multi-dimensional data array, they are in _series-array now
-                                                                                        // ==> cell{0,0} is gone now
         _series = _vpp == 1 ? _series : _series.filter(function (value, index) {        // only keep series-names from series[colNo * vpp] eg first row of bubble-data looks like "serie1,,,serie 2,,,serie 3,,", we want an array with only series-names
             return (index == 0 || index % _vpp == 0);
         });
@@ -148,8 +112,47 @@
                 "data": _column
             };
         });
-
         return _options;
+    };
+
+
+    _cleanCell = function (cell, axisType) {
+
+        cell = $.trim(cell);                                        // Aaaaaah, such a shame :-)
+
+        if (axisType == 'category') {
+
+            if (cell === 'null' || cell === '') {
+                return null;
+            }
+            return cell;                                            // when axisType == category, cell needs to be parsed as string
+        } else {
+            if (cell === 'null' || cell === '' || isNaN(cell)) {
+                return null;
+            }
+            return parseFloat(cell);                                // when axisType != category, cell needs to be parsed as float
+        }
+    };
+
+    /*
+     * _getColumn -> extracts column (as array) or multiple columns (as array from arrays) from a table
+     * axisType -> important when the extracted column is a category-column, otherwise (for numeric column-data) this parameter can/must be empty
+     */
+    _getColumn = function (table, colNo, vpp, axisType) {
+        var _column = table.map(function (row) {
+
+            var _point = vpp == 1 ? row[colNo] : row.slice(((colNo) * vpp), ((colNo) * vpp) + vpp);
+
+            if (_realTypeOf(_point) == 'array') {
+                return _point.map(function (value) {
+                    return _cleanCell(value, axisType);
+                });
+            } else {
+                return _cleanCell(_point, axisType);
+            }
+
+        });
+        return _column;
     };
 
 
