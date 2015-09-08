@@ -9,6 +9,7 @@
   * arearange
   * areaspline
   * areasplinerange
+  * bar
   * boxplot
   * bubble
   * column
