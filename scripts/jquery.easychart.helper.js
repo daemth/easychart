@@ -30,24 +30,9 @@
         var _chartType = typeof options.chart.type != 'undefined' ? options.chart.type : 'line';
 
         switch (_chartType) {
-            case 'line':
-            case 'spline':
-            case 'column':
-            case 'area':
-            case 'areaspline':
-            case 'pie':
-            case 'funnel':
-            case 'gauge':
-            case 'waterfall':
-                options = _parseData(options, data, 1);
-                break;
-
             case 'arearange':
             case 'areasplinerange':
             case 'columnrange':
-                options = _parseData(options, data, 2);
-                break;
-
             case 'errorbar':
             case 'scatter':
                 options = _parseData(options, data, 2);
@@ -60,6 +45,12 @@
             case 'boxplot':
                 options = _parseData(options, data, 5);
                 break;
+
+            // line, spline, column, bar, area, areaspline, pie, funnel, gauge, waterfall
+            default:
+                options = _parseData(options, data, 1);
+                break;
+
         }
         return options;
     };
