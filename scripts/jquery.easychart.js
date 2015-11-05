@@ -641,7 +641,6 @@
                       var parentName = _obj.parent.replace(/--/g, '.').replace(/-/g, '.');
                       _addOptionToMinimalOptions(parentName)
                     }
-                    return ;
                   }
                 });
               }
@@ -766,14 +765,15 @@
           var checkbox = '<input type="checkbox" id="'+ _optionName + '" name="'+ _optionName + '"';
 
           // Check the stored value
-          if (_stored == true || _stored.toString() == 'true') {
+          if (_stored === true || _stored.toString() === 'true') {
             checkbox += ' checked="checked"';
           }
 
           // Or check the default value if there was no stored value.
-          if (_stored == '' && (_defaults == true || _defaults.toString() == 'true')) {
+          if (_stored === '' && (_defaults === true || _defaults.toString() === 'true')) {
             checkbox += ' checked="checked"';
           }
+
           checkbox += ' />';
 
           var label = '<label for="'+ _optionName +'">'+ _label +'</label>';
