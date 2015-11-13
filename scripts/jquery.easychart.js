@@ -752,6 +752,9 @@
           // Fallback to the default value if no stored value was found.
           if (_stored == '') {
             _stored = _defaults;
+          } else {                                   // fix for https://github.com/bestuurszaken/easychart/issues/3
+            _stored = JSON.stringify(_stored);
+            _stored = _stored.replace(/\'/g, '"');
           }
          _output += '<label for=\'' + _optionName + '\'>' + _label + '</label>';
          _output += '<input type=\'text\' id=\'' + _optionName + '\' name=\'' + _optionName + '\' value=\'' + _stored + '\' />';
@@ -973,6 +976,9 @@
 
           if(object.hasOwnProperty('storedValue')){
 
+            if(_realTypeOf(object.storedValue) === 'array'){            // fix for https://github.com/bestuurszaken/easychart/issues/3
+              object.storedValue = JSON.stringify(object.storedValue);
+            }
             var _val = object.storedValue;
 
             var _returnType = object.returnType;
