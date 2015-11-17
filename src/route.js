@@ -36,13 +36,13 @@
                 dataImport.destroy();
             }
         }),
+
         "app.templates":  cfg({
             enter: function( option ){
                 var chart = require('./components/chart.js');
                 var doc = document.getElementById('app');
                 doc.innerHTML = '<div id="chart"></div><div id="templates"></div>';
                 chart.load(doc.querySelector('#chart'));
-                templates.load();
             }
         }),
 
