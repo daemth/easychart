@@ -1,0 +1,19 @@
+{
+  "name": "easychart",
+  "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
+  "main": "dist/easyChart.js",
+  "license": "MIT",
+  "homepage": "https://github.com/bestuurszaken/easychart",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "handsontable": "~0.20.0"
+  }
+}
