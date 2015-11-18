@@ -2,16 +2,15 @@
   "name": "easychart",
   "version": "3.0.0",
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
-  "main": "dist/easyChart.js",
+  "main": "dist/easychart.js",
   "dependencies": {
     "css-loader": "~0.23.0",
-    "highcharts-commonjs": "^4.1.7-1",
+    "highcharts-browserify": "^2.0.2",
     "lodash": "^3.10.1",
     "mediatorjs": "^0.1.4",
     "papaparse": "^4.1.2",
     "stateman": "^0.2.0",
-    "style-loader": "~0.13.0",
-    "zeptojs": "^1.1.4"
+    "style-loader": "~0.13.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

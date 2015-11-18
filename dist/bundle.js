@@ -5467,7 +5467,7 @@
 	    return empty;
 	  };
 	  this.isEmptyRow = function(row) {
-	    return priv.settings.isEmptyRow.call(instance, row);
+	    return priv.settings..call(instance, row);
 	  };
 	  this.isEmptyCol = function(col) {
 	    return priv.settings.isEmptyCol.call(instance, col);

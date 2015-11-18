@@ -10,12 +10,10 @@
     };
 
     that.set = function(newDataSet){
-        console.log('test');
         if(!_.isEqual(dataSet, newDataSet)){
             dataSet = _.cloneDeep(newDataSet);
-            mediator.trigger('dataUpdate', dataSet);
+            mediator.trigger('dataUpdate', that.get());
         }
-
     };
 
     module.exports = that;

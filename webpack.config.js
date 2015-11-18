@@ -1,7 +1,7 @@
 module.exports = {
   entry: './src/main.js',
   output: {
-    filename: './dist/easyChart.js'
+    filename: './dist/easychart.js'
   },
   module: {
     loaders: [
