@@ -1,14 +1,11 @@
 (function () {
     _ = require('lodash');
     var dataService = require('../services/data.js');
-    var that = {};
-    var type = 'boxplot';
-    var renderTo = 'container';
 
-    var labels = {
-        x: false,
-        y: false
-    };
+    var dump = require('../config/dump.json');
+    var that = {};
+    var type = 'line';
+    var renderTo = 'container';
 
     that.get = function () {
         return {
@@ -16,22 +13,16 @@
                 renderTo: renderTo,
                 type: type
             },
-            xAxis: getXAxis(dataService.get(), labels.x),
+            xAxis: getXAxis(dataService.get(), dataService.getCategories()),
             yAxis: getYAxis(),
-            series: getSeries(dataService.get(), labels, getValuesPerPoint(type))
-        }
-    };
-
-    that.setlabelsAxis = function (axis, value) {
-        if (!_.isUndefined(labels[axis])) {
-            labels[axis] = value;
+            series: getSeries(dataService.get(), getValuesPerPoint(type))
         }
     };
 
     function getXAxis(data, categories) {
         var object = {};
         if(categories){
-            object.categories = getCategories(data);
+            object.categories = categories;
         }
         return object;
     }
@@ -40,9 +31,6 @@
 
     }
 
-    function getCategories(data){
-        return _.slice(_.first(data), 1);
-    }
     function getValuesPerPoint(type) {
         var vpp;
         switch (type) {
@@ -68,23 +56,17 @@
         return vpp;
     }
 
-    function getSeries(data, labels, vpp) {
+    function getSeries(data, vpp) {
         var series = [];
-
-        if (labels.x) {
-            data = _.slice(data, 1);
-        }
         _.forEach(data, function (row) {
             if (!_.isEmpty(row)) {
                 var object = {};
-
-                if (labels.y) {
+                if (true) {
                     object.name = row[0];
                     object.data = _.slice(row, 1);
                 } else {
                     object.data = row;
                 }
-
                 object.data = parsDataInt(object.data);
                 if (vpp > 1) {
                     object.data = _.chunk(object.data, vpp);
@@ -92,7 +74,6 @@
                 series.push(object);
             }
         });
-
         return series;
     }
 

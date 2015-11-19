@@ -4,13 +4,15 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
-    "css-loader": "~0.23.0",
+    "browserify": "^12.0.1",
+    "browserify-css": "^0.8.1",
+    "browserify-data": "^0.2.0",
     "highcharts-browserify": "^2.0.2",
     "lodash": "^3.10.1",
     "mediatorjs": "^0.1.4",
     "papaparse": "^4.1.2",
     "stateman": "^0.2.0",
-    "style-loader": "~0.13.0"
+    "watchify": "^3.6.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,5 +25,11 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bestuurszaken/easychart/issues"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-css",
+      "browserify-data"
+    ]
   }
 }
