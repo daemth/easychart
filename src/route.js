@@ -1,11 +1,15 @@
 (function(){
     var StateMan = require('stateman');
     var templates = require('./components/templates.js');
+    var table = require('./components/table.js');
+    var chart = require('./components/chart.js');
     var dataImport = require('./components/import.js');
+    var customise = require('./components/customise.js');
     var stateman = new StateMan({
         title: "EasyChart",
         strict: true
     });
+    var app;
 
     var config = {
         enter: function(option){
@@ -30,26 +34,29 @@
         "app": config,
         "app.import":  cfg({
             enter: function( option ){
-                dataImport.load(document.getElementById('app'));
+                app.innerHTML = '<div id="input"></div><div id="table"></div>';
+                var importElement = app.querySelector('#input');
+                dataImport.load(importElement);
+                var tableElement = app.querySelector('#table');
+                table.load(tableElement);
             },
             leave: function(){
-                dataImport.destroy();
+                table.destroy();
             }
         }),
 
         "app.templates":  cfg({
             enter: function( option ){
-                var chart = require('./components/chart.js');
-                var doc = document.getElementById('app');
-                doc.innerHTML = '<div id="chart"></div><div id="templates"></div>';
-                chart.load(doc.querySelector('#chart'));
+                app.innerHTML = '<div id="chart"></div><div id="templates"></div>';
+                chart.load(app.querySelector('#chart'));
             }
         }),
 
         "app.customise":  cfg({
             enter: function( option ){
-                var doc = document.getElementById('app');
-                doc.innerHTML = 'customise';
+                app.innerHTML = '<div id="chart"></div><div id="form"></div>';
+                chart.load(app.querySelector('#chart'));
+                customise.load(app.querySelector('#form'));
             }
         })
     }).on("notfound", function(){
@@ -57,6 +64,7 @@
     });
 
     document.addEventListener("DOMContentLoaded", function(event) {
+        app = document.getElementById('app');
         stateman.start({});
     });
 

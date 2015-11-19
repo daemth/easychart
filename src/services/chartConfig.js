@@ -1,10 +1,8 @@
 (function () {
     _ = require('lodash');
     var dataService = require('../services/data.js');
-
-    var dump = require('../config/dump.json');
     var that = {};
-    var type = 'line';
+    var type = 'bubble';
     var renderTo = 'container';
 
     that.get = function () {
@@ -13,22 +11,15 @@
                 renderTo: renderTo,
                 type: type
             },
-            xAxis: getXAxis(dataService.get(), dataService.getCategories()),
-            yAxis: getYAxis(),
-            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'))
+            xAxis: getXAxis(),
+            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'), dataService.getSeries())
         }
     };
 
-    function getXAxis(data, categories) {
+    function getXAxis() {
         var object = {};
-        if(categories){
-            object.categories = categories;
-        }
+        object.categories = dataService.getCategories();
         return object;
-    }
-
-    function getYAxis() {
-
     }
 
     function getValuesPerPoint(type) {
@@ -56,25 +47,32 @@
         return vpp;
     }
 
-    function getSeries(data, vpp, ylabel) {
+    function getSeries(data, vpp, ylabel, seriesLabels) {
         var series = [];
-        _.forEach(data, function (row) {
-            if (!_.isEmpty(row)) {
-                var object = {};
-                if (ylabel) {
-                    object.name = row[0];
-                    object.data = _.slice(row, 1);
-                } else {
-                    object.data = row;
-                }
-                object.data = parsDataInt(object.data);
-                if (vpp > 1) {
-                    object.data = _.chunk(object.data, vpp);
-                }
-                series.push(object);
-            }
+
+        if (ylabel) {
+            data = _.map(data, function(row){
+                return _.rest(row);
+            })
+        }
+        // remove the empty labels
+        seriesLabels = _.remove(seriesLabels, function(n) {
+            return !_.isEmpty(n);
         });
-        console.log(series);
+
+        _.forEach(seriesLabels ,function(serieLabel, index){
+            var object = {};
+            object.name = serieLabel;
+            object.data = [];
+            _.forEach(data, function (row) {
+                // remove the first item if there are categories
+                console.log(vpp);
+                object.data.push(_.slice(row,index*vpp, index*vpp+vpp));
+            });
+            object.data = parsDataInt(object.data);
+            series.push(object);
+        });
+
         return series;
     }
 
@@ -82,7 +80,7 @@
         var newData = [];
         _.forEach(data, function (value, index) {
             if (_.isArray(value)) {
-                newData[index] = parsDataInt(data);
+                newData[index] = parsDataInt(value);
             }
             else {
                 newData[index] = parseInt(value);

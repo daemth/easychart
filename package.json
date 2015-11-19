@@ -7,6 +7,7 @@
     "browserify": "^12.0.1",
     "browserify-css": "^0.8.1",
     "browserify-data": "^0.2.0",
+    "highcharts": "0.0.10",
     "highcharts-browserify": "^2.0.2",
     "lodash": "^3.10.1",
     "mediatorjs": "^0.1.4",
