@@ -15,7 +15,7 @@
             },
             xAxis: getXAxis(dataService.get(), dataService.getCategories()),
             yAxis: getYAxis(),
-            series: getSeries(dataService.get(), getValuesPerPoint(type))
+            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'))
         }
     };
 
@@ -56,12 +56,12 @@
         return vpp;
     }
 
-    function getSeries(data, vpp) {
+    function getSeries(data, vpp, ylabel) {
         var series = [];
         _.forEach(data, function (row) {
             if (!_.isEmpty(row)) {
                 var object = {};
-                if (true) {
+                if (ylabel) {
                     object.name = row[0];
                     object.data = _.slice(row, 1);
                 } else {
@@ -74,6 +74,7 @@
                 series.push(object);
             }
         });
+        console.log(series);
         return series;
     }
 
