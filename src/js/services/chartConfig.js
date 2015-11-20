@@ -81,7 +81,6 @@
                 newData[index] = parseDataFloat(value);
             }
             else {
-                value = value.trim();
                 newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
@@ -90,4 +89,3 @@
 
     module.exports = that;
 })();
-
