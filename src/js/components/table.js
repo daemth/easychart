@@ -1,6 +1,6 @@
 (function () {
-    var Handsontable = require("../../bower_components/handsontable/dist/handsontable.full.min.js");
-    var css = require("../../bower_components/handsontable/dist/handsontable.full.css");
+    var Handsontable = require("../../../bower_components/handsontable/dist/handsontable.full.min.js");
+    var css = require("../../../bower_components/handsontable/dist/handsontable.full.css");
     var dataService = require('../services/data.js');
     var mediator = require('mediatorjs');
     var _ = require('lodash');

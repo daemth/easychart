@@ -11,12 +11,18 @@
     "highcharts-browserify": "^2.0.2",
     "lodash": "^3.10.1",
     "mediatorjs": "^0.1.4",
+    "node-sass": "^3.4.2",
     "papaparse": "^4.1.2",
     "stateman": "^0.2.0",
     "watchify": "^3.6.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-js": "browserify src/js/main.js -o dist/easychart.js -v",
+    "watch-js": "watchify src/js/main.js -o dist/easychart.js -v",
+    "build-css": "node-sass src/scss/style.scss > src/css/style.css",
+    "watch-css": "node-sass src/scss/style.scss > src/css/style.css --watch",
+    "build-assets": "npm run build-js & npm run build-css",
+    "watch-assets": "npm run watch-js & npm run watch-css"
   },
   "repository": {
     "type": "git",
@@ -28,6 +34,12 @@
     "url": "https://github.com/bestuurszaken/easychart/issues"
   },
   "browserify": {
+    "transform": [
+      "browserify-css",
+      "browserify-data"
+    ]
+  },
+  "watchify": {
     "transform": [
       "browserify-css",
       "browserify-data"

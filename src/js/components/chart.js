@@ -1,6 +1,6 @@
 // Load the framework and Highcharts. Framework is passed as a parameter.
 
-var chartConfig = require('../services/chartConfig.js');
+var chartConfig = require('../services/chartConfig');
 var chart = function () {
     var that = this;
     that.load = function (element) {

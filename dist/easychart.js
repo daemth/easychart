@@ -15229,7 +15229,7 @@ _.normalize = normalizePath;
 },{}],15:[function(require,module,exports){
 // Load the framework and Highcharts. Framework is passed as a parameter.
 
-var chartConfig = require('../services/chartConfig.js');
+var chartConfig = require('../services/chartConfig');
 var chart = function () {
     var that = this;
     that.load = function (element) {
@@ -15242,7 +15242,7 @@ var chart = function () {
 
 
 module.exports = chart();
-},{"../services/chartConfig.js":23}],16:[function(require,module,exports){
+},{"../services/chartConfig":23}],16:[function(require,module,exports){
 (function(){
     var guiConfig = require('../config/guiConfig.json');
     console.log(guiConfig);
@@ -15295,8 +15295,8 @@ module.exports = chart();
 
 },{"../services/data.js":24,"lodash":6,"papaparse":8}],18:[function(require,module,exports){
 (function () {
-    var Handsontable = require("../../bower_components/handsontable/dist/handsontable.full.min.js");
-    var css = require("../../bower_components/handsontable/dist/handsontable.full.css");
+    var Handsontable = require("../../../bower_components/handsontable/dist/handsontable.full.min.js");
+    var css = require("../../../bower_components/handsontable/dist/handsontable.full.css");
     var dataService = require('../services/data.js');
     var mediator = require('mediatorjs');
     var _ = require('lodash');
@@ -15347,7 +15347,7 @@ module.exports = chart();
 
 
 
-},{"../../bower_components/handsontable/dist/handsontable.full.css":1,"../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":24,"lodash":6,"mediatorjs":7}],19:[function(require,module,exports){
+},{"../../../bower_components/handsontable/dist/handsontable.full.css":1,"../../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":24,"lodash":6,"mediatorjs":7}],19:[function(require,module,exports){
 
 },{}],20:[function(require,module,exports){
 module.exports=module.exports = {
