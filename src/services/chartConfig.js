@@ -2,7 +2,7 @@
     _ = require('lodash');
     var dataService = require('../services/data.js');
     var that = {};
-    var type = 'bubble';
+    var type = 'pie';
     var renderTo = 'container';
 
     that.get = function () {
@@ -12,13 +12,12 @@
                 type: type
             },
             xAxis: getXAxis(),
-            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'), dataService.getSeries())
+            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'), dataService.getSeries(),  dataService.getCategories())
         }
     };
 
     function getXAxis() {
         var object = {};
-        object.categories = dataService.getCategories();
         return object;
     }
 
@@ -47,7 +46,7 @@
         return vpp;
     }
 
-    function getSeries(data, vpp, ylabel, seriesLabels) {
+    function getSeries(data, vpp, ylabel, seriesLabels, categories) {
         var series = [];
 
         if (ylabel) {
@@ -64,15 +63,14 @@
             var object = {};
             object.name = serieLabel;
             object.data = [];
-            _.forEach(data, function (row) {
+            _.forEach(data, function (row, dataIndex) {
                 // remove the first item if there are categories
-                console.log(vpp);
-                object.data.push(_.slice(row,index*vpp, index*vpp+vpp));
+                object.data.push(_.union([categories[dataIndex]], parsDataInt(_.slice(row,index*vpp, index*vpp+vpp))));
             });
-            object.data = parsDataInt(object.data);
+
             series.push(object);
         });
-
+        console.log(series);
         return series;
     }
 

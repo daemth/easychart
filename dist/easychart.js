@@ -15242,18 +15242,29 @@ var chart = function () {
 
 
 module.exports = chart();
-},{"../services/chartConfig.js":22}],16:[function(require,module,exports){
+},{"../services/chartConfig.js":23}],16:[function(require,module,exports){
 (function(){
-
+    var guiConfig = require('../config/guiConfig.json');
+    console.log(guiConfig);
     var that = {};
 
     that.load = function (element){
         element.innerHTML = 'customise';
     };
 
+    /*
+    var xAxis = document.createElement('input');
+    xAxis.type = 'checkbox';
+    input.appendChild(xAxis);
+    xAxis.checked = configService.getlabelsAxis('x');
+    xAxis.onclick = function(event){
+        configService.setlabelsAxis('x', this.checked)
+    };
+    */
+
     module.exports = that;
 })();
-},{}],17:[function(require,module,exports){
+},{"../config/guiConfig.json":20}],17:[function(require,module,exports){
 (function () {
     var dataService = require('../services/data.js');
     var papa = require('papaparse');
@@ -15268,11 +15279,11 @@ module.exports = chart();
             '<button id="transpose">transpose</button>';
 
         element.querySelector("#import").addEventListener("click", function () {
-            dataService.setRaw(papa.parse(element.firstChild.value).data);
+            dataService.set(papa.parse(element.firstChild.value).data);
         });
 
         element.querySelector("#transpose").addEventListener("click", function () {
-            dataService.setRaw(_.unzip(dataService.getRaw()));
+            dataService.set(_.unzip(dataService.getRaw()));
         });
     };
 
@@ -15282,37 +15293,32 @@ module.exports = chart();
 
 
 
-},{"../services/data.js":23,"lodash":6,"papaparse":8}],18:[function(require,module,exports){
+},{"../services/data.js":24,"lodash":6,"papaparse":8}],18:[function(require,module,exports){
 (function () {
     var Handsontable = require("../../bower_components/handsontable/dist/handsontable.full.min.js");
     var css = require("../../bower_components/handsontable/dist/handsontable.full.css");
-
-
     var dataService = require('../services/data.js');
     var mediator = require('mediatorjs');
     var _ = require('lodash');
     var that = {};
     var hot;
-
     that.load = function (element) {
         hot = new Handsontable(element, {
             startRows: 8,
             startCols: 5,
-            rowHeaders: false,
+            rowHeaders: true,
             colHeaders: true,
             contextMenu: true
         });
 
-        if (!_.isEmpty(dataService.get())) {
+        if (!_.isEmpty(dataService.getRaw())) {
             hot.updateSettings({
-                data: dataService.get(),
-                colHeaders: dataService.getSeries()
+                data: dataService.getRaw()
             });
         }
         mediator.on('dataUpdate', function (data) {
             hot.updateSettings({
-                data: dataService.get(),
-                colHeaders: dataService.getSeries()
+                data: dataService.getRaw()
             });
         });
     };
@@ -15341,11 +15347,128 @@ module.exports = chart();
 
 
 
-},{"../../bower_components/handsontable/dist/handsontable.full.css":1,"../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":23,"lodash":6,"mediatorjs":7}],19:[function(require,module,exports){
+},{"../../bower_components/handsontable/dist/handsontable.full.css":1,"../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":24,"lodash":6,"mediatorjs":7}],19:[function(require,module,exports){
 
 },{}],20:[function(require,module,exports){
+module.exports=module.exports = {
+  "panels": [
+    {
+      "panelTitle": "Chart settings",
+      "panes"     : [
+        {
+          "title"  : "Chart type and interaction",
+          "options": [{
+            "name"    : "chart.type",
+            "defaults": "column"
+          }, "chart.inverted", "chart.zoomType", "plotOptions.column.stacking", "plotOptions.bar.stacking"]
+        },
+        {
+          "title"  : "Size and margins",
+          "options": [{
+            "name"    : "chart.width",
+            "defaults": "600"
+          }, "chart.height", "chart.spacingTop", "chart.spacingRight", "chart.spacingBottom", "chart.spacingLeft"]
+        }
+      ]
+    },
+    {
+      "panelTitle": "Colors and borders",
+      "panes"     : [
+        {
+          "title"  : "default colors",
+          "options":[{"name":"colors","defaults":["#3799ba","#57f2a9","#c900a1","#1a9944","#7eeae5","#ed8c71","#899cf4","#e07dc6","#5addb0"]}]
+        },
+        {
+          "title"  : "Chart area",
+          "options": ["chart.backgroundColor", "chart.borderWidth", "chart.borderRadius", "chart.borderColor"]
+        },
+        {
+          "title"  : "Plot area",
+          "options": ["chart.plotBackgroundColor", "chart.plotBackgroundImage", "chart.plotBorderWidth", "chart.plotBorderColor"]
+        }
+      ]
+    },
+    {
+      "panelTitle": "Titles",
+      "panes"     : [
+        {
+          "title"  : "Titles",
+          "options": ["title.text", "subtitle.text", "yAxis.title.text", "xAxis.title.text"]
+        },
+        {
+          "title"  : "Title advanced",
+          "options": ["title.style"]
+        }
+      ]
+    },
+    {
+      "panelTitle": "Axes",
+      "panes"     : [
+        {
+          "title"  : "Axes setup",
+          "options": []
+        },
+        {
+          "title"  : "X axis",
+          "options": [{
+            "name"    : "xAxis.type",
+            "defaults": "category"
+          }, "xAxis.min", "xAxis.opposite", "xAxis.reversed", "xAxis.tickInterval", "xAxis.labels.format", "xAxis.labels.rotation", "xAxis.labels.align"]
+        },
+        {
+          "title"  : "Value axis",
+          "options": ["yAxis.type", "yAxis.min", "yAxis.opposite", "yAxis.reversed", "yAxis.labels.format", "yAxis.labels.rotation"]
+        }
+      ]
+    },
+    {
+      "panelTitle": "Legend",
+      "panes"     : [
+        {
+          "title"  : "General",
+          "options": ["legend.enabled", "legend.layout"]
+        },
+        {
+          "title"  : "Placement",
+          "options": ["legend.align", "legend.verticalAlign"]
+        },
+        {
+          "title"  : "Color and border",
+          "options": []
+        }
+      ]
+    },
+    {
+      "panelTitle": "Tooltip",
+      "panes"     : [
+        {
+          "title"  : "General",
+          "options": ["tooltip.headerFormat", "tooltip.pointFormat", "tooltip.valuePrefix", "tooltip.valueSuffix"]
+        },
+        {
+          "title"  : "Color and border",
+          "options": []
+        }
+      ]
+    },
+    {
+      "panelTitle": "Exporting/Credits",
+      "panes"     : [
+        {
+          "title"  : "Exporting",
+          "options": ["exporting.enabled"]
+        },
+        {
+          "title"  : "Credits",
+          "options": [{"name": "credits.enabled", "defaults": "false"}, "credits.text", "credits.href"]
+        }
+      ]
+    }
+  ]
+}
+},{}],21:[function(require,module,exports){
 require('./route.js');
-},{"./route.js":21}],21:[function(require,module,exports){
+},{"./route.js":22}],22:[function(require,module,exports){
 (function(){
     var StateMan = require('stateman');
     var templates = require('./components/templates.js');
@@ -15354,7 +15477,7 @@ require('./route.js');
     var dataImport = require('./components/import.js');
     var customise = require('./components/customise.js');
     var stateman = new StateMan({
-        title: "EasyChart",
+        title: "Easychart",
         strict: true
     });
     var app;
@@ -15418,12 +15541,12 @@ require('./route.js');
 
 })();
 
-},{"./components/chart.js":15,"./components/customise.js":16,"./components/import.js":17,"./components/table.js":18,"./components/templates.js":19,"stateman":11}],22:[function(require,module,exports){
+},{"./components/chart.js":15,"./components/customise.js":16,"./components/import.js":17,"./components/table.js":18,"./components/templates.js":19,"stateman":11}],23:[function(require,module,exports){
 (function () {
     _ = require('lodash');
     var dataService = require('../services/data.js');
     var that = {};
-    var type = 'bubble';
+    var type = 'pie';
     var renderTo = 'container';
 
     that.get = function () {
@@ -15433,13 +15556,12 @@ require('./route.js');
                 type: type
             },
             xAxis: getXAxis(),
-            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'), dataService.getSeries())
+            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'), dataService.getSeries(),  dataService.getCategories())
         }
     };
 
     function getXAxis() {
         var object = {};
-        object.categories = dataService.getCategories();
         return object;
     }
 
@@ -15468,7 +15590,7 @@ require('./route.js');
         return vpp;
     }
 
-    function getSeries(data, vpp, ylabel, seriesLabels) {
+    function getSeries(data, vpp, ylabel, seriesLabels, categories) {
         var series = [];
 
         if (ylabel) {
@@ -15485,15 +15607,14 @@ require('./route.js');
             var object = {};
             object.name = serieLabel;
             object.data = [];
-            _.forEach(data, function (row) {
+            _.forEach(data, function (row, dataIndex) {
                 // remove the first item if there are categories
-                console.log(vpp);
-                object.data.push(_.slice(row,index*vpp, index*vpp+vpp));
+                object.data.push(_.union([categories[dataIndex]], parsDataInt(_.slice(row,index*vpp, index*vpp+vpp))));
             });
-            object.data = parsDataInt(object.data);
+
             series.push(object);
         });
-
+        console.log(series);
         return series;
     }
 
@@ -15514,7 +15635,7 @@ require('./route.js');
 })();
 
 
-},{"../services/data.js":23,"lodash":6}],23:[function(require,module,exports){
+},{"../services/data.js":24,"lodash":6}],24:[function(require,module,exports){
 (function(){
     _ = require('lodash');
     var mediator = require('mediatorjs');
@@ -15552,13 +15673,6 @@ require('./route.js');
     };
 
     that.set = function(newDataSet){
-        if(!_.isEqual(dataSet, newDataSet)){
-            dataSet = [].concat([that.getSeries()], newDataSet);
-            mediator.trigger('dataUpdate', that.get());
-        }
-    };
-
-    that.setRaw = function(newDataSet){
         // if the first cell is empty, make the assumption that the first column are labels.
         if(_.isEmpty(newDataSet[0][0]) || newDataSet[0][0] == 'cat' || newDataSet[0][0] == 'categories'){
             labels.y = true;
@@ -15575,4 +15689,4 @@ require('./route.js');
 })();
 
 
-},{"lodash":6,"mediatorjs":7}]},{},[20]);
+},{"lodash":6,"mediatorjs":7}]},{},[21]);

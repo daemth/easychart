@@ -12,11 +12,11 @@
             '<button id="transpose">transpose</button>';
 
         element.querySelector("#import").addEventListener("click", function () {
-            dataService.setRaw(papa.parse(element.firstChild.value).data);
+            dataService.set(papa.parse(element.firstChild.value).data);
         });
 
         element.querySelector("#transpose").addEventListener("click", function () {
-            dataService.setRaw(_.unzip(dataService.getRaw()));
+            dataService.set(_.unzip(dataService.getRaw()));
         });
     };
 

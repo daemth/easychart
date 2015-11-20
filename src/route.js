@@ -6,7 +6,7 @@
     var dataImport = require('./components/import.js');
     var customise = require('./components/customise.js');
     var stateman = new StateMan({
-        title: "EasyChart",
+        title: "Easychart",
         strict: true
     });
     var app;

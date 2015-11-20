@@ -35,13 +35,6 @@
     };
 
     that.set = function(newDataSet){
-        if(!_.isEqual(dataSet, newDataSet)){
-            dataSet = [].concat([that.getSeries()], newDataSet);
-            mediator.trigger('dataUpdate', that.get());
-        }
-    };
-
-    that.setRaw = function(newDataSet){
         // if the first cell is empty, make the assumption that the first column are labels.
         if(_.isEmpty(newDataSet[0][0]) || newDataSet[0][0] == 'cat' || newDataSet[0][0] == 'categories'){
             labels.y = true;
