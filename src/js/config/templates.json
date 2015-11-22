@@ -106,5 +106,102 @@
         }
       }
     ]
+  },
+  {
+    "type": "Area charts",
+    "icon": "icons/area.svg",
+    "presets": [
+      {
+        "title": "Area Chart",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Area with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "xAxis.type": "category",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Stacked",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "xAxis.type": "category",
+          "plotOptions.series.stacking": "normal"
+        }
+      },
+      {
+        "title": "Stacked with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "xAxis.type": "category",
+          "plotOptions.series.stacking": "normal",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Stacked percentage",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "xAxis.type": "category",
+          "plotOptions.series.stacking": "percent"
+        }
+      },
+      {
+        "title": "Inverted",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "chart.inverted": true,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Inverted with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "chart.inverted": true,
+          "xAxis.type": "category",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Step line",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "plotOptions.series.step": "left",
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Negative color",
+        "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "area",
+          "plotOptions.series.negativeColor": "#0088FF",
+          "plotOptions.series.color": "#FF0000",
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Area range",
+        "desc": "Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",
+        "definition": {
+          "chart.type": "arearange",
+          "xAxis.type": "category"
+        }
+      }
+    ]
   }
 ]
