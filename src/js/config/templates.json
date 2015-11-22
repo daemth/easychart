@@ -88,8 +88,9 @@
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
         "definition": {
           "xAxis.type": "category",
+          "chart.type":"line",
           "series": [
-            {"type": "line"},
+            {"type": null},
             {"type": "errorbar"}
           ]
         }
@@ -99,8 +100,9 @@
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
           "xAxis.type": "category",
+          "chart.type":"line",
           "series": [
-            {"type": "line"},
+            {"type": null},
             {"type": "column"}
           ]
         }
@@ -348,8 +350,137 @@
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
         "definition": {
+          "chart.type":"column",
           "series":[
-            {"type": "line"},
+            {"type": null},
+            {"type": "errorbar"}
+          ],
+          "xAxis.type": "category"
+        }
+      }
+    ]
+  },
+  {
+    "type": "Bar charts",
+    "icon": "icons/bar.svg",
+    "presets": [
+      {
+        "title": "Basic bar",
+        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar"
+        }
+      },
+      {
+        "title": "Basic with labels",
+        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "plotOptions.bar.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Stacked bar",
+        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "plotOptions.bar.stacking":"normal"
+        }
+      },
+      {
+        "title": "Stacked with labels",
+        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "plotOptions.bar.stacking":"normal",
+          "plotOptions.bar.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Stacked percentage bar",
+        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "plotOptions.bar.stacking":"percent"
+        }
+      },
+      {
+        "title": "Stacked percentage bar with labels",
+        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "plotOptions.bar.stacking":"percent",
+          "plotOptions.bar.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Negative color",
+        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "plotOptions.series.negativeColor": "#0088FF",
+          "plotOptions.series.color": "#FF0000",
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Multi color",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "plotOptions.series.colorByPoint": true,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Logarithmic",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "xAxis.type": "category",
+          "yAxis.type": "logarithmic",
+          "yAxis.minorTickInterval": "auto"
+        }
+      },
+      {
+        "title": "Horizontal columnrange",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart.type": "columnrange",
+          "chart.inverted":true,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Horizontal columnrange with labels",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart.type": "columnrange",
+          "chart.inverted":true,
+          "xAxis.type": "category",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Packed Bars",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart.type": "bar",
+          "xAxis.type": "category",
+          "plotOptions.series.pointPadding":0,
+          "plotOptions.series.groupPadding":0,
+          "plotOptions.series.borderWidth":0,
+          "plotOptions.series.shadow":false
+        }
+      },
+      {
+        "title": "Error bar",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
+        "definition": {
+          "chart.type":"column",
+          "chart.inverted":true,
+          "series":[
+            {"type": null},
             {"type": "errorbar"}
           ],
           "xAxis.type": "category"
