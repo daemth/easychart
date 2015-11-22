@@ -1,0 +1,110 @@
+[
+  {
+    "type": "Line charts",
+    "icon": "icons/line.svg",
+    "presets": [
+      {
+        "title": "Line chart",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "line",
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "With data labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",
+        "definition": {
+          "chart.type": "line",
+          "xAxis.type": "category",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Spline",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "spline",
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Spline with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "spline",
+          "xAxis.type": "category",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Logarithmic",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "spline",
+          "xAxis.type": "category",
+          "yAxis.type": "logarithmic"
+        }
+      },
+      {
+        "title": "Step line",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "line",
+          "xAxis.type": "category",
+          "plotOptions.series.step": "left"
+        }
+      },
+      {
+        "title": "Step line with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "line",
+          "xAxis.type": "category",
+          "plotOptions.series.step": "left",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "title": "Inverted",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "line",
+          "chart.inverted": true,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "title": "Negative color",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart.type": "line",
+          "xAxis.type": "category",
+          "plotOptions.series.negativeColor": "#0088FF"
+        }
+      },
+      {
+        "title": "Error bar",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
+        "definition": {
+          "xAxis.type": "category",
+          "series": [
+            {"type": "line"},
+            {"type": "errorbar"}
+          ]
+        }
+      },
+      {
+        "title": "Combination chart",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "xAxis.type": "category",
+          "series": [
+            {"type": "line"},
+            {"type": "column"}
+          ]
+        }
+      }
+    ]
+  }
+]
