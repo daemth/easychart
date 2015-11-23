@@ -7,12 +7,9 @@
         icons = includeFolder("./src/icons");
     that.load = function(element){
         element.innerHtml = '';
-        var div = crel('div', {'class':'thing', 'data-attrubute':'majigger', 'onclick' : "window.alert('test');"}, 'test');
+        var div = crel('div', {'class':'thing', 'onclick' : "window.alert('test');"}, 'test');
         element.appendChild(div);
-
         console.log(div);
-        console.log('test');
-
 
         var tabs = document.createElement('ul');
         var itemTemplate = _.template('<div><%= title %></div>');

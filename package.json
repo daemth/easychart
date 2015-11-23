@@ -17,7 +17,7 @@
     "papaparse": "^4.1.2",
     "stateman": "^0.2.0",
     "svg-browserify": "0.0.2",
-    "watchify": "^3.6.1"
+    "watchify": "3.6.0"
   },
   "scripts": {
     "build-js": "browserify src/js/main.js -o dist/easychart.js -v",
