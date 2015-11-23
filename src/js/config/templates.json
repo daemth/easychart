@@ -9,8 +9,12 @@
         "title": "Line chart",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -18,9 +22,19 @@
         "title": "With data labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -28,8 +42,12 @@
         "title": "Spline",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "spline",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -37,9 +55,19 @@
         "title": "Spline with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "spline",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -47,9 +75,22 @@
         "title": "Logarithmic",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "spline",
-          "xAxis.type": "category",
-          "yAxis.type": "logarithmic"
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "yAxis": {
+            "type": "logarithmic"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -57,9 +98,17 @@
         "title": "Step line",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.step": "left"
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left"
+            }
+          }
         }
       },
       {
@@ -67,10 +116,20 @@
         "title": "Step line with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.step": "left",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -78,9 +137,13 @@
         "title": "Inverted",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "chart.inverted": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "line",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -88,9 +151,17 @@
         "title": "Negative color",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.negativeColor": "#0088FF"
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "negativeColor": "#0088FF"
+            }
+          }
         }
       },
       {
@@ -98,8 +169,12 @@
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
         "definition": {
-          "xAxis.type": "category",
-          "chart.type": "line",
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
           "series": [
             {"type": null},
             {"type": "errorbar"}
@@ -111,8 +186,12 @@
         "title": "Combination chart",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "xAxis.type": "category",
-          "chart.type": "line",
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
           "series": [
             {"type": null},
             {"type": "column"}
@@ -131,8 +210,12 @@
         "title": "Area Chart",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -140,9 +223,19 @@
         "title": "Area with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -150,9 +243,17 @@
         "title": "Stacked",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.stacking": "normal"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          }
         }
       },
       {
@@ -160,10 +261,20 @@
         "title": "Stacked with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.stacking": "normal",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -171,9 +282,17 @@
         "title": "Stacked percentage",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.stacking": "percent"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          }
         }
       },
       {
@@ -181,9 +300,13 @@
         "title": "Inverted",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "chart.inverted": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -191,10 +314,21 @@
         "title": "Inverted with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "chart.inverted": true,
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "area",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -202,9 +336,17 @@
         "title": "Step line",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "plotOptions.series.step": "left",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left"
+            }
+          }
         }
       },
       {
@@ -212,10 +354,18 @@
         "title": "Negative color",
         "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "plotOptions.series.negativeColor": "#0088FF",
-          "plotOptions.series.color": "#FF0000",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "negativeColor": "#0088FF",
+              "color": "#FF000000"
+            }
+          }
         }
       },
       {
@@ -223,8 +373,12 @@
         "title": "Area range",
         "desc": "Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",
         "definition": {
-          "chart.type": "arearange",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "arearange"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       }
     ]
@@ -239,7 +393,12 @@
         "title": "Basic",
         "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column"
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -247,8 +406,19 @@
         "title": "With labels",
         "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -256,14 +426,25 @@
         "title": "Column 3D",
         "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "chart.margin": 75,
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 15,
-          "chart.options3d.beta": 15,
-          "chart.options3d.depth": 50,
-          "chart.options3d.viewDistance": 15,
-          "plotOptions.column.depth": 25
+          "chart": {
+            "type": "column",
+            "margin": 75,
+            "options3d": {
+              "enabled": true,
+              "alpha": 15,
+              "beta": 15,
+              "depth": 50,
+              "viewDistance": 15
+            }
+          },
+          "plotOptions": {
+            "column": {
+              "depth": 25
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -271,8 +452,17 @@
         "title": "Stacked",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking": "normal"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -280,9 +470,20 @@
         "title": "Stacked with labels",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking": "normal",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -290,15 +491,28 @@
         "title": "Stacked 3D",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "chart.margin": 75,
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 15,
-          "chart.options3d.beta": 15,
-          "chart.options3d.depth": 50,
-          "chart.options3d.viewDistance": 15,
-          "plotOptions.column.depth": 25,
-          "plotOptions.column.stacking": "normal"
+          "chart": {
+            "type": "column",
+            "margin": 75,
+            "options3d": {
+              "enabled": true,
+              "alpha": 15,
+              "beta": 15,
+              "depth": 50,
+              "viewDistance": 15
+            }
+          },
+          "plotOptions": {
+            "column": {
+              "depth": 25
+            },
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -306,8 +520,17 @@
         "title": "Stacked percent",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking": "percent"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -315,9 +538,20 @@
         "title": "Stacked percent with labels",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking": "percent",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -325,10 +559,18 @@
         "title": "Negative color",
         "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.series.negativeColor": "#0088FF",
-          "plotOptions.series.color": "#FF0000",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions":{
+            "series":{
+              "negativeColor": "#0088FF",
+              "color": "#FF0000"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -336,9 +578,17 @@
         "title": "Multi color",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.series.colorByPoint": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions":{
+            "series":{
+              "colorByPoint": true
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -346,10 +596,16 @@
         "title": "Logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "xAxis.type": "category",
-          "yAxis.type": "logarithmic",
-          "yAxis.minorTickInterval": "auto"
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "yAxis": {
+            "type": "logarithmic",
+            "minorTickInterval": "auto"
+          }
         }
       },
       {
@@ -357,8 +613,12 @@
         "title": "Columnrange",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "columnrange"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -366,9 +626,19 @@
         "title": "Columnrange with labels",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "columnrange"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -376,12 +646,20 @@
         "title": "Packed Columns",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "xAxis.type": "category",
-          "plotOptions.series.pointPadding": 0,
-          "plotOptions.series.groupPadding": 0,
-          "plotOptions.series.borderWidth": 0,
-          "plotOptions.series.shadow": false
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "pointPadding": 0,
+              "groupPadding": 0,
+              "borderWidth": 0,
+              "shadow": false
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -389,12 +667,16 @@
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
         "definition": {
-          "chart.type": "column",
+          "chart": {
+            "type": "column"
+          },
           "series": [
             {"type": null},
             {"type": "errorbar"}
           ],
-          "xAxis.type": "category"
+          "xAxis": {
+            "type": "category"
+          }
         }
       }
     ]
@@ -409,7 +691,13 @@
         "title": "Basic bar",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -417,8 +705,20 @@
         "title": "Basic with labels",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.dataLabels.enabled": true
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
@@ -426,8 +726,18 @@
         "title": "Stacked bar",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking": "normal"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -435,9 +745,21 @@
         "title": "Stacked with labels",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking": "normal",
-          "plotOptions.bar.dataLabels.enabled": true
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -445,8 +767,18 @@
         "title": "Stacked percentage bar",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking": "percent"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -454,9 +786,21 @@
         "title": "Stacked percentage bar with labels",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking": "percent",
-          "plotOptions.bar.dataLabels.enabled": true
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -464,10 +808,19 @@
         "title": "Negative color",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.series.negativeColor": "#0088FF",
-          "plotOptions.series.color": "#FF0000",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions":{
+            "series":{
+              "negativeColor": "#0088FF",
+              "color": "#FF0000"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -475,9 +828,18 @@
         "title": "Multi color",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.series.colorByPoint": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "colorByPoint": true
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -485,10 +847,17 @@
         "title": "Logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "xAxis.type": "category",
-          "yAxis.type": "logarithmic",
-          "yAxis.minorTickInterval": "auto"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "yAxis": {
+            "type": "logarithmic",
+            "minorTickInterval": "auto"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -496,9 +865,13 @@
         "title": "Horizontal columnrange",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "chart.inverted": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -506,10 +879,20 @@
         "title": "Horizontal columnrange with labels",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "chart.inverted": true,
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -517,12 +900,21 @@
         "title": "Packed Bars",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "xAxis.type": "category",
-          "plotOptions.series.pointPadding": 0,
-          "plotOptions.series.groupPadding": 0,
-          "plotOptions.series.borderWidth": 0,
-          "plotOptions.series.shadow": false
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "pointPadding": 0,
+              "groupPadding": 0,
+              "borderWidth": 0,
+              "shadow": false
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -530,13 +922,17 @@
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
         "definition": {
-          "chart.type": "column",
-          "chart.inverted": true,
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
           "series": [
             {"type": null},
             {"type": "errorbar"}
-          ],
-          "xAxis.type": "category"
+          ]
         }
       }
     ]
@@ -551,7 +947,9 @@
         "title": "Scatter chart",
         "description": "Requires one data column for X values and one for Y values.",
         "definition": {
-          "chart.type": "scatter"
+          "chart": {
+            "type": "scatter"
+          }
         }
       },
       {
@@ -559,7 +957,9 @@
         "title": "Bubble chart",
         "description": "Requires three data columns: one for X values, one for Y values and one for the size of the bubble (Z value).",
         "definition": {
-          "chart.type": "bubble"
+          "chart": {
+            "type": "bubble"
+          }
         }
       },
       {
@@ -567,8 +967,14 @@
         "title": "Scatter with line",
         "description": "Requires one data column for X values and one for Y values.",
         "definition": {
-          "chart.type": "scatter",
-          "plotOptions.series.lineWidth": 1
+          "chart": {
+            "type": "scatter"
+          },
+          "plotOptions":{
+            "series":{
+              "lineWidth": 1
+            }
+          }
         }
       },
       {
@@ -576,9 +982,17 @@
         "title": "Scatter with line, no marker",
         "description": "Requires one data column for X values and one for Y values.",
         "definition": {
-          "chart.type": "scatter",
-          "plotOptions.series.lineWidth": 1,
-          "plotOptions.series.marker.enabled": false
+          "chart": {
+            "type": "scatter"
+          },
+          "plotOptions":{
+            "series":{
+              "lineWidth": 1,
+              "marker":{
+                "enabled": false
+              }
+            }
+          }
         }
       }
     ]
@@ -593,8 +1007,12 @@
         "title": "Pie chart",
         "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "pie"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -602,31 +1020,29 @@
         "title": "3D pie chart",
         "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 45,
-          "chart.options3d.beta": 0,
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.depth": 35,
-          "plotOptions.pie.cursor": "pointer",
-          "plotOptions.series.dataLabels.enabled": true,
-          "xAxis.type": "category"
-        }
-      },
-      {
-        "id": "3d",
-        "title": "3D pie chart",
-        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-        "definition": {
-          "chart.type": "pie",
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 45,
-          "chart.options3d.beta": 0,
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.depth": 35,
-          "plotOptions.pie.cursor": "pointer",
-          "plotOptions.series.dataLabels.enabled": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -634,12 +1050,22 @@
         "title": "Pie chart",
         "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "xAxis.type": "category",
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.cursor": true,
-          "plotOptions.pie.showInLegend": true,
-          "plotOptions.series.dataLabels.enabled": false
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "showInLegend": true,
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -647,16 +1073,28 @@
         "title": "3D pie with legend",
         "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 45,
-          "chart.options3d.beta": 0,
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.depth": 35,
-          "plotOptions.pie.cursor": "pointer",
-          "plotOptions.pie.showInLegend": true,
-          "plotOptions.series.dataLabels.enabled": false,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "showInLegend": true,
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -664,12 +1102,22 @@
         "title": "Donut",
         "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "xAxis.type": "category",
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.cursor": true,
-          "plotOptions.pie.innerSize": "60%",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "innerSize": "60%",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -677,13 +1125,23 @@
         "title": "Donut with legend",
         "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "xAxis.type": "category",
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.cursor": true,
-          "plotOptions.pie.innerSize": "60%",
-          "plotOptions.series.showInLegend": true,
-          "plotOptions.series.dataLabels.enabled": false
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "showInLegend": true,
+              "innerSize": "60%",
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -691,16 +1149,30 @@
         "title": "3D donut chart",
         "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 45,
-          "chart.options3d.beta": 0,
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.depth": 35,
-          "plotOptions.pie.innerSize": "60%",
-          "plotOptions.pie.cursor": "pointer",
-          "plotOptions.series.dataLabels.enabled": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "innerSize": "60%"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -708,17 +1180,31 @@
         "title": "3D donut chart with legend",
         "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 45,
-          "chart.options3d.beta": 0,
-          "plotOptions.pie.allowPointSelect": true,
-          "plotOptions.pie.depth": 35,
-          "plotOptions.pie.innerSize": "60%",
-          "plotOptions.pie.cursor": "pointer",
-          "plotOptions.series.showInLegend": true,
-          "plotOptions.series.dataLabels.enabled": false,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "showInLegend": true,
+              "innerSize": "60%"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -726,18 +1212,34 @@
         "title": "Semi circle donut",
         "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
         "definition": {
-          "chart.type": "pie",
-          "plotOptions.pie.allowPointSelect": false,
-          "plotOptions.pie.dataLabels.distance": -30,
-          "plotOptions.pie.dataLabels.style.fontWeight": "bold",
-          "plotOptions.pie.dataLabels.style.color": "white",
-          "plotOptions.pie.dataLabels.style.textShadow": "0px 1px 2px black",
-          "plotOptions.pie.innerSize": "50%",
-          "plotOptions.pie.startAngle": -90,
-          "plotOptions.pie.endAngle": 90,
-          "plotOptions.pie.center": ["50%","75%"],
-          "plotOptions.series.dataLabels.enabled": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": false,
+              "dataLabels": {
+                "distance": -30,
+                "style": {
+                  "fontWeight": "bold",
+                  "color": "white",
+                  "textShadow": "0px 1px 2px black"
+                }
+              },
+              "innerSize": "50%",
+              "startAngle": -90,
+              "endAngle": 90,
+              "center": ["50%", "75%"]
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       }
     ]
@@ -752,8 +1254,13 @@
         "title": "Polar line",
         "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
         "definition": {
-          "chart.type": "line",
-          "chart.polar": true
+          "chart": {
+            "type": "line",
+            "polar": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -761,13 +1268,21 @@
         "title": "Spider line",
         "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
         "definition": {
-          "chart.type": "line",
-          "chart.polar": true,
-          "xAxis.tickmarkPlacement": "on",
-          "xAxis.lineWidth": 0,
-          "xAxis.type": "category",
-          "yAxis.lineWidth": 0,
-          "yAxis.gridLineInterpolation": "polygon"
+          "chart": {
+            "type": "line",
+            "polar": true
+          },
+          "xAxis": {
+            "tickmarkPlacement": "on",
+            "lineWidth": 0
+          },
+          "yAxis": {
+            "lineWidth": 0,
+            "gridLineInterpolation": "polygon"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -775,8 +1290,13 @@
         "title": "Polar area",
         "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
         "definition": {
-          "chart.type": "line",
-          "chart.polar": true
+          "chart": {
+            "type": "area",
+            "polar": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
@@ -784,13 +1304,21 @@
         "title": "Spider area",
         "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
         "definition": {
-          "chart.type": "area",
-          "chart.polar": true,
-          "xAxis.tickmarkPlacement": "on",
-          "xAxis.lineWidth": 0,
-          "xAxis.type": "category",
-          "yAxis.lineWidth": 0,
-          "yAxis.gridLineInterpolation": "polygon"
+          "chart": {
+            "type": "area",
+            "polar": true
+          },
+          "xAxis": {
+            "tickmarkPlacement": "on",
+            "lineWidth": 0
+          },
+          "yAxis": {
+            "lineWidth": 0,
+            "gridLineInterpolation": "polygon"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       }
     ]
