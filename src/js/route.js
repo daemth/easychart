@@ -49,6 +49,7 @@
             enter: function( option ){
                 app.innerHTML = '<div id="chart"></div><div id="templates"></div>';
                 chart.load(app.querySelector('#chart'));
+                templates.load(app.querySelector('#templates'));
             }
         }),
 

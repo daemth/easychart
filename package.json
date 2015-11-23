@@ -7,6 +7,8 @@
     "browserify": "^12.0.1",
     "browserify-css": "^0.8.1",
     "browserify-data": "^0.2.0",
+    "crel": "^2.1.8",
+    "folderify": "^1.1.0",
     "highcharts": "0.0.10",
     "highcharts-browserify": "^2.0.2",
     "lodash": "^3.10.1",
@@ -14,6 +16,7 @@
     "node-sass": "^3.4.2",
     "papaparse": "^4.1.2",
     "stateman": "^0.2.0",
+    "svg-browserify": "0.0.2",
     "watchify": "^3.6.1"
   },
   "scripts": {
@@ -36,13 +39,17 @@
   "browserify": {
     "transform": [
       "browserify-css",
-      "browserify-data"
+      "browserify-data",
+      "svg-browserify",
+      "folderify"
     ]
   },
   "watchify": {
     "transform": [
       "browserify-css",
-      "browserify-data"
+      "browserify-data",
+      "svg-browserify",
+      "folderify"
     ]
   }
 }

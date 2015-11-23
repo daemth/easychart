@@ -2,7 +2,8 @@
     _ = require('lodash');
     var dataService = require('../services/data.js');
     var that = {};
-    var type = 'pie';
+    var type = 'bubble';
+
     var renderTo = 'container';
 
     that.get = function () {
@@ -70,7 +71,6 @@
 
             series.push(object);
         });
-        console.log(series);
         return series;
     }
 

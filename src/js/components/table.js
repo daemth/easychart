@@ -31,7 +31,10 @@
         mediator.stopListening('dataUpdate', function (data) {
             hot.updateSettings({data: data});
         });
-        dataService.set(removeEmptyRows(hot));
+        var data = removeEmptyRows(hot);
+        if(!_.isEmpty(data)){
+            dataService.set(removeEmptyRows(hot));
+        }
         hot.destroy();
     };
 
