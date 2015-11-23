@@ -15387,6 +15387,7 @@ var chart = function () {
 
     that.load = function (element) {
         element.innerHTML = '<div id="container" ></div>';
+        console.log(config.get());
         new Highcharts.Chart(config.get());
     };
     return that;
@@ -17079,8 +17080,8 @@ require('./route.js');
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
-    var type = 'column';
-    var preset = 'errorbar';
+    var type = 'line';
+    var preset = 'basic';
     var renderTo = 'container';
 
     var labels = {
@@ -17213,8 +17214,7 @@ require('./route.js');
         });
         return series;
         */
-
-        return _.merge(config.series, series);
+        return _.merge(!_.isUndefined(config.series)?config.series:[], series);
     };
 
     function generateEmptySeries(series, defaultType, size){
@@ -17244,7 +17244,7 @@ require('./route.js');
     function generateDataSeries(config, data){
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
 
-        return _.map(emptySeries, function(item, index){
+        return _.map(emptySeries, function(item){
             var vpp = getValuesPerPoint(item.type);
             _.forEach(data, function(row, index){
                 item.data.push(parseDataFloat(_.slice(row,0,vpp)));
@@ -17290,6 +17290,7 @@ require('./route.js');
                 newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
+
         return newData;
     }
 

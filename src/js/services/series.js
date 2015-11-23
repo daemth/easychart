@@ -35,8 +35,7 @@
         });
         return series;
         */
-
-        return _.merge(config.series, series);
+        return _.merge(!_.isUndefined(config.series)?config.series:[], series);
     };
 
     function generateEmptySeries(series, defaultType, size){
@@ -66,7 +65,7 @@
     function generateDataSeries(config, data){
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
 
-        return _.map(emptySeries, function(item, index){
+        return _.map(emptySeries, function(item){
             var vpp = getValuesPerPoint(item.type);
             _.forEach(data, function(row, index){
                 item.data.push(parseDataFloat(_.slice(row,0,vpp)));
@@ -112,6 +111,7 @@
                 newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
+
         return newData;
     }
 
