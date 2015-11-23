@@ -5,8 +5,6 @@
     var that = {};
 
     that.load = function (element) {
-        var data = dataService.get();
-
         element.innerHTML = '<textarea></textarea>' +
             '<button id="import">import</button>' +
             '<button id="transpose">transpose</button>';
@@ -16,7 +14,7 @@
         });
 
         element.querySelector("#transpose").addEventListener("click", function () {
-            dataService.set(_.unzip(dataService.getRaw()));
+            dataService.set(_.unzip(dataService.get()));
         });
     };
 

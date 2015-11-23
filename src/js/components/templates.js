@@ -7,9 +7,6 @@
         icons = includeFolder("./src/icons");
     that.load = function(element){
         element.innerHtml = '';
-        var div = crel('div', {'class':'thing', 'onclick' : "window.alert('test');"}, 'test');
-        element.appendChild(div);
-        console.log(div);
 
         var tabs = document.createElement('ul');
         var itemTemplate = _.template('<div><%= title %></div>');
@@ -22,7 +19,6 @@
             var svg = logo.querySelector('svg');
             svg.setAttribute("height", "50px");
             svg.setAttribute("width", "50px");
-
 
             tab.innerHTML = typeTemplate({type: type.type});
             var list = document.createElement('ul');

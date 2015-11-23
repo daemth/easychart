@@ -3,6 +3,8 @@
 var config = require('../services/config');
 var chart = function () {
     var that = this;
+
+
     that.load = function (element) {
         element.innerHTML = '<div id="container" ></div>';
         new Highcharts.Chart(config.get());

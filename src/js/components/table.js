@@ -15,14 +15,14 @@
             contextMenu: true
         });
 
-        if (!_.isEmpty(dataService.getRaw())) {
+        if (!_.isEmpty(dataService.get())) {
             hot.updateSettings({
-                data: dataService.getRaw()
+                data: dataService.get()
             });
         }
         mediator.on('dataUpdate', function (data) {
             hot.updateSettings({
-                data: dataService.getRaw()
+                data: dataService.get()
             });
         });
     };

@@ -1,6 +1,5 @@
 (function(){
-    var guiConfig = require('../config/guiConfig.json');
-    console.log(guiConfig);
+    var config = require('../config/config.json');
     var that = {};
 
     that.load = function (element){

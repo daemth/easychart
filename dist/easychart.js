@@ -15383,6 +15383,8 @@ _.normalize = normalizePath;
 var config = require('../services/config');
 var chart = function () {
     var that = this;
+
+
     that.load = function (element) {
         element.innerHTML = '<div id="container" ></div>';
         new Highcharts.Chart(config.get());
@@ -15395,8 +15397,7 @@ var chart = function () {
 module.exports = chart();
 },{"../services/config":26}],18:[function(require,module,exports){
 (function(){
-    var guiConfig = require('../config/guiConfig.json');
-    console.log(guiConfig);
+    var config = require('../config/config.json');
     var that = {};
 
     that.load = function (element){
@@ -15415,7 +15416,7 @@ module.exports = chart();
 
     module.exports = that;
 })();
-},{"../config/guiConfig.json":22}],19:[function(require,module,exports){
+},{"../config/config.json":22}],19:[function(require,module,exports){
 (function () {
     var dataService = require('../services/data.js');
     var papa = require('papaparse');
@@ -15423,8 +15424,6 @@ module.exports = chart();
     var that = {};
 
     that.load = function (element) {
-        var data = dataService.get();
-
         element.innerHTML = '<textarea></textarea>' +
             '<button id="import">import</button>' +
             '<button id="transpose">transpose</button>';
@@ -15434,7 +15433,7 @@ module.exports = chart();
         });
 
         element.querySelector("#transpose").addEventListener("click", function () {
-            dataService.set(_.unzip(dataService.getRaw()));
+            dataService.set(_.unzip(dataService.get()));
         });
     };
 
@@ -15462,14 +15461,14 @@ module.exports = chart();
             contextMenu: true
         });
 
-        if (!_.isEmpty(dataService.getRaw())) {
+        if (!_.isEmpty(dataService.get())) {
             hot.updateSettings({
-                data: dataService.getRaw()
+                data: dataService.get()
             });
         }
         mediator.on('dataUpdate', function (data) {
             hot.updateSettings({
-                data: dataService.getRaw()
+                data: dataService.get()
             });
         });
     };
@@ -15520,9 +15519,6 @@ self["spider"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: 
 return self})();
     that.load = function(element){
         element.innerHtml = '';
-        var div = crel('div', {'class':'thing', 'onclick' : "window.alert('test');"}, 'test');
-        element.appendChild(div);
-        console.log(div);
 
         var tabs = document.createElement('ul');
         var itemTemplate = _.template('<div><%= title %></div>');
@@ -15535,7 +15531,6 @@ return self})();
             var svg = logo.querySelector('svg');
             svg.setAttribute("height", "50px");
             svg.setAttribute("width", "50px");
-
 
             tab.innerHTML = typeTemplate({type: type.type});
             var list = document.createElement('ul');
@@ -15673,95 +15668,181 @@ module.exports=module.exports = {
 },{}],23:[function(require,module,exports){
 module.exports=module.exports = [
   {
+    "id": "line",
     "type": "Line charts",
     "icon": "icons/line.svg",
     "presets": [
       {
+        "id": "basic",
         "title": "Line chart",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "dataLabels",
         "title": "With data labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "spline",
         "title": "Spline",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "spline",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "splineDataLabels",
         "title": "Spline with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "spline",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "splineLogarithmic",
         "title": "Logarithmic",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "spline",
-          "xAxis.type": "category",
-          "yAxis.type": "logarithmic"
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "yAxis": {
+            "type": "logarithmic"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "step",
         "title": "Step line",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.step": "left"
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left"
+            }
+          }
         }
       },
       {
+        "id": "stepWithLabels",
         "title": "Step line with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.step": "left",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "inverted",
         "title": "Inverted",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "chart.inverted": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "line",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "negativeColor",
         "title": "Negative color",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "line",
-          "xAxis.type": "category",
-          "plotOptions.series.negativeColor": "#0088FF"
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "negativeColor": "#0088FF"
+            }
+          }
         }
       },
       {
+        "id": "errorBar",
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
         "definition": {
-          "xAxis.type": "category",
-          "chart.type":"line",
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
           "series": [
             {"type": null},
             {"type": "errorbar"}
@@ -15769,11 +15850,16 @@ module.exports=module.exports = [
         }
       },
       {
+        "id": "combinationColumn",
         "title": "Combination chart",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "xAxis.type": "category",
-          "chart.type":"line",
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
           "series": [
             {"type": null},
             {"type": "column"}
@@ -15783,380 +15869,1124 @@ module.exports=module.exports = [
     ]
   },
   {
+    "id": "area",
     "type": "Area charts",
     "icon": "icons/area.svg",
     "presets": [
       {
+        "id": "basic",
         "title": "Area Chart",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "withLabels",
         "title": "Area with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "stacked",
         "title": "Stacked",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.stacking": "normal"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          }
         }
       },
       {
+        "id": "stackedWithLabels",
         "title": "Stacked with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.stacking": "normal",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "stackedPercentage",
         "title": "Stacked percentage",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "xAxis.type": "category",
-          "plotOptions.series.stacking": "percent"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          }
         }
       },
       {
+        "id": "inverted",
         "title": "Inverted",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "chart.inverted": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "invertedWithLabels",
         "title": "Inverted with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "chart.inverted": true,
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "area",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "stepLine",
         "title": "Step line",
         "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "plotOptions.series.step": "left",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left"
+            }
+          }
         }
       },
       {
+        "id": "negativeColor",
         "title": "Negative color",
         "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "area",
-          "plotOptions.series.negativeColor": "#0088FF",
-          "plotOptions.series.color": "#FF0000",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "negativeColor": "#0088FF",
+              "color": "#FF000000"
+            }
+          }
         }
       },
       {
+        "id": "range",
         "title": "Area range",
         "desc": "Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",
         "definition": {
-          "chart.type": "arearange",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "arearange"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       }
     ]
   },
   {
+    "id": "column",
     "type": "Column charts",
     "icon": "icons/column.svg",
     "presets": [
       {
+        "id": "basic",
         "title": "Basic",
-        "description":"Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column"
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "withLabels",
         "title": "With labels",
-        "description":"Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "3d",
         "title": "Column 3D",
-        "description":"Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "chart.margin": 75,
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 15,
-          "chart.options3d.beta": 15,
-          "chart.options3d.depth": 50,
-          "chart.options3d.viewDistance": 15,
-          "plotOptions.column.depth":25
+          "chart": {
+            "type": "column",
+            "margin": 75,
+            "options3d": {
+              "enabled": true,
+              "alpha": 15,
+              "beta": 15,
+              "depth": 50,
+              "viewDistance": 15
+            }
+          },
+          "plotOptions": {
+            "column": {
+              "depth": 25
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stacked",
         "title": "Stacked",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking":"normal"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stackedWithLabels",
         "title": "Stacked with labels",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking":"normal",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stacked3d",
         "title": "Stacked 3D",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "chart.margin": 75,
-          "chart.options3d.enabled": true,
-          "chart.options3d.alpha": 15,
-          "chart.options3d.beta": 15,
-          "chart.options3d.depth": 50,
-          "chart.options3d.viewDistance": 15,
-          "plotOptions.column.depth":25,
-          "plotOptions.column.stacking":"normal"
+          "chart": {
+            "type": "column",
+            "margin": 75,
+            "options3d": {
+              "enabled": true,
+              "alpha": 15,
+              "beta": 15,
+              "depth": 50,
+              "viewDistance": 15
+            }
+          },
+          "plotOptions": {
+            "column": {
+              "depth": 25
+            },
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stackedPercent",
         "title": "Stacked percent",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking":"percent"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stackedPercentWithLabels",
         "title": "Stacked percent with labels",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.column.stacking":"percent",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "negativeColor",
         "title": "Negative color",
         "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.series.negativeColor": "#0088FF",
-          "plotOptions.series.color": "#FF0000",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions":{
+            "series":{
+              "negativeColor": "#0088FF",
+              "color": "#FF0000"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "multiColor",
         "title": "Multi color",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "plotOptions.series.colorByPoint": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions":{
+            "series":{
+              "colorByPoint": true
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "logarithmic",
         "title": "Logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "xAxis.type": "category",
-          "yAxis.type": "logarithmic",
-          "yAxis.minorTickInterval": "auto"
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "yAxis": {
+            "type": "logarithmic",
+            "minorTickInterval": "auto"
+          }
         }
       },
       {
+        "id": "range",
         "title": "Columnrange",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "columnrange"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "rangeWithLabels",
         "title": "Columnrange with labels",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "columnrange"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "packed",
         "title": "Packed Columns",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "column",
-          "xAxis.type": "category",
-          "plotOptions.series.pointPadding":0,
-          "plotOptions.series.groupPadding":0,
-          "plotOptions.series.borderWidth":0,
-          "plotOptions.series.shadow":false
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "pointPadding": 0,
+              "groupPadding": 0,
+              "borderWidth": 0,
+              "shadow": false
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "errorbar",
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
         "definition": {
-          "chart.type":"column",
-          "series":[
+          "chart": {
+            "type": "column"
+          },
+          "series": [
             {"type": null},
             {"type": "errorbar"}
           ],
-          "xAxis.type": "category"
+          "xAxis": {
+            "type": "category"
+          }
         }
       }
     ]
   },
   {
+    "id": "bar",
     "type": "Bar charts",
     "icon": "icons/bar.svg",
     "presets": [
       {
+        "id": "basic",
         "title": "Basic bar",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "basicWithLabels",
         "title": "Basic with labels",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.dataLabels.enabled": true
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
         }
       },
       {
+        "id": "stacked",
         "title": "Stacked bar",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking":"normal"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stackedWithLabels",
         "title": "Stacked with labels",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking":"normal",
-          "plotOptions.bar.dataLabels.enabled": true
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stackedPercentage",
         "title": "Stacked percentage bar",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking":"percent"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "stackedPercentageWithLabels",
         "title": "Stacked percentage bar with labels",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.bar.stacking":"percent",
-          "plotOptions.bar.dataLabels.enabled": true
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "negativeColor",
         "title": "Negative color",
-        "description":"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.series.negativeColor": "#0088FF",
-          "plotOptions.series.color": "#FF0000",
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions":{
+            "series":{
+              "negativeColor": "#0088FF",
+              "color": "#FF0000"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "multiColor",
         "title": "Multi color",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "plotOptions.series.colorByPoint": true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "colorByPoint": true
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "logarithmic",
         "title": "Logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "xAxis.type": "category",
-          "yAxis.type": "logarithmic",
-          "yAxis.minorTickInterval": "auto"
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "yAxis": {
+            "type": "logarithmic",
+            "minorTickInterval": "auto"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "horizontalColumnrange",
         "title": "Horizontal columnrange",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "chart.inverted":true,
-          "xAxis.type": "category"
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "horizontalColumnrangeWithLabels",
         "title": "Horizontal columnrange with labels",
         "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
         "definition": {
-          "chart.type": "columnrange",
-          "chart.inverted":true,
-          "xAxis.type": "category",
-          "plotOptions.series.dataLabels.enabled": true
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "packedBars",
         "title": "Packed Bars",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
-          "chart.type": "bar",
-          "xAxis.type": "category",
-          "plotOptions.series.pointPadding":0,
-          "plotOptions.series.groupPadding":0,
-          "plotOptions.series.borderWidth":0,
-          "plotOptions.series.shadow":false
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "pointPadding": 0,
+              "groupPadding": 0,
+              "borderWidth": 0,
+              "shadow": false
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       },
       {
+        "id": "errorbar",
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
         "definition": {
-          "chart.type":"column",
-          "chart.inverted":true,
-          "series":[
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "series": [
             {"type": null},
             {"type": "errorbar"}
-          ],
-          "xAxis.type": "category"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "scatterAndBubble",
+    "type": "Scatter and bubble",
+    "icon": "icons/spider.svg",
+    "presets": [
+      {
+        "id": "scatter",
+        "title": "Scatter chart",
+        "description": "Requires one data column for X values and one for Y values.",
+        "definition": {
+          "chart": {
+            "type": "scatter"
+          }
+        }
+      },
+      {
+        "id": "bubble",
+        "title": "Bubble chart",
+        "description": "Requires three data columns: one for X values, one for Y values and one for the size of the bubble (Z value).",
+        "definition": {
+          "chart": {
+            "type": "bubble"
+          }
+        }
+      },
+      {
+        "id": "scatterWithLine",
+        "title": "Scatter with line",
+        "description": "Requires one data column for X values and one for Y values.",
+        "definition": {
+          "chart": {
+            "type": "scatter"
+          },
+          "plotOptions":{
+            "series":{
+              "lineWidth": 1
+            }
+          }
+        }
+      },
+      {
+        "id": "scatterWithLineNoMarker",
+        "title": "Scatter with line, no marker",
+        "description": "Requires one data column for X values and one for Y values.",
+        "definition": {
+          "chart": {
+            "type": "scatter"
+          },
+          "plotOptions":{
+            "series":{
+              "lineWidth": 1,
+              "marker":{
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "pie",
+    "type": "Pie charts",
+    "icon": "icons/spider.svg",
+    "presets": [
+      {
+        "id": "basic",
+        "title": "Pie chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "3d",
+        "title": "3D pie chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "withLegend",
+        "title": "Pie chart",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "showInLegend": true,
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "3dWithLegend",
+        "title": "3D pie with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "showInLegend": true,
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "donut",
+        "title": "Donut",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "innerSize": "60%",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "donutWithLegend",
+        "title": "Donut with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "showInLegend": true,
+              "innerSize": "60%",
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "3d",
+        "title": "3D donut chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "innerSize": "60%"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "3dWithLegend",
+        "title": "3D donut chart with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "showInLegend": true,
+              "innerSize": "60%"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "semiCircleDonut",
+        "title": "Semi circle donut",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": false,
+              "dataLabels": {
+                "distance": -30,
+                "style": {
+                  "fontWeight": "bold",
+                  "color": "white",
+                  "textShadow": "0px 1px 2px black"
+                }
+              },
+              "innerSize": "50%",
+              "startAngle": -90,
+              "endAngle": 90,
+              "center": ["50%", "75%"]
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "polar",
+    "type": "Polar charts",
+    "icon": "icons/bar.svg",
+    "presets": [
+      {
+        "id": "line",
+        "title": "Polar line",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "line",
+            "polar": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "spider",
+        "title": "Spider line",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "line",
+            "polar": true
+          },
+          "xAxis": {
+            "tickmarkPlacement": "on",
+            "lineWidth": 0
+          },
+          "yAxis": {
+            "lineWidth": 0,
+            "gridLineInterpolation": "polygon"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "area",
+        "title": "Polar area",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "area",
+            "polar": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "spider",
+        "title": "Spider area",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "area",
+            "polar": true
+          },
+          "xAxis": {
+            "tickmarkPlacement": "on",
+            "lineWidth": 0
+          },
+          "yAxis": {
+            "lineWidth": 0,
+            "gridLineInterpolation": "polygon"
+          },
+          "xAxis": {
+            "type": "category"
+          }
         }
       }
     ]
@@ -16164,6 +16994,9 @@ module.exports=module.exports = [
 ]
 },{}],24:[function(require,module,exports){
 require('./route.js');
+
+
+
 },{"./route.js":25}],25:[function(require,module,exports){
 (function(){
     var StateMan = require('stateman');
@@ -16242,25 +17075,184 @@ require('./route.js');
 (function () {
     _ = require('lodash');
     var dataService = require('../services/data.js');
+    var series = require('../services/series.js');
+    var templates = require('../config/templates.json');
+    var mediator = require('mediatorjs');
     var that = {};
-    var type = 'bubble';
+    var type = 'column';
+    var preset = 'errorbar';
     var renderTo = 'container';
 
+    var labels = {
+        series: true,
+        categories: true
+    };
 
     that.get = function () {
-        return {
+        var preset = loadPreset(type, preset);
+        var object = {
             chart: {
-                renderTo: renderTo,
-                type: type
+                renderTo: renderTo
             },
-            xAxis: getXAxis(),
-            series: getSeries(dataService.get(), getValuesPerPoint(type), dataService.axisHasLabel('y'), dataService.getSeries(),  dataService.getCategories())
+            series: series.get(dataService.getData(labels.series, labels.categories), preset, labels)
+        };
+
+        return _.merge(preset, object);
+    };
+
+    that.setPreset = function (_type_, _preset_) {
+        type = _type_;
+        preset = _preset_;
+    };
+
+    function loadPreset(){
+        var typeConfig = _.find(templates,{id:type});
+        return _.find(typeConfig.presets, {id:preset}).definition;
+    }
+
+    function hasLabels (newDataSet){
+        // if the first cell is empty, make the assumption that the first column are labels.
+        if(_.isEmpty(newDataSet[0][0]) || newDataSet[0][0] == 'cat' || newDataSet[0][0] == 'categories'){
+            labels.categories = true;
+        } else {
+            labels.categories = false;
+        }
+    }
+
+    mediator.on('dataUpdate', function (data) {
+        hasLabels(data);
+    });
+
+    module.exports = that;
+})();
+},{"../config/templates.json":23,"../services/data.js":27,"../services/series.js":28,"lodash":8,"mediatorjs":9}],27:[function(require,module,exports){
+(function () {
+    _ = require('lodash');
+    var mediator = require('mediatorjs');
+
+    var that = {};
+    var dataSet = [];
+
+    that.getSeries = function () {
+        return _.cloneDeep(_.first(dataSet));
+    };
+
+    that.getCategories = function () {
+        return _.cloneDeep(_.map(_.slice(dataSet, 1), function (row) {
+            return _.first(row);
+        }));
+    };
+
+    that.get = function () {
+        return _.cloneDeep(dataSet);
+    };
+
+    that.getData = function (series, categories) {
+        var data = dataSet;
+
+        if (series) {
+            data = _.slice(data, 1);
+        }
+
+        if (categories) {
+            data = _.map(data, function (row) {
+                return _.rest(row);
+            });
+        }
+
+        return _.cloneDeep(data);
+    };
+
+    that.set = function (newDataSet) {
+        if (!_.isEqual(dataSet, newDataSet)) {
+            dataSet = _.cloneDeep(newDataSet);
+            mediator.trigger('dataUpdate', that.get());
         }
     };
 
-    function getXAxis() {
-        var object = {'type':'category'};   // xAxis.type = category -> for development only
-        return object;
+    module.exports = that;
+})
+();
+
+
+},{"lodash":8,"mediatorjs":9}],28:[function(require,module,exports){
+(function () {
+    var that = {};
+    that.get = function(data, config, labels) {
+
+        var series = generateDataSeries(config, data);
+
+        /*
+        var data = dataService.get();
+        var vpp = getValuesPerPoint(type);
+        var ylabel = dataService.axisHasLabel('y');
+        var seriesLabels = dataService.getSeries();
+        var categories = dataService.getCategories();
+        var series = [];
+
+        if (ylabel) {
+            data = _.map(data, function(row){
+                return _.rest(row);
+            })
+        }
+        // remove the empty labels
+        seriesLabels = _.remove(seriesLabels, function(n) {
+            return !_.isEmpty(n);
+        });
+
+        _.forEach(seriesLabels ,function(serieLabel, index){
+            var object = {};
+            object.name = serieLabel;
+            object.data = [];
+            _.forEach(data, function (row, dataIndex) {
+                // remove the first item if there are categories
+                object.data.push(_.union([categories[dataIndex]], parseDataFloat(_.slice(row,index*vpp, index*vpp+vpp))));
+            });
+
+            series.push(object);
+        });
+        return series;
+        */
+
+        return _.merge(config.series, series);
+    };
+
+    function generateEmptySeries(series, defaultType, size){
+        var array = [];
+        _.forEach(series, function(item){
+            if(size > 0){
+                var object = {
+                    data: [],
+                    type: item.type !== null ? item.type : defaultType
+                };
+                size = size - getValuesPerPoint(object.type);
+                array.push(object);
+            }
+        });
+
+        while(size > 0){
+            var object = {
+                data: [],
+                type: defaultType
+            };
+            size = size - getValuesPerPoint(defaultType);
+            array.push(object);
+        }
+        return array;
+    }
+
+    function generateDataSeries(config, data){
+        var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
+
+        return _.map(emptySeries, function(item, index){
+            var vpp = getValuesPerPoint(item.type);
+            _.forEach(data, function(row, index){
+                item.data.push(parseDataFloat(_.slice(row,0,vpp)));
+                data[index] = _.drop(data[index],vpp);
+            });
+            return item;
+        });
+
     }
 
     function getValuesPerPoint(type) {
@@ -16288,33 +17280,6 @@ require('./route.js');
         return vpp;
     }
 
-    function getSeries(data, vpp, ylabel, seriesLabels, categories) {
-        var series = [];
-
-        if (ylabel) {
-            data = _.map(data, function(row){
-                return _.rest(row);
-            })
-        }
-        // remove the empty labels
-        seriesLabels = _.remove(seriesLabels, function(n) {
-            return !_.isEmpty(n);
-        });
-
-        _.forEach(seriesLabels ,function(serieLabel, index){
-            var object = {};
-            object.name = serieLabel;
-            object.data = [];
-            _.forEach(data, function (row, dataIndex) {
-                // remove the first item if there are categories
-                object.data.push(_.union([categories[dataIndex]], parseDataFloat(_.slice(row,index*vpp, index*vpp+vpp))));
-            });
-
-            series.push(object);
-        });
-        return series;
-    }
-
     function parseDataFloat(data) {
         var newData = [];
         _.forEach(data, function (value, index) {
@@ -16330,58 +17295,5 @@ require('./route.js');
 
     module.exports = that;
 })();
-},{"../services/data.js":27,"lodash":8}],27:[function(require,module,exports){
-(function(){
-    _ = require('lodash');
-    var mediator = require('mediatorjs');
 
-    var that = {};
-    var dataSet = [];
-
-    var labels = {
-        x: true,
-        y: false
-    };
-
-    that.getSeries = function (){
-        return _.cloneDeep(_.first(dataSet));
-    };
-
-    that.getCategories = function(){
-        return _.cloneDeep(_.map(_.slice(dataSet,1), function(row){
-            return _.first(row);
-        }));
-    };
-
-    that.axisHasLabel = function(axis){
-        return labels[axis];
-    };
-
-    that.get = function(){
-        // remove categories
-        var data = _.slice(dataSet, 1);
-        return _.cloneDeep(data);
-    };
-
-    that.getRaw = function(){
-        return _.cloneDeep(dataSet);
-    };
-
-    that.set = function(newDataSet){
-        // if the first cell is empty, make the assumption that the first column are labels.
-        if(_.isEmpty(newDataSet[0][0]) || newDataSet[0][0] == 'cat' || newDataSet[0][0] == 'categories'){
-            labels.y = true;
-        } else {
-            labels.y = false;
-        }
-        if(!_.isEqual(dataSet, newDataSet)){
-            dataSet = _.cloneDeep(newDataSet);
-            mediator.trigger('dataUpdate', that.get());
-        }
-    };
-
-    module.exports = that;
-})();
-
-
-},{"lodash":8,"mediatorjs":9}]},{},[24]);
+},{}]},{},[24]);
