@@ -741,5 +741,58 @@
         }
       }
     ]
+  },
+  {
+    "id": "polar",
+    "type": "Polar charts",
+    "icon": "icons/bar.svg",
+    "presets": [
+      {
+        "id": "line",
+        "title": "Polar line",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart.type": "line",
+          "chart.polar": true
+        }
+      },
+      {
+        "id": "spider",
+        "title": "Spider line",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart.type": "line",
+          "chart.polar": true,
+          "xAxis.tickmarkPlacement": "on",
+          "xAxis.lineWidth": 0,
+          "xAxis.type": "category",
+          "yAxis.lineWidth": 0,
+          "yAxis.gridLineInterpolation": "polygon"
+        }
+      },
+      {
+        "id": "area",
+        "title": "Polar area",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart.type": "line",
+          "chart.polar": true
+        }
+      },
+      {
+        "id": "spider",
+        "title": "Spider area",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart.type": "area",
+          "chart.polar": true,
+          "xAxis.tickmarkPlacement": "on",
+          "xAxis.lineWidth": 0,
+          "xAxis.type": "category",
+          "yAxis.lineWidth": 0,
+          "yAxis.gridLineInterpolation": "polygon"
+        }
+      }
+    ]
   }
 ]
