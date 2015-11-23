@@ -252,7 +252,7 @@
         }
       },
       {
-        "id": "3D",
+        "id": "3d",
         "title": "Column 3D",
         "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
         "definition": {
@@ -598,7 +598,7 @@
         }
       },
       {
-        "id": "3D",
+        "id": "3d",
         "title": "3D pie chart",
         "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
         "definition": {
@@ -609,6 +609,133 @@
           "plotOptions.pie.allowPointSelect": true,
           "plotOptions.pie.depth": 35,
           "plotOptions.pie.cursor": "pointer",
+          "plotOptions.series.dataLabels.enabled": true,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "id": "3d",
+        "title": "3D pie chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "chart.options3d.enabled": true,
+          "chart.options3d.alpha": 45,
+          "chart.options3d.beta": 0,
+          "plotOptions.pie.allowPointSelect": true,
+          "plotOptions.pie.depth": 35,
+          "plotOptions.pie.cursor": "pointer",
+          "plotOptions.series.dataLabels.enabled": true,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "id": "withLegend",
+        "title": "Pie chart",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "xAxis.type": "category",
+          "plotOptions.pie.allowPointSelect": true,
+          "plotOptions.pie.cursor": true,
+          "plotOptions.pie.showInLegend": true,
+          "plotOptions.series.dataLabels.enabled": false
+        }
+      },
+      {
+        "id": "3dWithLegend",
+        "title": "3D pie with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "chart.options3d.enabled": true,
+          "chart.options3d.alpha": 45,
+          "chart.options3d.beta": 0,
+          "plotOptions.pie.allowPointSelect": true,
+          "plotOptions.pie.depth": 35,
+          "plotOptions.pie.cursor": "pointer",
+          "plotOptions.pie.showInLegend": true,
+          "plotOptions.series.dataLabels.enabled": false,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "id": "donut",
+        "title": "Donut",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "xAxis.type": "category",
+          "plotOptions.pie.allowPointSelect": true,
+          "plotOptions.pie.cursor": true,
+          "plotOptions.pie.innerSize": "60%",
+          "plotOptions.series.dataLabels.enabled": true
+        }
+      },
+      {
+        "id": "donutWithLegend",
+        "title": "Donut with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "xAxis.type": "category",
+          "plotOptions.pie.allowPointSelect": true,
+          "plotOptions.pie.cursor": true,
+          "plotOptions.pie.innerSize": "60%",
+          "plotOptions.series.showInLegend": true,
+          "plotOptions.series.dataLabels.enabled": false
+        }
+      },
+      {
+        "id": "3d",
+        "title": "3D donut chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "chart.options3d.enabled": true,
+          "chart.options3d.alpha": 45,
+          "chart.options3d.beta": 0,
+          "plotOptions.pie.allowPointSelect": true,
+          "plotOptions.pie.depth": 35,
+          "plotOptions.pie.innerSize": "60%",
+          "plotOptions.pie.cursor": "pointer",
+          "plotOptions.series.dataLabels.enabled": true,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "id": "3dWithLegend",
+        "title": "3D donut chart with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "chart.options3d.enabled": true,
+          "chart.options3d.alpha": 45,
+          "chart.options3d.beta": 0,
+          "plotOptions.pie.allowPointSelect": true,
+          "plotOptions.pie.depth": 35,
+          "plotOptions.pie.innerSize": "60%",
+          "plotOptions.pie.cursor": "pointer",
+          "plotOptions.series.showInLegend": true,
+          "plotOptions.series.dataLabels.enabled": false,
+          "xAxis.type": "category"
+        }
+      },
+      {
+        "id": "semiCircleDonut",
+        "title": "Semi circle donut",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart.type": "pie",
+          "plotOptions.pie.allowPointSelect": false,
+          "plotOptions.pie.dataLabels.distance": -30,
+          "plotOptions.pie.dataLabels.style.fontWeight": "bold",
+          "plotOptions.pie.dataLabels.style.color": "white",
+          "plotOptions.pie.dataLabels.style.textShadow": "0px 1px 2px black",
+          "plotOptions.pie.innerSize": "50%",
+          "plotOptions.pie.startAngle": -90,
+          "plotOptions.pie.endAngle": 90,
+          "plotOptions.pie.center": ["50%","75%"],
           "plotOptions.series.dataLabels.enabled": true,
           "xAxis.type": "category"
         }
