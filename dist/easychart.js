@@ -15380,12 +15380,12 @@ _.normalize = normalizePath;
 },{}],17:[function(require,module,exports){
 // Load the framework and Highcharts. Framework is passed as a parameter.
 
-var chartConfig = require('../services/chartConfig');
+var config = require('../services/config');
 var chart = function () {
     var that = this;
     that.load = function (element) {
         element.innerHTML = '<div id="container" ></div>';
-        new Highcharts.Chart(chartConfig.get());
+        new Highcharts.Chart(config.get());
     };
     return that;
 
@@ -15393,7 +15393,7 @@ var chart = function () {
 
 
 module.exports = chart();
-},{"../services/chartConfig":26}],18:[function(require,module,exports){
+},{"../services/config":26}],18:[function(require,module,exports){
 (function(){
     var guiConfig = require('../config/guiConfig.json');
     console.log(guiConfig);
@@ -15520,12 +15520,9 @@ self["spider"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: 
 return self})();
     that.load = function(element){
         element.innerHtml = '';
-        var div = crel('div', {'class':'thing', 'data-attrubute':'majigger', 'onclick' : "window.alert('test');"}, 'test');
+        var div = crel('div', {'class':'thing', 'onclick' : "window.alert('test');"}, 'test');
         element.appendChild(div);
-
         console.log(div);
-        console.log('test');
-
 
         var tabs = document.createElement('ul');
         var itemTemplate = _.template('<div><%= title %></div>');
@@ -16248,6 +16245,7 @@ require('./route.js');
     var that = {};
     var type = 'bubble';
     var renderTo = 'container';
+
 
     that.get = function () {
         return {

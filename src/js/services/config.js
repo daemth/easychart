@@ -5,6 +5,7 @@
     var type = 'bubble';
     var renderTo = 'container';
 
+
     that.get = function () {
         return {
             chart: {
