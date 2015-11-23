@@ -3,7 +3,6 @@
     var dataService = require('../services/data.js');
     var that = {};
     var type = 'bubble';
-
     var renderTo = 'container';
 
     that.get = function () {
@@ -18,7 +17,7 @@
     };
 
     function getXAxis() {
-        var object = {};
+        var object = {'type':'category'};   // xAxis.type = category -> for development only
         return object;
     }
 
@@ -66,7 +65,7 @@
             object.data = [];
             _.forEach(data, function (row, dataIndex) {
                 // remove the first item if there are categories
-                object.data.push(_.union([categories[dataIndex]], parsDataInt(_.slice(row,index*vpp, index*vpp+vpp))));
+                object.data.push(_.union([categories[dataIndex]], parseDataFloat(_.slice(row,index*vpp, index*vpp+vpp))));
             });
 
             series.push(object);
@@ -74,14 +73,14 @@
         return series;
     }
 
-    function parsDataInt(data) {
+    function parseDataFloat(data) {
         var newData = [];
         _.forEach(data, function (value, index) {
             if (_.isArray(value)) {
-                newData[index] = parsDataInt(value);
+                newData[index] = parseDataFloat(value);
             }
             else {
-                newData[index] = parseInt(value);
+                newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
         return newData;
@@ -89,4 +88,3 @@
 
     module.exports = that;
 })();
-
