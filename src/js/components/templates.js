@@ -7,7 +7,6 @@
         icons = includeFolder("./src/icons");
     that.load = function(element){
         element.innerHtml = '';
-
         var tabs = document.createElement('ul');
         var itemTemplate = _.template('<div><%= title %></div>');
         var typeTemplate = _.template('<h3><%= type %></h3>');
