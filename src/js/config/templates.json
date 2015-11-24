@@ -672,7 +672,10 @@
           },
           "series": [
             {"type": null},
-            {"type": "errorbar"}
+            {
+              "type": "errorbar",
+              "showInLegend": true
+            }
           ],
           "xAxis": {
             "type": "category"
@@ -1300,7 +1303,7 @@
         }
       },
       {
-        "id": "spider",
+        "id": "spiderArea",
         "title": "Spider area",
         "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
         "definition": {
