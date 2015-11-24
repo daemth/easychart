@@ -1148,7 +1148,7 @@
         }
       },
       {
-        "id": "3d",
+        "id": "3dDonut",
         "title": "3D donut chart",
         "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
         "definition": {
@@ -1164,22 +1164,19 @@
             "pie": {
               "allowPointSelect": true,
               "depth": 35,
-              "cursor": "pointer",
-              "innerSize": "60%"
+              "innerSize": "60%",
+              "cursor": "pointer"
             },
             "series": {
               "dataLabels": {
                 "enabled": true
               }
             }
-          },
-          "xAxis": {
-            "type": "category"
           }
         }
       },
       {
-        "id": "3dWithLegend",
+        "id": "3dDonutWithLegend",
         "title": "3D donut chart with legend",
         "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
         "definition": {
