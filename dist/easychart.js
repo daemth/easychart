@@ -15387,7 +15387,6 @@ var chart = function () {
 
     that.load = function (element) {
         element.innerHTML = '<div id="container" ></div>';
-        console.log(config.get());
         new Highcharts.Chart(config.get());
     };
     return that;
@@ -15453,6 +15452,7 @@ module.exports = chart();
     var _ = require('lodash');
     var that = {};
     var hot;
+
     that.load = function (element) {
         hot = new Handsontable(element, {
             startRows: 8,
@@ -15520,7 +15520,6 @@ self["spider"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: 
 return self})();
     that.load = function(element){
         element.innerHtml = '';
-
         var tabs = document.createElement('ul');
         var itemTemplate = _.template('<div><%= title %></div>');
         var typeTemplate = _.template('<h3><%= type %></h3>');
@@ -17080,8 +17079,8 @@ require('./route.js');
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
-    var type = 'line';
-    var preset = 'basic';
+    var type = 'column';
+    var preset = 'errorbar';
     var renderTo = 'container';
 
     var labels = {
@@ -17179,43 +17178,41 @@ require('./route.js');
 },{"lodash":8,"mediatorjs":9}],28:[function(require,module,exports){
 (function () {
     var that = {};
-    that.get = function(data, config, labels) {
+    var dataService = require('../services/data.js');
 
+    that.get = function(data, config, labels) {
         var series = generateDataSeries(config, data);
 
-        /*
-        var data = dataService.get();
-        var vpp = getValuesPerPoint(type);
-        var ylabel = dataService.axisHasLabel('y');
-        var seriesLabels = dataService.getSeries();
-        var categories = dataService.getCategories();
-        var series = [];
-
-        if (ylabel) {
-            data = _.map(data, function(row){
-                return _.rest(row);
-            })
+        if(labels.categories){
+            series = setCategories(series, dataService.getCategories());
         }
-        // remove the empty labels
+
+        if(labels.series){
+            series = setSeries(series, dataService.getSeries());
+        }
+        return _.merge(!_.isUndefined(config.series)?config.series:[], series);
+    };
+
+    function setCategories (series, categorieLabels){
+        _.forEach(series ,function(item, index){
+            _.forEach(item.data, function (row, dataIndex) {
+                series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
+            });
+        });
+        return series;
+    }
+
+    function setSeries (series, seriesLabels){
         seriesLabels = _.remove(seriesLabels, function(n) {
             return !_.isEmpty(n);
         });
 
-        _.forEach(seriesLabels ,function(serieLabel, index){
-            var object = {};
-            object.name = serieLabel;
-            object.data = [];
-            _.forEach(data, function (row, dataIndex) {
-                // remove the first item if there are categories
-                object.data.push(_.union([categories[dataIndex]], parseDataFloat(_.slice(row,index*vpp, index*vpp+vpp))));
-            });
-
-            series.push(object);
+        _.forEach(series ,function(item, index){
+            series[index].name = seriesLabels[index];
         });
+
         return series;
-        */
-        return _.merge(!_.isUndefined(config.series)?config.series:[], series);
-    };
+    }
 
     function generateEmptySeries(series, defaultType, size){
         var array = [];
@@ -17297,4 +17294,4 @@ require('./route.js');
     module.exports = that;
 })();
 
-},{}]},{},[24]);
+},{"../services/data.js":27}]},{},[24]);

@@ -5,8 +5,8 @@
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
-    var type = 'line';
-    var preset = 'basic';
+    var type = 'column';
+    var preset = 'errorbar';
     var renderTo = 'container';
 
     var labels = {
