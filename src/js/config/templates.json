@@ -2,7 +2,7 @@
   {
     "id": "line",
     "type": "Line charts",
-    "icon": "icons/line.svg",
+    "icon": "line",
     "presets": [
       {
         "id": "basic",
@@ -203,7 +203,7 @@
   {
     "id": "area",
     "type": "Area charts",
-    "icon": "icons/area.svg",
+    "icon": "area",
     "presets": [
       {
         "id": "basic",
@@ -386,7 +386,7 @@
   {
     "id": "column",
     "type": "Column charts",
-    "icon": "icons/column.svg",
+    "icon": "column",
     "presets": [
       {
         "id": "basic",
@@ -684,7 +684,7 @@
   {
     "id": "bar",
     "type": "Bar charts",
-    "icon": "icons/bar.svg",
+    "icon": "bar",
     "presets": [
       {
         "id": "basic",
@@ -940,7 +940,7 @@
   {
     "id": "scatterAndBubble",
     "type": "Scatter and bubble",
-    "icon": "icons/spider.svg",
+    "icon": "spider",
     "presets": [
       {
         "id": "scatter",
@@ -1000,7 +1000,7 @@
   {
     "id": "pie",
     "type": "Pie charts",
-    "icon": "icons/spider.svg",
+    "icon": "spider",
     "presets": [
       {
         "id": "basic",
@@ -1247,7 +1247,7 @@
   {
     "id": "polar",
     "type": "Polar charts",
-    "icon": "icons/bar.svg",
+    "icon": "bar",
     "presets": [
       {
         "id": "line",

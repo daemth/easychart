@@ -6,8 +6,8 @@
     var _ = require('lodash');
     var that = {};
     var hot;
-
     that.load = function (element) {
+        var test = {};
         hot = new Handsontable(element, {
             startRows: 8,
             startCols: 5,

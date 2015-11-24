@@ -15379,15 +15379,22 @@ _.normalize = normalizePath;
 
 },{}],17:[function(require,module,exports){
 // Load the framework and Highcharts. Framework is passed as a parameter.
-
+var mediator = require('mediatorjs');
 var config = require('../services/config');
 var chart = function () {
     var that = this;
 
-
     that.load = function (element) {
         element.innerHTML = '<div id="container" ></div>';
-        new Highcharts.Chart(config.get());
+
+        var chart = new Highcharts.Chart(config.get());
+        mediator.on('presetUpdate', function(){
+            console.log(config.get());
+            //chart.destroy();
+            chart = new Highcharts.Chart(config.get());
+
+        });
+
     };
     return that;
 
@@ -15395,7 +15402,7 @@ var chart = function () {
 
 
 module.exports = chart();
-},{"../services/config":26}],18:[function(require,module,exports){
+},{"../services/config":26,"mediatorjs":9}],18:[function(require,module,exports){
 (function(){
     var config = require('../config/config.json');
     var that = {};
@@ -15452,8 +15459,8 @@ module.exports = chart();
     var _ = require('lodash');
     var that = {};
     var hot;
-
     that.load = function (element) {
+        var test = {};
         hot = new Handsontable(element, {
             startRows: 8,
             startCols: 5,
@@ -15507,6 +15514,7 @@ module.exports = chart();
     _ = require('lodash');
     var crel = require('crel');
     var templateTypes = require('../config/templates.json');
+    var config = require('../services/config');
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
 self["area"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-366,419h-90.5c-0.8,0-1.5-0.7-1.5-1.5V327c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-365.2,419-366,419z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-402,382c-0.3,0-0.5-0.1-0.7-0.3l-30.3-30.3l-22.3,22.3c-0.4,0.4-1,0.4-1.4,0s-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0\r\n\t\t\tl31,31c0.4,0.4,0.4,1,0,1.4C-401.5,381.9-401.7,382-402,382z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-372,418c-0.6,0-1-0.4-1-1v-65.5l-37.3,40.1c-0.2,0.2-0.4,0.3-0.7,0.3c-0.3,0-0.5-0.1-0.7-0.3l-21.3-21.3l-22.3,22.3\r\n\t\t\tc-0.4,0.4-1,0.4-1.4,0s-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0l21.3,21.3l38.3-41.2c0.3-0.3,0.7-0.4,1.1-0.2\r\n\t\t\tc0.4,0.1,0.6,0.5,0.6,0.9v68C-371,417.6-371.4,418-372,418z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
@@ -15521,34 +15529,35 @@ return self})();
     that.load = function(element){
         element.innerHtml = '';
         var tabs = document.createElement('ul');
-        var itemTemplate = _.template('<div><%= title %></div>');
+        var itemTemplate = _.template('<button><%= title %></button>');
         var typeTemplate = _.template('<h3><%= type %></h3>');
-        _.forEach(templateTypes.types, function(type){
+        _.forEach(templateTypes, function(type){
             var tab = document.createElement('li');
-
             var logo = document.createElement('div');
             logo.innerHTML = icons[type.icon];
             var svg = logo.querySelector('svg');
             svg.setAttribute("height", "50px");
             svg.setAttribute("width", "50px");
-
             tab.innerHTML = typeTemplate({type: type.type});
             var list = document.createElement('ul');
             _.forEach(type.presets, function(preset){
                 var item = document.createElement('li');
-                item.innerHTML = itemTemplate({title: preset.desc});
+                item.innerHTML = itemTemplate({title: preset.title});
+                item.onclick = function(){
+                    config.setPreset(type.id, preset.id)
+                };
                 list.appendChild(item);
             });
+
             tab.appendChild(logo);
             tab.appendChild(list);
             tabs.appendChild(tab);
         });
         element.appendChild(tabs);
-
     };
     module.exports = that;
 })();
-},{"../config/templates.json":23,"crel":7,"fs":6,"lodash":8}],22:[function(require,module,exports){
+},{"../config/templates.json":23,"../services/config":26,"crel":7,"fs":6,"lodash":8}],22:[function(require,module,exports){
 module.exports=module.exports = {
   "panels": [
     {
@@ -15670,7 +15679,7 @@ module.exports=module.exports = [
   {
     "id": "line",
     "type": "Line charts",
-    "icon": "icons/line.svg",
+    "icon": "line",
     "presets": [
       {
         "id": "basic",
@@ -15871,7 +15880,7 @@ module.exports=module.exports = [
   {
     "id": "area",
     "type": "Area charts",
-    "icon": "icons/area.svg",
+    "icon": "area",
     "presets": [
       {
         "id": "basic",
@@ -16054,7 +16063,7 @@ module.exports=module.exports = [
   {
     "id": "column",
     "type": "Column charts",
-    "icon": "icons/column.svg",
+    "icon": "column",
     "presets": [
       {
         "id": "basic",
@@ -16352,7 +16361,7 @@ module.exports=module.exports = [
   {
     "id": "bar",
     "type": "Bar charts",
-    "icon": "icons/bar.svg",
+    "icon": "bar",
     "presets": [
       {
         "id": "basic",
@@ -16608,7 +16617,7 @@ module.exports=module.exports = [
   {
     "id": "scatterAndBubble",
     "type": "Scatter and bubble",
-    "icon": "icons/spider.svg",
+    "icon": "spider",
     "presets": [
       {
         "id": "scatter",
@@ -16668,7 +16677,7 @@ module.exports=module.exports = [
   {
     "id": "pie",
     "type": "Pie charts",
-    "icon": "icons/spider.svg",
+    "icon": "spider",
     "presets": [
       {
         "id": "basic",
@@ -16915,7 +16924,7 @@ module.exports=module.exports = [
   {
     "id": "polar",
     "type": "Polar charts",
-    "icon": "icons/bar.svg",
+    "icon": "bar",
     "presets": [
       {
         "id": "line",
@@ -17083,26 +17092,25 @@ require('./route.js');
     var preset = 'errorbar';
     var renderTo = 'container';
 
-    var labels = {
-        series: true,
-        categories: true
-    };
+
 
     that.get = function () {
         var preset = loadPreset(type, preset);
+        var labels = hasLabels(dataService.get);
         var object = {
             chart: {
                 renderTo: renderTo
             },
             series: series.get(dataService.getData(labels.series, labels.categories), preset, labels)
         };
-
         return _.merge(preset, object);
     };
 
     that.setPreset = function (_type_, _preset_) {
         type = _type_;
         preset = _preset_;
+
+        mediator.trigger('presetUpdate');
     };
 
     function loadPreset(){
@@ -17110,18 +17118,22 @@ require('./route.js');
         return _.find(typeConfig.presets, {id:preset}).definition;
     }
 
-    function hasLabels (newDataSet){
-        // if the first cell is empty, make the assumption that the first column are labels.
-        if(_.isEmpty(newDataSet[0][0]) || newDataSet[0][0] == 'cat' || newDataSet[0][0] == 'categories'){
-            labels.categories = true;
-        } else {
-            labels.categories = false;
+    function hasLabels (data){
+        var labels = {
+            categories: true,
+            series: true
+        };
+        if(data[0]){
+            // if the first cell is empty, make the assumption that the first column are labels.
+            if(_.isEmpty(data[0][0]) || data[0][0] == 'cat' || data[0][0] == 'categories'){
+                labels.categories = true;
+            } else {
+                labels.categories = false;
+            }
         }
+        return labels;
     }
 
-    mediator.on('dataUpdate', function (data) {
-        hasLabels(data);
-    });
 
     module.exports = that;
 })();

@@ -45,13 +45,5 @@
       "svg-browserify",
       "folderify"
     ]
-  },
-  "watchify": {
-    "transform": [
-      "browserify-css",
-      "browserify-data",
-      "svg-browserify",
-      "folderify"
-    ]
   }
 }

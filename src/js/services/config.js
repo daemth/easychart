@@ -9,26 +9,25 @@
     var preset = 'errorbar';
     var renderTo = 'container';
 
-    var labels = {
-        series: true,
-        categories: true
-    };
+
 
     that.get = function () {
         var preset = loadPreset(type, preset);
+        var labels = hasLabels(dataService.get);
         var object = {
             chart: {
                 renderTo: renderTo
             },
             series: series.get(dataService.getData(labels.series, labels.categories), preset, labels)
         };
-
         return _.merge(preset, object);
     };
 
     that.setPreset = function (_type_, _preset_) {
         type = _type_;
         preset = _preset_;
+
+        mediator.trigger('presetUpdate');
     };
 
     function loadPreset(){
@@ -36,18 +35,22 @@
         return _.find(typeConfig.presets, {id:preset}).definition;
     }
 
-    function hasLabels (newDataSet){
-        // if the first cell is empty, make the assumption that the first column are labels.
-        if(_.isEmpty(newDataSet[0][0]) || newDataSet[0][0] == 'cat' || newDataSet[0][0] == 'categories'){
-            labels.categories = true;
-        } else {
-            labels.categories = false;
+    function hasLabels (data){
+        var labels = {
+            categories: true,
+            series: true
+        };
+        if(data[0]){
+            // if the first cell is empty, make the assumption that the first column are labels.
+            if(_.isEmpty(data[0][0]) || data[0][0] == 'cat' || data[0][0] == 'categories'){
+                labels.categories = true;
+            } else {
+                labels.categories = false;
+            }
         }
+        return labels;
     }
 
-    mediator.on('dataUpdate', function (data) {
-        hasLabels(data);
-    });
 
     module.exports = that;
 })();
