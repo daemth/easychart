@@ -16349,7 +16349,10 @@ module.exports=module.exports = [
           },
           "series": [
             {"type": null},
-            {"type": "errorbar"}
+            {
+              "type": "errorbar",
+              "showInLegend": true
+            }
           ],
           "xAxis": {
             "type": "category"
@@ -16977,7 +16980,7 @@ module.exports=module.exports = [
         }
       },
       {
-        "id": "spider",
+        "id": "spiderArea",
         "title": "Spider area",
         "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
         "definition": {
@@ -17096,7 +17099,7 @@ require('./route.js');
 
     that.get = function () {
         var preset = loadPreset(type, preset);
-        var labels = hasLabels(dataService.get);
+        var labels = hasLabels(dataService.get());
         var object = {
             chart: {
                 renderTo: renderTo

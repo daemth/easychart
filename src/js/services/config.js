@@ -13,7 +13,7 @@
 
     that.get = function () {
         var preset = loadPreset(type, preset);
-        var labels = hasLabels(dataService.get);
+        var labels = hasLabels(dataService.get());
         var object = {
             chart: {
                 renderTo: renderTo
