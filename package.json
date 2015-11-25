@@ -4,30 +4,32 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
+    "bourbon-neat": "^1.7.2",
     "browserify": "^12.0.1",
     "browserify-css": "^0.8.1",
     "browserify-data": "^0.2.0",
-    "crel": "^2.1.8",
     "folderify": "^1.1.0",
     "highcharts": "0.0.10",
     "highcharts-browserify": "^2.0.2",
     "lodash": "^3.10.1",
     "mediatorjs": "^0.1.4",
     "node-sass": "^3.4.2",
+    "npm": "^3.4.1",
     "papaparse": "^4.1.2",
     "stateman": "^0.2.0",
     "svg-browserify": "0.0.2",
     "uglify-js": "^2.6.1",
-    "watchify": "3.6.0"
+    "vdom-virtualize": "^1.0.1",
+    "virtual-dom": "^2.1.1",
+    "watchify": "3.3.1"
   },
   "scripts": {
     "build-js": "browserify src/js/main.js -o dist/easychart.js -v",
-    "build-js-full": "browserify --full-paths src/js/main.js -o dist/easychart.js -v",
     "watch-js": "watchify src/js/main.js -o dist/easychart.js -v",
-    "build-css": "node-sass src/scss/style.scss > src/css/style.css",
-    "watch-css": "node-sass src/scss/style.scss > src/css/style.css --watch",
-    "build-assets": "npm run build-js & npm run build-css",
-    "watch-assets": "npm run watch-js & npm run watch-css"
+    "build-css": "node-sass src/scss/style.scss > src/css/style.css --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets",
+    "watch-css": "node-sass src/scss/style.scss > src/css/style.css --watch --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets",
+    "build-assets": "npm run build-css & npm run build-js",
+    "watch-assets": "npm run watch-css & npm run watch-js  "
   },
   "repository": {
     "type": "git",

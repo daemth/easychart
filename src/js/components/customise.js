@@ -1,20 +1,11 @@
-(function(){
+(function () {
     var config = require('../config/config.json');
-    var that = {};
+    var h = require('virtual-dom/h');
+    var template =
+        h('div', [
+            h('p', 'Pretty sweet, isn\'t it?'),
+            h('p', 'Here, let me give some examples or something.')
+        ]);
 
-    that.load = function (element){
-        element.innerHTML = 'customise';
-    };
-
-    /*
-    var xAxis = document.createElement('input');
-    xAxis.type = 'checkbox';
-    input.appendChild(xAxis);
-    xAxis.checked = configService.getlabelsAxis('x');
-    xAxis.onclick = function(event){
-        configService.setlabelsAxis('x', this.checked)
-    };
-    */
-
-    module.exports = that;
+    module.exports = template;
 })();

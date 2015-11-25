@@ -1,0 +1,20 @@
+@import "bourbon";
+@import "neat";
+
+@import "base/variables";
+@import "components/vertical-tabs";
+
+a, .hover{
+  cursor: pointer;
+}
+.container{
+  @include outer-container;
+}
+
+.templatelist{
+  &__item{
+    @include span-columns(2);
+    @include omega(6n);
+  }
+}
+

@@ -1,24 +1,19 @@
-// Load the framework and Highcharts. Framework is passed as a parameter.
-var mediator = require('mediatorjs');
-var config = require('../services/config');
-var chart = function () {
-    var that = this;
-
+(function() {
+    // Load the framework and Highcharts. Framework is passed as a parameter.
+    var mediator = require('mediatorjs');
+    var configService = require('../services/config');
+    var that = {};
     that.load = function (element) {
-        element.innerHTML = '<div id="container" ></div>';
-
-        var chart = new Highcharts.Chart(config.get());
-        mediator.on('presetUpdate', function(){
-            console.log(config.get());
-            //chart.destroy();
-            chart = new Highcharts.Chart(config.get());
-
+        var config = configService.get();
+        config.chart.renderTo = element;
+        var chart = new Highcharts.Chart(config);
+        mediator.on('presetUpdate', function () {
+            config = configService.get();
+            config.chart.renderTo = element;
+            chart = new Highcharts.Chart(config);
         });
 
     };
-    return that;
 
-};
-
-
-module.exports = chart();
+    module.exports = that;
+})();

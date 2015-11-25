@@ -7,16 +7,13 @@
     var that = {};
     var type = 'column';
     var preset = 'errorbar';
-    var renderTo = 'container';
-
-
 
     that.get = function () {
         var preset = loadPreset(type, preset);
         var labels = hasLabels(dataService.get());
         var object = {
             chart: {
-                renderTo: renderTo
+
             },
             series: series.get(dataService.getData(labels.series, labels.categories), preset, labels)
         };
