@@ -1,12 +1,12 @@
 @import "bourbon";
 @import "neat";
-
 @import "base/variables";
 @import "components/vertical-tabs";
 
 a, .hover{
   cursor: pointer;
 }
+
 .container{
   @include outer-container;
 }

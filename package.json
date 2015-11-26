@@ -4,33 +4,39 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
+    "highcharts": "0.0.10",
+    "highcharts-browserify": "^2.0.2"
+  },
+  "devDependencies": {
     "bourbon-neat": "^1.7.2",
     "browserify": "^12.0.1",
     "browserify-css": "^0.8.1",
     "browserify-data": "^0.2.0",
     "folderify": "^1.1.0",
-    "highcharts": "0.0.10",
-    "highcharts-browserify": "^2.0.2",
+    "node-sass": "latest",
     "lodash": "^3.10.1",
     "mediatorjs": "^0.1.4",
-    "node-sass": "^3.4.2",
     "npm": "^3.4.1",
     "papaparse": "^4.1.2",
     "stateman": "^0.2.0",
     "svg-browserify": "0.0.2",
-    "uglify-js": "^2.6.1",
     "vdom-virtualize": "^1.0.1",
     "virtual-dom": "^2.1.1",
-    "watchify": "3.3.1"
+    "strictify": "latest",
+    "uglify-js": "latest",
+    "nodemon": "latest"
   },
   "scripts": {
-    "build-js": "browserify src/js/main.js -o dist/easychart.js -v",
-    "watch-js": "watchify src/js/main.js -o dist/easychart.js -v",
-    "build-css": "node-sass src/scss/style.scss > src/css/style.css --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets",
-    "watch-css": "node-sass src/scss/style.scss > src/css/style.css --watch --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets",
-    "build-assets": "npm run build-css & npm run build-js",
-    "watch-assets": "npm run watch-css & npm run watch-js  "
+    "build:main:bundle": "browserify src/js/main.js -o dist/easychart.js -t strictify",
+    "build:main:uglify": "uglifyjs dist/easychart.js -c -v -o dist/easychart.js",
+    "build:main": "npm run build:main:bundle",
+    "build:styles": "node-sass --stdout --output-style compressed src/scss/style.scss --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets -o ./dist/css",
+    "build": "npm run build:main && npm run build:styles",
+    "watch:main": "nodemon -e js -w src/js -i dist/easychart.js -x 'npm run build:main:bundle'",
+    "watch:styles": "nodemon -e scss -w src/scss -x 'npm run build:styles'",
+    "watch": "npm run watch:main & npm run watch:styles"
   },
+
   "repository": {
     "type": "git",
     "url": "git://github.com/bestuurszaken/easychart.git"

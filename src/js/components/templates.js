@@ -1,6 +1,6 @@
 (function () {
     var that = {};
-    _ = require('lodash');
+    var _ = require('lodash');
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');

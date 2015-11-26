@@ -1,5 +1,5 @@
 (function () {
-    _ = require('lodash');
+    var _ = require('lodash');
     var dataService = require('../services/data.js');
     var series = require('../services/series.js');
     var templates = require('../config/templates.json');

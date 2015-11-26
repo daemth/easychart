@@ -1,7 +1,7 @@
 (function () {
     var that = {};
     var dataService = require('../services/data.js');
-
+    var _ = require('lodash');
     that.get = function(data, config, labels) {
         var series = generateDataSeries(config, data);
 
