@@ -2,7 +2,6 @@
 var css = "/*!\n * Handsontable 0.20.0\n * Handsontable is a JavaScript library for editable tables with basic copy-paste compatibility with Excel and Google Docs\n *\n * Copyright 2015 Handsoncode sp. z o.o. <hello@handsontable.com>\n * Licensed under the MIT license.\n * http://handsontable.com/\n *\n * Date: Tue Nov 03 2015 14:30:34 GMT+0100 (CET)\n */\n.handsontable {\n  position: relative;\n}\n.handsontable .hide {\n  display: none;\n}\n.handsontable .relative {\n  position: relative;\n}\n.handsontable.htAutoSize {\n  visibility: hidden;\n  left: -99000px;\n  position: absolute;\n  top: -99000px;\n}\n.handsontable .wtHider {\n  width: 0;\n}\n.handsontable .wtSpreader {\n  position: relative;\n  width: 0;\n  /*must be 0, otherwise blank space appears in scroll demo after scrolling max to the right */\n  height: auto;\n}\n.handsontable table,\n.handsontable tbody,\n.handsontable thead,\n.handsontable td,\n.handsontable th,\n.handsontable input,\n.handsontable textarea,\n.handsontable div {\n  box-sizing: content-box;\n  -webkit-box-sizing: content-box;\n  -moz-box-sizing: content-box;\n}\n.handsontable input,\n.handsontable textarea {\n  min-height: initial;\n}\n.handsontable table.htCore {\n  border-collapse: separate;\n  /*it must be separate, otherwise there are offset miscalculations in WebKit: http://stackoverflow.com/questions/2655987/border-collapse-differences-in-ff-and-webkit*/\n  /*this actually only changes appearance of user selection - does not make text unselectable\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -o-user-select: none;\n  -ms-user-select: none;\n  /*user-select: none; /*no browser supports unprefixed version*/\n  border-spacing: 0;\n  margin: 0;\n  border-width: 0;\n  table-layout: fixed;\n  width: 0;\n  outline-width: 0;\n  /* reset bootstrap table style. for more info see: https://github.com/handsontable/handsontable/issues/224 */\n  max-width: none;\n  max-height: none;\n}\n.handsontable col {\n  width: 50px;\n}\n.handsontable col.rowHeader {\n  width: 50px;\n}\n.handsontable th,\n.handsontable td {\n  border-right: 1px solid #CCC;\n  border-bottom: 1px solid #CCC;\n  height: 22px;\n  empty-cells: show;\n  line-height: 21px;\n  padding: 0 4px 0 4px;\n  /* top, bottom padding different than 0 is handled poorly by FF with HTML5 doctype */\n  background-color: #FFF;\n  vertical-align: top;\n  overflow: hidden;\n  outline-width: 0;\n  white-space: pre-line;\n  /* preserve new line character in cell */\n}\n.handsontable td.htInvalid {\n  background-color: #ff4c42 !important;\n  /*gives priority over td.area selection background*/\n}\n.handsontable td.htNoWrap {\n  white-space: nowrap;\n}\n.handsontable th:last-child {\n  /*Foundation framework fix*/\n  border-right: 1px solid #CCC;\n  border-bottom: 1px solid #CCC;\n}\n.handsontable tr:first-child th.htNoFrame,\n.handsontable th:first-child.htNoFrame,\n.handsontable th.htNoFrame {\n  border-left-width: 0;\n  background-color: white;\n  border-color: #FFF;\n}\n.handsontable th:first-child,\n.handsontable td:first-of-type,\n.handsontable .htNoFrame + th,\n.handsontable .htNoFrame + td {\n  border-left: 1px solid #CCC;\n}\n.handsontable.htRowHeaders thead tr th:nth-child(2) {\n  border-left: 1px solid #CCC;\n}\n.handsontable tr:first-child th,\n.handsontable tr:first-child td {\n  border-top: 1px solid #CCC;\n}\n.ht_master:not(.innerBorderLeft) ~ .handsontable tbody tr th,\n.ht_master:not(.innerBorderLeft) ~ .handsontable:not(.ht_clone_top) thead tr th:first-child {\n  border-right-width: 0;\n}\n.ht_master:not(.innerBorderTop) thead tr:last-child th,\n.ht_master:not(.innerBorderTop) ~ .handsontable thead tr:last-child th,\n.ht_master:not(.innerBorderTop) thead tr.lastChild th,\n.ht_master:not(.innerBorderTop) ~ .handsontable thead tr.lastChild th {\n  border-bottom-width: 0;\n}\n.handsontable th {\n  background-color: #EEE;\n  color: #222;\n  text-align: center;\n  font-weight: normal;\n  white-space: nowrap;\n}\n.handsontable thead th {\n  padding: 0;\n}\n.handsontable th.active {\n  background-color: #CCC;\n}\n.handsontable thead th .relative {\n  padding: 2px 4px;\n}\n/* plugins */\n.handsontable .manualColumnMover {\n  position: fixed;\n  left: 0;\n  top: 0;\n  background-color: transparent;\n  width: 5px;\n  height: 25px;\n  z-index: 999;\n  cursor: move;\n}\n.handsontable .manualRowMover {\n  position: fixed;\n  left: -4px;\n  top: 0;\n  background-color: transparent;\n  height: 5px;\n  width: 50px;\n  z-index: 999;\n  cursor: move;\n}\n.handsontable .manualColumnMoverGuide,\n.handsontable .manualRowMoverGuide {\n  position: fixed;\n  left: 0;\n  top: 0;\n  background-color: #CCC;\n  width: 25px;\n  height: 25px;\n  opacity: 0.7;\n  display: none;\n}\n.handsontable .manualColumnMoverGuide.active,\n.handsontable .manualRowMoverGuide.active {\n  display: block;\n}\n.handsontable .manualColumnMover:hover,\n.handsontable .manualColumnMover.active,\n.handsontable .manualRowMover:hover,\n.handsontable .manualRowMover.active {\n  background-color: #88F;\n}\n/* row + column resizer*/\n.handsontable .manualColumnResizer {\n  position: fixed;\n  top: 0;\n  cursor: col-resize;\n  z-index: 110;\n  width: 5px;\n  height: 25px;\n}\n.handsontable .manualRowResizer {\n  position: fixed;\n  left: 0;\n  cursor: row-resize;\n  z-index: 110;\n  height: 5px;\n  width: 50px;\n}\n.handsontable .manualColumnResizer:hover,\n.handsontable .manualColumnResizer.active,\n.handsontable .manualRowResizer:hover,\n.handsontable .manualRowResizer.active {\n  background-color: #AAB;\n}\n.handsontable .manualColumnResizerGuide {\n  position: fixed;\n  right: 0;\n  top: 0;\n  background-color: #AAB;\n  display: none;\n  width: 0;\n  border-right: 1px dashed #777;\n  margin-left: 5px;\n}\n.handsontable .manualRowResizerGuide {\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  background-color: #AAB;\n  display: none;\n  height: 0;\n  border-bottom: 1px dashed #777;\n  margin-top: 5px;\n}\n.handsontable .manualColumnResizerGuide.active,\n.handsontable .manualRowResizerGuide.active {\n  display: block;\n}\n.handsontable .columnSorting {\n  position: relative;\n}\n.handsontable .columnSorting:hover {\n  text-decoration: underline;\n  cursor: pointer;\n}\n.handsontable .columnSorting.ascending::after {\n  content: '\\25B2';\n  color: #5f5f5f;\n  position: absolute;\n  right: -15px;\n}\n.handsontable .columnSorting.descending::after {\n  content: '\\25BC';\n  color: #5f5f5f;\n  position: absolute;\n  right: -15px;\n}\n.handsontable th.beforeHiddenColumn {\n  position: relative;\n}\n.handsontable th.beforeHiddenColumn::after,\n.handsontable th.afterHiddenColumn::before {\n  content: '\\25C0';\n  color: #bbb;\n  position: absolute;\n  right: 1px;\n  top: 2px;\n  font-size: 5pt;\n}\n.handsontable th.afterHiddenColumn {\n  position: relative;\n}\n.handsontable th.afterHiddenColumn::before {\n  left: 1px;\n  top: 2px;\n  right: auto;\n  content: '\\25B6';\n}\n.handsontable td.afterHiddenColumn.firstVisible {\n  border-left: 1px solid #CCC;\n}\n.handsontable thead th.hiddenHeader {\n  display: none;\n}\n/* border line */\n.handsontable .wtBorder {\n  position: absolute;\n  font-size: 0;\n}\n.handsontable .wtBorder.hidden {\n  display: none !important;\n}\n.handsontable td.area {\n  background: -moz-linear-gradient(top,  rgba(181,209,255,0.34) 0%, rgba(181,209,255,0.34) 100%);\n  /* FF3.6+ */\n  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(181,209,255,0.34)), color-stop(100%,rgba(181,209,255,0.34)));\n  /* Chrome,Safari4+ */\n  background: -webkit-linear-gradient(top,  rgba(181,209,255,0.34) 0%,rgba(181,209,255,0.34) 100%);\n  /* Chrome10+,Safari5.1+ */\n  background: -o-linear-gradient(top,  rgba(181,209,255,0.34) 0%,rgba(181,209,255,0.34) 100%);\n  /* Opera 11.10+ */\n  background: -ms-linear-gradient(top,  rgba(181,209,255,0.34) 0%,rgba(181,209,255,0.34) 100%);\n  /* IE10+ */\n  background: linear-gradient(to bottom,  rgba(181,209,255,0.34) 0%,rgba(181,209,255,0.34) 100%);\n  /* W3C */\n  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#57b5d1ff', endColorstr='#57b5d1ff',GradientType=0 );\n  /* IE6-9 */\n  background-color: #fff;\n}\n/* fill handle */\n.handsontable .wtBorder.corner {\n  font-size: 0;\n  cursor: crosshair;\n}\n.handsontable .htBorder.htFillBorder {\n  background: red;\n  width: 1px;\n  height: 1px;\n}\n.handsontableInput {\n  border: none;\n  outline-width: 0;\n  margin: 0;\n  padding: 1px 5px 0 5px;\n  font-family: inherit;\n  line-height: 21px;\n  font-size: inherit;\n  box-shadow: 0 0 0 2px #5292F7 inset;\n  resize: none;\n  /*below are needed to overwrite stuff added by jQuery UI Bootstrap theme*/\n  display: inline-block;\n  color: #000;\n  border-radius: 0;\n  background-color: #FFF;\n  /*overwrite styles potentionally made by a framework*/\n}\n.handsontableInputHolder {\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 100;\n}\n.htSelectEditor {\n  -webkit-appearance: menulist-button !important;\n  position: absolute;\n  width: auto;\n}\n/*\nTextRenderer readOnly cell\n*/\n.handsontable .htDimmed {\n  color: #777;\n}\n.handsontable .htSubmenu {\n  position: relative;\n}\n.handsontable .htSubmenu :after {\n  content: '▶';\n  color: #777;\n  position: absolute;\n  right: 5px;\n}\n/*\nTextRenderer horizontal alignment\n*/\n.handsontable .htLeft {\n  text-align: left;\n}\n.handsontable .htCenter {\n  text-align: center;\n}\n.handsontable .htRight {\n  text-align: right;\n}\n.handsontable .htJustify {\n  text-align: justify;\n}\n/*\nTextRenderer vertical alignment\n*/\n.handsontable .htTop {\n  vertical-align: top;\n}\n.handsontable .htMiddle {\n  vertical-align: middle;\n}\n.handsontable .htBottom {\n  vertical-align: bottom;\n}\n/*\nTextRenderer placeholder value\n*/\n.handsontable .htPlaceholder {\n  color: #999;\n}\n/*\nAutocompleteRenderer down arrow\n*/\n.handsontable .htAutocompleteArrow {\n  float: right;\n  font-size: 10px;\n  color: #EEE;\n  cursor: default;\n  width: 16px;\n  text-align: center;\n}\n.handsontable td .htAutocompleteArrow:hover {\n  color: #777;\n}\n.handsontable td.area .htAutocompleteArrow {\n  color: #d3d3d3;\n}\n/*\nCheckboxRenderer\n*/\n.handsontable .htCheckboxRendererInput.noValue {\n  opacity: 0.5;\n}\n.handsontable .htCheckboxRendererLabel {\n  cursor: pointer;\n  display: inline-block;\n  width: 100%;\n}\n/*\nNumericRenderer\n*/\n.handsontable .htNumeric {\n  text-align: right;\n}\n/*\nComment For Cell\n*/\n.htCommentCell {\n  position: relative;\n}\n.htCommentCell:after {\n  content: '';\n  position: absolute;\n  top: 0;\n  right: 0;\n  border-left: 6px solid transparent;\n  border-top: 6px solid red;\n}\n@-webkit-keyframes opacity-hide {\n  from {\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    /*display: none;*/\n  }\n}\n@keyframes opacity-hide {\n  from {\n    /*display: block;*/\n    opacity: 1;\n  }\n\n  to {\n    opacity: 0;\n    /*display: none;*/\n  }\n}\n@-webkit-keyframes opacity-show {\n  from {\n    opacity: 0;\n    /*display: none;*/\n  }\n\n  to {\n    opacity: 1;\n    /*display: block;*/\n  }\n}\n@keyframes opacity-show {\n  from {\n    opacity: 0;\n    /*display: none;*/\n  }\n\n  to {\n    opacity: 1;\n    /*display: block;*/\n  }\n}\n/**\n * Handsontable in Handsontable\n */\n.handsontable .handsontable.ht_clone_top .wtHider {\n  padding: 0 0 5px 0;\n}\n/* removing shadows, TODO: remove the commented code and this comment  */\n/*.handsontable .handsontable:not(.ht_master) table {*/\n/*-webkit-box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);*/\n/*box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);*/\n/*}*/\n/**\n* Autocomplete Editor\n*/\n.handsontable .autocompleteEditor.handsontable {\n  padding-right: 17px;\n}\n.handsontable .autocompleteEditor.handsontable.htMacScroll {\n  padding-right: 15px;\n}\n/**\n * Handsontable listbox theme\n */\n.handsontable.listbox {\n  margin: 0;\n}\n.handsontable.listbox .ht_master table {\n  border: 1px solid #ccc;\n  border-collapse: separate;\n  background: white;\n}\n.handsontable.listbox th,\n.handsontable.listbox tr:first-child th,\n.handsontable.listbox tr:last-child th,\n.handsontable.listbox tr:first-child td,\n.handsontable.listbox td {\n  border-color: transparent;\n}\n.handsontable.listbox th,\n.handsontable.listbox td {\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.handsontable.listbox td.htDimmed {\n  cursor: default;\n  color: inherit;\n  font-style: inherit;\n}\n.handsontable.listbox .wtBorder {\n  visibility: hidden;\n}\n.handsontable.listbox tr td.current,\n.handsontable.listbox tr:hover td {\n  background: #eee;\n}\n.ht_clone_top {\n  z-index: 101;\n}\n.ht_clone_left {\n  z-index: 102;\n}\n.ht_clone_top_left_corner,\n.ht_clone_bottom_left_corner {\n  z-index: 103;\n}\n.ht_clone_debug {\n  z-index: 103;\n}\n.handsontable td.htSearchResult {\n  background: #fcedd9;\n  color: #583707;\n}\n/*\nCell borders\n*/\n.htBordered {\n  /*box-sizing: border-box !important;*/\n  border-width: 1px;\n}\n.htBordered.htTopBorderSolid {\n  border-top-style: solid;\n  border-top-color: #000;\n}\n.htBordered.htRightBorderSolid {\n  border-right-style: solid;\n  border-right-color: #000;\n}\n.htBordered.htBottomBorderSolid {\n  border-bottom-style: solid;\n  border-bottom-color: #000;\n}\n.htBordered.htLeftBorderSolid {\n  border-left-style: solid;\n  border-left-color: #000;\n}\n.htCommentTextArea {\n  -moz-box-shadow: 1px 1px 2px #bbb;\n  -webkit-box-shadow: 1px 1px 2px #bbb;\n  background-color: #FFFACD;\n  border: 1px solid #999;\n  box-shadow: 1px 1px 2px #bbb;\n  font-family: 'Arial';\n}\n.handsontable tbody tr th:nth-last-child(2) {\n  border-right: 1px solid #CCC;\n}\n.handsontable thead tr:nth-last-child(2) th.htGroupIndicatorContainer {\n  border-bottom: 1px solid #CCC;\n  padding-bottom: 5px;\n}\n.ht_clone_top_left_corner thead tr th:nth-last-child(2) {\n  border-right: 1px solid #CCC;\n}\n.htCollapseButton {\n  width: 10px;\n  height: 10px;\n  line-height: 10px;\n  text-align: center;\n  border-radius: 5px;\n  border: 1px solid #f3f3f3;\n  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);\n  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);\n  cursor: pointer;\n  margin-bottom: 3px;\n  position: relative;\n}\n.htCollapseButton:after {\n  content: \"\";\n  height: 300%;\n  width: 1px;\n  display: block;\n  background: #ccc;\n  margin-left: 4px;\n  position: absolute;\n  /*top: -300%;*/\n  bottom: 10px;\n}\nthead .htCollapseButton {\n  right: 5px;\n  position: absolute;\n  top: 5px;\n  background: #fff;\n}\nthead .htCollapseButton:after {\n  height: 1px;\n  width: 700%;\n  right: 10px;\n  top: 4px;\n}\n.handsontable tr th .htExpandButton {\n  position: absolute;\n  width: 10px;\n  height: 10px;\n  line-height: 10px;\n  text-align: center;\n  border-radius: 5px;\n  border: 1px solid #f3f3f3;\n  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);\n  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);\n  cursor: pointer;\n  top: 0;\n  display: none;\n}\n.handsontable thead tr th .htExpandButton {\n  /*left: 5px;*/\n  top: 5px;\n}\n.handsontable tr th .htExpandButton.clickable {\n  display: block;\n}\n.collapsibleIndicator {\n  position: absolute;\n  top: 50%;\n  transform: translate(0% ,-50%);\n  right: 5px;\n  border: 1px solid #A6A6A6;\n  line-height: 10px;\n  color: #222;\n  border-radius: 10px;\n  font-size: 10px;\n  width: 10px;\n  height: 10px;\n  cursor: pointer;\n  -webkit-box-shadow: 0px 0px 0px 6px rgba(238,238,238,1);\n  -moz-box-shadow: 0px 0px 0px 6px rgba(238,238,238,1);\n  box-shadow: 0px 0px 0px 6px rgba(238,238,238,1);\n  background: #eee;\n}\n.handsontable col.hidden {\n  width: 0 !important;\n}\n.handsontable table tr th.lightRightBorder {\n  border-right: 1px solid #E6E6E6;\n}\n.handsontable tr.hidden,\n.handsontable tr.hidden td,\n.handsontable tr.hidden th {\n  display: none;\n}\n.ht_master,\n.ht_clone_left,\n.ht_clone_top,\n.ht_clone_bottom {\n  overflow: hidden;\n}\n.ht_master .wtHolder {\n  overflow: auto;\n}\n.ht_clone_left .wtHolder {\n  overflow-x: hidden;\n  overflow-y: auto;\n}\n.ht_clone_top .wtHolder,\n.ht_clone_bottom .wtHolder {\n  overflow-x: auto;\n  overflow-y: hidden;\n}\n/*WalkontableDebugOverlay*/\n.wtDebugHidden {\n  display: none;\n}\n.wtDebugVisible {\n  display: block;\n  -webkit-animation-duration: 0.5s;\n  -webkit-animation-name: wtFadeInFromNone;\n  animation-duration: 0.5s;\n  animation-name: wtFadeInFromNone;\n}\n@keyframes wtFadeInFromNone {\n  0% {\n    display: none;\n    opacity: 0;\n  }\n\n  1% {\n    display: block;\n    opacity: 0;\n  }\n\n  100% {\n    display: block;\n    opacity: 1;\n  }\n}\n@-webkit-keyframes wtFadeInFromNone {\n  0% {\n    display: none;\n    opacity: 0;\n  }\n\n  1% {\n    display: block;\n    opacity: 0;\n  }\n\n  100% {\n    display: block;\n    opacity: 1;\n  }\n}\n/*\n\n Handsontable Mobile Text Editor stylesheet\n\n */\n.handsontable.mobile,\n.handsontable.mobile .wtHolder {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  -webkit-tap-highlight-color: rgba(0,0,0,0);\n  -webkit-overflow-scrolling: touch;\n}\n.htMobileEditorContainer {\n  display: none;\n  position: absolute;\n  top: 0;\n  width: 70%;\n  height: 54pt;\n  background: #f8f8f8;\n  border-radius: 20px;\n  border: 1px solid #ebebeb;\n  z-index: 999;\n  box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  -webkit-text-size-adjust: none;\n}\n.topLeftSelectionHandle:not(.ht_master .topLeftSelectionHandle),\n.topLeftSelectionHandle-HitArea:not(.ht_master .topLeftSelectionHandle-HitArea) {\n  z-index: 9999;\n}\n/* Initial left/top coordinates - overwritten when actual position is set */\n.topLeftSelectionHandle,\n.topLeftSelectionHandle-HitArea,\n.bottomRightSelectionHandle,\n.bottomRightSelectionHandle-HitArea {\n  left: -10000px;\n  top: -10000px;\n}\n.htMobileEditorContainer.active {\n  display: block;\n}\n.htMobileEditorContainer .inputs {\n  position: absolute;\n  right: 210pt;\n  bottom: 10pt;\n  top: 10pt;\n  left: 14px;\n  height: 34pt;\n}\n.htMobileEditorContainer .inputs textarea {\n  font-size: 13pt;\n  border: 1px solid #a1a1a1;\n  -webkit-appearance: none;\n  -webkit-box-shadow: none;\n  -moz-box-shadow: none;\n  box-shadow: none;\n  position: absolute;\n  left: 14px;\n  right: 14px;\n  top: 0;\n  bottom: 0;\n  padding: 7pt;\n}\n.htMobileEditorContainer .cellPointer {\n  position: absolute;\n  top: -13pt;\n  height: 0;\n  width: 0;\n  left: 30px;\n  border-left: 13pt solid transparent;\n  border-right: 13pt solid transparent;\n  border-bottom: 13pt solid #ebebeb;\n}\n.htMobileEditorContainer .cellPointer.hidden {\n  display: none;\n}\n.htMobileEditorContainer .cellPointer:before {\n  content: '';\n  display: block;\n  position: absolute;\n  top: 2px;\n  height: 0;\n  width: 0;\n  left: -13pt;\n  border-left: 13pt solid transparent;\n  border-right: 13pt solid transparent;\n  border-bottom: 13pt solid #f8f8f8;\n}\n.htMobileEditorContainer .moveHandle {\n  position: absolute;\n  top: 10pt;\n  left: 5px;\n  width: 30px;\n  bottom: 0px;\n  cursor: move;\n  z-index: 9999;\n}\n.htMobileEditorContainer .moveHandle:after {\n  content: \"..\\a..\\a..\\a..\";\n  white-space: pre;\n  line-height: 10px;\n  font-size: 20pt;\n  display: inline-block;\n  margin-top: -8px;\n  color: #ebebeb;\n}\n.htMobileEditorContainer .positionControls {\n  width: 205pt;\n  position: absolute;\n  right: 5pt;\n  top: 0;\n  bottom: 0;\n}\n.htMobileEditorContainer .positionControls > div {\n  width: 50pt;\n  height: 100%;\n  float: left;\n}\n.htMobileEditorContainer .positionControls > div:after {\n  content: \" \";\n  display: block;\n  width: 15pt;\n  height: 15pt;\n  text-align: center;\n  line-height: 50pt;\n}\n.htMobileEditorContainer .leftButton:after,\n.htMobileEditorContainer .rightButton:after,\n.htMobileEditorContainer .upButton:after,\n.htMobileEditorContainer .downButton:after {\n  transform-origin: 5pt 5pt;\n  -webkit-transform-origin: 5pt 5pt;\n  margin: 21pt 0 0 21pt;\n}\n.htMobileEditorContainer .leftButton:after {\n  border-top: 2px solid #288ffe;\n  border-left: 2px solid #288ffe;\n  -webkit-transform: rotate(-45deg);\n  /*margin-top: 17pt;*/\n  /*margin-left: 20pt;*/\n}\n.htMobileEditorContainer .leftButton:active:after {\n  border-color: #cfcfcf;\n}\n.htMobileEditorContainer .rightButton:after {\n  border-top: 2px solid #288ffe;\n  border-left: 2px solid #288ffe;\n  -webkit-transform: rotate(135deg);\n  /*margin-top: 17pt;*/\n  /*margin-left: 10pt;*/\n}\n.htMobileEditorContainer .rightButton:active:after {\n  border-color: #cfcfcf;\n}\n.htMobileEditorContainer .upButton:after {\n  /*border-top: 2px solid #cfcfcf;*/\n  border-top: 2px solid #288ffe;\n  border-left: 2px solid #288ffe;\n  -webkit-transform: rotate(45deg);\n  /*margin-top: 22pt;*/\n  /*margin-left: 15pt;*/\n}\n.htMobileEditorContainer .upButton:active:after {\n  border-color: #cfcfcf;\n}\n.htMobileEditorContainer .downButton:after {\n  border-top: 2px solid #288ffe;\n  border-left: 2px solid #288ffe;\n  -webkit-transform: rotate(225deg);\n  /*margin-top: 15pt;*/\n  /*margin-left: 15pt;*/\n}\n.htMobileEditorContainer .downButton:active:after {\n  border-color: #cfcfcf;\n}\n.handsontable.hide-tween {\n  -webkit-animation: opacity-hide 0.3s;\n  animation: opacity-hide 0.3s;\n  animation-fill-mode: forwards;\n  -webkit-animation-fill-mode: forwards;\n}\n.handsontable.show-tween {\n  -webkit-animation: opacity-show 0.3s;\n  animation: opacity-show 0.3s;\n  animation-fill-mode: forwards;\n  -webkit-animation-fill-mode: forwards;\n}\n/*!\n * Handsontable ContextMenu\n */\n.htContextMenu {\n  display: none;\n  position: absolute;\n  z-index: 1060;\n  /* needs to be higher than 1050 - z-index for Twitter Bootstrap modal (#1569) */\n}\n.htContextMenu .ht_clone_top,\n.htContextMenu .ht_clone_left,\n.htContextMenu .ht_clone_corner,\n.htContextMenu .ht_clone_debug {\n  display: none;\n}\n.htContextMenu table.htCore {\n  border: 1px solid #bbb;\n  border-bottom-width: 2px;\n  border-right-width: 2px;\n}\n.htContextMenu .wtBorder {\n  visibility: hidden;\n}\n.htContextMenu table tbody tr td {\n  background: white;\n  border-width: 0;\n  padding: 4px 6px 0 6px;\n  cursor: pointer;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n}\n.htContextMenu table tbody tr td:first-child {\n  border: 0;\n}\n.htContextMenu table tbody tr td.htDimmed {\n  font-style: normal;\n  color: #323232;\n}\n.htContextMenu table tbody tr td.current,\n.htContextMenu table tbody tr td.zeroclipboard-is-hover {\n  background: #e9e9e9;\n}\n.htContextMenu table tbody tr td.htSeparator {\n  border-top: 1px solid #bbb;\n  height: 0;\n  padding: 0;\n}\n.htContextMenu table tbody tr td.htDisabled {\n  color: #999;\n}\n.htContextMenu table tbody tr td.htDisabled:hover {\n  background: #fff;\n  color: #999;\n  cursor: default;\n}\n.htContextMenu table tbody tr.htHidden {\n  display: none;\n}\n.htContextMenu table tbody tr td .htItemWrapper {\n  margin-left: 10px;\n  margin-right: 6px;\n}\n.htContextMenu table tbody tr td div span.selected {\n  margin-top: -2px;\n  position: absolute;\n  left: 4px;\n}\n.htContextMenu .ht_master .wtHolder {\n  overflow: hidden;\n}\n@charset \"UTF-8\";\n/*!\n * Pikaday\n * Copyright © 2014 David Bushell | BSD & MIT license | http://dbushell.com/\n */\n.pika-single {\n  z-index: 9999;\n  display: block;\n  position: relative;\n  color: #333;\n  background: #fff;\n  border: 1px solid #ccc;\n  border-bottom-color: #bbb;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n}\n/*\nclear child float (pika-lendar), using the famous micro clearfix hack\nhttp://nicolasgallagher.com/micro-clearfix-hack/\n*/\n.pika-single:before,\n.pika-single:after {\n  content: \" \";\n  display: table;\n}\n.pika-single:after {\n  clear: both;\n}\n.pika-single {\n  *zoom: 1;\n}\n.pika-single.is-hidden {\n  display: none;\n}\n.pika-single.is-bound {\n  position: absolute;\n  box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);\n}\n.pika-lendar {\n  float: left;\n  width: 240px;\n  margin: 8px;\n}\n.pika-title {\n  position: relative;\n  text-align: center;\n}\n.pika-label {\n  display: inline-block;\n  *display: inline;\n  position: relative;\n  z-index: 9999;\n  overflow: hidden;\n  margin: 0;\n  padding: 5px 3px;\n  font-size: 14px;\n  line-height: 20px;\n  font-weight: bold;\n  background-color: #fff;\n}\n.pika-title select {\n  cursor: pointer;\n  position: absolute;\n  z-index: 9998;\n  margin: 0;\n  left: 0;\n  top: 5px;\n  filter: alpha(opacity=0);\n  opacity: 0;\n}\n.pika-prev,\n.pika-next {\n  display: block;\n  cursor: pointer;\n  position: relative;\n  outline: none;\n  border: 0;\n  padding: 0;\n  width: 20px;\n  height: 30px;\n  /* hide text using text-indent trick, using width value (it's enough) */\n  text-indent: 20px;\n  white-space: nowrap;\n  overflow: hidden;\n  background-color: transparent;\n  background-position: center center;\n  background-repeat: no-repeat;\n  background-size: 75% 75%;\n  opacity: .5;\n  *position: absolute;\n  *top: 0;\n}\n.pika-prev:hover,\n.pika-next:hover {\n  opacity: 1;\n}\n.pika-prev,\n.is-rtl .pika-next {\n  float: left;\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==');\n  *left: 0;\n}\n.pika-next,\n.is-rtl .pika-prev {\n  float: right;\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=');\n  *right: 0;\n}\n.pika-prev.is-disabled,\n.pika-next.is-disabled {\n  cursor: default;\n  opacity: .2;\n}\n.pika-select {\n  display: inline-block;\n  *display: inline;\n}\n.pika-table {\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n  border: 0;\n}\n.pika-table th,\n.pika-table td {\n  width: 14.285714285714286%;\n  padding: 0;\n}\n.pika-table th {\n  color: #999;\n  font-size: 12px;\n  line-height: 25px;\n  font-weight: bold;\n  text-align: center;\n}\n.pika-button {\n  cursor: pointer;\n  display: block;\n  box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  outline: none;\n  border: 0;\n  margin: 0;\n  width: 100%;\n  padding: 5px;\n  color: #666;\n  font-size: 12px;\n  line-height: 15px;\n  text-align: right;\n  background: #f5f5f5;\n}\n.pika-week {\n  font-size: 11px;\n  color: #999;\n}\n.is-today .pika-button {\n  color: #33aaff;\n  font-weight: bold;\n}\n.is-selected .pika-button {\n  color: #fff;\n  font-weight: bold;\n  background: #33aaff;\n  box-shadow: inset 0 1px 3px #178fe5;\n  border-radius: 3px;\n}\n.is-inrange .pika-button {\n  background: #D5E9F7;\n}\n.is-startrange .pika-button {\n  color: #fff;\n  background: #6CB31D;\n  box-shadow: none;\n  border-radius: 3px;\n}\n.is-endrange .pika-button {\n  color: #fff;\n  background: #33aaff;\n  box-shadow: none;\n  border-radius: 3px;\n}\n.is-disabled .pika-button {\n  pointer-events: none;\n  cursor: default;\n  color: #999;\n  opacity: .3;\n}\n.pika-button:hover {\n  color: #fff;\n  background: #ff8000;\n  box-shadow: none;\n  border-radius: 3px;\n}\n/* styling for abbr */\n.pika-table abbr {\n  border-bottom: none;\n  cursor: help;\n}\n"; (require("browserify-css").createStyle(css, { "href": "bower_components/handsontable/dist/handsontable.full.css"})); module.exports = css;
 },{"browserify-css":7}],2:[function(require,module,exports){
 (function (global){
-"use strict";
 /*!
  * Handsontable 0.20.0
  * Handsontable is a JavaScript library for editable tables with basic copy-paste compatibility with Excel and Google Docs
@@ -494,6 +493,919 @@ module.exports = {
 },{}],8:[function(require,module,exports){
 arguments[4][5][0].apply(exports,arguments)
 },{"dup":5}],9:[function(require,module,exports){
+/**
+ * cuid.js
+ * Collision-resistant UID generator for browsers and node.
+ * Sequential for fast db lookups and recency sorting.
+ * Safe for element IDs and server-side lookups.
+ *
+ * Extracted from CLCTR
+ *
+ * Copyright (c) Eric Elliott 2012
+ * MIT License
+ */
+
+/*global window, navigator, document, require, process, module */
+(function (app) {
+  'use strict';
+  var namespace = 'cuid',
+    c = 0,
+    blockSize = 4,
+    base = 36,
+    discreteValues = Math.pow(base, blockSize),
+
+    pad = function pad(num, size) {
+      var s = "000000000" + num;
+      return s.substr(s.length-size);
+    },
+
+    randomBlock = function randomBlock() {
+      return pad((Math.random() *
+            discreteValues << 0)
+            .toString(base), blockSize);
+    },
+
+    safeCounter = function () {
+      c = (c < discreteValues) ? c : 0;
+      c++; // this is not subliminal
+      return c - 1;
+    },
+
+    api = function cuid() {
+      // Starting with a lowercase letter makes
+      // it HTML element ID friendly.
+      var letter = 'c', // hard-coded allows for sequential access
+
+        // timestamp
+        // warning: this exposes the exact date and time
+        // that the uid was created.
+        timestamp = (new Date().getTime()).toString(base),
+
+        // Prevent same-machine collisions.
+        counter,
+
+        // A few chars to generate distinct ids for different
+        // clients (so different computers are far less
+        // likely to generate the same id)
+        fingerprint = api.fingerprint(),
+
+        // Grab some more chars from Math.random()
+        random = randomBlock() + randomBlock();
+
+        counter = pad(safeCounter().toString(base), blockSize);
+
+      return  (letter + timestamp + counter + fingerprint + random);
+    };
+
+  api.slug = function slug() {
+    var date = new Date().getTime().toString(36),
+      counter,
+      print = api.fingerprint().slice(0,1) +
+        api.fingerprint().slice(-1),
+      random = randomBlock().slice(-2);
+
+      counter = safeCounter().toString(36).slice(-4);
+
+    return date.slice(-2) +
+      counter + print + random;
+  };
+
+  api.globalCount = function globalCount() {
+    // We want to cache the results of this
+    var cache = (function calc() {
+        var i,
+          count = 0;
+
+        for (i in window) {
+          count++;
+        }
+
+        return count;
+      }());
+
+    api.globalCount = function () { return cache; };
+    return cache;
+  };
+
+  api.fingerprint = function browserPrint() {
+    return pad((navigator.mimeTypes.length +
+      navigator.userAgent.length).toString(36) +
+      api.globalCount().toString(36), 4);
+  };
+
+  // don't change anything from here down.
+  if (app.register) {
+    app.register(namespace, api);
+  } else if (typeof module !== 'undefined') {
+    module.exports = api;
+  } else {
+    app[namespace] = api;
+  }
+
+}(this.applitude || this));
+
+},{}],10:[function(require,module,exports){
+(function (global){
+/*!
+ * deep-diff.
+ * Licensed under the MIT License.
+ */
+;(function(root, factory) {
+  'use strict';
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([], factory);
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory();
+  } else {
+    // Browser globals (root is window)
+    root.DeepDiff = factory();
+  }
+}(this, function(undefined) {
+  'use strict';
+
+  var $scope, conflict, conflictResolution = [];
+  if (typeof global === 'object' && global) {
+    $scope = global;
+  } else if (typeof window !== 'undefined') {
+    $scope = window;
+  } else {
+    $scope = {};
+  }
+  conflict = $scope.DeepDiff;
+  if (conflict) {
+    conflictResolution.push(
+      function() {
+        if ('undefined' !== typeof conflict && $scope.DeepDiff === accumulateDiff) {
+          $scope.DeepDiff = conflict;
+          conflict = undefined;
+        }
+      });
+  }
+
+  // nodejs compatible on server side and in the browser.
+  function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor;
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  }
+
+  function Diff(kind, path) {
+    Object.defineProperty(this, 'kind', {
+      value: kind,
+      enumerable: true
+    });
+    if (path && path.length) {
+      Object.defineProperty(this, 'path', {
+        value: path,
+        enumerable: true
+      });
+    }
+  }
+
+  function DiffEdit(path, origin, value) {
+    DiffEdit.super_.call(this, 'E', path);
+    Object.defineProperty(this, 'lhs', {
+      value: origin,
+      enumerable: true
+    });
+    Object.defineProperty(this, 'rhs', {
+      value: value,
+      enumerable: true
+    });
+  }
+  inherits(DiffEdit, Diff);
+
+  function DiffNew(path, value) {
+    DiffNew.super_.call(this, 'N', path);
+    Object.defineProperty(this, 'rhs', {
+      value: value,
+      enumerable: true
+    });
+  }
+  inherits(DiffNew, Diff);
+
+  function DiffDeleted(path, value) {
+    DiffDeleted.super_.call(this, 'D', path);
+    Object.defineProperty(this, 'lhs', {
+      value: value,
+      enumerable: true
+    });
+  }
+  inherits(DiffDeleted, Diff);
+
+  function DiffArray(path, index, item) {
+    DiffArray.super_.call(this, 'A', path);
+    Object.defineProperty(this, 'index', {
+      value: index,
+      enumerable: true
+    });
+    Object.defineProperty(this, 'item', {
+      value: item,
+      enumerable: true
+    });
+  }
+  inherits(DiffArray, Diff);
+
+  function arrayRemove(arr, from, to) {
+    var rest = arr.slice((to || from) + 1 || arr.length);
+    arr.length = from < 0 ? arr.length + from : from;
+    arr.push.apply(arr, rest);
+    return arr;
+  }
+
+  function realTypeOf(subject) {
+    var type = typeof subject;
+    if (type !== 'object') {
+      return type;
+    }
+
+    if (subject === Math) {
+      return 'math';
+    } else if (subject === null) {
+      return 'null';
+    } else if (Array.isArray(subject)) {
+      return 'array';
+    } else if (subject instanceof Date) {
+      return 'date';
+    } else if (/^\/.*\//.test(subject.toString())) {
+      return 'regexp';
+    }
+    return 'object';
+  }
+
+  function deepDiff(lhs, rhs, changes, prefilter, path, key, stack) {
+    path = path || [];
+    var currentPath = path.slice(0);
+    if (typeof key !== 'undefined') {
+      if (prefilter && prefilter(currentPath, key, { lhs: lhs, rhs: rhs })) {
+        return;
+      }
+      currentPath.push(key);
+    }
+    var ltype = typeof lhs;
+    var rtype = typeof rhs;
+    if (ltype === 'undefined') {
+      if (rtype !== 'undefined') {
+        changes(new DiffNew(currentPath, rhs));
+      }
+    } else if (rtype === 'undefined') {
+      changes(new DiffDeleted(currentPath, lhs));
+    } else if (realTypeOf(lhs) !== realTypeOf(rhs)) {
+      changes(new DiffEdit(currentPath, lhs, rhs));
+    } else if (lhs instanceof Date && rhs instanceof Date && ((lhs - rhs) !== 0)) {
+      changes(new DiffEdit(currentPath, lhs, rhs));
+    } else if (ltype === 'object' && lhs !== null && rhs !== null) {
+      stack = stack || [];
+      if (stack.indexOf(lhs) < 0) {
+        stack.push(lhs);
+        if (Array.isArray(lhs)) {
+          var i, len = lhs.length;
+          for (i = 0; i < lhs.length; i++) {
+            if (i >= rhs.length) {
+              changes(new DiffArray(currentPath, i, new DiffDeleted(undefined, lhs[i])));
+            } else {
+              deepDiff(lhs[i], rhs[i], changes, prefilter, currentPath, i, stack);
+            }
+          }
+          while (i < rhs.length) {
+            changes(new DiffArray(currentPath, i, new DiffNew(undefined, rhs[i++])));
+          }
+        } else {
+          var akeys = Object.keys(lhs);
+          var pkeys = Object.keys(rhs);
+          akeys.forEach(function(k, i) {
+            var other = pkeys.indexOf(k);
+            if (other >= 0) {
+              deepDiff(lhs[k], rhs[k], changes, prefilter, currentPath, k, stack);
+              pkeys = arrayRemove(pkeys, other);
+            } else {
+              deepDiff(lhs[k], undefined, changes, prefilter, currentPath, k, stack);
+            }
+          });
+          pkeys.forEach(function(k) {
+            deepDiff(undefined, rhs[k], changes, prefilter, currentPath, k, stack);
+          });
+        }
+        stack.length = stack.length - 1;
+      }
+    } else if (lhs !== rhs) {
+      if (!(ltype === 'number' && isNaN(lhs) && isNaN(rhs))) {
+        changes(new DiffEdit(currentPath, lhs, rhs));
+      }
+    }
+  }
+
+  function accumulateDiff(lhs, rhs, prefilter, accum) {
+    accum = accum || [];
+    deepDiff(lhs, rhs,
+      function(diff) {
+        if (diff) {
+          accum.push(diff);
+        }
+      },
+      prefilter);
+    return (accum.length) ? accum : undefined;
+  }
+
+  function applyArrayChange(arr, index, change) {
+    if (change.path && change.path.length) {
+      var it = arr[index],
+        i, u = change.path.length - 1;
+      for (i = 0; i < u; i++) {
+        it = it[change.path[i]];
+      }
+      switch (change.kind) {
+        case 'A':
+          applyArrayChange(it[change.path[i]], change.index, change.item);
+          break;
+        case 'D':
+          delete it[change.path[i]];
+          break;
+        case 'E':
+        case 'N':
+          it[change.path[i]] = change.rhs;
+          break;
+      }
+    } else {
+      switch (change.kind) {
+        case 'A':
+          applyArrayChange(arr[index], change.index, change.item);
+          break;
+        case 'D':
+          arr = arrayRemove(arr, index);
+          break;
+        case 'E':
+        case 'N':
+          arr[index] = change.rhs;
+          break;
+      }
+    }
+    return arr;
+  }
+
+  function applyChange(target, source, change) {
+    if (target && source && change && change.kind) {
+      var it = target,
+        i = -1,
+        last = change.path ? change.path.length - 1 : 0;
+      while (++i < last) {
+        if (typeof it[change.path[i]] === 'undefined') {
+          it[change.path[i]] = (typeof change.path[i] === 'number') ? [] : {};
+        }
+        it = it[change.path[i]];
+      }
+      switch (change.kind) {
+        case 'A':
+          applyArrayChange(change.path ? it[change.path[i]] : it, change.index, change.item);
+          break;
+        case 'D':
+          delete it[change.path[i]];
+          break;
+        case 'E':
+        case 'N':
+          it[change.path[i]] = change.rhs;
+          break;
+      }
+    }
+  }
+
+  function revertArrayChange(arr, index, change) {
+    if (change.path && change.path.length) {
+      // the structure of the object at the index has changed...
+      var it = arr[index],
+        i, u = change.path.length - 1;
+      for (i = 0; i < u; i++) {
+        it = it[change.path[i]];
+      }
+      switch (change.kind) {
+        case 'A':
+          revertArrayChange(it[change.path[i]], change.index, change.item);
+          break;
+        case 'D':
+          it[change.path[i]] = change.lhs;
+          break;
+        case 'E':
+          it[change.path[i]] = change.lhs;
+          break;
+        case 'N':
+          delete it[change.path[i]];
+          break;
+      }
+    } else {
+      // the array item is different...
+      switch (change.kind) {
+        case 'A':
+          revertArrayChange(arr[index], change.index, change.item);
+          break;
+        case 'D':
+          arr[index] = change.lhs;
+          break;
+        case 'E':
+          arr[index] = change.lhs;
+          break;
+        case 'N':
+          arr = arrayRemove(arr, index);
+          break;
+      }
+    }
+    return arr;
+  }
+
+  function revertChange(target, source, change) {
+    if (target && source && change && change.kind) {
+      var it = target,
+        i, u;
+      u = change.path.length - 1;
+      for (i = 0; i < u; i++) {
+        if (typeof it[change.path[i]] === 'undefined') {
+          it[change.path[i]] = {};
+        }
+        it = it[change.path[i]];
+      }
+      switch (change.kind) {
+        case 'A':
+          // Array was modified...
+          // it will be an array...
+          revertArrayChange(it[change.path[i]], change.index, change.item);
+          break;
+        case 'D':
+          // Item was deleted...
+          it[change.path[i]] = change.lhs;
+          break;
+        case 'E':
+          // Item was edited...
+          it[change.path[i]] = change.lhs;
+          break;
+        case 'N':
+          // Item is new...
+          delete it[change.path[i]];
+          break;
+      }
+    }
+  }
+
+  function applyDiff(target, source, filter) {
+    if (target && source) {
+      var onChange = function(change) {
+        if (!filter || filter(target, source, change)) {
+          applyChange(target, source, change);
+        }
+      };
+      deepDiff(target, source, onChange);
+    }
+  }
+
+  Object.defineProperties(accumulateDiff, {
+
+    diff: {
+      value: accumulateDiff,
+      enumerable: true
+    },
+    observableDiff: {
+      value: deepDiff,
+      enumerable: true
+    },
+    applyDiff: {
+      value: applyDiff,
+      enumerable: true
+    },
+    applyChange: {
+      value: applyChange,
+      enumerable: true
+    },
+    revertChange: {
+      value: revertChange,
+      enumerable: true
+    },
+    isConflict: {
+      value: function() {
+        return 'undefined' !== typeof conflict;
+      },
+      enumerable: true
+    },
+    noConflict: {
+      value: function() {
+        if (conflictResolution) {
+          conflictResolution.forEach(function(it) {
+            it();
+          });
+          conflictResolution = null;
+        }
+        return accumulateDiff;
+      },
+      enumerable: true
+    }
+  });
+
+  return accumulateDiff;
+}));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],11:[function(require,module,exports){
+var EvStore = require("ev-store")
+
+module.exports = addEvent
+
+function addEvent(target, type, handler) {
+    var events = EvStore(target)
+    var event = events[type]
+
+    if (!event) {
+        events[type] = handler
+    } else if (Array.isArray(event)) {
+        if (event.indexOf(handler) === -1) {
+            event.push(handler)
+        }
+    } else if (event !== handler) {
+        events[type] = [event, handler]
+    }
+}
+
+},{"ev-store":17}],12:[function(require,module,exports){
+var globalDocument = require("global/document")
+var EvStore = require("ev-store")
+var createStore = require("weakmap-shim/create-store")
+
+var addEvent = require("./add-event.js")
+var removeEvent = require("./remove-event.js")
+var ProxyEvent = require("./proxy-event.js")
+
+var HANDLER_STORE = createStore()
+
+module.exports = DOMDelegator
+
+function DOMDelegator(document) {
+    if (!(this instanceof DOMDelegator)) {
+        return new DOMDelegator(document);
+    }
+
+    document = document || globalDocument
+
+    this.target = document.documentElement
+    this.events = {}
+    this.rawEventListeners = {}
+    this.globalListeners = {}
+}
+
+DOMDelegator.prototype.addEventListener = addEvent
+DOMDelegator.prototype.removeEventListener = removeEvent
+
+DOMDelegator.allocateHandle =
+    function allocateHandle(func) {
+        var handle = new Handle()
+
+        HANDLER_STORE(handle).func = func;
+
+        return handle
+    }
+
+DOMDelegator.transformHandle =
+    function transformHandle(handle, broadcast) {
+        var func = HANDLER_STORE(handle).func
+
+        return this.allocateHandle(function (ev) {
+            broadcast(ev, func);
+        })
+    }
+
+DOMDelegator.prototype.addGlobalEventListener =
+    function addGlobalEventListener(eventName, fn) {
+        var listeners = this.globalListeners[eventName] || [];
+        if (listeners.indexOf(fn) === -1) {
+            listeners.push(fn)
+        }
+
+        this.globalListeners[eventName] = listeners;
+    }
+
+DOMDelegator.prototype.removeGlobalEventListener =
+    function removeGlobalEventListener(eventName, fn) {
+        var listeners = this.globalListeners[eventName] || [];
+
+        var index = listeners.indexOf(fn)
+        if (index !== -1) {
+            listeners.splice(index, 1)
+        }
+    }
+
+DOMDelegator.prototype.listenTo = function listenTo(eventName) {
+    if (!(eventName in this.events)) {
+        this.events[eventName] = 0;
+    }
+
+    this.events[eventName]++;
+
+    if (this.events[eventName] !== 1) {
+        return
+    }
+
+    var listener = this.rawEventListeners[eventName]
+    if (!listener) {
+        listener = this.rawEventListeners[eventName] =
+            createHandler(eventName, this)
+    }
+
+    this.target.addEventListener(eventName, listener, true)
+}
+
+DOMDelegator.prototype.unlistenTo = function unlistenTo(eventName) {
+    if (!(eventName in this.events)) {
+        this.events[eventName] = 0;
+    }
+
+    if (this.events[eventName] === 0) {
+        throw new Error("already unlistened to event.");
+    }
+
+    this.events[eventName]--;
+
+    if (this.events[eventName] !== 0) {
+        return
+    }
+
+    var listener = this.rawEventListeners[eventName]
+
+    if (!listener) {
+        throw new Error("dom-delegator#unlistenTo: cannot " +
+            "unlisten to " + eventName)
+    }
+
+    this.target.removeEventListener(eventName, listener, true)
+}
+
+function createHandler(eventName, delegator) {
+    var globalListeners = delegator.globalListeners;
+    var delegatorTarget = delegator.target;
+
+    return handler
+
+    function handler(ev) {
+        var globalHandlers = globalListeners[eventName] || []
+
+        if (globalHandlers.length > 0) {
+            var globalEvent = new ProxyEvent(ev);
+            globalEvent.currentTarget = delegatorTarget;
+            callListeners(globalHandlers, globalEvent)
+        }
+
+        findAndInvokeListeners(ev.target, ev, eventName)
+    }
+}
+
+function findAndInvokeListeners(elem, ev, eventName) {
+    var listener = getListener(elem, eventName)
+
+    if (listener && listener.handlers.length > 0) {
+        var listenerEvent = new ProxyEvent(ev);
+        listenerEvent.currentTarget = listener.currentTarget
+        callListeners(listener.handlers, listenerEvent)
+
+        if (listenerEvent._bubbles) {
+            var nextTarget = listener.currentTarget.parentNode
+            findAndInvokeListeners(nextTarget, ev, eventName)
+        }
+    }
+}
+
+function getListener(target, type) {
+    // terminate recursion if parent is `null`
+    if (target === null || typeof target === "undefined") {
+        return null
+    }
+
+    var events = EvStore(target)
+    // fetch list of handler fns for this event
+    var handler = events[type]
+    var allHandler = events.event
+
+    if (!handler && !allHandler) {
+        return getListener(target.parentNode, type)
+    }
+
+    var handlers = [].concat(handler || [], allHandler || [])
+    return new Listener(target, handlers)
+}
+
+function callListeners(handlers, ev) {
+    handlers.forEach(function (handler) {
+        if (typeof handler === "function") {
+            handler(ev)
+        } else if (typeof handler.handleEvent === "function") {
+            handler.handleEvent(ev)
+        } else if (handler.type === "dom-delegator-handle") {
+            HANDLER_STORE(handler).func(ev)
+        } else {
+            throw new Error("dom-delegator: unknown handler " +
+                "found: " + JSON.stringify(handlers));
+        }
+    })
+}
+
+function Listener(target, handlers) {
+    this.currentTarget = target
+    this.handlers = handlers
+}
+
+function Handle() {
+    this.type = "dom-delegator-handle"
+}
+
+},{"./add-event.js":11,"./proxy-event.js":15,"./remove-event.js":16,"ev-store":17,"global/document":18,"weakmap-shim/create-store":60}],13:[function(require,module,exports){
+var Individual = require("individual")
+var cuid = require("cuid")
+var globalDocument = require("global/document")
+
+var DOMDelegator = require("./dom-delegator.js")
+
+var versionKey = "13"
+var cacheKey = "__DOM_DELEGATOR_CACHE@" + versionKey
+var cacheTokenKey = "__DOM_DELEGATOR_CACHE_TOKEN@" + versionKey
+var delegatorCache = Individual(cacheKey, {
+    delegators: {}
+})
+var commonEvents = [
+    "blur", "change", "click",  "contextmenu", "dblclick",
+    "error","focus", "focusin", "focusout", "input", "keydown",
+    "keypress", "keyup", "load", "mousedown", "mouseup",
+    "resize", "select", "submit", "touchcancel",
+    "touchend", "touchstart", "unload"
+]
+
+/*  Delegator is a thin wrapper around a singleton `DOMDelegator`
+        instance.
+
+    Only one DOMDelegator should exist because we do not want
+        duplicate event listeners bound to the DOM.
+
+    `Delegator` will also `listenTo()` all events unless
+        every caller opts out of it
+*/
+module.exports = Delegator
+
+function Delegator(opts) {
+    opts = opts || {}
+    var document = opts.document || globalDocument
+
+    var cacheKey = document[cacheTokenKey]
+
+    if (!cacheKey) {
+        cacheKey =
+            document[cacheTokenKey] = cuid()
+    }
+
+    var delegator = delegatorCache.delegators[cacheKey]
+
+    if (!delegator) {
+        delegator = delegatorCache.delegators[cacheKey] =
+            new DOMDelegator(document)
+    }
+
+    if (opts.defaultEvents !== false) {
+        for (var i = 0; i < commonEvents.length; i++) {
+            delegator.listenTo(commonEvents[i])
+        }
+    }
+
+    return delegator
+}
+
+Delegator.allocateHandle = DOMDelegator.allocateHandle;
+Delegator.transformHandle = DOMDelegator.transformHandle;
+
+},{"./dom-delegator.js":12,"cuid":9,"global/document":18,"individual":14}],14:[function(require,module,exports){
+(function (global){
+var root = typeof window !== 'undefined' ?
+    window : typeof global !== 'undefined' ?
+    global : {};
+
+module.exports = Individual
+
+function Individual(key, value) {
+    if (root[key]) {
+        return root[key]
+    }
+
+    Object.defineProperty(root, key, {
+        value: value
+        , configurable: true
+    })
+
+    return value
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],15:[function(require,module,exports){
+var inherits = require("inherits")
+
+var ALL_PROPS = [
+    "altKey", "bubbles", "cancelable", "ctrlKey",
+    "eventPhase", "metaKey", "relatedTarget", "shiftKey",
+    "target", "timeStamp", "type", "view", "which"
+]
+var KEY_PROPS = ["char", "charCode", "key", "keyCode"]
+var MOUSE_PROPS = [
+    "button", "buttons", "clientX", "clientY", "layerX",
+    "layerY", "offsetX", "offsetY", "pageX", "pageY",
+    "screenX", "screenY", "toElement"
+]
+
+var rkeyEvent = /^key|input/
+var rmouseEvent = /^(?:mouse|pointer|contextmenu)|click/
+
+module.exports = ProxyEvent
+
+function ProxyEvent(ev) {
+    if (!(this instanceof ProxyEvent)) {
+        return new ProxyEvent(ev)
+    }
+
+    if (rkeyEvent.test(ev.type)) {
+        return new KeyEvent(ev)
+    } else if (rmouseEvent.test(ev.type)) {
+        return new MouseEvent(ev)
+    }
+
+    for (var i = 0; i < ALL_PROPS.length; i++) {
+        var propKey = ALL_PROPS[i]
+        this[propKey] = ev[propKey]
+    }
+
+    this._rawEvent = ev
+    this._bubbles = false;
+}
+
+ProxyEvent.prototype.preventDefault = function () {
+    this._rawEvent.preventDefault()
+}
+
+ProxyEvent.prototype.startPropagation = function () {
+    this._bubbles = true;
+}
+
+function MouseEvent(ev) {
+    for (var i = 0; i < ALL_PROPS.length; i++) {
+        var propKey = ALL_PROPS[i]
+        this[propKey] = ev[propKey]
+    }
+
+    for (var j = 0; j < MOUSE_PROPS.length; j++) {
+        var mousePropKey = MOUSE_PROPS[j]
+        this[mousePropKey] = ev[mousePropKey]
+    }
+
+    this._rawEvent = ev
+}
+
+inherits(MouseEvent, ProxyEvent)
+
+function KeyEvent(ev) {
+    for (var i = 0; i < ALL_PROPS.length; i++) {
+        var propKey = ALL_PROPS[i]
+        this[propKey] = ev[propKey]
+    }
+
+    for (var j = 0; j < KEY_PROPS.length; j++) {
+        var keyPropKey = KEY_PROPS[j]
+        this[keyPropKey] = ev[keyPropKey]
+    }
+
+    this._rawEvent = ev
+}
+
+inherits(KeyEvent, ProxyEvent)
+
+},{"inherits":21}],16:[function(require,module,exports){
+var EvStore = require("ev-store")
+
+module.exports = removeEvent
+
+function removeEvent(target, type, handler) {
+    var events = EvStore(target)
+    var event = events[type]
+
+    if (!event) {
+        return
+    } else if (Array.isArray(event)) {
+        var index = event.indexOf(handler)
+        if (index !== -1) {
+            event.splice(index, 1)
+        }
+    } else if (event === handler) {
+        events[type] = null
+    }
+}
+
+},{"ev-store":17}],17:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -515,7 +1427,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":12}],10:[function(require,module,exports){
+},{"individual/one-version":20}],18:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -534,7 +1446,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":5}],11:[function(require,module,exports){
+},{"min-document":5}],19:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -557,7 +1469,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],12:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var Individual = require('./index.js');
@@ -581,14 +1493,39 @@ function OneVersion(moduleName, version, defaultValue) {
     return Individual(key, defaultValue);
 }
 
-},{"./index.js":11}],13:[function(require,module,exports){
+},{"./index.js":19}],21:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],22:[function(require,module,exports){
 "use strict";
 
 module.exports = function isObject(x) {
 	return typeof x === "object" && x !== null;
 };
 
-},{}],14:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -12943,7 +13880,7 @@ module.exports = function isObject(x) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],15:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -12977,7 +13914,7 @@ module.exports = function isObject(x) {
 
 }).call(this);
 
-},{"backbone-events-standalone":4}],16:[function(require,module,exports){
+},{"backbone-events-standalone":4}],25:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -14382,7 +15319,7 @@ module.exports = function isObject(x) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],17:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 
 var win = window, 
   doc = document;
@@ -14404,7 +15341,7 @@ var b = module.exports = {
 }
 
 
-},{}],18:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 
 // MIT
 // Thx Backbone.js 1.1.2  and https://github.com/cowboy/jquery-hashchange/blob/master/jquery.ba-hashchange.js
@@ -14619,7 +15556,7 @@ _.extend( _.emitable(Histery), {
 
 
 module.exports = Histery;
-},{"./browser.js":17,"./util.js":22}],19:[function(require,module,exports){
+},{"./browser.js":26,"./util.js":31}],28:[function(require,module,exports){
 
 var StateMan = require("./stateman.js");
 StateMan.Histery = require("./histery.js");
@@ -14628,7 +15565,7 @@ StateMan.State = require("./state.js");
 
 module.exports = StateMan;
 
-},{"./histery.js":18,"./state.js":20,"./stateman.js":21,"./util.js":22}],20:[function(require,module,exports){
+},{"./histery.js":27,"./state.js":29,"./stateman.js":30,"./util.js":31}],29:[function(require,module,exports){
 var _ = require("./util.js");
 
 
@@ -14783,7 +15720,7 @@ _.extend( _.emitable( State ), {
 
 
 module.exports = State;
-},{"./util.js":22}],21:[function(require,module,exports){
+},{"./util.js":31}],30:[function(require,module,exports){
 var State = require("./state.js"),
   Histery = require("./histery.js"),
   brow = require("./browser.js"),
@@ -15250,7 +16187,7 @@ _.extend( _.emitable( StateMan ), {
 module.exports = StateMan;
 
 
-},{"./browser.js":17,"./histery.js":18,"./state.js":20,"./util.js":22}],22:[function(require,module,exports){
+},{"./browser.js":26,"./histery.js":27,"./state.js":29,"./util.js":31}],31:[function(require,module,exports){
 var _ = module.exports = {};
 var slice = [].slice, o2str = ({}).toString;
 
@@ -15434,7 +16371,7 @@ _.isPromise = function( obj ){
 _.normalize = normalizePath;
 
 
-},{}],23:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -15750,7 +16687,7 @@ module.exports.attrs = [
 ,"y"
 ]
 
-},{"./vcomment":24,"virtual-dom/vnode/vnode":46,"virtual-dom/vnode/vtext":48}],24:[function(require,module,exports){
+},{"./vcomment":33,"virtual-dom/vnode/vnode":55,"virtual-dom/vnode/vtext":57}],33:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -15768,27 +16705,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],25:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":30}],26:[function(require,module,exports){
+},{"./vdom/create-element.js":39}],35:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":50}],27:[function(require,module,exports){
+},{"./vtree/diff.js":59}],36:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":37}],28:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":46}],37:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":33}],29:[function(require,module,exports){
+},{"./vdom/patch.js":42}],38:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -15887,7 +16824,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":41,"is-object":13}],30:[function(require,module,exports){
+},{"../vnode/is-vhook.js":50,"is-object":22}],39:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -15935,7 +16872,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":39,"../vnode/is-vnode.js":42,"../vnode/is-vtext.js":43,"../vnode/is-widget.js":44,"./apply-properties":29,"global/document":10}],31:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":48,"../vnode/is-vnode.js":51,"../vnode/is-vtext.js":52,"../vnode/is-widget.js":53,"./apply-properties":38,"global/document":18}],40:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -16022,7 +16959,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],32:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -16175,7 +17112,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":44,"../vnode/vpatch.js":47,"./apply-properties":29,"./update-widget":34}],33:[function(require,module,exports){
+},{"../vnode/is-widget.js":53,"../vnode/vpatch.js":56,"./apply-properties":38,"./update-widget":43}],42:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -16257,7 +17194,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":30,"./dom-index":31,"./patch-op":32,"global/document":10,"x-is-array":51}],34:[function(require,module,exports){
+},{"./create-element":39,"./dom-index":40,"./patch-op":41,"global/document":18,"x-is-array":62}],43:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -16274,7 +17211,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":44}],35:[function(require,module,exports){
+},{"../vnode/is-widget.js":53}],44:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -16303,7 +17240,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":9}],36:[function(require,module,exports){
+},{"ev-store":17}],45:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -16322,7 +17259,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],37:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -16461,7 +17398,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":40,"../vnode/is-vhook":41,"../vnode/is-vnode":42,"../vnode/is-vtext":43,"../vnode/is-widget":44,"../vnode/vnode.js":46,"../vnode/vtext.js":48,"./hooks/ev-hook.js":35,"./hooks/soft-set-hook.js":36,"./parse-tag.js":38,"x-is-array":51}],38:[function(require,module,exports){
+},{"../vnode/is-thunk":49,"../vnode/is-vhook":50,"../vnode/is-vnode":51,"../vnode/is-vtext":52,"../vnode/is-widget":53,"../vnode/vnode.js":55,"../vnode/vtext.js":57,"./hooks/ev-hook.js":44,"./hooks/soft-set-hook.js":45,"./parse-tag.js":47,"x-is-array":62}],47:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -16517,7 +17454,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":6}],39:[function(require,module,exports){
+},{"browser-split":6}],48:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -16559,14 +17496,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":40,"./is-vnode":42,"./is-vtext":43,"./is-widget":44}],40:[function(require,module,exports){
+},{"./is-thunk":49,"./is-vnode":51,"./is-vtext":52,"./is-widget":53}],49:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],41:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -16575,7 +17512,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],42:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -16584,7 +17521,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":45}],43:[function(require,module,exports){
+},{"./version":54}],52:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -16593,17 +17530,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":45}],44:[function(require,module,exports){
+},{"./version":54}],53:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],45:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports = "2"
 
-},{}],46:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -16677,7 +17614,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":40,"./is-vhook":41,"./is-vnode":42,"./is-widget":44,"./version":45}],47:[function(require,module,exports){
+},{"./is-thunk":49,"./is-vhook":50,"./is-vnode":51,"./is-widget":53,"./version":54}],56:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -16701,7 +17638,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":45}],48:[function(require,module,exports){
+},{"./version":54}],57:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -16713,7 +17650,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":45}],49:[function(require,module,exports){
+},{"./version":54}],58:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -16773,7 +17710,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":41,"is-object":13}],50:[function(require,module,exports){
+},{"../vnode/is-vhook":50,"is-object":22}],59:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -17202,7 +18139,46 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":39,"../vnode/is-thunk":40,"../vnode/is-vnode":42,"../vnode/is-vtext":43,"../vnode/is-widget":44,"../vnode/vpatch":47,"./diff-props":49,"x-is-array":51}],51:[function(require,module,exports){
+},{"../vnode/handle-thunk":48,"../vnode/is-thunk":49,"../vnode/is-vnode":51,"../vnode/is-vtext":52,"../vnode/is-widget":53,"../vnode/vpatch":56,"./diff-props":58,"x-is-array":62}],60:[function(require,module,exports){
+var hiddenStore = require('./hidden-store.js');
+
+module.exports = createStore;
+
+function createStore() {
+    var key = {};
+
+    return function (obj) {
+        if ((typeof obj !== 'object' || obj === null) &&
+            typeof obj !== 'function'
+        ) {
+            throw new Error('Weakmap-shim: Key must be object')
+        }
+
+        var store = obj.valueOf(key);
+        return store && store.identity === key ?
+            store : hiddenStore(obj, key);
+    };
+}
+
+},{"./hidden-store.js":61}],61:[function(require,module,exports){
+module.exports = hiddenStore;
+
+function hiddenStore(obj, key) {
+    var store = { identity: key };
+    var valueOf = obj.valueOf;
+
+    Object.defineProperty(obj, "valueOf", {
+        value: function (value) {
+            return value !== key ?
+                valueOf.apply(this, arguments) : store;
+        },
+        writable: true
+    });
+
+    return store;
+}
+
+},{}],62:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -17212,45 +18188,45 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],52:[function(require,module,exports){
-"use strict";
+},{}],63:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator = require('mediatorjs');
     var configService = require('../services/config');
+    var _ = require('lodash');
+    var observableDiff = require('deep-diff').observableDiff,
+        applyChange        = require('deep-diff').applyChange;
     var that = {};
     that.load = function (element) {
-        element.style.width = "100%";
-        element.style["max-width"] = "100%";
-        element.style.height = "400px";
-        element.style.float = "left";
-        var config = configService.get();
-        config.chart.renderTo = element;
-        var chart = new Highcharts.Chart(config);
-        mediator.on('presetUpdate', function () {
-            config = configService.get();
-            config.chart.renderTo = element;
-            chart = new Highcharts.Chart(config);
+        configService.setValue('chart.renderTo', element);
+        var chart = new Highcharts.Chart(configService.get());
+        mediator.on('configUpdate', function () {
+            chart = new Highcharts.Chart(configService.get());
+        });
+        mediator.on('dataUpdate', function () {
+            chart = new Highcharts.Chart(configService.get());
         });
     };
-    console.log('test');
+
     module.exports = that;
 })();
-},{"../services/config":61,"mediatorjs":15}],53:[function(require,module,exports){
-"use strict";
+},{"../services/config":72,"deep-diff":10,"lodash":23,"mediatorjs":24}],64:[function(require,module,exports){
 (function () {
-    var config = require('../config/config.json');
-    var h = require('virtual-dom/h');
-    var template =
-        h('div', [
-            h('p', 'Pretty sweet, isn\'t it?'),
-            h('p', 'Here, let me give some examples or something.')
-        ]);
+    var config = require('../config/customise.json');
 
-    module.exports = template;
+    var _ = require('lodash');
+    var h = require('virtual-dom/h');
+    var diff = require('virtual-dom/diff');
+    var patch = require('virtual-dom/patch');
+    var that = {};
+    that.load = function(element){
+        element.innerHTML = 'customise';
+    };
+
+    module.exports = that;
+
 })();
-},{"../config/config.json":57,"virtual-dom/h":27}],54:[function(require,module,exports){
-"use strict";
+},{"../config/customise.json":68,"lodash":23,"virtual-dom/diff":35,"virtual-dom/h":36,"virtual-dom/patch":37}],65:[function(require,module,exports){
 (function () {
     var dataService = require('../services/data.js');
     var papa = require('papaparse');
@@ -17291,8 +18267,7 @@ function isArray(obj) {
 
 
 
-},{"../services/data.js":62,"lodash":14,"papaparse":16,"virtual-dom/create-element":25,"virtual-dom/h":27}],55:[function(require,module,exports){
-"use strict";
+},{"../services/data.js":73,"lodash":23,"papaparse":25,"virtual-dom/create-element":34,"virtual-dom/h":36}],66:[function(require,module,exports){
 (function () {
     var Handsontable = require("../../../bower_components/handsontable/dist/handsontable.full.min.js");
     var css = require("../../../bower_components/handsontable/dist/handsontable.full.css");
@@ -17309,7 +18284,13 @@ function isArray(obj) {
             startCols: 5,
             rowHeaders: true,
             colHeaders: true,
-            contextMenu: true
+            contextMenu: true,
+            afterChange: function () {
+                var data = removeEmptyRows(this);
+                if(!_.isEmpty(data)){
+                    dataService.set(removeEmptyRows(hot));
+                }
+            }
         });
 
         if (!_.isEmpty(dataService.get())) {
@@ -17351,8 +18332,7 @@ function isArray(obj) {
 
 
 
-},{"../../../bower_components/handsontable/dist/handsontable.full.css":1,"../../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":62,"lodash":14,"mediatorjs":15}],56:[function(require,module,exports){
-"use strict";
+},{"../../../bower_components/handsontable/dist/handsontable.full.css":1,"../../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":73,"lodash":23,"mediatorjs":24}],67:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = require('lodash');
@@ -17361,7 +18341,8 @@ function isArray(obj) {
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var virtualize = require('vdom-virtualize');
-
+    var Delegator = require("dom-delegator");
+    var del = Delegator();
     var templateTypes = require('../config/templates.json');
     var config = require('../services/config');
     var includeFolder = undefined,
@@ -17383,34 +18364,6 @@ return self})();
         rootNode = createElement(tabs);
         element.appendChild(rootNode);
         build();
-        /*
-         var tabs = document.createElement('ul');
-         var itemTemplate = _.template('<button><%= title %></button>');
-         var typeTemplate = _.template('<h3><%= type %></h3>');
-         _.forEach(templateTypes, function(type){
-         var tab = document.createElement('li');
-         var logo = document.createElement('div');
-         logo.innerHTML = icons[type.icon];
-         var svg = logo.querySelector('svg');
-         svg.setAttribute("height", "50px");
-         svg.setAttribute("width", "50px");
-         tab.innerHTML = typeTemplate({type: type.type});
-         var list = document.createElement('ul');
-         _.forEach(type.presets, function(preset){
-         var item = document.createElement('li');
-         item.innerHTML = itemTemplate({title: preset.title});
-         item.onclick = function(){
-         config.setPreset(type.id, preset.id)
-         };
-         list.appendChild(item);
-         });
-
-         tab.appendChild(logo);
-         tab.appendChild(list);
-         tabs.appendChild(tab);
-         });
-         element.appendChild(tabs);
-         */
     };
 
     function build() {
@@ -17435,7 +18388,7 @@ return self})();
             var item = h('a',
                 {
                     className: "templatelist__item",
-                    onclick: function(){
+                    'ev-click': function(){
                         config.setPreset(activeType.id, preset.id);
                     }
                 },[
@@ -17458,16 +18411,17 @@ return self})();
     function generateTabs(types, active) {
         var links = [];
         _.forEach(types, function (type, index) {
+            var className = '';
             if (type.id == activeTab) {
-                var className = "vertical-tab is-active"
+                className = "vertical-tab is-active"
             }
             else {
-                var className = "vertical-tab";
+                className = "vertical-tab";
             }
 
             var link = h('li.hover', {
                 className: className,
-                onclick: function () {
+                'ev-click': function () {
                     setActive(type.id);
                 }
             }, type.type);
@@ -17491,7 +18445,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"../config/templates.json":58,"../services/config":61,"fs":8,"lodash":14,"vdom-virtualize":23,"virtual-dom/create-element":25,"virtual-dom/diff":26,"virtual-dom/h":27,"virtual-dom/patch":28}],57:[function(require,module,exports){
+},{"../config/templates.json":69,"../services/config":72,"dom-delegator":13,"fs":8,"lodash":23,"vdom-virtualize":32,"virtual-dom/create-element":34,"virtual-dom/diff":35,"virtual-dom/h":36,"virtual-dom/patch":37}],68:[function(require,module,exports){
 module.exports=module.exports = {
   "panels": [
     {
@@ -17608,7 +18562,7 @@ module.exports=module.exports = {
     }
   ]
 }
-},{}],58:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 module.exports=module.exports = [
   {
     "id": "line",
@@ -18935,13 +19889,27 @@ module.exports=module.exports = [
     ]
   }
 ]
-},{}],59:[function(require,module,exports){
-"use strict";
+},{}],70:[function(require,module,exports){
+var dataService = require('./services/data');
+// dev data
+dataService.set([
+    ["","test","lowpoint","highpoint"  ],
+    ["experiment 1","50","48","51"  ],
+    ["experiment 2","50","68","73"  ],
+    ["experiment 3","50","92","110"  ],
+    ["experiment 4","50","128","136"  ],
+    ["experiment 5","50","140","150"  ],
+    ["experiment 6","50","171","179"  ],
+    ["experiment 7","50","135","143"  ],
+    ["experiment 8","50","142","149"  ],
+    ["experiment 9","50","204","220"  ],
+    ["experiment 10","50","189","199"  ]
+]);
+
 require('./route.js');
 
 
-},{"./route.js":60}],60:[function(require,module,exports){
-"use strict";
+},{"./route.js":71,"./services/data":73}],71:[function(require,module,exports){
 (function () {
     var StateMan = require('stateman');
     var h = require('virtual-dom/h');
@@ -18972,9 +19940,13 @@ require('./route.js');
                     app.appendChild(importElement);
                     dataImport.load(importElement);
 
-                    var tableElement = createElement(h('div'));
+                    var tableElement = createElement(h('div.left'));
                     app.appendChild(tableElement);
                     table.load(tableElement);
+
+                    var chartElement = createElement(h('div.right'));
+                    chart.load(chartElement);
+                    app.appendChild(chartElement);
                 },
                 leave: function () {
                     table.destroy();
@@ -18983,23 +19955,28 @@ require('./route.js');
 
             "app.templates": {
                 enter: function (state) {
-                    var chartElement = createElement(h('div'));
-                    chart.load(chartElement);
-                    app.appendChild(chartElement);
-
-                    var templateElement = createElement(h('div'));
+                    var templateElement = createElement(h('div.left'));
                     templates.load(templateElement);
                     app.appendChild(templateElement);
+
+                    var chartElement = createElement(h('div.right'));
+                    chart.load(chartElement);
+                    app.appendChild(chartElement);
                 }
             },
 
             "app.customise": {
                 enter: function (state) {
+                    var customiseElement = createElement(h('div.left'));
+                    customise.load(customiseElement);
+                    app.appendChild(customiseElement);
 
+                    var chartElement = createElement(h('div.right'));
+                    chart.load(chartElement);
+                    app.appendChild(chartElement);
                 }
             }
         })
-
         .on("begin", function (state) {
             app.innerHTML = '';
             render(state);
@@ -19007,8 +19984,6 @@ require('./route.js');
         .on("notfound", function () {
             this.go('app.import');
         });
-
-
 
 
     function render(state) {
@@ -19054,8 +20029,7 @@ require('./route.js');
 
 })();
 
-},{"./components/chart.js":52,"./components/customise.js":53,"./components/import.js":54,"./components/table.js":55,"./components/templates.js":56,"stateman":19,"virtual-dom/create-element":25,"virtual-dom/diff":26,"virtual-dom/h":27,"virtual-dom/patch":28}],61:[function(require,module,exports){
-"use strict";
+},{"./components/chart.js":63,"./components/customise.js":64,"./components/import.js":65,"./components/table.js":66,"./components/templates.js":67,"stateman":28,"virtual-dom/create-element":34,"virtual-dom/diff":35,"virtual-dom/h":36,"virtual-dom/patch":37}],72:[function(require,module,exports){
 (function () {
     var _ = require('lodash');
     var dataService = require('../services/data.js');
@@ -19063,29 +20037,77 @@ require('./route.js');
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
-    var type = 'column';
-    var preset = 'errorbar';
+    var config = {
+        preset :{
+            type: 'line',
+            preset: 'dataLabels'
+        },
+        chart: {
+
+        },
+        plotOptions:{
+            series:{
+                'animation': false
+            }
+        }
+    };
 
     that.get = function () {
-        var preset = loadPreset(type, preset);
+        var preset = loadPreset(config.preset.type, config.preset.preset);
         var labels = hasLabels(dataService.get());
-        var object = {
-            chart: {
 
-            },
-            series: series.get(dataService.getData(labels.series, labels.categories), preset, labels)
+        var object = _.cloneDeep(_.merge(preset,config));
+
+        object.series = series.get(dataService.getData(labels.series, labels.categories), preset, labels);
+        return _.cloneDeep(object);
+    };
+
+    that.setValue = function(path, value){
+        ids = path.split('.');
+        var step;
+        var object = config;
+        while (step = ids.shift()) {
+            if(ids.length > 0){
+                if(!_.isUndefined(object[step])){
+                    object = object[step];
+                } else {
+                    object[step] = {};
+                    object = object[step];
+                }
+            } else {
+                object[step] = value;
+            }
+        }
+
+        mediator.trigger('configUpdate');
+    };
+
+    that.setValues = function(array){
+        _.forEach(array, function(row){
+            that.setValue(row[0], row[1]);
+        });
+        mediator.trigger('configUpdate');
+    };
+
+    that.getValue = function(path){
+        var object = that.get();
+        path = path.split('.');
+        var step;
+        while (step = path.shift()) {
+            object = object[step];
+        }
+        return object;
+    };
+
+    that.setPreset = function(type, preset){
+        config.preset = {
+            type: type,
+            preset: preset
         };
-        return _.merge(preset, object);
+        mediator.trigger('configUpdate');
     };
 
-    that.setPreset = function (_type_, _preset_) {
-        type = _type_;
-        preset = _preset_;
-
-        mediator.trigger('presetUpdate');
-    };
-
-    function loadPreset(){
+    function loadPreset(type, preset){
         var typeConfig = _.find(templates,{id:type});
         return _.find(typeConfig.presets, {id:preset}).definition;
     }
@@ -19106,11 +20128,9 @@ require('./route.js');
         return labels;
     }
 
-
     module.exports = that;
 })();
-},{"../config/templates.json":58,"../services/data.js":62,"../services/series.js":63,"lodash":14,"mediatorjs":15}],62:[function(require,module,exports){
-"use strict";
+},{"../config/templates.json":69,"../services/data.js":73,"../services/series.js":74,"lodash":23,"mediatorjs":24}],73:[function(require,module,exports){
 (function () {
     var _ = require('lodash');
     var mediator = require('mediatorjs');
@@ -19160,8 +20180,7 @@ require('./route.js');
 ();
 
 
-},{"lodash":14,"mediatorjs":15}],63:[function(require,module,exports){
-"use strict";
+},{"lodash":23,"mediatorjs":24}],74:[function(require,module,exports){
 (function () {
     var that = {};
     var dataService = require('../services/data.js');
@@ -19280,4 +20299,4 @@ require('./route.js');
     module.exports = that;
 })();
 
-},{"../services/data.js":62,"lodash":14}]},{},[59]);
+},{"../services/data.js":73,"lodash":23}]},{},[70]);

@@ -8,9 +8,15 @@ a, .hover{
 }
 
 .container{
-  @include outer-container;
-}
 
+}
+.left{
+  @include span-columns(6);
+}
+.right{
+  @include span-columns(6);
+  @include omega();
+}
 .templatelist{
   &__item{
     @include span-columns(2);

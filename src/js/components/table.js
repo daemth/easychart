@@ -14,7 +14,13 @@
             startCols: 5,
             rowHeaders: true,
             colHeaders: true,
-            contextMenu: true
+            contextMenu: true,
+            afterChange: function () {
+                var data = removeEmptyRows(this);
+                if(!_.isEmpty(data)){
+                    dataService.set(removeEmptyRows(hot));
+                }
+            }
         });
 
         if (!_.isEmpty(dataService.get())) {

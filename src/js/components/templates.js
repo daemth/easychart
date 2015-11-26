@@ -6,7 +6,8 @@
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var virtualize = require('vdom-virtualize');
-
+    var Delegator = require("dom-delegator");
+    var del = Delegator();
     var templateTypes = require('../config/templates.json');
     var config = require('../services/config');
     var includeFolder = require('include-folder'),
@@ -19,34 +20,6 @@
         rootNode = createElement(tabs);
         element.appendChild(rootNode);
         build();
-        /*
-         var tabs = document.createElement('ul');
-         var itemTemplate = _.template('<button><%= title %></button>');
-         var typeTemplate = _.template('<h3><%= type %></h3>');
-         _.forEach(templateTypes, function(type){
-         var tab = document.createElement('li');
-         var logo = document.createElement('div');
-         logo.innerHTML = icons[type.icon];
-         var svg = logo.querySelector('svg');
-         svg.setAttribute("height", "50px");
-         svg.setAttribute("width", "50px");
-         tab.innerHTML = typeTemplate({type: type.type});
-         var list = document.createElement('ul');
-         _.forEach(type.presets, function(preset){
-         var item = document.createElement('li');
-         item.innerHTML = itemTemplate({title: preset.title});
-         item.onclick = function(){
-         config.setPreset(type.id, preset.id)
-         };
-         list.appendChild(item);
-         });
-
-         tab.appendChild(logo);
-         tab.appendChild(list);
-         tabs.appendChild(tab);
-         });
-         element.appendChild(tabs);
-         */
     };
 
     function build() {
@@ -71,7 +44,7 @@
             var item = h('a',
                 {
                     className: "templatelist__item",
-                    onclick: function(){
+                    'ev-click': function(){
                         config.setPreset(activeType.id, preset.id);
                     }
                 },[
@@ -94,16 +67,17 @@
     function generateTabs(types, active) {
         var links = [];
         _.forEach(types, function (type, index) {
+            var className = '';
             if (type.id == activeTab) {
-                var className = "vertical-tab is-active"
+                className = "vertical-tab is-active"
             }
             else {
-                var className = "vertical-tab";
+                className = "vertical-tab";
             }
 
             var link = h('li.hover', {
                 className: className,
-                onclick: function () {
+                'ev-click': function () {
                     setActive(type.id);
                 }
             }, type.type);

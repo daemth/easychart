@@ -5,29 +5,77 @@
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
-    var type = 'column';
-    var preset = 'errorbar';
+    var config = {
+        preset :{
+            type: 'line',
+            preset: 'dataLabels'
+        },
+        chart: {
+
+        },
+        plotOptions:{
+            series:{
+                'animation': false
+            }
+        }
+    };
 
     that.get = function () {
-        var preset = loadPreset(type, preset);
+        var preset = loadPreset(config.preset.type, config.preset.preset);
         var labels = hasLabels(dataService.get());
-        var object = {
-            chart: {
 
-            },
-            series: series.get(dataService.getData(labels.series, labels.categories), preset, labels)
+        var object = _.cloneDeep(_.merge(preset,config));
+
+        object.series = series.get(dataService.getData(labels.series, labels.categories), preset, labels);
+        return _.cloneDeep(object);
+    };
+
+    that.setValue = function(path, value){
+        ids = path.split('.');
+        var step;
+        var object = config;
+        while (step = ids.shift()) {
+            if(ids.length > 0){
+                if(!_.isUndefined(object[step])){
+                    object = object[step];
+                } else {
+                    object[step] = {};
+                    object = object[step];
+                }
+            } else {
+                object[step] = value;
+            }
+        }
+
+        mediator.trigger('configUpdate');
+    };
+
+    that.setValues = function(array){
+        _.forEach(array, function(row){
+            that.setValue(row[0], row[1]);
+        });
+        mediator.trigger('configUpdate');
+    };
+
+    that.getValue = function(path){
+        var object = that.get();
+        path = path.split('.');
+        var step;
+        while (step = path.shift()) {
+            object = object[step];
+        }
+        return object;
+    };
+
+    that.setPreset = function(type, preset){
+        config.preset = {
+            type: type,
+            preset: preset
         };
-        return _.merge(preset, object);
+        mediator.trigger('configUpdate');
     };
 
-    that.setPreset = function (_type_, _preset_) {
-        type = _type_;
-        preset = _preset_;
-
-        mediator.trigger('presetUpdate');
-    };
-
-    function loadPreset(){
+    function loadPreset(type, preset){
         var typeConfig = _.find(templates,{id:type});
         return _.find(typeConfig.presets, {id:preset}).definition;
     }
@@ -47,7 +95,6 @@
         }
         return labels;
     }
-
 
     module.exports = that;
 })();

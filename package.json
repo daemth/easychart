@@ -4,6 +4,7 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
+    "dom-delegator": "^13.1.0",
     "highcharts": "0.0.10",
     "highcharts-browserify": "^2.0.2"
   },
@@ -27,7 +28,7 @@
     "nodemon": "latest"
   },
   "scripts": {
-    "build:main:bundle": "browserify src/js/main.js -o dist/easychart.js -t strictify",
+    "build:main:bundle": "browserify src/js/main.js -o dist/easychart.js",
     "build:main:uglify": "uglifyjs dist/easychart.js -c -v -o dist/easychart.js",
     "build:main": "npm run build:main:bundle",
     "build:styles": "node-sass --stdout --output-style compressed src/scss/style.scss --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets -o ./dist/css",
@@ -36,7 +37,6 @@
     "watch:styles": "nodemon -e scss -w src/scss -x 'npm run build:styles'",
     "watch": "npm run watch:main & npm run watch:styles"
   },
-
   "repository": {
     "type": "git",
     "url": "git://github.com/bestuurszaken/easychart.git"

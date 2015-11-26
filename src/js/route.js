@@ -28,9 +28,13 @@
                     app.appendChild(importElement);
                     dataImport.load(importElement);
 
-                    var tableElement = createElement(h('div'));
+                    var tableElement = createElement(h('div.left'));
                     app.appendChild(tableElement);
                     table.load(tableElement);
+
+                    var chartElement = createElement(h('div.right'));
+                    chart.load(chartElement);
+                    app.appendChild(chartElement);
                 },
                 leave: function () {
                     table.destroy();
@@ -39,23 +43,28 @@
 
             "app.templates": {
                 enter: function (state) {
-                    var chartElement = createElement(h('div'));
-                    chart.load(chartElement);
-                    app.appendChild(chartElement);
-
-                    var templateElement = createElement(h('div'));
+                    var templateElement = createElement(h('div.left'));
                     templates.load(templateElement);
                     app.appendChild(templateElement);
+
+                    var chartElement = createElement(h('div.right'));
+                    chart.load(chartElement);
+                    app.appendChild(chartElement);
                 }
             },
 
             "app.customise": {
                 enter: function (state) {
+                    var customiseElement = createElement(h('div.left'));
+                    customise.load(customiseElement);
+                    app.appendChild(customiseElement);
 
+                    var chartElement = createElement(h('div.right'));
+                    chart.load(chartElement);
+                    app.appendChild(chartElement);
                 }
             }
         })
-
         .on("begin", function (state) {
             app.innerHTML = '';
             render(state);
@@ -63,8 +72,6 @@
         .on("notfound", function () {
             this.go('app.import');
         });
-
-
 
 
     function render(state) {
