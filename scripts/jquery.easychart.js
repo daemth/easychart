@@ -1,7 +1,7 @@
 /*
- Easychart JS v2.2.1 (2015-11-11)
+ Easychart JS v2.2.2 (2015-11-11)
 
- (c) 2014 - 2015 Thomas O. Daem
+ (c) 2014 - 2015 Thomas Daem
 
  License: www.easychart.org/license
  */
