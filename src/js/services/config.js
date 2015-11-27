@@ -27,6 +27,7 @@
         var object = _.cloneDeep(_.merge(preset,config));
 
         object.series = series.get(dataService.getData(labels.series, labels.categories), preset, labels);
+
         return _.cloneDeep(object);
     };
 

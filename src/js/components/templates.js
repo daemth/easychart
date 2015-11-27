@@ -1,13 +1,13 @@
 (function () {
     var that = {};
     var _ = require('lodash');
+
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var virtualize = require('vdom-virtualize');
-    var Delegator = require("dom-delegator");
-    var del = Delegator();
+
     var templateTypes = require('../config/templates.json');
     var config = require('../services/config');
     var includeFolder = require('include-folder'),
@@ -15,6 +15,7 @@
     var tabs;
     var rootNode;
     var activeTab = _.first(templateTypes).id;
+
     that.load = function (element) {
         tabs = h('div');
         rootNode = createElement(tabs);
@@ -84,7 +85,6 @@
 
             links.push(link);
         });
-
         return tabs = h('ul', {className: "vertical-tabs"}, links);
     }
 

@@ -605,413 +605,6 @@ arguments[4][5][0].apply(exports,arguments)
 }(this.applitude || this));
 
 },{}],10:[function(require,module,exports){
-(function (global){
-/*!
- * deep-diff.
- * Licensed under the MIT License.
- */
-;(function(root, factory) {
-  'use strict';
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define([], factory);
-  } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
-    module.exports = factory();
-  } else {
-    // Browser globals (root is window)
-    root.DeepDiff = factory();
-  }
-}(this, function(undefined) {
-  'use strict';
-
-  var $scope, conflict, conflictResolution = [];
-  if (typeof global === 'object' && global) {
-    $scope = global;
-  } else if (typeof window !== 'undefined') {
-    $scope = window;
-  } else {
-    $scope = {};
-  }
-  conflict = $scope.DeepDiff;
-  if (conflict) {
-    conflictResolution.push(
-      function() {
-        if ('undefined' !== typeof conflict && $scope.DeepDiff === accumulateDiff) {
-          $scope.DeepDiff = conflict;
-          conflict = undefined;
-        }
-      });
-  }
-
-  // nodejs compatible on server side and in the browser.
-  function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor;
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  }
-
-  function Diff(kind, path) {
-    Object.defineProperty(this, 'kind', {
-      value: kind,
-      enumerable: true
-    });
-    if (path && path.length) {
-      Object.defineProperty(this, 'path', {
-        value: path,
-        enumerable: true
-      });
-    }
-  }
-
-  function DiffEdit(path, origin, value) {
-    DiffEdit.super_.call(this, 'E', path);
-    Object.defineProperty(this, 'lhs', {
-      value: origin,
-      enumerable: true
-    });
-    Object.defineProperty(this, 'rhs', {
-      value: value,
-      enumerable: true
-    });
-  }
-  inherits(DiffEdit, Diff);
-
-  function DiffNew(path, value) {
-    DiffNew.super_.call(this, 'N', path);
-    Object.defineProperty(this, 'rhs', {
-      value: value,
-      enumerable: true
-    });
-  }
-  inherits(DiffNew, Diff);
-
-  function DiffDeleted(path, value) {
-    DiffDeleted.super_.call(this, 'D', path);
-    Object.defineProperty(this, 'lhs', {
-      value: value,
-      enumerable: true
-    });
-  }
-  inherits(DiffDeleted, Diff);
-
-  function DiffArray(path, index, item) {
-    DiffArray.super_.call(this, 'A', path);
-    Object.defineProperty(this, 'index', {
-      value: index,
-      enumerable: true
-    });
-    Object.defineProperty(this, 'item', {
-      value: item,
-      enumerable: true
-    });
-  }
-  inherits(DiffArray, Diff);
-
-  function arrayRemove(arr, from, to) {
-    var rest = arr.slice((to || from) + 1 || arr.length);
-    arr.length = from < 0 ? arr.length + from : from;
-    arr.push.apply(arr, rest);
-    return arr;
-  }
-
-  function realTypeOf(subject) {
-    var type = typeof subject;
-    if (type !== 'object') {
-      return type;
-    }
-
-    if (subject === Math) {
-      return 'math';
-    } else if (subject === null) {
-      return 'null';
-    } else if (Array.isArray(subject)) {
-      return 'array';
-    } else if (subject instanceof Date) {
-      return 'date';
-    } else if (/^\/.*\//.test(subject.toString())) {
-      return 'regexp';
-    }
-    return 'object';
-  }
-
-  function deepDiff(lhs, rhs, changes, prefilter, path, key, stack) {
-    path = path || [];
-    var currentPath = path.slice(0);
-    if (typeof key !== 'undefined') {
-      if (prefilter && prefilter(currentPath, key, { lhs: lhs, rhs: rhs })) {
-        return;
-      }
-      currentPath.push(key);
-    }
-    var ltype = typeof lhs;
-    var rtype = typeof rhs;
-    if (ltype === 'undefined') {
-      if (rtype !== 'undefined') {
-        changes(new DiffNew(currentPath, rhs));
-      }
-    } else if (rtype === 'undefined') {
-      changes(new DiffDeleted(currentPath, lhs));
-    } else if (realTypeOf(lhs) !== realTypeOf(rhs)) {
-      changes(new DiffEdit(currentPath, lhs, rhs));
-    } else if (lhs instanceof Date && rhs instanceof Date && ((lhs - rhs) !== 0)) {
-      changes(new DiffEdit(currentPath, lhs, rhs));
-    } else if (ltype === 'object' && lhs !== null && rhs !== null) {
-      stack = stack || [];
-      if (stack.indexOf(lhs) < 0) {
-        stack.push(lhs);
-        if (Array.isArray(lhs)) {
-          var i, len = lhs.length;
-          for (i = 0; i < lhs.length; i++) {
-            if (i >= rhs.length) {
-              changes(new DiffArray(currentPath, i, new DiffDeleted(undefined, lhs[i])));
-            } else {
-              deepDiff(lhs[i], rhs[i], changes, prefilter, currentPath, i, stack);
-            }
-          }
-          while (i < rhs.length) {
-            changes(new DiffArray(currentPath, i, new DiffNew(undefined, rhs[i++])));
-          }
-        } else {
-          var akeys = Object.keys(lhs);
-          var pkeys = Object.keys(rhs);
-          akeys.forEach(function(k, i) {
-            var other = pkeys.indexOf(k);
-            if (other >= 0) {
-              deepDiff(lhs[k], rhs[k], changes, prefilter, currentPath, k, stack);
-              pkeys = arrayRemove(pkeys, other);
-            } else {
-              deepDiff(lhs[k], undefined, changes, prefilter, currentPath, k, stack);
-            }
-          });
-          pkeys.forEach(function(k) {
-            deepDiff(undefined, rhs[k], changes, prefilter, currentPath, k, stack);
-          });
-        }
-        stack.length = stack.length - 1;
-      }
-    } else if (lhs !== rhs) {
-      if (!(ltype === 'number' && isNaN(lhs) && isNaN(rhs))) {
-        changes(new DiffEdit(currentPath, lhs, rhs));
-      }
-    }
-  }
-
-  function accumulateDiff(lhs, rhs, prefilter, accum) {
-    accum = accum || [];
-    deepDiff(lhs, rhs,
-      function(diff) {
-        if (diff) {
-          accum.push(diff);
-        }
-      },
-      prefilter);
-    return (accum.length) ? accum : undefined;
-  }
-
-  function applyArrayChange(arr, index, change) {
-    if (change.path && change.path.length) {
-      var it = arr[index],
-        i, u = change.path.length - 1;
-      for (i = 0; i < u; i++) {
-        it = it[change.path[i]];
-      }
-      switch (change.kind) {
-        case 'A':
-          applyArrayChange(it[change.path[i]], change.index, change.item);
-          break;
-        case 'D':
-          delete it[change.path[i]];
-          break;
-        case 'E':
-        case 'N':
-          it[change.path[i]] = change.rhs;
-          break;
-      }
-    } else {
-      switch (change.kind) {
-        case 'A':
-          applyArrayChange(arr[index], change.index, change.item);
-          break;
-        case 'D':
-          arr = arrayRemove(arr, index);
-          break;
-        case 'E':
-        case 'N':
-          arr[index] = change.rhs;
-          break;
-      }
-    }
-    return arr;
-  }
-
-  function applyChange(target, source, change) {
-    if (target && source && change && change.kind) {
-      var it = target,
-        i = -1,
-        last = change.path ? change.path.length - 1 : 0;
-      while (++i < last) {
-        if (typeof it[change.path[i]] === 'undefined') {
-          it[change.path[i]] = (typeof change.path[i] === 'number') ? [] : {};
-        }
-        it = it[change.path[i]];
-      }
-      switch (change.kind) {
-        case 'A':
-          applyArrayChange(change.path ? it[change.path[i]] : it, change.index, change.item);
-          break;
-        case 'D':
-          delete it[change.path[i]];
-          break;
-        case 'E':
-        case 'N':
-          it[change.path[i]] = change.rhs;
-          break;
-      }
-    }
-  }
-
-  function revertArrayChange(arr, index, change) {
-    if (change.path && change.path.length) {
-      // the structure of the object at the index has changed...
-      var it = arr[index],
-        i, u = change.path.length - 1;
-      for (i = 0; i < u; i++) {
-        it = it[change.path[i]];
-      }
-      switch (change.kind) {
-        case 'A':
-          revertArrayChange(it[change.path[i]], change.index, change.item);
-          break;
-        case 'D':
-          it[change.path[i]] = change.lhs;
-          break;
-        case 'E':
-          it[change.path[i]] = change.lhs;
-          break;
-        case 'N':
-          delete it[change.path[i]];
-          break;
-      }
-    } else {
-      // the array item is different...
-      switch (change.kind) {
-        case 'A':
-          revertArrayChange(arr[index], change.index, change.item);
-          break;
-        case 'D':
-          arr[index] = change.lhs;
-          break;
-        case 'E':
-          arr[index] = change.lhs;
-          break;
-        case 'N':
-          arr = arrayRemove(arr, index);
-          break;
-      }
-    }
-    return arr;
-  }
-
-  function revertChange(target, source, change) {
-    if (target && source && change && change.kind) {
-      var it = target,
-        i, u;
-      u = change.path.length - 1;
-      for (i = 0; i < u; i++) {
-        if (typeof it[change.path[i]] === 'undefined') {
-          it[change.path[i]] = {};
-        }
-        it = it[change.path[i]];
-      }
-      switch (change.kind) {
-        case 'A':
-          // Array was modified...
-          // it will be an array...
-          revertArrayChange(it[change.path[i]], change.index, change.item);
-          break;
-        case 'D':
-          // Item was deleted...
-          it[change.path[i]] = change.lhs;
-          break;
-        case 'E':
-          // Item was edited...
-          it[change.path[i]] = change.lhs;
-          break;
-        case 'N':
-          // Item is new...
-          delete it[change.path[i]];
-          break;
-      }
-    }
-  }
-
-  function applyDiff(target, source, filter) {
-    if (target && source) {
-      var onChange = function(change) {
-        if (!filter || filter(target, source, change)) {
-          applyChange(target, source, change);
-        }
-      };
-      deepDiff(target, source, onChange);
-    }
-  }
-
-  Object.defineProperties(accumulateDiff, {
-
-    diff: {
-      value: accumulateDiff,
-      enumerable: true
-    },
-    observableDiff: {
-      value: deepDiff,
-      enumerable: true
-    },
-    applyDiff: {
-      value: applyDiff,
-      enumerable: true
-    },
-    applyChange: {
-      value: applyChange,
-      enumerable: true
-    },
-    revertChange: {
-      value: revertChange,
-      enumerable: true
-    },
-    isConflict: {
-      value: function() {
-        return 'undefined' !== typeof conflict;
-      },
-      enumerable: true
-    },
-    noConflict: {
-      value: function() {
-        if (conflictResolution) {
-          conflictResolution.forEach(function(it) {
-            it();
-          });
-          conflictResolution = null;
-        }
-        return accumulateDiff;
-      },
-      enumerable: true
-    }
-  });
-
-  return accumulateDiff;
-}));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],11:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = addEvent
@@ -1031,7 +624,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":17}],12:[function(require,module,exports){
+},{"ev-store":16}],11:[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -1220,7 +813,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":11,"./proxy-event.js":15,"./remove-event.js":16,"ev-store":17,"global/document":18,"weakmap-shim/create-store":60}],13:[function(require,module,exports){
+},{"./add-event.js":10,"./proxy-event.js":14,"./remove-event.js":15,"ev-store":16,"global/document":17,"weakmap-shim/create-store":59}],12:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1282,7 +875,7 @@ function Delegator(opts) {
 Delegator.allocateHandle = DOMDelegator.allocateHandle;
 Delegator.transformHandle = DOMDelegator.transformHandle;
 
-},{"./dom-delegator.js":12,"cuid":9,"global/document":18,"individual":14}],14:[function(require,module,exports){
+},{"./dom-delegator.js":11,"cuid":9,"global/document":17,"individual":13}],13:[function(require,module,exports){
 (function (global){
 var root = typeof window !== 'undefined' ?
     window : typeof global !== 'undefined' ?
@@ -1304,7 +897,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -1384,7 +977,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":21}],16:[function(require,module,exports){
+},{"inherits":20}],15:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -1405,7 +998,7 @@ function removeEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":17}],17:[function(require,module,exports){
+},{"ev-store":16}],16:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -1427,7 +1020,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":20}],18:[function(require,module,exports){
+},{"individual/one-version":19}],17:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -1446,7 +1039,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":5}],19:[function(require,module,exports){
+},{"min-document":5}],18:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1469,7 +1062,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 var Individual = require('./index.js');
@@ -1493,7 +1086,7 @@ function OneVersion(moduleName, version, defaultValue) {
     return Individual(key, defaultValue);
 }
 
-},{"./index.js":19}],21:[function(require,module,exports){
+},{"./index.js":18}],20:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1518,14 +1111,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 
 module.exports = function isObject(x) {
 	return typeof x === "object" && x !== null;
 };
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -13880,7 +13473,7 @@ module.exports = function isObject(x) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],24:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -13914,7 +13507,7 @@ module.exports = function isObject(x) {
 
 }).call(this);
 
-},{"backbone-events-standalone":4}],25:[function(require,module,exports){
+},{"backbone-events-standalone":4}],24:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -15319,7 +14912,7 @@ module.exports = function isObject(x) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 
 var win = window, 
   doc = document;
@@ -15341,7 +14934,7 @@ var b = module.exports = {
 }
 
 
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 
 // MIT
 // Thx Backbone.js 1.1.2  and https://github.com/cowboy/jquery-hashchange/blob/master/jquery.ba-hashchange.js
@@ -15556,7 +15149,7 @@ _.extend( _.emitable(Histery), {
 
 
 module.exports = Histery;
-},{"./browser.js":26,"./util.js":31}],28:[function(require,module,exports){
+},{"./browser.js":25,"./util.js":30}],27:[function(require,module,exports){
 
 var StateMan = require("./stateman.js");
 StateMan.Histery = require("./histery.js");
@@ -15565,7 +15158,7 @@ StateMan.State = require("./state.js");
 
 module.exports = StateMan;
 
-},{"./histery.js":27,"./state.js":29,"./stateman.js":30,"./util.js":31}],29:[function(require,module,exports){
+},{"./histery.js":26,"./state.js":28,"./stateman.js":29,"./util.js":30}],28:[function(require,module,exports){
 var _ = require("./util.js");
 
 
@@ -15720,7 +15313,7 @@ _.extend( _.emitable( State ), {
 
 
 module.exports = State;
-},{"./util.js":31}],30:[function(require,module,exports){
+},{"./util.js":30}],29:[function(require,module,exports){
 var State = require("./state.js"),
   Histery = require("./histery.js"),
   brow = require("./browser.js"),
@@ -16187,7 +15780,7 @@ _.extend( _.emitable( StateMan ), {
 module.exports = StateMan;
 
 
-},{"./browser.js":26,"./histery.js":27,"./state.js":29,"./util.js":31}],31:[function(require,module,exports){
+},{"./browser.js":25,"./histery.js":26,"./state.js":28,"./util.js":30}],30:[function(require,module,exports){
 var _ = module.exports = {};
 var slice = [].slice, o2str = ({}).toString;
 
@@ -16371,7 +15964,7 @@ _.isPromise = function( obj ){
 _.normalize = normalizePath;
 
 
-},{}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -16687,7 +16280,7 @@ module.exports.attrs = [
 ,"y"
 ]
 
-},{"./vcomment":33,"virtual-dom/vnode/vnode":55,"virtual-dom/vnode/vtext":57}],33:[function(require,module,exports){
+},{"./vcomment":32,"virtual-dom/vnode/vnode":54,"virtual-dom/vnode/vtext":56}],32:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -16705,27 +16298,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],34:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":39}],35:[function(require,module,exports){
+},{"./vdom/create-element.js":38}],34:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":59}],36:[function(require,module,exports){
+},{"./vtree/diff.js":58}],35:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":46}],37:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":45}],36:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":42}],38:[function(require,module,exports){
+},{"./vdom/patch.js":41}],37:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -16824,7 +16417,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":50,"is-object":22}],39:[function(require,module,exports){
+},{"../vnode/is-vhook.js":49,"is-object":21}],38:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -16872,7 +16465,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":48,"../vnode/is-vnode.js":51,"../vnode/is-vtext.js":52,"../vnode/is-widget.js":53,"./apply-properties":38,"global/document":18}],40:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":47,"../vnode/is-vnode.js":50,"../vnode/is-vtext.js":51,"../vnode/is-widget.js":52,"./apply-properties":37,"global/document":17}],39:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -16959,7 +16552,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -17112,7 +16705,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":53,"../vnode/vpatch.js":56,"./apply-properties":38,"./update-widget":43}],42:[function(require,module,exports){
+},{"../vnode/is-widget.js":52,"../vnode/vpatch.js":55,"./apply-properties":37,"./update-widget":42}],41:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -17194,7 +16787,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":39,"./dom-index":40,"./patch-op":41,"global/document":18,"x-is-array":62}],43:[function(require,module,exports){
+},{"./create-element":38,"./dom-index":39,"./patch-op":40,"global/document":17,"x-is-array":61}],42:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -17211,7 +16804,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":53}],44:[function(require,module,exports){
+},{"../vnode/is-widget.js":52}],43:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -17240,7 +16833,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":17}],45:[function(require,module,exports){
+},{"ev-store":16}],44:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -17259,7 +16852,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],46:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -17398,7 +16991,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":49,"../vnode/is-vhook":50,"../vnode/is-vnode":51,"../vnode/is-vtext":52,"../vnode/is-widget":53,"../vnode/vnode.js":55,"../vnode/vtext.js":57,"./hooks/ev-hook.js":44,"./hooks/soft-set-hook.js":45,"./parse-tag.js":47,"x-is-array":62}],47:[function(require,module,exports){
+},{"../vnode/is-thunk":48,"../vnode/is-vhook":49,"../vnode/is-vnode":50,"../vnode/is-vtext":51,"../vnode/is-widget":52,"../vnode/vnode.js":54,"../vnode/vtext.js":56,"./hooks/ev-hook.js":43,"./hooks/soft-set-hook.js":44,"./parse-tag.js":46,"x-is-array":61}],46:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -17454,7 +17047,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":6}],48:[function(require,module,exports){
+},{"browser-split":6}],47:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -17496,14 +17089,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":49,"./is-vnode":51,"./is-vtext":52,"./is-widget":53}],49:[function(require,module,exports){
+},{"./is-thunk":48,"./is-vnode":50,"./is-vtext":51,"./is-widget":52}],48:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],50:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -17512,7 +17105,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],51:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -17521,7 +17114,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":54}],52:[function(require,module,exports){
+},{"./version":53}],51:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -17530,17 +17123,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":54}],53:[function(require,module,exports){
+},{"./version":53}],52:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],54:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = "2"
 
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -17614,7 +17207,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":49,"./is-vhook":50,"./is-vnode":51,"./is-widget":53,"./version":54}],56:[function(require,module,exports){
+},{"./is-thunk":48,"./is-vhook":49,"./is-vnode":50,"./is-widget":52,"./version":53}],55:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -17638,7 +17231,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":54}],57:[function(require,module,exports){
+},{"./version":53}],56:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -17650,7 +17243,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":54}],58:[function(require,module,exports){
+},{"./version":53}],57:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -17710,7 +17303,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":50,"is-object":22}],59:[function(require,module,exports){
+},{"../vnode/is-vhook":49,"is-object":21}],58:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -18139,7 +17732,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":48,"../vnode/is-thunk":49,"../vnode/is-vnode":51,"../vnode/is-vtext":52,"../vnode/is-widget":53,"../vnode/vpatch":56,"./diff-props":58,"x-is-array":62}],60:[function(require,module,exports){
+},{"../vnode/handle-thunk":47,"../vnode/is-thunk":48,"../vnode/is-vnode":50,"../vnode/is-vtext":51,"../vnode/is-widget":52,"../vnode/vpatch":55,"./diff-props":57,"x-is-array":61}],59:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -18160,7 +17753,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":61}],61:[function(require,module,exports){
+},{"./hidden-store.js":60}],60:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -18178,7 +17771,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],62:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -18188,18 +17781,18 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],63:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator = require('mediatorjs');
     var configService = require('../services/config');
     var _ = require('lodash');
-    var observableDiff = require('deep-diff').observableDiff,
-        applyChange        = require('deep-diff').applyChange;
     var that = {};
     that.load = function (element) {
         configService.setValue('chart.renderTo', element);
-        var chart = new Highcharts.Chart(configService.get());
+        var options = configService.get();
+        var chart = new Highcharts.Chart(options);
+
         mediator.on('configUpdate', function () {
             chart = new Highcharts.Chart(configService.get());
         });
@@ -18208,25 +17801,105 @@ function isArray(obj) {
         });
     };
 
+
     module.exports = that;
 })();
-},{"../services/config":72,"deep-diff":10,"lodash":23,"mediatorjs":24}],64:[function(require,module,exports){
+},{"../services/config":72,"lodash":22,"mediatorjs":23}],63:[function(require,module,exports){
 (function () {
     var config = require('../config/customise.json');
+    var dump = require('../config/dump.json');
+    console.log(dump[0]);
 
     var _ = require('lodash');
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
+    var createElement = require('virtual-dom/create-element');
+    var virtualize = require('vdom-virtualize');
+
+    var tabs;
+    var rootNode;
+
+    var activeTab = _.first(config).id;
+
     var that = {};
-    that.load = function(element){
-        element.innerHTML = 'customise';
+
+    that.load = function (element) {
+        tabs = h('div');
+        rootNode = createElement(tabs);
+        element.appendChild(rootNode);
+        build();
     };
 
+    function build() {
+        var tabs = generateTabs(config, activeTab);
+        var content = generateContent(config, activeTab);
+        var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
+        render(container);
+    }
+
+    function generateContent(panels, activeId) {
+
+        var activeTab = _.find(panels, function (panel) {
+            return panel.id == activeId;
+        });
+
+        var title = h('h2', activeTab.panelTitle);
+
+        var presetList = [];
+
+        _.forEach(activeTab.panes, function (pane) {
+            var inputs = [];
+            _.forEach(pane.options, function(option){
+                inputs.push(generateField(option));
+            });
+            var item = h('h3',pane.title);
+            presetList.push(h('div', [item, inputs] ))
+        });
+        return h('div',{className:"vertical-tab-content-container"}, [title, presetList]);
+    }
+
+    function generateField(){
+
+    }
+
+    function generateTabs(panes, active) {
+        var links = [];
+        _.forEach(panes, function (pane, index) {
+            var className = '';
+            if (pane.id == activeTab) {
+                className = "vertical-tab is-active"
+            }
+            else {
+                className = "vertical-tab";
+            }
+
+            var link = h('li.hover', {
+                className: className,
+                'ev-click': function () {
+                    setActive(pane.id);
+                }
+            }, pane.panelTitle);
+
+            links.push(link);
+        });
+        return tabs = h('ul', {className: "vertical-tabs"}, links);
+    }
+
+    function setActive(id) {
+        activeTab = id;
+        build();
+    }
+
+    function render(newTabs) {
+        var patches = diff(tabs, newTabs);
+        rootNode = patch(rootNode, patches);
+        tabs = newTabs;
+    }
     module.exports = that;
 
 })();
-},{"../config/customise.json":68,"lodash":23,"virtual-dom/diff":35,"virtual-dom/h":36,"virtual-dom/patch":37}],65:[function(require,module,exports){
+},{"../config/customise.json":67,"../config/dump.json":68,"lodash":22,"vdom-virtualize":31,"virtual-dom/create-element":33,"virtual-dom/diff":34,"virtual-dom/h":35,"virtual-dom/patch":36}],64:[function(require,module,exports){
 (function () {
     var dataService = require('../services/data.js');
     var papa = require('papaparse');
@@ -18267,7 +17940,7 @@ function isArray(obj) {
 
 
 
-},{"../services/data.js":73,"lodash":23,"papaparse":25,"virtual-dom/create-element":34,"virtual-dom/h":36}],66:[function(require,module,exports){
+},{"../services/data.js":73,"lodash":22,"papaparse":24,"virtual-dom/create-element":33,"virtual-dom/h":35}],65:[function(require,module,exports){
 (function () {
     var Handsontable = require("../../../bower_components/handsontable/dist/handsontable.full.min.js");
     var css = require("../../../bower_components/handsontable/dist/handsontable.full.css");
@@ -18332,17 +18005,17 @@ function isArray(obj) {
 
 
 
-},{"../../../bower_components/handsontable/dist/handsontable.full.css":1,"../../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":73,"lodash":23,"mediatorjs":24}],67:[function(require,module,exports){
+},{"../../../bower_components/handsontable/dist/handsontable.full.css":1,"../../../bower_components/handsontable/dist/handsontable.full.min.js":2,"../services/data.js":73,"lodash":22,"mediatorjs":23}],66:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = require('lodash');
+
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var virtualize = require('vdom-virtualize');
-    var Delegator = require("dom-delegator");
-    var del = Delegator();
+
     var templateTypes = require('../config/templates.json');
     var config = require('../services/config');
     var includeFolder = undefined,
@@ -18359,6 +18032,7 @@ return self})();
     var tabs;
     var rootNode;
     var activeTab = _.first(templateTypes).id;
+
     that.load = function (element) {
         tabs = h('div');
         rootNode = createElement(tabs);
@@ -18428,7 +18102,6 @@ return self})();
 
             links.push(link);
         });
-
         return tabs = h('ul', {className: "vertical-tabs"}, links);
     }
 
@@ -18445,123 +18118,229 @@ return self})();
 
     module.exports = that;
 })();
-},{"../config/templates.json":69,"../services/config":72,"dom-delegator":13,"fs":8,"lodash":23,"vdom-virtualize":32,"virtual-dom/create-element":34,"virtual-dom/diff":35,"virtual-dom/h":36,"virtual-dom/patch":37}],68:[function(require,module,exports){
-module.exports=module.exports = {
-  "panels": [
-    {
-      "panelTitle": "Chart settings",
-      "panes"     : [
-        {
-          "title"  : "Chart type and interaction",
-          "options": [{
-            "name"    : "chart.type",
+},{"../config/templates.json":69,"../services/config":72,"fs":8,"lodash":22,"vdom-virtualize":31,"virtual-dom/create-element":33,"virtual-dom/diff":34,"virtual-dom/h":35,"virtual-dom/patch":36}],67:[function(require,module,exports){
+module.exports=module.exports = [
+  {
+    "id": "chart",
+    "panelTitle": "Chart settings",
+    "panes": [
+      {
+        "title": "Chart type and interaction",
+        "options": [
+          {
+            "name": "chart.type",
             "defaults": "column"
-          }, "chart.inverted", "chart.zoomType", "plotOptions.column.stacking", "plotOptions.bar.stacking"]
-        },
-        {
-          "title"  : "Size and margins",
-          "options": [{
-            "name"    : "chart.width",
+          },
+          {
+            "name": "chart.inverted"
+          },
+          {
+            "name": "chart.zoomType"
+          },
+          {
+            "name": "plotOptions.column.stacking"
+          },
+          {
+            "name": "plotOptions.bar.stacking"
+          }
+        ]
+      },
+      {
+        "title": "Size and margins",
+        "options": [
+          {
+            "name": "chart.width",
             "defaults": "600"
-          }, "chart.height", "chart.spacingTop", "chart.spacingRight", "chart.spacingBottom", "chart.spacingLeft"]
-        }
-      ]
-    },
-    {
-      "panelTitle": "Colors and borders",
-      "panes"     : [
-        {
-          "title"  : "default colors",
-          "options":[{"name":"colors","defaults":["#3799ba","#57f2a9","#c900a1","#1a9944","#7eeae5","#ed8c71","#899cf4","#e07dc6","#5addb0"]}]
-        },
-        {
-          "title"  : "Chart area",
-          "options": ["chart.backgroundColor", "chart.borderWidth", "chart.borderRadius", "chart.borderColor"]
-        },
-        {
-          "title"  : "Plot area",
-          "options": ["chart.plotBackgroundColor", "chart.plotBackgroundImage", "chart.plotBorderWidth", "chart.plotBorderColor"]
-        }
-      ]
-    },
-    {
-      "panelTitle": "Titles",
-      "panes"     : [
-        {
-          "title"  : "Titles",
-          "options": ["title.text", "subtitle.text", "yAxis.title.text", "xAxis.title.text"]
-        },
-        {
-          "title"  : "Title advanced",
-          "options": ["title.style"]
-        }
-      ]
-    },
-    {
-      "panelTitle": "Axes",
-      "panes"     : [
-        {
-          "title"  : "Axes setup",
-          "options": []
-        },
-        {
-          "title"  : "X axis",
-          "options": [{
-            "name"    : "xAxis.type",
+          },
+          {
+            "name": "chart.height"
+          },
+          {
+            "name": "chart.spacingTop"
+          },
+          {
+            "name": "chart.spacingRight"
+          },
+          {
+            "name": "chart.spacingBottom"
+          },
+          {
+            "name": "chart.spacingLeft"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "colorsAndBorders",
+    "panelTitle": "Colors and borders",
+    "panes": [
+      {
+        "title": "default colors",
+        "options": [
+          {
+            "name": "colors",
+            "defaults": [
+              "#3799ba",
+              "#57f2a9",
+              "#c900a1",
+              "#1a9944",
+              "#7eeae5",
+              "#ed8c71",
+              "#899cf4",
+              "#e07dc6",
+              "#5addb0"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Chart area",
+        "options": [
+          "chart.backgroundColor",
+          "chart.borderWidth",
+          "chart.borderRadius",
+          "chart.borderColor"
+        ]
+      },
+      {
+        "title": "Plot area",
+        "options": [
+          "chart.plotBackgroundColor",
+          "chart.plotBackgroundImage",
+          "chart.plotBorderWidth",
+          "chart.plotBorderColor"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "titles",
+    "panelTitle": "Titles",
+    "panes": [
+      {
+        "title": "Titles",
+        "options": [
+          "title.text",
+          "subtitle.text",
+          "yAxis.title.text",
+          "xAxis.title.text"
+        ]
+      },
+      {
+        "title": "Title advanced",
+        "options": [
+          "title.style"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "axes",
+    "panelTitle": "Axes",
+    "panes": [
+      {
+        "title": "Axes setup",
+        "options": []
+      },
+      {
+        "title": "X axis",
+        "options": [
+          {
+            "name": "xAxis.type",
             "defaults": "category"
-          }, "xAxis.min", "xAxis.opposite", "xAxis.reversed", "xAxis.tickInterval", "xAxis.labels.format", "xAxis.labels.rotation", "xAxis.labels.align"]
-        },
-        {
-          "title"  : "Value axis",
-          "options": ["yAxis.type", "yAxis.min", "yAxis.opposite", "yAxis.reversed", "yAxis.labels.format", "yAxis.labels.rotation"]
-        }
-      ]
-    },
-    {
-      "panelTitle": "Legend",
-      "panes"     : [
-        {
-          "title"  : "General",
-          "options": ["legend.enabled", "legend.layout"]
-        },
-        {
-          "title"  : "Placement",
-          "options": ["legend.align", "legend.verticalAlign"]
-        },
-        {
-          "title"  : "Color and border",
-          "options": []
-        }
-      ]
-    },
-    {
-      "panelTitle": "Tooltip",
-      "panes"     : [
-        {
-          "title"  : "General",
-          "options": ["tooltip.headerFormat", "tooltip.pointFormat", "tooltip.valuePrefix", "tooltip.valueSuffix"]
-        },
-        {
-          "title"  : "Color and border",
-          "options": []
-        }
-      ]
-    },
-    {
-      "panelTitle": "Exporting/Credits",
-      "panes"     : [
-        {
-          "title"  : "Exporting",
-          "options": ["exporting.enabled"]
-        },
-        {
-          "title"  : "Credits",
-          "options": [{"name": "credits.enabled", "defaults": "false"}, "credits.text", "credits.href"]
-        }
-      ]
-    }
-  ]
-}
+          },
+          "xAxis.min",
+          "xAxis.opposite",
+          "xAxis.reversed",
+          "xAxis.tickInterval",
+          "xAxis.labels.format",
+          "xAxis.labels.rotation",
+          "xAxis.labels.align"
+        ]
+      },
+      {
+        "title": "Value axis",
+        "options": [
+          "yAxis.type",
+          "yAxis.min",
+          "yAxis.opposite",
+          "yAxis.reversed",
+          "yAxis.labels.format",
+          "yAxis.labels.rotation"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "legend",
+    "panelTitle": "Legend",
+    "panes": [
+      {
+        "title": "General",
+        "options": [
+          "legend.enabled",
+          "legend.layout"
+        ]
+      },
+      {
+        "title": "Placement",
+        "options": [
+          "legend.align",
+          "legend.verticalAlign"
+        ]
+      },
+      {
+        "title": "Color and border",
+        "options": []
+      }
+    ]
+  },
+  {
+    "id": "tooltip",
+    "panelTitle": "Tooltip",
+    "panes": [
+      {
+        "title": "General",
+        "options": [
+          "tooltip.headerFormat",
+          "tooltip.pointFormat",
+          "tooltip.valuePrefix",
+          "tooltip.valueSuffix"
+        ]
+      },
+      {
+        "title": "Color and border",
+        "options": []
+      }
+    ]
+  },
+  {
+    "id": "exportingCredits",
+    "panelTitle": "Exporting/Credits",
+    "panes": [
+      {
+        "title": "Exporting",
+        "options": [
+          "exporting.enabled"
+        ]
+      },
+      {
+        "title": "Credits",
+        "options": [
+          {
+            "name": "credits.enabled",
+            "defaults": "false"
+          },
+          "credits.text",
+          "credits.href"
+        ]
+      }
+    ]
+  }
+]
+},{}],68:[function(require,module,exports){
+module.exports=module.exports = [{"name":"Axis","fullname":"Axis","returnType":"","description":"<p>A chart can have from 0 axes (pie chart) to multiples. In a normal, single series cartesian chart, there is one X axis and one Y axis.</p><p>The X axis or axes are referenced by <code>chart.xAxis</code>, which is an array of Axis objects. If there is only one axis, it can be referenced through <code>chart.xAxis[0]</code>, and multiple axes have increasing indices. The same pattern goes for Y axes.</p><p>If you need to get the axes from a series object, use the <code>series.xAxis</code> and<code>series.yAxis</code> properties. These are not arrays, as one series can only be associated to one X and one Y axis.</p><p>A third way to reference the axis programmatically is by id. Add an id in the axis configuration options, and get the axis by <code>chart.get(id)</code>.</p> <p>Configuration options for the axes are given in <a class=\"internal\" href=\"#xAxis\">options.xAxis</a> and <a class=\"internal\" href=\"#yAxis\">options.yAxis</a>.</p>","title":"Axis","isParent":true,"params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Axis--getExtremes","fullname":"Axis.getExtremes","type":"method","returnType":"Object","description":"Get the current extremes for the axis.","title":"getExtremes","isParent":false,"parent":"Axis","params":"()","paramsDescription":"dataMax: The maximum value of the axis' associated series.||dataMin: The minimum value of the axis' associated series.||max: The maximum axis value, either automatic or set manually. If the <code>max</code> option is not set and <code>maxPadding</code> is 0, this value will be the same as <code>dataMax</code>.||min: The minimum axis value, either automatic or set manually. If the <code>min</code> option is not set and <code>minPadding</code> is 0, this value will be the same as <code>dataMin</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-getextremes/\" target=\"_blank\">Report extremes by click on a button</a>","since":"1.2.0","deprecated":false},{"name":"Axis--remove","fullname":"Axis.remove","type":"method","returnType":"","description":"Remove an axis from the chart.","title":"remove","isParent":false,"parent":"Axis","params":"(Boolean redraw)","paramsDescription":"redraw: Boolean<br>\r\nDefaults to <code>true</code>. Whether to redraw the chart following the remove. ","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-addaxis/\" target=\"_blank\">Add and remove axes</a>","since":"3.0","deprecated":false},{"name":"Axis--removePlotBand","fullname":"Axis.removePlotBand","type":"method","returnType":"","description":"Remove a plot band by its <code>id</code>.","title":"removePlotBand","isParent":false,"parent":"Axis","params":"(String id)","paramsDescription":"id: String<br>The plot band's <code>id</code> as given in the original configuration object or in the addPlotBand method.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-removeplotband/\" target=\"_blank\">Remove plot band by id</a>, <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-addplotband/\" target=\"_blank\">Toggle the plot band from a button</a>","since":"1.2.0","deprecated":false},{"name":"Axis--removePlotLine","fullname":"Axis.removePlotLine","type":"method","returnType":"","description":"Remove a plot line by its <code>id</code>.","title":"removePlotLine","isParent":false,"parent":"Axis","params":"(String id)","paramsDescription":"id: String<br>The plot line's <code>id</code> as given in the original configuration object or in the addPlotLine method.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-id/\" target=\"_blank\">Remove plot line by id</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-addplotline/\" target=\"_blank\">toggle the plot line from a button</a>","since":"1.2.0","deprecated":false},{"name":"Axis--setCategories","fullname":"Axis.setCategories","type":"method","description":"Set new categories for the axis.","title":"setCategories","isParent":false,"parent":"Axis","params":"(Array cateories, [Boolean redraw])","paramsDescription":"categories: Array<br>The new category names.||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the axis or wait for an explicit call to <code>chart.redraw()</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-setcategories/\" target=\"_blank\">Set categories by click on a button</a>","since":"1.2.0"},{"name":"Axis--setExtremes","fullname":"Axis.setExtremes","type":"method","returnType":"","description":"Set the minimum and maximum of the axes after render time. If the <code>startOnTick</code> and <code>endOnTick</code> options are true, the minimum and maximum values are rounded off to the nearest tick. To prevent this, these options can be set to false before calling setExtremes. Also, <code>setExtremes</code> will not allow a range lower than the <a href=\"#xAxis.minRange\">minRange</a> option, which by default is the range of five points.","title":"setExtremes","isParent":false,"parent":"Axis","params":"(Number min, Number max, [Boolean redraw], [Mixed animation])","paramsDescription":"min: Number<br>The new minimum value||max: Number<br>The new maximum value||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart or wait for an explicit call to <code>chart.redraw()</code>.||animation: Mixed<br>Defaults to true. When true, the resize will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-setextremes/\" target=\"_blank\">Set extremes from button</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-setextremes-datetime/\" target=\"_blank\">Set extremes on datetime axis</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-setextremes-off-ticks/\" target=\"_blank\">setting extremes off ticks</a>","since":"1.2.0","deprecated":false},{"name":"Axis--toPixels","fullname":"Axis.toPixels","type":"method","returnType":"Number","description":"Translates a value in terms of axis units in to pixels within the chart.","title":"toPixels","isParent":false,"parent":"Axis","params":"(Number value, [Boolean paneCoordinates])","paramsDescription":"value: Number<br>\r\nA value in terms of axis units.||\r\n\r\npaneCoordinates: Boolean<br>\r\nWhether to return the pixel coordinate relative to the chart or just the axis/pane itself.","demo":"","since":"3.0","deprecated":false},{"name":"Axis--toValue","fullname":"Axis.toValue","type":"method","returnType":"Number","description":"Translate a pixel position along the axis to a value in terms of axis units.","title":"toValue","isParent":false,"parent":"Axis","params":"(Number pixel, [Boolean paneCoordinates])","paramsDescription":"pixel: Number<br>\r\nA pixel position along the axis.||\r\n\r\npaneCoordinates: Boolean<br>\r\nWhether the input pixel position is relative to the chart or just the axis/pane itself.","demo":"","since":"3.0","deprecated":false},{"name":"Axis--update","fullname":"Axis.update","type":"method","returnType":"","description":"Update an axis object with a new set of options. The options are merged with the existing options, so only new or altered options need to be specified.","title":"update","isParent":false,"parent":"Axis","params":"(Object options, [Boolean redraw])","paramsDescription":"options: Object<br>\r\nThe new options that will be merged in with existing options on the axis.||\r\n\r\nredraw: Boolean<br>\r\nDefaults to <code>true</code>. Whether to redraw the chart after the new options are set. ","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-update/\" target=\"_blank\">Axis update demo</a>","since":"3.0","deprecated":false},{"name":"Chart","fullname":"Chart","returnType":"","description":"<p>The chart object is the JavaScript object representing a single chart in the web page.The pointer to your chart object is returned when a chart is created using the <code>Highcharts.Chart()</code> constructor:</p><pre>var chart1 = new Highcharts.Chart(options);</pre>","title":"Chart","isParent":true,"params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Chart--addAxis","fullname":"Chart.addAxis","type":"method","returnType":"","description":"Add an axis to the chart after render time. Note that this method should never be used when adding data synchronously at chart render time, as it adds expense to the calculations and rendering. When adding data at the same time as the chart is initiated, add the axis as a configuration option instead.","title":"addAxis","isParent":false,"parent":"Chart","params":"(Object options, [Boolean isX], [Boolean redraw], [Mixed animation])","paramsDescription":"options: Object<br>\r\nThe Axis options, as documented under <a href=\"#xAxis\">xAxis</a> and <a href=\"#yAxis\">yAxis</a>.||\r\n\r\nisX: Boolean<br>\r\nWhether it is an X axis or Y axis.||\r\n\r\nredraw: Boolean<br>\r\nDefaults to <code>true</code>. Whether to redraw the chart after the series is added. See the <code>redraw()</code> method below.||\r\n\r\nanimation: Mixed<br>\r\nDefaults to true. When true, the series' updating will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-addaxis/\" target=\"_blank\">Add and remove axes</a>","since":"3.0","deprecated":false},{"name":"Chart--addSeries","fullname":"Chart.addSeries","type":"method","returnType":"Series","description":"Add a series to the chart after render time. Note that this method should never be used when adding data synchronously at chart render time, as it adds expense to the calculations and rendering. When adding data at the same time as the chart is initiated, add the series as a configuration option instead.","title":"addSeries","isParent":false,"parent":"Chart","params":"(Object options, [Boolean redraw], [Mixed animation])","paramsDescription":"options: Object<br>\r\nThe series options, as documented under <a href=\"#plotOptions.series\">plotOptions.series</a> and under the plotOptions for each series type.||\r\n\r\nredraw: Boolean<br>\r\nDefaults to <code>true</code>. Whether to redraw the chart after the series is added. See the <code>redraw()</code> method below.||\r\n\r\nanimation: Mixed<br>\r\nDefaults to true. When true, the series' updating will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-addseries/\" target=\"_blank\">Add a series from a button</a>","since":"1.2.0","deprecated":false},{"name":"Chart--exportChart","fullname":"Chart.exportChart","type":"method","returnType":"","description":"Exporting module required. Submit an SVG version of the chart to a server along with some parameters for conversion.","title":"exportChart","isParent":false,"parent":"Chart","params":"(Object options, Object chartOptions)","paramsDescription":"options: Object<br>Exporting options. Out of the <a class=\"internal\" href=\"#exporting\">exporting</a> options, the following options can be given as parameters to the exportChart method. All options default to the values given in the exporting config options. \r\n<code>filename</code>: the filename for the export without extension, \r\n<code>url</code>: the URL for the server module to do the conversion, \r\n<code>width</code>: the width of the PNG or JPEG image generated on the server, \r\n<code>type</code>: the MIME type of the converted image, \r\n<code>sourceWidth</code>: the width of the source (in-page) chart, \r\n<code>sourceHeight</code>: the height of the source chart.||\r\n\r\nchartOptions: Object<br>Additional chart options for the exported chart. For example a different background color can be added here.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-exportchart/\" target=\"_blank\">Export with no options</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-exportchart-filename/\" target=\"_blank\">PDF type and custom filename</a>, <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-exportchart-custom-background/\" target=\"_blank\">different chart background in export</a>","since":"2.0","deprecated":false},{"name":"Chart--get","fullname":"Chart.get","type":"method","returnType":"Axis|Series|Point","description":"Get an axis, series or point by its <code>id</code> as given in the configuration options.","title":"get","isParent":false,"parent":"Chart","params":"(String id)","paramsDescription":"id: String<br>The id of the axis, series or point to get.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-id/\" target=\"_blank\">Get series by id</a>","since":"1.2.0"},{"name":"Chart--getSVG","fullname":"Chart.getSVG","type":"method","returnType":"String","description":"Exporting module required. Get an SVG string representing the chart.","title":"getSVG","isParent":false,"parent":"Chart","params":"(Object additionalOptions)","paramsDescription":"additionalOptions: Object<br>Chart options to add to the exported chart in addition to the options given for the original chart. For example if series.lineWidth should be greater in the exported chart than in the original, or the chart should have a different background color, this is added here.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-getsvg/\" target=\"_blank\">View the SVG from a button</a>","since":"2.0","deprecated":false},{"name":"Chart--getSelectedPoints","fullname":"Chart.getSelectedPoints","type":"method","returnType":"Array<Point>","description":"Returns an array of all currently selected points in the chart. Points can be selected either programmatically by the <code>point.select()</code> method or by clicking.","title":"getSelectedPoints","isParent":false,"parent":"Chart","params":"()","paramsDescription":"An array of the selected points.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-allowpointselect-line/\" target=\"_blank\">Get selected points</a>","since":"1.2.0","deprecated":false},{"name":"Chart--destroy","fullname":"Chart.destroy","type":"method","returnType":"","description":"Removes the chart and purges memory. This method should be called before writing a new chart into the same container. It is called internally on window unload to prevent leaks.","title":"destroy","isParent":false,"parent":"Chart","params":"()","paramsDescription":"","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-destroy/\" target=\"_blank\">Destroy the chart from a button</a>","since":"1.2.2","deprecated":false},{"name":"Chart--options","fullname":"Chart.options","type":"property","returnType":"Object","description":"The options structure for the chart.","title":"options","isParent":false,"parent":"Chart","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Chart--xAxis","fullname":"Chart.xAxis","type":"property","returnType":"Array<Axis>","description":"An array of the chart's x axes. If only one x axis, it is referenced by <code>chart.xAxis[0]</code>.","title":"xAxis","isParent":false,"parent":"Chart","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Chart--yAxis","fullname":"Chart.yAxis","type":"property","returnType":"Array<Axis>","description":"An array of the chart's y axes. If only one y axis, it is referenced by <code>chart.yAxis[0]</code>.","title":"yAxis","isParent":false,"parent":"Chart","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Chart--container","fullname":"Chart.container","type":"property","returnType":"Object","description":"A reference to the containing HTML element, dynamically inserted into the element given in <code>chart.renderTo</code>.","title":"container","isParent":false,"parent":"Chart","params":"","paramsDescription":"","demo":"","since":"1.2.5","deprecated":false},{"name":"Point--series","fullname":"Point.series","type":"property","returnType":"Series","description":"The series object associated with the point.","title":"series","isParent":false,"parent":"Point","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Chart--print","fullname":"Chart.print","type":"method","returnType":"","description":"Exporting module required. Clears away other elements in the page and prints the chart as it is displayed. By default, when the exporting module is enabled, a button at the upper left calls this method.","title":"print","isParent":false,"parent":"Chart","params":"()","paramsDescription":"","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-print/\" target=\"_blank\">Print from a HTML button</a>","since":"2.0","deprecated":false},{"name":"Chart--setSize","fullname":"Chart.setSize","type":"method","returnType":"","description":"Resize the chart to a given width and height.","title":"setSize","isParent":false,"parent":"Chart","params":"(Number width, Number height, [Mixed animation])","paramsDescription":"width: Number<br>The new pixel width of the chart.||height: Number<br>The new pixel height of the chart.||animation: Mixed<br>Defaults to true. When true, the resize will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-setsize-button/\" target=\"_blank\">Test resizing from buttons</a>, <a href=\"http://jsfiddle.net/gh/get/jquery/1.9.1/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-setsize-jquery-resizable/\" target=\"_blank\">add a jQuery UI resizable</a>","since":"","deprecated":false},{"name":"Chart--showLoading","fullname":"Chart.showLoading","type":"method","returnType":"null","description":"Dim the chart's plot area and show a loading label text. Options for the loading screen are defined at <a class=\"internal\" href=\"#loading\">options.loading</a>. A custom text can be given as a parameter for loading.","title":"showLoading","isParent":false,"parent":"Chart","params":"(String str)","paramsDescription":"","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-hideloading/\" target=\"_blank\">Show and hide loading from a button</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-showloading/\" target=\"_blank\">apply different text labels.</a>","since":"2.0.5","deprecated":false},{"name":"Chart--updatePosition","fullname":"Chart.updatePosition","type":"method","returnType":"","description":"This method is deprecated as of 2.0.1. Updating the chart position after a move operation is no longer necessary.","title":"updatePosition","isParent":false,"parent":"Chart","params":"()","paramsDescription":"","demo":"","since":"1.2.5","deprecated":true},{"name":"Element","fullname":"Element","returnType":"","description":"<p>The Element class is a JavaScript wrapper for SVG elements used in the rendering layer of Highchart. Combined with the Renderer object, these elements allows freeform annotation in the charts or even in your HTML pages without creating a chart at all.</p>","title":"Element","isParent":true,"params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Element--add","fullname":"Element.add","type":"method","returnType":"Element","description":"Add the element to the renderer canvas.","title":"add","isParent":false,"parent":"Element","params":"[(Object parent)]","paramsDescription":"parent: Object<br>The element can be added to a <code>g</code> (group) element.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-g/\" target=\"_blank\">Elements added to a group</a>","since":"2.0"},{"name":"Element--animate","fullname":"Element.animate","type":"method","returnType":"Element","description":"Apply numeric attributes to the SVG/VML element by animation. See <a href=\"#Element.attr()\">Element.attr()</a> for more information on setting attributes.","title":"animate","isParent":false,"parent":"Element","params":"(Object attributes[, Object animation])","paramsDescription":"attributes: Object<br/>A set of attributes to apply.||animation: Object<br/>Optional animation parameters that are passed over to jQuery or other framework. Valid properties depend on the library, but options like <code>duration</code>, <code>easing</code> and <code>complete</code> are supported by jQuery.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/element-on/\" target=\"_blank\">Setting some attributes by animation</a>","since":"2.0","deprecated":false},{"name":"Element--css","fullname":"Element.css","type":"method","returnType":"Element","description":"Apply some CSS properties to the element","title":"css","isParent":false,"parent":"Element","params":"(Object hash)","paramsDescription":"hash: Object<br>The object literal of CSS properties to apply. Properties should be hyphenated, not camelCased.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-text-on-chart/\" target=\"_blank\">Styled text</a>","since":"2.0"},{"name":"Element--on","fullname":"Element.on","type":"method","returnType":"Element","description":"Apply an event handler to the element","title":"on","isParent":false,"parent":"Element","params":"(String eventType, Function handler)","paramsDescription":"eventType: String<br>The event type to attach, for example 'click', 'mouseover', 'touch'.||handler: Function<br>The event handler function.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/element-on/\" target=\"_blank\">A clickable rectangle</a>.","since":"2.0"},{"name":"Element--toFront","fullname":"Element.toFront","type":"method","returnType":"Element","description":"Bring the element to the front. Alternatively, a zIndex attribute can be given.","title":"toFront","isParent":false,"parent":"Element","paramsDescription":"The element object","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/element-tofront/\" target=\"_blank\">Click an element to bring it to front</a>.","since":"2.0"},{"name":"Highcharts","fullname":"Highcharts","returnType":"","description":"<p>The namespace under which all other Highcharts variables are assembled is called <code>Highcharts</code>. </p><pre>var chart1 = new Highcharts.Chart(options);</pre>","title":"Highcharts","isParent":true,"params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Highcharts--Chart","fullname":"Highcharts.Chart","type":"method","returnType":"Chart","description":"This is the constructor for creating a new chart object.","title":"Chart","isParent":false,"parent":"Highcharts","params":"(Object options, Function callback)","paramsDescription":"options: Object<br>The chart options, as documented under the heading \"The options object\"in the left menu.||callback: Function<br>A function to execute when the chart object is finished loading and rendering. In most cases the chart is built in one thread, but in Internet Explorer version 8 or less the chart is sometimes initiated before the document is ready, and in these cases the <code>chart</code> object will not be finished directly after calling<code>new Highcharts.Chart()</code>. As a consequence, code that relies on the newly built Chart object should always run in the callback. Defining a <code>chart.event.load</code> handler is equivalent.","demo":"","since":"","deprecated":false},{"name":"Highcharts--charts","fullname":"Highcharts.charts","type":"Array<Object>","returnType":"Array<Chart>","description":"An array containing the current chart objects in the page. A chart's position in the array is preserved throughout the page's lifetime. When a chart is destroyed, the array item becomes <code>undefined</code>.","title":"charts","isParent":false,"parent":"Highcharts","params":"","paramsDescription":"","demo":"","since":"2.3.4","deprecated":false},{"name":"Highcharts--dateFormat","fullname":"Highcharts.dateFormat","type":"method","returnType":"String","description":"Formats a JavaScript date timestamp (milliseconds since Jan 1st 1970) into a human readable date string. The format is a subset of the formats for <a href=\"http://php.net/manual/en/function.strftime.php\">PHP's strftime function</a>. Additional formats can be given  in the Highcharts.dateFormats hook, see below.","title":"dateFormat","isParent":false,"parent":"Highcharts","params":"(String format, [Number time], [Boolean capitalize])","paramsDescription":"format: String<br>A string containing some of the formats above.||time: Number<br>The JavaScript time to format.||capitalize: Boolean<br>Whether to capitalize words in the return string.","demo":"","since":"","deprecated":false},{"name":"Highcharts--dateFormats","fullname":"Highcharts.dateFormats","type":"Object","returnType":"","description":"A hook for defining additional date format specifiers. New specifiers are defined as key-value pairs by using the specifier as key, and a function which takes the timestamp as value. This function returns the formatted portion of the date.","title":"dateFormats","isParent":false,"parent":"Highcharts","params":"","paramsDescription":"","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/global/dateformats/\" target=\"_blank\">Adding support for week number</a>","since":"3.0","deprecated":false},{"name":"Highcharts--setOptions","fullname":"Highcharts.setOptions","type":"method","returnType":"Object","description":"Sets the options globally for all charts created after this has been called. Takes an options JavaScript object structure as the argument. These options are merged with the default options and the result is returned.","title":"setOptions","isParent":false,"parent":"Highcharts","params":"(Object options)","paramsDescription":"options: Object<br>The chart configuration object.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/global/useutc-false/\" target=\"_blank\">Setting a global option</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/setoptions/\" target=\"_blank\">applying a general theme</a>"},{"name":"Point","fullname":"Point","returnType":"","description":"<p>The Point object is the JavaScript representation of each data point</p><p>The object can be accessed in a number of ways. In all point event handlers the point object is <code>this</code>. In the <code>series</code> object all the points are accessed by the <code>series.data</code> array.</p><p>Another way to reference the point programmatically is by id. Add an id in the point configuration options, and get the point object by <code>chart.get(id)</code>.</p>","title":"Point","isParent":true,"params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Point--percentage","fullname":"Point.percentage","type":"property","returnType":"Number","description":"The percentage for points in a stacked series or pies.","title":"percentage","isParent":false,"parent":"Point","since":"1.2.0"},{"name":"Point--remove","fullname":"Point.remove","type":"method","returnType":"","description":"Remove the point from the series.","title":"remove","isParent":false,"parent":"Point","params":"([Boolean redraw], [Mixed animation])","paramsDescription":"redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is removed.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.||animation: Mixed<br>Defaults to true. When true, the graph's updating will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-point-events-remove/\" target=\"_blank\">Remove point and confirm</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/point-remove/\" target=\"_blank\">Remove pie slice</a>","since":"1.2.0","deprecated":false},{"name":"Point--selected","fullname":"Point.selected","type":"property","returnType":"Boolean","description":"Whether the point is selected or not.","title":"selected","isParent":false,"parent":"Point","since":"1.2.0"},{"name":"Point--slice","fullname":"Point.slice","type":"method","returnType":"","description":"Slice out or set back in a pie chart slice. This is the default way of Highcharts to visualize that a pie point is selected.","title":"slice","isParent":false,"parent":"Point","params":"([Boolean sliced], [Boolean redraw], [Mixed animation])","paramsDescription":"sliced: Boolean<br>When <code>true</code>, the point is sliced out. When <code>false</code>, the point is set in. When <code>null</code> or <code>undefined</code>, the sliced state is toggled.||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is altered.||animation: Mixed<br>Defaults to true. When true, the move will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/point-slice/\" target=\"_blank\">Slice and unslice a point from a button</a>","since":"1.2.0","deprecated":false},{"name":"Point--x","fullname":"Point.x","type":"property","returnType":"Number","description":"The x value for the point.","title":"x","isParent":false,"parent":"Point","since":"1.2.0"},{"name":"Point--y","fullname":"Point.y","type":"property","returnType":"Number","description":"The y value for the point.","title":"y","isParent":false,"parent":"Point","since":"1.2.0"},{"name":"Renderer","fullname":"Renderer","returnType":"","description":"<p>Allows direct access to the Highcharts rendering layer in order to draw primitive shapes like circles, rectangles,paths or text directly on a chart, or independent from any chart. The Renderer represents a wrapper object for SVGin modern browsers and VML in IE &lt; 8.</p><p>An existing chart's renderer can be accessed through <code>chart.renderer</code>. To create a renderer independent from a chart, use <code>var renderer = new Highcharts.Renderer(parentNode, width, height);</code> where parentNode is the HTML element where you want to add it.</p><p>The Renderer's methods are chained wherever possible, so you can initiate an element then call for example <code>attr</code> and <code>css</code> and <code>add</code> on that element in one statement.</p><div class=\"demo\"><a href=\"http://jsfiddle.net/gh/get/jquery/1.7.1/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-on-chart/\">Annotating a chart programmatically</a>, <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.1/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-basic/\">independent SVG/VML drawing</a></div>","title":"Renderer","isParent":true,"params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Renderer--arc","fullname":"Renderer.arc","type":"method","returnType":"Element","description":"Draw an arc on the renderer canvas.","title":"arc","isParent":false,"parent":"Renderer","params":"(Number centerX, Number centerY, Number outerRadius, Number innerRadius, Number start, Number end)","paramsDescription":"centerX: Number<br>The x position of the arc's center in the SVG element.||centerY: Number<br>The y position of the arc's center in the SVG element.||outerRadius: Number<br>The outer radius of the arc.||innerRadius: Number<br>The inner radius of the arc.||start: Number<br>The starting angle of the arc in radians, where 0 is to the right and -Math.PI/2 is up.||end: Number<br>The ending angle of the arc in radians, where 0 is to the right and -Math.PI/2 is up.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-arc/\" target=\"_blank\">Drawing an arc</a>","since":"2.0"},{"name":"Renderer--circle","fullname":"Renderer.circle","type":"method","returnType":"Element","description":"Draw circle on the renderer canvas.","title":"circle","isParent":false,"parent":"Renderer","params":"(Number centerX, Number centerY, Number radius)","paramsDescription":"centerX: Number<br>The x position of the circle's center in the SVG element.||centerY: Number<br>The y position of the circle's center in the SVG element.||radius: Number<br>The radius of the circle.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-circle/\" target=\"_blank\">Drawing a circle</a>","since":"2.0"},{"name":"Renderer--g","fullname":"Renderer.g","type":"method","returnType":"Element","description":"Add an SVG/VML group.","title":"g","isParent":false,"parent":"Renderer","params":"(String name)","paramsDescription":"name: String<br>The name of the group. This will be used in the class name, which will be <code>\"highcharts-\"+ name</code>. Other Element objects are added to the group by using the group as the first parameter in .add() for the wrappers.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-g/\" target=\"_blank\">Show and hide grouped objects</a>","since":"2.0","deprecated":false},{"name":"Renderer--image","fullname":"Renderer.image","type":"method","returnType":"Element","description":"Add an image from an external resource.","title":"image","isParent":false,"parent":"Renderer","params":"(String source, Number x, Number y, Number width, Number height)","paramsDescription":"source: String<br>The URL of the image.||x: String<br>The x position of the image's upper left corner.||y: String<br>The y position of the image's upper left corner.||width: String<br>The width of the image.||height: String<br>The height of the image.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-image-on-chart/\" target=\"_blank\">Add an image in a chart</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-image/\" target=\"_blank\">add an image independent from chart</a>","since":"2.0"},{"name":"Renderer--path","fullname":"Renderer.path","type":"method","returnType":"Element","description":"Add a path based on <a href=\"http://www.w3.org/TR/SVG/paths.html\">SVG's path commands</a>. In SVG capable browsers all path commands are supported, but in VML only a subset is supported: absolute moveTo (M), absolute lineTo (L), absolute curveTo (C) and close (Z).","title":"path","isParent":false,"parent":"Renderer","params":"(Array path)","paramsDescription":"path: Array<br>An SVG path split up in array form.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-path-on-chart/\" target=\"_blank\">Draw a path in a chart</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-path/\" target=\"_blank\">draw a path independent from a chart</a>","since":"2.0","deprecated":false},{"name":"Renderer--rect","fullname":"Renderer.rect","type":"method","returnType":"Element","description":"Add a rectangle.","title":"rect","isParent":false,"parent":"Renderer","params":"(Number x, Number y, Number width, Number height, Number cornerRadius)","paramsDescription":"x: Number<br>The x position of the rectangle's upper left corner.||y: Number<br>The y position of the rectangle's upper left corner.||width: Number<br>The width of the rectangle.||height: Number<br>The height of the rectangle.||cornerRadius: Number<br>The corner radius of all the rectangle's corners.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-rect-on-chart/\" target=\"_blank\">Draw a rectangle in a chart</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-rect/\" target=\"_blank\">draw a rectangle independent from a chart</a>","since":"2.0"},{"name":"Renderer--text","fullname":"Renderer.text","type":"method","returnType":"Element","description":"Draw text. The text can contain a subset of HTML, like spans and anchors and some basic text styling of these. For more advanced features like border and background, use <a href=\"#Renderer.label\">label</a> instead.","title":"text","isParent":false,"parent":"Renderer","params":"(String str, Number x, Number y)","paramsDescription":"str: String<br>The text or HTML to draw||x: Number<br>The x position of the text's lower left corner.||y: Number<br>The y position of the text's lower left corner.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-text-on-chart/\" target=\"_blank\">Annotate the chart freely</a>; <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-on-chart/\" target=\"_blank\">annotate with a border and in response to the data</a>; <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-text/\" target=\"_blank\">formatted text</a>.","since":"2.0","deprecated":false},{"name":"Series","fullname":"Series","returnType":"","description":"<p>The Series object is the JavaScript representation of each line, area series, pie etc.</p><p>The object can be accessed in a number of ways. All series and point event handlers give a reference to the series object. The <code>chart</code> object has a <code>series</code> property that is a collection of all the chart's series. The <code>point</code> objects also have the same reference.</p><p>Another way to reference the series programmatically is by id. Add an id in the series configuration options, and get the series object by <code>chart.get(id)</code>.</p><p>Configuration options for the series are given in three levels. Options for all series in a chart are given in the <a class=\"internal\" href=\"#plotOptions.series\">plotOptions.series</a> object. Then options for all series of a specific type are given in the plotOptions of that type, for example plotOptions.line. Next, options for one single series are given in <a class=\"internal\" href=\"#series\">the series array</a>.</p>","title":"Series","isParent":true,"params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Series--addPoint","fullname":"Series.addPoint","type":"method","returnType":"","description":"Add a point to the series after render time. The point can be added at the end, or by giving it an X value, to the start or in the middle of the series.","title":"addPoint","isParent":false,"parent":"Series","params":"(Object options, [Boolean redraw], [Boolean shift], [Mixed animation])","paramsDescription":"options: Number|Array|Object<br>The point options. If options is a single number, a point with that y value is appended to the series.If it is an array, it will be interpreted as x and y values respectively. If it is an object, advanced options as outlined under <a class=\"internal\" href=\"#series.data\">series.data</a> are applied.||\r\nredraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is added. When adding more than one point, it is highly recommended that the <code>redraw</code> option be set to false, and instead <code>chart.redraw()</code> is explicitly called after the adding of points is finished.||\r\nshift: Boolean<br>Defaults to <code>false</code>. When shift is true, one point is shifted off the start of the series as one is appended to the end. Use this option for live charts monitoring a value over time.||animation: Mixed<br>Defaults to true. When true, the graph will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-addpoint-append/\" target=\"_blank\">Append point</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-addpoint-append-and-shift/\" target=\"_blank\">append and shift</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-addpoint-x-and-y/\" target=\"_blank\">both x and y values given</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-addpoint-pie/\" target=\"_blank\">append pie slice</a>","since":"1.2.0","deprecated":false},{"name":"Series--hide","fullname":"Series.hide","type":"method","description":"Hides the series if visible. If the <code>chart.ignoreHiddenSeries</code> option is true,the chart is redrawn without this series.","title":"hide","isParent":false,"parent":"Series","params":"()","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-hide/\" target=\"_blank\">Toggle visibility from a button</a>","since":"1.2.0"},{"name":"Series--name","fullname":"Series.name","type":"property","returnType":"String","description":"The series' name as given in the options.","title":"name","isParent":false,"parent":"Series","since":"1.2.0"},{"name":"Series--options","fullname":"Series.options","type":"property","returnType":"Object","description":"Read only. The series' options.","title":"options","isParent":false,"parent":"Series","since":"1.2.0"},{"name":"Series--select","fullname":"Series.select","type":"method","returnType":"","description":"Select or unselect the series. This means its <code>selected</code> property is set,the checkbox in the legend is toggled and when selected, the series is returned in the <code>chart.getSelectedSeries()</code> method.","title":"select","isParent":false,"parent":"Series","params":"([Boolean selected|null])","paramsDescription":"selected: Boolean|null<br>When <code>true</code>, the series is selected. When <code>false</code> it is unselected. When <code>null</code> or <code>undefined</code>, the series' selection state is toggled.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-select/\" target=\"_blank\">Select a series from a button</a>","since":"1.2.0","deprecated":false},{"name":"Series--selected","fullname":"Series.selected","type":"property","returnType":"Boolean","description":"Read only. The series' selected state as set by <code>series.select()</code>.","title":"selected","isParent":false,"parent":"Series","since":"1.2.0"},{"name":"Series--setVisible","fullname":"Series.setVisible","type":"method","returnType":"","description":"A utility function to show or hide the series with an optional redraw.","title":"setVisible","isParent":false,"parent":"Series","params":"(Boolean visible, [Boolean redraw])","paramsDescription":"visible: Boolean<br>Whether to show or hide the series. If undefined, the visibility is toggled.||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the series is altered.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.","demo":"","since":"","deprecated":false},{"name":"Series--show","fullname":"Series.show","type":"method","description":"Shows the series if hidden.","title":"show","isParent":false,"parent":"Series","params":"()","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-hide/\" target=\"_blank\">Toggle visibility from a button</a>","since":"1.2.0"},{"name":"Series--type","fullname":"Series.type","type":"property","returnType":"String","description":"Read only. The series' type, like \"line\", \"area\" etc.","title":"type","isParent":false,"parent":"Series","since":"1.2.0"},{"name":"Series--update","fullname":"Series.update","type":"method","returnType":"","description":"Update the series with a new set of options. For a clean and precise handling of new options, all methods and elements from the series is removed, and it is initiated from scratch. Therefore, this method is more performance expensive than some other utility methods like <code>setData</code> or <code>setVisible</code>.","title":"update","isParent":false,"parent":"Series","params":"(Object options, [Boolean redraw])","paramsDescription":"options: Boolean<br>\r\nNew options that will be merged into the series' existing options.\r\n\r\n||\r\n\r\nredraw: Boolean<br>\r\nDefaults to <code>true</code>. Whether to redraw the chart after the series is altered. If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-update/\" target=\"_blank\">Updating series options</a>","since":"3.0","deprecated":false},{"name":"Series--visible","fullname":"Series.visible","type":"property","returnType":"Boolean","description":"Read only. The series' visibility state as set by <code>series.show()</code>, <code>series.hide()</code>, or the initial configuration.","title":"visible","isParent":false,"parent":"Series","since":"1.2.0"},{"name":"Chart--addSeriesAsDrilldown","fullname":"Chart.addSeriesAsDrilldown","type":"method","returnType":"","description":"Add a series to the chart as drilldown from a specific point in the parent series. This method is used for async drilldown, when clicking a point in a series should result in loading and displaying a more high-resolution series. When <i>not</i> async, the setup is simpler using the <a href=\"#drilldown.series\">drilldown.series</a> options structure.","title":"addSeriesAsDrilldown","isParent":false,"parent":"Chart","params":"(Object point, Object seriesOptions)","paramsDescription":"point: Object<br>\r\nThe existing Point object from which the drilldown will start.||\r\n\r\nseriesOptions: Object<br>\r\nThe series options, as documented under <a href=\"#plotOptions.series\">plotOptions.series</a> and under the plotOptions for each series type.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/drilldown/async/\" target=\"_blank\">Async drilldown</a>","since":"3.0.8","deprecated":false},{"name":"Chart--drillUp","fullname":"Chart.drillUp","type":"method","returnType":"","description":"When the chart is drilled down to a child series, calling <code>chart.drillUp()</code> will drill up to the parent series.","title":"drillUp","isParent":false,"parent":"Chart","params":"()","paramsDescription":"","demo":"","since":"3.0.8","deprecated":false},{"name":"Chart--setTitle","fullname":"Chart.setTitle","type":"method","returnType":"","description":"Set a new title or subtitle for the chart","title":"setTitle","isParent":false,"parent":"Chart","params":"(Object title, object subtitle, Boolean redraw)","paramsDescription":"title: Object<br>A configuration object for the new title as defined at <a class=\"internal\" href=\"#title\">#title</a>.||\r\nsubtitle: Object<br>A configuration object for the new subtitle as defined at <a class=\"internal\" href=\"#subtitle\">#subtitle</a>.||\r\nredraw: Boolean<br>Whether to redraw the chart. Defaults to true.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-settitle/\" target=\"_blank\">Set title text and styles</a>","since":"2.1.0","deprecated":false},{"name":"Element--attr","fullname":"Element.attr","type":"method","returnType":"Element","description":"<p>Apply attributes to the SVG/VML elements. These attributes for the most parts correspond to SVG, but some are specific to Highcharts, like <code>zIndex</code> and <code>rotation</code>.</p>\r\n\r\n<p>In order to set the rotation center for <code>rotation</code>, set x and y to 0 and use <code>translateX</code> and <code>translateY</code> attributes to position the element instead.</p>\r\n\r\n<p>Attributes frequently used in Highcharts are <code>fill</code>, <code>stroke</code>, <code>stroke-width</code>.</p>","title":"attr","isParent":false,"parent":"Element","params":"Object hash","paramsDescription":"hash: Object<br>A set of attributes to apply.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-rect/\" target=\"_blank\">Setting some attributes</a>","since":"2.0","deprecated":false},{"name":"Axis--setTitle","fullname":"Axis.setTitle","type":"method","returnType":"","description":"Update the title of the axis after render time.","title":"setTitle","isParent":false,"parent":"Axis","params":"(Object title, [Boolean redraw])","paramsDescription":"title: Object<br>The new title options on the same format as given in <a class=\"internal\" href=\"#xAxis.title\">xAxis.title</a>.||redraw: Boolean<br>Whether to redraw the chart now or hold until the next chart.redraw()","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-settitle/\" target=\"_blank\">Set a new Y axis title</a>","since":"2.2","deprecated":false},{"name":"Series--remove","fullname":"Series.remove","type":"method","returnType":"","description":"Remove the series from the chart.","title":"remove","isParent":false,"parent":"Series","params":"([Boolean redraw])","paramsDescription":"redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the series is removed.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-remove/\" target=\"_blank\">Remove first series from a button</a>","since":"1.2.0","deprecated":false},{"name":"Chart--getSelectedSeries","fullname":"Chart.getSelectedSeries","type":"method","returnType":"Array<Series>","description":"Returns an array of all currently selected series in the chart. Series can be selected either programmatically by the <code>series.select()</code> method or by checking the checkbox next to the legend item if <code>series.showCheckBox</code> is true.","title":"getSelectedSeries","isParent":false,"parent":"Chart","params":"()","paramsDescription":"An array of the selected Series items.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-getselectedseries/\" target=\"_blank\">Get selected series</a>","since":"1.2.0","deprecated":false},{"name":"Point--category","fullname":"Point.category","type":"property","returnType":"String|Number","description":"For categorized axes this property holds the category name for the point. For other axis it holds the x value.","title":"category","isParent":false,"parent":"Point","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Chart--hideLoading","fullname":"Chart.hideLoading","type":"method","returnType":"","description":"Hide the loading screen. Options for the loading screen are defined at <a class=\"internal\" href=\"#loading\">options.loading</a>.","title":"hideLoading","isParent":false,"parent":"Chart","params":"()","paramsDescription":"","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-hideloading/\" target=\"_blank\">Show and hide loading from a button</a>","since":"1.2.0","deprecated":false},{"name":"Axis--addPlotLine","fullname":"Axis.addPlotLine","type":"method","returnType":"","description":"Add a plot line after render time.","title":"addPlotLine","isParent":false,"parent":"Axis","params":"(Object options)","paramsDescription":"options: Object<br>A configuration object consisting of the same members as <a class=\"internal\" href=\"#xAxis.plotLines\">options.xAxis.plotLines</a>","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-addplotline/\" target=\"_blank\">Toggle the plot line from a button</a>","since":"1.2.0","deprecated":false},{"name":"Axis--addPlotBand","fullname":"Axis.addPlotBand","type":"method","returnType":"","description":"Add a plot band after render time.","title":"addPlotBand","isParent":false,"parent":"Axis","params":"(Object options)","paramsDescription":"options: Object<br>A configuration object consisting of the same members as <a class=\"internal\" href=\"#xAxis.plotBands\">options.xAxis.plotBands</a>","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/axis-addplotband/\" target=\"_blank\">Toggle the plot band from a button</a>","since":"1.2.0","deprecated":false},{"name":"Chart--series","fullname":"Chart.series","type":"property","returnType":"Array<Series>","description":"An array of all the chart's series.","title":"series","isParent":false,"parent":"Chart","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Element--destroy","fullname":"Element.destroy","type":"method","returnType":"","description":"Destroy the element and free up memory","title":"destroy","isParent":false,"parent":"Element","params":"","paramsDescription":"","demo":"","since":"2.0","deprecated":false},{"name":"Point--total","fullname":"Point.total","type":"Number","returnType":"Number","description":"The total of a stack for stacked series, or pie in pie charts.","title":"total","isParent":false,"parent":"Point","params":"","paramsDescription":"","demo":"","since":"","deprecated":false},{"name":"Chart--reflow","fullname":"Chart.reflow","type":"method","returnType":"","description":"Reflows the chart to its container. By default, the chart reflows automatically to its container following a <code>window.resize</code> event, as per the <a href=\"#chart.reflow\">chart.reflow</a> option. However, there are no reliable events for div resize, so if the container is resized without a window resize event, this must be called explicitly. ","title":"reflow","isParent":false,"parent":"Chart","params":"()","paramsDescription":"","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/chart-reflow/\" target=\"_blank\">Resize div and reflow</a>, <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/events-container/\" target=\"_blank\">pop up and reflow</a>","since":"","deprecated":false},{"name":"Element--getBBox","fullname":"Element.getBBox","type":"method","returnType":"Object","description":"Get the bounding box of the element","title":"getBBox","isParent":false,"parent":"Element","params":"","paramsDescription":"A hash object containing x, y, width and height values for the element.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-on-chart/\" target=\"_blank\">Draw a rectangle based on a text's bounding box</a>.","since":"2.0","deprecated":false},{"name":"Series--chart","fullname":"Series.chart","type":"property","returnType":"Chart","description":"Read only. The chart that the series belongs to.","title":"chart","isParent":false,"parent":"Series","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Series--data","fullname":"Series.data","type":"property","returnType":"Array<Point>","description":"Read only. An array with the series' data point objects.","title":"data","isParent":false,"parent":"Series","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Series--xAxis","fullname":"Series.xAxis","type":"property","returnType":"Axis","description":"Read only. The unique xAxis object associated with the series.","title":"xAxis","isParent":false,"parent":"Series","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Series--yAxis","fullname":"Series.yAxis","type":"property","returnType":"Axis","description":"Read only. The unique yAxis object associated with the series.","title":"yAxis","isParent":false,"parent":"Series","params":"","paramsDescription":"","demo":"","since":"1.2.0","deprecated":false},{"name":"Series--removePoint","fullname":"Series.removePoint","type":"method","returnType":"","description":"Remove a point from the series. Unlike the <a href=\"#Point.remove\">Point.remove</a> method, this can also be done on a point that is not instanciated because it is outside the view or subject to data grouping.","title":"removePoint","isParent":false,"parent":"Series","params":"(Object index, [Boolean redraw], [Mixed animation])","paramsDescription":"index: Number<br>The index of the point in the data array.||\r\nredraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is added. When adding more than one point, it is highly recommended that the <code>redraw</code> option be set to false, and instead <code>chart.redraw()</code> is explicitly called after the adding of points is finished.||\r\nanimation: Mixed<br>Defaults to true. When true, the graph will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-removepoint/\" target=\"_blank\">Remove cropped point</a>","since":"4.1.0","deprecated":false},{"name":"Highcharts--numberFormat","fullname":"Highcharts.numberFormat","type":"method","returnType":"String","description":"Formats a JavaScript number with grouped thousands, a fixed amount of decimals and an optional decimal point. It is a port of PHP's function with the same name. See <a href=\"http://php.net/manual/en/function.number-format.php\">PHP number_format</a> for a full explanation of the parameters.","title":"numberFormat","isParent":false,"parent":"Highcharts","params":"(Number number, [Number decimals], [String decimalPoint], [String thousandsSep])","paramsDescription":"number: Number<br>The raw number to format.||decimals: Number<br>The desired number of decimals.||decimalPoint: String<br>The decimal point. Defaults to \".\" or to the string specified globally in options.lang.decimalPoint.||thousandsSep: String<br>The thousands separator. Defaults to \" \" or to the string specified globally in options.lang.thousandsSep.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/highcharts-numberformat/\" target=\"_blank\">Custom number format</a>","since":"","deprecated":false},{"name":"Renderer--label","fullname":"Renderer.label","type":"method","returnType":"Element","description":"Draw a label, which is an extended <code>text</code> element with support for border and background. Highcharts creates a <code>g</code> element with a <code>text</code> and a <code>path</code> or <code>rect</code> inside, to make it behave somewhat like a HTML <code>div</code>. Border and background are set through <code>stroke</code>, <code>stroke-width</code> and <code>fill</code> attributes using the <a href=\"#Element.attr\">attr</a> method. This must be done before calling <a href=\"#Element.add\">add</a>.","title":"label","isParent":false,"parent":"Renderer","params":"(String str, Number x, Number y, String shape, Number anchorX, Number anchorY, Boolean useHTML, Boolean baseline, String className)","paramsDescription":"str: String<br>\r\nThe text or HTML to draw||\r\n\r\nx: Number<br>\r\nThe x position of the label's left side.||\r\n\r\ny: Number<br>\r\nThe y position of the label's top side or baseline, depending on the <code>baseline</code> parameter.||\r\n\r\nshape: String<br>\r\nThe shape of the label's border/background, if any. Defaults to <code>rect</code>.||\r\n\r\nanchorX: Number<br>\r\nIf the shape has a pointer, like the chevron on a callout shape, anchorX is the x position to point to.||\r\n\r\nanchorY: Number<br>\r\nIf the shape has a pointer, like the chevron on a callout shape, anchorY is the y position to point to.||\r\n\r\nuseHTML: Boolean<br>\r\nUse HTML to render the text of the label.||\r\n\r\nbaseline: Boolean<br>\r\nWhether the label should be vertically aligned by the text baseline, which makes it behave like the <code>text</code> element, or by the top left side, which makes it behave like a HTML <code>div</code>.||\r\n\r\nclassName: String<br>\r\nA class name for the <code>g</code> element surrounding the label.\r\n\r\n","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/renderer-label-on-chart/\" target=\"_blank\">A label on the chart</a>","since":"","deprecated":false},{"name":"Chart--redraw","fullname":"Chart.redraw","type":"method","returnType":"","description":"Redraw the chart after changes have been done to the data or axis extremes. All methods for updating axes, series or points have a parameter for redrawing the chart. This is <code>true</code> by default. But in many cases you want to do more than one operation on the chart before redrawing, for example add a number of points. In those cases it is a waste of resources to redraw the chart for each new point added. So you add the points and call <code>chart.redraw()</code> after.","title":"redraw","isParent":false,"parent":"Chart","params":"([Mixed animation])","paramsDescription":"animation: Mixed<br>Defaults to true. When true, the update will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"","since":"1.2.0","deprecated":false},{"name":"Point--update","fullname":"Point.update","type":"method","returnType":"","description":"Update the point with new values.","title":"update","isParent":false,"parent":"Point","params":"([Mixed options], [Boolean redraw], [Mixed animation])","paramsDescription":"options: Number|Array|Object<br>The point options. Point options are handled as described under the <code>series&lt;type&gt;.data</code> item for each series type. For example for a line series, if options is a single number, the point will be given that number as the main <code>y</code> value. If it is an array, it will be interpreted as x and y values respectively. If it is an object, advanced options are applied.\r\n\r\n||redraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the point is updated.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.\r\n\r\n||animation: Mixed<br>Defaults to true. When true, the update will be animated with default animation options. The animation can also be a configuration object with properties <code>duration</code> and <code>easing</code>.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/point-update-column/\" target=\"_blank\">Update column value</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/point-update-pie/\" target=\"_blank\">update pie slice</a>","since":"1.2.0","deprecated":false},{"name":"Series--setData","fullname":"Series.setData","type":"method","returnType":"","description":"Apply a new set of data to the series and optionally redraw it. Note that this method throws away all points and creates new ones. For updating the values of existing points, use <a href=\"#Point.update()\">Point.update()</a> instead. To keep memory usage low, Highcharts mutates the passed data array instead of copying it, so if you are going to reuse the same array it is a good idea to pass a clone to <code>setData</code>.","title":"setData","isParent":false,"parent":"Series","params":"(Array&lt;Mixed&gt; data, [Boolean redraw], [Mixed animation], [Boolean updatePoints])","paramsDescription":"data: Array&lt;Number&gt;|Array&lt;Array&gt;|Array&lt;Object&gt;<br>Takes an array of data in the same format as described under <code>series&lt;type&gt;data</code> for the given series type.||\r\n\r\nredraw: Boolean<br>Defaults to <code>true</code>. Whether to redraw the chart after the series is altered.If doing more operations on the chart, it is a good idea to set redraw to false and call <code>chart.redraw()</code> after.||\r\n\r\n\r\nanimation: Mixed<br>When the updated data is the same length as the existing data, points will be updated by default, and animation visualizes how the points are changed. Set false to disable animation, or a configuration object to set duration or easing.||\r\n\r\n\r\nupdatePoints: Boolean<br>When the updated data is the same length as the existing data, points will be updated instead of replace. This option prevents this, and makes setData behave like it did prior to Highcharts 3.0.10.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-setdata/\" target=\"_blank\">Set new data from a button</a>,<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/series-setdata-pie/\" target=\"_blank\">set data in a pie</a>","since":"1.2.0","deprecated":false},{"name":"Point--select","fullname":"Point.select","type":"method","returnType":"","description":"Select or unselect the point.","title":"select","isParent":false,"parent":"Point","params":"([Boolean select], [Boolean accumulate])","paramsDescription":"select: Boolean<br>When <code>true</code>, the point is selected. When <code>false</code>, the point is unselected. When <code>null</code> or <code>undefined</code>, the selection state is toggled.||accumulate: Boolean<br>When <code>true</code>, the selection is added to other selected points. When <code>false</code>, other selected points are deselected. Internally in Highcharts,selected points are accumulated on Control, Shift or Cmd clicking the point.","demo":"<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/members/point-select/\" target=\"_blank\">Select a point from a button</a>, <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/events-selection-points/\" target=\"_blank\">select a range of points through a drag selection</a>.","since":"1.2.0","deprecated":false}]
 },{}],69:[function(require,module,exports){
 module.exports=module.exports = [
   {
@@ -19905,11 +19684,12 @@ dataService.set([
     ["experiment 9","50","204","220"  ],
     ["experiment 10","50","189","199"  ]
 ]);
-
+var Delegator = require("dom-delegator");
+var del = Delegator();
 require('./route.js');
 
 
-},{"./route.js":71,"./services/data":73}],71:[function(require,module,exports){
+},{"./route.js":71,"./services/data":73,"dom-delegator":12}],71:[function(require,module,exports){
 (function () {
     var StateMan = require('stateman');
     var h = require('virtual-dom/h');
@@ -20029,7 +19809,7 @@ require('./route.js');
 
 })();
 
-},{"./components/chart.js":63,"./components/customise.js":64,"./components/import.js":65,"./components/table.js":66,"./components/templates.js":67,"stateman":28,"virtual-dom/create-element":34,"virtual-dom/diff":35,"virtual-dom/h":36,"virtual-dom/patch":37}],72:[function(require,module,exports){
+},{"./components/chart.js":62,"./components/customise.js":63,"./components/import.js":64,"./components/table.js":65,"./components/templates.js":66,"stateman":27,"virtual-dom/create-element":33,"virtual-dom/diff":34,"virtual-dom/h":35,"virtual-dom/patch":36}],72:[function(require,module,exports){
 (function () {
     var _ = require('lodash');
     var dataService = require('../services/data.js');
@@ -20059,6 +19839,7 @@ require('./route.js');
         var object = _.cloneDeep(_.merge(preset,config));
 
         object.series = series.get(dataService.getData(labels.series, labels.categories), preset, labels);
+
         return _.cloneDeep(object);
     };
 
@@ -20130,7 +19911,7 @@ require('./route.js');
 
     module.exports = that;
 })();
-},{"../config/templates.json":69,"../services/data.js":73,"../services/series.js":74,"lodash":23,"mediatorjs":24}],73:[function(require,module,exports){
+},{"../config/templates.json":69,"../services/data.js":73,"../services/series.js":74,"lodash":22,"mediatorjs":23}],73:[function(require,module,exports){
 (function () {
     var _ = require('lodash');
     var mediator = require('mediatorjs');
@@ -20180,7 +19961,7 @@ require('./route.js');
 ();
 
 
-},{"lodash":23,"mediatorjs":24}],74:[function(require,module,exports){
+},{"lodash":22,"mediatorjs":23}],74:[function(require,module,exports){
 (function () {
     var that = {};
     var dataService = require('../services/data.js');
@@ -20299,4 +20080,4 @@ require('./route.js');
     module.exports = that;
 })();
 
-},{"../services/data.js":73,"lodash":23}]},{},[70]);
+},{"../services/data.js":73,"lodash":22}]},{},[70]);
