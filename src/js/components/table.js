@@ -8,7 +8,6 @@
     var hot;
 
     that.load = function (element) {
-
         hot = new Handsontable(element, {
             startRows: 8,
             startCols: 5,

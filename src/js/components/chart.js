@@ -7,16 +7,19 @@
     that.load = function (element) {
         configService.setValue('chart.renderTo', element);
         var options = configService.get();
+        options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
 
         mediator.on('configUpdate', function () {
-            chart = new Highcharts.Chart(configService.get());
+            var options = configService.get();
+            options.chart.renderTo = element;
+            chart = new Highcharts.Chart(options);
         });
         mediator.on('dataUpdate', function () {
-            chart = new Highcharts.Chart(configService.get());
+            var options = configService.get();
+            options.chart.renderTo = element;
+            chart = new Highcharts.Chart(options);
         });
     };
-
-
     module.exports = that;
 })();

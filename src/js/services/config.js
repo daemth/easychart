@@ -5,6 +5,7 @@
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
+
     var config = {
         preset :{
             type: 'line',
@@ -20,16 +21,15 @@
         }
     };
 
+
     that.get = function () {
         var preset = loadPreset(config.preset.type, config.preset.preset);
         var labels = hasLabels(dataService.get());
-
-        var object = _.cloneDeep(_.merge(preset,config));
-
+        var object = JSON.parse(JSON.stringify(_.merge(preset,config)));
         object.series = series.get(dataService.getData(labels.series, labels.categories), preset, labels);
-
-        return _.cloneDeep(object);
+        return JSON.parse(JSON.stringify(object));
     };
+
 
     that.setValue = function(path, value){
         ids = path.split('.');
@@ -47,7 +47,6 @@
                 object[step] = value;
             }
         }
-
         mediator.trigger('configUpdate');
     };
 

@@ -846,6 +846,20 @@
         }
       },
       {
+        "id": "horizontalColumnrange",
+        "title": "Horizontal columnrange",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
         "id": "logarithmic",
         "title": "Logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
@@ -857,20 +871,6 @@
           "yAxis": {
             "type": "logarithmic",
             "minorTickInterval": "auto"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "horizontalColumnrange",
-        "title": "Horizontal columnrange",
-        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "columnrange",
-            "inverted": true
           },
           "xAxis": {
             "type": "category"

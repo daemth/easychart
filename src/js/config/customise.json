@@ -76,19 +76,35 @@
       {
         "title": "Chart area",
         "options": [
-          "chart.backgroundColor",
-          "chart.borderWidth",
-          "chart.borderRadius",
-          "chart.borderColor"
+          {
+            "name": "chart.backgroundColor"
+          },
+          {
+            "name": "chart.borderWidth"
+          },
+          {
+            "name": "chart.borderRadius"
+          },
+          {
+            "name": "chart.borderColor"
+          }
         ]
       },
       {
         "title": "Plot area",
         "options": [
-          "chart.plotBackgroundColor",
-          "chart.plotBackgroundImage",
-          "chart.plotBorderWidth",
-          "chart.plotBorderColor"
+          {
+            "name": "chart.plotBackgroundColor"
+          },
+          {
+            "name": "chart.plotBackgroundImage"
+          },
+          {
+            "name": "chart.plotBorderWidth"
+          },
+          {
+            "name": "chart.plotBorderColor"
+          }
         ]
       }
     ]
@@ -100,16 +116,26 @@
       {
         "title": "Titles",
         "options": [
-          "title.text",
-          "subtitle.text",
-          "yAxis.title.text",
-          "xAxis.title.text"
+          {
+            "name": "title.text"
+          },
+          {
+            "name": "subtitle.text"
+          },
+          {
+            "name": "yAxis.title.text"
+          },
+          {
+            "name": "xAxis.title.text"
+          }
         ]
       },
       {
         "title": "Title advanced",
         "options": [
-          "title.style"
+          {
+            "name": "title.style"
+          }
         ]
       }
     ]
@@ -129,24 +155,50 @@
             "name": "xAxis.type",
             "defaults": "category"
           },
-          "xAxis.min",
-          "xAxis.opposite",
-          "xAxis.reversed",
-          "xAxis.tickInterval",
-          "xAxis.labels.format",
-          "xAxis.labels.rotation",
-          "xAxis.labels.align"
+          {
+            "name": "xAxis.min"
+          },
+          {
+            "name": "xAxis.opposite"
+          },
+          {
+            "name": "xAxis.reversed"
+          },
+          {
+            "name": "xAxis.tickInterval"
+          },
+          {
+            "name": "xAxis.labels.format"
+          },
+          {
+            "name": "xAxis.labels.rotation"
+          },
+          {
+            "name": "xAxis.labels.align"
+          }
         ]
       },
       {
         "title": "Value axis",
         "options": [
-          "yAxis.type",
-          "yAxis.min",
-          "yAxis.opposite",
-          "yAxis.reversed",
-          "yAxis.labels.format",
-          "yAxis.labels.rotation"
+          {
+            "name": "yAxis.type"
+          },
+          {
+            "name": "yAxis.min"
+          },
+          {
+            "name": "yAxis.opposite"
+          },
+          {
+            "name": "yAxis.reversed"
+          },
+          {
+            "name": "yAxis.labels.format"
+          },
+          {
+            "name": "yAxis.labels.rotation"
+          }
         ]
       }
     ]
@@ -158,15 +210,23 @@
       {
         "title": "General",
         "options": [
-          "legend.enabled",
-          "legend.layout"
+          {
+            "name": "egend.enabled"
+          },
+          {
+            "name": "legend.layout"
+          }
         ]
       },
       {
         "title": "Placement",
         "options": [
-          "legend.align",
-          "legend.verticalAlign"
+          {
+            "name": "legend.align"
+          },
+          {
+            "name": "legend.verticalAlign"
+          }
         ]
       },
       {
@@ -182,10 +242,18 @@
       {
         "title": "General",
         "options": [
-          "tooltip.headerFormat",
-          "tooltip.pointFormat",
-          "tooltip.valuePrefix",
-          "tooltip.valueSuffix"
+          {
+            "name": "tooltip.headerFormat"
+          },
+          {
+            "name": "tooltip.pointFormat"
+          },
+          {
+            "name": "tooltip.valuePrefix"
+          },
+          {
+            "name": "tooltip.valueSuffix"
+          }
         ]
       },
       {
@@ -201,7 +269,9 @@
       {
         "title": "Exporting",
         "options": [
-          "exporting.enabled"
+          {
+            "name": "exporting.enabled"
+          }
         ]
       },
       {
@@ -211,8 +281,12 @@
             "name": "credits.enabled",
             "defaults": "false"
           },
-          "credits.text",
-          "credits.href"
+          {
+            "name": "credits.text"
+          },
+          {
+            "name": "credits.href"
+          }
         ]
       }
     ]

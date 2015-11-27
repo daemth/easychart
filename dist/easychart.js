@@ -17791,26 +17791,28 @@ function isArray(obj) {
     that.load = function (element) {
         configService.setValue('chart.renderTo', element);
         var options = configService.get();
+        options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
 
         mediator.on('configUpdate', function () {
-            chart = new Highcharts.Chart(configService.get());
+            var options = configService.get();
+            options.chart.renderTo = element;
+            chart = new Highcharts.Chart(options);
         });
         mediator.on('dataUpdate', function () {
-            chart = new Highcharts.Chart(configService.get());
+            var options = configService.get();
+            options.chart.renderTo = element;
+            chart = new Highcharts.Chart(options);
         });
     };
-
-
     module.exports = that;
 })();
 },{"../services/config":72,"lodash":22,"mediatorjs":23}],63:[function(require,module,exports){
 (function () {
     var config = require('../config/customise.json');
-    var dump = require('../config/dump.json');
-    console.log(dump[0]);
-
+    var propertyServices = require('../services/properties');
     var _ = require('lodash');
+
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
@@ -17819,9 +17821,7 @@ function isArray(obj) {
 
     var tabs;
     var rootNode;
-
     var activeTab = _.first(config).id;
-
     var that = {};
 
     that.load = function (element) {
@@ -17851,16 +17851,17 @@ function isArray(obj) {
         _.forEach(activeTab.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function(option){
-                inputs.push(generateField(option));
+                inputs.push(generateField(option.name));
             });
             var item = h('h3',pane.title);
             presetList.push(h('div', [item, inputs] ))
         });
+
         return h('div',{className:"vertical-tab-content-container"}, [title, presetList]);
     }
 
-    function generateField(){
-
+    function generateField(id){
+        propertyServices.get(id)
     }
 
     function generateTabs(panes, active) {
@@ -17899,7 +17900,7 @@ function isArray(obj) {
     module.exports = that;
 
 })();
-},{"../config/customise.json":67,"../config/dump.json":68,"lodash":22,"vdom-virtualize":31,"virtual-dom/create-element":33,"virtual-dom/diff":34,"virtual-dom/h":35,"virtual-dom/patch":36}],64:[function(require,module,exports){
+},{"../config/customise.json":67,"../services/properties":74,"lodash":22,"vdom-virtualize":31,"virtual-dom/create-element":33,"virtual-dom/diff":34,"virtual-dom/h":35,"virtual-dom/patch":36}],64:[function(require,module,exports){
 (function () {
     var dataService = require('../services/data.js');
     var papa = require('papaparse');
@@ -17951,7 +17952,6 @@ function isArray(obj) {
     var hot;
 
     that.load = function (element) {
-
         hot = new Handsontable(element, {
             startRows: 8,
             startCols: 5,
@@ -18014,6 +18014,7 @@ function isArray(obj) {
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
+
     var virtualize = require('vdom-virtualize');
 
     var templateTypes = require('../config/templates.json');
@@ -18197,19 +18198,35 @@ module.exports=module.exports = [
       {
         "title": "Chart area",
         "options": [
-          "chart.backgroundColor",
-          "chart.borderWidth",
-          "chart.borderRadius",
-          "chart.borderColor"
+          {
+            "name": "chart.backgroundColor"
+          },
+          {
+            "name": "chart.borderWidth"
+          },
+          {
+            "name": "chart.borderRadius"
+          },
+          {
+            "name": "chart.borderColor"
+          }
         ]
       },
       {
         "title": "Plot area",
         "options": [
-          "chart.plotBackgroundColor",
-          "chart.plotBackgroundImage",
-          "chart.plotBorderWidth",
-          "chart.plotBorderColor"
+          {
+            "name": "chart.plotBackgroundColor"
+          },
+          {
+            "name": "chart.plotBackgroundImage"
+          },
+          {
+            "name": "chart.plotBorderWidth"
+          },
+          {
+            "name": "chart.plotBorderColor"
+          }
         ]
       }
     ]
@@ -18221,16 +18238,26 @@ module.exports=module.exports = [
       {
         "title": "Titles",
         "options": [
-          "title.text",
-          "subtitle.text",
-          "yAxis.title.text",
-          "xAxis.title.text"
+          {
+            "name": "title.text"
+          },
+          {
+            "name": "subtitle.text"
+          },
+          {
+            "name": "yAxis.title.text"
+          },
+          {
+            "name": "xAxis.title.text"
+          }
         ]
       },
       {
         "title": "Title advanced",
         "options": [
-          "title.style"
+          {
+            "name": "title.style"
+          }
         ]
       }
     ]
@@ -18250,24 +18277,50 @@ module.exports=module.exports = [
             "name": "xAxis.type",
             "defaults": "category"
           },
-          "xAxis.min",
-          "xAxis.opposite",
-          "xAxis.reversed",
-          "xAxis.tickInterval",
-          "xAxis.labels.format",
-          "xAxis.labels.rotation",
-          "xAxis.labels.align"
+          {
+            "name": "xAxis.min"
+          },
+          {
+            "name": "xAxis.opposite"
+          },
+          {
+            "name": "xAxis.reversed"
+          },
+          {
+            "name": "xAxis.tickInterval"
+          },
+          {
+            "name": "xAxis.labels.format"
+          },
+          {
+            "name": "xAxis.labels.rotation"
+          },
+          {
+            "name": "xAxis.labels.align"
+          }
         ]
       },
       {
         "title": "Value axis",
         "options": [
-          "yAxis.type",
-          "yAxis.min",
-          "yAxis.opposite",
-          "yAxis.reversed",
-          "yAxis.labels.format",
-          "yAxis.labels.rotation"
+          {
+            "name": "yAxis.type"
+          },
+          {
+            "name": "yAxis.min"
+          },
+          {
+            "name": "yAxis.opposite"
+          },
+          {
+            "name": "yAxis.reversed"
+          },
+          {
+            "name": "yAxis.labels.format"
+          },
+          {
+            "name": "yAxis.labels.rotation"
+          }
         ]
       }
     ]
@@ -18279,15 +18332,23 @@ module.exports=module.exports = [
       {
         "title": "General",
         "options": [
-          "legend.enabled",
-          "legend.layout"
+          {
+            "name": "egend.enabled"
+          },
+          {
+            "name": "legend.layout"
+          }
         ]
       },
       {
         "title": "Placement",
         "options": [
-          "legend.align",
-          "legend.verticalAlign"
+          {
+            "name": "legend.align"
+          },
+          {
+            "name": "legend.verticalAlign"
+          }
         ]
       },
       {
@@ -18303,10 +18364,18 @@ module.exports=module.exports = [
       {
         "title": "General",
         "options": [
-          "tooltip.headerFormat",
-          "tooltip.pointFormat",
-          "tooltip.valuePrefix",
-          "tooltip.valueSuffix"
+          {
+            "name": "tooltip.headerFormat"
+          },
+          {
+            "name": "tooltip.pointFormat"
+          },
+          {
+            "name": "tooltip.valuePrefix"
+          },
+          {
+            "name": "tooltip.valueSuffix"
+          }
         ]
       },
       {
@@ -18322,7 +18391,9 @@ module.exports=module.exports = [
       {
         "title": "Exporting",
         "options": [
-          "exporting.enabled"
+          {
+            "name": "exporting.enabled"
+          }
         ]
       },
       {
@@ -18332,8 +18403,12 @@ module.exports=module.exports = [
             "name": "credits.enabled",
             "defaults": "false"
           },
-          "credits.text",
-          "credits.href"
+          {
+            "name": "credits.text"
+          },
+          {
+            "name": "credits.href"
+          }
         ]
       }
     ]
@@ -19190,6 +19265,20 @@ module.exports=module.exports = [
         }
       },
       {
+        "id": "horizontalColumnrange",
+        "title": "Horizontal columnrange",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
         "id": "logarithmic",
         "title": "Logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
@@ -19201,20 +19290,6 @@ module.exports=module.exports = [
           "yAxis": {
             "type": "logarithmic",
             "minorTickInterval": "auto"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "horizontalColumnrange",
-        "title": "Horizontal columnrange",
-        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "columnrange",
-            "inverted": true
           },
           "xAxis": {
             "type": "category"
@@ -19817,6 +19892,7 @@ require('./route.js');
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
+
     var config = {
         preset :{
             type: 'line',
@@ -19832,16 +19908,15 @@ require('./route.js');
         }
     };
 
+
     that.get = function () {
         var preset = loadPreset(config.preset.type, config.preset.preset);
         var labels = hasLabels(dataService.get());
-
-        var object = _.cloneDeep(_.merge(preset,config));
-
+        var object = JSON.parse(JSON.stringify(_.merge(preset,config)));
         object.series = series.get(dataService.getData(labels.series, labels.categories), preset, labels);
-
-        return _.cloneDeep(object);
+        return JSON.parse(JSON.stringify(object));
     };
+
 
     that.setValue = function(path, value){
         ids = path.split('.');
@@ -19859,7 +19934,6 @@ require('./route.js');
                 object[step] = value;
             }
         }
-
         mediator.trigger('configUpdate');
     };
 
@@ -19911,7 +19985,7 @@ require('./route.js');
 
     module.exports = that;
 })();
-},{"../config/templates.json":69,"../services/data.js":73,"../services/series.js":74,"lodash":22,"mediatorjs":23}],73:[function(require,module,exports){
+},{"../config/templates.json":69,"../services/data.js":73,"../services/series.js":75,"lodash":22,"mediatorjs":23}],73:[function(require,module,exports){
 (function () {
     var _ = require('lodash');
     var mediator = require('mediatorjs');
@@ -19920,17 +19994,17 @@ require('./route.js');
     var dataSet = [];
 
     that.getSeries = function () {
-        return _.cloneDeep(_.first(dataSet));
+        return JSON.parse(JSON.stringify(_.first(dataSet)));
     };
 
     that.getCategories = function () {
-        return _.cloneDeep(_.map(_.slice(dataSet, 1), function (row) {
+        return JSON.parse(JSON.stringify(_.map(_.slice(dataSet, 1), function (row) {
             return _.first(row);
-        }));
+        })));
     };
 
     that.get = function () {
-        return _.cloneDeep(dataSet);
+        return JSON.parse(JSON.stringify(dataSet));
     };
 
     that.getData = function (series, categories) {
@@ -19946,12 +20020,12 @@ require('./route.js');
             });
         }
 
-        return _.cloneDeep(data);
+        return JSON.parse(JSON.stringify(data));
     };
 
     that.set = function (newDataSet) {
         if (!_.isEqual(dataSet, newDataSet)) {
-            dataSet = _.cloneDeep(newDataSet);
+            dataSet = JSON.parse(JSON.stringify(newDataSet));
             mediator.trigger('dataUpdate', that.get());
         }
     };
@@ -19962,6 +20036,21 @@ require('./route.js');
 
 
 },{"lodash":22,"mediatorjs":23}],74:[function(require,module,exports){
+(function () {
+    var properties = require('../config/dump.json');
+    var _ = require('lodash');
+    var that = {};
+    console.log(properties);
+    that.get = function(fullname){
+        console.log(fullname);
+        _.find(properties, function(){
+
+        })
+    };
+    module.exports = that;
+})();
+
+},{"../config/dump.json":68,"lodash":22}],75:[function(require,module,exports){
 (function () {
     var that = {};
     var dataService = require('../services/data.js');

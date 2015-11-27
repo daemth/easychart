@@ -1,9 +1,8 @@
 (function () {
     var config = require('../config/customise.json');
-    var dump = require('../config/dump.json');
-    console.log(dump[0]);
-
+    var propertyServices = require('../services/properties');
     var _ = require('lodash');
+
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
@@ -12,9 +11,7 @@
 
     var tabs;
     var rootNode;
-
     var activeTab = _.first(config).id;
-
     var that = {};
 
     that.load = function (element) {
@@ -44,16 +41,17 @@
         _.forEach(activeTab.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function(option){
-                inputs.push(generateField(option));
+                inputs.push(generateField(option.name));
             });
             var item = h('h3',pane.title);
             presetList.push(h('div', [item, inputs] ))
         });
+
         return h('div',{className:"vertical-tab-content-container"}, [title, presetList]);
     }
 
-    function generateField(){
-
+    function generateField(id){
+        propertyServices.get(id)
     }
 
     function generateTabs(panes, active) {

@@ -6,6 +6,7 @@
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
+
     var virtualize = require('vdom-virtualize');
 
     var templateTypes = require('../config/templates.json');
