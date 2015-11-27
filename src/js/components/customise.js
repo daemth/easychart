@@ -41,17 +41,13 @@
         _.forEach(activeTab.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function(option){
-                inputs.push(generateField(option.name));
+                inputs.push(propertyServices.get(option.name));
             });
             var item = h('h3',pane.title);
             presetList.push(h('div', [item, inputs] ))
         });
 
         return h('div',{className:"vertical-tab-content-container"}, [title, presetList]);
-    }
-
-    function generateField(id){
-        propertyServices.get(id)
     }
 
     function generateTabs(panes, active) {
