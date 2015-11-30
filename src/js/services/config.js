@@ -21,7 +21,6 @@
         }
     };
 
-
     that.get = function () {
         var preset = loadPreset(config.preset.type, config.preset.preset);
         var labels = hasLabels(dataService.get());
@@ -30,6 +29,9 @@
         return JSON.parse(JSON.stringify(object));
     };
 
+    that.set = function (_config_) {
+        config = JSON.parse(JSON.stringify(_config_));
+    };
 
     that.setValue = function(path, value){
         ids = path.split('.');
@@ -67,6 +69,21 @@
         return object;
     };
 
+    that.removeValue = function(path){
+        var object = config;
+        path = path.split('.');
+        while (step = path.shift()) {
+            if(!_.isUndefined(object[step])){
+                if(path.length > 0){
+                    object = object[step];
+                } else {
+                    delete object[step];
+                }
+            }
+        }
+        mediator.trigger('configUpdate');
+    };
+
     that.setPreset = function(type, preset){
         config.preset = {
             type: type,
@@ -75,9 +92,10 @@
         mediator.trigger('configUpdate');
     };
 
+
     function loadPreset(type, preset){
         var typeConfig = _.find(templates,{id:type});
-        return _.find(typeConfig.presets, {id:preset}).definition;
+        return JSON.parse(JSON.stringify(_.find(typeConfig.presets, {id:preset}).definition));
     }
 
     function hasLabels (data){
