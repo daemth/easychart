@@ -64,7 +64,12 @@
         path = path.split('.');
         var step;
         while (step = path.shift()) {
-            object = object[step];
+            if(!_.isUndefined(object[step])){
+                object = object[step];
+            } else {
+                object = undefined;
+                break;
+            }
         }
         return object;
     };
