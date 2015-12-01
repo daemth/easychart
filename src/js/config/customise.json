@@ -211,7 +211,7 @@
         "title": "General",
         "options": [
           {
-            "name": "egend.enabled"
+            "name": "legend.enabled"
           },
           {
             "name": "legend.layout"
@@ -282,10 +282,12 @@
             "defaults": "false"
           },
           {
-            "name": "credits.text"
+            "name": "credits.text",
+            "defaults": "easychart.org"
           },
           {
-            "name": "credits.href"
+            "name": "credits.href",
+            "defaults":"http://www.easychart.org"
           }
         ]
       }

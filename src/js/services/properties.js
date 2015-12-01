@@ -25,19 +25,21 @@
     that.createProperty = function (property) {
         var element;
         var configValue = configService.getValue(property.fullname);
+
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
+            // defaults is a string
             if(_.isString(property.defaults)){
-                property.defaults = property.defaults.replace(/\[|\]|\"|\s/g, '').split(',');
+                property.defaults = property.defaults.replace(/\[|\]|\"/g, '').split(',');
             }
             if (property.defaults.length == 1) {
-                property.defaults = _.first(property.defaults);
+                property.defaults = _.first(property.defaults).trim();
                 configValue = configValue ? configValue : property.defaults;
             } else if (property.defaults.length > 1) {
                 if (!configValue) {
                     configValue = [];
                 }
                 _.forEach(property.defaults, function (defaultValue, index) {
-                    configValue[index] = configValue && configValue[index] ? configValue[index] : property.defaults[index];
+                    configValue[index] = configValue && configValue[index] ? configValue[index] : property.defaults[index].trim();
                 })
             }
         }
@@ -51,15 +53,18 @@
                 var item = h('option', {
                     value: value,
                     selected: selected
-                }, value);
+                }, value === 'null' ? '' : value);
                 options.push(item);
             });
             element = h('select', {
                 'onchange': function (e) {
-                    configService.setValue(property.fullname, e.target.value);
+                    if(e.target.value === 'null'){
+                        configService.removeValue(property.fullname);
+                    } else {
+                        configService.setValue(property.fullname, e.target.value);
+                    }
                 }
             }, options);
-
         }
         else {
             switch (property.returnType.toLowerCase()) {
@@ -90,10 +95,10 @@
                                 'value': configValue[index],
                                 'onchange': function (e) {
                                     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
-                                    if (!_.isEqual(property.defaults, values)) {
-                                        configService.setValue(property.fullname, values);
-                                    } else {
+                                    if (_.isEqual(property.defaults, values)) {
                                         configService.removeValue(property.fullname);
+                                    } else {
+                                        configService.setValue(property.fullname, values);
                                     }
                                 }
                             })
@@ -152,11 +157,8 @@
                     break;
             }
         }
-
-
-        var label = h('span', property.title);
-
-        return h('div', [label, element]);
+        // return div > label > title + element
+        return h('div',h('label',{title:property.description},[property.title,element]));
     };
 
     module.exports = that;
