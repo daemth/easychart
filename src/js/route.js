@@ -1,5 +1,4 @@
 (function () {
-    var StateMan = require('stateman');
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
@@ -10,93 +9,69 @@
     var chart = require('./components/chart.js');
     var dataImport = require('./components/import.js');
     var customise = require('./components/customise.js');
-    var stateman = new StateMan({
-        title: "Easychart",
-        strict: true
-    });
 
     var app;
     var container;
     var header;
     var rootNode;
+    var chartElement;
+    var states = {
+        'import': {
+            title: 'Import',
+            content: function(element){
+                var importElement = createElement(h('div'));
+                element.appendChild(importElement);
+                dataImport.load(importElement);
 
-    stateman.state({
-            "app": {},
-            "app.import": {
-                enter: function (state) {
-                    var importElement = createElement(h('div'));
-                    app.appendChild(importElement);
-                    dataImport.load(importElement);
-
-                    var tableElement = createElement(h('div.left'));
-                    app.appendChild(tableElement);
-                    table.load(tableElement);
-
-                    var chartElement = createElement(h('div.right'));
-                    chart.load(chartElement);
-                    app.appendChild(chartElement);
-                },
-                leave: function () {
-                    table.destroy();
-                }
-            },
-
-            "app.templates": {
-                enter: function (state) {
-                    var templateElement = createElement(h('div.left'));
-                    templates.load(templateElement);
-                    app.appendChild(templateElement);
-
-                    var chartElement = createElement(h('div.right'));
-                    chart.load(chartElement);
-                    app.appendChild(chartElement);
-                }
-            },
-
-            "app.customise": {
-                enter: function (state) {
-                    var customiseElement = createElement(h('div.left'));
-                    customise.load(customiseElement);
-                    app.appendChild(customiseElement);
-
-                    var chartElement = createElement(h('div.right'));
-                    chart.load(chartElement);
-                    app.appendChild(chartElement);
-                }
+                var tableElement = createElement(h('div'));
+                element.appendChild(tableElement);
+                table.load(tableElement);
             }
-        })
-        .on("begin", function (state) {
-            app.innerHTML = '';
-            render(state);
-        })
-        .on("notfound", function () {
-            this.go('app.import');
-        });
+        },
+        'templates': {
+            title: 'Templates',
+            content: function (element) {
+                var templateElement = createElement(h('div'));
+                templates.load(templateElement);
+                element.appendChild(templateElement);
+            }
+        },
+        'customise': {
+            title: 'Customise',
+            content: function (element) {
+                var customiseElement = createElement(h('div'));
+                customise.load(customiseElement);
+                element.appendChild(customiseElement);
+            }
+        }
+    };
 
+    function goToSate(state){
+        app.innerHTML = '';
+        var currentState = states[state];
+        currentState.content(app);
+        render(state);
 
+    }
     function render(state) {
-        var newHeader = headerTemplate(state);
+        var newHeader = template(state);
         var patches = diff(header, newHeader);
         rootNode = patch(rootNode, patches);
         header = newHeader;
     }
 
-    function headerTemplate(state) {
-        var links = ['/app/import', '/app/templates', '/app/customise'];
-        var titles = {
-            '/app/import': 'import',
-            '/app/templates': 'templates',
-            '/app/customise': 'customise'
-        };
+    function template(state, page) {
+        var links = ['import', 'templates', 'customise'];
+
         return h('div', [
-            h('ul', links.map(function (href) {
-                return h('li', h(
-                    'a' + (state.path === href ? '.is-active' : ''),
-                    {href: '#' + href},
-                    titles[href]
-                ))
+            h('ul', links.map(function (id) {
+                return h('li.hover',{
+                    "ev-click":function(){
+                        goToSate(id);
+                    }
+                }, states[id].title)
             })),
-            h('h1', titles[state.path])
+            h('h1', states[state].title)
         ])
     }
 
@@ -108,10 +83,14 @@
         rootNode = createElement(header);
         container.appendChild(rootNode);
 
-        app = createElement(h('div'));
+        app = createElement(h('div.left'));
         container.appendChild(app);
 
-        stateman.start();
+        chartElement = createElement(h('div.right'));
+        chart.load(chartElement);
+        container.appendChild(chartElement);
+
+        goToSate('import');
     });
 
 

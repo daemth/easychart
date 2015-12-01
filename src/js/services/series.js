@@ -11,7 +11,6 @@
         if(labels.series){
             series = setSeries(series, dataService.getSeries());
         }
-
         return series;
     };
 

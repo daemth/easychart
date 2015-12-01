@@ -88,17 +88,11 @@
         if(!_.isUndefined(child)){
             return seriesPanel(panel, series[child], child);
         } else {
-            return seriesSortPanel(series);
+            return seriesPanel(panel, series[0], 0);
         }
-
-    }
-    function seriesSortPanel(series){
-
-        return h('div', 'sort');
     }
 
     function seriesPanel(panel, series, index){
-
         var title = h('h2', series.name);
         var presetList = [];
         _.forEach(panel.panes, function (pane) {
@@ -112,6 +106,10 @@
         });
 
         return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+    }
+
+    function axesPanel (panel){
+
     }
 
     function generateGenericTabs(panes, active) {
