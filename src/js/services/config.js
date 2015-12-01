@@ -5,12 +5,12 @@
     var templates = require('../config/templates.json');
     var mediator = require('mediatorjs');
     var that = {};
+    var presetConf = {
+        type: 'line',
+        preset: 'dataLabels'
+    };
 
     var config = {
-        preset :{
-            type: 'line',
-            preset: 'dataLabels'
-        },
         chart: {
 
         },
@@ -22,15 +22,28 @@
     };
 
     that.get = function () {
-        var preset = loadPreset(config.preset.type, config.preset.preset);
         var labels = hasLabels(dataService.get());
-        var object = JSON.parse(JSON.stringify(_.merge(preset,config)));
-        object.series = series.get(dataService.getData(labels.series, labels.categories), preset, labels);
-        return JSON.parse(JSON.stringify(object));
+        var object = _.cloneDeep(config);
+        object.series = series.get(dataService.getData(labels.series, labels.categories), object, labels);
+        return _.cloneDeep(object);
     };
 
     that.set = function (_config_) {
         config = JSON.parse(JSON.stringify(_config_));
+    };
+
+    that.reset = function(preset){
+        config = {
+            chart: {
+                renderTo : config.chart.renderTo
+            },
+            plotOptions:{
+                series:{
+                    'animation': false
+                }
+            }
+        };
+        config = _.merge(config, preset)
     };
 
     that.setValue = function(path, value){
@@ -90,17 +103,18 @@
     };
 
     that.setPreset = function(type, preset){
-        config.preset = {
+        presetConf = {
             type: type,
             preset: preset
         };
+        that.reset(loadPreset(type, preset));
         mediator.trigger('configUpdate');
     };
 
 
     function loadPreset(type, preset){
         var typeConfig = _.find(templates,{id:type});
-        return JSON.parse(JSON.stringify(_.find(typeConfig.presets, {id:preset}).definition));
+        return _.cloneDeep(_.find(typeConfig.presets, {id:preset}).definition);
     }
 
     function hasLabels (data){

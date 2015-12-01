@@ -290,5 +290,12 @@
         ]
       }
     ]
+  },
+  {
+    "id" : "series",
+    "panelTitle": "Series",
+    "panes": [{
+
+    }]
   }
 ]

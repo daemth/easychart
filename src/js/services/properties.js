@@ -98,7 +98,6 @@
                     break;
 
                 case 'boolean':
-
                     property.defaults = property.defaults == 'true';
                     if(_.isString(configValue)){
                         configValue = configValue == 'true';
