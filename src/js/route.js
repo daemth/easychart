@@ -10,11 +10,14 @@
     var dataImport = require('./components/import.js');
     var customise = require('./components/customise.js');
 
+    var _ = require('lodash');
+
     var app;
     var container;
     var header;
     var rootNode;
     var chartElement;
+    var currentState;
     var states = {
         'import': {
             title: 'Import',
@@ -48,8 +51,9 @@
 
     function goToSate(state){
         app.innerHTML = '';
-        var currentState = states[state];
-        currentState.content(app);
+        currentState = state;
+        var newState = states[state];
+        newState.content(app);
         render(state);
 
     }
@@ -65,12 +69,28 @@
 
         return h('div', [
             h('ul', links.map(function (id) {
-                return h('li.hover',{
-                    "ev-click":function(){
-                        goToSate(id);
-                    }
-                }, states[id].title)
-            })),
+                return h('li',
+                    h('a',{
+                        href:'#'+id,
+                        "ev-click":function(e){
+                            // prevent needless rerendering
+                            if(currentState !== id){
+                                _.forEach(e.target.parentNode.parentNode.childNodes,function(li){
+                                    if(li !== e.target.parentNode){
+                                        if(li.classList.contains('active')){
+                                            li.classList.remove('active');
+                                        }
+                                    } else {
+                                        // currentState !== id -> li has no active class
+                                        li.classList.add('active');
+                                    }
+                                });
+                                goToSate(id);
+                            }
+                            e.preventDefault();
+                        }
+                    }, states[id].title))
+                })),
             h('h1', states[state].title)
         ])
     }
