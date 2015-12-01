@@ -11,7 +11,8 @@
 
     var tabs;
     var rootNode;
-    var activeTab = _.first(customise).id;
+    var activeTab = 'series';
+    var activeTabChild;
     var that = {};
 
     that.load = function (element) {
@@ -24,49 +25,96 @@
     function build() {
         var tabs = h('ul', {className: "vertical-tabs"},
             [
-                generateTabs(genericConfig(customise), activeTab),
-                generateSeriesTabs(typeConfig(customise, 'series'),activeTab)
+                generateGenericTabs(genericConfig(customise), activeTab),
+                generateSeriesTabs(typeConfig(customise, 'series'), activeTab)
             ]);
-        var content = generateContent(customise, activeTab);
+        var content = h('div', [
+            generateContent(customise, activeTab, activeTabChild)
+        ]);
         var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
         render(container);
     }
 
-    function genericConfig(customise){
+    function genericConfig(customise) {
         var newCustomise = _.cloneDeep(customise);
-        return _.remove(newCustomise, function(panel){
+        return _.remove(newCustomise, function (panel) {
             return panel.id !== "axes" && panel.id !== "series" && panel.id !== "plotBands";
         })
     }
 
-    function typeConfig(customise, type){
-        return _.find(customise, function(item){
+    function typeConfig(customise, type) {
+        return _.find(customise, function (item) {
             return item.id == type;
         })
     }
 
-    function generateContent(panels, activeId) {
-        var activeTab = _.find(panels, function (panel) {
+    function generateContent(panels, activeId, activeChildId) {
+        var activePanel = _.find(panels, function (panel) {
             return panel.id == activeId;
         });
+        var content;
+        switch (activePanel.id) {
+            case 'axes':
+                break;
+            case 'series':
+                content = generateSeriesContent(activePanel, activeChildId);
+                break;
+            case 'plotBands':
+                break;
+            default:
+                content = generateGenericContent(activePanel);
+        }
+        return content;
+    }
 
-        var title = h('h2', activeTab.panelTitle);
+    function generateGenericContent(panel) {
+        var title = h('h2', panel.panelTitle);
         var presetList = [];
-        _.forEach(activeTab.panes, function (pane) {
+        _.forEach(panel.panes, function (pane) {
             var inputs = [];
-
-            _.forEach(pane.options, function(option){
+            _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option.name));
             });
 
-            var item = h('h3',pane.title);
-            presetList.push(h('div', [item, inputs] ))
+            var item = h('h3', pane.title);
+            presetList.push(h('div', [item, inputs]))
         });
 
-        return h('div',{className:"vertical-tab-content-container"}, [title, presetList]);
+        return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
     }
 
-    function generateTabs(panes, active) {
+    function generateSeriesContent(panel, child) {
+        var series = configService.get().series;
+        if(!_.isUndefined(child)){
+            return seriesPanel(panel, series[child], child);
+        } else {
+            return seriesSortPanel(series);
+        }
+
+    }
+    function seriesSortPanel(series){
+
+        return h('div', 'sort');
+    }
+
+    function seriesPanel(panel, series, index){
+
+        var title = h('h2', series.name);
+        var presetList = [];
+        _.forEach(panel.panes, function (pane) {
+            var inputs = [];
+            _.forEach(pane.options, function (option) {
+                inputs.push(propertyServices.get(option.name, 'series.' + index + option.name.replace("series", "")));
+            });
+
+            var item = h('h3', pane.title);
+            presetList.push(h('div', [item, inputs]))
+        });
+
+        return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+    }
+
+    function generateGenericTabs(panes, active) {
         var links = [];
         _.forEach(panes, function (pane, index) {
             var className = '';
@@ -90,14 +138,41 @@
         return links;
     }
 
-    function generateSeriesTabs(config, activeTab){
+    function generateSeriesTabs(config, activeTab) {
         var series = configService.get().series;
-        console.log(config);
+        var links = [];
+        var className = '';
+        if (config.id == activeTab) {
+            className = "vertical-tab is-active";
+            _.forEach(series, function (serie, index) {
+                links.push(
+                    h('li.hover', {
+                        'ev-click': function () {
+                            setActive(config.id, index);
+                        }
+                    }, serie.name)
+                )
+            })
+        }
+        else {
+            className = "vertical-tab";
+        }
 
+        return h('li.hover', {
+            className: className,
+            'ev-click': function () {
+                setActive(config.id);
+            }
+        }, ['data series', h('ul', [links])])
     }
 
-    function setActive(id) {
+    function setActive(id, child) {
         activeTab = id;
+        if (!_.isUndefined(child)) {
+            activeTabChild = child;
+        } else {
+            activeTabChild = undefined;
+        }
         build();
     }
 
@@ -106,6 +181,7 @@
         rootNode = patch(rootNode, patches);
         tabs = newTabs;
     }
+
     module.exports = that;
 
 })();

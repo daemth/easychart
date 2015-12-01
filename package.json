@@ -53,6 +53,9 @@
       "browserify-data",
       "svg-browserify",
       "folderify"
+    ],
+    "no-parse": [
+      "lodash"
     ]
   }
 }

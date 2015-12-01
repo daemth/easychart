@@ -7,19 +7,24 @@
     var h = require('virtual-dom/h');
     var that = {};
 
-    that.get = function (fullname) {
+    that.get = function (fullname, indexName) {
+
         var property = _.find(properties, function (record) {
             return record.fullname.toLowerCase() == fullname.toLowerCase();
         });
         if (property) {
-            return that.createProperty(JSON.parse(JSON.stringify(property)));
+            var localProperty = _.cloneDeep(property);
+            // sometimes we will get an index name, this will be a name with an index.
+            // e.g. series are arrays and have indexes : series.0.name
+            localProperty.fullname = !_.isUndefined(indexName) ? indexName: fullname;
+
+            return that.createProperty(localProperty);
         }
     };
 
     that.createProperty = function (property) {
         var element;
         var configValue = configService.getValue(property.fullname);
-
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
             if(_.isString(property.defaults)){
                 property.defaults = property.defaults.replace(/\[|\]|\"|\s/g, '').split(',');

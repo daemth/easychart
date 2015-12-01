@@ -295,7 +295,18 @@
     "id" : "series",
     "panelTitle": "Series",
     "panes": [{
-
+      "title": "Series configuration",
+      "options": [
+        {
+          "name": "series.name"
+        },
+        {
+          "name": "series.index"
+        },
+        {
+          "name": "series.type"
+        }
+      ]
     }]
   }
 ]

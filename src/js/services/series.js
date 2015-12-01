@@ -4,7 +4,6 @@
     var _ = require('lodash');
     that.get = function(data, config, labels) {
         var series = generateDataSeries(config, data);
-
         if(labels.categories){
             series = setCategories(series, dataService.getCategories());
         }
@@ -12,7 +11,8 @@
         if(labels.series){
             series = setSeries(series, dataService.getSeries());
         }
-        return _.merge(!_.isUndefined(config.series)?config.series:[], series);
+
+        return series;
     };
 
     function setCategories (series, categorieLabels){
@@ -30,7 +30,9 @@
         });
 
         _.forEach(series ,function(item, index){
-            series[index].name = seriesLabels[index];
+            if(_.isUndefined(series[index].name)){
+                series[index].name = seriesLabels[index];
+            }
         });
 
         return series;
@@ -62,13 +64,16 @@
 
     function generateDataSeries(config, data){
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
-
-        return _.map(emptySeries, function(item){
+        return _.map(emptySeries, function(item, index){
             var vpp = getValuesPerPoint(item.type);
             _.forEach(data, function(row, index){
                 item.data.push(parseDataFloat(_.slice(row,0,vpp)));
                 data[index] = _.drop(data[index],vpp);
             });
+            // check for series config and apply this
+            if(!_.isUndefined(config.series) && !_.isUndefined(config.series[index])){
+                item = _.merge(config.series[index], item);
+            }
             return item;
         });
 

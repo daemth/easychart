@@ -111,7 +111,6 @@
         mediator.trigger('configUpdate');
     };
 
-
     function loadPreset(type, preset){
         var typeConfig = _.find(templates,{id:type});
         return _.cloneDeep(_.find(typeConfig.presets, {id:preset}).definition);
