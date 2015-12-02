@@ -10,11 +10,14 @@
     var dataImport = require('./components/import.js');
     var customise = require('./components/customise.js');
 
+    var _ = require('lodash');
+
     var app;
     var container;
     var header;
     var rootNode;
     var chartElement;
+    var currentState;
     var states = {
         'import': {
             title: 'Import',
@@ -48,8 +51,9 @@
 
     function goToSate(state){
         app.innerHTML = '';
-        var currentState = states[state];
-        currentState.content(app);
+        currentState = state;
+        var newState = states[state];
+        newState.content(app);
         render(state);
 
     }
