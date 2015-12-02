@@ -9,7 +9,7 @@
     that.load = function (element) {
         var input = createElement(h('textArea'));
         var importElement = createElement(
-            h('button', {
+            h('button.btn', {
                 'ev-click': function(){
                     saveData(input.value)
                 }

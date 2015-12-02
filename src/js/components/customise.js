@@ -36,7 +36,7 @@
     }
 
     function genericConfig(customise) {
-        var newCustomise = cloneDeep(customise);
+        var newCustomise = ec.cloneDeep(customise);
         return _.remove(newCustomise, function (panel) {
             return panel.id !== "series";
         })
