@@ -20,21 +20,18 @@
     float: left;
     height: $vertical-tabs-height;
     width: 20%;
+    list-style: none;
+    padding: 0;
   }
 
   li {
-    @include media($vertical-tab-mode) {
-      border-bottom: $tab-border;
-      display: block;
-      //font-weight: bold;
-      margin-right: -1px;
-      //padding: $base-spacing/2 $gutter/2;
+
 
       &.active {
         background-color: $tab-content-background;
         margin-right: -1px;
       }
-    }
+
     a {
       padding: $base-spacing/2 $gutter/2;
       text-decoration: none;
@@ -85,10 +82,6 @@
     &.active {
       background: $tab-active-color;
       border-bottom: none;
-    }
-
-    @include media($vertical-tab-mode) {
-      display: none;
     }
   }
 }
