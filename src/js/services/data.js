@@ -43,7 +43,7 @@
     };
     that.setValue = function(row, cell, value){
         if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
-            dataSet[row][cell] = value;
+            dataSet[row][cell] = _.isNaN(value) ? null : value;
         }
         mediator.trigger('dataValueUpdate', that.get());
     };
