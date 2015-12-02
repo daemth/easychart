@@ -1,15 +1,18 @@
 @import "bourbon";
 @import "neat";
 @import "base/variables";
+@import "base/tables";
 @import "components/vertical-tabs";
-
 a, .hover{
   cursor: pointer;
 }
-
+.active {
+  font-weight: bold;
+}
 .container{
 
 }
+
 .left{
   @include span-columns(6);
 }
@@ -25,3 +28,7 @@ a, .hover{
 }
 
 
+.file_drop{
+  padding: 50px;
+  background: $light-gray;
+}

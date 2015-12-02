@@ -13,7 +13,7 @@
             return record.fullname.toLowerCase() == fullname.toLowerCase();
         });
         if (property) {
-            var localProperty = _.cloneDeep(property);
+            var localProperty = cloneDeep(property);
             // sometimes we will get an index name, this will be a name with an index.
             // e.g. series are arrays and have indexes : series.0.name
             localProperty.fullname = !_.isUndefined(indexName) ? indexName: fullname;
@@ -34,6 +34,7 @@
                 configValue = configValue ? configValue : property.defaults;
             } else if (property.defaults.length > 1) {
                 if (!configValue) {
+
                     configValue = [];
                 }
                 _.forEach(property.defaults, function (defaultValue, index) {

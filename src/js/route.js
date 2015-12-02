@@ -65,7 +65,9 @@
 
         return h('div', [
             h('ul', links.map(function (id) {
-                return h('li.hover',{
+                var className = state === id? 'active hover': 'hover';
+                return h('li.',{
+                    className: className,
                     "ev-click":function(){
                         goToSate(id);
                     }
@@ -86,9 +88,9 @@
         app = createElement(h('div.left'));
         container.appendChild(app);
 
-        chartElement = createElement(h('div.right'));
-        chart.load(chartElement);
+        chartElement = createElement(h('div.right', {id:'chartContainer'}));
         container.appendChild(chartElement);
+        chart.load(chartElement);
 
         goToSate('import');
     });

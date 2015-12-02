@@ -1,35 +1,22 @@
 (function () {
-    var dataService = require('../services/data.js');
-    var papa = require('papaparse');
-    var _ = require('lodash');
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
-
+    var paste = require('./import/paste');
+    var upload = require('./import/upload');
+    var dad = require('./import/dragAndDrop');
     var that = {};
     that.load = function (element) {
-        var input = createElement(h('textArea'));
+        var pasteElement = createElement(h('div'));
+        element.appendChild(pasteElement);
+        paste.load(pasteElement);
 
-        var importElement = createElement(
-            h('button', {
-                onclick: saveData
-            }, 'import'));
+        var uploadElement = createElement(h('div'));
+        element.appendChild(uploadElement);
+        upload.load(uploadElement);
 
-        var transposeElement = createElement(
-            h('button', {
-                onclick: tranposeData
-            }, 'transpose'));
-
-        function saveData() {
-            dataService.set(papa.parse(input.value).data);
-        }
-
-        function tranposeData() {
-            dataService.set(_.unzip(dataService.get()));
-        }
-
-        element.appendChild(input);
-        element.appendChild(importElement);
-        element.appendChild(transposeElement);
+        var ddElement = createElement(h('div'));
+        element.appendChild(ddElement);
+        dad.load(ddElement);
     };
 
     module.exports = that;

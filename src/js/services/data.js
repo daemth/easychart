@@ -6,17 +6,17 @@
     var dataSet = [];
 
     that.getSeries = function () {
-        return JSON.parse(JSON.stringify(_.first(dataSet)));
+        return cloneDeep(_.first(dataSet));
     };
 
     that.getCategories = function () {
-        return JSON.parse(JSON.stringify(_.map(_.slice(dataSet, 1), function (row) {
+        return cloneDeep(_.map(_.slice(dataSet, 1), function (row) {
             return _.first(row);
-        })));
+        }));
     };
 
     that.get = function () {
-        return JSON.parse(JSON.stringify(dataSet));
+        return cloneDeep(dataSet);
     };
 
     that.getData = function (series, categories) {
@@ -32,16 +32,21 @@
             });
         }
 
-        return JSON.parse(JSON.stringify(data));
+        return cloneDeep(data);
     };
 
     that.set = function (newDataSet) {
         if (!_.isEqual(dataSet, newDataSet)) {
-            dataSet = JSON.parse(JSON.stringify(newDataSet));
+            dataSet = cloneDeep(newDataSet);
             mediator.trigger('dataUpdate', that.get());
         }
     };
-
+    that.setValue = function(row, cell, value){
+        if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
+            dataSet[row][cell] = value;
+        }
+        mediator.trigger('dataValueUpdate', that.get());
+    };
     module.exports = that;
 })
 ();

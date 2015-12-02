@@ -5,7 +5,6 @@
     var _ = require('lodash');
     var that = {};
     that.load = function (element) {
-        configService.setValue('chart.renderTo', element);
         var options = configService.get();
         var chart = new Highcharts.Chart(options);
         mediator.on('configUpdate', function () {
@@ -16,6 +15,11 @@
             var options = configService.get();
             chart = new Highcharts.Chart(options);
         });
+        mediator.on('dataValueUpdate', function () {
+            var options = configService.get();
+            chart = new Highcharts.Chart(options);
+        });
+
     };
     module.exports = that;
 })();

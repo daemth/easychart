@@ -36,9 +36,9 @@
     }
 
     function genericConfig(customise) {
-        var newCustomise = _.cloneDeep(customise);
+        var newCustomise = cloneDeep(customise);
         return _.remove(newCustomise, function (panel) {
-            return panel.id !== "axes" && panel.id !== "series" && panel.id !== "plotBands";
+            return panel.id !== "series";
         })
     }
 
@@ -54,12 +54,8 @@
         });
         var content;
         switch (activePanel.id) {
-            case 'axes':
-                break;
             case 'series':
                 content = generateSeriesContent(activePanel, activeChildId);
-                break;
-            case 'plotBands':
                 break;
             default:
                 content = generateGenericContent(activePanel);
@@ -106,10 +102,6 @@
         });
 
         return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
-    }
-
-    function axesPanel (panel){
-
     }
 
     function generateGenericTabs(panes, active) {

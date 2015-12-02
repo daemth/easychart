@@ -12,7 +12,7 @@
 
     var config = {
         chart: {
-
+            renderTo: 'chartContainer'
         },
         plotOptions:{
             series:{
@@ -23,19 +23,19 @@
 
     that.get = function () {
         var labels = hasLabels(dataService.get());
-        var object = _.cloneDeep(config);
+        var object = cloneDeep(config);
         object.series = series.get(dataService.getData(labels.series, labels.categories), object, labels);
-        return _.cloneDeep(object);
+        return cloneDeep(object);
     };
 
     that.set = function (_config_) {
-        config = JSON.parse(JSON.stringify(_config_));
+        config = cloneDeep(_config_);
     };
 
     that.reset = function(preset){
         config = {
             chart: {
-                renderTo : config.chart.renderTo
+                renderTo: 'chartContainer'
             },
             plotOptions:{
                 series:{
@@ -113,7 +113,7 @@
 
     function loadPreset(type, preset){
         var typeConfig = _.find(templates,{id:type});
-        return _.cloneDeep(_.find(typeConfig.presets, {id:preset}).definition);
+        return cloneDeep(_.find(typeConfig.presets, {id:preset}).definition);
     }
 
     function hasLabels (data){
