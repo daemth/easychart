@@ -27,7 +27,7 @@
                 cells.push(h('td',{
                     contentEditable : true,
                     "ev-input": function(e){
-                        var value = e.target.innerHTML;
+                        var value = _.trim(e.target.innerHTML);
                         if(cell !== e.target.innerHTML){
                             dataService.setValue(rowIndex,cellIndex, value);
                         }
