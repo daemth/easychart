@@ -26,18 +26,24 @@
     }
   }
 
-  .vertical-tab {
+  li {
     @include media($vertical-tab-mode) {
       border-bottom: $tab-border;
       display: block;
-      font-weight: bold;
+      //font-weight: bold;
       margin-right: -1px;
-      padding: $base-spacing/2 $gutter/2;
+      //padding: $base-spacing/2 $gutter/2;
 
-      &.is-active {
+      &.active {
         background-color: $tab-content-background;
         margin-right: -1px;
       }
+    }
+    a {
+      padding: $base-spacing/2 $gutter/2;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
   }
 
@@ -86,7 +92,7 @@
       border-top: none;
     }
 
-    &.is-active {
+    &.active {
       background: $tab-active-color;
       border-bottom: none;
     }

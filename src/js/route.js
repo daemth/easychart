@@ -57,6 +57,7 @@
         render(state);
 
     }
+
     function render(state) {
         var newHeader = template(state);
         var patches = diff(header, newHeader);
@@ -69,18 +70,19 @@
 
         return h('div', [
             h('ul', links.map(function (id) {
-                var className = state === id? 'active hover': 'hover';
-                return h('li.',{
-                    className: className,
-                    "ev-click":function(){
-                        goToSate(id);
-                    }
-                }, states[id].title)
-            })),
+                var className = state === id ? 'active' : '';
+
+                return h('li',{'className' : className},
+                    h('a',{
+                        'href':'#' + id,
+                        'ev-click': function(){
+                            goToSate(id);
+                        }
+                    }, states[id].title))
+                })),
             h('h1', states[state].title)
         ])
     }
-
 
     document.addEventListener("DOMContentLoaded", function (event) {
         container = document.getElementById('container');
@@ -98,6 +100,5 @@
 
         goToSate('import');
     });
-
 
 })();
