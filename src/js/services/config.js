@@ -23,13 +23,13 @@
 
     that.get = function () {
         var labels = hasLabels(dataService.get());
-        var object = cloneDeep(config);
+        var object = ec.cloneDeep(config);
         object.series = series.get(dataService.getData(labels.series, labels.categories), object, labels);
-        return cloneDeep(object);
+        return ec.cloneDeep(object);
     };
 
     that.set = function (_config_) {
-        config = cloneDeep(_config_);
+        config = ec.cloneDeep(_config_);
     };
 
     that.reset = function(preset){
@@ -113,7 +113,7 @@
 
     function loadPreset(type, preset){
         var typeConfig = _.find(templates,{id:type});
-        return cloneDeep(_.find(typeConfig.presets, {id:preset}).definition);
+        return ec.cloneDeep(_.find(typeConfig.presets, {id:preset}).definition);
     }
 
     function hasLabels (data){

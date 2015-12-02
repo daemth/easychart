@@ -4,11 +4,11 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
-    "drag-drop": "^2.3.1",
     "highcharts": "0.0.10",
     "highcharts-browserify": "^2.0.2"
   },
   "devDependencies": {
+    "drag-drop": "^2.3.1",
     "dom-delegator": "^13.1.0",
     "node-neat": "^1.7.2",
     "bourbon-neat": "^1.7.2",

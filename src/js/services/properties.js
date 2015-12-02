@@ -13,7 +13,7 @@
             return record.fullname.toLowerCase() == fullname.toLowerCase();
         });
         if (property) {
-            var localProperty = cloneDeep(property);
+            var localProperty = ec.cloneDeep(property);
             // sometimes we will get an index name, this will be a name with an index.
             // e.g. series are arrays and have indexes : series.0.name
             localProperty.fullname = !_.isUndefined(indexName) ? indexName: fullname;

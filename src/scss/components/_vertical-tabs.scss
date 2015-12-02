@@ -1,4 +1,4 @@
-.vertical-tabs-container { // small screens: accordion
+.vertical-tabs-container {
   $tab-border-color: $base-border-color;
   $tab-border: 1px solid $tab-border-color;
   $tab-border-radius: $base-border-radius;
@@ -6,7 +6,7 @@
   $tab-active-color: $tab-content-background;
   $tab-inactive-color: $base-background-color;
   $vertical-tabs-height: auto;
-  $vertical-tab-mode: $medium-screen;
+
 
   @include clearfix;
   border-radius: $tab-border-radius;
@@ -15,29 +15,23 @@
   overflow: hidden;
 
   .vertical-tabs {
-    display: none;
-
-    @include media($vertical-tab-mode) {
-      background-color: $tab-inactive-color;
-      display: inline;
-      float: left;
-      height: $vertical-tabs-height;
-      width: 20%;
-    }
+    background-color: $tab-inactive-color;
+    display: inline;
+    float: left;
+    height: $vertical-tabs-height;
+    width: 20%;
   }
 
   .vertical-tab {
-    @include media($vertical-tab-mode) {
-      border-bottom: $tab-border;
-      display: block;
-      font-weight: bold;
-      margin-right: -1px;
-      padding: $base-spacing/2 $gutter/2;
+    border-bottom: $tab-border;
+    display: block;
+    font-weight: bold;
+    margin-right: -1px;
+    padding: $base-spacing/2 $gutter/2;
 
-      &.is-active {
-        background-color: $tab-content-background;
-        margin-right: -1px;
-      }
+    &.is-active {
+      background-color: $tab-content-background;
+      margin-right: -1px;
     }
   }
 
@@ -46,54 +40,23 @@
   }
 
   .vertical-tab-content-container {
-    display: block;
+    @include inline-block;
+    width: 80% ;
+    background-color: $tab-content-background;
     margin: 0 auto;
 
     & a:focus {
       outline: none;
     }
 
-    @include media($vertical-tab-mode) {
-      @include inline-block;
-      width: 80% ;
-      background-color: $tab-content-background;
-    }
   }
 
   .vertical-tab-content {
     background-color: $tab-content-background;
     padding: $base-spacing $gutter;
-
-    @include media($vertical-tab-mode) {
-      border: none;
-      display: none;
-    }
+    border: none;
+    display: none;
   }
 
-  .vertical-tab-accordion-heading {
-    background-color: $tab-inactive-color;
-    border-top: $tab-border;
-    cursor: pointer;
-    display: block;
-    font-weight: bold;
-    padding: $base-spacing/2 $gutter/2;
-
-    &:hover {
-      color: $base-accent-color;
-    }
-
-    &:first-child {
-      border-top: none;
-    }
-
-    &.is-active {
-      background: $tab-active-color;
-      border-bottom: none;
-    }
-
-    @include media($vertical-tab-mode) {
-      display: none;
-    }
-  }
 }
 

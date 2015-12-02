@@ -138,10 +138,6 @@ td{
   th,
   td{
     border-right: 1px solid $base-border-color;
-
-    &:empty{
-      border:none;
-    }
   }
 
   thead tr:last-child th{
