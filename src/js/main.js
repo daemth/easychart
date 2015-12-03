@@ -43,6 +43,14 @@
             return services.config.getRaw(config);
         }
 
+        function setConfigTemplate(configTemplate){
+            services.config.setConfigTemplate(configTemplate);
+        }
+
+        function getConfigTemplate(configTemplate){
+            return services.config.getConfigTemplate(configTemplate);
+        }
+
         return {
             setData:setData,
             getData:getData,

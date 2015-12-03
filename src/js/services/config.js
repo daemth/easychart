@@ -11,7 +11,7 @@
             preset: 'dataLabels'
         };
 
-        var config = {
+        var configTemplate = {
             chart: {
                 renderTo: 'chartContainer'
             },
@@ -22,31 +22,32 @@
             }
         };
 
+        var config = _.cloneDeep(configTemplate);
+
         that.get = function () {
             var labels = hasLabels(data.get());
             var object = _.cloneDeep(config);
             object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
             return _.cloneDeep(object);
         };
+
         that.getRaw = function (){
             return _.cloneDeep(config);
         };
+
         that.set = function (_config_) {
             config = _.cloneDeep(_config_);
         };
 
+        that.setConfigTemplate = function(newTemplate){
+            configTemplate = newTemplate;
+        };
+
+        that.getConfigTemplate = function(){
+            return _.cloneDeep(configTemplate);
+        }
         that.reset = function (preset) {
-            config = {
-                chart: {
-                    renderTo: 'chartContainer'
-                },
-                plotOptions: {
-                    series: {
-                        'animation': false
-                    }
-                }
-            };
-            config = _.merge(config, preset)
+            config = _.merge(_.cloneDeep(configTemplate), preset)
         };
 
         that.setValue = function (path, value) {
