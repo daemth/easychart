@@ -345,6 +345,41 @@ select {
       background: #f7f7f7;
       border-bottom: none; }
 
+.accordion-tabs-minimal {
+  line-height: 1.5;
+  padding: 0; }
+  .accordion-tabs-minimal::after {
+    clear: both;
+    content: "";
+    display: table; }
+  .accordion-tabs-minimal li.tab-header-and-content {
+    list-style: none;
+    display: inline; }
+  .accordion-tabs-minimal a.tab-link {
+    background-color: white;
+    border-top: 1px solid #DDD;
+    color: #333;
+    display: block;
+    padding: 0.75em 1.618em;
+    text-decoration: none;
+    display: inline-block;
+    border-top: 0; }
+    .accordion-tabs-minimal a.tab-link:hover {
+      color: #477DCA; }
+    .accordion-tabs-minimal a.tab-link:focus {
+      outline: none; }
+    .accordion-tabs-minimal a.tab-link.is-active {
+      border-bottom: 0;
+      border: 1px solid #DDD;
+      border-bottom-color: white;
+      margin-bottom: -1px; }
+  .accordion-tabs-minimal .tab-content {
+    display: none;
+    padding: 1.5em 1.618em;
+    width: 100%;
+    border-top: 1px solid #DDD;
+    float: left; }
+
 /*------------------------------------*    $BEAUTONS.CSS
 \*------------------------------------*/
 /**

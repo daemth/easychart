@@ -51,15 +51,6 @@
             getConfig:getConfig
         }
     }
-    /*
-    that.cloneDeep = function (src) {
-        if (typeof src !== 'undefined') {
-            return JSON.parse(JSON.stringify(src));
-        } else {
-            return src;
-        }
-    };
-    */
 
     window.ec = constructor;
 })();

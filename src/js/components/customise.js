@@ -82,14 +82,14 @@
 
     function generateSeriesContent(panel, child) {
         var series = configService.get().series;
-        if(!_.isUndefined(child)){
+        if (!_.isUndefined(child)) {
             return seriesPanel(panel, series[child], child);
         } else {
             return seriesPanel(panel, series[0], 0);
         }
     }
 
-    function seriesPanel(panel, series, index){
+    function seriesPanel(panel, series, index) {
         var title = h('h2', series.name);
         var presetList = [];
         _.forEach(panel.panes, function (pane) {
@@ -111,13 +111,13 @@
             var children = [];
             var className = pane.id === activeTab ? 'active' : '';
             var link = h('li', {className: className},
-                          h('a',{
-                            'href' : '#' + pane.panelTitle,
-                            'ev-click': function () {
-                                setActive(pane.id);
-                            }
-                          },[pane.panelTitle, children]
-                          )
+                h('a', {
+                        'href': '#' + pane.panelTitle,
+                        'ev-click': function () {
+                            setActive(pane.id);
+                        }
+                    }, [pane.panelTitle, children]
+                )
             );
 
             links.push(link);
@@ -127,35 +127,33 @@
 
     function generateSeriesTabs(config, activeTab) {
         var series = configService.get().series;
-        var listItems = [];
+        var links = [];
         var className = '';
         if (config.id == activeTab) {
-            className = 'active';
+            className = "vertical-tab is-active";
             _.forEach(series, function (serie, index) {
-                var className = index === activeTabChild ? 'active' : '';
-                listItems.push(
-                    h('li',{'className' : className}, h('a', {
-                        'href' : '#' + serie.name.replace(/\s/g, '-'),
+                links.push(
+                    h('li.hover', {
                         'ev-click': function () {
                             setActive(config.id, index);
                         }
-                    }, serie.name))
-                  )
-              })
+                    }, serie.name? serie.name: 'serie ' + index)
+                )
+            })
         }
         else {
             className = '';
         }
 
         return h('li', {'className': className}, [
-                    h('a',{
-                          'href' : '#data-series',
-                          'ev-click': function () {
-                              setActive(config.id);
-                          }
-                      }, 'data series'),
-                    h('ul', listItems)
-              ])
+            h('a', {
+                'href': '#data-series',
+                'ev-click': function () {
+                    setActive(config.id);
+                }
+            }, 'data series'),
+            h('ul', links)
+        ])
     }
 
     function setActive(id, child) {
