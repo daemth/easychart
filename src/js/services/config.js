@@ -28,7 +28,9 @@
             object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
             return _.cloneDeep(object);
         };
-
+        that.getRaw = function (){
+            return _.cloneDeep(config);
+        };
         that.set = function (_config_) {
             config = _.cloneDeep(_config_);
         };

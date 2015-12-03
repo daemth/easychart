@@ -36,11 +36,11 @@
         }
 
         function setConfig(config){
-
+            services.config.set(config);
         }
 
         function getConfig(config){
-
+            return services.config.getRaw(config);
         }
 
         return {
