@@ -6,17 +6,48 @@
     var dad = require('./import/dragAndDrop');
     var that = {};
     that.load = function (element, services) {
-        var pasteElement = createElement(h('div'));
-        element.appendChild(pasteElement);
-        paste.load(pasteElement, services);
+        var container = createElement(h('div.accordion-tabs-minimal'));
+        element.appendChild(container);
+        var activeTab = 'upload';
+        var tabs = h('div');
+        var tabsOptions = {
+            paste:{
+                label: 'Paste CSV',
+                content: function(element){
+                    paste.load(element, services);
+                }
+            },
+            upload:{
+                label: 'upload CSV',
+                content: function(element){
+                    upload.load(element, services);
+                    dad.load(element, services);
+                }
+            }
+        };
 
-        var uploadElement = createElement(h('div'));
-        element.appendChild(uploadElement);
-        upload.load(uploadElement, services);
+        function goToTab(tab) {
+            container.innerHTML = '';
+            activeTab = tab;
+            container.appendChild(createElement(template(tab)));
+            var content = createElement(h('div.tab-content'));
+            tabsOptions[tab].content(content);
+            container.appendChild(content);
+        }
 
-        var ddElement = createElement(h('div'));
-        element.appendChild(ddElement);
-        dad.load(ddElement, services);
+        function template(activeTab) {
+            var links = ['paste', 'upload'];
+            return h('ul.tab-list', links.map(function (id) {
+                    var className = activeTab === id ? 'is-active' : '';
+                    return h('li.tab-link', {
+                        'className': className,
+                        'ev-click': function () {
+                            goToTab(id);
+                        }
+                    }, tabsOptions[id].label)
+                }))
+        }
+        goToTab('upload')
     };
 
     module.exports = that;

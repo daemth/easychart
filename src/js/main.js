@@ -6,6 +6,7 @@
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var mediator = require('mediatorjs');
+
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);

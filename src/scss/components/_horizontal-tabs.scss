@@ -15,13 +15,16 @@
   @include clearfix;
   line-height: 1.5;
   padding: 0;
-
+  ul.tab-list{
+    margin:0;
+    padding:0;
+  }
   li.tab-header-and-content {
     list-style: none;
     display: inline;
   }
 
-  a.tab-link {
+  .tab-link {
     background-color: $tab-inactive-color;
     border-top: $tab-border;
     color: $tab-link-color;
@@ -47,7 +50,6 @@
     }
   }
   .tab-content {
-    display: none;
     padding: $base-spacing $gutter;
     width: 100%;
     border-top: $tab-border;
