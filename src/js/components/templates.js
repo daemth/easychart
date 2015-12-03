@@ -61,20 +61,16 @@
     function generateTabs(types, active) {
         var links = [];
         _.forEach(types, function (type, index) {
-            var className = '';
-            if (type.id == activeTab) {
-                className = "vertical-tab is-active"
-            }
-            else {
-                className = "vertical-tab";
-            }
+            var className = type.id === activeTab ? 'active' : '';
 
-            var link = h('li.hover', {
-                className: className,
-                'ev-click': function () {
-                    setActive(type.id);
-                }
-            }, type.type);
+            var link = h('li', {
+                    'className': className
+                }, h('a', {
+                        'href' : '#' + type.type,
+                        'ev-click' : function () {
+                            setActive(type.id);
+                        }
+                    },type.type));
 
             links.push(link);
         });

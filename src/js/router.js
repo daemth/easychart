@@ -83,17 +83,18 @@
         return h('div', [
             logo,
             h('ul', links.map(function (id) {
-                var className = state === id? 'active hover': 'hover';
-                return h('li.',{
-                    className: className,
-                    "ev-click":function(){
-                        goToSate(id);
-                    }
-                }, states[id].title)
-            })),
+                var className = state === id ? 'active' : '';
+
+                return h('li',{'className' : className},
+                    h('a',{
+                        'href':'#' + id,
+                        'ev-click': function(){
+                            goToSate(id);
+                        }
+                    }, states[id].title))
+                })),
             h('h1', states[state].title)
         ])
     }
-
     module.exports = that;
 })();

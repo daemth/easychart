@@ -1,5 +1,5 @@
 (function () {
-    var h = require('virtual-dom/h'); 
+    var h = require('virtual-dom/h');
     var _ = require('lodash');
     var iconLoader = require('../utility/iconLoader');
     var logo = iconLoader.get('logo');

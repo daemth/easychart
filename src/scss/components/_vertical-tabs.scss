@@ -20,18 +20,23 @@
     float: left;
     height: $vertical-tabs-height;
     width: 20%;
+    list-style: none;
+    padding: 0;
   }
 
-  .vertical-tab {
-    border-bottom: $tab-border;
-    display: block;
-    font-weight: bold;
-    margin-right: -1px;
-    padding: $base-spacing/2 $gutter/2;
+  li {
 
-    &.is-active {
-      background-color: $tab-content-background;
-      margin-right: -1px;
+
+      &.active {
+        background-color: $tab-content-background;
+        margin-right: -1px;
+      }
+
+    a {
+      padding: $base-spacing/2 $gutter/2;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
   }
 
@@ -58,5 +63,25 @@
     display: none;
   }
 
-}
+  .vertical-tab-accordion-heading {
+    background-color: $tab-inactive-color;
+    border-top: $tab-border;
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    padding: $base-spacing/2 $gutter/2;
 
+    &:hover {
+      color: $base-accent-color;
+    }
+
+    &:first-child {
+      border-top: none;
+    }
+
+    &.active {
+      background: $tab-active-color;
+      border-bottom: none;
+    }
+  }
+}

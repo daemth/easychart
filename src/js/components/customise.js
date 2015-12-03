@@ -107,21 +107,17 @@
     function generateGenericTabs(panes, active) {
         var links = [];
         _.forEach(panes, function (pane, index) {
-            var className = '';
-            var childs = [];
-            if (pane.id == activeTab) {
-                className = "vertical-tab is-active"
-            }
-            else {
-                className = "vertical-tab";
-            }
-
-            var link = h('li.hover', {
-                className: className,
-                'ev-click': function () {
-                    setActive(pane.id);
-                }
-            }, [pane.panelTitle, childs]);
+            var children = [];
+            var className = pane.id === activeTab ? 'active' : '';
+            var link = h('li', {className: className},
+                          h('a',{
+                            'href' : '#' + pane.panelTitle,
+                            'ev-click': function () {
+                                setActive(pane.id);
+                            }
+                          },[pane.panelTitle, children]
+                          )
+            );
 
             links.push(link);
         });
@@ -130,39 +126,40 @@
 
     function generateSeriesTabs(config, activeTab) {
         var series = configService.get().series;
-        var links = [];
+        var listItems = [];
         var className = '';
         if (config.id == activeTab) {
-            className = "vertical-tab is-active";
+            className = 'active';
             _.forEach(series, function (serie, index) {
-                links.push(
-                    h('li.hover', {
+                var className = index === activeTabChild ? 'active' : '';
+                listItems.push(
+                    h('li',{'className' : className}, h('a', {
+                        'href' : '#' + serie.name.replace(/\s/g, '-'),
                         'ev-click': function () {
                             setActive(config.id, index);
                         }
-                    }, serie.name)
-                )
-            })
+                    }, serie.name))
+                  )
+              })
         }
         else {
-            className = "vertical-tab";
+            className = '';
         }
 
-        return h('li.hover', {
-            className: className,
-            'ev-click': function () {
-                setActive(config.id);
-            }
-        }, ['data series', h('ul', [links])])
+        return h('li', {'className': className}, [
+                    h('a',{
+                          'href' : '#data-series',
+                          'ev-click': function () {
+                              setActive(config.id);
+                          }
+                      }, 'data series'),
+                    h('ul', listItems)
+              ])
     }
 
     function setActive(id, child) {
         activeTab = id;
-        if (!_.isUndefined(child)) {
-            activeTabChild = child;
-        } else {
-            activeTabChild = undefined;
-        }
+        activeTabChild = _.isUndefined(child) ? 0 : child;
         build();
     }
 
