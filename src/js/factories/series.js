@@ -2,27 +2,18 @@
     var that = {};
     var _ = require('lodash');
 
-    that.get = function(data, config, labels) {
-        var series = generateDataSeries(config, data);
+    that.get = function(data, config, labels, categories, series) {
+        var object = generateDataSeries(config, data);
         if(labels.categories){
-            series = setCategories(series, getCategories(data));
+            object = setCategories(object, categories);
         }
-
         if(labels.series){
-            series = setSeries(series, getSeries(data));
+            object = setSeries(object, series);
         }
-        return series;
+        return object;
     };
 
-    function getCategories(data){
-        return _.cloneDeep(_.map(_.slice(data, 1), function (row) {
-            return _.first(row);
-        }));
-    }
 
-    function getSeries(data){
-        return _.cloneDeep(_.first(data));
-    }
 
     function setCategories (series, categorieLabels){
         _.forEach(series ,function(item, index){

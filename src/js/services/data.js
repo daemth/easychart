@@ -49,8 +49,11 @@
             mediator.trigger('dataValueUpdate', that.get());
         };
 
+
         return that;
     }
+
+
     module.exports = constructor;
 })
 ();

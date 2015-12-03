@@ -8,7 +8,6 @@
     that.load = function (element, services) {
         var container = createElement(h('div.accordion-tabs-minimal'));
         element.appendChild(container);
-        var activeTab = 'upload';
         var tabs = h('div');
         var tabsOptions = {
             paste:{
@@ -28,7 +27,6 @@
 
         function goToTab(tab) {
             container.innerHTML = '';
-            activeTab = tab;
             container.appendChild(createElement(template(tab)));
             var content = createElement(h('div.tab-content'));
             tabsOptions[tab].content(content);
@@ -47,7 +45,7 @@
                     }, tabsOptions[id].label)
                 }))
         }
-        goToTab('upload')
+        goToTab('paste')
     };
 
     module.exports = that;

@@ -25,7 +25,7 @@
         that.get = function () {
             var labels = hasLabels(data.get());
             var object = _.cloneDeep(config);
-            object.series = series.get(data.getData(labels.series, labels.categories), object, labels);
+            object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
             return _.cloneDeep(object);
         };
 
