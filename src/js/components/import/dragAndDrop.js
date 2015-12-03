@@ -1,17 +1,18 @@
 (function () {
     var dragDrop = require('drag-drop');
-    var dataService = require('../../services/data.js');
+    var dataService;
     var papa = require('papaparse');
     var _ = require('lodash');
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
 
     var that = {};
-    that.load = function(element){
+    that.load = function(element, services){
+        dataService = services.data;
         var dropElement = createElement(h('div.file_drop',{},'Drop your files here'));
 
         dragDrop(dropElement, function (files) {
-            console.log('Here are the dropped files', files)
+            console.log('Here are the dropped files', files);
 
             // `files` is an Array!
             files.forEach(function (file) {

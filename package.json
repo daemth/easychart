@@ -32,7 +32,7 @@
     "build:main:bundle": "browserify src/js/main.js -o dist/easychart.js",
     "build:main:uglify": "uglifyjs dist/easychart.js -c -v -o dist/easychart.js",
     "build:main": "npm run build:main:bundle",
-    "build:styles": "node-sass --output-style compressed src/scss/style.scss --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets -o ./dist/css",
+    "build:styles": "node-sass src/scss/style.scss --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets -o ./dist/css",
     "build": "npm run build:main && npm run build:styles",
     "watch:main": "nodemon -e js -w src/js -i dist/easychart.js -x 'npm run build:main:bundle'",
     "watch:styles": "nodemon -e scss -w src/scss -x 'npm run build:styles'",

@@ -2,39 +2,38 @@
 @import "neat";
 @import "base/variables";
 
-.ec{
-  @import "base/tables";
-  @import "base/forms";
-  @import "components/vertical-tabs";
-  @import "components/buttons";
-  @import "components/structure";
+@import "base/tables";
+@import "base/forms";
+@import "base/typgraphy";
+@import "components/vertical-tabs";
+@import "components/buttons";
+@import "components/structure";
+@import "components/navigation";
 
-  a, .hover{
-    cursor: pointer;
+a, .hover{
+  cursor: pointer;
+}
+.active {
+  color: $base-accent-color;
+}
+.container{
+  clear: both;
+}
+.logo{
+  background-color: #333;
+  padding: 7px 1em;
+  height: 64px;
+  svg{
+    height: 50px;
   }
-  .active {
-    color: #477dca;
+}
+.templatelist{
+  &__item{
+    @include span-columns(2);
+    @include omega(6n);
   }
-  .container{
-
-  }
-  .logo{
-    background-color: #333;
-    padding: 7px 1em;
-    margin-bottom: 5px;
-    height: 64px;
-    svg{
-      height: 50px;
-    }
-  }
-  .templatelist{
-    &__item{
-      @include span-columns(2);
-      @include omega(6n);
-    }
-  }
-  .file_drop{
-    padding: 50px;
-    background: $light-gray;
-  }
+}
+.file_drop{
+  padding: 50px;
+  background: $light-gray;
 }

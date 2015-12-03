@@ -19,10 +19,20 @@
     <script type="text/javascript" src="dist/easychart.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="dist/css/style.css">
     <div id="container" class="container"></div>
+    <div id="container2" class="container"></div>
     <script>
         document.addEventListener("DOMContentLoaded", function (event){
             var container = document.getElementById('container');
-            ec.init(container);
+            var easychart = new ec(container);
+
+            easychart.setData([
+                ["","test","lowpoint","highpoint"  ],
+                ["experiment 6","50","171","179"  ],
+                ["experiment 7","50","135","143"  ],
+                ["experiment 8","50","142","149"  ],
+                ["experiment 9","50","204","220"  ],
+                ["experiment 10","50","189","199"  ]
+            ]);
         })
     </script>
 </body>

@@ -1,40 +1,57 @@
 (function () {
-    var router = require('./router.js');
     var Delegator = require("dom-delegator");
-    var dataService = require('./services/data');
+    Delegator();
+    function constructor(element){
+        var router = require('./services/router.js');
+        var dataService = require('./services/data');
+        var confService = require('./services/config');
+        var mediator = require('mediatorjs');
+        var mInstance = new mediator.Mediator();
+        var data = new dataService(mInstance);
+        var config = new confService(mInstance, data);
+        var services = {
+            data: data,
+            config: new confService(mInstance, data),
+            mediator: mInstance
+        };
 
-    var that = {};
-
-    that.init = function(element){
-        Delegator();
         element.className += ' ec';
-        router.init(element, 'import');
-    };
+        var r = new router(element, 'import', services);
 
-    that.setData = function(data){
+        function setData (data){
+            services.data.set(data);
+        }
 
-    };
+        function getData (){
+            return services.data.get();
+        }
 
-    that.getData = function(){
+        function getDataUrl (){
 
-    };
+        }
 
-    that.getDataUrl = function(){
+        function setDataUrl(){
 
-    };
+        }
 
-    that.setDataUrl = function(){
+        function setConfig(config){
 
-    };
+        }
 
-    that.setConfig = function(config){
+        function getConfig(config){
 
-    };
+        }
 
-    that.getConfig = function(config){
-
-    };
-
+        return {
+            setData:setData,
+            getData:getData,
+            getDataUrl:getDataUrl,
+            setDataUrl:setDataUrl,
+            setConfig:setConfig,
+            getConfig:getConfig
+        }
+    }
+    /*
     that.cloneDeep = function (src) {
         if (typeof src !== 'undefined') {
             return JSON.parse(JSON.stringify(src));
@@ -42,6 +59,7 @@
             return src;
         }
     };
+    */
 
-    window.ec = that;
+    window.ec = constructor;
 })();

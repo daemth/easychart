@@ -1,53 +1,57 @@
 (function () {
-    var _ = require('lodash');
-    var mediator = require('mediatorjs');
+    function constructor (_mediator_){
+        var mediator = _mediator_;
+        var _ = require('lodash');
+        var that = {};
+        var dataSet = [];
 
-    var that = {};
-    var dataSet = [];
+        that.getSeries = function () {
+            return _.cloneDeep(_.first(dataSet));
+        };
 
-    that.getSeries = function () {
-        return ec.cloneDeep(_.first(dataSet));
-    };
+        that.getCategories = function () {
+            return _.cloneDeep(_.map(_.slice(dataSet, 1), function (row) {
+                return _.first(row);
+            }));
+        };
 
-    that.getCategories = function () {
-        return ec.cloneDeep(_.map(_.slice(dataSet, 1), function (row) {
-            return _.first(row);
-        }));
-    };
+        that.get = function () {
+            return _.cloneDeep(dataSet);
+        };
 
-    that.get = function () {
-        return ec.cloneDeep(dataSet);
-    };
+        that.getData = function (series, categories) {
+            var data = dataSet;
 
-    that.getData = function (series, categories) {
-        var data = dataSet;
+            if (series) {
+                data = _.slice(data, 1);
+            }
 
-        if (series) {
-            data = _.slice(data, 1);
-        }
+            if (categories) {
+                data = _.map(data, function (row) {
+                    return _.rest(row);
+                });
+            }
 
-        if (categories) {
-            data = _.map(data, function (row) {
-                return _.rest(row);
-            });
-        }
+            return _.cloneDeep(data);
+        };
 
-        return ec.cloneDeep(data);
-    };
+        that.set = function (newDataSet) {
+            if (!_.isEqual(dataSet, newDataSet)) {
+                dataSet = _.cloneDeep(newDataSet);
+                mediator.trigger('dataUpdate', that.get());
+            }
+        };
 
-    that.set = function (newDataSet) {
-        if (!_.isEqual(dataSet, newDataSet)) {
-            dataSet = ec.cloneDeep(newDataSet);
-            mediator.trigger('dataUpdate', that.get());
-        }
-    };
-    that.setValue = function(row, cell, value){
-        if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
-            dataSet[row][cell] = _.isNaN(value) ? null : value;
-        }
-        mediator.trigger('dataValueUpdate', that.get());
-    };
-    module.exports = that;
+        that.setValue = function(row, cell, value){
+            if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
+                dataSet[row][cell] = _.isNaN(value) ? null : value;
+            }
+            mediator.trigger('dataValueUpdate', that.get());
+        };
+
+        return that;
+    }
+    module.exports = constructor;
 })
 ();
 

@@ -1,23 +1,21 @@
 (function () {
-    var dataService = require('../services/data.js');
-    var mediator = require('mediatorjs');
     var _ = require('lodash');
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var that = {};
-    var hot;
-
-    that.load = function (element) {
-        var data = dataService.get();
-
+    var services;
+    that.load = function (element, _services_) {
+        services = _services_;
+        var data = services.data.get();
         element.appendChild(createElement(generate(data)));
-        mediator.on('dataUpdate', function (data) {
+        services.mediator.on('dataUpdate', function (data) {
             element.innerHTML = '';
             element.appendChild(createElement(generate(data)));
         });
     };
+
 
     function generate (data){
         var rows = [];
@@ -29,7 +27,7 @@
                     "ev-input": function(e){
                         var value = _.trim(e.target.innerHTML);
                         if(cell !== e.target.innerHTML){
-                            dataService.setValue(rowIndex,cellIndex, value);
+                            services.data.setValue(rowIndex,cellIndex, value);
                         }
                     }
                 }, cell));

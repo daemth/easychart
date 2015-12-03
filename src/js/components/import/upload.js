@@ -1,12 +1,13 @@
 (function () {
-    var dataService = require('../../services/data.js');
+    var dataService;
     var papa = require('papaparse');
     var _ = require('lodash');
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
 
     var that = {};
-    that.load = function (element) {
+    that.load = function (element, services) {
+        dataService = services.data;
         var uploadElement;
         // Check for the various File API support.
         if (window.FileReader) {

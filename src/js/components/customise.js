@@ -1,7 +1,7 @@
 (function () {
     var customise = require('../config/customise.json');
-    var configService = require('../services/config');
-    var propertyServices = require('../services/properties');
+    var configService;
+    var propertyServices = require('../factories/properties');
 
     var _ = require('lodash');
     var h = require('virtual-dom/h');
@@ -11,12 +11,13 @@
 
     var tabs;
     var rootNode;
-    var activeTab = 'series';
+    var activeTab = _.first(customise).id;
     var activeTabChild;
     var that = {};
 
-    that.load = function (element) {
+    that.load = function (element, services) {
         tabs = h('div');
+        configService = services.config;
         rootNode = createElement(tabs);
         element.appendChild(rootNode);
         build();
@@ -36,7 +37,7 @@
     }
 
     function genericConfig(customise) {
-        var newCustomise = ec.cloneDeep(customise);
+        var newCustomise = _.cloneDeep(customise);
         return _.remove(newCustomise, function (panel) {
             return panel.id !== "series";
         })
@@ -69,7 +70,7 @@
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option.name));
+                inputs.push(propertyServices.get(option.name, configService));
             });
 
             var item = h('h3', pane.title);
@@ -94,7 +95,7 @@
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option.name, 'series.' + index + option.name.replace("series", "")));
+                inputs.push(propertyServices.get(option.name, configService, 'series.' + index + option.name.replace("series", "")));
             });
 
             var item = h('h3', pane.title);

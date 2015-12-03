@@ -6,13 +6,14 @@
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var templateTypes = require('../config/templates.json');
-    var config = require('../services/config');
     var iconLoader = require('../utility/iconLoader');
+    var config;
     var tabs;
     var rootNode;
     var activeTab = _.first(templateTypes).id;
 
-    that.load = function (element) {
+    that.load = function (element, services) {
+        config = services.config;
         tabs = h('div');
         rootNode = createElement(tabs);
         element.appendChild(rootNode);
