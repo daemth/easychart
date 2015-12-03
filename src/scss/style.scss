@@ -1,36 +1,40 @@
 @import "bourbon";
 @import "neat";
 @import "base/variables";
-@import "base/tables";
-@import "base/forms";
-@import "components/vertical-tabs";
-@import "components/buttons";
-a, .hover{
-  cursor: pointer;
-}
-.active {
-  font-weight: bold;
-}
-.container{
 
-}
+.ec{
+  @import "base/tables";
+  @import "base/forms";
+  @import "components/vertical-tabs";
+  @import "components/buttons";
+  @import "components/structure";
 
-.left{
-  @include span-columns(6);
-}
-.right{
-  @include span-columns(6);
-  @include omega();
-}
-.templatelist{
-  &__item{
-    @include span-columns(2);
-    @include omega(6n);
+  a, .hover{
+    cursor: pointer;
   }
-}
+  .active {
+    font-weight: bold;
+  }
+  .container{
 
-
-.file_drop{
-  padding: 50px;
-  background: $light-gray;
+  }
+  .logo{
+    background-color: #333;
+    padding: 7px 1em;
+    margin-bottom: 5px;
+    height: 64px;
+    svg{
+      height: 50px;
+    }
+  }
+  .templatelist{
+    &__item{
+      @include span-columns(2);
+      @include omega(6n);
+    }
+  }
+  .file_drop{
+    padding: 50px;
+    background: $light-gray;
+  }
 }

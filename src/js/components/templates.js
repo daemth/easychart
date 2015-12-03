@@ -1,18 +1,13 @@
 (function () {
     var that = {};
     var _ = require('lodash');
-
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
-
-    var virtualize = require('vdom-virtualize');
-
     var templateTypes = require('../config/templates.json');
     var config = require('../services/config');
-    var includeFolder = require('include-folder'),
-        icons = includeFolder("./src/icons");
+    var iconLoader = require('../utility/iconLoader');
     var tabs;
     var rootNode;
     var activeTab = _.first(templateTypes).id;
@@ -37,19 +32,16 @@
             return type.id == activeId;
         });
         var title = h('h2', activeType.type);
-
         var presetList = [];
-
-        var svg = createSvgVnode(icons[activeType.icon]);
-
+        var svg = iconLoader.get(activeType.icon);
         _.forEach(activeType.presets, function (preset) {
             var item = h('a',
                 {
                     className: "templatelist__item",
-                    'ev-click': function(){
+                    'ev-click': function () {
                         config.setPreset(activeType.id, preset.id);
                     }
-                },[
+                }, [
                     svg,
                     h('div', preset.title)
                 ]);
@@ -57,10 +49,10 @@
         });
 
         var presetGrid = h('div', {className: "templatelist"}, presetList);
-        return h('div',{className:"vertical-tab-content-container"}, [title, presetGrid]);
+        return h('div', {className: "vertical-tab-content-container"}, [title, presetGrid]);
     }
 
-    function createSvgVnode (svg){
+    function createSvgVnode(svg) {
         var logo = document.createElement('div');
         logo.innerHTML = svg;
         return virtualize(logo.firstChild);

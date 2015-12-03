@@ -1,0 +1,7 @@
+.left{
+  @include span-columns(6);
+}
+.right{
+  @include span-columns(6);
+  @include omega();
+}

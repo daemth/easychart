@@ -3,7 +3,8 @@
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
-
+    //templates
+    var logo = require('./templates/logo');
     var _ = require('lodash');
     var that = {};
     var app;
@@ -24,7 +25,6 @@
         chartElement = createElement(h('div.right', {id:'chartContainer'}));
         element.appendChild(chartElement);
         chart.load(chartElement);
-
         goToSate(state);
     };
 
@@ -81,6 +81,7 @@
     function template(state, page) {
         var links = ['import', 'templates', 'customise'];
         return h('div', [
+            logo,
             h('ul', links.map(function (id) {
                 var className = state === id? 'active hover': 'hover';
                 return h('li.',{

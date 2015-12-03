@@ -1,14 +1,13 @@
 (function () {
     var router = require('./router.js');
     var Delegator = require("dom-delegator");
-
     var dataService = require('./services/data');
-
 
     var that = {};
 
     that.init = function(element){
         Delegator();
+        element.className += ' ec';
         router.init(element, 'import');
     };
 
