@@ -68,7 +68,8 @@
                     'className': className
                 }, h('a', {
                         'href' : '#' + type.type,
-                        'ev-click' : function () {
+                        'ev-click' : function (e) {
+                            e.preventDefault();
                             setActive(type.id);
                         }
                     },type.type));

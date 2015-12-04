@@ -5,7 +5,7 @@
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
 
-    function constructor (element, state, services) {
+    function constructor(element, state, services) {
         var _ = require('lodash');
         var app;
         var header;
@@ -82,15 +82,19 @@
                 h('ul.navigation.navigation--steps', links.map(function (id) {
                     var className = state === id ? 'active' : '';
                     return h('li.navigation__item', {
-                        'className': className,
-                        'ev-click': function () {
+                        'className': className
+                    }, h('a', {
+                        'href':'#' + id,
+                        'ev-click': function (e) {
+                            e.preventDefault();
                             goToSate(id);
                         }
-                    }, states[id].title)
+                    }, states[id].title))
                 })),
                 h('h1', states[state].title)
             ])
         }
     }
+
     module.exports = constructor;
 })();

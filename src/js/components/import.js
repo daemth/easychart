@@ -4,6 +4,7 @@
     var paste = require('./import/paste');
     var upload = require('./import/upload');
     var dad = require('./import/dragAndDrop');
+    var url = require('./import/url');
     var that = {};
     that.load = function (element, services) {
         var container = createElement(h('div.accordion-tabs-minimal'));
@@ -22,6 +23,12 @@
                     upload.load(element, services);
                     dad.load(element, services);
                 }
+            },
+            url:{
+                label: 'url CSV',
+                content: function(element){
+                    url.load(element, services);
+                }
             }
         };
 
@@ -34,7 +41,7 @@
         }
 
         function template(activeTab) {
-            var links = ['paste', 'upload'];
+            var links = ['paste', 'upload', 'url'];
             return h('ul.tab-list', links.map(function (id) {
                     var className = activeTab === id ? 'is-active' : '';
                     return h('li.tab-link', {

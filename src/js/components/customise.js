@@ -113,7 +113,8 @@
             var link = h('li', {className: className},
                 h('a', {
                         'href': '#' + pane.panelTitle,
-                        'ev-click': function () {
+                        'ev-click': function (e) {
+                            e.preventDefault();
                             setActive(pane.id);
                         }
                     }, [pane.panelTitle, children]
@@ -134,7 +135,8 @@
             _.forEach(series, function (serie, index) {
                 links.push(
                     h('li.hover', {
-                        'ev-click': function () {
+                        'ev-click': function (e) {
+                            e.preventDefault();
                             setActive(config.id, index);
                         }
                     }, serie.name? serie.name: 'serie ' + index)

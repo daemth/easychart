@@ -27,10 +27,6 @@
             return services.data.get();
         }
 
-        function getDataUrl (){
-
-        }
-
         function setDataUrl(){
 
         }
@@ -54,7 +50,6 @@
         return {
             setData:setData,
             getData:getData,
-            getDataUrl:getDataUrl,
             setDataUrl:setDataUrl,
             setConfig:setConfig,
             getConfig:getConfig
