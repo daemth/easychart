@@ -30,13 +30,15 @@
   },
   "scripts": {
     "build:main:bundle": "browserify src/js/main.js -o dist/easychart.js",
-    "build:main:uglify": "uglifyjs dist/easychart.js -c -v -o dist/easychart.js",
+    "build:main:uglify": "uglifyjs dist/easychart.js -c -o dist/easychart.js",
+    "build:main:disc": "browserify --full-paths src/js/main.js -o dist/easychart.js && npm run build:main:uglify",
     "build:main": "npm run build:main:bundle",
     "build:styles": "node-sass src/scss/style.scss --include-path node_modules/bourbon/app/assets/stylesheets --include-path node_modules/bourbon-neat/app/assets/stylesheets -o ./dist/css",
     "build": "npm run build:main && npm run build:styles",
     "watch:main": "nodemon -e js -w src/js -i dist/easychart.js -x 'npm run build:main:bundle'",
     "watch:styles": "nodemon -e scss -w src/scss -x 'npm run build:styles'",
-    "watch": "npm run watch:main & npm run watch:styles"
+    "watch": "npm run watch:main & npm run watch:styles",
+    "genOptions" : "node src/js/buildCustomise"
   },
   "repository": {
     "type": "git",

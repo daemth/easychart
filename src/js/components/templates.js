@@ -6,7 +6,7 @@
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var templateTypes = require('../config/templates.json');
-    var iconLoader = require('../utility/iconLoader');
+    var iconLoader = require('../factories/iconLoader');
     var config;
     var tabs;
     var rootNode;

@@ -1,8 +1,6 @@
 (function () {
-    function constructor (_mediator_, _data_) {
+    function constructor (mediator, data) {
         var _ = require('lodash');
-        var data = _data_;
-        var mediator = _mediator_;
         var series = require('../factories/series.js');
         var templates = require('../config/templates.json');
         var that = {};
@@ -13,7 +11,7 @@
 
         var configTemplate = {
             chart: {
-                renderTo: 'chartContainer'
+
             },
             plotOptions: {
                 series: {
@@ -45,7 +43,8 @@
 
         that.getConfigTemplate = function(){
             return _.cloneDeep(configTemplate);
-        }
+        };
+
         that.reset = function (preset) {
             config = _.merge(_.cloneDeep(configTemplate), preset)
         };

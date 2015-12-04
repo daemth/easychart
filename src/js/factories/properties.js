@@ -1,18 +1,15 @@
 (function () {
-    var properties = require('../config/dump.json');
     var _ = require('lodash');
     var h = require('virtual-dom/h');
     var that = {};
 
-    that.get = function (fullname,configService, indexName ) {
-        var property = _.find(properties, function (record) {
-            return record.fullname.toLowerCase() == fullname.toLowerCase();
-        });
+    that.get = function (option ,configService, indexName ) {
+        var property = option.property;
         if (property) {
             var localProperty = _.cloneDeep(property);
             // sometimes we will get an index name, this will be a name with an index.
             // e.g. series are arrays and have indexes : series.0.name
-            localProperty.fullname = !_.isUndefined(indexName) ? indexName: fullname;
+            localProperty.fullname = !_.isUndefined(indexName) ? indexName: option.name;
             return that.createProperty(localProperty, configService);
         }
     };
@@ -135,7 +132,19 @@
                         }
                     });
                     break;
-
+                case 'function':
+                    element = h('input', {
+                        'type': 'text',
+                        'value': configValue,
+                        'onchange': function (e) {
+                            if (property.defaults !== e.target.value) {
+                                configService.setValue(property.fullname, eval(e.target.value));
+                            } else {
+                                configService.removeValue(property.fullname);
+                            }
+                        }
+                    });
+                    break;
                 default:
                     element = h('input', {
                         'type': 'text',

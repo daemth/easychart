@@ -4,9 +4,8 @@
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
-
+    var _ = require('lodash');
     function constructor(element, state, services) {
-        var _ = require('lodash');
         var app;
         var header;
         var rootNode;
@@ -46,8 +45,7 @@
                 }
             }
         };
-
-        header = h('div');
+        header = h('div', { "my-hook": new Hook() });
         rootNode = createElement(header);
         element.appendChild(rootNode);
 

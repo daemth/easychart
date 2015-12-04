@@ -17,7 +17,7 @@
         };
 
         element.className += ' ec';
-        var r = new router(element, 'import', services);
+        new router(element, 'import', services);
 
         function setData (data){
             services.data.set(data);
@@ -39,12 +39,9 @@
             return services.config.getRaw(config);
         }
 
+
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
-        }
-
-        function getConfigTemplate(configTemplate){
-            return services.config.getConfigTemplate(configTemplate);
         }
 
         return {
@@ -52,7 +49,8 @@
             getData:getData,
             setDataUrl:setDataUrl,
             setConfig:setConfig,
-            getConfig:getConfig
+            getConfig:getConfig,
+            setConfigTemplate: setConfigTemplate
         }
     }
 

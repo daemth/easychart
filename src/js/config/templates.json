@@ -687,7 +687,7 @@
   {
     "id": "bar",
     "type": "Bar charts",
-    "icon": "bar",
+    "icon": "chart",
     "presets": [
       {
         "id": "basic",

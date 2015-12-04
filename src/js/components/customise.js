@@ -1,5 +1,5 @@
 (function () {
-    var customise = require('../config/customise.json');
+    var customise = require('../config/options.json');
     var configService;
     var propertyServices = require('../factories/properties');
 
@@ -70,7 +70,7 @@
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option.name, configService));
+                inputs.push(propertyServices.get(option, configService));
             });
 
             var item = h('h3', pane.title);
@@ -95,13 +95,12 @@
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option.name, configService, 'series.' + index + option.name.replace("series", "")));
+                inputs.push(propertyServices.get(option, configService, 'series.' + index + option.name.replace("series", "")));
             });
 
             var item = h('h3', pane.title);
             presetList.push(h('div', [item, inputs]))
         });
-
         return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
     }
 

@@ -16,10 +16,9 @@
         });
     };
 
-
-    function generate (data){
+    function generate(data) {
         var rows = [];
-        _.forEach(data, function(row, rowIndex){
+        _.forEach(data, function (row, rowIndex) {
             var cells = [];
             _.forEach(row, function(cell, cellIndex){
                 cells.push(h('td',{
@@ -34,10 +33,8 @@
             });
             rows.push(h('tr', cells));
         });
-        return h('table.table--data.table--bordered',rows);
-
+        return h('table.table--data.table--bordered', rows);
     }
-
 
     module.exports = that;
 })();
