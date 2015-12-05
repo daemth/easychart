@@ -45,7 +45,7 @@
                 }
             }
         };
-        header = h('div', { "my-hook": new Hook() });
+        header = h('div');
         rootNode = createElement(header);
         element.appendChild(rootNode);
 

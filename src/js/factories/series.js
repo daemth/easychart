@@ -44,7 +44,7 @@
             if(size > 0){
                 var object = {
                     data: [],
-                    type: item.type !== null ? item.type : defaultType
+                    type: item.type
                 };
                 size = size - getValuesPerPoint(object.type);
                 array.push(object);
@@ -54,7 +54,7 @@
         while(size > 0){
             var object = {
                 data: [],
-                type: defaultType
+                type: null
             };
             size = size - getValuesPerPoint(defaultType);
             array.push(object);
@@ -65,7 +65,7 @@
     function generateDataSeries(config, data){
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
         return _.map(emptySeries, function(item, index){
-            var vpp = getValuesPerPoint(item.type);
+            var vpp = getValuesPerPoint(item.type === null ? config.chart.type : item.type);
             _.forEach(data, function(row, index){
                 item.data.push(parseDataFloat(_.slice(row,0,vpp)));
                 data[index] = _.drop(data[index],vpp);
