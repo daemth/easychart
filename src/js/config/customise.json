@@ -7,20 +7,22 @@
         "title": "Chart type and interaction",
         "options": [
           {
-            "name": "chart.type",
+            "fullname": "chart.type",
             "defaults": "column"
           },
           {
-            "name": "chart.inverted"
+            "fullname": "chart.inverted"
           },
           {
-            "name": "chart.zoomType"
+            "fullname": "chart.zoomType"
           },
           {
-            "name": "plotOptions.column.stacking"
+            "fullname": "plotOptions.column.stacking",
+            "title": "column stacking"
           },
           {
-            "name": "plotOptions.bar.stacking"
+            "fullname": "plotOptions.bar.stacking",
+            "title": "bar stacking"
           }
         ]
       },
@@ -28,23 +30,23 @@
         "title": "Size and margins",
         "options": [
           {
-            "name": "chart.width",
+            "fullname": "chart.width",
             "defaults": "600"
           },
           {
-            "name": "chart.height"
+            "fullname": "chart.height"
           },
           {
-            "name": "chart.spacingTop"
+            "fullname": "chart.spacingTop"
           },
           {
-            "name": "chart.spacingRight"
+            "fullname": "chart.spacingRight"
           },
           {
-            "name": "chart.spacingBottom"
+            "fullname": "chart.spacingBottom"
           },
           {
-            "name": "chart.spacingLeft"
+            "fullname": "chart.spacingLeft"
           }
         ]
       }
@@ -58,7 +60,7 @@
         "title": "default colors",
         "options": [
           {
-            "name": "colors",
+            "fullname": "colors",
             "defaults": [
               "#3799ba",
               "#57f2a9",
@@ -77,16 +79,16 @@
         "title": "Chart area",
         "options": [
           {
-            "name": "chart.backgroundColor"
+            "fullname": "chart.backgroundColor"
           },
           {
-            "name": "chart.borderWidth"
+            "fullname": "chart.borderWidth"
           },
           {
-            "name": "chart.borderRadius"
+            "fullname": "chart.borderRadius"
           },
           {
-            "name": "chart.borderColor"
+            "fullname": "chart.borderColor"
           }
         ]
       },
@@ -94,16 +96,16 @@
         "title": "Plot area",
         "options": [
           {
-            "name": "chart.plotBackgroundColor"
+            "fullname": "chart.plotBackgroundColor"
           },
           {
-            "name": "chart.plotBackgroundImage"
+            "fullname": "chart.plotBackgroundImage"
           },
           {
-            "name": "chart.plotBorderWidth"
+            "fullname": "chart.plotBorderWidth"
           },
           {
-            "name": "chart.plotBorderColor"
+            "fullname": "chart.plotBorderColor"
           }
         ]
       }
@@ -117,16 +119,20 @@
         "title": "Titles",
         "options": [
           {
-            "name": "title.text"
+            "fullname": "title.text",
+            "title": "chart title"
           },
           {
-            "name": "subtitle.text"
+            "fullname": "subtitle.text",
+            "title": "chart subtitle"
           },
           {
-            "name": "yAxis.title.text"
+            "fullname": "yAxis.title.text",
+            "title": "Y axis title"
           },
           {
-            "name": "xAxis.title.text"
+            "fullname": "xAxis.title.text",
+            "title": "X axis title"
           }
         ]
       },
@@ -134,7 +140,7 @@
         "title": "Title advanced",
         "options": [
           {
-            "name": "title.style"
+            "fullname": "title.style"
           }
         ]
       }
@@ -152,29 +158,29 @@
         "title": "X axis",
         "options": [
           {
-            "name": "xAxis.type",
+            "fullname": "xAxis.type",
             "defaults": "category"
           },
           {
-            "name": "xAxis.min"
+            "fullname": "xAxis.min"
           },
           {
-            "name": "xAxis.opposite"
+            "fullname": "xAxis.opposite"
           },
           {
-            "name": "xAxis.reversed"
+            "fullname": "xAxis.reversed"
           },
           {
-            "name": "xAxis.tickInterval"
+            "fullname": "xAxis.tickInterval"
           },
           {
-            "name": "xAxis.labels.format"
+            "fullname": "xAxis.labels.format"
           },
           {
-            "name": "xAxis.labels.rotation"
+            "fullname": "xAxis.labels.rotation"
           },
           {
-            "name": "xAxis.labels.align"
+            "fullname": "xAxis.labels.align"
           }
         ]
       },
@@ -182,22 +188,22 @@
         "title": "Value axis",
         "options": [
           {
-            "name": "yAxis.type"
+            "fullname": "yAxis.type"
           },
           {
-            "name": "yAxis.min"
+            "fullname": "yAxis.min"
           },
           {
-            "name": "yAxis.opposite"
+            "fullname": "yAxis.opposite"
           },
           {
-            "name": "yAxis.reversed"
+            "fullname": "yAxis.reversed"
           },
           {
-            "name": "yAxis.labels.format"
+            "fullname": "yAxis.labels.format"
           },
           {
-            "name": "yAxis.labels.rotation"
+            "fullname": "yAxis.labels.rotation"
           }
         ]
       }
@@ -211,10 +217,10 @@
         "title": "General",
         "options": [
           {
-            "name": "legend.enabled"
+            "fullname": "legend.enabled"
           },
           {
-            "name": "legend.layout"
+            "fullname": "legend.layout"
           }
         ]
       },
@@ -222,10 +228,10 @@
         "title": "Placement",
         "options": [
           {
-            "name": "legend.align"
+            "fullname": "legend.align"
           },
           {
-            "name": "legend.verticalAlign"
+            "fullname": "legend.verticalAlign"
           }
         ]
       },
@@ -243,16 +249,16 @@
         "title": "General",
         "options": [
           {
-            "name": "tooltip.headerFormat"
+            "fullname": "tooltip.headerFormat"
           },
           {
-            "name": "tooltip.pointFormat"
+            "fullname": "tooltip.pointFormat"
           },
           {
-            "name": "tooltip.valuePrefix"
+            "fullname": "tooltip.valuePrefix"
           },
           {
-            "name": "tooltip.valueSuffix"
+            "fullname": "tooltip.valueSuffix"
           }
         ]
       },
@@ -270,7 +276,7 @@
         "title": "Exporting",
         "options": [
           {
-            "name": "exporting.enabled"
+            "fullname": "exporting.enabled"
           }
         ]
       },
@@ -278,15 +284,15 @@
         "title": "Credits",
         "options": [
           {
-            "name": "credits.enabled",
+            "fullname": "credits.enabled",
             "defaults": "false"
           },
           {
-            "name": "credits.text",
+            "fullname": "credits.text",
             "defaults": "easychart.org"
           },
           {
-            "name": "credits.href",
+            "fullname": "credits.href",
             "defaults":"http://www.easychart.org"
           }
         ]
@@ -300,13 +306,13 @@
       "title": "Series configuration",
       "options": [
         {
-          "name": "series.name"
+          "fullname": "series.name"
         },
         {
-          "name": "series.index"
+          "fullname": "series.index"
         },
         {
-          "name": "series.type"
+          "fullname": "series.type"
         }
       ]
     }]
