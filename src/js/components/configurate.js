@@ -92,7 +92,7 @@
             _.forEach(panel.panes, function (pane) {
                 var inputs = [];
                 _.forEach(pane.options, function (option) {
-                    inputs.push(propertyServices.get(option, configService, 'series.' + index + option.name.replace("series", "")));
+                    inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
                 });
 
                 var item = h('h3', pane.title);
