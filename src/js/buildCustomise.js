@@ -1,19 +1,21 @@
-var tabs = require('./config/customise.json');
-var properties = require('./config/dump.json');
+var guiConfig = require('./config/customise.json');
+var highchartsOptionsDump = require('./config/dump.json');
 var _ = require('lodash');
 var fs = require('fs');
 
-var data = _.map(tabs, function (tab) {
-    tab.pane = _.map(tab.panes, function(pane){
+var data = _.map(guiConfig, function (panel) {
+    panel.panes = _.map(panel.panes, function(pane){
         pane.options = _.map(pane.options, function(item){
-            item.property = _.find(properties, function (record) {
-                return record.fullname.toLowerCase() == item.name.toLowerCase();
+            var _item_ = _.find(highchartsOptionsDump, function (record) {
+                return record.fullname.toLowerCase() == item.fullname.toLowerCase();
             });
-            return item;
+            if(_item_ && !_.isUndefined(item.title)){_item_.title = item.title;}
+            if(_item_ && !_.isUndefined(item.defaults)){_item_.defaults = item.defaults;}
+            return _item_;
         });
         return pane;
     });
-    return tab
+    return panel;
 });
 
 var outputFilename = './src/js/config/options.json';

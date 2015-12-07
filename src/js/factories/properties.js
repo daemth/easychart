@@ -4,12 +4,11 @@
     var that = {};
 
     that.get = function (option ,configService, indexName ) {
-        var property = option.property;
-        if (property) {
-            var localProperty = _.cloneDeep(property);
+        if (option) {
+            var localProperty = _.cloneDeep(option);
             // sometimes we will get an index name, this will be a name with an index.
             // e.g. series are arrays and have indexes : series.0.name
-            localProperty.fullname = !_.isUndefined(indexName) ? indexName: option.name;
+            localProperty.fullname = !_.isUndefined(indexName) ? indexName: option.fullname;
             return that.createProperty(localProperty, configService);
         }
     };
@@ -78,14 +77,14 @@
 
                 case 'array<color>':
                     var list = [];
-                    var values = [];
+                    var values = !_.isUndefined(configValue) ? configValue : [];
                     _.forEach(property.defaults, function (value, index) {
-                        values.push(configValue[index]);
+                        //values.push(configValue[index]);
                         list.push(h('div', [
                             h('span', property.title + ' ' + index + ' :'),
                             h('input', {
                                 'type': 'text',
-                                'value': configValue[index],
+                                'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                                 'onchange': function (e) {
                                     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
                                     if (_.isEqual(property.defaults, values)) {

@@ -52,6 +52,7 @@
         });
         element.appendChild(loop.target);
 
+
         function goToSate(state) {
             currentDependencies = states[state].dependencies();
             currentState = state;
