@@ -10,6 +10,7 @@
         options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
         mediator.on('configUpdate', function () {
+            mediator.trigger('treeUpdate'); // to update series-tab-name
             var options = configService.get();
             options.chart.renderTo = element;
             chart = new Highcharts.Chart(options);
@@ -24,7 +25,6 @@
             options.chart.renderTo = element;
             chart = new Highcharts.Chart(options);
         });
-
     };
     module.exports = that;
 })();
