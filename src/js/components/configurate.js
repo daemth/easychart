@@ -4,7 +4,15 @@
         var mediator = services.mediator;
         var configService = services.config;
         var propertyServices = require('../factories/properties');
-        var _ = require('lodash');
+        var _ = {
+            isUndefined: require('lodash.isundefined'),
+            find: require('lodash.find'),
+            map: require('lodash.map'),
+            cloneDeep: require('lodash.clonedeep'),
+            remove: require('lodash.remove'),
+            forEach: require('lodash.foreach'),
+            first: require('lodash.first')
+        };
         var h = require('virtual-dom/h');
 
         var tabs;

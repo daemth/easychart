@@ -2,7 +2,9 @@
     var includeFolder = require('include-folder'),
         icons = includeFolder("./src/icons");
     var virtualize = require('vdom-virtualize');
-    var _ = require('lodash');
+    var _ = {
+        isUndefined: require('lodash.isundefined')
+    };
     var that = {};
     that.get = function(id){
         if(!_.isUndefined(icons[id])){

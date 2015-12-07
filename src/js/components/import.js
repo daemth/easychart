@@ -5,7 +5,7 @@
         var upload = require('./import/upload');
         var dad = require('./import/dragAndDrop');
         var url = require('./import/url');
-        var activeTab = 'url';
+        var activeTab = 'paste';
         var mediator = services.mediator;
 
         var tabOptions = {
