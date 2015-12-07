@@ -20,7 +20,6 @@
 
         element.className += ' ec';
         new router(element, 'import', services);
-
         function setData (data){
             services.data.set(data);
         }
@@ -48,7 +47,6 @@
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
-
         return {
             setData:setData,
             getData:getData,

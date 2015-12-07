@@ -17,7 +17,6 @@
         var that = {};
         var dataSet = [];
 
-
         that.getSeries = function () {
             return _.cloneDeep(_.first(dataSet));
         };
@@ -31,7 +30,6 @@
         that.get = function () {
             return _.cloneDeep(dataSet);
         };
-
         that.getData = function (series, categories) {
             var data = dataSet;
 

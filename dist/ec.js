@@ -1146,6 +1146,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],17:[function(require,module,exports){
 'use strict';
 
@@ -1207,6 +1208,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"min-document":3}],20:[function(require,module,exports){
 (function (global){
 var root = typeof window !== 'undefined' ?
@@ -1229,6 +1231,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],21:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -2085,6 +2088,7 @@ function isObject(value) {
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._arraycopy":23,"lodash._arrayeach":24,"lodash._baseassign":26,"lodash._basefor":34,"lodash.isarray":58,"lodash.keys":68}],29:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
@@ -3523,6 +3527,7 @@ SetCache.prototype.push = cachePush;
 module.exports = createCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._getnative":47}],47:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
@@ -8365,6 +8370,7 @@ function main(initialState, view, opts) {
 */
 
 }).call(this,require('_process'))
+
 },{"_process":86}],86:[function(require,module,exports){
 // shim for using process in browser
 
@@ -8590,6 +8596,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
+
 },{"_process":86}],89:[function(require,module,exports){
 var nargs = /\{([0-9a-zA-Z]+)\}/g
 var slice = Array.prototype.slice
@@ -10475,6 +10482,7 @@ function extend(target) {
         options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
         mediator.on('configUpdate', function () {
+            mediator.trigger('treeUpdate'); // to update series-tab-name
             var options = configService.get();
             options.chart.renderTo = element;
             chart = new Highcharts.Chart(options);
@@ -10489,7 +10497,6 @@ function extend(target) {
             options.chart.renderTo = element;
             chart = new Highcharts.Chart(options);
         });
-
     };
     module.exports = that;
 })();
@@ -12503,7 +12510,7 @@ module.exports=module.exports = [
   {
     "id": "bar",
     "type": "Bar charts",
-    "icon": "chart",
+    "icon": "bar",
     "presets": [
       {
         "id": "basic",
@@ -13514,7 +13521,6 @@ return self})();
 
         element.className += ' ec';
         new router(element, 'import', services);
-
         function setData (data){
             services.data.set(data);
         }
@@ -13542,7 +13548,6 @@ return self})();
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
-
         return {
             setData:setData,
             getData:getData,
@@ -13729,7 +13734,6 @@ return self})();
         var that = {};
         var dataSet = [];
 
-
         that.getSeries = function () {
             return _.cloneDeep(_.first(dataSet));
         };
@@ -13743,7 +13747,6 @@ return self})();
         that.get = function () {
             return _.cloneDeep(dataSet);
         };
-
         that.getData = function (series, categories) {
             var data = dataSet;
 
@@ -13815,7 +13818,6 @@ return self})();
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
     var mainLoop = require("main-loop");
-
     function constructor(element, initState, services) {
         var states = {
             'import': {
@@ -13914,4 +13916,7 @@ return self})();
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":133,"virtual-dom/h":94}]},{},[136]);
+},{"../factories/iconLoader":133,"virtual-dom/h":94}]},{},[136])
+
+
+//# sourceMappingURL=ec.js.map

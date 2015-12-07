@@ -5,7 +5,6 @@
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
     var mainLoop = require("main-loop");
-
     function constructor(element, initState, services) {
         var states = {
             'import': {

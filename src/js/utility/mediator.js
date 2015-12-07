@@ -21,11 +21,8 @@
     })();
 
     Events.mixin(Mediator.prototype);
-
     mediator = new Mediator;
-
     mediator.Mediator = Mediator;
-
     module.exports = mediator;
 
 })();

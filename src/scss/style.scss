@@ -14,12 +14,18 @@
 a, .hover{
   cursor: pointer;
 }
+body{
+  background: blue;
+}
+
 .active {
   color: $base-accent-color;
 }
+
 .container{
   clear: both;
 }
+
 .logo{
   background-color: #333;
   padding: 7px 1em;
@@ -28,12 +34,14 @@ a, .hover{
     height: 50px;
   }
 }
+
 .templatelist{
   &__item{
     @include span-columns(2);
     @include omega(6n);
   }
 }
+
 .file_drop{
   padding: 50px;
   background: $light-gray;
