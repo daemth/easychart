@@ -1,28 +1,32 @@
 (function () {
     var that = {};
     var papa = require('papaparse');
-    var _ = require('lodash');
     var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
-    that.load = function(element, services){
+    that.template = function (services) {
         var dataService = services.data;
-        var input = createElement(h('input'));
-        var importElement = createElement(
-            h('button.btn', {
-                'ev-click': function(){
-                    that.loadUrl(input.value, dataService)
-                }
-            }, 'import'));
 
+        var inputNode;
+        var Hook = function(){};
+        Hook.prototype.hook = function(node) {
+            inputNode = node;
+        };
 
-        element.appendChild(input);
-        element.appendChild(importElement);
+        var input = h('input', {
+            "hook": new Hook()
+        });
+
+        var importElement = h('button.btn', {
+            'ev-click': function () {
+                that.loadUrl(inputNode.value, dataService)
+            }
+        }, 'import');
+
+        return h('div', [input, importElement])
     };
 
-    that.loadUrl = function(url, dataService){
-
+    that.loadUrl = function (url, dataService) {
         var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", function(data){
+        oReq.addEventListener("load", function (data) {
             console.log(data);
         });
         oReq.open("GET", url, true);

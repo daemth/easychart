@@ -392,6 +392,67 @@ module.exports = (function split(undef) {
 },{}],5:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],6:[function(require,module,exports){
+module.exports = function(obj) {
+    if (typeof obj === 'string') return camelCase(obj);
+    return walk(obj);
+};
+
+function walk (obj) {
+    if (!obj || typeof obj !== 'object') return obj;
+    if (isDate(obj) || isRegex(obj)) return obj;
+    if (isArray(obj)) return map(obj, walk);
+    return reduce(objectKeys(obj), function (acc, key) {
+        var camel = camelCase(key);
+        acc[camel] = walk(obj[key]);
+        return acc;
+    }, {});
+}
+
+function camelCase(str) {
+    return str.replace(/[_.-](\w|$)/g, function (_,x) {
+        return x.toUpperCase();
+    });
+}
+
+var isArray = Array.isArray || function (obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+};
+
+var isDate = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object Date]';
+};
+
+var isRegex = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var has = Object.prototype.hasOwnProperty;
+var objectKeys = Object.keys || function (obj) {
+    var keys = [];
+    for (var key in obj) {
+        if (has.call(obj, key)) keys.push(key);
+    }
+    return keys;
+};
+
+function map (xs, f) {
+    if (xs.map) return xs.map(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        res.push(f(xs[i], i));
+    }
+    return res;
+}
+
+function reduce (xs, f, acc) {
+    if (xs.reduce) return xs.reduce(f, acc);
+    for (var i = 0; i < xs.length; i++) {
+        acc = f(acc, xs[i], i);
+    }
+    return acc;
+}
+
+},{}],7:[function(require,module,exports){
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -503,7 +564,7 @@ arguments[4][3][0].apply(exports,arguments)
 
 }(this.applitude || this));
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = addEvent
@@ -523,7 +584,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":14}],8:[function(require,module,exports){
+},{"ev-store":16}],9:[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -712,7 +773,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":7,"./proxy-event.js":11,"./remove-event.js":12,"ev-store":14,"global/document":16,"weakmap-shim/create-store":57}],9:[function(require,module,exports){
+},{"./add-event.js":8,"./proxy-event.js":12,"./remove-event.js":13,"ev-store":16,"global/document":18,"weakmap-shim/create-store":63}],10:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -774,7 +835,7 @@ function Delegator(opts) {
 Delegator.allocateHandle = DOMDelegator.allocateHandle;
 Delegator.transformHandle = DOMDelegator.transformHandle;
 
-},{"./dom-delegator.js":8,"cuid":6,"global/document":16,"individual":10}],10:[function(require,module,exports){
+},{"./dom-delegator.js":9,"cuid":7,"global/document":18,"individual":11}],11:[function(require,module,exports){
 (function (global){
 var root = typeof window !== 'undefined' ?
     window : typeof global !== 'undefined' ?
@@ -796,7 +857,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -876,7 +937,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":19}],12:[function(require,module,exports){
+},{"inherits":21}],13:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -897,7 +958,7 @@ function removeEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":14}],13:[function(require,module,exports){
+},{"ev-store":16}],14:[function(require,module,exports){
 module.exports = dragDrop
 
 var flatten = require('flatten')
@@ -1012,7 +1073,57 @@ function toArray (list) {
   return Array.prototype.slice.call(list || [], 0)
 }
 
-},{"flatten":15,"lodash.throttle":23,"run-parallel":28}],14:[function(require,module,exports){
+},{"flatten":17,"lodash.throttle":25,"run-parallel":33}],15:[function(require,module,exports){
+var camelize = require("camelize")
+var template = require("string-template")
+var extend = require("xtend/mutable")
+
+module.exports = TypedError
+
+function TypedError(args) {
+    if (!args) {
+        throw new Error("args is required");
+    }
+    if (!args.type) {
+        throw new Error("args.type is required");
+    }
+    if (!args.message) {
+        throw new Error("args.message is required");
+    }
+
+    var message = args.message
+
+    if (args.type && !args.name) {
+        var errorName = camelize(args.type) + "Error"
+        args.name = errorName[0].toUpperCase() + errorName.substr(1)
+    }
+
+    extend(createError, args);
+    createError._name = args.name;
+
+    return createError;
+
+    function createError(opts) {
+        var result = new Error()
+
+        Object.defineProperty(result, "type", {
+            value: result.type,
+            enumerable: true,
+            writable: true,
+            configurable: true
+        })
+
+        var options = extend({}, args, opts)
+
+        extend(result, options)
+        result.message = template(message, options)
+
+        return result
+    }
+}
+
+
+},{"camelize":6,"string-template":34,"xtend/mutable":66}],16:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -1034,7 +1145,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":18}],15:[function(require,module,exports){
+},{"individual/one-version":20}],17:[function(require,module,exports){
 module.exports = function flatten(list, depth) {
   depth = (typeof depth == 'number') ? depth : Infinity;
 
@@ -1052,7 +1163,7 @@ module.exports = function flatten(list, depth) {
   }
 };
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -1071,7 +1182,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":3}],17:[function(require,module,exports){
+},{"min-document":3}],19:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1094,7 +1205,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var Individual = require('./index.js');
@@ -1118,7 +1229,7 @@ function OneVersion(moduleName, version, defaultValue) {
     return Individual(key, defaultValue);
 }
 
-},{"./index.js":17}],19:[function(require,module,exports){
+},{"./index.js":19}],21:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1143,14 +1254,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 "use strict";
 
 module.exports = function isObject(x) {
 	return typeof x === "object" && x !== null;
 };
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1289,7 +1400,7 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1525,7 +1636,7 @@ function isObject(value) {
 
 module.exports = debounce;
 
-},{"lodash._getnative":21}],23:[function(require,module,exports){
+},{"lodash._getnative":23}],25:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1623,7 +1734,7 @@ function isObject(value) {
 
 module.exports = throttle;
 
-},{"lodash.debounce":22}],24:[function(require,module,exports){
+},{"lodash.debounce":24}],26:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -13978,7 +14089,88 @@ module.exports = throttle;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
+var raf = require("raf")
+var TypedError = require("error/typed")
+
+var InvalidUpdateInRender = TypedError({
+    type: "main-loop.invalid.update.in-render",
+    message: "main-loop: Unexpected update occurred in loop.\n" +
+        "We are currently rendering a view, " +
+            "you can't change state right now.\n" +
+        "The diff is: {stringDiff}.\n" +
+        "SUGGESTED FIX: find the state mutation in your view " +
+            "or rendering function and remove it.\n" +
+        "The view should not have any side effects.\n",
+    diff: null,
+    stringDiff: null
+})
+
+module.exports = main
+
+function main(initialState, view, opts) {
+    opts = opts || {}
+
+    var currentState = initialState
+    var create = opts.create
+    var diff = opts.diff
+    var patch = opts.patch
+    var redrawScheduled = false
+
+    var tree = opts.initialTree || view(currentState)
+    var target = opts.target || create(tree, opts)
+    var inRenderingTransaction = false
+
+    currentState = null
+
+    var loop = {
+        state: initialState,
+        target: target,
+        update: update
+    }
+    return loop
+
+    function update(state) {
+        if (inRenderingTransaction) {
+            throw InvalidUpdateInRender({
+                diff: state._diff,
+                stringDiff: JSON.stringify(state._diff)
+            })
+        }
+
+        if (currentState === null && !redrawScheduled) {
+            redrawScheduled = true
+            raf(redraw)
+        }
+
+        currentState = state
+        loop.state = state
+    }
+
+    function redraw() {
+        redrawScheduled = false
+        if (currentState === null) {
+            return
+        }
+
+        inRenderingTransaction = true
+        var newTree = view(currentState)
+
+        if (opts.createOnly) {
+            inRenderingTransaction = false
+            create(newTree, opts)
+        } else {
+            var patches = diff(tree, newTree, opts)
+            inRenderingTransaction = false
+            target = patch(target, patches, opts)
+        }
+
+        tree = newTree
+        currentState = null
+    }
+}
+
+},{"error/typed":15,"raf":32}],28:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -14012,7 +14204,7 @@ module.exports = throttle;
 
 }).call(this);
 
-},{"backbone-events-standalone":2}],26:[function(require,module,exports){
+},{"backbone-events-standalone":2}],29:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -15417,7 +15609,47 @@ module.exports = throttle;
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
+(function (process){
+// Generated by CoffeeScript 1.6.3
+(function() {
+  var getNanoSeconds, hrtime, loadTime;
+
+  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
+    module.exports = function() {
+      return performance.now();
+    };
+  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
+    module.exports = function() {
+      return (getNanoSeconds() - loadTime) / 1e6;
+    };
+    hrtime = process.hrtime;
+    getNanoSeconds = function() {
+      var hr;
+      hr = hrtime();
+      return hr[0] * 1e9 + hr[1];
+    };
+    loadTime = getNanoSeconds();
+  } else if (Date.now) {
+    module.exports = function() {
+      return Date.now() - loadTime;
+    };
+    loadTime = Date.now();
+  } else {
+    module.exports = function() {
+      return new Date().getTime() - loadTime;
+    };
+    loadTime = new Date().getTime();
+  }
+
+}).call(this);
+
+/*
+
+*/
+
+}).call(this,require('_process'))
+},{"_process":31}],31:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -15510,7 +15742,89 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],28:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
+var now = require('performance-now')
+  , global = typeof window === 'undefined' ? {} : window
+  , vendors = ['moz', 'webkit']
+  , suffix = 'AnimationFrame'
+  , raf = global['request' + suffix]
+  , caf = global['cancel' + suffix] || global['cancelRequest' + suffix]
+  , isNative = true
+
+for(var i = 0; i < vendors.length && !raf; i++) {
+  raf = global[vendors[i] + 'Request' + suffix]
+  caf = global[vendors[i] + 'Cancel' + suffix]
+      || global[vendors[i] + 'CancelRequest' + suffix]
+}
+
+// Some versions of FF have rAF but not cAF
+if(!raf || !caf) {
+  isNative = false
+
+  var last = 0
+    , id = 0
+    , queue = []
+    , frameDuration = 1000 / 60
+
+  raf = function(callback) {
+    if(queue.length === 0) {
+      var _now = now()
+        , next = Math.max(0, frameDuration - (_now - last))
+      last = next + _now
+      setTimeout(function() {
+        var cp = queue.slice(0)
+        // Clear queue here to prevent
+        // callbacks from appending listeners
+        // to the current frame's queue
+        queue.length = 0
+        for(var i = 0; i < cp.length; i++) {
+          if(!cp[i].cancelled) {
+            try{
+              cp[i].callback(last)
+            } catch(e) {
+              setTimeout(function() { throw e }, 0)
+            }
+          }
+        }
+      }, Math.round(next))
+    }
+    queue.push({
+      handle: ++id,
+      callback: callback,
+      cancelled: false
+    })
+    return id
+  }
+
+  caf = function(handle) {
+    for(var i = 0; i < queue.length; i++) {
+      if(queue[i].handle === handle) {
+        queue[i].cancelled = true
+      }
+    }
+  }
+}
+
+module.exports = function(fn) {
+  // Wrap in a new function to prevent
+  // `cancel` potentially being assigned
+  // to the native rAF function
+  if(!isNative) {
+    return raf.call(global, fn)
+  }
+  return raf.call(global, function() {
+    try{
+      fn.apply(this, arguments)
+    } catch(e) {
+      setTimeout(function() { throw e }, 0)
+    }
+  })
+}
+module.exports.cancel = function() {
+  caf.apply(global, arguments)
+}
+
+},{"performance-now":30}],33:[function(require,module,exports){
 (function (process){
 module.exports = function (tasks, cb) {
   var results, pending, keys
@@ -15560,7 +15874,43 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-},{"_process":27}],29:[function(require,module,exports){
+},{"_process":31}],34:[function(require,module,exports){
+var nargs = /\{([0-9a-zA-Z]+)\}/g
+var slice = Array.prototype.slice
+
+module.exports = template
+
+function template(string) {
+    var args
+
+    if (arguments.length === 2 && typeof arguments[1] === "object") {
+        args = arguments[1]
+    } else {
+        args = slice.call(arguments, 1)
+    }
+
+    if (!args || !args.hasOwnProperty) {
+        args = {}
+    }
+
+    return string.replace(nargs, function replaceArg(match, i, index) {
+        var result
+
+        if (string[index - 1] === "{" &&
+            string[index + match.length] === "}") {
+            return i
+        } else {
+            result = args.hasOwnProperty(i) ? args[i] : null
+            if (result === null || result === undefined) {
+                return ""
+            }
+
+            return result
+        }
+    })
+}
+
+},{}],35:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -15876,7 +16226,7 @@ module.exports.attrs = [
 ,"y"
 ]
 
-},{"./vcomment":30,"virtual-dom/vnode/vnode":52,"virtual-dom/vnode/vtext":54}],30:[function(require,module,exports){
+},{"./vcomment":36,"virtual-dom/vnode/vnode":58,"virtual-dom/vnode/vtext":60}],36:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -15894,27 +16244,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],31:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":36}],32:[function(require,module,exports){
+},{"./vdom/create-element.js":42}],38:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":56}],33:[function(require,module,exports){
+},{"./vtree/diff.js":62}],39:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":43}],34:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":49}],40:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":39}],35:[function(require,module,exports){
+},{"./vdom/patch.js":45}],41:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -16013,7 +16363,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":47,"is-object":20}],36:[function(require,module,exports){
+},{"../vnode/is-vhook.js":53,"is-object":22}],42:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -16061,7 +16411,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":45,"../vnode/is-vnode.js":48,"../vnode/is-vtext.js":49,"../vnode/is-widget.js":50,"./apply-properties":35,"global/document":16}],37:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":51,"../vnode/is-vnode.js":54,"../vnode/is-vtext.js":55,"../vnode/is-widget.js":56,"./apply-properties":41,"global/document":18}],43:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -16148,7 +16498,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],38:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -16301,7 +16651,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":50,"../vnode/vpatch.js":53,"./apply-properties":35,"./update-widget":40}],39:[function(require,module,exports){
+},{"../vnode/is-widget.js":56,"../vnode/vpatch.js":59,"./apply-properties":41,"./update-widget":46}],45:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -16383,7 +16733,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":36,"./dom-index":37,"./patch-op":38,"global/document":16,"x-is-array":59}],40:[function(require,module,exports){
+},{"./create-element":42,"./dom-index":43,"./patch-op":44,"global/document":18,"x-is-array":65}],46:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -16400,7 +16750,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":50}],41:[function(require,module,exports){
+},{"../vnode/is-widget.js":56}],47:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -16429,7 +16779,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":14}],42:[function(require,module,exports){
+},{"ev-store":16}],48:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -16448,7 +16798,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],43:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -16587,7 +16937,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":46,"../vnode/is-vhook":47,"../vnode/is-vnode":48,"../vnode/is-vtext":49,"../vnode/is-widget":50,"../vnode/vnode.js":52,"../vnode/vtext.js":54,"./hooks/ev-hook.js":41,"./hooks/soft-set-hook.js":42,"./parse-tag.js":44,"x-is-array":59}],44:[function(require,module,exports){
+},{"../vnode/is-thunk":52,"../vnode/is-vhook":53,"../vnode/is-vnode":54,"../vnode/is-vtext":55,"../vnode/is-widget":56,"../vnode/vnode.js":58,"../vnode/vtext.js":60,"./hooks/ev-hook.js":47,"./hooks/soft-set-hook.js":48,"./parse-tag.js":50,"x-is-array":65}],50:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -16643,7 +16993,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":4}],45:[function(require,module,exports){
+},{"browser-split":4}],51:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -16685,14 +17035,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":46,"./is-vnode":48,"./is-vtext":49,"./is-widget":50}],46:[function(require,module,exports){
+},{"./is-thunk":52,"./is-vnode":54,"./is-vtext":55,"./is-widget":56}],52:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],47:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -16701,7 +17051,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],48:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -16710,7 +17060,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":51}],49:[function(require,module,exports){
+},{"./version":57}],55:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -16719,17 +17069,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":51}],50:[function(require,module,exports){
+},{"./version":57}],56:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],51:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 module.exports = "2"
 
-},{}],52:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -16803,7 +17153,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":46,"./is-vhook":47,"./is-vnode":48,"./is-widget":50,"./version":51}],53:[function(require,module,exports){
+},{"./is-thunk":52,"./is-vhook":53,"./is-vnode":54,"./is-widget":56,"./version":57}],59:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -16827,7 +17177,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":51}],54:[function(require,module,exports){
+},{"./version":57}],60:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -16839,7 +17189,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":51}],55:[function(require,module,exports){
+},{"./version":57}],61:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -16899,7 +17249,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":47,"is-object":20}],56:[function(require,module,exports){
+},{"../vnode/is-vhook":53,"is-object":22}],62:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -17328,7 +17678,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":45,"../vnode/is-thunk":46,"../vnode/is-vnode":48,"../vnode/is-vtext":49,"../vnode/is-widget":50,"../vnode/vpatch":53,"./diff-props":55,"x-is-array":59}],57:[function(require,module,exports){
+},{"../vnode/handle-thunk":51,"../vnode/is-thunk":52,"../vnode/is-vnode":54,"../vnode/is-vtext":55,"../vnode/is-widget":56,"../vnode/vpatch":59,"./diff-props":61,"x-is-array":65}],63:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -17349,7 +17699,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":58}],58:[function(require,module,exports){
+},{"./hidden-store.js":64}],64:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -17367,7 +17717,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],59:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -17377,7 +17727,26 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],60:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend(target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+},{}],67:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -17409,341 +17778,337 @@ function isArray(obj) {
     };
     module.exports = that;
 })();
-},{"lodash":24}],61:[function(require,module,exports){
+},{"lodash":26}],68:[function(require,module,exports){
 (function () {
-    var customise = require('../config/options.json');
-    var configService;
-    var propertyServices = require('../factories/properties');
+    var constructor = function (services) {
+        var customise = require('../config/options.json');
+        var mediator = services.mediator;
+        var configService = services.config;
+        var propertyServices = require('../factories/properties');
+        var _ = require('lodash');
+        var h = require('virtual-dom/h');
 
-    var _ = require('lodash');
-    var h = require('virtual-dom/h');
-    var diff = require('virtual-dom/diff');
-    var patch = require('virtual-dom/patch');
-    var createElement = require('virtual-dom/create-element');
+        var tabs;
+        var activeTab = _.first(customise).id;
+        var activeTabChild;
+        var that = {};
 
-    var tabs;
-    var rootNode;
-    var activeTab = _.first(customise).id;
-    var activeTabChild;
-    var that = {};
-
-    that.load = function (element, services) {
-        tabs = h('div');
-        configService = services.config;
-        rootNode = createElement(tabs);
-        element.appendChild(rootNode);
-        build();
-    };
-
-    function build() {
-        var tabs = h('ul', {className: "vertical-tabs"},
-            [
-                generateGenericTabs(genericConfig(customise), activeTab),
-                generateSeriesTabs(typeConfig(customise, 'series'), activeTab)
+        that.template = function () {
+            var tabs = h('ul', {className: "vertical-tabs"},
+                [
+                    generateGenericTabs(genericConfig(customise), activeTab),
+                    generateSeriesTabs(typeConfig(customise, 'series'), activeTab)
+                ]);
+            var content = h('div', [
+                generateContent(customise, activeTab, activeTabChild)
             ]);
-        var content = h('div', [
-            generateContent(customise, activeTab, activeTabChild)
-        ]);
-        var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
-        render(container);
-    }
+            var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
+            return container;
+        };
 
-    function genericConfig(customise) {
-        var newCustomise = _.cloneDeep(customise);
-        return _.remove(newCustomise, function (panel) {
-            return panel.id !== "series";
-        })
-    }
-
-    function typeConfig(customise, type) {
-        return _.find(customise, function (item) {
-            return item.id == type;
-        })
-    }
-
-    function generateContent(panels, activeId, activeChildId) {
-        var activePanel = _.find(panels, function (panel) {
-            return panel.id == activeId;
-        });
-        var content;
-        switch (activePanel.id) {
-            case 'series':
-                content = generateSeriesContent(activePanel, activeChildId);
-                break;
-            default:
-                content = generateGenericContent(activePanel);
-        }
-        return content;
-    }
-
-    function generateGenericContent(panel) {
-        var title = h('h2', panel.panelTitle);
-        var presetList = [];
-        _.forEach(panel.panes, function (pane) {
-            var inputs = [];
-            _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option, configService));
-            });
-
-            var item = h('h3', pane.title);
-            presetList.push(h('div', [item, inputs]))
-        });
-
-        return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
-    }
-
-    function generateSeriesContent(panel, child) {
-        var series = configService.get().series;
-        if (!_.isUndefined(child)) {
-            return seriesPanel(panel, series[child], child);
-        } else {
-            return seriesPanel(panel, series[0], 0);
-        }
-    }
-
-    function seriesPanel(panel, series, index) {
-        var title = h('h2', series.name);
-        var presetList = [];
-        _.forEach(panel.panes, function (pane) {
-            var inputs = [];
-            _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option, configService, 'series.' + index + option.name.replace("series", "")));
-            });
-
-            var item = h('h3', pane.title);
-            presetList.push(h('div', [item, inputs]))
-        });
-        return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
-    }
-
-    function generateGenericTabs(panes, active) {
-        var links = [];
-        _.forEach(panes, function (pane, index) {
-            var children = [];
-            var className = pane.id === activeTab ? 'active' : '';
-            var link = h('li', {className: className},
-                h('a', {
-                        'href': '#' + pane.panelTitle,
-                        'ev-click': function (e) {
-                            e.preventDefault();
-                            setActive(pane.id);
-                        }
-                    }, [pane.panelTitle, children]
-                )
-            );
-
-            links.push(link);
-        });
-        return links;
-    }
-
-    function generateSeriesTabs(config, activeTab) {
-        var series = configService.get().series;
-        var links = [];
-        var className = '';
-        if (config.id == activeTab) {
-            className = "vertical-tab is-active";
-            _.forEach(series, function (serie, index) {
-                links.push(
-                    h('li.hover', {
-                        'ev-click': function (e) {
-                            e.preventDefault();
-                            setActive(config.id, index);
-                        }
-                    }, serie.name? serie.name: 'serie ' + index)
-                )
+        function genericConfig(customise) {
+            var newCustomise = _.cloneDeep(customise);
+            return _.remove(newCustomise, function (panel) {
+                return panel.id !== "series";
             })
         }
-        else {
-            className = '';
+
+        function typeConfig(customise, type) {
+            return _.find(customise, function (item) {
+                return item.id == type;
+            })
         }
 
-        return h('li', {'className': className}, [
-            h('a', {
-                'href': '#data-series',
-                'ev-click': function () {
-                    setActive(config.id);
-                }
-            }, 'data series'),
-            h('ul', links)
-        ])
-    }
+        function generateContent(panels, activeId, activeChildId) {
+            var activePanel = _.find(panels, function (panel) {
+                return panel.id == activeId;
+            });
+            var content;
+            switch (activePanel.id) {
+                case 'series':
+                    content = generateSeriesContent(activePanel, activeChildId);
+                    break;
+                default:
+                    content = generateGenericContent(activePanel);
+            }
+            return content;
+        }
 
-    function setActive(id, child) {
-        activeTab = id;
-        activeTabChild = _.isUndefined(child) ? 0 : child;
-        build();
-    }
+        function generateGenericContent(panel) {
+            var title = h('h2', panel.panelTitle);
+            var presetList = [];
+            _.forEach(panel.panes, function (pane) {
+                var inputs = [];
+                _.forEach(pane.options, function (option) {
+                    inputs.push(propertyServices.get(option, configService));
+                });
 
-    function render(newTabs) {
-        var patches = diff(tabs, newTabs);
-        rootNode = patch(rootNode, patches);
-        tabs = newTabs;
-    }
+                var item = h('h3', pane.title);
+                presetList.push(h('div', [item, inputs]))
+            });
 
-    module.exports = that;
+            return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+        }
+
+        function generateSeriesContent(panel, child) {
+            var series = configService.get().series;
+            if (!_.isUndefined(child)) {
+                return seriesPanel(panel, series[child], child);
+            } else {
+                return seriesPanel(panel, series[0], 0);
+            }
+        }
+
+        function seriesPanel(panel, series, index) {
+            var title = h('h2', series.name);
+            var presetList = [];
+            _.forEach(panel.panes, function (pane) {
+                var inputs = [];
+                _.forEach(pane.options, function (option) {
+                    inputs.push(propertyServices.get(option, configService, 'series.' + index + option.name.replace("series", "")));
+                });
+
+                var item = h('h3', pane.title);
+                presetList.push(h('div', [item, inputs]))
+            });
+            return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+        }
+
+        function generateGenericTabs(panes, active) {
+            var links = [];
+            _.forEach(panes, function (pane, index) {
+                var children = [];
+                var className = pane.id === activeTab ? 'active' : '';
+                var link = h('li', {className: className},
+                    h('a', {
+                            'href': '#' + pane.panelTitle,
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(pane.id);
+                            }
+                        }, [pane.panelTitle, children]
+                    )
+                );
+
+                links.push(link);
+            });
+            return links;
+        }
+
+        function generateSeriesTabs(config, activeTab) {
+            var series = configService.get().series;
+            var links = [];
+            var className = '';
+            if (config.id == activeTab) {
+                className = "vertical-tab is-active";
+                _.forEach(series, function (serie, index) {
+                    links.push(
+                        h('li.hover', {
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(config.id, index);
+                            }
+                        }, serie.name ? serie.name : 'serie ' + index)
+                    )
+                })
+            }
+            else {
+                className = '';
+            }
+
+            return h('li', {'className': className}, [
+                h('a', {
+                    'href': '#data-series',
+                    'ev-click': function () {
+                        setActive(config.id);
+                    }
+                }, 'data series'),
+                h('ul', links)
+            ])
+        }
+
+        function setActive(id, child) {
+            activeTab = id;
+            activeTabChild = _.isUndefined(child) ? 0 : child;
+            mediator.trigger('treeUpdate');
+        }
+
+        return that;
+    };
+
+    module.exports = constructor;
 
 })();
-},{"../config/options.json":69,"../factories/properties":72,"lodash":24,"virtual-dom/create-element":31,"virtual-dom/diff":32,"virtual-dom/h":33,"virtual-dom/patch":34}],62:[function(require,module,exports){
+},{"../config/options.json":76,"../factories/properties":79,"lodash":26,"virtual-dom/h":39}],69:[function(require,module,exports){
 (function () {
-    var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
-    var paste = require('./import/paste');
-    var upload = require('./import/upload');
-    var dad = require('./import/dragAndDrop');
-    var url = require('./import/url');
-    var that = {};
-    that.load = function (element, services) {
-        var container = createElement(h('div.accordion-tabs-minimal'));
-        element.appendChild(container);
-        var tabs = h('div');
-        var tabsOptions = {
+    var constructor = function(services){
+        var h = require('virtual-dom/h');
+        var paste = require('./import/paste');
+        var upload = require('./import/upload');
+        var dad = require('./import/dragAndDrop');
+        var url = require('./import/url');
+        var activeTab = 'url';
+        var mediator = services.mediator;
+
+        var tabOptions = {
             paste:{
                 label: 'Paste CSV',
-                content: function(element){
-                    paste.load(element, services);
+                template: function(){
+                    return paste.template(services);
                 }
             },
             upload:{
                 label: 'upload CSV',
-                content: function(element){
-                    upload.load(element, services);
-                    dad.load(element, services);
+                template: function(){
+                    return h('div', [
+                        upload.template(services),
+                        dad.template(services)
+                    ]);
                 }
             },
             url:{
                 label: 'url CSV',
-                content: function(element){
-                    url.load(element, services);
+                template: function(){
+                    return url.template(services);
                 }
             }
         };
 
-        function goToTab(tab) {
-            container.innerHTML = '';
-            container.appendChild(createElement(template(tab)));
-            var content = createElement(h('div.tab-content'));
-            tabsOptions[tab].content(content);
-            container.appendChild(content);
-        }
-
-        function template(activeTab) {
+        function tabLinks() {
             var links = ['paste', 'upload', 'url'];
             return h('ul.tab-list', links.map(function (id) {
-                    var className = activeTab === id ? 'is-active' : '';
-                    return h('li.tab-link', {
-                        'className': className,
-                        'ev-click': function () {
-                            goToTab(id);
-                        }
-                    }, tabsOptions[id].label)
-                }))
+                var className = activeTab === id ? 'is-active' : '';
+                return h('li.tab-link', {
+                    'className': className,
+                    'ev-click': function () {
+                        activeTab = id;
+                        mediator.trigger('treeUpdate');
+                    }
+                }, tabOptions[id].label)
+            }))
         }
-        goToTab('paste')
+
+        function template (){
+            return h('div.accordion-tabs-minimal', [
+                tabLinks(),
+                tabOptions[activeTab].template()
+            ]);
+        }
+
+        return {
+            template: template
+        };
     };
 
-    module.exports = that;
+
+    module.exports = constructor;
 })();
 
 
 
 
-},{"./import/dragAndDrop":63,"./import/paste":64,"./import/upload":65,"./import/url":66,"virtual-dom/create-element":31,"virtual-dom/h":33}],63:[function(require,module,exports){
+},{"./import/dragAndDrop":70,"./import/paste":71,"./import/upload":72,"./import/url":73,"virtual-dom/h":39}],70:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
     var papa = require('papaparse');
-    var _ = require('lodash');
     var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
 
     var that = {};
-    that.load = function(element, services){
+    that.template = function (services) {
         dataService = services.data;
-        var dropElement = createElement(h('div.file_drop',{},'Drop your files here'));
 
-        dragDrop(dropElement, function (files) {
-            console.log('Here are the dropped files', files);
+        var Hook = function () {};
+        Hook.prototype.hook = function (node) {
+            dragDrop(node, function (files) {
+                console.log('Here are the dropped files', files);
 
-            // `files` is an Array!
-            files.forEach(function (file) {
+                // `files` is an Array!
+                files.forEach(function (file) {
 
-                // convert the file to a Buffer that we can use!
-                var reader = new FileReader();
+                    // convert the file to a Buffer that we can use!
+                    var reader = new FileReader();
 
-                reader.addEventListener('load', function (e) {
-                    saveData(reader.result)
-                });
-                reader.addEventListener('error', function (err) {
-                    console.error('FileReader error' + err)
-                });
-                reader.readAsText(file);
-            })
-        });
+                    reader.addEventListener('load', function (e) {
+                        saveData(reader.result)
+                    });
 
-        element.appendChild(dropElement);
+                    reader.addEventListener('error', function (err) {
+                        console.error('FileReader error' + err)
+                    });
+                    reader.readAsText(file);
+                })
+            });
+        };
+
+        return h('div.file_drop', {
+            'hook': new Hook()
+        }, 'Drop your files here');
     };
     function saveData(value) {
         dataService.set(papa.parse(value).data);
     }
+
     module.exports = that;
 })();
 
-},{"drag-drop":13,"lodash":24,"papaparse":26,"virtual-dom/create-element":31,"virtual-dom/h":33}],64:[function(require,module,exports){
+},{"drag-drop":14,"papaparse":29,"virtual-dom/h":39}],71:[function(require,module,exports){
 (function () {
     var dataService;
     var papa = require('papaparse');
-    var _ = require('lodash');
     var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
 
     var that = {};
-    that.load = function (element, services) {
+    that.template = function (services) {
         dataService = services.data;
-        var input = createElement(h('textArea'));
-        var importElement = createElement(
-            h('button.btn', {
-                'ev-click': function(){
-                    saveData(input.value)
-                }
-            }, 'import'));
+        var inputNode;
+        var Hook = function(){};
+        Hook.prototype.hook = function(node) {
+            inputNode = node;
+        };
+
+        var input = h('textArea', {
+            "hook": new Hook()
+        });
+
+        var importElement = h('button.btn', {
+            'ev-click': function(){
+                saveData(inputNode.value)
+            }
+        }, 'import');
 
         function saveData(value) {
             dataService.set(papa.parse(value).data);
         }
-        element.appendChild(input);
-        element.appendChild(importElement);
+
+        return h('div', [input, importElement])
     };
     module.exports = that;
 })();
 
-},{"lodash":24,"papaparse":26,"virtual-dom/create-element":31,"virtual-dom/h":33}],65:[function(require,module,exports){
+},{"papaparse":29,"virtual-dom/h":39}],72:[function(require,module,exports){
 (function () {
     var dataService;
     var papa = require('papaparse');
-    var _ = require('lodash');
     var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
-
     var that = {};
-    that.load = function (element, services) {
+    that.template = function (services) {
         dataService = services.data;
         var uploadElement;
         // Check for the various File API support.
         if (window.FileReader) {
-            uploadElement = createElement(
+            uploadElement =
                 h('input', {
                     type: 'file',
                     onchange: function(e){
                         loadFile(e);
                     }
-                }, 'upload'));
+                }, 'upload');
         }
 
         function loadFile(e) {
             var file = e.target.files[0];
             var reader  = new FileReader();
-
             reader.onloadend = function () {
                 saveData(reader.result)
             };
@@ -17751,40 +18116,46 @@ function isArray(obj) {
                 reader.readAsText(file);
             }
         }
+
         function saveData(value) {
             dataService.set(papa.parse(value).data);
         }
-        element.appendChild(uploadElement);
+
+        return uploadElement;
     };
 
     module.exports = that;
 })();
-},{"lodash":24,"papaparse":26,"virtual-dom/create-element":31,"virtual-dom/h":33}],66:[function(require,module,exports){
+},{"papaparse":29,"virtual-dom/h":39}],73:[function(require,module,exports){
 (function () {
     var that = {};
     var papa = require('papaparse');
-    var _ = require('lodash');
     var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
-    that.load = function(element, services){
+    that.template = function (services) {
         var dataService = services.data;
-        var input = createElement(h('input'));
-        var importElement = createElement(
-            h('button.btn', {
-                'ev-click': function(){
-                    that.loadUrl(input.value, dataService)
-                }
-            }, 'import'));
 
+        var inputNode;
+        var Hook = function(){};
+        Hook.prototype.hook = function(node) {
+            inputNode = node;
+        };
 
-        element.appendChild(input);
-        element.appendChild(importElement);
+        var input = h('input', {
+            "hook": new Hook()
+        });
+
+        var importElement = h('button.btn', {
+            'ev-click': function () {
+                that.loadUrl(inputNode.value, dataService)
+            }
+        }, 'import');
+
+        return h('div', [input, importElement])
     };
 
-    that.loadUrl = function(url, dataService){
-
+    that.loadUrl = function (url, dataService) {
         var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", function(data){
+        oReq.addEventListener("load", function (data) {
             console.log(data);
         });
         oReq.open("GET", url, true);
@@ -17795,148 +18166,123 @@ function isArray(obj) {
     module.exports = that;
 })();
 
-},{"lodash":24,"papaparse":26,"virtual-dom/create-element":31,"virtual-dom/h":33}],67:[function(require,module,exports){
+},{"papaparse":29,"virtual-dom/h":39}],74:[function(require,module,exports){
 (function () {
-    var _ = require('lodash');
-    var h = require('virtual-dom/h');
-    var diff = require('virtual-dom/diff');
-    var patch = require('virtual-dom/patch');
-    var createElement = require('virtual-dom/create-element');
-    var that = {};
-    var services;
-    that.load = function (element, _services_) {
-        services = _services_;
+    var constructor = function(services){
+        var _ = require('lodash');
+        var h = require('virtual-dom/h');
         var data = services.data.get();
-        element.appendChild(createElement(generate(data)));
-        services.mediator.on('dataUpdate', function (data) {
-            element.innerHTML = '';
-            element.appendChild(createElement(generate(data)));
+        var mediator = services.mediator;
+
+        mediator.on('dataUpdate', function (_data_) {
+            data = _data_;
+            mediator.trigger('treeUpdate');
         });
+
+        function template() {
+            var rows = [];
+            _.forEach(data, function (row, rowIndex) {
+                var cells = [];
+                _.forEach(row, function(cell, cellIndex){
+                    cells.push(h('td',{
+                        contentEditable : true,
+                        "ev-input": function(e){
+                            var value = _.trim(e.target.innerHTML);
+                            if(cell !== e.target.innerHTML){
+                                services.data.setValue(rowIndex,cellIndex, value);
+                            }
+                        }
+                    }, cell));
+                });
+                rows.push(h('tr', cells));
+            });
+            return h('table.table--data.table--bordered', rows);
+        }
+
+        return {
+            template: template
+        };
     };
 
-    function generate(data) {
-        var rows = [];
-        _.forEach(data, function (row, rowIndex) {
-            var cells = [];
-            _.forEach(row, function(cell, cellIndex){
-                cells.push(h('td',{
-                    contentEditable : true,
-                    "ev-input": function(e){
-                        var value = _.trim(e.target.innerHTML);
-                        if(cell !== e.target.innerHTML){
-                            services.data.setValue(rowIndex,cellIndex, value);
-                        }
-                    }
-                }, cell));
-            });
-            rows.push(h('tr', cells));
-        });
-        return h('table.table--data.table--bordered', rows);
-    }
+    module.exports = constructor;
 
-    module.exports = that;
 })();
 
 
 
 
 
-},{"lodash":24,"virtual-dom/create-element":31,"virtual-dom/diff":32,"virtual-dom/h":33,"virtual-dom/patch":34}],68:[function(require,module,exports){
+},{"lodash":26,"virtual-dom/h":39}],75:[function(require,module,exports){
 (function () {
-    var that = {};
-    var _ = require('lodash');
-    var h = require('virtual-dom/h');
-    var diff = require('virtual-dom/diff');
-    var patch = require('virtual-dom/patch');
-    var createElement = require('virtual-dom/create-element');
-    var templateTypes = require('../config/templates.json');
-    var iconLoader = require('../factories/iconLoader');
-    var config;
-    var tabs;
-    var rootNode;
-    var activeTab = _.first(templateTypes).id;
-
-    that.load = function (element, services) {
+    var constructor = function(services){
+        var that = {};
+        var _ = require('lodash');
+        var h = require('virtual-dom/h');
+        var templateTypes = require('../config/templates.json');
+        var iconLoader = require('../factories/iconLoader');
+        var mediator = services.mediator;
+        var config;
+        var activeTab = _.first(templateTypes).id;
         config = services.config;
-        tabs = h('div');
-        rootNode = createElement(tabs);
-        element.appendChild(rootNode);
-        build();
-    };
 
-    function build() {
-        var tabs = generateTabs(templateTypes, activeTab);
-        var content = generateContent(templateTypes, activeTab);
-        var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
-        render(container);
-    }
+        that.template = function(){
+            var tabs = generateTabs(templateTypes, activeTab);
+            var content = generateContent(templateTypes, activeTab);
+            return h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
+        };
 
-    function generateContent(types, activeId) {
+        function generateContent(types, activeId) {
+            var activeType = _.find(types, function (type) {
+                return type.id == activeId;
+            });
+            var title = h('h2', activeType.type);
+            var presetList = [];
+            var svg = iconLoader.get(activeType.icon);
+            _.forEach(activeType.presets, function (preset) {
+                var item = h('a',
+                    {
+                        className: "templatelist__item",
+                        'ev-click': function () {
+                            config.setPreset(activeType.id, preset.id);
+                        }
+                    }, [
+                        svg,
+                        h('div', preset.title)
+                    ]);
+                presetList.push(item)
+            });
+            var presetGrid = h('div', {className: "templatelist"}, presetList);
+            return h('div', {className: "vertical-tab-content-container"}, [title, presetGrid]);
+        }
 
-        var activeType = _.find(types, function (type) {
-            return type.id == activeId;
-        });
-        var title = h('h2', activeType.type);
-        var presetList = [];
-        var svg = iconLoader.get(activeType.icon);
-        _.forEach(activeType.presets, function (preset) {
-            var item = h('a',
-                {
-                    className: "templatelist__item",
-                    'ev-click': function () {
-                        config.setPreset(activeType.id, preset.id);
-                    }
-                }, [
-                    svg,
-                    h('div', preset.title)
-                ]);
-            presetList.push(item)
-        });
+        function generateTabs(types, active) {
+            var links = [];
+            _.forEach(types, function (type, index) {
+                var className = type.id === activeTab ? 'active' : '';
 
-        var presetGrid = h('div', {className: "templatelist"}, presetList);
-        return h('div', {className: "vertical-tab-content-container"}, [title, presetGrid]);
-    }
-
-    function createSvgVnode(svg) {
-        var logo = document.createElement('div');
-        logo.innerHTML = svg;
-        return virtualize(logo.firstChild);
-    }
-
-    function generateTabs(types, active) {
-        var links = [];
-        _.forEach(types, function (type, index) {
-            var className = type.id === activeTab ? 'active' : '';
-
-            var link = h('li', {
+                var link = h('li', {
                     'className': className
                 }, h('a', {
-                        'href' : '#' + type.type,
-                        'ev-click' : function (e) {
-                            e.preventDefault();
-                            setActive(type.id);
-                        }
-                    },type.type));
+                    'href' : '#' + type.type,
+                    'ev-click' : function (e) {
+                        e.preventDefault();
+                        activeTab = type.id;
+                        mediator.trigger('treeUpdate');
+                    }
+                },type.type));
 
-            links.push(link);
-        });
-        return tabs = h('ul', {className: "vertical-tabs"}, links);
-    }
+                links.push(link);
+            });
+            return tabs = h('ul', {className: "vertical-tabs"}, links);
+        }
 
-    function setActive(id) {
-        activeTab = id;
-        build();
-    }
+        return that;
+    };
 
-    function render(newTabs) {
-        var patches = diff(tabs, newTabs);
-        rootNode = patch(rootNode, patches);
-        tabs = newTabs;
-    }
 
-    module.exports = that;
+    module.exports = constructor;
 })();
-},{"../config/templates.json":70,"../factories/iconLoader":71,"lodash":24,"virtual-dom/create-element":31,"virtual-dom/diff":32,"virtual-dom/h":33,"virtual-dom/patch":34}],69:[function(require,module,exports){
+},{"../config/templates.json":77,"../factories/iconLoader":78,"lodash":26,"virtual-dom/h":39}],76:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -19827,7 +20173,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],70:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 module.exports=module.exports = [
   {
     "id": "line",
@@ -21154,7 +21500,7 @@ module.exports=module.exports = [
     ]
   }
 ]
-},{}],71:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -21187,7 +21533,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":5,"lodash":24,"vdom-virtualize":29}],72:[function(require,module,exports){
+},{"fs":5,"lodash":26,"vdom-virtualize":35}],79:[function(require,module,exports){
 (function () {
     var _ = require('lodash');
     var h = require('virtual-dom/h');
@@ -21356,7 +21702,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash":24,"virtual-dom/h":33}],73:[function(require,module,exports){
+},{"lodash":26,"virtual-dom/h":39}],80:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = require('lodash');
@@ -21480,7 +21826,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"lodash":24}],74:[function(require,module,exports){
+},{"lodash":26}],81:[function(require,module,exports){
 (function () {
     var Delegator = require("dom-delegator");
     Delegator();
@@ -21522,7 +21868,6 @@ return self})();
             return services.config.getRaw(config);
         }
 
-
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
@@ -21533,14 +21878,14 @@ return self})();
             setDataUrl:setDataUrl,
             setConfig:setConfig,
             getConfig:getConfig,
-            setConfigTemplate: setConfigTemplate
+            setConfigTemplate: setConfigTemplate,
         }
     }
 
     window.ec = constructor;
 })();
 
-},{"./services/config":75,"./services/data":76,"./services/router.js":77,"dom-delegator":9,"mediatorjs":25}],75:[function(require,module,exports){
+},{"./services/config":82,"./services/data":83,"./services/router.js":84,"dom-delegator":10,"mediatorjs":28}],82:[function(require,module,exports){
 (function () {
     function constructor (mediator, data) {
         var _ = require('lodash');
@@ -21683,7 +22028,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../config/templates.json":70,"../factories/series.js":73,"lodash":24}],76:[function(require,module,exports){
+},{"../config/templates.json":77,"../factories/series.js":80,"lodash":26}],83:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -21745,88 +22090,73 @@ return self})();
 ();
 
 
-},{"lodash":24}],77:[function(require,module,exports){
+},{"lodash":26}],84:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
-    var _ = require('lodash');
-    function constructor(element, state, services) {
-        var app;
-        var header;
-        var rootNode;
-        var chartElement;
-        var currentState;
+    var mainLoop = require("main-loop");
+
+    function constructor(element, initState, services) {
         var states = {
             'import': {
                 title: 'Import',
-                content: function (element) {
-                    var dataImport = require('./../components/import.js');
-                    var importElement = createElement(h('div'));
-                    element.appendChild(importElement);
-                    dataImport.load(importElement, services);
-
-                    var table = require('./../components/table.js');
-                    var tableElement = createElement(h('div'));
-                    element.appendChild(tableElement);
-                    table.load(tableElement, services);
+                dependencies: function(){
+                    var that = {};
+                    that.table = require('./../components/table.js')(services);
+                    that.import = require('./../components/import.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.import.template(), dependencies.table.template()]);
                 }
             },
             'templates': {
                 title: 'Templates',
-                content: function (element) {
-                    var templates = require('./../components/templates.js');
-                    var templateElement = createElement(h('div'));
-                    templates.load(templateElement, services);
-                    element.appendChild(templateElement);
+                dependencies: function(){
+                    var that = {};
+                    that.templates = require('./../components/templates.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.templates.template()]);
                 }
             },
             'customise': {
                 title: 'Customise',
-                content: function (element) {
-                    var customise = require('./../components/customise.js');
-                    var customiseElement = createElement(h('div'));
-                    customise.load(customiseElement, services);
-                    element.appendChild(customiseElement);
+                dependencies: function(){
+                    var that = {};
+                    that.configurate = require('./../components/configurate.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.configurate.template()]);
                 }
             }
         };
-        header = h('div', { "my-hook": new Hook() });
-        rootNode = createElement(header);
-        element.appendChild(rootNode);
-
-        app = createElement(h('div.left'));
-        element.appendChild(app);
-
-        var chart = require('./../components/chart.js');
-        chartElement = createElement(h('div.right', {id: 'chartContainer'}));
-        element.appendChild(chartElement);
-        chart.load(chartElement, services);
-        goToSate(state);
+        var currentState = initState;
+        var currentDependencies = states[initState].dependencies();
+        var loop = mainLoop(initState, render, {
+            create: require("virtual-dom/create-element"),
+            diff: require("virtual-dom/diff"),
+            patch: require("virtual-dom/patch")
+        });
+        element.appendChild(loop.target);
 
         function goToSate(state) {
-            app.innerHTML = '';
+            currentDependencies = states[state].dependencies();
             currentState = state;
-            var newState = states[state];
-            newState.content(app);
-            render(state);
+            loop.update();
         }
 
-        function render(state) {
-            var newHeader = template(state);
-            var patches = diff(header, newHeader);
-            rootNode = patch(rootNode, patches);
-            header = newHeader;
-        }
-
-        function template(state) {
+        function render() {
             var links = ['import', 'templates', 'customise'];
             return h('div', [
                 logo,
                 h('ul.navigation.navigation--steps', links.map(function (id) {
-                    var className = state === id ? 'active' : '';
+                    var className = currentState === id ? 'active' : '';
                     return h('li.navigation__item', {
                         'className': className
                     }, h('a', {
@@ -21837,14 +22167,28 @@ return self})();
                         }
                     }, states[id].title))
                 })),
-                h('h1', states[state].title)
+                h('h1', states[currentState].title),
+                h('div.left', states[currentState].template(currentDependencies))
             ])
         }
+
+        services.mediator.on('treeUpdate',function(){
+            loop.update();
+        });
+
+
+
+        // chart stuff
+        var chartElement;
+        var chart = require('./../components/chart.js');
+        chartElement = createElement(h('div.right', {id: 'chartContainer'}));
+        element.appendChild(chartElement);
+        chart.load(chartElement, services);
     }
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":60,"./../components/customise.js":61,"./../components/import.js":62,"./../components/table.js":67,"./../components/templates.js":68,"./../templates/logo":78,"lodash":24,"virtual-dom/create-element":31,"virtual-dom/diff":32,"virtual-dom/h":33,"virtual-dom/patch":34}],78:[function(require,module,exports){
+},{"./../components/chart.js":67,"./../components/configurate.js":68,"./../components/import.js":69,"./../components/table.js":74,"./../components/templates.js":75,"./../templates/logo":85,"main-loop":27,"virtual-dom/create-element":37,"virtual-dom/diff":38,"virtual-dom/h":39,"virtual-dom/patch":40}],85:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var _ = require('lodash');
@@ -21854,4 +22198,4 @@ return self})();
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":71,"lodash":24,"virtual-dom/h":33}]},{},[74]);
+},{"../factories/iconLoader":78,"lodash":26,"virtual-dom/h":39}]},{},[81]);

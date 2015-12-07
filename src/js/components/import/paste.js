@@ -1,26 +1,32 @@
 (function () {
     var dataService;
     var papa = require('papaparse');
-    var _ = require('lodash');
     var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
 
     var that = {};
-    that.load = function (element, services) {
+    that.template = function (services) {
         dataService = services.data;
-        var input = createElement(h('textArea'));
-        var importElement = createElement(
-            h('button.btn', {
-                'ev-click': function(){
-                    saveData(input.value)
-                }
-            }, 'import'));
+        var inputNode;
+        var Hook = function(){};
+        Hook.prototype.hook = function(node) {
+            inputNode = node;
+        };
+
+        var input = h('textArea', {
+            "hook": new Hook()
+        });
+
+        var importElement = h('button.btn', {
+            'ev-click': function(){
+                saveData(inputNode.value)
+            }
+        }, 'import');
 
         function saveData(value) {
             dataService.set(papa.parse(value).data);
         }
-        element.appendChild(input);
-        element.appendChild(importElement);
+
+        return h('div', [input, importElement])
     };
     module.exports = that;
 })();

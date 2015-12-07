@@ -26,7 +26,8 @@
     "virtual-dom": "^2.1.1",
     "strictify": "latest",
     "uglify-js": "latest",
-    "nodemon": "latest"
+    "nodemon": "latest",
+    "main-loop": "^3.2.0"
   },
   "scripts": {
     "build:main:bundle": "browserify src/js/main.js -o dist/easychart.js",
@@ -38,7 +39,7 @@
     "watch:main": "nodemon -e js -w src/js -i dist/easychart.js -x 'npm run build:main:bundle'",
     "watch:styles": "nodemon -e scss -w src/scss -x 'npm run build:styles'",
     "watch": "npm run watch:main & npm run watch:styles",
-    "genOptions" : "node src/js/buildCustomise"
+    "genOptions": "node src/js/buildCustomise"
   },
   "repository": {
     "type": "git",

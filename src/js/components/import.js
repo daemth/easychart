@@ -1,61 +1,65 @@
 (function () {
-    var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
-    var paste = require('./import/paste');
-    var upload = require('./import/upload');
-    var dad = require('./import/dragAndDrop');
-    var url = require('./import/url');
-    var that = {};
-    that.load = function (element, services) {
-        var container = createElement(h('div.accordion-tabs-minimal'));
-        element.appendChild(container);
-        var tabs = h('div');
-        var tabsOptions = {
+    var constructor = function(services){
+        var h = require('virtual-dom/h');
+        var paste = require('./import/paste');
+        var upload = require('./import/upload');
+        var dad = require('./import/dragAndDrop');
+        var url = require('./import/url');
+        var activeTab = 'url';
+        var mediator = services.mediator;
+
+        var tabOptions = {
             paste:{
                 label: 'Paste CSV',
-                content: function(element){
-                    paste.load(element, services);
+                template: function(){
+                    return paste.template(services);
                 }
             },
             upload:{
                 label: 'upload CSV',
-                content: function(element){
-                    upload.load(element, services);
-                    dad.load(element, services);
+                template: function(){
+                    return h('div', [
+                        upload.template(services),
+                        dad.template(services)
+                    ]);
                 }
             },
             url:{
                 label: 'url CSV',
-                content: function(element){
-                    url.load(element, services);
+                template: function(){
+                    return url.template(services);
                 }
             }
         };
 
-        function goToTab(tab) {
-            container.innerHTML = '';
-            container.appendChild(createElement(template(tab)));
-            var content = createElement(h('div.tab-content'));
-            tabsOptions[tab].content(content);
-            container.appendChild(content);
-        }
-
-        function template(activeTab) {
+        function tabLinks() {
             var links = ['paste', 'upload', 'url'];
             return h('ul.tab-list', links.map(function (id) {
-                    var className = activeTab === id ? 'is-active' : '';
-                    return h('li.tab-link', {
-                        'className': className,
-                        'ev-click': function () {
-                            goToTab(id);
-                        }
-                    }, tabsOptions[id].label)
-                }))
+                var className = activeTab === id ? 'is-active' : '';
+                return h('li.tab-link', {
+                    'className': className,
+                    'ev-click': function () {
+                        activeTab = id;
+                        mediator.trigger('treeUpdate');
+                    }
+                }, tabOptions[id].label)
+            }))
         }
-        goToTab('paste')
+
+        function template (){
+            return h('div.accordion-tabs-minimal', [
+                tabLinks(),
+                tabOptions[activeTab].template()
+            ]);
+        }
+
+        return {
+            template: template
+        };
     };
 
-    module.exports = that;
+
+    module.exports = constructor;
 })();
 
 

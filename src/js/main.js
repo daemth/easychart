@@ -39,7 +39,6 @@
             return services.config.getRaw(config);
         }
 
-
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
@@ -50,7 +49,7 @@
             setDataUrl:setDataUrl,
             setConfig:setConfig,
             getConfig:getConfig,
-            setConfigTemplate: setConfigTemplate
+            setConfigTemplate: setConfigTemplate,
         }
     }
 
