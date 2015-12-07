@@ -11,7 +11,6 @@
 
         mediator.on('dataUpdate', function (_data_) {
             data = _data_;
-            mediator.trigger('treeUpdate');
         });
 
         function template() {
