@@ -27,7 +27,7 @@
                 return _.first(row);
             }));
         };
-        
+
         that.get = function () {
             return _.cloneDeep(dataSet);
         };

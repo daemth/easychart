@@ -43,6 +43,7 @@
                 }
             }
         };
+
         var currentState = initState;
         var currentDependencies = states[initState].dependencies();
         var loop = mainLoop(initState, render, {

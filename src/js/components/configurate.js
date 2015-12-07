@@ -1,8 +1,10 @@
 (function () {
     var constructor = function (services) {
-        var customise = require('../config/options.json');
+        var optionsService = services.options;
         var mediator = services.mediator;
         var configService = services.config;
+
+        var options = optionsService.get();
         var propertyServices = require('../factories/properties');
         var _ = {
             isUndefined: require('lodash.isundefined'),
@@ -16,32 +18,33 @@
         var h = require('virtual-dom/h');
 
         var tabs;
-        var activeTab = _.first(customise).id;
+        var activeTab = _.first(options).id;
+
         var activeTabChild;
         var that = {};
 
         that.template = function () {
             var tabs = h('ul', {className: "vertical-tabs"},
                 [
-                    generateGenericTabs(genericConfig(customise), activeTab),
-                    generateSeriesTabs(typeConfig(customise, 'series'), activeTab)
+                    generateGenericTabs(genericConfig(options), activeTab),
+                    generateSeriesTabs(typeConfig(options, 'series'), activeTab)
                 ]);
             var content = h('div', [
-                generateContent(customise, activeTab, activeTabChild)
+                generateContent(options, activeTab, activeTabChild)
             ]);
             var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
             return container;
         };
 
-        function genericConfig(customise) {
-            var newCustomise = _.cloneDeep(customise);
-            return _.remove(newCustomise, function (panel) {
+        function genericConfig(options) {
+            var newOptions = _.cloneDeep(options);
+            return _.remove(newOptions, function (panel) {
                 return panel.id !== "series";
             })
         }
 
-        function typeConfig(customise, type) {
-            return _.find(customise, function (item) {
+        function typeConfig(options, type) {
+            return _.find(options, function (item) {
                 return item.id == type;
             })
         }
@@ -123,35 +126,38 @@
         }
 
         function generateSeriesTabs(config, activeTab) {
-            var series = configService.get().series;
-            var links = [];
-            var className = '';
-            if (config.id == activeTab) {
-                className = "vertical-tab is-active";
-                _.forEach(series, function (serie, index) {
-                    links.push(
-                        h('li.hover', {
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(config.id, index);
-                            }
-                        }, serie.name ? serie.name : 'serie ' + index)
-                    )
-                })
-            }
-            else {
-                className = '';
+            if(!_.isUndefined(config)){
+                var series = configService.get().series;
+                var links = [];
+                var className = '';
+                if (config.id == activeTab) {
+                    className = "vertical-tab is-active";
+                    _.forEach(series, function (serie, index) {
+                        links.push(
+                            h('li.hover', {
+                                'ev-click': function (e) {
+                                    e.preventDefault();
+                                    setActive(config.id, index);
+                                }
+                            }, serie.name ? serie.name : 'serie ' + index)
+                        )
+                    })
+                }
+                else {
+                    className = '';
+                }
+
+                return h('li', {'className': className}, [
+                    h('a', {
+                        'href': '#data-series',
+                        'ev-click': function () {
+                            setActive(config.id);
+                        }
+                    }, 'data series'),
+                    h('ul', links)
+                ])
             }
 
-            return h('li', {'className': className}, [
-                h('a', {
-                    'href': '#data-series',
-                    'ev-click': function () {
-                        setActive(config.id);
-                    }
-                }, 'data series'),
-                h('ul', links)
-            ])
         }
 
         function setActive(id, child) {

@@ -23,34 +23,7 @@
     document.addEventListener("DOMContentLoaded", function (event) {
         var container = document.getElementById('container');
         window.easychart = new ec(container);
-        /*
-        easychart.setConfig({
-            "chart": {
-                "type": "column",
-                "inverted": true
-            },
-            "plotOptions": {
-                "series": {
-                    "pointPadding": 0,
-                    "groupPadding": 0,
-                    "borderWidth": 0,
-                    "shadow": false,
-                    'animation': false
-                }
-            },
-            "xAxis": {
-                "type": "category"
-            }
-        });
-        //*/
-        easychart.setData([
-            ["", "test", "lowpoint", "highpoint"],
-            ["experiment 6", "50", "171", "179"],
-            ["experiment 7", "50", "135", "143"],
-            ["experiment 8", "50", "142", "149"],
-            ["experiment 9", "50", "204", "220"],
-            ["experiment 10", "50", "189", "199"]
-        ]);
+        
     })
 </script>
 </body>

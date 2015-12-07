@@ -1,4 +1,5 @@
 (function () {
+
     var _ = {
         isUndefined: require('lodash.isundefined'),
         cloneDeep: require('lodash.clonedeep'),

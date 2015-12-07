@@ -5,15 +5,17 @@
         var router = require('./services/router.js');
         var dataService = require('./services/data');
         var confService = require('./services/config');
-        var customise = require('./services/customise');
+        var optionsService = require('./services/options');
         var mediator = require('mediatorjs');
+
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);
         var services = {
             data: data,
             config: new confService(mInstance, data),
-            mediator: mInstance
+            mediator: mInstance,
+            options: new optionsService()
         };
 
         element.className += ' ec';
@@ -30,9 +32,11 @@
         function setDataUrl(){
 
         }
-        function setCustomise(){
 
+        function setOptions(options){
+            services.options.set(options);
         }
+
         function setConfig(config){
             services.config.set(config);
         }
@@ -49,6 +53,7 @@
             setData:setData,
             getData:getData,
             setDataUrl:setDataUrl,
+            setOptions:setOptions,
             setConfig:setConfig,
             getConfig:getConfig,
             setConfigTemplate: setConfigTemplate,
