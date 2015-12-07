@@ -10482,7 +10482,7 @@ function extend(target) {
             _.forEach(panel.panes, function (pane) {
                 var inputs = [];
                 _.forEach(pane.options, function (option) {
-                    inputs.push(propertyServices.get(option, configService, 'series.' + index + option.name.replace("series", "")));
+                    inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
                 });
 
                 var item = h('h3', pane.title);
@@ -13255,7 +13255,8 @@ return self})();
         drop: require('lodash.drop'),
         size: require('lodash.size'),
         isArray: require('lodash.isarray'),
-        isEmpty: require('lodash.isempty')
+        isEmpty: require('lodash.isempty'),
+        merge: require('lodash.merge')
     };
 
     that.get = function(data, config, labels, categories, series) {
@@ -13378,7 +13379,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"lodash.clonedeep":51,"lodash.drop":53,"lodash.find":54,"lodash.first":55,"lodash.foreach":56,"lodash.isarray":58,"lodash.isempty":59,"lodash.isundefined":65,"lodash.map":68,"lodash.remove":71,"lodash.size":74,"lodash.slice":75,"lodash.union":79}],134:[function(require,module,exports){
+},{"lodash.clonedeep":51,"lodash.drop":53,"lodash.find":54,"lodash.first":55,"lodash.foreach":56,"lodash.isarray":58,"lodash.isempty":59,"lodash.isundefined":65,"lodash.map":68,"lodash.merge":69,"lodash.remove":71,"lodash.size":74,"lodash.slice":75,"lodash.union":79}],134:[function(require,module,exports){
 (function () {
     var Delegator = require("dom-delegator");
     Delegator();
@@ -13386,8 +13387,8 @@ return self})();
         var router = require('./services/router.js');
         var dataService = require('./services/data');
         var confService = require('./services/config');
+        var customise = require('./services/customise');
         var mediator = require('mediatorjs');
-
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);
@@ -13411,7 +13412,9 @@ return self})();
         function setDataUrl(){
 
         }
+        function setCustomise(){
 
+        }
         function setConfig(config){
             services.config.set(config);
         }
@@ -13437,7 +13440,7 @@ return self})();
     window.ec = constructor;
 })();
 
-},{"./services/config":135,"./services/data":136,"./services/router.js":137,"dom-delegator":10,"mediatorjs":81}],135:[function(require,module,exports){
+},{"./services/config":135,"./services/customise":136,"./services/data":137,"./services/router.js":138,"dom-delegator":10,"mediatorjs":81}],135:[function(require,module,exports){
 (function () {
     function constructor (mediator, data) {
         var _ = {
@@ -13588,6 +13591,16 @@ return self})();
     module.exports = constructor;
 })();
 },{"../config/templates.json":130,"../factories/series.js":133,"lodash.clonedeep":51,"lodash.find":54,"lodash.foreach":56,"lodash.isempty":59,"lodash.isundefined":65,"lodash.merge":69}],136:[function(require,module,exports){
+/**
+ * Created by frank on 07/12/15.
+ */
+(function () {
+    var that = {};
+
+    module.exports = that;
+})();
+
+},{}],137:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -13661,7 +13674,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":51,"lodash.find":54,"lodash.first":55,"lodash.foreach":56,"lodash.isequal":60,"lodash.isundefined":65,"lodash.map":68,"lodash.rest":72,"lodash.slice":75}],137:[function(require,module,exports){
+},{"lodash.clonedeep":51,"lodash.find":54,"lodash.first":55,"lodash.foreach":56,"lodash.isequal":60,"lodash.isundefined":65,"lodash.map":68,"lodash.rest":72,"lodash.slice":75}],138:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -13758,7 +13771,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":120,"./../components/configurate.js":121,"./../components/import.js":122,"./../components/table.js":127,"./../components/templates.js":128,"./../templates/logo":138,"main-loop":80,"virtual-dom/create-element":90,"virtual-dom/diff":91,"virtual-dom/h":92,"virtual-dom/patch":93}],138:[function(require,module,exports){
+},{"./../components/chart.js":120,"./../components/configurate.js":121,"./../components/import.js":122,"./../components/table.js":127,"./../components/templates.js":128,"./../templates/logo":139,"main-loop":80,"virtual-dom/create-element":90,"virtual-dom/diff":91,"virtual-dom/h":92,"virtual-dom/patch":93}],139:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
