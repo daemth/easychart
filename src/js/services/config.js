@@ -73,6 +73,7 @@
                 }
             }
             mediator.trigger('configUpdate');
+            mediator.trigger('treeUpdate');
         };
 
         that.setValues = function (array) {
@@ -80,6 +81,7 @@
                 that.setValue(row[0], row[1]);
             });
             mediator.trigger('configUpdate');
+            mediator.trigger('treeUpdate');
         };
 
         that.getValue = function (path) {

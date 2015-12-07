@@ -13,7 +13,8 @@
         drop: require('lodash.drop'),
         size: require('lodash.size'),
         isArray: require('lodash.isarray'),
-        isEmpty: require('lodash.isempty')
+        isEmpty: require('lodash.isempty'),
+        merge: require('lodash.merge')
     };
 
     that.get = function(data, config, labels, categories, series) {

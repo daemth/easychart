@@ -5,7 +5,8 @@
   "main": "dist/easychart.js",
   "dependencies": {
     "highcharts": "0.0.10",
-    "highcharts-browserify": "^2.0.2"
+    "highcharts-browserify": "^2.0.2",
+    "lodash.isnan": "^3.0.0"
   },
   "devDependencies": {
     "drag-drop": "^2.3.1",

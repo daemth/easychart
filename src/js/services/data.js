@@ -10,7 +10,8 @@
             forEach: require('lodash.foreach'),
             first: require('lodash.first'),
             isEqual: require('lodash.isequal'),
-            rest: require('lodash.rest')
+            rest: require('lodash.rest'),
+            isNaN: require('lodash.isnan')
         };
 
         var that = {};
@@ -26,7 +27,7 @@
                 return _.first(row);
             }));
         };
-
+        
         that.get = function () {
             return _.cloneDeep(dataSet);
         };
@@ -51,6 +52,7 @@
             if (!_.isEqual(dataSet, newDataSet)) {
                 dataSet = _.cloneDeep(newDataSet);
                 mediator.trigger('dataUpdate', that.get());
+                mediator.trigger('treeUpdate');
             }
         };
 
