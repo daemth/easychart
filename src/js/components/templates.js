@@ -1,7 +1,11 @@
 (function () {
     var constructor = function(services){
         var that = {};
-        var _ = require('lodash');
+        var _ = {
+            find: require('lodash.find'),
+            forEach: require('lodash.foreach'),
+            first: require('lodash.first')
+        };
         var h = require('virtual-dom/h');
         var templateTypes = require('../config/templates.json');
         var iconLoader = require('../factories/iconLoader');

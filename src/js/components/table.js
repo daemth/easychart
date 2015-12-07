@@ -1,6 +1,10 @@
 (function () {
     var constructor = function(services){
-        var _ = require('lodash');
+        var _ = {
+            forEach: require('lodash.foreach'),
+            trim: require('lodash.trim'),
+            size: require('lodash.size')
+        };
         var h = require('virtual-dom/h');
         var data = services.data.get();
         var mediator = services.mediator;

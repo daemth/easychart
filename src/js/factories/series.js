@@ -1,6 +1,20 @@
 (function () {
     var that = {};
-    var _ = require('lodash');
+    var _ = {
+        isUndefined: require('lodash.isundefined'),
+        find: require('lodash.find'),
+        map: require('lodash.map'),
+        cloneDeep: require('lodash.clonedeep'),
+        remove: require('lodash.remove'),
+        forEach: require('lodash.foreach'),
+        first: require('lodash.first'),
+        union: require('lodash.union'),
+        slice: require('lodash.slice'),
+        drop: require('lodash.drop'),
+        size: require('lodash.size'),
+        isArray: require('lodash.isarray'),
+        isEmpty: require('lodash.isempty')
+    };
 
     that.get = function(data, config, labels, categories, series) {
         var object = generateDataSeries(config, data);

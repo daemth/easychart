@@ -1,6 +1,10 @@
 var guiConfig = require('./config/customise.json');
 var highchartsOptionsDump = require('./config/dump.json');
-var _ = require('lodash');
+var _ = {
+    isUndefined: require('lodash.isundefined'),
+    find: require('lodash.find'),
+    map: require('lodash.map')
+};
 var fs = require('fs');
 
 var data = _.map(guiConfig, function (panel) {

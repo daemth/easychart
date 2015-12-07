@@ -1,5 +1,12 @@
 (function () {
-    var _ = require('lodash');
+    var _ = {
+        isUndefined: require('lodash.isundefined'),
+        cloneDeep: require('lodash.clonedeep'),
+        forEach: require('lodash.foreach'),
+        first: require('lodash.first'),
+        isArray: require('lodash.isarray'),
+        isString: require('lodash.isstring')
+    };
     var h = require('virtual-dom/h');
     var that = {};
 

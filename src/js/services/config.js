@@ -1,6 +1,13 @@
 (function () {
     function constructor (mediator, data) {
-        var _ = require('lodash');
+        var _ = {
+            isUndefined: require('lodash.isundefined'),
+            find: require('lodash.find'),
+            cloneDeep: require('lodash.clonedeep'),
+            forEach: require('lodash.foreach'),
+            merge: require('lodash.merge'),
+            isEmpty: require('lodash.isempty')
+        };
         var series = require('../factories/series.js');
         var templates = require('../config/templates.json');
         var that = {};

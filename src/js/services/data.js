@@ -1,9 +1,21 @@
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
-        var _ = require('lodash');
+        var _ = {
+            isUndefined: require('lodash.isundefined'),
+            find: require('lodash.find'),
+            map: require('lodash.map'),
+            cloneDeep: require('lodash.clonedeep'),
+            slice: require('lodash.slice'),
+            forEach: require('lodash.foreach'),
+            first: require('lodash.first'),
+            isEqual: require('lodash.isequal'),
+            rest: require('lodash.rest')
+        };
+
         var that = {};
         var dataSet = [];
+
 
         that.getSeries = function () {
             return _.cloneDeep(_.first(dataSet));

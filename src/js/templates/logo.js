@@ -1,6 +1,5 @@
 (function () {
     var h = require('virtual-dom/h');
-    var _ = require('lodash');
     var iconLoader = require('../factories/iconLoader');
     var logo = iconLoader.get('logo');
     logo.properties.height = '50px';

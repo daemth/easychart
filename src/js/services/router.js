@@ -84,8 +84,6 @@
             loop.update();
         });
 
-
-
         // chart stuff
         var chartElement;
         var chart = require('./../components/chart.js');

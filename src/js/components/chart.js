@@ -2,7 +2,6 @@
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
     var configService;
-    var _ = require('lodash');
     var that = {};
     that.load = function (element, services) {
         mediator = services.mediator;
