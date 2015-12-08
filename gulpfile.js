@@ -72,5 +72,5 @@ function bundle(file, output) {
 }
 
 gulp.task('build', ['sass', 'browserify:main', 'browserify:minimal']);
-gulp.task('watch:main', ['sass:watch', 'watchify:main', 'browsersync']);
+gulp.task('watch:main', ['sass:watch', 'watchify:main']);
 gulp.task('watch:minimal', ['watchify:minimal']);
