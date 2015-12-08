@@ -17,30 +17,13 @@
 <script type="text/javascript" src="node_modules/highcharts-release/modules/exporting.js"></script>
 <script type="text/javascript" src="node_modules/highcharts-release/modules/no-data-to-display.js"></script>
 <script type="text/javascript" src="dist/ec.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="src/css/style.css">
 <div id="container" class="container"></div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
         var container = document.getElementById('container');
         window.easychart = new ec(container);
-        easychart.setConfig({
-            "chart": {
-                "type": "column",
-                "inverted": true
-            },
-            "plotOptions": {
-                "series": {
-                    "pointPadding": 0,
-                    "groupPadding": 0,
-                    "borderWidth": 0,
-                    "shadow": false,
-                    'animation': false
-                }
-            },
-            "xAxis": {
-                "type": "category"
-            }
-        });
         easychart.setData([
             ["", "test", "lowpoint", "highpoint"],
             ["experiment 6", "50", "171", "179"],
@@ -49,7 +32,6 @@
             ["experiment 9", "50", "204", "220"],
             ["experiment 10", "50", "189", "199"]
         ]);
-
     })
 </script>
 </body>

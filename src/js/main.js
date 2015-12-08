@@ -1,7 +1,5 @@
 (function () {
     var Delegator = require("dom-delegator");
-    var css = require("../css/style.css");
-
     Delegator();
     function constructor(element){
         var router = require('./services/router.js');

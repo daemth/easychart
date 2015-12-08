@@ -4,13 +4,12 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
-    "gulp-sourcemaps": "^1.6.0",
-    "highcharts": "0.0.10",
-    "highcharts-browserify": "^2.0.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "highcharts-release": "^4.1.10"
   },
   "devDependencies": {
+    "gulp-sourcemaps": "^1.6.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
     "gulp": "^3.9.0",
     "gulp-sass": "^2.1.0",
     "gulp-uglify": "^1.5.1",

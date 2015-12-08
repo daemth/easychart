@@ -2,20 +2,16 @@
   $tab-border-color: $base-border-color;
   $tab-border: 1px solid $tab-border-color;
   $tab-border-radius: $base-border-radius;
-  $tab-content-background: lighten($tab-border-color, 10);
+  $tab-content-background: white;
   $tab-active-color: $tab-content-background;
   $tab-inactive-color: $base-background-color;
   $vertical-tabs-height: auto;
 
-
   @include clearfix;
-  border-radius: $tab-border-radius;
-  border: $tab-border;
   margin-bottom: $base-spacing;
   overflow: hidden;
 
   .vertical-tabs {
-    background-color: $tab-inactive-color;
     display: inline;
     float: left;
     height: $vertical-tabs-height;

@@ -9,7 +9,7 @@
         // Check for the various File API support.
         if (window.FileReader) {
             uploadElement =
-                h('input', {
+                h('input.soft--ends', {
                     type: 'file',
                     onchange: function(e){
                         loadFile(e);

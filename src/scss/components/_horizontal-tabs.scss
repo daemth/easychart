@@ -1,17 +1,5 @@
 .accordion-tabs-minimal {
-  $base-border-color: gainsboro !default;
-  $base-background-color: white !default;
-  $base-spacing: 1.5em !default;
-  $action-color: #477DCA !default;
-  $dark-gray: #333 !default;
-  $medium-screen: em(640) !default;
-  $tab-link-color: $dark-gray;
-  $tab-border: 1px solid $base-border-color;
-  $tab-active-background: $base-background-color;
-  $tab-inactive-color: $base-background-color;
-  $tab-inactive-hover-color: silver;
-  $tab-mode: $medium-screen;
-
+  margin: 0 $base-spacing/2;
   @include clearfix;
   line-height: 1.5;
   padding: 0;
@@ -25,17 +13,15 @@
   }
 
   .tab-link {
-    background-color: $tab-inactive-color;
-    border-top: $tab-border;
-    color: $tab-link-color;
+    border-top: 1px solid $base-border-color;
     display: block;
     padding: ($base-spacing / 2) $gutter;
     text-decoration: none;
     @include inline-block;
     border-top: 0;
-
+    cursor: pointer;
     &:hover {
-      color: $action-color;
+      color: $hover-link-color;
     }
 
     &:focus {
@@ -43,17 +29,19 @@
     }
 
     &.is-active {
-      border-bottom: 0;
-      border: $tab-border;
-      border-bottom-color: $tab-active-background;
+      border: 1px solid $base-border-color;
+      border-bottom-color: white;
+      background: white;
       margin-bottom: -1px;
     }
   }
+
   .tab-content {
+    border: 1px solid $base-border-color;
     padding: $base-spacing $gutter;
     width: 100%;
-    border-top: $tab-border;
     float: left;
-    min-height: 500px;
+    background: white;
+    min-height: 250px;
   }
 }
