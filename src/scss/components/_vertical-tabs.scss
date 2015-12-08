@@ -25,12 +25,10 @@
   }
 
   li {
-
-
-      &.active {
+     &.active {
         background-color: $tab-content-background;
         margin-right: -1px;
-      }
+     }
 
     a {
       padding: $base-spacing/2 $gutter/2;

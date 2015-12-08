@@ -13,10 +13,11 @@
         };
 
         var input = h('textArea', {
+            'style': {'height': '200px'},
             "hook": new Hook()
         });
 
-        var importElement = h('button.btn', {
+        var importElement = h('button.btn.btn--small', {
             'ev-click': function(){
                 saveData(inputNode.value)
             }

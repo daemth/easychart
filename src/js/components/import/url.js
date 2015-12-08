@@ -12,10 +12,11 @@
         };
 
         var input = h('input', {
+            "type": 'text',
             "hook": new Hook()
         });
 
-        var importElement = h('button.btn', {
+        var importElement = h('button.btn.btn--small', {
             'ev-click': function () {
                 that.loadUrl(inputNode.value, dataService)
             }
@@ -31,7 +32,7 @@
         });
         oReq.open("GET", url, true);
         oReq.send();
-        //dataService.set(papa.parse(value).data);
+        dataService.set(papa.parse(value).data);
     };
 
     module.exports = that;

@@ -10,12 +10,11 @@
 @import "components/buttons";
 @import "components/structure";
 @import "components/navigation";
+@import "components/helpers";
+
 
 a, .hover{
   cursor: pointer;
-}
-body{
-  background: blue;
 }
 
 .active {

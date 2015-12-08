@@ -1,5 +1,5 @@
 (function () {
-    var constructor = function(services){
+    var constructor = function (services) {
         var _ = {
             forEach: require('lodash.foreach'),
             trim: require('lodash.trim'),
@@ -8,7 +8,6 @@
         var h = require('virtual-dom/h');
         var data = services.data.get();
         var mediator = services.mediator;
-
         mediator.on('dataUpdate', function (_data_) {
             data = _data_;
         });
@@ -21,10 +20,9 @@
                     cells.push(h('td',{
                         contentEditable : true,
                         "ev-input": function(e){
+                            console.log('input');
                             var value = _.trim(e.target.innerHTML);
-                            if(cell !== e.target.innerHTML){
-                                services.data.setValue(rowIndex,cellIndex, value);
-                            }
+                            services.data.setValue(rowIndex,cellIndex, value);
                         }
                     }, cell));
                 });
@@ -32,7 +30,6 @@
             });
             return h('table.table--data.table--bordered', rows);
         }
-
         return {
             template: template
         };

@@ -23,6 +23,8 @@
 
     that.createProperty = function (property, configService) {
         var element;
+
+        console.log(property);
         var configValue = configService.getValue(property.fullname);
 
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {

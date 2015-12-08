@@ -19,7 +19,7 @@ gulp.task('sass', function () {
             includePaths: require('node-neat').includePaths
         }))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./dist/css'));
+        .pipe(gulp.dest('./src/css'));
 });
 
 gulp.task('sass:watch', function () {

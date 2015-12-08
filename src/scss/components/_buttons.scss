@@ -61,6 +61,8 @@
   padding-right: 1em; /* [7] */
   padding-left: 1em; /* [7] */
   border-radius: 3px; /* [8] */
+  background: $base-button-color;
+  color: white;
 }
 
 .btn {
@@ -68,6 +70,7 @@
   &,
   &:hover {
     text-decoration: none; /* [9] */
+    background: $hover-button-color;
   }
 
   &:active,

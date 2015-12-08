@@ -11,12 +11,11 @@
                 title: 'Import',
                 dependencies: function(){
                     var that = {};
-                    that.table = require('./../components/table.js')(services);
                     that.import = require('./../components/import.js')(services);
                     return that;
                 },
                 template: function (dependencies) {
-                    return h('div', [dependencies.import.template(), dependencies.table.template()]);
+                    return h('div', [dependencies.import.template()]);
                 }
             },
             'templates': {

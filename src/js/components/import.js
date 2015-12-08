@@ -5,6 +5,7 @@
         var upload = require('./import/upload');
         var dad = require('./import/dragAndDrop');
         var url = require('./import/url');
+        var table = require('./table')(services);
         var activeTab = 'paste';
         var mediator = services.mediator;
 
@@ -29,11 +30,17 @@
                 template: function(){
                     return url.template(services);
                 }
+            },
+            data:{
+                label: 'Data table',
+                template: function(){
+                    return table.template(services);
+                }
             }
         };
 
         function tabLinks() {
-            var links = ['paste', 'upload', 'url'];
+            var links = ['paste', 'upload', 'url', 'data'];
             return h('ul.tab-list', links.map(function (id) {
                 var className = activeTab === id ? 'is-active' : '';
                 return h('li.tab-link', {
@@ -49,7 +56,7 @@
         function template (){
             return h('div.accordion-tabs-minimal', [
                 tabLinks(),
-                tabOptions[activeTab].template()
+                h('div.tab-content', tabOptions[activeTab].template())
             ]);
         }
 
