@@ -29,7 +29,7 @@
                     generateGenericTabs(genericConfig(options), activeTab),
                     generateSeriesTabs(typeConfig(options, 'series'), activeTab)
                 ]);
-            var content = h('div', [
+            var content = h('div.vertical-tab-content-container', [
                 generateContent(options, activeTab, activeTabChild)
             ]);
             var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
@@ -77,7 +77,7 @@
                 presetList.push(h('div', [item, inputs]))
             });
 
-            return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+            return h('div.vertical-tab-content', [title, presetList]);
         }
 
         function generateSeriesContent(panel, child) {
@@ -101,7 +101,7 @@
                 var item = h('h3', pane.title);
                 presetList.push(h('div', [item, inputs]))
             });
-            return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+            return h('div.vertical-tab-content', [title, presetList]);
         }
 
         function generateGenericTabs(panes, active) {

@@ -10532,7 +10532,7 @@ function extend(target) {
                     generateGenericTabs(genericConfig(options), activeTab),
                     generateSeriesTabs(typeConfig(options, 'series'), activeTab)
                 ]);
-            var content = h('div', [
+            var content = h('div.vertical-tab-content-container', [
                 generateContent(options, activeTab, activeTabChild)
             ]);
             var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
@@ -10580,7 +10580,7 @@ function extend(target) {
                 presetList.push(h('div', [item, inputs]))
             });
 
-            return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+            return h('div.vertical-tab-content', [title, presetList]);
         }
 
         function generateSeriesContent(panel, child) {
@@ -10604,7 +10604,7 @@ function extend(target) {
                 var item = h('h3', pane.title);
                 presetList.push(h('div', [item, inputs]))
             });
-            return h('div', {className: "vertical-tab-content-container"}, [title, presetList]);
+            return h('div.vertical-tab-content', [title, presetList]);
         }
 
         function generateGenericTabs(panes, active) {
@@ -11018,7 +11018,7 @@ function extend(target) {
                 presetList.push(item)
             });
             var presetGrid = h('div', {className: "templatelist"}, presetList);
-            return h('div', {className: "vertical-tab-content-container"}, [title, presetGrid]);
+            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, presetGrid]));
         }
 
         function generateTabs(types, active) {
@@ -13545,7 +13545,7 @@ return self})();
         };
 
         element.className += ' ec';
-        new router(element, 'import', services);
+        new router(element, 'customise', services);
         function setData (data){
             services.data.set(data);
         }

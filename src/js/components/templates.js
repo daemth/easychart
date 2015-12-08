@@ -41,7 +41,7 @@
                 presetList.push(item)
             });
             var presetGrid = h('div', {className: "templatelist"}, presetList);
-            return h('div', {className: "vertical-tab-content-container"}, [title, presetGrid]);
+            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, presetGrid]));
         }
 
         function generateTabs(types, active) {
