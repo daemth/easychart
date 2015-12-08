@@ -39,6 +39,17 @@
                 template: function (dependencies) {
                     return h('div', [dependencies.configurate.template()]);
                 }
+            },
+            'debugger':{
+                title: 'Debug',
+                dependencies: function(){
+                    var that = {};
+                    that.debug = require('./../components/debug.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.debug.template()]);
+                }
             }
         };
 
@@ -59,7 +70,7 @@
         }
 
         function render() {
-            var links = ['import', 'templates', 'customise'];
+            var links = ['import', 'templates', 'customise', 'debugger'];
             return h('div', [
                 logo,
                 h('ul.navigation.navigation--steps', links.map(function (id) {

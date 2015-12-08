@@ -10729,7 +10729,24 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     module.exports = constructor;
 
 })();
-},{"../factories/properties":136,"lodash.clonedeep":52,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"lodash.isundefined":68,"lodash.map":71,"lodash.remove":74,"virtual-dom/h":95}],126:[function(require,module,exports){
+},{"../factories/properties":137,"lodash.clonedeep":52,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"lodash.isundefined":68,"lodash.map":71,"lodash.remove":74,"virtual-dom/h":95}],126:[function(require,module,exports){
+(function () {
+    var constructor = function (services) {
+        var h = require('virtual-dom/h');
+        var configService = services.config;
+        var that = {};
+
+        that.template = function(){
+          return h('pre', JSON.stringify(configService.get(),null,4))
+        };
+
+        return that;
+    };
+
+    module.exports = constructor;
+})();
+
+},{"virtual-dom/h":95}],127:[function(require,module,exports){
 (function () {
     var constructor = function(services){
         var h = require('virtual-dom/h');
@@ -10804,7 +10821,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
 
 
-},{"./import/dragAndDrop":127,"./import/paste":128,"./import/upload":129,"./import/url":130,"./table":131,"virtual-dom/h":95}],127:[function(require,module,exports){
+},{"./import/dragAndDrop":128,"./import/paste":129,"./import/upload":130,"./import/url":131,"./table":132,"virtual-dom/h":95}],128:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -10849,7 +10866,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     module.exports = that;
 })();
 
-},{"drag-drop":14,"papaparse":85,"virtual-dom/h":95}],128:[function(require,module,exports){
+},{"drag-drop":14,"papaparse":85,"virtual-dom/h":95}],129:[function(require,module,exports){
 (function () {
     var dataService;
     var papa = require('papaparse');
@@ -10884,7 +10901,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     module.exports = that;
 })();
 
-},{"papaparse":85,"virtual-dom/h":95}],129:[function(require,module,exports){
+},{"papaparse":85,"virtual-dom/h":95}],130:[function(require,module,exports){
 (function () {
     var dataService;
     var papa = require('papaparse');
@@ -10924,7 +10941,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
     module.exports = that;
 })();
-},{"papaparse":85,"virtual-dom/h":95}],130:[function(require,module,exports){
+},{"papaparse":85,"virtual-dom/h":95}],131:[function(require,module,exports){
 (function () {
     var that = {};
     var papa = require('papaparse');
@@ -10965,7 +10982,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     module.exports = that;
 })();
 
-},{"papaparse":85,"virtual-dom/h":95}],131:[function(require,module,exports){
+},{"papaparse":85,"virtual-dom/h":95}],132:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -11011,7 +11028,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
 
 
-},{"lodash.foreach":57,"lodash.size":77,"lodash.trim":81,"virtual-dom/h":95}],132:[function(require,module,exports){
+},{"lodash.foreach":57,"lodash.size":77,"lodash.trim":81,"virtual-dom/h":95}],133:[function(require,module,exports){
 (function () {
     var constructor = function(services){
         var that = {};
@@ -11085,7 +11102,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
     module.exports = constructor;
 })();
-},{"../config/templates.json":134,"../factories/iconLoader":135,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"virtual-dom/h":95}],133:[function(require,module,exports){
+},{"../config/templates.json":135,"../factories/iconLoader":136,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"virtual-dom/h":95}],134:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -11880,7 +11897,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],134:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 module.exports=module.exports = [
   {
     "id": "line",
@@ -13207,7 +13224,7 @@ module.exports=module.exports = [
     ]
   }
 ]
-},{}],135:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -13242,7 +13259,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":68,"vdom-virtualize":91}],136:[function(require,module,exports){
+},{"fs":6,"lodash.isundefined":68,"vdom-virtualize":91}],137:[function(require,module,exports){
 (function () {
 
     var _ = {
@@ -13420,7 +13437,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":52,"lodash.first":56,"lodash.foreach":57,"lodash.isarray":59,"lodash.isstring":66,"lodash.isundefined":68,"virtual-dom/h":95}],137:[function(require,module,exports){
+},{"lodash.clonedeep":52,"lodash.first":56,"lodash.foreach":57,"lodash.isarray":59,"lodash.isstring":66,"lodash.isundefined":68,"virtual-dom/h":95}],138:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -13560,7 +13577,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"lodash.clonedeep":52,"lodash.drop":54,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"lodash.isarray":59,"lodash.isempty":60,"lodash.isundefined":68,"lodash.map":71,"lodash.merge":72,"lodash.remove":74,"lodash.size":77,"lodash.slice":78,"lodash.union":82}],138:[function(require,module,exports){
+},{"lodash.clonedeep":52,"lodash.drop":54,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"lodash.isarray":59,"lodash.isempty":60,"lodash.isundefined":68,"lodash.map":71,"lodash.merge":72,"lodash.remove":74,"lodash.size":77,"lodash.slice":78,"lodash.union":82}],139:[function(require,module,exports){
 (function () {
     var Delegator = require("dom-delegator");
     var css = require("../css/style.css");
@@ -13626,7 +13643,7 @@ return self})();
     window.ec = constructor;
 })();
 
-},{"../css/style.css":123,"./services/config":139,"./services/data":140,"./services/options":141,"./services/router.js":142,"dom-delegator":11,"mediatorjs":84}],139:[function(require,module,exports){
+},{"../css/style.css":123,"./services/config":140,"./services/data":141,"./services/options":142,"./services/router.js":143,"dom-delegator":11,"mediatorjs":84}],140:[function(require,module,exports){
 (function () {
     function constructor (mediator, data) {
         var _ = {
@@ -13778,7 +13795,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../config/templates.json":134,"../factories/series.js":137,"lodash.clonedeep":52,"lodash.find":55,"lodash.foreach":57,"lodash.isempty":60,"lodash.isundefined":68,"lodash.merge":72}],140:[function(require,module,exports){
+},{"../config/templates.json":135,"../factories/series.js":138,"lodash.clonedeep":52,"lodash.find":55,"lodash.foreach":57,"lodash.isempty":60,"lodash.isundefined":68,"lodash.merge":72}],141:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -13852,7 +13869,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":52,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"lodash.isequal":61,"lodash.isnan":63,"lodash.isundefined":68,"lodash.map":71,"lodash.rest":75,"lodash.slice":78}],141:[function(require,module,exports){
+},{"lodash.clonedeep":52,"lodash.find":55,"lodash.first":56,"lodash.foreach":57,"lodash.isequal":61,"lodash.isnan":63,"lodash.isundefined":68,"lodash.map":71,"lodash.rest":75,"lodash.slice":78}],142:[function(require,module,exports){
 (function () {
     var constructor = function (services){
         var options = require('../config/options.json');
@@ -13874,7 +13891,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../config/options.json":133,"lodash.clonedeep":52}],142:[function(require,module,exports){
+},{"../config/options.json":134,"lodash.clonedeep":52}],143:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -13916,6 +13933,17 @@ return self})();
                 template: function (dependencies) {
                     return h('div', [dependencies.configurate.template()]);
                 }
+            },
+            'debugger':{
+                title: 'Debug',
+                dependencies: function(){
+                    var that = {};
+                    that.debug = require('./../components/debug.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.debug.template()]);
+                }
             }
         };
 
@@ -13936,7 +13964,7 @@ return self})();
         }
 
         function render() {
-            var links = ['import', 'templates', 'customise'];
+            var links = ['import', 'templates', 'customise', 'debugger'];
             return h('div', [
                 logo,
                 h('ul.navigation.navigation--steps', links.map(function (id) {
@@ -13970,7 +13998,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":124,"./../components/configurate.js":125,"./../components/import.js":126,"./../components/templates.js":132,"./../templates/logo":143,"main-loop":83,"virtual-dom/create-element":93,"virtual-dom/diff":94,"virtual-dom/h":95,"virtual-dom/patch":96}],143:[function(require,module,exports){
+},{"./../components/chart.js":124,"./../components/configurate.js":125,"./../components/debug.js":126,"./../components/import.js":127,"./../components/templates.js":133,"./../templates/logo":144,"main-loop":83,"virtual-dom/create-element":93,"virtual-dom/diff":94,"virtual-dom/h":95,"virtual-dom/patch":96}],144:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -13979,7 +14007,7 @@ return self})();
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":135,"virtual-dom/h":95}]},{},[138])
+},{"../factories/iconLoader":136,"virtual-dom/h":95}]},{},[139])
 
 
 //# sourceMappingURL=ec.js.map
