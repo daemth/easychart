@@ -19,15 +19,14 @@
 
         var tabs;
         var activeTab = _.first(options).id;
-
         var activeTabChild;
         var that = {};
 
         that.template = function () {
             var tabs = h('ul', {className: "vertical-tabs"},
                 [
-                    generateGenericTabs(genericConfig(options), activeTab),
-                    generateSeriesTabs(typeConfig(options, 'series'), activeTab)
+                    generateGenericTabs(genericConfig(options)),
+                    generateSeriesTabs(typeConfig(options, 'series'))
                 ]);
             var content = h('div.vertical-tab-content-container', [
                 generateContent(options, activeTab, activeTabChild)
@@ -74,7 +73,7 @@
                 });
 
                 var item = h('h3', pane.title);
-                presetList.push(h('div.field-group', [h('div.field-group__title',[item]), h('div.field-group__items',inputs)]))
+                presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]))
             });
 
             return h('div.vertical-tab-content', [title, presetList]);
@@ -104,7 +103,7 @@
             return h('div.vertical-tab-content', [title, presetList]);
         }
 
-        function generateGenericTabs(panes, active) {
+        function generateGenericTabs(panes) {
             var links = [];
             _.forEach(panes, function (pane, index) {
                 var children = [];
@@ -125,37 +124,50 @@
             return links;
         }
 
-        function generateSeriesTabs(config, activeTab) {
-            if(!_.isUndefined(config)){
+        function generateSeriesTabs(config) {
+            if (!_.isUndefined(config)) {
                 var series = configService.get().series;
                 var links = [];
-                var className = '';
+
                 if (config.id == activeTab) {
-                    className = "vertical-tab is-active";
                     _.forEach(series, function (serie, index) {
                         links.push(
                             h('li.hover', {
+                                'className': activeTabChild === index ? 'sub-active' : 'sub-non-active',
                                 'ev-click': function (e) {
                                     e.preventDefault();
                                     setActive(config.id, index);
                                 }
                             }, serie.name ? serie.name : 'serie ' + index)
                         )
-                    })
+                    });
+                    return h('li.active',
+                        [
+                            h('a', {
+                                'href': '#data-series',
+                                'ev-click': function (e) {
+                                    e.preventDefault();
+                                    setActive(config.id);
+                                }
+                            }, 'data series'),
+                            h('ul', links)
+                        ])
                 }
                 else {
-                    className = '';
+                    return h('li',
+                        [
+                            h('a', {
+                                'href': '#data-series',
+                                'ev-click': function (e) {
+                                    e.preventDefault();
+                                    setActive(config.id);
+                                }
+                            }, 'data series'),
+                            h('ul', links)
+                        ])
                 }
 
-                return h('li', {'className': className}, [
-                    h('a', {
-                        'href': '#data-series',
-                        'ev-click': function () {
-                            setActive(config.id);
-                        }
-                    }, 'data series'),
-                    h('ul', links)
-                ])
+
             }
 
         }

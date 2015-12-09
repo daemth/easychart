@@ -14,12 +14,18 @@
   }
 
   li {
-     &.active {
-        background-color: white;
-        margin-right: -1px;
-        border:1px solid $base-border-color;
-        border-right-color: white;
-     }
+    &.active {
+      background-color: white;
+      margin-right: -1px;
+      border: 1px solid $base-border-color;
+      border-right-color: white;
+      .sub-active{
+        color: $base-link-color;
+      }
+      .sub-non-active{
+        color: $base-font-color;
+      }
+    }
 
     a {
       padding: $base-spacing/2 $gutter/2;
@@ -37,7 +43,7 @@
     border: 1px solid $base-border-color;
     border-left: none;
     @include inline-block;
-    width: 80% ;
+    width: 80%;
     background-color: white;
     margin: 0 auto;
 
@@ -75,5 +81,6 @@
       background: white;
       border-bottom: none;
     }
+
   }
 }

@@ -41,6 +41,7 @@
         };
 
         that.set = function (_config_) {
+            delete _config_.series;
             config = _.cloneDeep(_config_);
         };
 

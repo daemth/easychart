@@ -76,8 +76,9 @@
 
 
         else {
-            switch (property.returnType.toLowerCase()) {
-                case 'array<color>':
+            switch (true) {
+                // check if array
+                case (property.returnType.lastIndexOf('Array', 0) === 0):
                     var list = [];
                     var values = !_.isUndefined(configValue) ? configValue : [];
                     _.forEach(property.defaults, function (value, index) {
@@ -98,9 +99,12 @@
                             }))
                         ]))
                     });
-                    element = h('div', list);
+                    element = h('div', [
+                        h('div', h('h4', [property.title])),
+                        h('div', list)
+                    ]);
                     break;
-                case 'number':
+                case property.returnType.toLowerCase() == 'number':
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                         h('div.form-item__input', h('input', {
@@ -116,7 +120,7 @@
                         }))
                     ]);
                     break;
-                case 'boolean':
+                case property.returnType.toLowerCase() == 'boolean':
                     property.defaults = property.defaults == 'true';
                     if (_.isString(configValue)) {
                         configValue = configValue == 'true';
@@ -137,7 +141,7 @@
                     ]);
                     break;
 
-                case 'string':
+                case property.returnType.toLowerCase() == 'string':
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                         h('div.form-item__input', h('input', {
