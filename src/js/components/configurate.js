@@ -74,7 +74,7 @@
                 });
 
                 var item = h('h3', pane.title);
-                presetList.push(h('div.field-group', [h('field-group__title',[item]), h('field-group__items',inputs)]))
+                presetList.push(h('div.field-group', [h('div.field-group__title',[item]), h('div.field-group__items',inputs)]))
             });
 
             return h('div.vertical-tab-content', [title, presetList]);

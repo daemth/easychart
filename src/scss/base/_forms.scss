@@ -34,7 +34,7 @@ select {
   box-sizing: border-box;
   font-family: $base-font-family;
   font-size: $base-font-size;
-  padding: $base-spacing / 3;
+  padding: $base-spacing / 4;
   transition: border-color $base-duration $base-timing;
   max-width: 100%;
   &:hover {
@@ -96,7 +96,7 @@ select {
   &__input{
     width: 100%;
     @include media($breakpoint_1) {
-      width: 70%;
+      width: 60%;
     }
   }
 
@@ -104,9 +104,20 @@ select {
     width: 100%;
     padding-bottom: $base-spacing/2;
     @include media($breakpoint_1) {
-      width: 30%;
+      padding: 0;
+      width: 40%;
       text-align: right;
       margin-right: $base-spacing;
     }
   }
+}
+
+.field-group{
+  &__title{
+    padding-bottom: $base-spacing/2;
+  }
+  &__items{
+
+  }
+  padding: $base-spacing/2 0;
 }

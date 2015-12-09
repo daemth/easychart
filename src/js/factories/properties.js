@@ -6,17 +6,20 @@
         forEach: require('lodash.foreach'),
         first: require('lodash.first'),
         isArray: require('lodash.isarray'),
-        isString: require('lodash.isstring')
+        isString: require('lodash.isstring'),
+        isEqual: require('lodash.isequal')
+
     };
+
     var h = require('virtual-dom/h');
     var that = {};
 
-    that.get = function (option ,configService, indexName ) {
+    that.get = function (option, configService, indexName) {
         if (option) {
             var localProperty = _.cloneDeep(option);
             // sometimes we will get an index name, this will be a name with an index.
             // e.g. series are arrays and have indexes : series.0.name
-            localProperty.fullname = !_.isUndefined(indexName) ? indexName: option.fullname;
+            localProperty.fullname = !_.isUndefined(indexName) ? indexName : option.fullname;
             return that.createProperty(localProperty, configService);
         }
     };
@@ -27,7 +30,7 @@
 
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
             // defaults is a string
-            if(_.isString(property.defaults)){
+            if (_.isString(property.defaults)) {
                 property.defaults = property.defaults.replace(/\[|\]|\"/g, '').split(',');
             }
             if (property.defaults.length == 1) {
@@ -56,41 +59,32 @@
                 }, value === 'null' ? '' : value);
                 options.push(item);
             });
-            element = h('select', {
-                'onchange': function (e) {
-                    if(e.target.value === 'null'){
-                        configService.removeValue(property.fullname);
-                    } else {
-                        configService.setValue(property.fullname, e.target.value);
+
+            element = h('div.form-item', [
+                h('div.form-item__label', h('label', {title: property.description}, [property.title])),
+                h('div.form-item__input', h('select', {
+                    'onchange': function (e) {
+                        if (e.target.value === 'null') {
+                            configService.removeValue(property.fullname);
+                        } else {
+                            configService.setValue(property.fullname, e.target.value);
+                        }
                     }
-                }
-            }, options);
+                }, options))
+            ]);
         }
+
+
         else {
             switch (property.returnType.toLowerCase()) {
-                case 'number':
-                    var defaultValue = configValue ? configValue : '';
-                    element = h('input', {
-                        'type': 'number',
-                        'value': defaultValue,
-                        'onchange': function (e) {
-                            if (parseInt(property.defaults) !== parseInt(e.target.value)) {
-                                configService.setValue(property.fullname, parseInt(e.target.value));
-                            } else {
-                                configService.removeValue(property.fullname);
-                            }
-                        }
-                    });
-                    break;
-
                 case 'array<color>':
                     var list = [];
                     var values = !_.isUndefined(configValue) ? configValue : [];
                     _.forEach(property.defaults, function (value, index) {
                         //values.push(configValue[index]);
-                        list.push(h('div', [
-                            h('span', property.title + ' ' + index + ' :'),
-                            h('input', {
+                        list.push(h('div.form-item', [
+                            h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
+                            h('div.form-item__input', h('input', {
                                 'type': 'text',
                                 'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                                 'onchange': function (e) {
@@ -101,77 +95,83 @@
                                         configService.setValue(property.fullname, values);
                                     }
                                 }
-                            })
+                            }))
                         ]))
                     });
                     element = h('div', list);
                     break;
-
+                case 'number':
+                    element = h('div.form-item', [
+                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
+                        h('div.form-item__input', h('input', {
+                            'type': 'number',
+                            'value': configValue,
+                            'onchange': function (e) {
+                                if (parseInt(property.defaults) !== parseInt(e.target.value)) {
+                                    configService.setValue(property.fullname, parseInt(e.target.value));
+                                } else {
+                                    configService.removeValue(property.fullname);
+                                }
+                            }
+                        }))
+                    ]);
+                    break;
                 case 'boolean':
                     property.defaults = property.defaults == 'true';
-                    if(_.isString(configValue)){
+                    if (_.isString(configValue)) {
                         configValue = configValue == 'true';
                     }
-
-                    element = h('input', {
-                        'type': 'checkbox',
-                        'checked': configValue,
-                        'onchange': function (e) {
-                            if (property.defaults !== e.target.checked) {
-                                configService.setValue(property.fullname, e.target.checked);
-                            } else {
-                                configService.removeValue(property.fullname);
+                    element = h('div.form-item', [
+                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
+                        h('div.form-item__input', h('input', {
+                            'type': 'checkbox',
+                            'checked': configValue,
+                            'onchange': function (e) {
+                                if (property.defaults !== e.target.checked) {
+                                    configService.setValue(property.fullname, e.target.checked);
+                                } else {
+                                    configService.removeValue(property.fullname);
+                                }
                             }
-                        }
-                    });
+                        }))
+                    ]);
                     break;
 
                 case 'string':
-                    element = h('input', {
-                        'type': 'text',
-                        'value': configValue,
-                        'onchange': function (e) {
-                            if (property.defaults !== e.target.value) {
-                                configService.setValue(property.fullname, e.target.value);
-                            } else {
-                                configService.removeValue(property.fullname);
+                    element = h('div.form-item', [
+                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
+                        h('div.form-item__input', h('input', {
+                            'type': 'text',
+                            'value': configValue,
+                            'onchange': function (e) {
+                                if (property.defaults !== e.target.value) {
+                                    configService.setValue(property.fullname, e.target.value);
+                                } else {
+                                    configService.removeValue(property.fullname);
+                                }
                             }
-                        }
-                    });
-                    break;
-                case 'function':
-                    element = h('input', {
-                        'type': 'text',
-                        'value': configValue,
-                        'onchange': function (e) {
-                            if (property.defaults !== e.target.value) {
-                                configService.setValue(property.fullname, eval(e.target.value));
-                            } else {
-                                configService.removeValue(property.fullname);
-                            }
-                        }
-                    });
+                        }))
+                    ]);
                     break;
                 default:
-                    element = h('input', {
-                        'type': 'text',
-                        'value': configValue,
-                        'onchange': function (e) {
-                            if (property.defaults !== e.target.value) {
-                                configService.setValue(property.fullname, e.target.value);
-                            } else {
-                                configService.removeValue(property.fullname);
+                    element = h('div.form-item', [
+                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
+                        h('div.form-item__input', h('input', {
+                            'type': 'text',
+                            'value': configValue,
+                            'onchange': function (e) {
+                                if (property.defaults !== e.target.value) {
+                                    configService.setValue(property.fullname, e.target.value);
+                                } else {
+                                    configService.removeValue(property.fullname);
+                                }
                             }
-                        }
-                    });
+                        }))
+                    ]);
                     break;
             }
         }
-        // return div > label > title + element
-        return h('div.form-item',[
-            h('div.form-item__label', h('label',{title:property.description},[property.title])),
-            h('div.form-item__input', [element])
-        ]);
+        return element;
     };
 
     module.exports = that;
