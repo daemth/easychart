@@ -19,7 +19,7 @@
         };
 
         element.className += ' ec';
-        new router(element, 'customise', services);
+        new router(element, 'templates', services);
         function setData (data){
             services.data.set(data);
         }

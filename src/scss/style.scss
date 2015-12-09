@@ -1,11 +1,11 @@
 @import "bourbon";
 @import "neat";
 @import "base/variables";
-.ec{
+
+.ec {
   background: $super-light-gray;
   float: left;
   width: 100%;
-
   @import "base/tables";
   @import "base/forms";
   @import "base/typgraphy";
@@ -16,8 +16,7 @@
   @import "components/navigation";
   @import "components/helpers";
 
-
-  a, .hover{
+  a, .hover {
     cursor: pointer;
   }
 
@@ -25,27 +24,39 @@
     color: $base-accent-color;
   }
 
-  .container{
+  .container {
     clear: both;
   }
 
-  .logo{
+  .logo {
     background-color: #333;
     padding: 7px 1em;
     height: 64px;
-    svg{
+    svg {
       height: 50px;
     }
   }
 
-  .templatelist{
-    &__item{
-      @include span-columns(2);
-      @include omega(6n);
+  .templatelist {
+    display: flex;
+    flex-wrap: wrap;
+    &__item {
+      padding: $base-spacing/2;
+      margin: 5px;
+      width: 125px;
+      cursor: pointer;
+      border: 1px solid white;
+      background: white;
+      transition: background-color $base-timing $base-duration, border-color $base-timing $base-duration;
+      &:hover{
+        background: $super-light-gray;
+        border: 1px solid $light-gray;
+      }
+
     }
   }
 
-  .file_drop{
+  .file_drop {
     padding: 50px;
     background: $light-gray;
   }

@@ -1,3 +1,5 @@
+$breakpoint_1 : '600px';
+$breakpoint_2 : '960px';
 
 // Font Sizes
 $base-font-size: 1em;
@@ -36,6 +38,7 @@ $secondary-background-color: $super-light-gray;
 $base-font-color: $dark-gray;
 $base-accent-color: $blue;
 
+
 // Link Colors
 $base-link-color: $base-accent-color;
 $hover-link-color: darken($base-accent-color, 15);
@@ -63,5 +66,5 @@ $form-font-size: $base-font-size;
 
 // Animation
 
-$base-duration: 0.2;
+$base-duration: 0.2s;
 $base-timing: ease-in;

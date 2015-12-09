@@ -16,8 +16,6 @@ select {
 
 label {
   font-weight: 600;
-  margin-bottom: $small-spacing / 2;
-
   &.required::after {
     content: "*";
   }
@@ -28,19 +26,17 @@ label {
 }
 
 #{$all-text-inputs},
-select[multiple=multiple] {
+select {
   background-color: $base-background-color;
-  border: $base-border;
+  border: 1px solid #bfbfbf;
   border-radius: $base-border-radius;
   box-shadow: $form-box-shadow;
   box-sizing: border-box;
   font-family: $base-font-family;
   font-size: $base-font-size;
-  margin-bottom: $small-spacing;
   padding: $base-spacing / 3;
   transition: border-color $base-duration $base-timing;
-  width: 100%;
-
+  max-width: 100%;
   &:hover {
     border-color: shade($base-border-color, 20%);
   }
@@ -62,6 +58,7 @@ select[multiple=multiple] {
 }
 
 textarea {
+  width: 100%;
   resize: vertical;
 }
 
@@ -80,12 +77,36 @@ input[type="radio"] {
 }
 
 input[type="file"] {
-  margin-bottom: $small-spacing;
   width: 100%;
 }
 
 select {
-  margin-bottom: $base-spacing;
   max-width: 100%;
   width: auto;
+}
+
+.form-item{
+  width: 100%;
+  @include media($breakpoint_1) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  margin-bottom: $base-spacing/2;
+  &__input{
+    width: 100%;
+    @include media($breakpoint_1) {
+      width: 70%;
+    }
+  }
+
+  &__label{
+    width: 100%;
+    padding-bottom: $base-spacing/2;
+    @include media($breakpoint_1) {
+      width: 30%;
+      text-align: right;
+      margin-right: $base-spacing;
+    }
+  }
 }

@@ -23,8 +23,6 @@
 
     that.createProperty = function (property, configService) {
         var element;
-
-        console.log(property);
         var configValue = configService.getValue(property.fullname);
 
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
@@ -170,7 +168,10 @@
             }
         }
         // return div > label > title + element
-        return h('div',h('label',{title:property.description},[property.title,element]));
+        return h('div.form-item',[
+            h('div.form-item__label', h('label',{title:property.description},[property.title])),
+            h('div.form-item__input', [element])
+        ]);
     };
 
     module.exports = that;

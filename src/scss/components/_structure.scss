@@ -1,7 +1,12 @@
-.left{
-  @include span-columns(6);
+.left {
+  @include media($breakpoint_2) {
+    @include span-columns(6);
+   }
 }
-.right{
-  @include span-columns(6);
-  @include omega();
+
+.right {
+  @include media($breakpoint_2) {
+    @include span-columns(6);
+    @include omega();
+  }
 }

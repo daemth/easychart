@@ -10577,7 +10577,7 @@ function extend(target) {
                 });
 
                 var item = h('h3', pane.title);
-                presetList.push(h('div', [item, inputs]))
+                presetList.push(h('div.field-group', [h('field-group__title',[item]), h('field-group__items',inputs)]))
             });
 
             return h('div.vertical-tab-content', [title, presetList]);
@@ -13231,8 +13231,6 @@ return self})();
 
     that.createProperty = function (property, configService) {
         var element;
-
-        console.log(property);
         var configValue = configService.getValue(property.fullname);
 
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
@@ -13378,7 +13376,10 @@ return self})();
             }
         }
         // return div > label > title + element
-        return h('div',h('label',{title:property.description},[property.title,element]));
+        return h('div.form-item',[
+            h('div.form-item__label', h('label',{title:property.description},[property.title])),
+            h('div.form-item__input', [element])
+        ]);
     };
 
     module.exports = that;
@@ -13545,7 +13546,7 @@ return self})();
         };
 
         element.className += ' ec';
-        new router(element, 'customise', services);
+        new router(element, 'templates', services);
         function setData (data){
             services.data.set(data);
         }
