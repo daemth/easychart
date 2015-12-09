@@ -20,7 +20,8 @@
         };
 
         element.className += ' ec';
-        new router(element, 'customise', services);
+        new router(element, 'import', services);
+
         function setData (data){
             services.data.set(data);
         }
@@ -45,6 +46,12 @@
             return services.config.getRaw(config);
         }
 
+        function on(event, callback){
+            mediator.on(event, function (data) {
+                callback(data);
+            });
+        }
+
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
@@ -55,7 +62,8 @@
             setOptions:setOptions,
             setConfig:setConfig,
             getConfig:getConfig,
-            setConfigTemplate: setConfigTemplate,
+            on:on,
+            setConfigTemplate: setConfigTemplate
         }
     }
 

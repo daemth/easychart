@@ -11018,7 +11018,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                     cells.push(h('td',{
                         contentEditable : true,
                         "ev-input": function(e){
-                            console.log('input');
                             var value = _.trim(e.target.innerHTML);
                             services.data.setValue(rowIndex,cellIndex, value);
                         }
@@ -13618,7 +13617,8 @@ return self})();
         };
 
         element.className += ' ec';
-        new router(element, 'customise', services);
+        new router(element, 'import', services);
+
         function setData (data){
             services.data.set(data);
         }
@@ -13643,6 +13643,12 @@ return self})();
             return services.config.getRaw(config);
         }
 
+        function on(event, callback){
+            mediator.on(event, function (data) {
+                callback(data);
+            });
+        }
+
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
@@ -13653,7 +13659,8 @@ return self})();
             setOptions:setOptions,
             setConfig:setConfig,
             getConfig:getConfig,
-            setConfigTemplate: setConfigTemplate,
+            on:on,
+            setConfigTemplate: setConfigTemplate
         }
     }
 

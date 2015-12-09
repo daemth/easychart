@@ -21,7 +21,6 @@
                     cells.push(h('td',{
                         contentEditable : true,
                         "ev-input": function(e){
-                            console.log('input');
                             var value = _.trim(e.target.innerHTML);
                             services.data.setValue(rowIndex,cellIndex, value);
                         }
