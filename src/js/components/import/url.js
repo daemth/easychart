@@ -17,7 +17,8 @@
         });
 
         var importElement = h('button.btn.btn--small', {
-            'ev-click': function () {
+            'ev-click': function (e) {
+                e.preventDefault();
                 that.loadUrl(inputNode.value, dataService)
             }
         }, 'import');

@@ -10899,7 +10899,8 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         });
 
         var importElement = h('button.btn.btn--small', {
-            'ev-click': function(){
+            'ev-click': function(e){
+                e.preventDefault();
                 saveData(inputNode.value)
             }
         }, 'import');
@@ -10973,7 +10974,8 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         });
 
         var importElement = h('button.btn.btn--small', {
-            'ev-click': function () {
+            'ev-click': function (e) {
+                e.preventDefault();
                 that.loadUrl(inputNode.value, dataService)
             }
         }, 'import');

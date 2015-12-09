@@ -18,7 +18,8 @@
         });
 
         var importElement = h('button.btn.btn--small', {
-            'ev-click': function(){
+            'ev-click': function(e){
+                e.preventDefault();
                 saveData(inputNode.value)
             }
         }, 'import');
