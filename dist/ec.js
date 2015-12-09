@@ -13644,7 +13644,7 @@ return self})();
         }
 
         function on(event, callback){
-            mediator.on(event, function (data) {
+            mInstance.on(event, function (data) {
                 callback(data);
             });
         }
