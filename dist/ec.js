@@ -13745,7 +13745,7 @@ return self})();
                     object[step] = value;
                 }
             }
-            mediator.trigger('configUpdate');
+            mediator.trigger('configUpdate', that.get());
             mediator.trigger('treeUpdate');
         };
 
@@ -13753,7 +13753,7 @@ return self})();
             _.forEach(array, function (row) {
                 that.setValue(row[0], row[1]);
             });
-            mediator.trigger('configUpdate');
+            mediator.trigger('configUpdate', that.get());
             mediator.trigger('treeUpdate');
         };
 
@@ -13784,7 +13784,7 @@ return self})();
                     }
                 }
             }
-            mediator.trigger('configUpdate');
+            mediator.trigger('configUpdate',that.get());
         };
 
         that.setPreset = function (type, preset) {
@@ -13793,7 +13793,7 @@ return self})();
                 preset: preset
             };
             that.reset(loadPreset(type, preset));
-            mediator.trigger('configUpdate');
+            mediator.trigger('configUpdate',that.get());
         };
 
         function loadPreset(type, preset) {
