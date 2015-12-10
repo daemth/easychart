@@ -1,2 +1,7084 @@
-!function e(t,n,r){function o(i,s){if(!n[i]){if(!t[i]){var c="function"==typeof require&&require;if(!s&&c)return c(i,!0);if(a)return a(i,!0);var l=new Error("Cannot find module '"+i+"'");throw l.code="MODULE_NOT_FOUND",l}var u=n[i]={exports:{}};t[i][0].call(u.exports,function(e){var n=t[i][1][e];return o(n?n:e)},u,u.exports,e,t,n,r)}return n[i].exports}for(var a="function"==typeof require&&require,i=0;i<r.length;i++)o(r[i]);return o}({1:[function(e,t,n){!function(){function e(){return{keys:Object.keys||function(e){if("object"!=typeof e&&"function"!=typeof e||null===e)throw new TypeError("keys() called on a non-object");var t,n=[];for(t in e)e.hasOwnProperty(t)&&(n[n.length]=t);return n},uniqueId:function(e){var t=++c+"";return e?e+t:t},has:function(e,t){return i.call(e,t)},each:function(e,t,n){if(null!=e)if(a&&e.forEach===a)e.forEach(t,n);else if(e.length===+e.length)for(var r=0,o=e.length;o>r;r++)t.call(n,e[r],r,e);else for(var i in e)this.has(e,i)&&t.call(n,e[i],i,e)},once:function(e){var t,n=!1;return function(){return n?t:(n=!0,t=e.apply(this,arguments),e=null,t)}}}}var r,o=this,a=Array.prototype.forEach,i=Object.prototype.hasOwnProperty,s=Array.prototype.slice,c=0,l=e();r={on:function(e,t,n){if(!d(this,"on",e,[t,n])||!t)return this;this._events||(this._events={});var r=this._events[e]||(this._events[e]=[]);return r.push({callback:t,context:n,ctx:n||this}),this},once:function(e,t,n){if(!d(this,"once",e,[t,n])||!t)return this;var r=this,o=l.once(function(){r.off(e,o),t.apply(this,arguments)});return o._callback=t,this.on(e,o,n)},off:function(e,t,n){var r,o,a,i,s,c,u,f;if(!this._events||!d(this,"off",e,[t,n]))return this;if(!e&&!t&&!n)return this._events={},this;for(i=e?[e]:l.keys(this._events),s=0,c=i.length;c>s;s++)if(e=i[s],a=this._events[e]){if(this._events[e]=r=[],t||n)for(u=0,f=a.length;f>u;u++)o=a[u],(t&&t!==o.callback&&t!==o.callback._callback||n&&n!==o.context)&&r.push(o);r.length||delete this._events[e]}return this},trigger:function(e){if(!this._events)return this;var t=s.call(arguments,1);if(!d(this,"trigger",e,t))return this;var n=this._events[e],r=this._events.all;return n&&f(n,t),r&&f(r,arguments),this},stopListening:function(e,t,n){var r=this._listeners;if(!r)return this;var o=!t&&!n;"object"==typeof t&&(n=this),e&&((r={})[e._listenerId]=e);for(var a in r)r[a].off(t,n,this),o&&delete this._listeners[a];return this}};var u=/\s+/,d=function(e,t,n,r){if(!n)return!0;if("object"==typeof n){for(var o in n)e[t].apply(e,[o,n[o]].concat(r));return!1}if(u.test(n)){for(var a=n.split(u),i=0,s=a.length;s>i;i++)e[t].apply(e,[a[i]].concat(r));return!1}return!0},f=function(e,t){var n,r=-1,o=e.length,a=t[0],i=t[1],s=t[2];switch(t.length){case 0:for(;++r<o;)(n=e[r]).callback.call(n.ctx);return;case 1:for(;++r<o;)(n=e[r]).callback.call(n.ctx,a);return;case 2:for(;++r<o;)(n=e[r]).callback.call(n.ctx,a,i);return;case 3:for(;++r<o;)(n=e[r]).callback.call(n.ctx,a,i,s);return;default:for(;++r<o;)(n=e[r]).callback.apply(n.ctx,t)}},p={listenTo:"on",listenToOnce:"once"};l.each(p,function(e,t){r[t]=function(t,n,r){var o=this._listeners||(this._listeners={}),a=t._listenerId||(t._listenerId=l.uniqueId("l"));return o[a]=t,"object"==typeof n&&(r=this),t[e](n,r,this),this}}),r.bind=r.on,r.unbind=r.off,r.mixin=function(e){var t=["on","once","off","trigger","stopListening","listenTo","listenToOnce","bind","unbind"];return l.each(t,function(t){e[t]=this[t]},this),e},"undefined"!=typeof n?("undefined"!=typeof t&&t.exports&&(n=t.exports=r),n.BackboneEvents=r):"function"==typeof define&&"object"==typeof define.amd?define(function(){return r}):o.BackboneEvents=r}(this)},{}],2:[function(e,t,n){t.exports=e("./backbone-events-standalone")},{"./backbone-events-standalone":1}],3:[function(e,t,n){function r(e,t){var n=-1,r=e.length;for(t||(t=Array(r));++n<r;)t[n]=e[n];return t}t.exports=r},{}],4:[function(e,t,n){function r(e,t){for(var n=-1,r=e.length;++n<r&&t(e[n],n,e)!==!1;);return e}t.exports=r},{}],5:[function(e,t,n){function r(e,t){for(var n=-1,r=e.length,o=Array(r);++n<r;)o[n]=t(e[n],n,e);return o}t.exports=r},{}],6:[function(e,t,n){function r(e,t){return null==t?e:o(t,a(t),e)}var o=e("lodash._basecopy"),a=e("lodash.keys");t.exports=r},{"lodash._basecopy":9,"lodash.keys":42}],7:[function(e,t,n){function r(e){return null==e?"":e+""}function o(e,t,n){var r=typeof e;return"function"==r?void 0===t?e:q(e,t,n):null==e?m:"object"==r?s(e):void 0===t?x(e):c(e,t)}function a(e,t,n){if(null!=e){void 0!==n&&n in y(e)&&(t=[n]);for(var r=0,o=t.length;null!=e&&o>r;)e=e[t[r++]];return r&&r==o?e:void 0}}function i(e,t,n){var r=t.length,o=r,a=!n;if(null==e)return!o;for(e=y(e);r--;){var i=t[r];if(a&&i[2]?i[1]!==e[i[0]]:!(i[0]in e))return!1}for(;++r<o;){i=t[r];var s=i[0],c=e[s],l=i[1];if(a&&i[2]){if(void 0===c&&!(s in e))return!1}else{var u=n?n(c,l,s):void 0;if(!(void 0===u?j(l,c,n,!0):u))return!1}}return!0}function s(e){var t=f(e);if(1==t.length&&t[0][2]){var n=t[0][0],r=t[0][1];return function(e){return null==e?!1:e[n]===r&&(void 0!==r||n in y(e))}}return function(e){return i(e,t)}}function c(e,t){var n=w(e),r=p(e)&&h(t),o=e+"";return e=v(e),function(i){if(null==i)return!1;var s=o;if(i=y(i),(n||!r)&&!(s in i)){if(i=1==e.length?i:a(i,d(e,0,-1)),null==i)return!1;s=b(e),i=y(i)}return i[s]===t?void 0!==t||s in i:j(t,i[s],void 0,!0)}}function l(e){return function(t){return null==t?void 0:t[e]}}function u(e){var t=e+"";return e=v(e),function(n){return a(n,e,t)}}function d(e,t,n){var r=-1,o=e.length;t=null==t?0:+t||0,0>t&&(t=-t>o?0:o+t),n=void 0===n||n>o?o:+n||0,0>n&&(n+=o),o=t>n?0:n-t>>>0,t>>>=0;for(var a=Array(o);++r<o;)a[r]=e[r+t];return a}function f(e){for(var t=A(e),n=t.length;n--;)t[n][2]=h(t[n][1]);return t}function p(e,t){var n=typeof e;if("string"==n&&k.test(e)||"number"==n)return!0;if(w(e))return!1;var r=!_.test(e);return r||null!=t&&e in y(t)}function h(e){return e===e&&!g(e)}function y(e){return g(e)?e:Object(e)}function v(e){if(w(e))return e;var t=[];return r(e).replace(O,function(e,n,r,o){t.push(r?o.replace(R,"$1"):n||e)}),t}function b(e){var t=e?e.length:0;return t?e[t-1]:void 0}function g(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function m(e){return e}function x(e){return p(e)?l(e):u(e)}var j=e("lodash._baseisequal"),q=e("lodash._bindcallback"),w=e("lodash.isarray"),A=e("lodash.pairs"),_=/\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\n\\]|\\.)*?\1)\]/,k=/^\w*$/,O=/[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g,R=/\\(\\)?/g;t.exports=o},{"lodash._baseisequal":16,"lodash._bindcallback":20,"lodash.isarray":32,"lodash.pairs":46}],8:[function(e,t,n){(function(n){function r(e,t,n,a,p,y,b){var g;if(n&&(g=p?n(e,a,p):n(e)),void 0!==g)return g;if(!l(e))return e;var m=h(e);if(m){if(g=i(e),!t)return u(e,g)}else{var x=N.call(e),q=x==j;if(x!=A&&x!=v&&(!q||p))return I[x]?c(e,x,t):p?e:{};if(g=s(q?{}:e),!t)return f(g,e)}y||(y=[]),b||(b=[]);for(var w=y.length;w--;)if(y[w]==e)return b[w];return y.push(e),b.push(g),(m?d:o)(e,function(o,a){g[a]=r(o,t,n,a,e,y,b)}),g}function o(e,t){return p(e,t,y)}function a(e){var t=new T(e.byteLength),n=new z(t);return n.set(new z(e)),t}function i(e){var t=e.length,n=new e.constructor(t);return t&&"string"==typeof e[0]&&$.call(e,"index")&&(n.index=e.index,n.input=e.input),n}function s(e){var t=e.constructor;return"function"==typeof t&&t instanceof t||(t=Object),new t}function c(e,t,n){var r=e.constructor;switch(t){case L:return a(e);case g:case m:return new r(+e);case S:case Y:case X:case D:case P:case C:case E:case U:case W:var o=e.buffer;return new r(n?a(o):o,e.byteOffset,e.length);case w:case O:return new r(e);case _:var i=new r(e.source,F.exec(e));i.lastIndex=e.lastIndex}return i}function l(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var u=e("lodash._arraycopy"),d=e("lodash._arrayeach"),f=e("lodash._baseassign"),p=e("lodash._basefor"),h=e("lodash.isarray"),y=e("lodash.keys"),v="[object Arguments]",b="[object Array]",g="[object Boolean]",m="[object Date]",x="[object Error]",j="[object Function]",q="[object Map]",w="[object Number]",A="[object Object]",_="[object RegExp]",k="[object Set]",O="[object String]",R="[object WeakMap]",L="[object ArrayBuffer]",S="[object Float32Array]",Y="[object Float64Array]",X="[object Int8Array]",D="[object Int16Array]",P="[object Int32Array]",C="[object Uint8Array]",E="[object Uint8ClampedArray]",U="[object Uint16Array]",W="[object Uint32Array]",F=/\w*$/,I={};I[v]=I[b]=I[L]=I[g]=I[m]=I[S]=I[Y]=I[X]=I[D]=I[P]=I[w]=I[A]=I[_]=I[O]=I[C]=I[E]=I[U]=I[W]=!0,I[x]=I[j]=I[q]=I[k]=I[R]=!1;var B=Object.prototype,$=B.hasOwnProperty,N=B.toString,T=n.ArrayBuffer,z=n.Uint8Array;t.exports=r}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._baseassign":6,"lodash._basefor":14,"lodash.isarray":32,"lodash.keys":42}],9:[function(e,t,n){function r(e,t,n){n||(n={});for(var r=-1,o=t.length;++r<o;){var a=t[r];n[a]=e[a]}return n}t.exports=r},{}],10:[function(e,t,n){function r(e,t){return p(e,t,u)}function o(e){return function(t){return null==t?void 0:t[e]}}function a(e,t){return function(n,r){var o=n?h(n):0;if(!s(o))return e(n,r);for(var a=t?o:-1,i=c(n);(t?a--:++a<o)&&r(i[a],a,i)!==!1;);return n}}function i(e){return function(t,n,r){for(var o=c(t),a=r(t),i=a.length,s=e?i:-1;e?s--:++s<i;){var l=a[s];if(n(o[l],l,o)===!1)break}return t}}function s(e){return"number"==typeof e&&e>-1&&e%1==0&&d>=e}function c(e){return l(e)?e:Object(e)}function l(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var u=e("lodash.keys"),d=9007199254740991,f=a(r),p=i(),h=o("length");t.exports=f},{"lodash.keys":42}],11:[function(e,t,n){function r(e,t,n,r){var o;return n(e,function(e,n,a){return t(e,n,a)?(o=r?n:e,!1):void 0}),o}t.exports=r},{}],12:[function(e,t,n){function r(e,t,n){for(var r=e.length,o=n?r:-1;n?o--:++o<r;)if(t(e[o],o,e))return o;return-1}t.exports=r},{}],13:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e,t){for(var n=-1,r=t.length,o=e.length;++n<r;)e[o+n]=t[n];return e}function a(e,t,n,i){i||(i=[]);for(var c=-1,d=e.length;++c<d;){var f=e[c];r(f)&&s(f)&&(n||u(f)||l(f))?t?a(f,t,n,i):o(i,f):n||(i[i.length]=f)}return i}function i(e){return function(t){return null==t?void 0:t[e]}}function s(e){return null!=e&&c(f(e))}function c(e){return"number"==typeof e&&e>-1&&e%1==0&&d>=e}var l=e("lodash.isarguments"),u=e("lodash.isarray"),d=9007199254740991,f=i("length");t.exports=a},{"lodash.isarguments":31,"lodash.isarray":32}],14:[function(e,t,n){function r(e){return function(t,n,r){for(var a=o(t),i=r(t),s=i.length,c=e?s:-1;e?c--:++c<s;){var l=i[c];if(n(a[l],l,a)===!1)break}return t}}function o(e){return a(e)?e:Object(e)}function a(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var i=r();t.exports=i},{}],15:[function(e,t,n){function r(e,t,n){if(t!==t)return o(e,n);for(var r=n-1,a=e.length;++r<a;)if(e[r]===t)return r;return-1}function o(e,t,n){for(var r=e.length,o=t+(n?0:-1);n?o--:++o<r;){var a=e[o];if(a!==a)return o}return-1}t.exports=r},{}],16:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e,t){for(var n=-1,r=e.length;++n<r;)if(t(e[n],n,e))return!0;return!1}function a(e,t,n,o,s,c){return e===t?!0:null==e||null==t||!u(e)&&!r(t)?e!==e&&t!==t:i(e,t,a,n,o,s,c)}function i(e,t,n,r,o,a,i){var u=d(e),p=d(t),v=y,b=y;u||(v=_.call(e),v==h?v=x:v!=x&&(u=f(e))),p||(b=_.call(t),b==h?b=x:b!=x&&(p=f(t)));var g=v==x,m=b==x,j=v==b;if(j&&!u&&!g)return c(e,t,v);if(!o){var q=g&&A.call(e,"__wrapped__"),w=m&&A.call(t,"__wrapped__");if(q||w)return n(q?e.value():e,w?t.value():t,r,o,a,i)}if(!j)return!1;a||(a=[]),i||(i=[]);for(var k=a.length;k--;)if(a[k]==e)return i[k]==t;a.push(e),i.push(t);var O=(u?s:l)(e,t,n,r,o,a,i);return a.pop(),i.pop(),O}function s(e,t,n,r,a,i,s){var c=-1,l=e.length,u=t.length;if(l!=u&&!(a&&u>l))return!1;for(;++c<l;){var d=e[c],f=t[c],p=r?r(a?f:d,a?d:f,c):void 0;if(void 0!==p){if(p)continue;return!1}if(a){if(!o(t,function(e){return d===e||n(d,e,r,a,i,s)}))return!1}else if(d!==f&&!n(d,f,r,a,i,s))return!1}return!0}function c(e,t,n){switch(n){case v:case b:return+e==+t;case g:return e.name==t.name&&e.message==t.message;case m:return e!=+e?t!=+t:e==+t;case j:case q:return e==t+""}return!1}function l(e,t,n,r,o,a,i){var s=p(e),c=s.length,l=p(t),u=l.length;if(c!=u&&!o)return!1;for(var d=c;d--;){var f=s[d];if(!(o?f in t:A.call(t,f)))return!1}for(var h=o;++d<c;){f=s[d];var y=e[f],v=t[f],b=r?r(o?v:y,o?y:v,f):void 0;if(!(void 0===b?n(y,v,r,o,a,i):b))return!1;h||(h="constructor"==f)}if(!h){var g=e.constructor,m=t.constructor;if(g!=m&&"constructor"in e&&"constructor"in t&&!("function"==typeof g&&g instanceof g&&"function"==typeof m&&m instanceof m))return!1}return!0}function u(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var d=e("lodash.isarray"),f=e("lodash.istypedarray"),p=e("lodash.keys"),h="[object Arguments]",y="[object Array]",v="[object Boolean]",b="[object Date]",g="[object Error]",m="[object Number]",x="[object Object]",j="[object RegExp]",q="[object String]",w=Object.prototype,A=w.hasOwnProperty,_=w.toString;t.exports=a},{"lodash.isarray":32,"lodash.istypedarray":40,"lodash.keys":42}],17:[function(e,t,n){function r(e,t){for(var n=e?t.length:0;n--;){var r=t[n];if(r!=a&&o(r)){var a=r;s.call(e,r,1)}}return e}function o(e,t){return e="number"==typeof e||a.test(e)?+e:-1,t=null==t?c:t,e>-1&&e%1==0&&t>e}var a=/^\d+$/,i=Array.prototype,s=i.splice,c=9007199254740991;t.exports=r},{}],18:[function(e,t,n){function r(e,t,n){var r=-1,o=e.length;t=null==t?0:+t||0,0>t&&(t=-t>o?0:o+t),n=void 0===n||n>o?o:+n||0,0>n&&(n+=o),o=t>n?0:n-t>>>0,t>>>=0;for(var a=Array(o);++r<o;)a[r]=e[r+t];return a}t.exports=r},{}],19:[function(e,t,n){function r(e,t){var n=-1,r=o,c=e.length,l=!0,u=l&&c>=s,d=u?i():null,f=[];d?(r=a,l=!1):(u=!1,d=t?[]:f);e:for(;++n<c;){var p=e[n],h=t?t(p,n,e):p;if(l&&p===p){for(var y=d.length;y--;)if(d[y]===h)continue e;t&&d.push(h),f.push(p)}else r(d,h,0)<0&&((t||u)&&d.push(h),f.push(p))}return f}var o=e("lodash._baseindexof"),a=e("lodash._cacheindexof"),i=e("lodash._createcache"),s=200;t.exports=r},{"lodash._baseindexof":15,"lodash._cacheindexof":21,"lodash._createcache":23}],20:[function(e,t,n){function r(e,t,n){if("function"!=typeof e)return o;if(void 0===t)return e;switch(n){case 1:return function(n){return e.call(t,n)};case 3:return function(n,r,o){return e.call(t,n,r,o)};case 4:return function(n,r,o,a){return e.call(t,n,r,o,a)};case 5:return function(n,r,o,a,i){return e.call(t,n,r,o,a,i)}}return function(){return e.apply(t,arguments)}}function o(e){return e}t.exports=r},{}],21:[function(e,t,n){function r(e,t){var n=e.data,r="string"==typeof t||o(t)?n.set.has(t):n.hash[t];return r?0:-1}function o(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}t.exports=r},{}],22:[function(e,t,n){function r(e){return i(function(t,n){var r=-1,i=null==t?0:n.length,s=i>2?n[i-2]:void 0,c=i>2?n[2]:void 0,l=i>1?n[i-1]:void 0;for("function"==typeof s?(s=o(s,l,5),i-=2):(s="function"==typeof l?l:void 0,i-=s?1:0),c&&a(n[0],n[1],c)&&(s=3>i?void 0:s,i=1);++r<i;){var u=n[r];u&&e(t,u,s)}return t})}var o=e("lodash._bindcallback"),a=e("lodash._isiterateecall"),i=e("lodash.restparam");t.exports=r},{"lodash._bindcallback":20,"lodash._isiterateecall":25,"lodash.restparam":49}],23:[function(e,t,n){(function(n){function r(e){var t=e?e.length:0;for(this.data={hash:l(null),set:new c};t--;)this.push(e[t])}function o(e){var t=this.data;"string"==typeof e||i(e)?t.set.add(e):t.hash[e]=!0}function a(e){return l&&c?new r(e):null}function i(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var s=e("lodash._getnative"),c=s(n,"Set"),l=s(Object,"create");r.prototype.push=o,t.exports=a}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{"lodash._getnative":24}],24:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e,t){var n=null==e?void 0:e[t];return s(n)?n:void 0}function a(e){return i(e)&&p.call(e)==c}function i(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function s(e){return null==e?!1:a(e)?h.test(d.call(e)):r(e)&&l.test(e)}var c="[object Function]",l=/^\[object .+?Constructor\]$/,u=Object.prototype,d=Function.prototype.toString,f=u.hasOwnProperty,p=u.toString,h=RegExp("^"+d.call(f).replace(/[\\^$.*+?()[\]{}|]/g,"\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$");t.exports=o},{}],25:[function(e,t,n){function r(e){return function(t){return null==t?void 0:t[e]}}function o(e){return null!=e&&s(d(e))}function a(e,t){return e="number"==typeof e||l.test(e)?+e:-1,t=null==t?u:t,e>-1&&e%1==0&&t>e}function i(e,t,n){if(!c(n))return!1;var r=typeof t;if("number"==r?o(n)&&a(t,n.length):"string"==r&&t in n){var i=n[t];return e===e?e===i:i!==i}return!1}function s(e){return"number"==typeof e&&e>-1&&e%1==0&&u>=e}function c(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var l=/^\d+$/,u=9007199254740991,d=r("length");t.exports=i},{}],26:[function(e,t,n){function r(e,t,n){return"function"==typeof t?o(e,!0,a(t,n,3)):o(e,!0)}var o=e("lodash._baseclone"),a=e("lodash._bindcallback");t.exports=r},{"lodash._baseclone":8,"lodash._bindcallback":20}],27:[function(e,t,n){function r(e,t,n){var r=e?e.length:0;return r?((n?a(e,t,n):null==t)&&(t=1),o(e,0>t?0:t)):[]}var o=e("lodash._baseslice"),a=e("lodash._isiterateecall");t.exports=r},{"lodash._baseslice":18,"lodash._isiterateecall":25}],28:[function(e,t,n){function r(e,t){return function(n,r,a){if(r=o(r,a,3),c(n)){var l=s(n,r,t);return l>-1?n[l]:void 0}return i(n,r,e)}}var o=e("lodash._basecallback"),a=e("lodash._baseeach"),i=e("lodash._basefind"),s=e("lodash._basefindindex"),c=e("lodash.isarray"),l=r(a);t.exports=l},{"lodash._basecallback":7,"lodash._baseeach":10,"lodash._basefind":11,"lodash._basefindindex":12,"lodash.isarray":32}],29:[function(e,t,n){function r(e){return e?e[0]:void 0}t.exports=r},{}],30:[function(e,t,n){function r(e,t){return function(n,r,o){return"function"==typeof r&&void 0===o&&s(n)?e(n,r):t(n,i(r,o,3))}}var o=e("lodash._arrayeach"),a=e("lodash._baseeach"),i=e("lodash._bindcallback"),s=e("lodash.isarray"),c=r(o,a);t.exports=c},{"lodash._arrayeach":4,"lodash._baseeach":10,"lodash._bindcallback":20,"lodash.isarray":32}],31:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e){return function(t){return null==t?void 0:t[e]}}function a(e){return null!=e&&i(f(e))}function i(e){return"number"==typeof e&&e>-1&&e%1==0&&d>=e}function s(e){return r(e)&&a(e)&&l.call(e,"callee")&&!u.call(e,"callee")}var c=Object.prototype,l=c.hasOwnProperty,u=c.propertyIsEnumerable,d=9007199254740991,f=o("length");t.exports=s},{}],32:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e,t){var n=null==e?void 0:e[t];return c(n)?n:void 0}function a(e){return"number"==typeof e&&e>-1&&e%1==0&&g>=e}function i(e){return s(e)&&y.call(e)==u}function s(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function c(e){return null==e?!1:i(e)?v.test(p.call(e)):r(e)&&d.test(e)}var l="[object Array]",u="[object Function]",d=/^\[object .+?Constructor\]$/,f=Object.prototype,p=Function.prototype.toString,h=f.hasOwnProperty,y=f.toString,v=RegExp("^"+p.call(h).replace(/[\\^$.*+?()[\]{}|]/g,"\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$"),b=o(Array,"isArray"),g=9007199254740991,m=b||function(e){return r(e)&&a(e.length)&&y.call(e)==l};t.exports=m},{}],33:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e){return function(t){return null==t?void 0:t[e]}}function a(e){return null!=e&&i(h(e))}function i(e){return"number"==typeof e&&e>-1&&e%1==0&&p>=e}function s(e){return null==e?!0:a(e)&&(l(e)||d(e)||c(e)||r(e)&&u(e.splice))?!e.length:!f(e).length}var c=e("lodash.isarguments"),l=e("lodash.isarray"),u=e("lodash.isfunction"),d=e("lodash.isstring"),f=e("lodash.keys"),p=9007199254740991,h=o("length");t.exports=s},{"lodash.isarguments":31,"lodash.isarray":32,"lodash.isfunction":35,"lodash.isstring":39,"lodash.keys":42}],34:[function(e,t,n){function r(e,t,n,r){n="function"==typeof n?a(n,r,3):void 0;var i=n?n(e,t):void 0;return void 0===i?o(e,t,n):!!i}var o=e("lodash._baseisequal"),a=e("lodash._bindcallback");t.exports=r},{"lodash._baseisequal":16,"lodash._bindcallback":20}],35:[function(e,t,n){function r(e){return o(e)&&s.call(e)==a}function o(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var a="[object Function]",i=Object.prototype,s=i.toString;t.exports=r},{}],36:[function(e,t,n){function r(e){return o(e)&&e!=+e}var o=e("lodash.isnumber");t.exports=r},{"lodash.isnumber":37}],37:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e){return"number"==typeof e||r(e)&&s.call(e)==a}var a="[object Number]",i=Object.prototype,s=i.toString;t.exports=o},{}],38:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e,t){return i(e,t,c)}function a(e){var t;if(!r(e)||f.call(e)!=l||s(e)||!d.call(e,"constructor")&&(t=e.constructor,"function"==typeof t&&!(t instanceof t)))return!1;var n;return o(e,function(e,t){n=t}),void 0===n||d.call(e,n)}var i=e("lodash._basefor"),s=e("lodash.isarguments"),c=e("lodash.keysin"),l="[object Object]",u=Object.prototype,d=u.hasOwnProperty,f=u.toString;t.exports=a},{"lodash._basefor":14,"lodash.isarguments":31,"lodash.keysin":43}],39:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e){return"string"==typeof e||r(e)&&s.call(e)==a}var a="[object String]",i=Object.prototype,s=i.toString;t.exports=o},{}],40:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e){return"number"==typeof e&&e>-1&&e%1==0&&X>=e}function a(e){return r(e)&&o(e.length)&&!!L[Y.call(e)]}var i="[object Arguments]",s="[object Array]",c="[object Boolean]",l="[object Date]",u="[object Error]",d="[object Function]",f="[object Map]",p="[object Number]",h="[object Object]",y="[object RegExp]",v="[object Set]",b="[object String]",g="[object WeakMap]",m="[object ArrayBuffer]",x="[object Float32Array]",j="[object Float64Array]",q="[object Int8Array]",w="[object Int16Array]",A="[object Int32Array]",_="[object Uint8Array]",k="[object Uint8ClampedArray]",O="[object Uint16Array]",R="[object Uint32Array]",L={};L[x]=L[j]=L[q]=L[w]=L[A]=L[_]=L[k]=L[O]=L[R]=!0,L[i]=L[s]=L[m]=L[c]=L[l]=L[u]=L[d]=L[f]=L[p]=L[h]=L[y]=L[v]=L[b]=L[g]=!1;var S=Object.prototype,Y=S.toString,X=9007199254740991;t.exports=a},{}],41:[function(e,t,n){function r(e){return void 0===e}t.exports=r},{}],42:[function(e,t,n){function r(e){return function(t){return null==t?void 0:t[e]}}function o(e){return null!=e&&i(g(e))}function a(e,t){return e="number"==typeof e||p.test(e)?+e:-1,t=null==t?b:t,e>-1&&e%1==0&&t>e}function i(e){return"number"==typeof e&&e>-1&&e%1==0&&b>=e}function s(e){for(var t=l(e),n=t.length,r=n&&e.length,o=!!r&&i(r)&&(f(e)||d(e)),s=-1,c=[];++s<n;){var u=t[s];(o&&a(u,r)||y.call(e,u))&&c.push(u)}return c}function c(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function l(e){if(null==e)return[];c(e)||(e=Object(e));var t=e.length;t=t&&i(t)&&(f(e)||d(e))&&t||0;for(var n=e.constructor,r=-1,o="function"==typeof n&&n.prototype===e,s=Array(t),l=t>0;++r<t;)s[r]=r+"";for(var u in e)l&&a(u,t)||"constructor"==u&&(o||!y.call(e,u))||s.push(u);return s}var u=e("lodash._getnative"),d=e("lodash.isarguments"),f=e("lodash.isarray"),p=/^\d+$/,h=Object.prototype,y=h.hasOwnProperty,v=u(Object,"keys"),b=9007199254740991,g=r("length"),m=v?function(e){var t=null==e?void 0:e.constructor;return"function"==typeof t&&t.prototype===e||"function"!=typeof e&&o(e)?s(e):c(e)?v(e):[]}:s;t.exports=m},{"lodash._getnative":24,"lodash.isarguments":31,"lodash.isarray":32}],43:[function(e,t,n){function r(e,t){return e="number"==typeof e||l.test(e)?+e:-1,t=null==t?f:t,e>-1&&e%1==0&&t>e}function o(e){return"number"==typeof e&&e>-1&&e%1==0&&f>=e}function a(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function i(e){if(null==e)return[];a(e)||(e=Object(e));var t=e.length;t=t&&o(t)&&(c(e)||s(e))&&t||0;for(var n=e.constructor,i=-1,l="function"==typeof n&&n.prototype===e,u=Array(t),f=t>0;++i<t;)u[i]=i+"";for(var p in e)f&&r(p,t)||"constructor"==p&&(l||!d.call(e,p))||u.push(p);return u}var s=e("lodash.isarguments"),c=e("lodash.isarray"),l=/^\d+$/,u=Object.prototype,d=u.hasOwnProperty,f=9007199254740991;t.exports=i},{"lodash.isarguments":31,"lodash.isarray":32}],44:[function(e,t,n){function r(e,t){var n=-1,r=a(e)?Array(e.length):[];return u(e,function(e,o,a){r[++n]=t(e,o,a)}),r}function o(e){return function(t){return null==t?void 0:t[e]}}function a(e){return null!=e&&i(p(e))}function i(e){return"number"==typeof e&&e>-1&&e%1==0&&f>=e}function s(e,t,n){var o=d(e)?c:r;return t=l(t,n,3),o(e,t)}var c=e("lodash._arraymap"),l=e("lodash._basecallback"),u=e("lodash._baseeach"),d=e("lodash.isarray"),f=9007199254740991,p=o("length");t.exports=s},{"lodash._arraymap":5,"lodash._basecallback":7,"lodash._baseeach":10,"lodash.isarray":32}],45:[function(e,t,n){function r(e){return!!e&&"object"==typeof e}function o(e,t,n,i,c){if(!l(e))return e;var u=s(t)&&(h(t)||v(t)),f=u?void 0:b(t);return d(f||t,function(s,l){if(f&&(l=s,s=t[l]),r(s))i||(i=[]),c||(c=[]),a(e,t,l,o,n,i,c);else{var d=e[l],p=n?n(d,s,l,e,t):void 0,h=void 0===p;h&&(p=s),void 0===p&&(!u||l in e)||!h&&(p===p?p===d:d!==d)||(e[l]=p)}}),e}function a(e,t,n,r,o,a,i){for(var c=a.length,l=t[n];c--;)if(a[c]==l)return void(e[n]=i[c]);var d=e[n],f=o?o(d,l,n,e,t):void 0,b=void 0===f;b&&(f=l,s(l)&&(h(l)||v(l))?f=h(d)?d:s(d)?u(d):[]:y(l)||p(l)?f=p(d)?g(d):y(d)?d:{}:b=!1),a.push(l),i.push(f),b?e[n]=r(f,l,o,a,i):(f===f?f!==d:d===d)&&(e[n]=f)}function i(e){return function(t){return null==t?void 0:t[e]}}function s(e){return null!=e&&c(x(e))}function c(e){return"number"==typeof e&&e>-1&&e%1==0&&m>=e}function l(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}var u=e("lodash._arraycopy"),d=e("lodash._arrayeach"),f=e("lodash._createassigner"),p=e("lodash.isarguments"),h=e("lodash.isarray"),y=e("lodash.isplainobject"),v=e("lodash.istypedarray"),b=e("lodash.keys"),g=e("lodash.toplainobject"),m=9007199254740991,x=i("length"),j=f(o);t.exports=j},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._createassigner":22,"lodash.isarguments":31,"lodash.isarray":32,"lodash.isplainobject":38,"lodash.istypedarray":40,"lodash.keys":42,"lodash.toplainobject":52}],46:[function(e,t,n){function r(e){return o(e)?e:Object(e)}function o(e){var t=typeof e;return!!e&&("object"==t||"function"==t)}function a(e){e=r(e);for(var t=-1,n=i(e),o=n.length,a=Array(o);++t<o;){var s=n[t];a[t]=[s,e[s]]}return a}var i=e("lodash.keys");t.exports=a},{"lodash.keys":42}],47:[function(e,t,n){function r(e,t,n){var r=[];if(!e||!e.length)return r;var i=-1,s=[],c=e.length;for(t=o(t,n,3);++i<c;){var l=e[i];t(l,i,e)&&(r.push(l),s.push(i))}return a(e,s),r}var o=e("lodash._basecallback"),a=e("lodash._basepullat");t.exports=r},{"lodash._basecallback":7,"lodash._basepullat":17}],48:[function(e,t,n){function r(e,t,n){var r=e?e.length:0;return r?((n?i(e,t,n):null==t)&&(t=1),a(e,0>t?0:t)):[]}function o(e){return r(e,1)}var a=e("lodash._baseslice"),i=e("lodash._isiterateecall");t.exports=o},{"lodash._baseslice":18,"lodash._isiterateecall":25}],49:[function(e,t,n){function r(e,t){if("function"!=typeof e)throw new TypeError(o);return t=a(void 0===t?e.length-1:+t||0,0),function(){for(var n=arguments,r=-1,o=a(n.length-t,0),i=Array(o);++r<o;)i[r]=n[t+r];switch(t){case 0:return e.call(this,i);case 1:return e.call(this,n[0],i);case 2:return e.call(this,n[0],n[1],i)}var s=Array(t+1);for(r=-1;++r<t;)s[r]=n[r];return s[t]=i,e.apply(this,s)}}var o="Expected a function",a=Math.max;t.exports=r},{}],50:[function(e,t,n){function r(e){return function(t){return null==t?void 0:t[e]}}function o(e){return"number"==typeof e&&e>-1&&e%1==0&&s>=e}function a(e){var t=e?c(e):0;return o(t)?t:i(e).length}var i=e("lodash.keys"),s=9007199254740991,c=r("length");t.exports=a},{"lodash.keys":42}],51:[function(e,t,n){function r(e,t,n){var r=e?e.length:0;return r?(n&&"number"!=typeof n&&a(e,t,n)&&(t=0,n=r),o(e,t,n)):[]}var o=e("lodash._baseslice"),a=e("lodash._isiterateecall");t.exports=r},{"lodash._baseslice":18,"lodash._isiterateecall":25}],52:[function(e,t,n){function r(e){return o(e,a(e))}var o=e("lodash._basecopy"),a=e("lodash.keysin");t.exports=r},{"lodash._basecopy":9,"lodash.keysin":43}],53:[function(e,t,n){var r=e("lodash._baseflatten"),o=e("lodash._baseuniq"),a=e("lodash.restparam"),i=a(function(e){return o(r(e,!1,!0))});t.exports=i},{"lodash._baseflatten":13,"lodash._baseuniq":19,"lodash.restparam":49}],54:[function(e,t,n){(function(){var n,r,o;n=e("backbone-events-standalone"),r=function(){function e(){}return e.prototype.attributes={},e.prototype.set=function(e,t){return this.attributes[e]=t},e.prototype.get=function(e){return this.attributes[e]},e}(),n.mixin(r.prototype),o=new r,o.Mediator=r,t.exports=o}).call(this)},{"backbone-events-standalone":2}],55:[function(e,t,n){!function(){var e,n,r={};r.load=function(t,r){e=r.mediator,n=r.config;var o=n.get();o.chart.renderTo=t;var a=new Highcharts.Chart(o);e.on("configUpdate",function(){e.trigger("treeUpdate");var r=n.get();r.chart.renderTo=t,a=new Highcharts.Chart(r)}),e.on("dataUpdate",function(){var e=n.get();e.chart.renderTo=t,a=new Highcharts.Chart(e)}),e.on("dataValueUpdate",function(){var e=n.get();e.chart.renderTo=t,a=new Highcharts.Chart(e)})},t.exports=r}()},{}],56:[function(e,t,n){t.exports=t.exports=[{id:"line",type:"Line charts",icon:"line",presets:[{id:"basic",title:"Line chart",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"line"},xAxis:{type:"category"}}},{id:"dataLabels",title:"With data labels",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",definition:{chart:{type:"line"},xAxis:{type:"category"},plotOptions:{series:{dataLabels:{enabled:!0}}}}},{id:"spline",title:"Spline",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"spline"},xAxis:{type:"category"}}},{id:"splineDataLabels",title:"Spline with labels",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"spline"},xAxis:{type:"category"},plotOptions:{series:{dataLabels:{enabled:!0}}}}},{id:"splineLogarithmic",title:"Logarithmic",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"spline"},xAxis:{type:"category"},yAxis:{type:"logarithmic"},plotOptions:{series:{dataLabels:{enabled:!0}}}}},{id:"step",title:"Step line",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"line"},xAxis:{type:"category"},plotOptions:{series:{step:"left"}}}},{id:"stepWithLabels",title:"Step line with labels",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"line"},xAxis:{type:"category"},plotOptions:{series:{step:"left",dataLabels:{enabled:!0}}}}},{id:"inverted",title:"Inverted",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"line",inverted:!0},xAxis:{type:"category"}}},{id:"negativeColor",title:"Negative color",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"line"},xAxis:{type:"category"},plotOptions:{series:{negativeColor:"#0088FF"}}}},{id:"errorBar",title:"Error bar",desc:"Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",definition:{chart:{type:"line"},xAxis:{type:"category"},series:[{type:null},{type:"errorbar"}]}},{id:"combinationColumn",title:"Combination chart",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",
-definition:{chart:{type:"line"},xAxis:{type:"category"},series:[{type:null},{type:"column"}]}}]},{id:"area",type:"Area charts",icon:"area",presets:[{id:"basic",title:"Area Chart",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area"},xAxis:{type:"category"}}},{id:"withLabels",title:"Area with labels",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area"},xAxis:{type:"category"},plotOptions:{series:{dataLabels:{enabled:!0}}}}},{id:"stacked",title:"Stacked",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area"},xAxis:{type:"category"},plotOptions:{series:{stacking:"normal"}}}},{id:"stackedWithLabels",title:"Stacked with labels",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area"},xAxis:{type:"category"},plotOptions:{series:{stacking:"normal",dataLabels:{enabled:!0}}}}},{id:"stackedPercentage",title:"Stacked percentage",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area"},xAxis:{type:"category"},plotOptions:{series:{stacking:"percent"}}}},{id:"inverted",title:"Inverted",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area",inverted:!0},xAxis:{type:"category"}}},{id:"invertedWithLabels",title:"Inverted with labels",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area",inverted:!0},xAxis:{type:"category"},plotOptions:{series:{stacking:"normal",dataLabels:{enabled:!0}}}}},{id:"stepLine",title:"Step line",desc:"Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area"},xAxis:{type:"category"},plotOptions:{series:{step:"left"}}}},{id:"negativeColor",title:"Negative color",desc:"Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"area"},xAxis:{type:"category"},plotOptions:{series:{negativeColor:"#0088FF",color:"#FF000000"}}}},{id:"range",title:"Area range",desc:"Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",definition:{chart:{type:"arearange"},xAxis:{type:"category"}}}]},{id:"column",type:"Column charts",icon:"column",presets:[{id:"basic",title:"Basic",description:"Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},xAxis:{type:"category"}}},{id:"withLabels",title:"With labels",description:"Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},xAxis:{type:"category"},plotOptions:{series:{dataLabels:{enabled:!0}}}}},{id:"3d",title:"Column 3D",description:"Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",margin:75,options3d:{enabled:!0,alpha:15,beta:15,depth:50,viewDistance:15}},plotOptions:{column:{depth:25}},xAxis:{type:"category"}}},{id:"stacked",title:"Stacked",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},plotOptions:{series:{stacking:"normal"}},xAxis:{type:"category"}}},{id:"stackedWithLabels",title:"Stacked with labels",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},plotOptions:{series:{stacking:"normal",dataLabels:{enabled:!0}}},xAxis:{type:"category"}}},{id:"stacked3d",title:"Stacked 3D",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",margin:75,options3d:{enabled:!0,alpha:15,beta:15,depth:50,viewDistance:15}},plotOptions:{column:{depth:25},series:{stacking:"normal"}},xAxis:{type:"category"}}},{id:"stackedPercent",title:"Stacked percent",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},plotOptions:{series:{stacking:"percent"}},xAxis:{type:"category"}}},{id:"stackedPercentWithLabels",title:"Stacked percent with labels",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},plotOptions:{series:{stacking:"percent",dataLabels:{enabled:!0}}},xAxis:{type:"category"}}},{id:"negativeColor",title:"Negative color",desc:"Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",definition:{chart:{type:"column"},plotOptions:{series:{negativeColor:"#0088FF",color:"#FF0000"}},xAxis:{type:"category"}}},{id:"multiColor",title:"Multi color",desc:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},plotOptions:{series:{colorByPoint:!0}},xAxis:{type:"category"}}},{id:"logarithmic",title:"Logarithmic",desc:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},xAxis:{type:"category"},yAxis:{type:"logarithmic",minorTickInterval:"auto"}}},{id:"range",title:"Columnrange",desc:"Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",definition:{chart:{type:"columnrange"},xAxis:{type:"category"}}},{id:"rangeWithLabels",title:"Columnrange with labels",desc:"Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",definition:{chart:{type:"columnrange"},xAxis:{type:"category"},plotOptions:{series:{dataLabels:{enabled:!0}}}}},{id:"packed",title:"Packed Columns",desc:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column"},plotOptions:{series:{pointPadding:0,groupPadding:0,borderWidth:0,shadow:!1}},xAxis:{type:"category"}}},{id:"errorbar",title:"Error bar",desc:"Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",definition:{chart:{type:"column"},series:[{type:null},{type:"errorbar",showInLegend:!0}],xAxis:{type:"category"}}}]},{id:"bar",type:"Bar charts",icon:"bar",presets:[{id:"basic",title:"Basic bar",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},xAxis:{type:"category"}}},{id:"basicWithLabels",title:"Basic with labels",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},xAxis:{type:"category"},plotOptions:{series:{dataLabels:{enabled:!0}}}}},{id:"stacked",title:"Stacked bar",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},plotOptions:{series:{stacking:"normal"}},xAxis:{type:"category"}}},{id:"stackedWithLabels",title:"Stacked with labels",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},plotOptions:{series:{stacking:"normal",dataLabels:{enabled:!0}}},xAxis:{type:"category"}}},{id:"stackedPercentage",title:"Stacked percentage bar",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},plotOptions:{series:{stacking:"percent"}},xAxis:{type:"category"}}},{id:"stackedPercentageWithLabels",title:"Stacked percentage bar with labels",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},plotOptions:{series:{stacking:"percent",dataLabels:{enabled:!0}}},xAxis:{type:"category"}}},{id:"negativeColor",title:"Negative color",description:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},plotOptions:{series:{negativeColor:"#0088FF",color:"#FF0000"}},xAxis:{type:"category"}}},{id:"multiColor",title:"Multi color",desc:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},plotOptions:{series:{colorByPoint:!0}},xAxis:{type:"category"}}},{id:"horizontalColumnrange",title:"Horizontal columnrange",desc:"Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",definition:{chart:{type:"columnrange",inverted:!0},xAxis:{type:"category"}}},{id:"logarithmic",title:"Logarithmic",desc:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},yAxis:{type:"logarithmic",minorTickInterval:"auto"},xAxis:{type:"category"}}},{id:"horizontalColumnrangeWithLabels",title:"Horizontal columnrange with labels",desc:"Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",definition:{chart:{type:"columnrange",inverted:!0},plotOptions:{series:{dataLabels:{enabled:!0}}},xAxis:{type:"category"}}},{id:"packedBars",title:"Packed Bars",desc:"Requires one data column for X values or categories, subsequently one data column for each series' Y values.",definition:{chart:{type:"column",inverted:!0},plotOptions:{series:{pointPadding:0,groupPadding:0,borderWidth:0,shadow:!1}},xAxis:{type:"category"}}},{id:"errorbar",title:"Error bar",desc:"Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",definition:{chart:{type:"column",inverted:!0},xAxis:{type:"category"},series:[{type:null},{type:"errorbar"}]}}]},{id:"scatterAndBubble",type:"Scatter and bubble",icon:"spider",presets:[{id:"scatter",title:"Scatter chart",description:"Requires one data column for X values and one for Y values.",definition:{chart:{type:"scatter"}}},{id:"bubble",title:"Bubble chart",description:"Requires three data columns: one for X values, one for Y values and one for the size of the bubble (Z value).",definition:{chart:{type:"bubble"}}},{id:"scatterWithLine",title:"Scatter with line",description:"Requires one data column for X values and one for Y values.",definition:{chart:{type:"scatter"},plotOptions:{series:{lineWidth:1}}}},{id:"scatterWithLineNoMarker",title:"Scatter with line, no marker",description:"Requires one data column for X values and one for Y values.",definition:{chart:{type:"scatter"},plotOptions:{series:{lineWidth:1,marker:{enabled:!1}}}}}]},{id:"pie",type:"Pie charts",icon:"spider",presets:[{id:"basic",title:"Pie chart",description:"Requires two data columns: one for slice names (shown in data labels) and one for their values.",definition:{chart:{type:"pie"},xAxis:{type:"category"}}},{id:"3d",title:"3D pie chart",description:"Requires two data columns: one for slice names (shown in data labels) and one for their values.",definition:{chart:{type:"pie",options3d:{enabled:!0,alpha:45,beta:0}},plotOptions:{pie:{allowPointSelect:!0,depth:35,cursor:"pointer"},series:{dataLabels:{enabled:!0}}},xAxis:{type:"category"}}},{id:"withLegend",title:"Pie chart",description:"Requires two data columns: one for slice names (shown in legend) and one for their values.",definition:{chart:{type:"pie"},plotOptions:{pie:{allowPointSelect:!0,cursor:!0,showInLegend:!0,dataLabels:{enabled:!1}}},xAxis:{type:"category"}}},{id:"3dWithLegend",title:"3D pie with legend",description:"Requires two data columns: one for slice names (shown in legend) and one for their values.",definition:{chart:{type:"pie",options3d:{enabled:!0,alpha:45,beta:0}},plotOptions:{pie:{allowPointSelect:!0,depth:35,cursor:"pointer",showInLegend:!0,dataLabels:{enabled:!1}}},xAxis:{type:"category"}}},{id:"donut",title:"Donut",description:"Requires two data columns: one for slice names (shown in data labels) and one for their values.",definition:{chart:{type:"pie"},plotOptions:{pie:{allowPointSelect:!0,cursor:!0,innerSize:"60%",dataLabels:{enabled:!0}}},xAxis:{type:"category"}}},{id:"donutWithLegend",title:"Donut with legend",description:"Requires two data columns: one for slice names (shown in legend) and one for their values.",definition:{chart:{type:"pie"},plotOptions:{pie:{allowPointSelect:!0,cursor:!0,showInLegend:!0,innerSize:"60%",dataLabels:{enabled:!1}}},xAxis:{type:"category"}}},{id:"3dDonut",title:"3D donut chart",description:"Requires two data columns: one for slice names (shown in data labels) and one for their values.",definition:{chart:{type:"pie",options3d:{enabled:!0,alpha:45,beta:0}},plotOptions:{pie:{allowPointSelect:!0,depth:35,innerSize:"60%",cursor:"pointer"},series:{dataLabels:{enabled:!0}}}}},{id:"3dDonutWithLegend",title:"3D donut chart with legend",description:"Requires two data columns: one for slice names (shown in legend) and one for their values.",definition:{chart:{type:"pie",options3d:{enabled:!0,alpha:45,beta:0}},plotOptions:{pie:{allowPointSelect:!0,depth:35,cursor:"pointer",showInLegend:!0,innerSize:"60%"},series:{dataLabels:{enabled:!1}}},xAxis:{type:"category"}}},{id:"semiCircleDonut",title:"Semi circle donut",description:"Requires two data columns: one for slice names (shown in data labels) and one for their values.",definition:{chart:{type:"pie"},plotOptions:{pie:{allowPointSelect:!1,dataLabels:{distance:-30,style:{fontWeight:"bold",color:"white",textShadow:"0px 1px 2px black"}},innerSize:"50%",startAngle:-90,endAngle:90,center:["50%","75%"]},series:{dataLabels:{enabled:!0}}},xAxis:{type:"category"}}}]},{id:"polar",type:"Polar charts",icon:"bar",presets:[{id:"line",title:"Polar line",description:"Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",definition:{chart:{type:"line",polar:!0},xAxis:{type:"category"}}},{id:"spider",title:"Spider line",description:"Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",definition:{chart:{type:"line",polar:!0},xAxis:{tickmarkPlacement:"on",lineWidth:0},yAxis:{lineWidth:0,gridLineInterpolation:"polygon"},xAxis:{type:"category"}}},{id:"area",title:"Polar area",description:"Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",definition:{chart:{type:"area",polar:!0},xAxis:{type:"category"}}},{id:"spiderArea",title:"Spider area",description:"Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",definition:{chart:{type:"area",polar:!0},xAxis:{tickmarkPlacement:"on",lineWidth:0},yAxis:{lineWidth:0,gridLineInterpolation:"polygon"},xAxis:{type:"category"}}}]}]},{}],57:[function(e,t,n){!function(){function n(e,t){return l.forEach(e,function(n,r){l.forEach(n.data,function(n,o){e[r].data[o]=l.union([t[o]],n)})}),e}function r(e,t){return t=l.remove(t,function(e){return!l.isEmpty(e)}),l.forEach(e,function(n,r){l.isUndefined(e[r].name)&&(e[r].name=t[r])}),e}function o(e,t,n){var r=[];for(l.forEach(e,function(e){if(n>0){var t={data:[],type:e.type};n-=i(t.type),r.push(t)}});n>0;){var o={data:[]};n-=i(t),r.push(o)}return r}function a(e,t){var n=o(e.series,e.chart.type,l.size(l.first(t)));return l.map(n,function(n,r){var o=i(l.isUndefined(n.type)||null===n.type?e.chart.type:n.type);return l.forEach(t,function(e,r){n.data.push(s(l.slice(e,0,o))),t[r]=l.drop(t[r],o)}),l.isUndefined(e.series)||l.isUndefined(e.series[r])||(n=l.merge(e.series[r],n)),n})}function i(e){var t;switch(e){case"arearange":case"areasplinerange":case"columnrange":case"errorbar":case"scatter":t=2;break;case"bubble":t=3;break;case"boxplot":t=5;break;default:t=1}return t}function s(e){var t=[];return l.forEach(e,function(e,n){l.isArray(e)?t[n]=s(e):t[n]=""===e||"null"===e?null:parseFloat(e)}),t}var c={},l={isUndefined:e("lodash.isundefined"),find:e("lodash.find"),map:e("lodash.map"),cloneDeep:e("lodash.clonedeep"),remove:e("lodash.remove"),forEach:e("lodash.foreach"),first:e("lodash.first"),union:e("lodash.union"),slice:e("lodash.slice"),drop:e("lodash.drop"),size:e("lodash.size"),isArray:e("lodash.isarray"),isEmpty:e("lodash.isempty"),merge:e("lodash.merge")};c.get=function(e,t,o,i,s){var c=a(t,e);return o.categories&&(c=n(c,i)),o.series&&(c=r(c,s)),c},t.exports=c}()},{"lodash.clonedeep":26,"lodash.drop":27,"lodash.find":28,"lodash.first":29,"lodash.foreach":30,"lodash.isarray":32,"lodash.isempty":33,"lodash.isundefined":41,"lodash.map":44,"lodash.merge":45,"lodash.remove":47,"lodash.size":50,"lodash.slice":51,"lodash.union":53}],58:[function(e,t,n){!function(){function t(t){function n(e){u.data.set(e)}function r(){}function o(e){u.config.set(e)}var a=e("./services/data"),i=e("./services/config"),s=e("mediatorjs"),c=new s.Mediator,l=new a(c),u=(new i(c,l),{data:l,config:new i(c,l),mediator:c});t.className+=" ec";var d=e("./components/chart.js");return d.load(t,u),{setData:n,setDataUrl:r,setConfig:o}}window.ec=t}()},{"./components/chart.js":55,"./services/config":59,"./services/data":60,mediatorjs:54}],59:[function(e,t,n){!function(){function n(t,n){function r(e,t){var n=a.find(s,{id:e});return a.cloneDeep(a.find(n.presets,{id:t}).definition)}function o(e){var t={categories:!0,series:!0};return e[0]&&(a.isEmpty(e[0][0])||"cat"==e[0][0]||"categories"==e[0][0]?t.categories=!0:t.categories=!1),t}var a={isUndefined:e("lodash.isundefined"),find:e("lodash.find"),cloneDeep:e("lodash.clonedeep"),forEach:e("lodash.foreach"),merge:e("lodash.merge"),isEmpty:e("lodash.isempty")},i=e("../factories/series.js"),s=e("../config/templates.json"),c={},l={type:"line",preset:"dataLabels"},u={chart:{},plotOptions:{series:{animation:!1}}},d=a.cloneDeep(u);return c.get=function(){var e=o(n.get()),t=a.cloneDeep(d);return t.series=i.get(n.getData(e.series,e.categories),t,e,n.getCategories(),n.getSeries()),a.cloneDeep(t)},c.getRaw=function(){return a.cloneDeep(d)},c.set=function(e){delete e.series,d=a.cloneDeep(e)},c.setConfigTemplate=function(e){u=e},c.getConfigTemplate=function(){return a.cloneDeep(u)},c.reset=function(e){d=a.merge(a.cloneDeep(u),e)},c.setValue=function(e,n){ids=e.split(".");for(var r,o=d;r=ids.shift();)ids.length>0?a.isUndefined(o[r])?(o[r]={},o=o[r]):o=o[r]:o[r]=n;t.trigger("configUpdate",c.get()),t.trigger("treeUpdate")},c.setValues=function(e){a.forEach(e,function(e){c.setValue(e[0],e[1])}),t.trigger("configUpdate",c.get()),t.trigger("treeUpdate")},c.getValue=function(e){var t=c.get();e=e.split(".");for(var n;n=e.shift();){if(a.isUndefined(t[n])){t=void 0;break}t=t[n]}return t},c.removeValue=function(e){var n=d;for(e=e.split(".");step=e.shift();)a.isUndefined(n[step])||(e.length>0?n=n[step]:delete n[step]);t.trigger("configUpdate",c.get())},c.setPreset=function(e,n){l={type:e,preset:n},c.reset(r(e,n)),t.trigger("configUpdate",c.get())},c}t.exports=n}()},{"../config/templates.json":56,"../factories/series.js":57,"lodash.clonedeep":26,"lodash.find":28,"lodash.foreach":30,"lodash.isempty":33,"lodash.isundefined":41,"lodash.merge":45}],60:[function(e,t,n){!function(){function n(t){var n=t,r={isUndefined:e("lodash.isundefined"),find:e("lodash.find"),map:e("lodash.map"),cloneDeep:e("lodash.clonedeep"),slice:e("lodash.slice"),forEach:e("lodash.foreach"),first:e("lodash.first"),isEqual:e("lodash.isequal"),rest:e("lodash.rest"),isNaN:e("lodash.isnan")},o={},a=[];return o.getSeries=function(){return r.cloneDeep(r.first(a))},o.getCategories=function(){return r.cloneDeep(r.map(r.slice(a,1),function(e){return r.first(e)}))},o.get=function(){return r.cloneDeep(a)},o.getData=function(e,t){var n=a;return e&&(n=r.slice(n,1)),t&&(n=r.map(n,function(e){return r.rest(e)})),r.cloneDeep(n)},o.set=function(e){r.isEqual(a,e)||(a=r.cloneDeep(e),n.trigger("dataUpdate",o.get()),n.trigger("treeUpdate"))},o.setValue=function(e,t,i){r.isUndefined(a[e])||r.isUndefined(a[e][t])||(a[e][t]=r.isNaN(i)?null:i),n.trigger("dataValueUpdate",o.get())},o}t.exports=n}()},{"lodash.clonedeep":26,"lodash.find":28,"lodash.first":29,"lodash.foreach":30,"lodash.isequal":34,"lodash.isnan":36,"lodash.isundefined":41,"lodash.map":44,"lodash.rest":48,"lodash.slice":51}]},{},[58]);
+/**
+ * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
+ * @version v3.0.0
+ * @link 
+ * @license MIT
+ */
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys || function (obj) {
+        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
+          throw new TypeError("keys() called on a non-object");
+        }
+        var key, keys = [];
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            keys[keys.length] = key;
+          }
+        }
+        return keys;
+      },
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            iterator.call(context, obj[i], i, obj);
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              iterator.call(context, obj[key], key, obj);
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  }else if (typeof define === "function"  && typeof define.amd == "object") {
+    define(function() {
+      return Events;
+    });
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+},{}],2:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":1}],3:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Copies the values of `source` to `array`.
+ *
+ * @private
+ * @param {Array} source The array to copy values from.
+ * @param {Array} [array=[]] The array to copy values to.
+ * @returns {Array} Returns `array`.
+ */
+function arrayCopy(source, array) {
+  var index = -1,
+      length = source.length;
+
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+
+module.exports = arrayCopy;
+
+},{}],4:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * A specialized version of `_.forEach` for arrays without support for callback
+ * shorthands or `this` binding.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns `array`.
+ */
+function arrayEach(array, iteratee) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (iteratee(array[index], index, array) === false) {
+      break;
+    }
+  }
+  return array;
+}
+
+module.exports = arrayEach;
+
+},{}],5:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * A specialized version of `_.map` for arrays without support for callback
+ * shorthands or `this` binding.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array.length,
+      result = Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+module.exports = arrayMap;
+
+},{}],6:[function(require,module,exports){
+/**
+ * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseCopy = require('lodash._basecopy'),
+    keys = require('lodash.keys');
+
+/**
+ * The base implementation of `_.assign` without support for argument juggling,
+ * multiple sources, and `customizer` functions.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @returns {Object} Returns `object`.
+ */
+function baseAssign(object, source) {
+  return source == null
+    ? object
+    : baseCopy(source, keys(source), object);
+}
+
+module.exports = baseAssign;
+
+},{"lodash._basecopy":9,"lodash.keys":42}],7:[function(require,module,exports){
+/**
+ * lodash 3.3.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseIsEqual = require('lodash._baseisequal'),
+    bindCallback = require('lodash._bindcallback'),
+    isArray = require('lodash.isarray'),
+    pairs = require('lodash.pairs');
+
+/** Used to match property names within property paths. */
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\n\\]|\\.)*?\1)\]/,
+    reIsPlainProp = /^\w*$/,
+    rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g;
+
+/** Used to match backslashes in property paths. */
+var reEscapeChar = /\\(\\)?/g;
+
+/**
+ * Converts `value` to a string if it's not one. An empty string is returned
+ * for `null` or `undefined` values.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ */
+function baseToString(value) {
+  return value == null ? '' : (value + '');
+}
+
+/**
+ * The base implementation of `_.callback` which supports specifying the
+ * number of arguments to provide to `func`.
+ *
+ * @private
+ * @param {*} [func=_.identity] The value to convert to a callback.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {number} [argCount] The number of arguments to provide to `func`.
+ * @returns {Function} Returns the callback.
+ */
+function baseCallback(func, thisArg, argCount) {
+  var type = typeof func;
+  if (type == 'function') {
+    return thisArg === undefined
+      ? func
+      : bindCallback(func, thisArg, argCount);
+  }
+  if (func == null) {
+    return identity;
+  }
+  if (type == 'object') {
+    return baseMatches(func);
+  }
+  return thisArg === undefined
+    ? property(func)
+    : baseMatchesProperty(func, thisArg);
+}
+
+/**
+ * The base implementation of `get` without support for string paths
+ * and default values.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array} path The path of the property to get.
+ * @param {string} [pathKey] The key representation of path.
+ * @returns {*} Returns the resolved value.
+ */
+function baseGet(object, path, pathKey) {
+  if (object == null) {
+    return;
+  }
+  if (pathKey !== undefined && pathKey in toObject(object)) {
+    path = [pathKey];
+  }
+  var index = 0,
+      length = path.length;
+
+  while (object != null && index < length) {
+    object = object[path[index++]];
+  }
+  return (index && index == length) ? object : undefined;
+}
+
+/**
+ * The base implementation of `_.isMatch` without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Object} object The object to inspect.
+ * @param {Array} matchData The propery names, values, and compare flags to match.
+ * @param {Function} [customizer] The function to customize comparing objects.
+ * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+ */
+function baseIsMatch(object, matchData, customizer) {
+  var index = matchData.length,
+      length = index,
+      noCustomizer = !customizer;
+
+  if (object == null) {
+    return !length;
+  }
+  object = toObject(object);
+  while (index--) {
+    var data = matchData[index];
+    if ((noCustomizer && data[2])
+          ? data[1] !== object[data[0]]
+          : !(data[0] in object)
+        ) {
+      return false;
+    }
+  }
+  while (++index < length) {
+    data = matchData[index];
+    var key = data[0],
+        objValue = object[key],
+        srcValue = data[1];
+
+    if (noCustomizer && data[2]) {
+      if (objValue === undefined && !(key in object)) {
+        return false;
+      }
+    } else {
+      var result = customizer ? customizer(objValue, srcValue, key) : undefined;
+      if (!(result === undefined ? baseIsEqual(srcValue, objValue, customizer, true) : result)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+/**
+ * The base implementation of `_.matches` which does not clone `source`.
+ *
+ * @private
+ * @param {Object} source The object of property values to match.
+ * @returns {Function} Returns the new function.
+ */
+function baseMatches(source) {
+  var matchData = getMatchData(source);
+  if (matchData.length == 1 && matchData[0][2]) {
+    var key = matchData[0][0],
+        value = matchData[0][1];
+
+    return function(object) {
+      if (object == null) {
+        return false;
+      }
+      return object[key] === value && (value !== undefined || (key in toObject(object)));
+    };
+  }
+  return function(object) {
+    return baseIsMatch(object, matchData);
+  };
+}
+
+/**
+ * The base implementation of `_.matchesProperty` which does not clone `srcValue`.
+ *
+ * @private
+ * @param {string} path The path of the property to get.
+ * @param {*} srcValue The value to compare.
+ * @returns {Function} Returns the new function.
+ */
+function baseMatchesProperty(path, srcValue) {
+  var isArr = isArray(path),
+      isCommon = isKey(path) && isStrictComparable(srcValue),
+      pathKey = (path + '');
+
+  path = toPath(path);
+  return function(object) {
+    if (object == null) {
+      return false;
+    }
+    var key = pathKey;
+    object = toObject(object);
+    if ((isArr || !isCommon) && !(key in object)) {
+      object = path.length == 1 ? object : baseGet(object, baseSlice(path, 0, -1));
+      if (object == null) {
+        return false;
+      }
+      key = last(path);
+      object = toObject(object);
+    }
+    return object[key] === srcValue
+      ? (srcValue !== undefined || (key in object))
+      : baseIsEqual(srcValue, object[key], undefined, true);
+  };
+}
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * A specialized version of `baseProperty` which supports deep paths.
+ *
+ * @private
+ * @param {Array|string} path The path of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function basePropertyDeep(path) {
+  var pathKey = (path + '');
+  path = toPath(path);
+  return function(object) {
+    return baseGet(object, path, pathKey);
+  };
+}
+
+/**
+ * The base implementation of `_.slice` without an iteratee call guard.
+ *
+ * @private
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseSlice(array, start, end) {
+  var index = -1,
+      length = array.length;
+
+  start = start == null ? 0 : (+start || 0);
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = (end === undefined || end > length) ? length : (+end || 0);
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : ((end - start) >>> 0);
+  start >>>= 0;
+
+  var result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+
+/**
+ * Gets the propery names, values, and compare flags of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the match data of `object`.
+ */
+function getMatchData(object) {
+  var result = pairs(object),
+      length = result.length;
+
+  while (length--) {
+    result[length][2] = isStrictComparable(result[length][1]);
+  }
+  return result;
+}
+
+/**
+ * Checks if `value` is a property name and not a property path.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+ */
+function isKey(value, object) {
+  var type = typeof value;
+  if ((type == 'string' && reIsPlainProp.test(value)) || type == 'number') {
+    return true;
+  }
+  if (isArray(value)) {
+    return false;
+  }
+  var result = !reIsDeepProp.test(value);
+  return result || (object != null && value in toObject(object));
+}
+
+/**
+ * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` if suitable for strict
+ *  equality comparisons, else `false`.
+ */
+function isStrictComparable(value) {
+  return value === value && !isObject(value);
+}
+
+/**
+ * Converts `value` to an object if it's not one.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {Object} Returns the object.
+ */
+function toObject(value) {
+  return isObject(value) ? value : Object(value);
+}
+
+/**
+ * Converts `value` to property path array if it's not one.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {Array} Returns the property path array.
+ */
+function toPath(value) {
+  if (isArray(value)) {
+    return value;
+  }
+  var result = [];
+  baseToString(value).replace(rePropName, function(match, number, quote, string) {
+    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+}
+
+/**
+ * Gets the last element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the last element of `array`.
+ * @example
+ *
+ * _.last([1, 2, 3]);
+ * // => 3
+ */
+function last(array) {
+  var length = array ? array.length : 0;
+  return length ? array[length - 1] : undefined;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * This method returns the first argument provided to it.
+ *
+ * @static
+ * @memberOf _
+ * @category Utility
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ *
+ * _.identity(object) === object;
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+/**
+ * Creates a function that returns the property value at `path` on a
+ * given object.
+ *
+ * @static
+ * @memberOf _
+ * @category Utility
+ * @param {Array|string} path The path of the property to get.
+ * @returns {Function} Returns the new function.
+ * @example
+ *
+ * var objects = [
+ *   { 'a': { 'b': { 'c': 2 } } },
+ *   { 'a': { 'b': { 'c': 1 } } }
+ * ];
+ *
+ * _.map(objects, _.property('a.b.c'));
+ * // => [2, 1]
+ *
+ * _.pluck(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
+ * // => [1, 2]
+ */
+function property(path) {
+  return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
+}
+
+module.exports = baseCallback;
+
+},{"lodash._baseisequal":16,"lodash._bindcallback":20,"lodash.isarray":32,"lodash.pairs":46}],8:[function(require,module,exports){
+(function (global){
+/**
+ * lodash 3.3.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var arrayCopy = require('lodash._arraycopy'),
+    arrayEach = require('lodash._arrayeach'),
+    baseAssign = require('lodash._baseassign'),
+    baseFor = require('lodash._basefor'),
+    isArray = require('lodash.isarray'),
+    keys = require('lodash.keys');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to match `RegExp` flags from their coerced string values. */
+var reFlags = /\w*$/;
+
+/** Used to identify `toStringTag` values supported by `_.clone`. */
+var cloneableTags = {};
+cloneableTags[argsTag] = cloneableTags[arrayTag] =
+cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
+cloneableTags[dateTag] = cloneableTags[float32Tag] =
+cloneableTags[float64Tag] = cloneableTags[int8Tag] =
+cloneableTags[int16Tag] = cloneableTags[int32Tag] =
+cloneableTags[numberTag] = cloneableTags[objectTag] =
+cloneableTags[regexpTag] = cloneableTags[stringTag] =
+cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
+cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
+cloneableTags[errorTag] = cloneableTags[funcTag] =
+cloneableTags[mapTag] = cloneableTags[setTag] =
+cloneableTags[weakMapTag] = false;
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/** Native method references. */
+var ArrayBuffer = global.ArrayBuffer,
+    Uint8Array = global.Uint8Array;
+
+/**
+ * The base implementation of `_.clone` without support for argument juggling
+ * and `this` binding `customizer` functions.
+ *
+ * @private
+ * @param {*} value The value to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @param {Function} [customizer] The function to customize cloning values.
+ * @param {string} [key] The key of `value`.
+ * @param {Object} [object] The object `value` belongs to.
+ * @param {Array} [stackA=[]] Tracks traversed source objects.
+ * @param {Array} [stackB=[]] Associates clones with source counterparts.
+ * @returns {*} Returns the cloned value.
+ */
+function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
+  var result;
+  if (customizer) {
+    result = object ? customizer(value, key, object) : customizer(value);
+  }
+  if (result !== undefined) {
+    return result;
+  }
+  if (!isObject(value)) {
+    return value;
+  }
+  var isArr = isArray(value);
+  if (isArr) {
+    result = initCloneArray(value);
+    if (!isDeep) {
+      return arrayCopy(value, result);
+    }
+  } else {
+    var tag = objToString.call(value),
+        isFunc = tag == funcTag;
+
+    if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
+      result = initCloneObject(isFunc ? {} : value);
+      if (!isDeep) {
+        return baseAssign(result, value);
+      }
+    } else {
+      return cloneableTags[tag]
+        ? initCloneByTag(value, tag, isDeep)
+        : (object ? value : {});
+    }
+  }
+  // Check for circular references and return its corresponding clone.
+  stackA || (stackA = []);
+  stackB || (stackB = []);
+
+  var length = stackA.length;
+  while (length--) {
+    if (stackA[length] == value) {
+      return stackB[length];
+    }
+  }
+  // Add the source value to the stack of traversed objects and associate it with its clone.
+  stackA.push(value);
+  stackB.push(result);
+
+  // Recursively populate clone (susceptible to call stack limits).
+  (isArr ? arrayEach : baseForOwn)(value, function(subValue, key) {
+    result[key] = baseClone(subValue, isDeep, customizer, key, value, stackA, stackB);
+  });
+  return result;
+}
+
+/**
+ * The base implementation of `_.forOwn` without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return baseFor(object, iteratee, keys);
+}
+
+/**
+ * Creates a clone of the given array buffer.
+ *
+ * @private
+ * @param {ArrayBuffer} buffer The array buffer to clone.
+ * @returns {ArrayBuffer} Returns the cloned array buffer.
+ */
+function bufferClone(buffer) {
+  var result = new ArrayBuffer(buffer.byteLength),
+      view = new Uint8Array(result);
+
+  view.set(new Uint8Array(buffer));
+  return result;
+}
+
+/**
+ * Initializes an array clone.
+ *
+ * @private
+ * @param {Array} array The array to clone.
+ * @returns {Array} Returns the initialized clone.
+ */
+function initCloneArray(array) {
+  var length = array.length,
+      result = new array.constructor(length);
+
+  // Add array properties assigned by `RegExp#exec`.
+  if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
+    result.index = array.index;
+    result.input = array.input;
+  }
+  return result;
+}
+
+/**
+ * Initializes an object clone.
+ *
+ * @private
+ * @param {Object} object The object to clone.
+ * @returns {Object} Returns the initialized clone.
+ */
+function initCloneObject(object) {
+  var Ctor = object.constructor;
+  if (!(typeof Ctor == 'function' && Ctor instanceof Ctor)) {
+    Ctor = Object;
+  }
+  return new Ctor;
+}
+
+/**
+ * Initializes an object clone based on its `toStringTag`.
+ *
+ * **Note:** This function only supports cloning values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to clone.
+ * @param {string} tag The `toStringTag` of the object to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the initialized clone.
+ */
+function initCloneByTag(object, tag, isDeep) {
+  var Ctor = object.constructor;
+  switch (tag) {
+    case arrayBufferTag:
+      return bufferClone(object);
+
+    case boolTag:
+    case dateTag:
+      return new Ctor(+object);
+
+    case float32Tag: case float64Tag:
+    case int8Tag: case int16Tag: case int32Tag:
+    case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
+      var buffer = object.buffer;
+      return new Ctor(isDeep ? bufferClone(buffer) : buffer, object.byteOffset, object.length);
+
+    case numberTag:
+    case stringTag:
+      return new Ctor(object);
+
+    case regexpTag:
+      var result = new Ctor(object.source, reFlags.exec(object));
+      result.lastIndex = object.lastIndex;
+  }
+  return result;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = baseClone;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._baseassign":6,"lodash._basefor":14,"lodash.isarray":32,"lodash.keys":42}],9:[function(require,module,exports){
+/**
+ * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Copies properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property names to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @returns {Object} Returns `object`.
+ */
+function baseCopy(source, props, object) {
+  object || (object = {});
+
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+    object[key] = source[key];
+  }
+  return object;
+}
+
+module.exports = baseCopy;
+
+},{}],10:[function(require,module,exports){
+/**
+ * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var keys = require('lodash.keys');
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.forEach` without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Array|Object|string} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array|Object|string} Returns `collection`.
+ */
+var baseEach = createBaseEach(baseForOwn);
+
+/**
+ * The base implementation of `baseForIn` and `baseForOwn` which iterates
+ * over `object` properties returned by `keysFunc` invoking `iteratee` for
+ * each property. Iteratee functions may exit iteration early by explicitly
+ * returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+/**
+ * The base implementation of `_.forOwn` without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return baseFor(object, iteratee, keys);
+}
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Creates a `baseEach` or `baseEachRight` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseEach(eachFunc, fromRight) {
+  return function(collection, iteratee) {
+    var length = collection ? getLength(collection) : 0;
+    if (!isLength(length)) {
+      return eachFunc(collection, iteratee);
+    }
+    var index = fromRight ? length : -1,
+        iterable = toObject(collection);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (iteratee(iterable[index], index, iterable) === false) {
+        break;
+      }
+    }
+    return collection;
+  };
+}
+
+/**
+ * Creates a base function for `_.forIn` or `_.forInRight`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var iterable = toObject(object),
+        props = keysFunc(object),
+        length = props.length,
+        index = fromRight ? length : -1;
+
+    while ((fromRight ? index-- : ++index < length)) {
+      var key = props[index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Converts `value` to an object if it's not one.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {Object} Returns the object.
+ */
+function toObject(value) {
+  return isObject(value) ? value : Object(value);
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = baseEach;
+
+},{"lodash.keys":42}],11:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * The base implementation of `_.find`, `_.findLast`, `_.findKey`, and `_.findLastKey`,
+ * without support for callback shorthands and `this` binding, which iterates
+ * over `collection` using the provided `eachFunc`.
+ *
+ * @private
+ * @param {Array|Object|string} collection The collection to search.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {Function} eachFunc The function to iterate over `collection`.
+ * @param {boolean} [retKey] Specify returning the key of the found element
+ *  instead of the element itself.
+ * @returns {*} Returns the found element or its key, else `undefined`.
+ */
+function baseFind(collection, predicate, eachFunc, retKey) {
+  var result;
+  eachFunc(collection, function(value, key, collection) {
+    if (predicate(value, key, collection)) {
+      result = retKey ? key : value;
+      return false;
+    }
+  });
+  return result;
+}
+
+module.exports = baseFind;
+
+},{}],12:[function(require,module,exports){
+/**
+ * lodash 3.6.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for callback shorthands and `this` binding.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromRight) {
+  var length = array.length,
+      index = fromRight ? length : -1;
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseFindIndex;
+
+},{}],13:[function(require,module,exports){
+/**
+ * lodash 3.1.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray');
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+/**
+ * The base implementation of `_.flatten` with added support for restricting
+ * flattening and specifying the start index.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {boolean} [isDeep] Specify a deep flatten.
+ * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, isDeep, isStrict, result) {
+  result || (result = []);
+
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    var value = array[index];
+    if (isObjectLike(value) && isArrayLike(value) &&
+        (isStrict || isArray(value) || isArguments(value))) {
+      if (isDeep) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, isDeep, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = baseFlatten;
+
+},{"lodash.isarguments":31,"lodash.isarray":32}],14:[function(require,module,exports){
+/**
+ * lodash 3.0.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * The base implementation of `baseForIn` and `baseForOwn` which iterates
+ * over `object` properties returned by `keysFunc` invoking `iteratee` for
+ * each property. Iteratee functions may exit iteration early by explicitly
+ * returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+/**
+ * Creates a base function for `_.forIn` or `_.forInRight`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var iterable = toObject(object),
+        props = keysFunc(object),
+        length = props.length,
+        index = fromRight ? length : -1;
+
+    while ((fromRight ? index-- : ++index < length)) {
+      var key = props[index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+/**
+ * Converts `value` to an object if it's not one.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {Object} Returns the object.
+ */
+function toObject(value) {
+  return isObject(value) ? value : Object(value);
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = baseFor;
+
+},{}],15:[function(require,module,exports){
+/**
+ * lodash 3.1.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * The base implementation of `_.indexOf` without support for binary searches.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  if (value !== value) {
+    return indexOfNaN(array, fromIndex);
+  }
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * Gets the index at which the first occurrence of `NaN` is found in `array`.
+ * If `fromRight` is provided elements of `array` are iterated from right to left.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched `NaN`, else `-1`.
+ */
+function indexOfNaN(array, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 0 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    var other = array[index];
+    if (other !== other) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseIndexOf;
+
+},{}],16:[function(require,module,exports){
+/**
+ * lodash 3.0.7 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var isArray = require('lodash.isarray'),
+    isTypedArray = require('lodash.istypedarray'),
+    keys = require('lodash.keys');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    stringTag = '[object String]';
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * A specialized version of `_.some` for arrays without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {boolean} Returns `true` if any element passes the predicate check,
+ *  else `false`.
+ */
+function arraySome(array, predicate) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (predicate(array[index], index, array)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * The base implementation of `_.isEqual` without support for `this` binding
+ * `customizer` functions.
+ *
+ * @private
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @param {Function} [customizer] The function to customize comparing values.
+ * @param {boolean} [isLoose] Specify performing partial comparisons.
+ * @param {Array} [stackA] Tracks traversed `value` objects.
+ * @param {Array} [stackB] Tracks traversed `other` objects.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ */
+function baseIsEqual(value, other, customizer, isLoose, stackA, stackB) {
+  if (value === other) {
+    return true;
+  }
+  if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
+    return value !== value && other !== other;
+  }
+  return baseIsEqualDeep(value, other, baseIsEqual, customizer, isLoose, stackA, stackB);
+}
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} [customizer] The function to customize comparing objects.
+ * @param {boolean} [isLoose] Specify performing partial comparisons.
+ * @param {Array} [stackA=[]] Tracks traversed `value` objects.
+ * @param {Array} [stackB=[]] Tracks traversed `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, equalFunc, customizer, isLoose, stackA, stackB) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = arrayTag,
+      othTag = arrayTag;
+
+  if (!objIsArr) {
+    objTag = objToString.call(object);
+    if (objTag == argsTag) {
+      objTag = objectTag;
+    } else if (objTag != objectTag) {
+      objIsArr = isTypedArray(object);
+    }
+  }
+  if (!othIsArr) {
+    othTag = objToString.call(other);
+    if (othTag == argsTag) {
+      othTag = objectTag;
+    } else if (othTag != objectTag) {
+      othIsArr = isTypedArray(other);
+    }
+  }
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && !(objIsArr || objIsObj)) {
+    return equalByTag(object, other, objTag);
+  }
+  if (!isLoose) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      return equalFunc(objIsWrapped ? object.value() : object, othIsWrapped ? other.value() : other, customizer, isLoose, stackA, stackB);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  // Assume cyclic values are equal.
+  // For more information on detecting circular references see https://es5.github.io/#JO.
+  stackA || (stackA = []);
+  stackB || (stackB = []);
+
+  var length = stackA.length;
+  while (length--) {
+    if (stackA[length] == object) {
+      return stackB[length] == other;
+    }
+  }
+  // Add `object` and `other` to the stack of traversed objects.
+  stackA.push(object);
+  stackB.push(other);
+
+  var result = (objIsArr ? equalArrays : equalObjects)(object, other, equalFunc, customizer, isLoose, stackA, stackB);
+
+  stackA.pop();
+  stackB.pop();
+
+  return result;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for arrays with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Array} array The array to compare.
+ * @param {Array} other The other array to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} [customizer] The function to customize comparing arrays.
+ * @param {boolean} [isLoose] Specify performing partial comparisons.
+ * @param {Array} [stackA] Tracks traversed `value` objects.
+ * @param {Array} [stackB] Tracks traversed `other` objects.
+ * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+ */
+function equalArrays(array, other, equalFunc, customizer, isLoose, stackA, stackB) {
+  var index = -1,
+      arrLength = array.length,
+      othLength = other.length;
+
+  if (arrLength != othLength && !(isLoose && othLength > arrLength)) {
+    return false;
+  }
+  // Ignore non-index properties.
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index],
+        result = customizer ? customizer(isLoose ? othValue : arrValue, isLoose ? arrValue : othValue, index) : undefined;
+
+    if (result !== undefined) {
+      if (result) {
+        continue;
+      }
+      return false;
+    }
+    // Recursively compare arrays (susceptible to call stack limits).
+    if (isLoose) {
+      if (!arraySome(other, function(othValue) {
+            return arrValue === othValue || equalFunc(arrValue, othValue, customizer, isLoose, stackA, stackB);
+          })) {
+        return false;
+      }
+    } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, customizer, isLoose, stackA, stackB))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for comparing objects of
+ * the same `toStringTag`.
+ *
+ * **Note:** This function only supports comparing values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} value The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {string} tag The `toStringTag` of the objects to compare.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalByTag(object, other, tag) {
+  switch (tag) {
+    case boolTag:
+    case dateTag:
+      // Coerce dates and booleans to numbers, dates to milliseconds and booleans
+      // to `1` or `0` treating invalid dates coerced to `NaN` as not equal.
+      return +object == +other;
+
+    case errorTag:
+      return object.name == other.name && object.message == other.message;
+
+    case numberTag:
+      // Treat `NaN` vs. `NaN` as equal.
+      return (object != +object)
+        ? other != +other
+        : object == +other;
+
+    case regexpTag:
+    case stringTag:
+      // Coerce regexes to strings and treat strings primitives and string
+      // objects as equal. See https://es5.github.io/#x15.10.6.4 for more details.
+      return object == (other + '');
+  }
+  return false;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for objects with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} [customizer] The function to customize comparing values.
+ * @param {boolean} [isLoose] Specify performing partial comparisons.
+ * @param {Array} [stackA] Tracks traversed `value` objects.
+ * @param {Array} [stackB] Tracks traversed `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalObjects(object, other, equalFunc, customizer, isLoose, stackA, stackB) {
+  var objProps = keys(object),
+      objLength = objProps.length,
+      othProps = keys(other),
+      othLength = othProps.length;
+
+  if (objLength != othLength && !isLoose) {
+    return false;
+  }
+  var index = objLength;
+  while (index--) {
+    var key = objProps[index];
+    if (!(isLoose ? key in other : hasOwnProperty.call(other, key))) {
+      return false;
+    }
+  }
+  var skipCtor = isLoose;
+  while (++index < objLength) {
+    key = objProps[index];
+    var objValue = object[key],
+        othValue = other[key],
+        result = customizer ? customizer(isLoose ? othValue : objValue, isLoose? objValue : othValue, key) : undefined;
+
+    // Recursively compare objects (susceptible to call stack limits).
+    if (!(result === undefined ? equalFunc(objValue, othValue, customizer, isLoose, stackA, stackB) : result)) {
+      return false;
+    }
+    skipCtor || (skipCtor = key == 'constructor');
+  }
+  if (!skipCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+
+    // Non `Object` object instances with different constructors are not equal.
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = baseIsEqual;
+
+},{"lodash.isarray":32,"lodash.istypedarray":40,"lodash.keys":42}],17:[function(require,module,exports){
+/**
+ * lodash 3.8.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^\d+$/;
+
+/** Used for native method references. */
+var arrayProto = Array.prototype;
+
+/** Native method references. */
+var splice = arrayProto.splice;
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.pullAt` without support for individual
+ * index arguments and capturing the removed elements.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {number[]} indexes The indexes of elements to remove.
+ * @returns {Array} Returns `array`.
+ */
+function basePullAt(array, indexes) {
+  var length = array ? indexes.length : 0;
+  while (length--) {
+    var index = indexes[length];
+    if (index != previous && isIndex(index)) {
+      var previous = index;
+      splice.call(array, index, 1);
+    }
+  }
+  return array;
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+module.exports = basePullAt;
+
+},{}],18:[function(require,module,exports){
+/**
+ * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * The base implementation of `_.slice` without an iteratee call guard.
+ *
+ * @private
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseSlice(array, start, end) {
+  var index = -1,
+      length = array.length;
+
+  start = start == null ? 0 : (+start || 0);
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = (end === undefined || end > length) ? length : (+end || 0);
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : ((end - start) >>> 0);
+  start >>>= 0;
+
+  var result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+
+module.exports = baseSlice;
+
+},{}],19:[function(require,module,exports){
+/**
+ * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseIndexOf = require('lodash._baseindexof'),
+    cacheIndexOf = require('lodash._cacheindexof'),
+    createCache = require('lodash._createcache');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * The base implementation of `_.uniq` without support for callback shorthands
+ * and `this` binding.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} [iteratee] The function invoked per iteration.
+ * @returns {Array} Returns the new duplicate-value-free array.
+ */
+function baseUniq(array, iteratee) {
+  var index = -1,
+      indexOf = baseIndexOf,
+      length = array.length,
+      isCommon = true,
+      isLarge = isCommon && length >= LARGE_ARRAY_SIZE,
+      seen = isLarge ? createCache() : null,
+      result = [];
+
+  if (seen) {
+    indexOf = cacheIndexOf;
+    isCommon = false;
+  } else {
+    isLarge = false;
+    seen = iteratee ? [] : result;
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee ? iteratee(value, index, array) : value;
+
+    if (isCommon && value === value) {
+      var seenIndex = seen.length;
+      while (seenIndex--) {
+        if (seen[seenIndex] === computed) {
+          continue outer;
+        }
+      }
+      if (iteratee) {
+        seen.push(computed);
+      }
+      result.push(value);
+    }
+    else if (indexOf(seen, computed, 0) < 0) {
+      if (iteratee || isLarge) {
+        seen.push(computed);
+      }
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+module.exports = baseUniq;
+
+},{"lodash._baseindexof":15,"lodash._cacheindexof":21,"lodash._createcache":23}],20:[function(require,module,exports){
+/**
+ * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * A specialized version of `baseCallback` which only supports `this` binding
+ * and specifying the number of arguments to provide to `func`.
+ *
+ * @private
+ * @param {Function} func The function to bind.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {number} [argCount] The number of arguments to provide to `func`.
+ * @returns {Function} Returns the callback.
+ */
+function bindCallback(func, thisArg, argCount) {
+  if (typeof func != 'function') {
+    return identity;
+  }
+  if (thisArg === undefined) {
+    return func;
+  }
+  switch (argCount) {
+    case 1: return function(value) {
+      return func.call(thisArg, value);
+    };
+    case 3: return function(value, index, collection) {
+      return func.call(thisArg, value, index, collection);
+    };
+    case 4: return function(accumulator, value, index, collection) {
+      return func.call(thisArg, accumulator, value, index, collection);
+    };
+    case 5: return function(value, other, key, object, source) {
+      return func.call(thisArg, value, other, key, object, source);
+    };
+  }
+  return function() {
+    return func.apply(thisArg, arguments);
+  };
+}
+
+/**
+ * This method returns the first argument provided to it.
+ *
+ * @static
+ * @memberOf _
+ * @category Utility
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ *
+ * _.identity(object) === object;
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = bindCallback;
+
+},{}],21:[function(require,module,exports){
+/**
+ * lodash 3.0.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is in `cache` mimicking the return signature of
+ * `_.indexOf` by returning `0` if the value is found, else `-1`.
+ *
+ * @private
+ * @param {Object} cache The cache to search.
+ * @param {*} value The value to search for.
+ * @returns {number} Returns `0` if `value` is found, else `-1`.
+ */
+function cacheIndexOf(cache, value) {
+  var data = cache.data,
+      result = (typeof value == 'string' || isObject(value)) ? data.set.has(value) : data.hash[value];
+
+  return result ? 0 : -1;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = cacheIndexOf;
+
+},{}],22:[function(require,module,exports){
+/**
+ * lodash 3.1.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var bindCallback = require('lodash._bindcallback'),
+    isIterateeCall = require('lodash._isiterateecall'),
+    restParam = require('lodash.restparam');
+
+/**
+ * Creates a function that assigns properties of source object(s) to a given
+ * destination object.
+ *
+ * **Note:** This function is used to create `_.assign`, `_.defaults`, and `_.merge`.
+ *
+ * @private
+ * @param {Function} assigner The function to assign values.
+ * @returns {Function} Returns the new assigner function.
+ */
+function createAssigner(assigner) {
+  return restParam(function(object, sources) {
+    var index = -1,
+        length = object == null ? 0 : sources.length,
+        customizer = length > 2 ? sources[length - 2] : undefined,
+        guard = length > 2 ? sources[2] : undefined,
+        thisArg = length > 1 ? sources[length - 1] : undefined;
+
+    if (typeof customizer == 'function') {
+      customizer = bindCallback(customizer, thisArg, 5);
+      length -= 2;
+    } else {
+      customizer = typeof thisArg == 'function' ? thisArg : undefined;
+      length -= (customizer ? 1 : 0);
+    }
+    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+      customizer = length < 3 ? undefined : customizer;
+      length = 1;
+    }
+    while (++index < length) {
+      var source = sources[index];
+      if (source) {
+        assigner(object, source, customizer);
+      }
+    }
+    return object;
+  });
+}
+
+module.exports = createAssigner;
+
+},{"lodash._bindcallback":20,"lodash._isiterateecall":25,"lodash.restparam":49}],23:[function(require,module,exports){
+(function (global){
+/**
+ * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var getNative = require('lodash._getnative');
+
+/** Native method references. */
+var Set = getNative(global, 'Set');
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeCreate = getNative(Object, 'create');
+
+/**
+ *
+ * Creates a cache object to store unique values.
+ *
+ * @private
+ * @param {Array} [values] The values to cache.
+ */
+function SetCache(values) {
+  var length = values ? values.length : 0;
+
+  this.data = { 'hash': nativeCreate(null), 'set': new Set };
+  while (length--) {
+    this.push(values[length]);
+  }
+}
+
+/**
+ * Adds `value` to the cache.
+ *
+ * @private
+ * @name push
+ * @memberOf SetCache
+ * @param {*} value The value to cache.
+ */
+function cachePush(value) {
+  var data = this.data;
+  if (typeof value == 'string' || isObject(value)) {
+    data.set.add(value);
+  } else {
+    data.hash[value] = true;
+  }
+}
+
+/**
+ * Creates a `Set` cache object to optimize linear searches of large arrays.
+ *
+ * @private
+ * @param {Array} [values] The values to cache.
+ * @returns {null|Object} Returns the new cache object if `Set` is supported, else `null`.
+ */
+function createCache(values) {
+  return (nativeCreate && Set) ? new SetCache(values) : null;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+// Add functions to the `Set` cache.
+SetCache.prototype.push = cachePush;
+
+module.exports = createCache;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"lodash._getnative":24}],24:[function(require,module,exports){
+/**
+ * lodash 3.9.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]';
+
+/** Used to detect host constructors (Safari > 5). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var fnToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = object == null ? undefined : object[key];
+  return isNative(value) ? value : undefined;
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in older versions of Chrome and Safari which return 'function' for regexes
+  // and Safari 8 equivalents which return 'object' for typed array constructors.
+  return isObject(value) && objToString.call(value) == funcTag;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+ * @example
+ *
+ * _.isNative(Array.prototype.push);
+ * // => true
+ *
+ * _.isNative(_);
+ * // => false
+ */
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (isFunction(value)) {
+    return reIsNative.test(fnToString.call(value));
+  }
+  return isObjectLike(value) && reIsHostCtor.test(value);
+}
+
+module.exports = getNative;
+
+},{}],25:[function(require,module,exports){
+/**
+ * lodash 3.0.9 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^\d+$/;
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+/**
+ * Checks if the provided arguments are from an iteratee call.
+ *
+ * @private
+ * @param {*} value The potential iteratee value argument.
+ * @param {*} index The potential iteratee index or key argument.
+ * @param {*} object The potential iteratee object argument.
+ * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+ */
+function isIterateeCall(value, index, object) {
+  if (!isObject(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number'
+      ? (isArrayLike(object) && isIndex(index, object.length))
+      : (type == 'string' && index in object)) {
+    var other = object[index];
+    return value === value ? (value === other) : (other !== other);
+  }
+  return false;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = isIterateeCall;
+
+},{}],26:[function(require,module,exports){
+/**
+ * lodash 3.0.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseClone = require('lodash._baseclone'),
+    bindCallback = require('lodash._bindcallback');
+
+/**
+ * Creates a deep clone of `value`. If `customizer` is provided it's invoked
+ * to produce the cloned values. If `customizer` returns `undefined` cloning
+ * is handled by the method instead. The `customizer` is bound to `thisArg`
+ * and invoked with up to three argument; (value [, index|key, object]).
+ *
+ * **Note:** This method is loosely based on the
+ * [structured clone algorithm](http://www.w3.org/TR/html5/infrastructure.html#internal-structured-cloning-algorithm).
+ * The enumerable properties of `arguments` objects and objects created by
+ * constructors other than `Object` are cloned to plain `Object` objects. An
+ * empty object is returned for uncloneable values such as functions, DOM nodes,
+ * Maps, Sets, and WeakMaps.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to deep clone.
+ * @param {Function} [customizer] The function to customize cloning values.
+ * @param {*} [thisArg] The `this` binding of `customizer`.
+ * @returns {*} Returns the deep cloned value.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney' },
+ *   { 'user': 'fred' }
+ * ];
+ *
+ * var deep = _.cloneDeep(users);
+ * deep[0] === users[0];
+ * // => false
+ *
+ * // using a customizer callback
+ * var el = _.cloneDeep(document.body, function(value) {
+ *   if (_.isElement(value)) {
+ *     return value.cloneNode(true);
+ *   }
+ * });
+ *
+ * el === document.body
+ * // => false
+ * el.nodeName
+ * // => BODY
+ * el.childNodes.length;
+ * // => 20
+ */
+function cloneDeep(value, customizer, thisArg) {
+  return typeof customizer == 'function'
+    ? baseClone(value, true, bindCallback(customizer, thisArg, 3))
+    : baseClone(value, true);
+}
+
+module.exports = cloneDeep;
+
+},{"lodash._baseclone":8,"lodash._bindcallback":20}],27:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseSlice = require('lodash._baseslice'),
+    isIterateeCall = require('lodash._isiterateecall');
+
+/**
+ * Creates a slice of `array` with `n` elements dropped from the beginning.
+ *
+ * @static
+ * @memberOf _
+ * @type Function
+ * @category Array
+ * @param {Array} array The array to query.
+ * @param {number} [n=1] The number of elements to drop.
+ * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
+ * @returns {Array} Returns the slice of `array`.
+ * @example
+ *
+ * _.drop([1, 2, 3]);
+ * // => [2, 3]
+ *
+ * _.drop([1, 2, 3], 2);
+ * // => [3]
+ *
+ * _.drop([1, 2, 3], 5);
+ * // => []
+ *
+ * _.drop([1, 2, 3], 0);
+ * // => [1, 2, 3]
+ */
+function drop(array, n, guard) {
+  var length = array ? array.length : 0;
+  if (!length) {
+    return [];
+  }
+  if (guard ? isIterateeCall(array, n, guard) : n == null) {
+    n = 1;
+  }
+  return baseSlice(array, n < 0 ? 0 : n);
+}
+
+module.exports = drop;
+
+},{"lodash._baseslice":18,"lodash._isiterateecall":25}],28:[function(require,module,exports){
+/**
+ * lodash 3.2.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseCallback = require('lodash._basecallback'),
+    baseEach = require('lodash._baseeach'),
+    baseFind = require('lodash._basefind'),
+    baseFindIndex = require('lodash._basefindindex'),
+    isArray = require('lodash.isarray');
+
+/**
+ * Creates a `_.find` or `_.findLast` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new find function.
+ */
+function createFind(eachFunc, fromRight) {
+  return function(collection, predicate, thisArg) {
+    predicate = baseCallback(predicate, thisArg, 3);
+    if (isArray(collection)) {
+      var index = baseFindIndex(collection, predicate, fromRight);
+      return index > -1 ? collection[index] : undefined;
+    }
+    return baseFind(collection, predicate, eachFunc);
+  };
+}
+
+/**
+ * Iterates over elements of `collection`, returning the first element
+ * `predicate` returns truthy for. The predicate is bound to `thisArg` and
+ * invoked with three arguments: (value, index|key, collection).
+ *
+ * If a property name is provided for `predicate` the created `_.property`
+ * style callback returns the property value of the given element.
+ *
+ * If a value is also provided for `thisArg` the created `_.matchesProperty`
+ * style callback returns `true` for elements that have a matching property
+ * value, else `false`.
+ *
+ * If an object is provided for `predicate` the created `_.matches` style
+ * callback returns `true` for elements that have the properties of the given
+ * object, else `false`.
+ *
+ * @static
+ * @memberOf _
+ * @alias detect
+ * @category Collection
+ * @param {Array|Object|string} collection The collection to search.
+ * @param {Function|Object|string} [predicate=_.identity] The function invoked
+ *  per iteration.
+ * @param {*} [thisArg] The `this` binding of `predicate`.
+ * @returns {*} Returns the matched element, else `undefined`.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney',  'age': 36, 'active': true },
+ *   { 'user': 'fred',    'age': 40, 'active': false },
+ *   { 'user': 'pebbles', 'age': 1,  'active': true }
+ * ];
+ *
+ * _.result(_.find(users, function(chr) {
+ *   return chr.age < 40;
+ * }), 'user');
+ * // => 'barney'
+ *
+ * // using the `_.matches` callback shorthand
+ * _.result(_.find(users, { 'age': 1, 'active': true }), 'user');
+ * // => 'pebbles'
+ *
+ * // using the `_.matchesProperty` callback shorthand
+ * _.result(_.find(users, 'active', false), 'user');
+ * // => 'fred'
+ *
+ * // using the `_.property` callback shorthand
+ * _.result(_.find(users, 'active'), 'user');
+ * // => 'barney'
+ */
+var find = createFind(baseEach);
+
+module.exports = find;
+
+},{"lodash._basecallback":7,"lodash._baseeach":10,"lodash._basefind":11,"lodash._basefindindex":12,"lodash.isarray":32}],29:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Gets the first element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @alias head
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the first element of `array`.
+ * @example
+ *
+ * _.first([1, 2, 3]);
+ * // => 1
+ *
+ * _.first([]);
+ * // => undefined
+ */
+function first(array) {
+  return array ? array[0] : undefined;
+}
+
+module.exports = first;
+
+},{}],30:[function(require,module,exports){
+/**
+ * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var arrayEach = require('lodash._arrayeach'),
+    baseEach = require('lodash._baseeach'),
+    bindCallback = require('lodash._bindcallback'),
+    isArray = require('lodash.isarray');
+
+/**
+ * Creates a function for `_.forEach` or `_.forEachRight`.
+ *
+ * @private
+ * @param {Function} arrayFunc The function to iterate over an array.
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @returns {Function} Returns the new each function.
+ */
+function createForEach(arrayFunc, eachFunc) {
+  return function(collection, iteratee, thisArg) {
+    return (typeof iteratee == 'function' && thisArg === undefined && isArray(collection))
+      ? arrayFunc(collection, iteratee)
+      : eachFunc(collection, bindCallback(iteratee, thisArg, 3));
+  };
+}
+
+/**
+ * Iterates over elements of `collection` invoking `iteratee` for each element.
+ * The `iteratee` is bound to `thisArg` and invoked with three arguments:
+ * (value, index|key, collection). Iteratee functions may exit iteration early
+ * by explicitly returning `false`.
+ *
+ * **Note:** As with other "Collections" methods, objects with a "length" property
+ * are iterated like arrays. To avoid this behavior `_.forIn` or `_.forOwn`
+ * may be used for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @alias each
+ * @category Collection
+ * @param {Array|Object|string} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @param {*} [thisArg] The `this` binding of `iteratee`.
+ * @returns {Array|Object|string} Returns `collection`.
+ * @example
+ *
+ * _([1, 2]).forEach(function(n) {
+ *   console.log(n);
+ * }).value();
+ * // => logs each value from left to right and returns the array
+ *
+ * _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
+ *   console.log(n, key);
+ * });
+ * // => logs each value-key pair and returns the object (iteration order is not guaranteed)
+ */
+var forEach = createForEach(arrayEach, baseEach);
+
+module.exports = forEach;
+
+},{"lodash._arrayeach":4,"lodash._baseeach":10,"lodash._bindcallback":20,"lodash.isarray":32}],31:[function(require,module,exports){
+/**
+ * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Native method references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is classified as an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  return isObjectLike(value) && isArrayLike(value) &&
+    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+}
+
+module.exports = isArguments;
+
+},{}],32:[function(require,module,exports){
+/**
+ * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var arrayTag = '[object Array]',
+    funcTag = '[object Function]';
+
+/** Used to detect host constructors (Safari > 5). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var fnToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeIsArray = getNative(Array, 'isArray');
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = object == null ? undefined : object[key];
+  return isNative(value) ? value : undefined;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(function() { return arguments; }());
+ * // => false
+ */
+var isArray = nativeIsArray || function(value) {
+  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+};
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in older versions of Chrome and Safari which return 'function' for regexes
+  // and Safari 8 equivalents which return 'object' for typed array constructors.
+  return isObject(value) && objToString.call(value) == funcTag;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+ * @example
+ *
+ * _.isNative(Array.prototype.push);
+ * // => true
+ *
+ * _.isNative(_);
+ * // => false
+ */
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (isFunction(value)) {
+    return reIsNative.test(fnToString.call(value));
+  }
+  return isObjectLike(value) && reIsHostCtor.test(value);
+}
+
+module.exports = isArray;
+
+},{}],33:[function(require,module,exports){
+/**
+ * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray'),
+    isFunction = require('lodash.isfunction'),
+    isString = require('lodash.isstring'),
+    keys = require('lodash.keys');
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is empty. A value is considered empty unless it is an
+ * `arguments` object, array, string, or jQuery-like collection with a length
+ * greater than `0` or an object with own enumerable properties.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {Array|Object|string} value The value to inspect.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+  if (isArrayLike(value) && (isArray(value) || isString(value) || isArguments(value) ||
+      (isObjectLike(value) && isFunction(value.splice)))) {
+    return !value.length;
+  }
+  return !keys(value).length;
+}
+
+module.exports = isEmpty;
+
+},{"lodash.isarguments":31,"lodash.isarray":32,"lodash.isfunction":35,"lodash.isstring":39,"lodash.keys":42}],34:[function(require,module,exports){
+/**
+ * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseIsEqual = require('lodash._baseisequal'),
+    bindCallback = require('lodash._bindcallback');
+
+/**
+ * Performs a deep comparison between two values to determine if they are
+ * equivalent. If `customizer` is provided it is invoked to compare values.
+ * If `customizer` returns `undefined` comparisons are handled by the method
+ * instead. The `customizer` is bound to `thisArg` and invoked with three
+ * arguments: (value, other [, index|key]).
+ *
+ * **Note:** This method supports comparing arrays, booleans, `Date` objects,
+ * numbers, `Object` objects, regexes, and strings. Objects are compared by
+ * their own, not inherited, enumerable properties. Functions and DOM nodes
+ * are **not** supported. Provide a customizer function to extend support
+ * for comparing other values.
+ *
+ * @static
+ * @memberOf _
+ * @alias eq
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @param {Function} [customizer] The function to customize value comparisons.
+ * @param {*} [thisArg] The `this` binding of `customizer`.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ * var other = { 'user': 'fred' };
+ *
+ * object == other;
+ * // => false
+ *
+ * _.isEqual(object, other);
+ * // => true
+ *
+ * // using a customizer callback
+ * var array = ['hello', 'goodbye'];
+ * var other = ['hi', 'goodbye'];
+ *
+ * _.isEqual(array, other, function(value, other) {
+ *   if (_.every([value, other], RegExp.prototype.test, /^h(?:i|ello)$/)) {
+ *     return true;
+ *   }
+ * });
+ * // => true
+ */
+function isEqual(value, other, customizer, thisArg) {
+  customizer = typeof customizer == 'function' ? bindCallback(customizer, thisArg, 3) : undefined;
+  var result = customizer ? customizer(value, other) : undefined;
+  return  result === undefined ? baseIsEqual(value, other, customizer) : !!result;
+}
+
+module.exports = isEqual;
+
+},{"lodash._baseisequal":16,"lodash._bindcallback":20}],35:[function(require,module,exports){
+/**
+ * lodash 3.0.6 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]';
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in older versions of Chrome and Safari which return 'function' for regexes
+  // and Safari 8 equivalents which return 'object' for typed array constructors.
+  return isObject(value) && objToString.call(value) == funcTag;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = isFunction;
+
+},{}],36:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var isNumber = require('lodash.isnumber');
+
+/**
+ * Checks if `value` is `NaN`.
+ *
+ * **Note:** This method is not the same as native `isNaN` which returns `true`
+ * for `undefined` and other non-numeric values. See the [ES5 spec](https://es5.github.io/#x15.1.2.4)
+ * for more details.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ * @example
+ *
+ * _.isNaN(NaN);
+ * // => true
+ *
+ * _.isNaN(new Number(NaN));
+ * // => true
+ *
+ * isNaN(undefined);
+ * // => true
+ *
+ * _.isNaN(undefined);
+ * // => false
+ */
+function isNaN(value) {
+  // An `NaN` primitive is the only value that is not equal to itself.
+  // Perform the `toStringTag` check first to avoid errors with some host objects in IE.
+  return isNumber(value) && value != +value;
+}
+
+module.exports = isNaN;
+
+},{"lodash.isnumber":37}],37:[function(require,module,exports){
+/**
+ * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var numberTag = '[object Number]';
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Number` primitive or object.
+ *
+ * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are classified
+ * as numbers, use the `_.isFinite` method.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isNumber(8.4);
+ * // => true
+ *
+ * _.isNumber(NaN);
+ * // => true
+ *
+ * _.isNumber('8.4');
+ * // => false
+ */
+function isNumber(value) {
+  return typeof value == 'number' || (isObjectLike(value) && objToString.call(value) == numberTag);
+}
+
+module.exports = isNumber;
+
+},{}],38:[function(require,module,exports){
+/**
+ * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseFor = require('lodash._basefor'),
+    isArguments = require('lodash.isarguments'),
+    keysIn = require('lodash.keysin');
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * The base implementation of `_.forIn` without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForIn(object, iteratee) {
+  return baseFor(object, iteratee, keysIn);
+}
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * **Note:** This method assumes objects created by the `Object` constructor
+ * have no inherited enumerable properties.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  var Ctor;
+
+  // Exit early for non `Object` objects.
+  if (!(isObjectLike(value) && objToString.call(value) == objectTag && !isArguments(value)) ||
+      (!hasOwnProperty.call(value, 'constructor') && (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
+    return false;
+  }
+  // IE < 9 iterates inherited properties before own properties. If the first
+  // iterated property is an object's own property then there are no inherited
+  // enumerable properties.
+  var result;
+  // In most environments an object's own properties are iterated before
+  // its inherited properties. If the last iterated property is an object's
+  // own property then there are no inherited enumerable properties.
+  baseForIn(value, function(subValue, key) {
+    result = key;
+  });
+  return result === undefined || hasOwnProperty.call(value, result);
+}
+
+module.exports = isPlainObject;
+
+},{"lodash._basefor":14,"lodash.isarguments":31,"lodash.keysin":43}],39:[function(require,module,exports){
+/**
+ * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var stringTag = '[object String]';
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' || (isObjectLike(value) && objToString.call(value) == stringTag);
+}
+
+module.exports = isString;
+
+},{}],40:[function(require,module,exports){
+/**
+ * lodash 3.0.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dateTag] = typedArrayTags[errorTag] =
+typedArrayTags[funcTag] = typedArrayTags[mapTag] =
+typedArrayTags[numberTag] = typedArrayTags[objectTag] =
+typedArrayTags[regexpTag] = typedArrayTags[setTag] =
+typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+function isTypedArray(value) {
+  return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[objToString.call(value)];
+}
+
+module.exports = isTypedArray;
+
+},{}],41:[function(require,module,exports){
+/**
+ * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Checks if `value` is `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+ * @example
+ *
+ * _.isUndefined(void 0);
+ * // => true
+ *
+ * _.isUndefined(null);
+ * // => false
+ */
+function isUndefined(value) {
+  return value === undefined;
+}
+
+module.exports = isUndefined;
+
+},{}],42:[function(require,module,exports){
+/**
+ * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var getNative = require('lodash._getnative'),
+    isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray');
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^\d+$/;
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeKeys = getNative(Object, 'keys');
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * A fallback implementation of `Object.keys` which creates an array of the
+ * own enumerable property names of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function shimKeys(object) {
+  var props = keysIn(object),
+      propsLength = props.length,
+      length = propsLength && object.length;
+
+  var allowIndexes = !!length && isLength(length) &&
+    (isArray(object) || isArguments(object));
+
+  var index = -1,
+      result = [];
+
+  while (++index < propsLength) {
+    var key = props[index];
+    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+var keys = !nativeKeys ? shimKeys : function(object) {
+  var Ctor = object == null ? undefined : object.constructor;
+  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
+      (typeof object != 'function' && isArrayLike(object))) {
+    return shimKeys(object);
+  }
+  return isObject(object) ? nativeKeys(object) : [];
+};
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  if (object == null) {
+    return [];
+  }
+  if (!isObject(object)) {
+    object = Object(object);
+  }
+  var length = object.length;
+  length = (length && isLength(length) &&
+    (isArray(object) || isArguments(object)) && length) || 0;
+
+  var Ctor = object.constructor,
+      index = -1,
+      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+      result = Array(length),
+      skipIndexes = length > 0;
+
+  while (++index < length) {
+    result[index] = (index + '');
+  }
+  for (var key in object) {
+    if (!(skipIndexes && isIndex(key, length)) &&
+        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keys;
+
+},{"lodash._getnative":24,"lodash.isarguments":31,"lodash.isarray":32}],43:[function(require,module,exports){
+/**
+ * lodash 3.0.8 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray');
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^\d+$/;
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  if (object == null) {
+    return [];
+  }
+  if (!isObject(object)) {
+    object = Object(object);
+  }
+  var length = object.length;
+  length = (length && isLength(length) &&
+    (isArray(object) || isArguments(object)) && length) || 0;
+
+  var Ctor = object.constructor,
+      index = -1,
+      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+      result = Array(length),
+      skipIndexes = length > 0;
+
+  while (++index < length) {
+    result[index] = (index + '');
+  }
+  for (var key in object) {
+    if (!(skipIndexes && isIndex(key, length)) &&
+        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keysIn;
+
+},{"lodash.isarguments":31,"lodash.isarray":32}],44:[function(require,module,exports){
+/**
+ * lodash 3.1.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var arrayMap = require('lodash._arraymap'),
+    baseCallback = require('lodash._basecallback'),
+    baseEach = require('lodash._baseeach'),
+    isArray = require('lodash.isarray');
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.map` without support for callback shorthands
+ * and `this` binding.
+ *
+ * @private
+ * @param {Array|Object|string} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function baseMap(collection, iteratee) {
+  var index = -1,
+      result = isArrayLike(collection) ? Array(collection.length) : [];
+
+  baseEach(collection, function(value, key, collection) {
+    result[++index] = iteratee(value, key, collection);
+  });
+  return result;
+}
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Creates an array of values by running each element in `collection` through
+ * `iteratee`. The `iteratee` is bound to `thisArg` and invoked with three
+ * arguments: (value, index|key, collection).
+ *
+ * If a property name is provided for `iteratee` the created `_.property`
+ * style callback returns the property value of the given element.
+ *
+ * If a value is also provided for `thisArg` the created `_.matchesProperty`
+ * style callback returns `true` for elements that have a matching property
+ * value, else `false`.
+ *
+ * If an object is provided for `iteratee` the created `_.matches` style
+ * callback returns `true` for elements that have the properties of the given
+ * object, else `false`.
+ *
+ * Many lodash methods are guarded to work as iteratees for methods like
+ * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
+ *
+ * The guarded methods are:
+ * `ary`, `callback`, `chunk`, `clone`, `create`, `curry`, `curryRight`,
+ * `drop`, `dropRight`, `every`, `fill`, `flatten`, `invert`, `max`, `min`,
+ * `parseInt`, `slice`, `sortBy`, `take`, `takeRight`, `template`, `trim`,
+ * `trimLeft`, `trimRight`, `trunc`, `random`, `range`, `sample`, `some`,
+ * `sum`, `uniq`, and `words`
+ *
+ * @static
+ * @memberOf _
+ * @alias collect
+ * @category Collection
+ * @param {Array|Object|string} collection The collection to iterate over.
+ * @param {Function|Object|string} [iteratee=_.identity] The function invoked
+ *  per iteration.
+ * @param {*} [thisArg] The `this` binding of `iteratee`.
+ * @returns {Array} Returns the new mapped array.
+ * @example
+ *
+ * function timesThree(n) {
+ *   return n * 3;
+ * }
+ *
+ * _.map([1, 2], timesThree);
+ * // => [3, 6]
+ *
+ * _.map({ 'a': 1, 'b': 2 }, timesThree);
+ * // => [3, 6] (iteration order is not guaranteed)
+ *
+ * var users = [
+ *   { 'user': 'barney' },
+ *   { 'user': 'fred' }
+ * ];
+ *
+ * // using the `_.property` callback shorthand
+ * _.map(users, 'user');
+ * // => ['barney', 'fred']
+ */
+function map(collection, iteratee, thisArg) {
+  var func = isArray(collection) ? arrayMap : baseMap;
+  iteratee = baseCallback(iteratee, thisArg, 3);
+  return func(collection, iteratee);
+}
+
+module.exports = map;
+
+},{"lodash._arraymap":5,"lodash._basecallback":7,"lodash._baseeach":10,"lodash.isarray":32}],45:[function(require,module,exports){
+/**
+ * lodash 3.3.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var arrayCopy = require('lodash._arraycopy'),
+    arrayEach = require('lodash._arrayeach'),
+    createAssigner = require('lodash._createassigner'),
+    isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray'),
+    isPlainObject = require('lodash.isplainobject'),
+    isTypedArray = require('lodash.istypedarray'),
+    keys = require('lodash.keys'),
+    toPlainObject = require('lodash.toplainobject');
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.merge` without support for argument juggling,
+ * multiple sources, and `this` binding `customizer` functions.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @param {Function} [customizer] The function to customize merged values.
+ * @param {Array} [stackA=[]] Tracks traversed source objects.
+ * @param {Array} [stackB=[]] Associates values with source counterparts.
+ * @returns {Object} Returns `object`.
+ */
+function baseMerge(object, source, customizer, stackA, stackB) {
+  if (!isObject(object)) {
+    return object;
+  }
+  var isSrcArr = isArrayLike(source) && (isArray(source) || isTypedArray(source)),
+      props = isSrcArr ? undefined : keys(source);
+
+  arrayEach(props || source, function(srcValue, key) {
+    if (props) {
+      key = srcValue;
+      srcValue = source[key];
+    }
+    if (isObjectLike(srcValue)) {
+      stackA || (stackA = []);
+      stackB || (stackB = []);
+      baseMergeDeep(object, source, key, baseMerge, customizer, stackA, stackB);
+    }
+    else {
+      var value = object[key],
+          result = customizer ? customizer(value, srcValue, key, object, source) : undefined,
+          isCommon = result === undefined;
+
+      if (isCommon) {
+        result = srcValue;
+      }
+      if ((result !== undefined || (isSrcArr && !(key in object))) &&
+          (isCommon || (result === result ? (result !== value) : (value === value)))) {
+        object[key] = result;
+      }
+    }
+  });
+  return object;
+}
+
+/**
+ * A specialized version of `baseMerge` for arrays and objects which performs
+ * deep merges and tracks traversed objects enabling objects with circular
+ * references to be merged.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @param {string} key The key of the value to merge.
+ * @param {Function} mergeFunc The function to merge values.
+ * @param {Function} [customizer] The function to customize merged values.
+ * @param {Array} [stackA=[]] Tracks traversed source objects.
+ * @param {Array} [stackB=[]] Associates values with source counterparts.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stackB) {
+  var length = stackA.length,
+      srcValue = source[key];
+
+  while (length--) {
+    if (stackA[length] == srcValue) {
+      object[key] = stackB[length];
+      return;
+    }
+  }
+  var value = object[key],
+      result = customizer ? customizer(value, srcValue, key, object, source) : undefined,
+      isCommon = result === undefined;
+
+  if (isCommon) {
+    result = srcValue;
+    if (isArrayLike(srcValue) && (isArray(srcValue) || isTypedArray(srcValue))) {
+      result = isArray(value)
+        ? value
+        : (isArrayLike(value) ? arrayCopy(value) : []);
+    }
+    else if (isPlainObject(srcValue) || isArguments(srcValue)) {
+      result = isArguments(value)
+        ? toPlainObject(value)
+        : (isPlainObject(value) ? value : {});
+    }
+    else {
+      isCommon = false;
+    }
+  }
+  // Add the source value to the stack of traversed objects and associate
+  // it with its merged value.
+  stackA.push(srcValue);
+  stackB.push(result);
+
+  if (isCommon) {
+    // Recursively merge objects and arrays (susceptible to call stack limits).
+    object[key] = mergeFunc(result, srcValue, customizer, stackA, stackB);
+  } else if (result === result ? (result !== value) : (value === value)) {
+    object[key] = result;
+  }
+}
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Recursively merges own enumerable properties of the source object(s), that
+ * don't resolve to `undefined` into the destination object. Subsequent sources
+ * overwrite property assignments of previous sources. If `customizer` is
+ * provided it is invoked to produce the merged values of the destination and
+ * source properties. If `customizer` returns `undefined` merging is handled
+ * by the method instead. The `customizer` is bound to `thisArg` and invoked
+ * with five arguments: (objectValue, sourceValue, key, object, source).
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @param {Function} [customizer] The function to customize assigned values.
+ * @param {*} [thisArg] The `this` binding of `customizer`.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * var users = {
+ *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
+ * };
+ *
+ * var ages = {
+ *   'data': [{ 'age': 36 }, { 'age': 40 }]
+ * };
+ *
+ * _.merge(users, ages);
+ * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
+ *
+ * // using a customizer callback
+ * var object = {
+ *   'fruits': ['apple'],
+ *   'vegetables': ['beet']
+ * };
+ *
+ * var other = {
+ *   'fruits': ['banana'],
+ *   'vegetables': ['carrot']
+ * };
+ *
+ * _.merge(object, other, function(a, b) {
+ *   if (_.isArray(a)) {
+ *     return a.concat(b);
+ *   }
+ * });
+ * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
+ */
+var merge = createAssigner(baseMerge);
+
+module.exports = merge;
+
+},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._createassigner":22,"lodash.isarguments":31,"lodash.isarray":32,"lodash.isplainobject":38,"lodash.istypedarray":40,"lodash.keys":42,"lodash.toplainobject":52}],46:[function(require,module,exports){
+/**
+ * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var keys = require('lodash.keys');
+
+/**
+ * Converts `value` to an object if it's not one.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {Object} Returns the object.
+ */
+function toObject(value) {
+  return isObject(value) ? value : Object(value);
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Creates a two dimensional array of the key-value pairs for `object`,
+ * e.g. `[[key1, value1], [key2, value2]]`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the new array of key-value pairs.
+ * @example
+ *
+ * _.pairs({ 'barney': 36, 'fred': 40 });
+ * // => [['barney', 36], ['fred', 40]] (iteration order is not guaranteed)
+ */
+function pairs(object) {
+  object = toObject(object);
+
+  var index = -1,
+      props = keys(object),
+      length = props.length,
+      result = Array(length);
+
+  while (++index < length) {
+    var key = props[index];
+    result[index] = [key, object[key]];
+  }
+  return result;
+}
+
+module.exports = pairs;
+
+},{"lodash.keys":42}],47:[function(require,module,exports){
+/**
+ * lodash 3.1.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseCallback = require('lodash._basecallback'),
+    basePullAt = require('lodash._basepullat');
+
+/**
+ * Removes all elements from `array` that `predicate` returns truthy for
+ * and returns an array of the removed elements. The predicate is bound to
+ * `thisArg` and invoked with three arguments: (value, index, array).
+ *
+ * If a property name is provided for `predicate` the created `_.property`
+ * style callback returns the property value of the given element.
+ *
+ * If a value is also provided for `thisArg` the created `_.matchesProperty`
+ * style callback returns `true` for elements that have a matching property
+ * value, else `false`.
+ *
+ * If an object is provided for `predicate` the created `_.matches` style
+ * callback returns `true` for elements that have the properties of the given
+ * object, else `false`.
+ *
+ * **Note:** Unlike `_.filter`, this method mutates `array`.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to modify.
+ * @param {Function|Object|string} [predicate=_.identity] The function invoked
+ *  per iteration.
+ * @param {*} [thisArg] The `this` binding of `predicate`.
+ * @returns {Array} Returns the new array of removed elements.
+ * @example
+ *
+ * var array = [1, 2, 3, 4];
+ * var evens = _.remove(array, function(n) {
+ *   return n % 2 == 0;
+ * });
+ *
+ * console.log(array);
+ * // => [1, 3]
+ *
+ * console.log(evens);
+ * // => [2, 4]
+ */
+function remove(array, predicate, thisArg) {
+  var result = [];
+  if (!(array && array.length)) {
+    return result;
+  }
+  var index = -1,
+      indexes = [],
+      length = array.length;
+
+  predicate = baseCallback(predicate, thisArg, 3);
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result.push(value);
+      indexes.push(index);
+    }
+  }
+  basePullAt(array, indexes);
+  return result;
+}
+
+module.exports = remove;
+
+},{"lodash._basecallback":7,"lodash._basepullat":17}],48:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseSlice = require('lodash._baseslice'),
+    isIterateeCall = require('lodash._isiterateecall');
+
+/**
+ * Creates a slice of `array` with `n` elements dropped from the beginning.
+ *
+ * @static
+ * @memberOf _
+ * @type Function
+ * @category Array
+ * @param {Array} array The array to query.
+ * @param {number} [n=1] The number of elements to drop.
+ * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
+ * @returns {Array} Returns the slice of `array`.
+ * @example
+ *
+ * _.drop([1, 2, 3]);
+ * // => [2, 3]
+ *
+ * _.drop([1, 2, 3], 2);
+ * // => [3]
+ *
+ * _.drop([1, 2, 3], 5);
+ * // => []
+ *
+ * _.drop([1, 2, 3], 0);
+ * // => [1, 2, 3]
+ */
+function drop(array, n, guard) {
+  var length = array ? array.length : 0;
+  if (!length) {
+    return [];
+  }
+  if (guard ? isIterateeCall(array, n, guard) : n == null) {
+    n = 1;
+  }
+  return baseSlice(array, n < 0 ? 0 : n);
+}
+
+/**
+ * Gets all but the first element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @alias tail
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {Array} Returns the slice of `array`.
+ * @example
+ *
+ * _.rest([1, 2, 3]);
+ * // => [2, 3]
+ */
+function rest(array) {
+  return drop(array, 1);
+}
+
+module.exports = rest;
+
+},{"lodash._baseslice":18,"lodash._isiterateecall":25}],49:[function(require,module,exports){
+/**
+ * lodash 3.6.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Creates a function that invokes `func` with the `this` binding of the
+ * created function and arguments from `start` and beyond provided as an array.
+ *
+ * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters).
+ *
+ * @static
+ * @memberOf _
+ * @category Function
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ * @example
+ *
+ * var say = _.restParam(function(what, names) {
+ *   return what + ' ' + _.initial(names).join(', ') +
+ *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+ * });
+ *
+ * say('hello', 'fred', 'barney', 'pebbles');
+ * // => 'hello fred, barney, & pebbles'
+ */
+function restParam(func, start) {
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        rest = Array(length);
+
+    while (++index < length) {
+      rest[index] = args[start + index];
+    }
+    switch (start) {
+      case 0: return func.call(this, rest);
+      case 1: return func.call(this, args[0], rest);
+      case 2: return func.call(this, args[0], args[1], rest);
+    }
+    var otherArgs = Array(start + 1);
+    index = -1;
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = rest;
+    return func.apply(this, otherArgs);
+  };
+}
+
+module.exports = restParam;
+
+},{}],50:[function(require,module,exports){
+/**
+ * lodash 3.0.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var keys = require('lodash.keys');
+
+/**
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Gets the size of `collection` by returning its length for array-like
+ * values or the number of own enumerable properties for objects.
+ *
+ * @static
+ * @memberOf _
+ * @category Collection
+ * @param {Array|Object|string} collection The collection to inspect.
+ * @returns {number} Returns the size of `collection`.
+ * @example
+ *
+ * _.size([1, 2, 3]);
+ * // => 3
+ *
+ * _.size({ 'a': 1, 'b': 2 });
+ * // => 2
+ *
+ * _.size('pebbles');
+ * // => 7
+ */
+function size(collection) {
+  var length = collection ? getLength(collection) : 0;
+  return isLength(length) ? length : keys(collection).length;
+}
+
+module.exports = size;
+
+},{"lodash.keys":42}],51:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseSlice = require('lodash._baseslice'),
+    isIterateeCall = require('lodash._isiterateecall');
+
+/**
+ * Creates a slice of `array` from `start` up to, but not including, `end`.
+ *
+ * **Note:** This function is used instead of `Array#slice` to support node
+ * lists in IE < 9 and to ensure dense arrays are returned.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function slice(array, start, end) {
+  var length = array ? array.length : 0;
+  if (!length) {
+    return [];
+  }
+  if (end && typeof end != 'number' && isIterateeCall(array, start, end)) {
+    start = 0;
+    end = length;
+  }
+  return baseSlice(array, start, end);
+}
+
+module.exports = slice;
+
+},{"lodash._baseslice":18,"lodash._isiterateecall":25}],52:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseCopy = require('lodash._basecopy'),
+    keysIn = require('lodash.keysin');
+
+/**
+ * Converts `value` to a plain object flattening inherited enumerable
+ * properties of `value` to own properties of the plain object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {Object} Returns the converted plain object.
+ * @example
+ *
+ * function Foo() {
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.assign({ 'a': 1 }, new Foo);
+ * // => { 'a': 1, 'b': 2 }
+ *
+ * _.assign({ 'a': 1 }, _.toPlainObject(new Foo));
+ * // => { 'a': 1, 'b': 2, 'c': 3 }
+ */
+function toPlainObject(value) {
+  return baseCopy(value, keysIn(value));
+}
+
+module.exports = toPlainObject;
+
+},{"lodash._basecopy":9,"lodash.keysin":43}],53:[function(require,module,exports){
+/**
+ * lodash 3.1.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseFlatten = require('lodash._baseflatten'),
+    baseUniq = require('lodash._baseuniq'),
+    restParam = require('lodash.restparam');
+
+/**
+ * Creates an array of unique values, in order, of the provided arrays using
+ * `SameValueZero` for equality comparisons.
+ *
+ * **Note:** [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+ * comparisons are like strict equality comparisons, e.g. `===`, except that
+ * `NaN` matches `NaN`.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {...Array} [arrays] The arrays to inspect.
+ * @returns {Array} Returns the new array of combined values.
+ * @example
+ *
+ * _.union([1, 2], [4, 2], [2, 1]);
+ * // => [1, 2, 4]
+ */
+var union = restParam(function(arrays) {
+  return baseUniq(baseFlatten(arrays, false, true));
+});
+
+module.exports = union;
+
+},{"lodash._baseflatten":13,"lodash._baseuniq":19,"lodash.restparam":49}],54:[function(require,module,exports){
+// Generated by CoffeeScript 1.8.0
+(function() {
+  var Events, Mediator, mediator;
+
+  Events = require('backbone-events-standalone');
+
+  Mediator = (function() {
+    Mediator.prototype.attributes = {};
+
+    function Mediator() {}
+
+    Mediator.prototype.set = function(key, data) {
+      return this.attributes[key] = data;
+    };
+
+    Mediator.prototype.get = function(key) {
+      return this.attributes[key];
+    };
+
+    return Mediator;
+
+  })();
+
+  Events.mixin(Mediator.prototype);
+
+  mediator = new Mediator;
+
+  mediator.Mediator = Mediator;
+
+  module.exports = mediator;
+
+}).call(this);
+
+},{"backbone-events-standalone":2}],55:[function(require,module,exports){
+(function() {
+    // Load the framework and Highcharts. Framework is passed as a parameter.
+    var mediator;
+    var configService;
+    var that = {};
+    that.load = function (element, services) {
+        mediator = services.mediator;
+        configService = services.config;
+        var options = configService.get();
+        options.chart.renderTo = element;
+        var chart = new Highcharts.Chart(options);
+        mediator.on('configUpdate', function () {
+            mediator.trigger('treeUpdate'); // to update series-tab-name
+            var options = configService.get();
+            options.chart.renderTo = element;
+            chart = new Highcharts.Chart(options);
+        });
+        mediator.on('dataUpdate', function () {
+            var options = configService.get();
+            options.chart.renderTo = element;
+            chart = new Highcharts.Chart(options);
+        });
+        mediator.on('dataValueUpdate', function () {
+            var options = configService.get();
+            options.chart.renderTo = element;
+            chart = new Highcharts.Chart(options);
+        });
+    };
+    module.exports = that;
+})();
+},{}],56:[function(require,module,exports){
+module.exports=module.exports = [
+  {
+    "id": "line",
+    "type": "Line charts",
+    "icon": "line",
+    "presets": [
+      {
+        "id": "basic",
+        "title": "Line chart",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "dataLabels",
+        "title": "With data labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "spline",
+        "title": "Spline",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "splineDataLabels",
+        "title": "Spline with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "splineLogarithmic",
+        "title": "Logarithmic",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "spline"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "yAxis": {
+            "type": "logarithmic"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "step",
+        "title": "Step line",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left"
+            }
+          }
+        }
+      },
+      {
+        "id": "stepWithLabels",
+        "title": "Step line with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "inverted",
+        "title": "Inverted",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "line",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "negativeColor",
+        "title": "Negative color",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "negativeColor": "#0088FF"
+            }
+          }
+        }
+      },
+      {
+        "id": "errorBar",
+        "title": "Error bar",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "series": [
+            {"type": null},
+            {"type": "errorbar"}
+          ]
+        }
+      },
+      {
+        "id": "combinationColumn",
+        "title": "Combination chart",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "series": [
+            {"type": null},
+            {"type": "column"}
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "area",
+    "type": "Area charts",
+    "icon": "area",
+    "presets": [
+      {
+        "id": "basic",
+        "title": "Area Chart",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "withLabels",
+        "title": "Area with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "stacked",
+        "title": "Stacked",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          }
+        }
+      },
+      {
+        "id": "stackedWithLabels",
+        "title": "Stacked with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "stackedPercentage",
+        "title": "Stacked percentage",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          }
+        }
+      },
+      {
+        "id": "inverted",
+        "title": "Inverted",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "invertedWithLabels",
+        "title": "Inverted with labels",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "stepLine",
+        "title": "Step line",
+        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "step": "left"
+            }
+          }
+        }
+      },
+      {
+        "id": "negativeColor",
+        "title": "Negative color",
+        "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions": {
+            "series": {
+              "negativeColor": "#0088FF",
+              "color": "#FF000000"
+            }
+          }
+        }
+      },
+      {
+        "id": "range",
+        "title": "Area range",
+        "desc": "Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "arearange"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "column",
+    "type": "Column charts",
+    "icon": "column",
+    "presets": [
+      {
+        "id": "basic",
+        "title": "Basic",
+        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "withLabels",
+        "title": "With labels",
+        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "3d",
+        "title": "Column 3D",
+        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "margin": 75,
+            "options3d": {
+              "enabled": true,
+              "alpha": 15,
+              "beta": 15,
+              "depth": 50,
+              "viewDistance": 15
+            }
+          },
+          "plotOptions": {
+            "column": {
+              "depth": 25
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stacked",
+        "title": "Stacked",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stackedWithLabels",
+        "title": "Stacked with labels",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stacked3d",
+        "title": "Stacked 3D",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "margin": 75,
+            "options3d": {
+              "enabled": true,
+              "alpha": 15,
+              "beta": 15,
+              "depth": 50,
+              "viewDistance": 15
+            }
+          },
+          "plotOptions": {
+            "column": {
+              "depth": 25
+            },
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stackedPercent",
+        "title": "Stacked percent",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stackedPercentWithLabels",
+        "title": "Stacked percent with labels",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "negativeColor",
+        "title": "Negative color",
+        "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions":{
+            "series":{
+              "negativeColor": "#0088FF",
+              "color": "#FF0000"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "multiColor",
+        "title": "Multi color",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions":{
+            "series":{
+              "colorByPoint": true
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "logarithmic",
+        "title": "Logarithmic",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "yAxis": {
+            "type": "logarithmic",
+            "minorTickInterval": "auto"
+          }
+        }
+      },
+      {
+        "id": "range",
+        "title": "Columnrange",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "columnrange"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "rangeWithLabels",
+        "title": "Columnrange with labels",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "columnrange"
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "packed",
+        "title": "Packed Columns",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "plotOptions": {
+            "series": {
+              "pointPadding": 0,
+              "groupPadding": 0,
+              "borderWidth": 0,
+              "shadow": false
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "errorbar",
+        "title": "Error bar",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
+        "definition": {
+          "chart": {
+            "type": "column"
+          },
+          "series": [
+            {"type": null},
+            {
+              "type": "errorbar",
+              "showInLegend": true
+            }
+          ],
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "bar",
+    "type": "Bar charts",
+    "icon": "bar",
+    "presets": [
+      {
+        "id": "basic",
+        "title": "Basic bar",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "basicWithLabels",
+        "title": "Basic with labels",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "plotOptions":{
+            "series":{
+              "dataLabels":{
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "stacked",
+        "title": "Stacked bar",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stackedWithLabels",
+        "title": "Stacked with labels",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "normal",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stackedPercentage",
+        "title": "Stacked percentage bar",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "stackedPercentageWithLabels",
+        "title": "Stacked percentage bar with labels",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": "percent",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "negativeColor",
+        "title": "Negative color",
+        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions":{
+            "series":{
+              "negativeColor": "#0088FF",
+              "color": "#FF0000"
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "multiColor",
+        "title": "Multi color",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "colorByPoint": true
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "horizontalColumnrange",
+        "title": "Horizontal columnrange",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "logarithmic",
+        "title": "Logarithmic",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "yAxis": {
+            "type": "logarithmic",
+            "minorTickInterval": "auto"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "horizontalColumnrangeWithLabels",
+        "title": "Horizontal columnrange with labels",
+        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "columnrange",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "packedBars",
+        "title": "Packed Bars",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "plotOptions": {
+            "series": {
+              "pointPadding": 0,
+              "groupPadding": 0,
+              "borderWidth": 0,
+              "shadow": false
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "errorbar",
+        "title": "Error bar",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
+        "definition": {
+          "chart": {
+            "type": "column",
+            "inverted": true
+          },
+          "xAxis": {
+            "type": "category"
+          },
+          "series": [
+            {"type": null},
+            {"type": "errorbar"}
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "scatterAndBubble",
+    "type": "Scatter and bubble",
+    "icon": "spider",
+    "presets": [
+      {
+        "id": "scatter",
+        "title": "Scatter chart",
+        "description": "Requires one data column for X values and one for Y values.",
+        "definition": {
+          "chart": {
+            "type": "scatter"
+          }
+        }
+      },
+      {
+        "id": "bubble",
+        "title": "Bubble chart",
+        "description": "Requires three data columns: one for X values, one for Y values and one for the size of the bubble (Z value).",
+        "definition": {
+          "chart": {
+            "type": "bubble"
+          }
+        }
+      },
+      {
+        "id": "scatterWithLine",
+        "title": "Scatter with line",
+        "description": "Requires one data column for X values and one for Y values.",
+        "definition": {
+          "chart": {
+            "type": "scatter"
+          },
+          "plotOptions":{
+            "series":{
+              "lineWidth": 1
+            }
+          }
+        }
+      },
+      {
+        "id": "scatterWithLineNoMarker",
+        "title": "Scatter with line, no marker",
+        "description": "Requires one data column for X values and one for Y values.",
+        "definition": {
+          "chart": {
+            "type": "scatter"
+          },
+          "plotOptions":{
+            "series":{
+              "lineWidth": 1,
+              "marker":{
+                "enabled": false
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "pie",
+    "type": "Pie charts",
+    "icon": "spider",
+    "presets": [
+      {
+        "id": "basic",
+        "title": "Pie chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "3d",
+        "title": "3D pie chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "withLegend",
+        "title": "Pie chart",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "showInLegend": true,
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "3dWithLegend",
+        "title": "3D pie with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "showInLegend": true,
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "donut",
+        "title": "Donut",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "innerSize": "60%",
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "donutWithLegend",
+        "title": "Donut with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "cursor": true,
+              "showInLegend": true,
+              "innerSize": "60%",
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "3dDonut",
+        "title": "3D donut chart",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "innerSize": "60%",
+              "cursor": "pointer"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "3dDonutWithLegend",
+        "title": "3D donut chart with legend",
+        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie",
+            "options3d": {
+              "enabled": true,
+              "alpha": 45,
+              "beta": 0
+            }
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": true,
+              "depth": 35,
+              "cursor": "pointer",
+              "showInLegend": true,
+              "innerSize": "60%"
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": false
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "semiCircleDonut",
+        "title": "Semi circle donut",
+        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+        "definition": {
+          "chart": {
+            "type": "pie"
+          },
+          "plotOptions": {
+            "pie": {
+              "allowPointSelect": false,
+              "dataLabels": {
+                "distance": -30,
+                "style": {
+                  "fontWeight": "bold",
+                  "color": "white",
+                  "textShadow": "0px 1px 2px black"
+                }
+              },
+              "innerSize": "50%",
+              "startAngle": -90,
+              "endAngle": 90,
+              "center": ["50%", "75%"]
+            },
+            "series": {
+              "dataLabels": {
+                "enabled": true
+              }
+            }
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "polar",
+    "type": "Polar charts",
+    "icon": "bar",
+    "presets": [
+      {
+        "id": "line",
+        "title": "Polar line",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "line",
+            "polar": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "spider",
+        "title": "Spider line",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "line",
+            "polar": true
+          },
+          "xAxis": {
+            "tickmarkPlacement": "on",
+            "lineWidth": 0
+          },
+          "yAxis": {
+            "lineWidth": 0,
+            "gridLineInterpolation": "polygon"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "area",
+        "title": "Polar area",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "area",
+            "polar": true
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      },
+      {
+        "id": "spiderArea",
+        "title": "Spider area",
+        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+        "definition": {
+          "chart": {
+            "type": "area",
+            "polar": true
+          },
+          "xAxis": {
+            "tickmarkPlacement": "on",
+            "lineWidth": 0
+          },
+          "yAxis": {
+            "lineWidth": 0,
+            "gridLineInterpolation": "polygon"
+          },
+          "xAxis": {
+            "type": "category"
+          }
+        }
+      }
+    ]
+  }
+]
+},{}],57:[function(require,module,exports){
+(function () {
+    var that = {};
+    var _ = {
+        isUndefined: require('lodash.isundefined'),
+        find: require('lodash.find'),
+        map: require('lodash.map'),
+        cloneDeep: require('lodash.clonedeep'),
+        remove: require('lodash.remove'),
+        forEach: require('lodash.foreach'),
+        first: require('lodash.first'),
+        union: require('lodash.union'),
+        slice: require('lodash.slice'),
+        drop: require('lodash.drop'),
+        size: require('lodash.size'),
+        isArray: require('lodash.isarray'),
+        isEmpty: require('lodash.isempty'),
+        merge: require('lodash.merge')
+    };
+
+    that.get = function(data, config, labels, categories, series) {
+        var object = generateDataSeries(config, data);
+        if(labels.categories){
+            object = setCategories(object, categories);
+        }
+        if(labels.series){
+            object = setSeries(object, series);
+        }
+        return object;
+    };
+
+
+
+    function setCategories (series, categorieLabels){
+        _.forEach(series ,function(item, index){
+            _.forEach(item.data, function (row, dataIndex) {
+                series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
+            });
+        });
+        return series;
+    }
+
+    function setSeries (series, seriesLabels){
+        seriesLabels = _.remove(seriesLabels, function(n) {
+            return !_.isEmpty(n);
+        });
+
+        _.forEach(series ,function(item, index){
+            if(_.isUndefined(series[index].name)){
+                series[index].name = seriesLabels[index];
+            }
+        });
+
+        return series;
+    }
+
+    function generateEmptySeries(series, defaultType, size){
+        var array = [];
+        _.forEach(series, function(item){
+            if(size > 0){
+                var object = {
+                    data: [],
+                    type: item.type
+                };
+                size = size - getValuesPerPoint(object.type);
+                array.push(object);
+            }
+        });
+
+        while(size > 0){
+            var object = {
+                data: []
+            };
+            size = size - getValuesPerPoint(defaultType);
+            array.push(object);
+        }
+        return array;
+    }
+
+    function generateDataSeries(config, data){
+        var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
+        return _.map(emptySeries, function(item, index){
+
+            var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
+
+            _.forEach(data, function(row, index){
+                item.data.push(parseDataFloat(_.slice(row,0,vpp)));
+                data[index] = _.drop(data[index],vpp);
+            });
+            // check for series config and apply this
+            if(!_.isUndefined(config.series) && !_.isUndefined(config.series[index])){
+                item = _.merge(config.series[index], item);
+            }
+            return item;
+        });
+
+    }
+
+    function getValuesPerPoint(type) {
+        var vpp;
+        switch (type) {
+            case 'arearange':
+            case 'areasplinerange':
+            case 'columnrange':
+            case 'errorbar':
+            case 'scatter':
+                vpp = 2;
+                break;
+            case 'bubble':
+                vpp = 3;
+                break;
+
+            case 'boxplot':
+                vpp = 5;
+                break;
+
+            default:
+                vpp = 1;
+                break;
+        }
+        return vpp;
+    }
+
+    function parseDataFloat(data) {
+        var newData = [];
+        _.forEach(data, function (value, index) {
+            if (_.isArray(value)) {
+                newData[index] = parseDataFloat(value);
+            }
+            else {
+                newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
+            }
+        });
+
+        return newData;
+    }
+
+    module.exports = that;
+})();
+
+},{"lodash.clonedeep":26,"lodash.drop":27,"lodash.find":28,"lodash.first":29,"lodash.foreach":30,"lodash.isarray":32,"lodash.isempty":33,"lodash.isundefined":41,"lodash.map":44,"lodash.merge":45,"lodash.remove":47,"lodash.size":50,"lodash.slice":51,"lodash.union":53}],58:[function(require,module,exports){
+(function () {
+    function constructor(element){
+        var dataService = require('./services/data');
+        var confService = require('./services/config');
+        var mediator = require('mediatorjs');
+        var mInstance = new mediator.Mediator();
+        var data = new dataService(mInstance);
+        var config = new confService(mInstance, data);
+        var services = {
+            data: data,
+            config: new confService(mInstance, data),
+            mediator: mInstance
+        };
+
+        element.className += ' ec';
+        var chart = require('./components/chart.js');
+        chart.load(element, services);
+
+        function setData (data){
+            services.data.set(data);
+        }
+
+        function setDataUrl(){
+
+        }
+
+        function setConfig(config){
+            services.config.set(config);
+        }
+
+        return {
+            setData:setData,
+            setDataUrl:setDataUrl,
+            setConfig:setConfig
+        }
+    }
+
+    window.ec = constructor;
+})();
+
+},{"./components/chart.js":55,"./services/config":59,"./services/data":60,"mediatorjs":54}],59:[function(require,module,exports){
+(function () {
+    function constructor (mediator, data) {
+        var _ = {
+            isUndefined: require('lodash.isundefined'),
+            find: require('lodash.find'),
+            cloneDeep: require('lodash.clonedeep'),
+            forEach: require('lodash.foreach'),
+            merge: require('lodash.merge'),
+            isEmpty: require('lodash.isempty')
+        };
+        var series = require('../factories/series.js');
+        var templates = require('../config/templates.json');
+        var that = {};
+        var presetConf = {
+            type: 'line',
+            preset: 'dataLabels'
+        };
+
+        var configTemplate = {
+            chart: {
+
+            },
+            plotOptions: {
+                series: {
+                    'animation': false
+                }
+            }
+        };
+
+        var config = _.cloneDeep(configTemplate);
+
+        that.get = function () {
+            var labels = hasLabels(data.get());
+            var object = _.cloneDeep(config);
+            object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
+            return _.cloneDeep(object);
+        };
+
+        that.getRaw = function (){
+            return _.cloneDeep(config);
+        };
+
+        that.set = function (_config_) {
+            delete _config_.series;
+            config = _.cloneDeep(_config_);
+        };
+
+        that.setConfigTemplate = function(newTemplate){
+            configTemplate = newTemplate;
+        };
+
+        that.getConfigTemplate = function(){
+            return _.cloneDeep(configTemplate);
+        };
+
+        that.reset = function (preset) {
+            config = _.merge(_.cloneDeep(configTemplate), preset)
+        };
+
+        that.setValue = function (path, value) {
+            ids = path.split('.');
+            var step;
+            var object = config;
+            while (step = ids.shift()) {
+                if (ids.length > 0) {
+                    if (!_.isUndefined(object[step])) {
+                        object = object[step];
+                    } else {
+                        object[step] = {};
+                        object = object[step];
+                    }
+                } else {
+                    object[step] = value;
+                }
+            }
+            mediator.trigger('configUpdate', that.get());
+            mediator.trigger('treeUpdate');
+        };
+
+        that.setValues = function (array) {
+            _.forEach(array, function (row) {
+                that.setValue(row[0], row[1]);
+            });
+            mediator.trigger('configUpdate', that.get());
+            mediator.trigger('treeUpdate');
+        };
+
+        that.getValue = function (path) {
+            var object = that.get();
+            path = path.split('.');
+            var step;
+            while (step = path.shift()) {
+                if (!_.isUndefined(object[step])) {
+                    object = object[step];
+                } else {
+                    object = undefined;
+                    break;
+                }
+            }
+            return object;
+        };
+
+        that.removeValue = function (path) {
+            var object = config;
+            path = path.split('.');
+            while (step = path.shift()) {
+                if (!_.isUndefined(object[step])) {
+                    if (path.length > 0) {
+                        object = object[step];
+                    } else {
+                        delete object[step];
+                    }
+                }
+            }
+            mediator.trigger('configUpdate',that.get());
+        };
+
+        that.setPreset = function (type, preset) {
+            presetConf = {
+                type: type,
+                preset: preset
+            };
+            that.reset(loadPreset(type, preset));
+            mediator.trigger('configUpdate',that.get());
+        };
+
+        function loadPreset(type, preset) {
+            var typeConfig = _.find(templates, {id: type});
+            return _.cloneDeep(_.find(typeConfig.presets, {id: preset}).definition);
+        }
+
+        function hasLabels(data) {
+            var labels = {
+                categories: true,
+                series: true
+            };
+            if (data[0]) {
+                // if the first cell is empty, make the assumption that the first column are labels.
+                if (_.isEmpty(data[0][0]) || data[0][0] == 'cat' || data[0][0] == 'categories') {
+                    labels.categories = true;
+                } else {
+                    labels.categories = false;
+                }
+            }
+            return labels;
+        }
+
+        return that;
+    }
+
+    module.exports = constructor;
+})();
+},{"../config/templates.json":56,"../factories/series.js":57,"lodash.clonedeep":26,"lodash.find":28,"lodash.foreach":30,"lodash.isempty":33,"lodash.isundefined":41,"lodash.merge":45}],60:[function(require,module,exports){
+(function () {
+    function constructor (_mediator_){
+        var mediator = _mediator_;
+        var _ = {
+            isUndefined: require('lodash.isundefined'),
+            find: require('lodash.find'),
+            map: require('lodash.map'),
+            cloneDeep: require('lodash.clonedeep'),
+            slice: require('lodash.slice'),
+            forEach: require('lodash.foreach'),
+            first: require('lodash.first'),
+            isEqual: require('lodash.isequal'),
+            rest: require('lodash.rest'),
+            isNaN: require('lodash.isnan')
+        };
+
+        var that = {};
+        var dataSet = [];
+
+        that.getSeries = function () {
+            return _.cloneDeep(_.first(dataSet));
+        };
+
+        that.getCategories = function () {
+            return _.cloneDeep(_.map(_.slice(dataSet, 1), function (row) {
+                return _.first(row);
+            }));
+        };
+
+        that.get = function () {
+            return _.cloneDeep(dataSet);
+        };
+        that.getData = function (series, categories) {
+            var data = dataSet;
+
+            if (series) {
+                data = _.slice(data, 1);
+            }
+
+            if (categories) {
+                data = _.map(data, function (row) {
+                    return _.rest(row);
+                });
+            }
+
+            return _.cloneDeep(data);
+        };
+
+        that.set = function (newDataSet) {
+            if (!_.isEqual(dataSet, newDataSet)) {
+                dataSet = _.cloneDeep(newDataSet);
+                mediator.trigger('dataUpdate', that.get());
+                mediator.trigger('treeUpdate');
+            }
+        };
+
+        that.setValue = function(row, cell, value){
+            if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
+                dataSet[row][cell] = _.isNaN(value) ? null : value;
+            }
+            mediator.trigger('dataValueUpdate', that.get());
+        };
+
+
+        return that;
+    }
+
+
+    module.exports = constructor;
+})
+();
+
+
+},{"lodash.clonedeep":26,"lodash.find":28,"lodash.first":29,"lodash.foreach":30,"lodash.isequal":34,"lodash.isnan":36,"lodash.isundefined":41,"lodash.map":44,"lodash.rest":48,"lodash.slice":51}]},{},[58]);

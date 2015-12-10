@@ -7,6 +7,18 @@ var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var header = require('gulp-header');
+var pkg = require('./package.json');
+var rename = require('gulp-rename');
+
+var banner = ['/**',
+    ' * <%= pkg.name %> - <%= pkg.description %>',
+    ' * @version v<%= pkg.version %>',
+    ' * @link <%= pkg.homepage %>',
+    ' * @license <%= pkg.license %>',
+    ' */',
+    ''].join('\n');
+
 
 gulp.task('app:watch', function () {
     gulp.start('sass:watch', 'watchify');
@@ -44,7 +56,11 @@ function build(file, output) {
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(source(output + '.js'))
         .pipe(buffer())
+        .pipe(header(banner, { pkg : pkg } ))
+        .pipe(gulp.dest('./dist'))
+        .pipe(rename({ extname: '.min.js' }))
         .pipe(uglify())
+        .pipe(header(banner, { pkg : pkg } ))
         .pipe(gulp.dest('./dist'));
 }
 
@@ -74,6 +90,7 @@ function bundle(file, output) {
             .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
             // Add transformation tasks to the pipeline here.
             .pipe(sourcemaps.write('./')) // writes .map file
+            .pipe(header(banner, { pkg : pkg } ))
             .pipe(gulp.dest('./dist'));
     }
     return rebundle();
