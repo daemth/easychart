@@ -35,7 +35,7 @@
             }
             if (property.defaults.length == 1) {
                 property.defaults = _.first(property.defaults).trim();
-                configValue = configValue ? configValue : property.defaults;
+                configValue = !_.isUndefined(configValue) ? configValue : property.defaults;
             } else if (property.defaults.length > 1) {
                 if (!configValue) {
 
@@ -121,7 +121,6 @@
                     ]);
                     break;
                 case property.returnType.toLowerCase() == 'boolean':
-                    property.defaults = property.defaults == 'true';
                     if (_.isString(configValue)) {
                         configValue = configValue == 'true';
                     }
@@ -130,7 +129,7 @@
                         h('div.form-item__input', h('input', {
                             'type': 'checkbox',
                             'checked': configValue,
-                            'ev-input': function (e) {
+                            'ev-click': function (e) {
                                 if (property.defaults !== e.target.checked) {
                                     configService.setValue(property.fullname, e.target.checked);
                                 } else {
