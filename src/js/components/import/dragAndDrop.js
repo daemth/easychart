@@ -1,7 +1,7 @@
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
-    var papa = require('papaparse');
+
     var h = require('virtual-dom/h');
 
     var that = {};
@@ -36,7 +36,7 @@
         }, 'Drop your files here');
     };
     function saveData(value) {
-        dataService.set(papa.parse(value).data);
+        dataService.setCSV(value);
     }
 
     module.exports = that;

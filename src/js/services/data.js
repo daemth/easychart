@@ -13,7 +13,7 @@
             rest: require('lodash.rest'),
             isNaN: require('lodash.isnan')
         };
-
+        var papa = require('papaparse');
         var that = {};
         var dataSet = [];
 
@@ -30,6 +30,7 @@
         that.get = function () {
             return _.cloneDeep(dataSet);
         };
+
         that.getData = function (series, categories) {
             var data = dataSet;
 
@@ -50,7 +51,6 @@
             if (!_.isEqual(dataSet, newDataSet)) {
                 dataSet = _.cloneDeep(newDataSet);
                 mediator.trigger('dataUpdate', that.get());
-                mediator.trigger('treeUpdate');
             }
         };
 
@@ -58,9 +58,22 @@
             if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
                 dataSet[row][cell] = _.isNaN(value) ? null : value;
             }
-            mediator.trigger('dataValueUpdate', that.get());
+            mediator.trigger('dataUpdate', that.get());
         };
 
+        that.setCSV = function(csv){
+            dataSet = papa.parse(csv).data;
+            mediator.trigger('dataUpdate', that.get());
+        };
+
+        that.setUrl = function(url){
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function (data) {
+                dataSet = papa.parse(data).data;
+            });
+            oReq.open("GET", url, true);
+            oReq.send();
+        };
 
         return that;
     }

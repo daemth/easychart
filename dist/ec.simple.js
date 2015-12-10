@@ -10898,6 +10898,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     var mediator;
     var configService;
     var that = {};
+
     that.load = function (element, services) {
         mediator = services.mediator;
         configService = services.config;
@@ -10905,22 +10906,18 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
         mediator.on('configUpdate', function () {
-            mediator.trigger('treeUpdate'); // to update series-tab-name
             var options = configService.get();
             options.chart.renderTo = element;
             chart = new Highcharts.Chart(options);
         });
+
         mediator.on('dataUpdate', function () {
             var options = configService.get();
             options.chart.renderTo = element;
             chart = new Highcharts.Chart(options);
         });
-        mediator.on('dataValueUpdate', function () {
-            var options = configService.get();
-            options.chart.renderTo = element;
-            chart = new Highcharts.Chart(options);
-        });
     };
+
     module.exports = that;
 })();
 },{}],130:[function(require,module,exports){
@@ -10934,7 +10931,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var table = require('./table')(services);
         var activeTab = 'paste';
         var mediator = services.mediator;
-
         var tabOptions = {
             paste:{
                 label: 'Paste CSV',
@@ -11002,7 +10998,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
-    var papa = require('papaparse');
+
     var h = require('virtual-dom/h');
 
     var that = {};
@@ -11037,16 +11033,15 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         }, 'Drop your files here');
     };
     function saveData(value) {
-        dataService.set(papa.parse(value).data);
+        dataService.setCSV(value);
     }
 
     module.exports = that;
 })();
 
-},{"drag-drop":14,"papaparse":90,"virtual-dom/h":100}],132:[function(require,module,exports){
+},{"drag-drop":14,"virtual-dom/h":100}],132:[function(require,module,exports){
 (function () {
     var dataService;
-    var papa = require('papaparse');
     var h = require('virtual-dom/h');
 
     var that = {};
@@ -11071,7 +11066,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         }, 'import');
 
         function saveData(value) {
-            dataService.set(papa.parse(value).data);
+            dataService.setCSV(value);
         }
 
         return h('div', [input, importElement])
@@ -11079,10 +11074,9 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     module.exports = that;
 })();
 
-},{"papaparse":90,"virtual-dom/h":100}],133:[function(require,module,exports){
+},{"virtual-dom/h":100}],133:[function(require,module,exports){
 (function () {
     var dataService;
-    var papa = require('papaparse');
     var h = require('virtual-dom/h');
     var that = {};
     that.template = function (services) {
@@ -11111,7 +11105,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         }
 
         function saveData(value) {
-            dataService.set(papa.parse(value).data);
+            dataService.setCSV(value);
         }
 
         return uploadElement;
@@ -11119,10 +11113,9 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
     module.exports = that;
 })();
-},{"papaparse":90,"virtual-dom/h":100}],134:[function(require,module,exports){
+},{"virtual-dom/h":100}],134:[function(require,module,exports){
 (function () {
     var that = {};
-    var papa = require('papaparse');
     var h = require('virtual-dom/h');
     that.template = function (services) {
         var dataService = services.data;
@@ -11141,27 +11134,16 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var importElement = h('button.btn.btn--small', {
             'ev-click': function (e) {
                 e.preventDefault();
-                that.loadUrl(inputNode.value, dataService)
+                dataService.setUrl(value);
             }
         }, 'import');
 
         return h('div', [input, importElement])
     };
-
-    that.loadUrl = function (url, dataService) {
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", function (data) {
-            console.log(data);
-        });
-        oReq.open("GET", url, true);
-        oReq.send();
-        dataService.set(papa.parse(value).data);
-    };
-
     module.exports = that;
 })();
 
-},{"papaparse":90,"virtual-dom/h":100}],135:[function(require,module,exports){
+},{"virtual-dom/h":100}],135:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -11171,76 +11153,90 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             fill: require('lodash.fill'),
             pullAt: require('lodash.pullat'),
             map: require('lodash.map'),
-            clone: require('lodash.clone')
+            clone: require('lodash.clone'),
+            cloneDeep: require('lodash.clonedeep'),
+            isEqual: require('lodash.isequal')
         };
-
+        var temp = {};
         var h = require('virtual-dom/h');
         var data = services.data.get();
         var mediator = services.mediator;
+
         mediator.on('dataUpdate', function (_data_) {
-            data = _data_;
+            console.log(_.isEqual(_data_, data));
+            console.log(_data_);
+            console.log( data) ;
+            if (!_.isEqual(_data_, data)) {
+                data = _data_;
+                mediator.trigger('treeUpdate');
+            }
         });
 
         function template() {
             var rows = [];
-
             var editRow = [];
             editRow.push(h('td'));
+            // only add if there is data
+            if (data[0]) {
+                for (var i = 0; i < data[0].length; i++) {
+                    var temp = _.clone(i);
+                    editRow.push(h('td', [
+                        h('button', {
+                            'ev-click': function () {
+                                removeColumn(temp, data)
+                            }
+                        }, 'remove row')
+                    ]));
+                }
 
-            for(var i = 0; i < data[0].length; i++){
-                var temp = _.clone(i);
-                editRow.push(h('td', [
-                    h('button', {
-                        'ev-click': function () {
-                            removeColumn(temp, services.data.get())
-                        }
-                    }, 'remove row')
-                ]));
+                rows.push(h('tr', editRow));
+
+                _.forEach(data, function (row, rowIndex) {
+                    var cells = [];
+                    cells.push(h('td', [
+                        h('button', {
+                            'ev-click': function () {
+                                removeRow(rowIndex, data)
+                            }
+                        }, 'remove row')
+                    ]));
+                    _.forEach(row, function (cell, cellIndex) {
+                        cells.push(h('td', {
+                            contentEditable: true,
+                            "ev-blur": function (e) {
+                                var value = _.trim(e.target.innerHTML);
+                                services.data.setValue(rowIndex, cellIndex, value);
+                            }
+                        }, cell));
+                    });
+                    rows.push(h('tr', cells));
+                });
             }
 
-            rows.push(h('tr', editRow));
-
-            _.forEach(data, function (row, rowIndex) {
-                var cells = [];
-                cells.push(h('td', [
-                    h('button', {
-                        'ev-click': function () {
-                            removeRow(rowIndex, services.data.get())
-                        }
-                    }, 'remove row')
-                ]));
-                _.forEach(row, function (cell, cellIndex) {
-                    cells.push(h('td', {
-                        contentEditable: true,
-                        "ev-input": function (e) {
-                            var value = _.trim(e.target.innerHTML);
-                            services.data.setValue(rowIndex, cellIndex, value);
-                        }
-                    }, cell));
-                });
-                rows.push(h('tr', cells));
-            });
             return h('div', [
                 h('button', {
                     'ev-click': function () {
-                        addRow(services.data.get())
+                        addRow(data)
                     }
                 }, 'add row'),
                 h('button', {
                     'ev-click': function () {
-                        addColumn(services.data.get())
+                        addColumn(data)
                     }
                 }, 'add column'),
                 h('table.table--data.table--bordered', rows)
             ]);
         }
 
+
         function addRow(data) {
-            data.push(_.fill(Array(data[0].length), ''))
+            data = _.cloneDeep(data);
+            data.push(_.fill(Array(data[0] ? data[0].length : 1), ''))
             services.data.set(data);
         }
 
         function addColumn(data) {
+            data = _.cloneDeep(data);
             _.forEach(data, function (row) {
                 row.push('')
             });
@@ -11248,17 +11244,16 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         }
 
         function removeColumn(index, data) {
-
-            data = _.map(data, function(row){
+            data = _.cloneDeep(data);
+            data = _.map(data, function (row) {
                 _.pullAt(row, index);
                 return row;
             });
-            console.log(index);
-            console.log(data);
             services.data.set(data);
         }
 
         function removeRow(index, data) {
+            data = _.cloneDeep(data);
             _.pullAt(data, index);
             services.data.set(data);
         }
@@ -11275,7 +11270,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
 
 
-},{"lodash.clone":54,"lodash.fill":58,"lodash.foreach":61,"lodash.map":75,"lodash.pullat":78,"lodash.size":82,"lodash.trim":86,"virtual-dom/h":100}],136:[function(require,module,exports){
+},{"lodash.clone":54,"lodash.clonedeep":55,"lodash.fill":58,"lodash.foreach":61,"lodash.isequal":65,"lodash.map":75,"lodash.pullat":78,"lodash.size":82,"lodash.trim":86,"virtual-dom/h":100}],136:[function(require,module,exports){
 (function () {
     var constructor = function(services){
         var that = {};
@@ -13815,7 +13810,7 @@ return self})();
             rest: require('lodash.rest'),
             isNaN: require('lodash.isnan')
         };
-
+        var papa = require('papaparse');
         var that = {};
         var dataSet = [];
 
@@ -13832,6 +13827,7 @@ return self})();
         that.get = function () {
             return _.cloneDeep(dataSet);
         };
+
         that.getData = function (series, categories) {
             var data = dataSet;
 
@@ -13852,7 +13848,6 @@ return self})();
             if (!_.isEqual(dataSet, newDataSet)) {
                 dataSet = _.cloneDeep(newDataSet);
                 mediator.trigger('dataUpdate', that.get());
-                mediator.trigger('treeUpdate');
             }
         };
 
@@ -13860,9 +13855,22 @@ return self})();
             if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
                 dataSet[row][cell] = _.isNaN(value) ? null : value;
             }
-            mediator.trigger('dataValueUpdate', that.get());
+            mediator.trigger('dataUpdate', that.get());
         };
 
+        that.setCSV = function(csv){
+            dataSet = papa.parse(csv).data;
+            mediator.trigger('dataUpdate', that.get());
+        };
+
+        that.setUrl = function(url){
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", function (data) {
+                dataSet = papa.parse(data).data;
+            });
+            oReq.open("GET", url, true);
+            oReq.send();
+        };
 
         return that;
     }
@@ -13873,7 +13881,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":55,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isequal":65,"lodash.isnan":67,"lodash.isundefined":72,"lodash.map":75,"lodash.rest":80,"lodash.slice":83}],143:[function(require,module,exports){
+},{"lodash.clonedeep":55,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isequal":65,"lodash.isnan":67,"lodash.isundefined":72,"lodash.map":75,"lodash.rest":80,"lodash.slice":83,"papaparse":90}],143:[function(require,module,exports){
 (function () {
     var constructor = function (services){
         var options = require('../config/options.json');
@@ -14029,9 +14037,11 @@ return self})();
         function getData (){
             return services.data.get();
         }
-
-        function setDataUrl(){
-
+        function setDataCSV(csv){
+            services.data.setCSV(csv);
+        }
+        function setDataUrl(url){
+            services.data.setUrl(url);
         }
 
         function setOptions(options){
@@ -14055,14 +14065,15 @@ return self})();
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
-
         return {
             setData:setData,
             getData:getData,
             setDataUrl:setDataUrl,
+            setDataCSV: setDataCSV,
             setOptions:setOptions,
             setConfig:setConfig,
             getConfig:getConfig,
+            setDataCSV:setDataCSV,
             on:on,
             setConfigTemplate: setConfigTemplate
         }

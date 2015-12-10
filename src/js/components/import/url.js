@@ -1,6 +1,5 @@
 (function () {
     var that = {};
-    var papa = require('papaparse');
     var h = require('virtual-dom/h');
     that.template = function (services) {
         var dataService = services.data;
@@ -19,22 +18,11 @@
         var importElement = h('button.btn.btn--small', {
             'ev-click': function (e) {
                 e.preventDefault();
-                that.loadUrl(inputNode.value, dataService)
+                dataService.setUrl(value);
             }
         }, 'import');
 
         return h('div', [input, importElement])
     };
-
-    that.loadUrl = function (url, dataService) {
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", function (data) {
-            console.log(data);
-        });
-        oReq.open("GET", url, true);
-        oReq.send();
-        dataService.set(papa.parse(value).data);
-    };
-
     module.exports = that;
 })();

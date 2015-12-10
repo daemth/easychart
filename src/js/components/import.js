@@ -8,7 +8,6 @@
         var table = require('./table')(services);
         var activeTab = 'paste';
         var mediator = services.mediator;
-
         var tabOptions = {
             paste:{
                 label: 'Paste CSV',

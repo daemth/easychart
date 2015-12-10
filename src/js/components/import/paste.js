@@ -1,6 +1,5 @@
 (function () {
     var dataService;
-    var papa = require('papaparse');
     var h = require('virtual-dom/h');
 
     var that = {};
@@ -25,7 +24,7 @@
         }, 'import');
 
         function saveData(value) {
-            dataService.set(papa.parse(value).data);
+            dataService.setCSV(value);
         }
 
         return h('div', [input, importElement])
