@@ -11170,8 +11170,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         });
 
         function template() {
-            var url = services.data.getDataUrl();
-
+            var url = services.data.getUrl();
 
             var rows = [];
             var editRow = [];
@@ -13723,7 +13722,6 @@ return self})();
                 }
             }
             mediator.trigger('configUpdate', that.get());
-            mediator.trigger('treeUpdate');
         };
 
         that.setValues = function (array) {
@@ -13731,7 +13729,6 @@ return self})();
                 that.setValue(row[0], row[1]);
             });
             mediator.trigger('configUpdate', that.get());
-            mediator.trigger('treeUpdate');
         };
 
         that.getValue = function (path) {

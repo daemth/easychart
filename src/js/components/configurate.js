@@ -22,6 +22,10 @@
         var activeTabChild;
         var that = {};
 
+
+        mediator.on('configUpate', function(){
+            mediator.trigger('treeUpdate');
+        });
         that.template = function () {
             var tabs = h('ul', {className: "vertical-tabs"},
                 [

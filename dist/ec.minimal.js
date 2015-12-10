@@ -8333,7 +8333,6 @@ module.exports=module.exports = [
                 }
             }
             mediator.trigger('configUpdate', that.get());
-            mediator.trigger('treeUpdate');
         };
 
         that.setValues = function (array) {
@@ -8341,7 +8340,6 @@ module.exports=module.exports = [
                 that.setValue(row[0], row[1]);
             });
             mediator.trigger('configUpdate', that.get());
-            mediator.trigger('treeUpdate');
         };
 
         that.getValue = function (path) {

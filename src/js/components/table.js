@@ -24,8 +24,7 @@
         });
 
         function template() {
-            var url = services.data.getDataUrl();
-
+            var url = services.data.getUrl();
 
             var rows = [];
             var editRow = [];
