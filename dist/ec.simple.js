@@ -11170,8 +11170,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         });
 
         function template() {
-            var url = services.data.getUrl();
-
             var rows = [];
             var editRow = [];
             editRow.push(h('td'));

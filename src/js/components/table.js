@@ -24,8 +24,6 @@
         });
 
         function template() {
-            var url = services.data.getUrl();
-
             var rows = [];
             var editRow = [];
             editRow.push(h('td'));

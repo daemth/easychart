@@ -11378,8 +11378,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         });
 
         function template() {
-            var url = services.data.getUrl();
-
             var rows = [];
             var editRow = [];
             editRow.push(h('td'));
@@ -13723,8 +13721,8 @@ return self})();
         first: require('lodash.first'),
         isArray: require('lodash.isarray'),
         isString: require('lodash.isstring'),
-        isEqual: require('lodash.isequal')
-
+        isEqual: require('lodash.isequal'),
+        merge: require('lodash.merge')
     };
 
     var h = require('virtual-dom/h');
@@ -13796,7 +13794,7 @@ return self})();
                 // check if array
                 case (property.returnType.lastIndexOf('Array', 0) === 0):
                     var list = [];
-                    var values = !_.isUndefined(configValue) ? configValue : [];
+                    var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);
                     _.forEach(property.defaults, function (value, index) {
                         //values.push(configValue[index]);
                         list.push(h('div.form-item', [
@@ -13806,9 +13804,12 @@ return self})();
                                 'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                                 'ev-input': function (e) {
                                     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
+                                    console.log(property.defaults);
+                                    console.log(values);
                                     if (_.isEqual(property.defaults, values)) {
                                         configService.removeValue(property.fullname);
                                     } else {
+
                                         configService.setValue(property.fullname, values);
                                     }
                                 }
@@ -13820,6 +13821,7 @@ return self})();
                         h('div', list)
                     ]);
                     break;
+
                 case property.returnType.toLowerCase() == 'number':
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
@@ -13836,6 +13838,7 @@ return self})();
                         }))
                     ]);
                     break;
+
                 case property.returnType.toLowerCase() == 'boolean':
                     if (_.isString(configValue)) {
                         configValue = configValue == 'true';
@@ -13872,6 +13875,7 @@ return self})();
                         }))
                     ]);
                     break;
+
                 default:
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
@@ -13895,7 +13899,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":55,"lodash.first":60,"lodash.foreach":61,"lodash.isarray":63,"lodash.isequal":65,"lodash.isstring":70,"lodash.isundefined":72,"virtual-dom/h":100}],143:[function(require,module,exports){
+},{"lodash.clonedeep":55,"lodash.first":60,"lodash.foreach":61,"lodash.isarray":63,"lodash.isequal":65,"lodash.isstring":70,"lodash.isundefined":72,"lodash.merge":76,"virtual-dom/h":100}],143:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
