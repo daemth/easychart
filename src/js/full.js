@@ -84,7 +84,9 @@
         function setDataUrl(url){
             services.data.setUrl(url);
         }
-
+        function getDataUrl(){
+            return services.data.getUrl();
+        }
         function setOptions(options){
             services.options.set(options);
         }
@@ -110,11 +112,11 @@
             setData:setData,
             getData:getData,
             setDataUrl:setDataUrl,
+            getDataUrl:getDataUrl,
             setDataCSV: setDataCSV,
             setOptions:setOptions,
             setConfig:setConfig,
             getConfig:getConfig,
-            setDataCSV:setDataCSV,
             on:on,
             setConfigTemplate: setConfigTemplate
         }

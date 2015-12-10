@@ -11134,7 +11134,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var importElement = h('button.btn.btn--small', {
             'ev-click': function (e) {
                 e.preventDefault();
-                dataService.setUrl(value);
+                dataService.setUrl(inputNode.value);
             }
         }, 'import');
 
@@ -11157,15 +11157,12 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             cloneDeep: require('lodash.clonedeep'),
             isEqual: require('lodash.isequal')
         };
-        var temp = {};
+
         var h = require('virtual-dom/h');
         var data = services.data.get();
         var mediator = services.mediator;
 
         mediator.on('dataUpdate', function (_data_) {
-            console.log(_.isEqual(_data_, data));
-            console.log(_data_);
-            console.log( data) ;
             if (!_.isEqual(_data_, data)) {
                 data = _data_;
                 mediator.trigger('treeUpdate');
@@ -11173,6 +11170,9 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         });
 
         function template() {
+            var url = services.data.getDataUrl();
+
+
             var rows = [];
             var editRow = [];
             editRow.push(h('td'));
@@ -11190,7 +11190,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                 }
 
                 rows.push(h('tr', editRow));
-
                 _.forEach(data, function (row, rowIndex) {
                     var cells = [];
                     cells.push(h('td', [
@@ -11203,8 +11202,14 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                     _.forEach(row, function (cell, cellIndex) {
                         cells.push(h('td', {
                             contentEditable: true,
+                            "ev-input": function (e) {
+                                var value = _.trim(e.target.innerHTML);
+                                data[rowIndex][cellIndex] = value;
+                                services.data.setValue(rowIndex, cellIndex, value);
+                            },
                             "ev-blur": function (e) {
                                 var value = _.trim(e.target.innerHTML);
+                                data[rowIndex][cellIndex] = value;
                                 services.data.setValue(rowIndex, cellIndex, value);
                             }
                         }, cell));
@@ -11231,7 +11236,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
         function addRow(data) {
             data = _.cloneDeep(data);
-            data.push(_.fill(Array(data[0] ? data[0].length : 1), ''))
+            data.push(_.fill(Array(data[0] ? data[0].length : 1), ''));
             services.data.set(data);
         }
 
@@ -13813,6 +13818,7 @@ return self})();
         var papa = require('papaparse');
         var that = {};
         var dataSet = [];
+        var dataUrl;
 
         that.getSeries = function () {
             return _.cloneDeep(_.first(dataSet));
@@ -13826,6 +13832,10 @@ return self})();
 
         that.get = function () {
             return _.cloneDeep(dataSet);
+        };
+
+        that.getUrl = function (){
+            return _.cloneDeep(dataUrl);
         };
 
         that.getData = function (series, categories) {
@@ -13849,6 +13859,7 @@ return self})();
                 dataSet = _.cloneDeep(newDataSet);
                 mediator.trigger('dataUpdate', that.get());
             }
+            dataUrl = undefined;
         };
 
         that.setValue = function(row, cell, value){
@@ -13856,20 +13867,35 @@ return self})();
                 dataSet[row][cell] = _.isNaN(value) ? null : value;
             }
             mediator.trigger('dataUpdate', that.get());
+            dataUrl = undefined;
         };
 
         that.setCSV = function(csv){
             dataSet = papa.parse(csv).data;
             mediator.trigger('dataUpdate', that.get());
+            dataUrl = undefined;
         };
 
         that.setUrl = function(url){
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", function (data) {
-                dataSet = papa.parse(data).data;
-            });
-            oReq.open("GET", url, true);
-            oReq.send();
+            var client = new XMLHttpRequest();
+            client.open("GET", url);
+            client.onreadystatechange = handler;
+            //client.responseType = "text";
+            client.setRequestHeader("Accept", "application/json");
+            client.send();
+
+            function handler() {
+                if (this.readyState === this.DONE) {
+                    if (this.status === 200) {
+                        dataSet = papa.parse(this.response).data;
+                        dataUrl = url;
+                        mediator.trigger('dataUpdate', that.get());
+                        console.log('success');
+                    }
+                    else { reject(this); }
+                }
+            }
+
         };
 
         return that;
@@ -14043,7 +14069,9 @@ return self})();
         function setDataUrl(url){
             services.data.setUrl(url);
         }
-
+        function getDataUrl(){
+            return services.data.getUrl();
+        }
         function setOptions(options){
             services.options.set(options);
         }
@@ -14069,11 +14097,11 @@ return self})();
             setData:setData,
             getData:getData,
             setDataUrl:setDataUrl,
+            getDataUrl:getDataUrl,
             setDataCSV: setDataCSV,
             setOptions:setOptions,
             setConfig:setConfig,
             getConfig:getConfig,
-            setDataCSV:setDataCSV,
             on:on,
             setConfigTemplate: setConfigTemplate
         }

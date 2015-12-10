@@ -63,7 +63,7 @@
             element = h('div.form-item', [
                 h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                 h('div.form-item__input', h('select', {
-                    'onchange': function (e) {
+                    'ev-input': function (e) {
                         if (e.target.value === 'null') {
                             configService.removeValue(property.fullname);
                         } else {
@@ -88,7 +88,7 @@
                             h('div.form-item__input', h('input', {
                                 'type': 'text',
                                 'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
-                                'onchange': function (e) {
+                                'ev-input': function (e) {
                                     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
                                     if (_.isEqual(property.defaults, values)) {
                                         configService.removeValue(property.fullname);
@@ -110,7 +110,7 @@
                         h('div.form-item__input', h('input', {
                             'type': 'number',
                             'value': configValue,
-                            'onchange': function (e) {
+                            'ev-input': function (e) {
                                 if (parseInt(property.defaults) !== parseInt(e.target.value)) {
                                     configService.setValue(property.fullname, parseInt(e.target.value));
                                 } else {
@@ -130,7 +130,7 @@
                         h('div.form-item__input', h('input', {
                             'type': 'checkbox',
                             'checked': configValue,
-                            'onchange': function (e) {
+                            'ev-input': function (e) {
                                 if (property.defaults !== e.target.checked) {
                                     configService.setValue(property.fullname, e.target.checked);
                                 } else {
@@ -147,7 +147,7 @@
                         h('div.form-item__input', h('input', {
                             'type': 'text',
                             'value': configValue,
-                            'onchange': function (e) {
+                            'ev-input': function (e) {
                                 if (property.defaults !== e.target.value) {
                                     configService.setValue(property.fullname, e.target.value);
                                 } else {
@@ -163,7 +163,7 @@
                         h('div.form-item__input', h('input', {
                             'type': 'text',
                             'value': configValue,
-                            'onchange': function (e) {
+                            'ev-input': function (e) {
                                 if (property.defaults !== e.target.value) {
                                     configService.setValue(property.fullname, e.target.value);
                                 } else {

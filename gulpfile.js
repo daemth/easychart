@@ -90,7 +90,6 @@ function bundle(file, output) {
             .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
             // Add transformation tasks to the pipeline here.
             .pipe(sourcemaps.write('./')) // writes .map file
-            .pipe(header(banner, { pkg : pkg } ))
             .pipe(gulp.dest('./dist'));
     }
     return rebundle();

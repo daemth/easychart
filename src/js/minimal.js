@@ -21,7 +21,7 @@
         }
 
         function setDataUrl(){
-
+            services.data.setUrl(url);
         }
 
         function setConfig(config){

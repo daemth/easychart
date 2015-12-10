@@ -11,15 +11,12 @@
             cloneDeep: require('lodash.clonedeep'),
             isEqual: require('lodash.isequal')
         };
-        var temp = {};
+
         var h = require('virtual-dom/h');
         var data = services.data.get();
         var mediator = services.mediator;
 
         mediator.on('dataUpdate', function (_data_) {
-            console.log(_.isEqual(_data_, data));
-            console.log(_data_);
-            console.log( data) ;
             if (!_.isEqual(_data_, data)) {
                 data = _data_;
                 mediator.trigger('treeUpdate');
@@ -27,6 +24,9 @@
         });
 
         function template() {
+            var url = services.data.getDataUrl();
+
+
             var rows = [];
             var editRow = [];
             editRow.push(h('td'));
@@ -44,7 +44,6 @@
                 }
 
                 rows.push(h('tr', editRow));
-
                 _.forEach(data, function (row, rowIndex) {
                     var cells = [];
                     cells.push(h('td', [
@@ -57,8 +56,14 @@
                     _.forEach(row, function (cell, cellIndex) {
                         cells.push(h('td', {
                             contentEditable: true,
+                            "ev-input": function (e) {
+                                var value = _.trim(e.target.innerHTML);
+                                data[rowIndex][cellIndex] = value;
+                                services.data.setValue(rowIndex, cellIndex, value);
+                            },
                             "ev-blur": function (e) {
                                 var value = _.trim(e.target.innerHTML);
+                                data[rowIndex][cellIndex] = value;
                                 services.data.setValue(rowIndex, cellIndex, value);
                             }
                         }, cell));
@@ -85,7 +90,7 @@
 
         function addRow(data) {
             data = _.cloneDeep(data);
-            data.push(_.fill(Array(data[0] ? data[0].length : 1), ''))
+            data.push(_.fill(Array(data[0] ? data[0].length : 1), ''));
             services.data.set(data);
         }
 

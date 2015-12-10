@@ -8239,7 +8239,7 @@ module.exports=module.exports = [
         }
 
         function setDataUrl(){
-
+            services.data.setUrl(url);
         }
 
         function setConfig(config){
@@ -8428,6 +8428,7 @@ module.exports=module.exports = [
         var papa = require('papaparse');
         var that = {};
         var dataSet = [];
+        var dataUrl;
 
         that.getSeries = function () {
             return _.cloneDeep(_.first(dataSet));
@@ -8441,6 +8442,10 @@ module.exports=module.exports = [
 
         that.get = function () {
             return _.cloneDeep(dataSet);
+        };
+
+        that.getUrl = function (){
+            return _.cloneDeep(dataUrl);
         };
 
         that.getData = function (series, categories) {
@@ -8464,6 +8469,7 @@ module.exports=module.exports = [
                 dataSet = _.cloneDeep(newDataSet);
                 mediator.trigger('dataUpdate', that.get());
             }
+            dataUrl = undefined;
         };
 
         that.setValue = function(row, cell, value){
@@ -8471,20 +8477,35 @@ module.exports=module.exports = [
                 dataSet[row][cell] = _.isNaN(value) ? null : value;
             }
             mediator.trigger('dataUpdate', that.get());
+            dataUrl = undefined;
         };
 
         that.setCSV = function(csv){
             dataSet = papa.parse(csv).data;
             mediator.trigger('dataUpdate', that.get());
+            dataUrl = undefined;
         };
 
         that.setUrl = function(url){
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", function (data) {
-                dataSet = papa.parse(data).data;
-            });
-            oReq.open("GET", url, true);
-            oReq.send();
+            var client = new XMLHttpRequest();
+            client.open("GET", url);
+            client.onreadystatechange = handler;
+            //client.responseType = "text";
+            client.setRequestHeader("Accept", "application/json");
+            client.send();
+
+            function handler() {
+                if (this.readyState === this.DONE) {
+                    if (this.status === 200) {
+                        dataSet = papa.parse(this.response).data;
+                        dataUrl = url;
+                        mediator.trigger('dataUpdate', that.get());
+                        console.log('success');
+                    }
+                    else { reject(this); }
+                }
+            }
+
         };
 
         return that;

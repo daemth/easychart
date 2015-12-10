@@ -18,7 +18,7 @@
         var importElement = h('button.btn.btn--small', {
             'ev-click': function (e) {
                 e.preventDefault();
-                dataService.setUrl(value);
+                dataService.setUrl(inputNode.value);
             }
         }, 'import');
 
