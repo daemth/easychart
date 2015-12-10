@@ -15,6 +15,7 @@
   @import "components/structure";
   @import "components/navigation";
   @import "components/helpers";
+  @import "components/loader";
 
   a, .hover {
     cursor: pointer;
@@ -60,4 +61,5 @@
     padding: 50px;
     background: $light-gray;
   }
+
 }

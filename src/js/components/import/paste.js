@@ -1,10 +1,10 @@
 (function () {
-    var dataService;
     var h = require('virtual-dom/h');
 
     var that = {};
     that.template = function (services) {
-        dataService = services.data;
+        var dataService = services.data;
+        var mediator = services.mediator;
         var inputNode;
         var Hook = function(){};
         Hook.prototype.hook = function(node) {
@@ -19,12 +19,13 @@
         var importElement = h('button.btn.btn--small', {
             'ev-click': function(e){
                 e.preventDefault();
-                saveData(inputNode.value)
+                saveData(inputNode.value);
             }
         }, 'import');
 
         function saveData(value) {
             dataService.setCSV(value);
+            mediator.trigger('goToTable');
         }
 
         return h('div', [input, importElement])

@@ -1,9 +1,9 @@
 (function () {
-    var dataService;
     var h = require('virtual-dom/h');
     var that = {};
     that.template = function (services) {
-        dataService = services.data;
+        var dataService = services.data;
+        var mediator = services.mediator;
         var uploadElement;
         // Check for the various File API support.
         if (window.FileReader) {
@@ -29,6 +29,7 @@
 
         function saveData(value) {
             dataService.setCSV(value);
+            mediator.trigger('goToTable');
         }
 
         return uploadElement;

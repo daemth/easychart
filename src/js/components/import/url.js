@@ -3,7 +3,7 @@
     var h = require('virtual-dom/h');
     that.template = function (services) {
         var dataService = services.data;
-
+        var mediator = services.mediator;
         var inputNode;
         var Hook = function(){};
         Hook.prototype.hook = function(node) {
@@ -19,6 +19,7 @@
             'ev-click': function (e) {
                 e.preventDefault();
                 dataService.setUrl(inputNode.value);
+                mediator.trigger('goToTable');
             }
         }, 'import');
 

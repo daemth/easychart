@@ -8,6 +8,12 @@
         var table = require('./table')(services);
         var activeTab = 'paste';
         var mediator = services.mediator;
+
+        mediator.on('goToTable', function(){
+            activeTab = 'data';
+            mediator.trigger('treeUpdate');
+        });
+
         var tabOptions = {
             paste:{
                 label: 'Paste CSV',
