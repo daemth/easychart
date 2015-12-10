@@ -5,93 +5,58 @@
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
     var mainLoop = require("main-loop");
-    function constructor(element, initState, services) {
-        var states = {
-            'import': {
-                title: 'Import',
-                dependencies: function(){
-                    var that = {};
-                    that.import = require('./../components/import.js')(services);
-                    return that;
-                },
-                template: function (dependencies) {
-                    return h('div', [dependencies.import.template()]);
-                }
-            },
-            'templates': {
-                title: 'Templates',
-                dependencies: function(){
-                    var that = {};
-                    that.templates = require('./../components/templates.js')(services);
-                    return that;
-                },
-                template: function (dependencies) {
-                    return h('div', [dependencies.templates.template()]);
-                }
-            },
-            'customise': {
-                title: 'Customise',
-                dependencies: function(){
-                    var that = {};
-                    that.configurate = require('./../components/configurate.js')(services);
-                    return that;
-                },
-                template: function (dependencies) {
-                    return h('div', [dependencies.configurate.template()]);
-                }
-            },
-            'debugger':{
-                title: 'Debug',
-                dependencies: function(){
-                    var that = {};
-                    that.debug = require('./../components/debug.js')(services);
-                    return that;
-                },
-                template: function (dependencies) {
-                    return h('div', [dependencies.debug.template()]);
-                }
-            }
+    var _ = {
+        keys : require('lodash.keys')
+    };
+    function constructor(element, states, services) {
+        var initState = {
+            links : _.keys(states)
         };
-
-        var currentState = initState;
-        var currentDependencies = states[initState].dependencies();
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
             diff: require("virtual-dom/diff"),
             patch: require("virtual-dom/patch")
         });
+
         element.appendChild(loop.target);
 
+        function goToState(state) {
+            var newState = loop.state;
+            newState.dependencies = states[state].dependencies();
+            newState.template = states[state].template;
+            newState.template = states[state].template;
+            newState.title = states[state].title;
+            loop.update(newState);
 
-        function goToSate(state) {
-            currentDependencies = states[state].dependencies();
-            currentState = state;
-            loop.update();
         }
 
-        function render() {
-            var links = ['import', 'templates', 'customise', 'debugger'];
-            return h('div', [
-                logo,
-                h('ul.navigation.navigation--steps', links.map(function (id) {
-                    var className = currentState === id ? 'active' : '';
-                    return h('li.navigation__item', {
-                        'className': className
-                    }, h('a', {
-                        'href':'#' + id,
-                        'ev-click': function (e) {
-                            e.preventDefault();
-                            goToSate(id);
-                        }
-                    }, states[id].title))
-                })),
-                h('h1', states[currentState].title),
-                h('div.left', states[currentState].template(currentDependencies))
-            ])
+        function render(state) {
+            if(state.dependencies && state.template){
+                return h('div', [
+                    logo,
+                    h('ul.navigation.navigation--steps', state.links.map(function (id) {
+                        var className = state.title === states[id].title ? 'active' : '';
+                        return h('li.navigation__item', {
+                            'className': className
+                        }, h('a', {
+                            'href':'#' + id,
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                goToState(id);
+                            }
+                        }, states[id].title))
+                    })),
+                    h('h1', state.title),
+                    h('div.left', state.template(state.dependencies))
+                ])
+            } else {
+                return h('div', logo)
+            }
+
         }
 
         services.mediator.on('treeUpdate',function(){
-            loop.update();
+            loop.update(loop.state);
         });
 
         // chart stuff
@@ -100,6 +65,10 @@
         chartElement = createElement(h('div.right', {id: 'chartContainer'}));
         element.appendChild(chartElement);
         chart.load(chartElement, services);
+
+        return {
+            goToState: goToState
+        };
     }
 
     module.exports = constructor;

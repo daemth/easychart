@@ -8,7 +8,7 @@
         var confService = require('./services/config');
         var optionsService = require('./services/options');
         var mediator = require('mediatorjs');
-
+        var h = require('virtual-dom/h');
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);
@@ -20,7 +20,33 @@
         };
 
         element.className += ' ec';
-        new router(element, 'import', services);
+        var states = {
+            'import': {
+                title: 'Import',
+                dependencies: function(){
+                    var that = {};
+                    that.import = require('./components/import.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.import.template()]);
+                }
+            },
+            'templates': {
+                title: 'Templates',
+                dependencies: function(){
+                    var that = {};
+                    that.templates = require('./components/templates.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.templates.template()]);
+                }
+            }
+        };
+
+        var mainRouter = new router(element, states , services);
+        mainRouter.goToState('import');
 
         function setData (data){
             services.data.set(data);
@@ -55,6 +81,7 @@
         function setConfigTemplate(configTemplate){
             services.config.setConfigTemplate(configTemplate);
         }
+
         return {
             setData:setData,
             getData:getData,

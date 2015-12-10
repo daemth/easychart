@@ -26,12 +26,16 @@ gulp.task('sass:watch', function () {
     gulp.watch('./src/scss/**/*.scss', ['sass']);
 });
 
-gulp.task('browserify:main', function () {
-    return build('main', 'ec');
+gulp.task('browserify:full', function () {
+    return build('full', 'ec.full');
 });
 
 gulp.task('browserify:minimal', function () {
-    return build('minimal', 'ec-minimal')
+    return build('minimal', 'ec.minimal')
+});
+
+gulp.task('browserify:simple', function () {
+    return build('simple', 'ec.simple')
 });
 
 function build(file, output) {
@@ -44,13 +48,18 @@ function build(file, output) {
         .pipe(gulp.dest('./dist'));
 }
 
-gulp.task('watchify:main', function () {
-    return bundle('main', 'ec')
+gulp.task('watchify:full', function () {
+    return bundle('full', 'ec.full')
 });
 
 gulp.task('watchify:minimal', function () {
-    return bundle('minimal', 'ec-minimal')
+    return bundle('minimal', 'ec.minimal')
 });
+
+gulp.task('watchify:simple', function () {
+    return bundle('simple', 'ec.simple')
+});
+
 
 function bundle(file, output) {
     watchify.args.debug = true;
@@ -67,10 +76,10 @@ function bundle(file, output) {
             .pipe(sourcemaps.write('./')) // writes .map file
             .pipe(gulp.dest('./dist'));
     }
-
     return rebundle();
 }
 
-gulp.task('build', ['sass', 'browserify:main', 'browserify:minimal']);
-gulp.task('watch:main', ['sass:watch', 'watchify:main']);
+gulp.task('build', ['sass', 'browserify:full','browserify:simple', 'browserify:minimal']);
+gulp.task('watch:full', ['sass:watch', 'watchify:full']);
 gulp.task('watch:minimal', ['watchify:minimal']);
+gulp.task('watch:simple', ['watchify:simple']);
