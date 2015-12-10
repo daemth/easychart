@@ -11385,16 +11385,15 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             editRow.push(h('td'));
             // only add if there is data
             if (data[0]) {
-                for (var i = 0; i < data[0].length; i++) {
-                    var temp = _.clone(i);
+                _.forEach(data[0], function(row, index){
                     editRow.push(h('td', [
                         h('button', {
                             'ev-click': function () {
-                                removeColumn(temp, data)
+                                removeColumn(index, data)
                             }
-                        }, 'remove row')
+                        }, 'remove column')
                     ]));
-                }
+                });
 
                 rows.push(h('tr', editRow));
                 _.forEach(data, function (row, rowIndex) {
@@ -11457,6 +11456,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
         function removeColumn(index, data) {
             data = _.cloneDeep(data);
+            console.log(index);
             data = _.map(data, function (row) {
                 _.pullAt(row, index);
                 return row;
