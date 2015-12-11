@@ -3,6 +3,7 @@
 @import "base/variables";
 
 .ec {
+
   background: $super-light-gray;
   font-family: 'Roboto', sans-serif;
   float: left;
@@ -29,7 +30,14 @@
   .container {
     clear: both;
   }
-
+  .Scp{
+    position: absolute;
+    margin-top: 5px;
+    width: 200px;
+    height: 150px;
+    border: 1px solid $light-gray;
+    border-radius: 3px;
+  }
   .logo {
     background-color: #333;
     padding: 7px 1em;
