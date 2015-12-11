@@ -33,7 +33,6 @@
         function getTemplates(){
             return services.templates.get();
         }
-
         // config
         function setConfig(config){
             services.config.set(config);

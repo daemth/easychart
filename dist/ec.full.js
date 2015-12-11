@@ -15324,7 +15324,7 @@ return self})();
     that.createProperty = function (property, configService) {
         var element;
         var configValue = configService.getValue(property.fullname);
-
+        var disabled = !configService.isEditable(property.fullname);
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
             // defaults is a string
             if (_.isString(property.defaults)) {
@@ -15335,7 +15335,6 @@ return self})();
                 configValue = !_.isUndefined(configValue) ? configValue : property.defaults;
             } else if (property.defaults.length > 1) {
                 if (!configValue) {
-
                     configValue = [];
                 }
                 _.forEach(property.defaults, function (defaultValue, index) {
@@ -15360,6 +15359,7 @@ return self})();
             element = h('div.form-item', [
                 h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                 h('div.form-item__input', h('select', {
+                    disabled: disabled,
                     'ev-input': function (e) {
                         if (e.target.value === 'null') {
                             configService.removeValue(property.fullname);
@@ -15371,10 +15371,8 @@ return self})();
             ]);
         }
 
-
         else {
             switch (true) {
-
                 // check if array
                 case property.returnType.toLowerCase() == 'array<color>':
 
@@ -15391,12 +15389,11 @@ return self})();
                             h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
                             h('div.form-item__input', h('input', {
                                 'type': 'text',
+                                disable: disabled,
                                 'afterRender': Hook,
                                 'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                                 'ev-input': function (e) {
                                     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
-                                    console.log(property.defaults);
-                                    console.log(values);
                                     if (_.isEqual(property.defaults, values)) {
                                         configService.removeValue(property.fullname);
                                     } else {
@@ -15421,6 +15418,7 @@ return self})();
                         list.push(h('div.form-item', [
                             h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
                             h('div.form-item__input', h('input', {
+                                disable: disabled,
                                 'type': 'text',
                                 'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                                 'ev-input': function (e) {
@@ -15447,6 +15445,7 @@ return self})();
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                         h('div.form-item__input', h('input', {
+                            disable: disabled,
                             'type': 'number',
                             'value': configValue,
                             'ev-input': function (e) {
@@ -15467,6 +15466,7 @@ return self})();
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                         h('div.form-item__input', h('input', {
+                            disable: disabled,
                             'type': 'checkbox',
                             'checked': configValue,
                             'ev-click': function (e) {
@@ -15484,6 +15484,7 @@ return self})();
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                         h('div.form-item__input', h('input', {
+                            disable: disabled,
                             'type': 'text',
                             'value': configValue,
                             'ev-input': function (e) {
@@ -15501,6 +15502,7 @@ return self})();
                     element = h('div.form-item', [
                         h('div.form-item__label', h('label', {title: property.description}, [property.title])),
                         h('div.form-item__input', h('input', {
+                            disable: disabled,
                             'type': 'text',
                             'value': configValue,
                             'ev-input': function (e) {
@@ -15781,7 +15783,6 @@ return self})();
         function getTemplates(){
             return services.templates.get();
         }
-
         // config
         function setConfig(config){
             services.config.set(config);
@@ -15841,7 +15842,7 @@ return self})();
         var that = {};
         var preset = {
             chart: {
-
+                type:'line'
             },
             plotOptions: {
                 series: {
@@ -15907,6 +15908,21 @@ return self})();
                 }
             }
             return object;
+        };
+
+        that.isEditable = function(path){
+            var object = _.cloneDeep(preset);
+            path = path.split('.');
+            var step;
+            while (step = path.shift()) {
+                if (!_.isUndefined(object[step])) {
+                    object = object[step];
+                } else {
+                    object = undefined;
+                    break;
+                }
+            }
+            return _.isUndefined(object);
         };
 
         that.removeValue = function (path) {

@@ -28,6 +28,10 @@
             services.config.set(config);
         }
 
+        function setPreset(preset){
+            services.config.setPreset(preset);
+        }
+
         return {
             setData:setData,
             setDataUrl:setDataUrl,

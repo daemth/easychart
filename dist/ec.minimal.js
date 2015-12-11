@@ -8246,6 +8246,10 @@ module.exports=module.exports = [
             services.config.set(config);
         }
 
+        function setPreset(preset){
+            services.config.setPreset(preset);
+        }
+
         return {
             setData:setData,
             setDataUrl:setDataUrl,
@@ -8272,7 +8276,7 @@ module.exports=module.exports = [
         var that = {};
         var preset = {
             chart: {
-
+                type:'line'
             },
             plotOptions: {
                 series: {
@@ -8338,6 +8342,21 @@ module.exports=module.exports = [
                 }
             }
             return object;
+        };
+
+        that.isEditable = function(path){
+            var object = _.cloneDeep(preset);
+            path = path.split('.');
+            var step;
+            while (step = path.shift()) {
+                if (!_.isUndefined(object[step])) {
+                    object = object[step];
+                } else {
+                    object = undefined;
+                    break;
+                }
+            }
+            return _.isUndefined(object);
         };
 
         that.removeValue = function (path) {
