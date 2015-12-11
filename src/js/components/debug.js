@@ -1,14 +1,22 @@
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
-        var highlight =  require('highlight.js')
+        var hljs = require('../../../node_modules/highlight.js/lib/highlight');
+        var css = require('../../../node_modules/highlight.js/styles/monokai.css');
+        hljs.registerLanguage('json', require('../../../node_modules/highlight.js/lib/languages/json'));
+        window.hljs = hljs;
+
         var configService = services.config;
         var that = {};
-
-        that.template = function () {
-            return h('pre')
+        var Hook = function(){};
+        Hook.prototype.hook = function(node){
+            setTimeout(function(){
+                hljs.highlightBlock(node);
+            });
         };
-
+        that.template = function () {
+            return h('pre', h('code', {'afterRender': new Hook()}, JSON.stringify(configService.get(),null,4)));
+        };
 
         return that;
     };
