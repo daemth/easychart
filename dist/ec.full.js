@@ -1,3 +1,9 @@
+/**
+ * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
+ * @version v3.0.0
+ * @link 
+ * @license MIT
+ */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -1589,7 +1595,6 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],22:[function(require,module,exports){
 'use strict';
 
@@ -1651,7 +1656,6 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"min-document":3}],25:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
@@ -2486,7 +2490,6 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],29:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -3455,7 +3458,6 @@ function isObject(value) {
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"lodash._arraycopy":31,"lodash._arrayeach":32,"lodash._baseassign":34,"lodash._basefor":45,"lodash.isarray":76,"lodash.keys":86}],38:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
@@ -5035,7 +5037,6 @@ SetCache.prototype.push = cachePush;
 module.exports = createCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"lodash._getnative":60}],59:[function(require,module,exports){
 (function (global){
 /**
@@ -5435,7 +5436,6 @@ function isObject(value) {
 module.exports = createWrapper;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"lodash._arraycopy":31,"lodash._basecreate":40,"lodash._replaceholders":62}],60:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
@@ -10623,7 +10623,6 @@ function main(initialState, view, opts) {
 */
 
 }).call(this,require('_process'))
-
 },{"_process":106}],105:[function(require,module,exports){
 
 var style = document.createElement('p').style
@@ -10925,7 +10924,6 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-
 },{"_process":106}],109:[function(require,module,exports){
 'use strict';
 
@@ -18203,7 +18201,4 @@ return self})();
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":161,"virtual-dom/h":120}]},{},[170])
-
-
-//# sourceMappingURL=ec.full.js.map
+},{"../factories/iconLoader":161,"virtual-dom/h":120}]},{},[170]);
