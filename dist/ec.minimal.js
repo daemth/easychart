@@ -8230,9 +8230,11 @@ module.exports=module.exports = [
             mediator: mInstance
         };
 
-        element.className += ' ec';
-        var chart = require('./components/chart.js');
-        chart.load(element, services);
+        if(typeof element !== 'undefined'){
+            element.className += ' ec';
+            var chart = require('./components/chart.js');
+            chart.load(element, services);
+        }
 
         function setData (data){
             services.data.set(data);
@@ -8253,7 +8255,8 @@ module.exports=module.exports = [
         return {
             setData:setData,
             setDataUrl:setDataUrl,
-            setConfig:setConfig
+            setConfig:setConfig,
+            setPreset: setPreset
         }
     }
 

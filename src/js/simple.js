@@ -21,8 +21,6 @@
             options: new optionsService(),
             templates: new templateService()
         };
-
-        element.className += ' ec';
         var states = {
             'import': {
                 title: 'Import',
@@ -48,9 +46,12 @@
             }
         };
 
-        var mainRouter = new router(element, states , services);
-        mainRouter.goToState('import');
-
+        if(typeof element !== 'undefined'){
+            element.className += ' ec';
+            var mainRouter = new router(element, states , services);
+            mainRouter.goToState('import');
+        }
+        
         return new Api(services);
     }
 
