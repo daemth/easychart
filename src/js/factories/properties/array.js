@@ -16,7 +16,7 @@
             list.push(h('div.form-item', [
                 h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
                 h('div.form-item__input', h('input', {
-                    disable: disabled,
+                    disabled: disabled,
                     'type': 'text',
                     'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                     'ev-input': function (e) {

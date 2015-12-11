@@ -17,7 +17,7 @@
     display: block;
     padding: ($base-spacing / 2) $gutter;
     text-decoration: none;
-    @include inline-block;
+    display: inline-block;
     border-top: 0;
     cursor: pointer;
     &:hover {

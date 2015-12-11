@@ -42,7 +42,7 @@
   .vertical-tab-content-container {
     border: 1px solid $base-border-color;
     border-left: none;
-    @include inline-block;
+    display: inline-block;
     width: 80%;
     background-color: white;
     margin: 0 auto;
@@ -59,7 +59,6 @@
     padding: $base-spacing $gutter;
     border: none;
     width: 100%;
-
   }
 
   .vertical-tab-accordion-heading {

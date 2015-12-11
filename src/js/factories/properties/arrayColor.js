@@ -24,7 +24,7 @@
                 h('div.form-item__input', h('input', {
                     'type': 'text',
                     'hook': new Hook(),
-                    disable: disabled,
+                    'disabled': disabled,
                     'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                     'ev-focus':function(e){
                         colorPicker = new ColorPicker({
