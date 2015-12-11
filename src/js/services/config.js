@@ -13,7 +13,7 @@
         var that = {};
         var preset = {
             chart: {
-                type:'line'
+
             },
             plotOptions: {
                 series: {

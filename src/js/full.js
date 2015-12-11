@@ -73,7 +73,7 @@
         if(typeof element !== 'undefined'){
             element.className += ' ec';
             var mainRouter = new router(element, states , services);
-            mainRouter.goToState('customise');
+            mainRouter.goToState('import');
         }
 
         return new Api(services);

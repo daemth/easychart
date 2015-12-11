@@ -8279,7 +8279,7 @@ module.exports=module.exports = [
         var that = {};
         var preset = {
             chart: {
-                type:'line'
+
             },
             plotOptions: {
                 series: {
