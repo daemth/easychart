@@ -10,7 +10,6 @@
         isEqual: require('lodash.isequal'),
         merge: require('lodash.merge')
     };
-    var colorjoe = require('colorjoe');
     var h = require('virtual-dom/h');
     var that = {};
 
@@ -78,11 +77,9 @@
             switch (true) {
                 // check if array
                 case property.returnType.toLowerCase() == 'array<color>':
-
-                    var Hook = function () {};
-
+                    var Hook = function () {};git
                     Hook.prototype.hook = function(node){
-                        colorjoe.hsl(node, node.value);
+
                     };
                     var list = [];
                     var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);
