@@ -1,16 +1,13 @@
 (function () {
-
     var _ = {
         isUndefined: require('lodash.isundefined'),
         cloneDeep: require('lodash.clonedeep'),
         forEach: require('lodash.foreach'),
         first: require('lodash.first'),
         isArray: require('lodash.isarray'),
-        isString: require('lodash.isstring'),
-        isEqual: require('lodash.isequal'),
-        merge: require('lodash.merge')
+        isString: require('lodash.isstring')
     };
-    var h = require('virtual-dom/h');
+
     var that = {};
 
     that.get = function (option, configService, indexName) {
@@ -27,6 +24,8 @@
         var element;
         var configValue = configService.getValue(property.fullname);
         var disabled = !configService.isEditable(property.fullname);
+
+        // set the default/configvalue
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
             // defaults is a string
             if (_.isString(property.defaults)) {
@@ -45,172 +44,35 @@
             }
         }
 
+        // select
         if (property.hasOwnProperty('values') && property.values !== '') {
-            var options = [];
-            values = property.values.replace(/\[|\]|\"|\s/g, '').split(',');
-            _.forEach(values, function (value) {
-                var selected = value == configValue;
-
-                var item = h('option', {
-                    value: value,
-                    selected: selected
-                }, value === 'null' ? '' : value);
-                options.push(item);
-            });
-
-            element = h('div.form-item', [
-                h('div.form-item__label', h('label', {title: property.description}, [property.title])),
-                h('div.form-item__input', h('select', {
-                    disabled: disabled,
-                    'ev-input': function (e) {
-                        if (e.target.value === 'null') {
-                            configService.removeValue(property.fullname);
-                        } else {
-                            configService.setValue(property.fullname, e.target.value);
-                        }
-                    }
-                }, options))
-            ]);
+            element = require('./properties/select')(property, configService, configValue, disabled);
         }
-
         else {
             switch (true) {
-                // check if array
+                // Color array
                 case property.returnType.toLowerCase() == 'array<color>':
-                    var Hook = function () {};git
-                    Hook.prototype.hook = function(node){
-
-                    };
-                    var list = [];
-                    var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);
-                    _.forEach(property.defaults, function (value, index) {
-                        list.push(h('div.form-item', [
-                            h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
-                            h('div.form-item__input', h('input', {
-                                'type': 'text',
-                                disable: disabled,
-                                'afterRender': Hook,
-                                'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
-                                'ev-input': function (e) {
-                                    values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
-                                    if (_.isEqual(property.defaults, values)) {
-                                        configService.removeValue(property.fullname);
-                                    } else {
-
-                                        configService.setValue(property.fullname, values);
-                                    }
-                                }
-                            }))
-                        ]))
-                    });
-                    element = h('div', [
-                        h('div', h('h4', [property.title])),
-                        h('div', list)
-                    ]);
+                    element = require('./properties/arrayColor')(property, configService, configValue, disabled);
                     break;
-
+                // array
                 case (property.returnType.lastIndexOf('Array', 0) === 0):
-                    var list = [];
-                    var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);
-                    _.forEach(property.defaults, function (value, index) {
-                        //values.push(configValue[index]);
-                        list.push(h('div.form-item', [
-                            h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
-                            h('div.form-item__input', h('input', {
-                                disable: disabled,
-                                'type': 'text',
-                                'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
-                                'ev-input': function (e) {
-                                    values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
-                                    if (_.isEqual(property.defaults, values)) {
-                                        configService.removeValue(property.fullname);
-                                    } else {
-
-                                        configService.setValue(property.fullname, values);
-                                    }
-                                }
-                            }))
-                        ]))
-                    });
-                    element = h('div', [
-                        h('div', h('h4', [property.title])),
-                        h('div', list)
-                    ]);
+                    element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
-
+                // number
                 case property.returnType.toLowerCase() == 'number':
-                    element = h('div.form-item', [
-                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
-                        h('div.form-item__input', h('input', {
-                            disable: disabled,
-                            'type': 'number',
-                            'value': configValue,
-                            'ev-input': function (e) {
-                                if (parseInt(property.defaults) !== parseInt(e.target.value)) {
-                                    configService.setValue(property.fullname, parseInt(e.target.value));
-                                } else {
-                                    configService.removeValue(property.fullname);
-                                }
-                            }
-                        }))
-                    ]);
+                    element = require('./properties/number')(property, configService, configValue, disabled);
                     break;
-
+                // boolean
                 case property.returnType.toLowerCase() == 'boolean':
-                    if (_.isString(configValue)) {
-                        configValue = configValue == 'true';
-                    }
-                    element = h('div.form-item', [
-                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
-                        h('div.form-item__input', h('input', {
-                            disable: disabled,
-                            'type': 'checkbox',
-                            'checked': configValue,
-                            'ev-click': function (e) {
-                                if (property.defaults !== e.target.checked) {
-                                    configService.setValue(property.fullname, e.target.checked);
-                                } else {
-                                    configService.removeValue(property.fullname);
-                                }
-                            }
-                        }))
-                    ]);
+                    element = require('./properties/boolean')(property, configService, configValue, disabled);
                     break;
 
                 case property.returnType.toLowerCase() == 'string':
-                    element = h('div.form-item', [
-                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
-                        h('div.form-item__input', h('input', {
-                            disable: disabled,
-                            'type': 'text',
-                            'value': configValue,
-                            'ev-input': function (e) {
-                                if (property.defaults !== e.target.value) {
-                                    configService.setValue(property.fullname, e.target.value);
-                                } else {
-                                    configService.removeValue(property.fullname);
-                                }
-                            }
-                        }))
-                    ]);
+                    element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
 
                 default:
-                    element = h('div.form-item', [
-                        h('div.form-item__label', h('label', {title: property.description}, [property.title])),
-                        h('div.form-item__input', h('input', {
-                            disable: disabled,
-                            'type': 'text',
-                            'value': configValue,
-                            'ev-input': function (e) {
-                                if (property.defaults !== e.target.value) {
-                                    configService.setValue(property.fullname, e.target.value);
-                                } else {
-                                    configService.removeValue(property.fullname);
-                                }
-                            }
-                        }))
-                    ]);
+                    element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
             }
         }
