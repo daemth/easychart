@@ -6754,7 +6754,7 @@ module.exports=module.exports = [
     "id": "line",
     "type": "Line charts",
     "icon": "line",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Line chart",
@@ -6955,7 +6955,7 @@ module.exports=module.exports = [
     "id": "area",
     "type": "Area charts",
     "icon": "area",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Area Chart",
@@ -7138,7 +7138,7 @@ module.exports=module.exports = [
     "id": "column",
     "type": "Column charts",
     "icon": "column",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Basic",
@@ -7439,7 +7439,7 @@ module.exports=module.exports = [
     "id": "bar",
     "type": "Bar charts",
     "icon": "bar",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Basic bar",
@@ -7695,7 +7695,7 @@ module.exports=module.exports = [
     "id": "scatterAndBubble",
     "type": "Scatter and bubble",
     "icon": "spider",
-    "presets": [
+    "templates": [
       {
         "id": "scatter",
         "title": "Scatter chart",
@@ -7755,7 +7755,7 @@ module.exports=module.exports = [
     "id": "pie",
     "type": "Pie charts",
     "icon": "spider",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Pie chart",
@@ -7999,7 +7999,7 @@ module.exports=module.exports = [
     "id": "polar",
     "type": "Polar charts",
     "icon": "bar",
-    "presets": [
+    "templates": [
       {
         "id": "line",
         "title": "Polar line",
@@ -8270,12 +8270,7 @@ module.exports=module.exports = [
         var series = require('../factories/series.js');
         var templates = require('../config/templates.json');
         var that = {};
-        var presetConf = {
-            type: 'line',
-            preset: 'dataLabels'
-        };
-
-        var configTemplate = {
+        var preset = {
             chart: {
 
             },
@@ -8286,7 +8281,7 @@ module.exports=module.exports = [
             }
         };
 
-        var config = _.cloneDeep(configTemplate);
+        var config = _.cloneDeep(preset);
 
         that.get = function () {
             var labels = hasLabels(data.get());
@@ -8302,18 +8297,6 @@ module.exports=module.exports = [
         that.set = function (_config_) {
             delete _config_.series;
             config = _.cloneDeep(_config_);
-        };
-
-        that.setConfigTemplate = function(newTemplate){
-            configTemplate = newTemplate;
-        };
-
-        that.getConfigTemplate = function(){
-            return _.cloneDeep(configTemplate);
-        };
-
-        that.reset = function (preset) {
-            config = _.merge(_.cloneDeep(configTemplate), preset)
         };
 
         that.setValue = function (path, value) {
@@ -8372,19 +8355,19 @@ module.exports=module.exports = [
             mediator.trigger('configUpdate',that.get());
         };
 
-        that.setPreset = function (type, preset) {
-            presetConf = {
-                type: type,
-                preset: preset
-            };
-            that.reset(loadPreset(type, preset));
+        that.loadTemplate = function (template) {
+            config = _.merge(template, _.cloneDeep(preset));
             mediator.trigger('configUpdate',that.get());
         };
 
-        function loadPreset(type, preset) {
-            var typeConfig = _.find(templates, {id: type});
-            return _.cloneDeep(_.find(typeConfig.presets, {id: preset}).definition);
-        }
+        that.setPreset = function(_preset_){
+            preset = _preset_;
+        };
+
+        that.getPreset = function(){
+            return _.cloneDeep(preset);
+        };
+
 
         function hasLabels(data) {
             var labels = {

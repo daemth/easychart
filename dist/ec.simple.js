@@ -11285,7 +11285,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
 },{"lodash.clone":54,"lodash.clonedeep":55,"lodash.fill":58,"lodash.foreach":61,"lodash.isequal":65,"lodash.map":75,"lodash.pullat":78,"lodash.size":82,"lodash.trim":86,"virtual-dom/h":100}],136:[function(require,module,exports){
 (function () {
-    var constructor = function(services){
+    var constructor = function (services) {
         var that = {};
         var _ = {
             find: require('lodash.find'),
@@ -11293,62 +11293,61 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             first: require('lodash.first')
         };
         var h = require('virtual-dom/h');
-        var templateTypes = require('../config/templates.json');
         var iconLoader = require('../factories/iconLoader');
         var mediator = services.mediator;
-        var config;
-        var activeTab = _.first(templateTypes).id;
-        config = services.config;
+        var activeId = _.first(services.templates.get()).id;
+        var config = services.config;
 
-        that.template = function(){
-            var tabs = generateTabs(templateTypes, activeTab);
-            var content = generateContent(templateTypes, activeTab);
+        that.template = function () {
+            var activeType = _.find(services.templates.get(), function (type) {
+                return type.id == activeId;
+            });
+            var templates = services.templates.get();
+            var tabs = generateTabs(templates, activeId);
+            var content = generateContent(activeType);
             return h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
         };
 
-        function generateContent(types, activeId) {
-            var activeType = _.find(types, function (type) {
-                return type.id == activeId;
-            });
+        function generateContent(activeType) {
             var title = h('h2', activeType.type);
-            var presetList = [];
+            var templateList = [];
             var svg = iconLoader.get(activeType.icon);
-            _.forEach(activeType.presets, function (preset) {
+            _.forEach(activeType.templates, function (template) {
                 var item = h('a',
                     {
                         className: "templatelist__item",
                         'ev-click': function () {
-                            config.setPreset(activeType.id, preset.id);
+                            config.loadTemplate(template.definition);
                         }
                     }, [
                         svg,
-                        h('div', preset.title)
+                        h('div', template.title)
                     ]);
-                presetList.push(item)
+                templateList.push(item)
             });
-            var presetGrid = h('div', {className: "templatelist"}, presetList);
-            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, presetGrid]));
+            var templateGrid = h('div', {className: "templatelist"}, templateList);
+            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, templateGrid]));
         }
 
         function generateTabs(types, active) {
             var links = [];
             _.forEach(types, function (type, index) {
-                var className = type.id === activeTab ? 'active' : '';
+                var className = type.id === active ? 'active' : '';
 
                 var link = h('li', {
                     'className': className
                 }, h('a', {
-                    'href' : '#' + type.type,
-                    'ev-click' : function (e) {
+                    'href': '#' + type.type,
+                    'ev-click': function (e) {
                         e.preventDefault();
-                        activeTab = type.id;
+                        activeId = type.id;
                         mediator.trigger('treeUpdate');
                     }
-                },type.type));
+                }, type.type));
 
                 links.push(link);
             });
-            return tabs = h('ul', {className: "vertical-tabs"}, links);
+            return h('ul', {className: "vertical-tabs"}, links);
         }
 
         return that;
@@ -11357,7 +11356,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
     module.exports = constructor;
 })();
-},{"../config/templates.json":138,"../factories/iconLoader":139,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"virtual-dom/h":100}],137:[function(require,module,exports){
+},{"../factories/iconLoader":139,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"virtual-dom/h":100}],137:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -12158,7 +12157,7 @@ module.exports=module.exports = [
     "id": "line",
     "type": "Line charts",
     "icon": "line",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Line chart",
@@ -12359,7 +12358,7 @@ module.exports=module.exports = [
     "id": "area",
     "type": "Area charts",
     "icon": "area",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Area Chart",
@@ -12542,7 +12541,7 @@ module.exports=module.exports = [
     "id": "column",
     "type": "Column charts",
     "icon": "column",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Basic",
@@ -12843,7 +12842,7 @@ module.exports=module.exports = [
     "id": "bar",
     "type": "Bar charts",
     "icon": "bar",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Basic bar",
@@ -13099,7 +13098,7 @@ module.exports=module.exports = [
     "id": "scatterAndBubble",
     "type": "Scatter and bubble",
     "icon": "spider",
-    "presets": [
+    "templates": [
       {
         "id": "scatter",
         "title": "Scatter chart",
@@ -13159,7 +13158,7 @@ module.exports=module.exports = [
     "id": "pie",
     "type": "Pie charts",
     "icon": "spider",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Pie chart",
@@ -13403,7 +13402,7 @@ module.exports=module.exports = [
     "id": "polar",
     "type": "Polar charts",
     "icon": "bar",
-    "presets": [
+    "templates": [
       {
         "id": "line",
         "title": "Polar line",
@@ -13655,6 +13654,86 @@ return self})();
 })();
 
 },{"lodash.clonedeep":55,"lodash.drop":57,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isarray":63,"lodash.isempty":64,"lodash.isundefined":72,"lodash.map":75,"lodash.merge":76,"lodash.remove":79,"lodash.size":82,"lodash.slice":83,"lodash.union":87}],141:[function(require,module,exports){
+
+(function () {
+    function constructor(services){
+        // data
+        function setData (data){
+            services.data.set(data);
+        }
+        function getData (){
+            return services.data.get();
+        }
+        // data csv
+        function setDataCSV(csv){
+            services.data.setCSV(csv);
+        }
+        // data url
+        function setDataUrl(url){
+            services.data.setUrl(url);
+        }
+        function getDataUrl(){
+            return services.data.getUrl();
+        }
+        // options
+        function setOptions(options){
+            services.options.set(options);
+        }
+        function getOptions(){
+            return services.options.get();
+        }
+        // templates
+        function setTemplates(templates){
+            services.templates.set(templates);
+        }
+        function getTemplates(){
+            return services.templates.get();
+        }
+
+        // config
+        function setConfig(config){
+            services.config.set(config);
+        }
+
+        function getConfig(config){
+            return services.config.getRaw(config);
+        }
+        // preset
+        function setPreset(preset){
+            services.config.setPreset(preset);
+        }
+        function getPreset(preset){
+            services.config.getPreset(preset);
+        }
+        // events
+        function on(event, callback){
+            services.mediator.on(event, function (data) {
+                callback(data);
+            });
+        }
+
+        return {
+            setData:setData,
+            getData:getData,
+            setDataUrl:setDataUrl,
+            getDataUrl:getDataUrl,
+            setDataCSV: setDataCSV,
+            setOptions:setOptions,
+            getOptions: getOptions,
+            setTemplates:setTemplates,
+            getTemplates:getTemplates,
+            setConfig:setConfig,
+            getConfig:getConfig,
+            setPreset:setPreset,
+            getPreset:getPreset,
+            on:on
+        }
+    }
+
+    module.exports = constructor;
+})();
+
+},{}],142:[function(require,module,exports){
 (function () {
     function constructor (mediator, data) {
         var _ = {
@@ -13668,12 +13747,7 @@ return self})();
         var series = require('../factories/series.js');
         var templates = require('../config/templates.json');
         var that = {};
-        var presetConf = {
-            type: 'line',
-            preset: 'dataLabels'
-        };
-
-        var configTemplate = {
+        var preset = {
             chart: {
 
             },
@@ -13684,7 +13758,7 @@ return self})();
             }
         };
 
-        var config = _.cloneDeep(configTemplate);
+        var config = _.cloneDeep(preset);
 
         that.get = function () {
             var labels = hasLabels(data.get());
@@ -13700,18 +13774,6 @@ return self})();
         that.set = function (_config_) {
             delete _config_.series;
             config = _.cloneDeep(_config_);
-        };
-
-        that.setConfigTemplate = function(newTemplate){
-            configTemplate = newTemplate;
-        };
-
-        that.getConfigTemplate = function(){
-            return _.cloneDeep(configTemplate);
-        };
-
-        that.reset = function (preset) {
-            config = _.merge(_.cloneDeep(configTemplate), preset)
         };
 
         that.setValue = function (path, value) {
@@ -13770,19 +13832,19 @@ return self})();
             mediator.trigger('configUpdate',that.get());
         };
 
-        that.setPreset = function (type, preset) {
-            presetConf = {
-                type: type,
-                preset: preset
-            };
-            that.reset(loadPreset(type, preset));
+        that.loadTemplate = function (template) {
+            config = _.merge(template, _.cloneDeep(preset));
             mediator.trigger('configUpdate',that.get());
         };
 
-        function loadPreset(type, preset) {
-            var typeConfig = _.find(templates, {id: type});
-            return _.cloneDeep(_.find(typeConfig.presets, {id: preset}).definition);
-        }
+        that.setPreset = function(_preset_){
+            preset = _preset_;
+        };
+
+        that.getPreset = function(){
+            return _.cloneDeep(preset);
+        };
+
 
         function hasLabels(data) {
             var labels = {
@@ -13805,7 +13867,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../config/templates.json":138,"../factories/series.js":140,"lodash.clonedeep":55,"lodash.find":59,"lodash.foreach":61,"lodash.isempty":64,"lodash.isundefined":72,"lodash.merge":76}],142:[function(require,module,exports){
+},{"../config/templates.json":138,"../factories/series.js":140,"lodash.clonedeep":55,"lodash.find":59,"lodash.foreach":61,"lodash.isempty":64,"lodash.isundefined":72,"lodash.merge":76}],143:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -13913,7 +13975,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":55,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isequal":65,"lodash.isnan":67,"lodash.isundefined":72,"lodash.map":75,"lodash.rest":80,"lodash.slice":83,"papaparse":90}],143:[function(require,module,exports){
+},{"lodash.clonedeep":55,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isequal":65,"lodash.isnan":67,"lodash.isundefined":72,"lodash.map":75,"lodash.rest":80,"lodash.slice":83,"papaparse":90}],144:[function(require,module,exports){
 (function () {
     var constructor = function (services){
         var options = require('../config/options.json');
@@ -13935,7 +13997,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../config/options.json":137,"lodash.clonedeep":55}],144:[function(require,module,exports){
+},{"../config/options.json":137,"lodash.clonedeep":55}],145:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -14011,7 +14073,28 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":129,"./../templates/logo":146,"lodash.keys":73,"main-loop":88,"virtual-dom/create-element":98,"virtual-dom/diff":99,"virtual-dom/h":100,"virtual-dom/patch":101}],145:[function(require,module,exports){
+},{"./../components/chart.js":129,"./../templates/logo":148,"lodash.keys":73,"main-loop":88,"virtual-dom/create-element":98,"virtual-dom/diff":99,"virtual-dom/h":100,"virtual-dom/patch":101}],146:[function(require,module,exports){
+(function () {
+    function constructor(){
+        var templates = require('../config/templates.json');
+        var that = {};
+        var _ = {
+            cloneDeep: require('lodash.clonedeep')
+        };
+        that.get = function(){
+            return _.cloneDeep(templates);
+        };
+
+        that.set = function(_templates_){
+            templates = _templates_;
+        };
+        return that;
+    }
+
+    module.exports = constructor;
+})();
+
+},{"../config/templates.json":138,"lodash.clonedeep":55}],147:[function(require,module,exports){
 (function () {
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
@@ -14021,8 +14104,10 @@ return self})();
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var optionsService = require('./services/options');
+        var templateService = require('./services/templates');
         var mediator = require('mediatorjs');
         var h = require('virtual-dom/h');
+        var Api = require('./services/api');
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);
@@ -14030,7 +14115,8 @@ return self})();
             data: data,
             config: new confService(mInstance, data),
             mediator: mInstance,
-            options: new optionsService()
+            options: new optionsService(),
+            templates: new templateService()
         };
 
         element.className += ' ec';
@@ -14050,11 +14136,11 @@ return self})();
                 title: 'Templates',
                 dependencies: function(){
                     var that = {};
-                    that.templates = require('./components/templates.js')(services);
+                    that.templateSelection = require('./components/templateSelection.js')(services);
                     return that;
                 },
                 template: function (dependencies) {
-                    return h('div', [dependencies.templates.template()]);
+                    return h('div', [dependencies.templateSelection.template()]);
                 }
             }
         };
@@ -14062,61 +14148,13 @@ return self})();
         var mainRouter = new router(element, states , services);
         mainRouter.goToState('import');
 
-        function setData (data){
-            services.data.set(data);
-        }
-
-        function getData (){
-            return services.data.get();
-        }
-        function setDataCSV(csv){
-            services.data.setCSV(csv);
-        }
-        function setDataUrl(url){
-            services.data.setUrl(url);
-        }
-        function getDataUrl(){
-            return services.data.getUrl();
-        }
-        function setOptions(options){
-            services.options.set(options);
-        }
-
-        function setConfig(config){
-            services.config.set(config);
-        }
-
-        function getConfig(config){
-            return services.config.getRaw(config);
-        }
-
-        function on(event, callback){
-            mInstance.on(event, function (data) {
-                callback(data);
-            });
-        }
-
-        function setConfigTemplate(configTemplate){
-            services.config.setConfigTemplate(configTemplate);
-        }
-        return {
-            setData:setData,
-            getData:getData,
-            setDataUrl:setDataUrl,
-            getDataUrl:getDataUrl,
-            setDataCSV: setDataCSV,
-            setOptions:setOptions,
-            setConfig:setConfig,
-            getConfig:getConfig,
-            on:on,
-            setConfigTemplate: setConfigTemplate
-        }
+        return new Api(services);
     }
 
     window.ec = constructor;
 })();
 
-},{"../css/style.css":128,"./components/import.js":130,"./components/templates.js":136,"./services/config":141,"./services/data":142,"./services/options":143,"./services/router.js":144,"dom-delegator":11,"mediatorjs":89,"virtual-dom/h":100}],146:[function(require,module,exports){
+},{"../css/style.css":128,"./components/import.js":130,"./components/templateSelection.js":136,"./services/api":141,"./services/config":142,"./services/data":143,"./services/options":144,"./services/router.js":145,"./services/templates":146,"dom-delegator":11,"mediatorjs":89,"virtual-dom/h":100}],148:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -14125,4 +14163,4 @@ return self})();
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":139,"virtual-dom/h":100}]},{},[145]);
+},{"../factories/iconLoader":139,"virtual-dom/h":100}]},{},[147]);

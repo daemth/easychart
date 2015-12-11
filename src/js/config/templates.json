@@ -3,7 +3,7 @@
     "id": "line",
     "type": "Line charts",
     "icon": "line",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Line chart",
@@ -204,7 +204,7 @@
     "id": "area",
     "type": "Area charts",
     "icon": "area",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Area Chart",
@@ -387,7 +387,7 @@
     "id": "column",
     "type": "Column charts",
     "icon": "column",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Basic",
@@ -688,7 +688,7 @@
     "id": "bar",
     "type": "Bar charts",
     "icon": "bar",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Basic bar",
@@ -944,7 +944,7 @@
     "id": "scatterAndBubble",
     "type": "Scatter and bubble",
     "icon": "spider",
-    "presets": [
+    "templates": [
       {
         "id": "scatter",
         "title": "Scatter chart",
@@ -1004,7 +1004,7 @@
     "id": "pie",
     "type": "Pie charts",
     "icon": "spider",
-    "presets": [
+    "templates": [
       {
         "id": "basic",
         "title": "Pie chart",
@@ -1248,7 +1248,7 @@
     "id": "polar",
     "type": "Polar charts",
     "icon": "bar",
-    "presets": [
+    "templates": [
       {
         "id": "line",
         "title": "Polar line",

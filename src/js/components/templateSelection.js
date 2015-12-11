@@ -1,5 +1,5 @@
 (function () {
-    var constructor = function(services){
+    var constructor = function (services) {
         var that = {};
         var _ = {
             find: require('lodash.find'),
@@ -7,62 +7,61 @@
             first: require('lodash.first')
         };
         var h = require('virtual-dom/h');
-        var templateTypes = require('../config/templates.json');
         var iconLoader = require('../factories/iconLoader');
         var mediator = services.mediator;
-        var config;
-        var activeTab = _.first(templateTypes).id;
-        config = services.config;
+        var activeId = _.first(services.templates.get()).id;
+        var config = services.config;
 
-        that.template = function(){
-            var tabs = generateTabs(templateTypes, activeTab);
-            var content = generateContent(templateTypes, activeTab);
+        that.template = function () {
+            var activeType = _.find(services.templates.get(), function (type) {
+                return type.id == activeId;
+            });
+            var templates = services.templates.get();
+            var tabs = generateTabs(templates, activeId);
+            var content = generateContent(activeType);
             return h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
         };
 
-        function generateContent(types, activeId) {
-            var activeType = _.find(types, function (type) {
-                return type.id == activeId;
-            });
+        function generateContent(activeType) {
             var title = h('h2', activeType.type);
-            var presetList = [];
+            var templateList = [];
             var svg = iconLoader.get(activeType.icon);
-            _.forEach(activeType.presets, function (preset) {
+            _.forEach(activeType.templates, function (template) {
                 var item = h('a',
                     {
                         className: "templatelist__item",
                         'ev-click': function () {
-                            config.setPreset(activeType.id, preset.id);
+                            config.loadTemplate(template.definition);
                         }
                     }, [
                         svg,
-                        h('div', preset.title)
+                        h('div', template.title)
                     ]);
-                presetList.push(item)
+                templateList.push(item)
             });
-            var presetGrid = h('div', {className: "templatelist"}, presetList);
-            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, presetGrid]));
+            var templateGrid = h('div', {className: "templatelist"}, templateList);
+            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, templateGrid]));
         }
 
         function generateTabs(types, active) {
             var links = [];
             _.forEach(types, function (type, index) {
-                var className = type.id === activeTab ? 'active' : '';
+                var className = type.id === active ? 'active' : '';
 
                 var link = h('li', {
                     'className': className
                 }, h('a', {
-                    'href' : '#' + type.type,
-                    'ev-click' : function (e) {
+                    'href': '#' + type.type,
+                    'ev-click': function (e) {
                         e.preventDefault();
-                        activeTab = type.id;
+                        activeId = type.id;
                         mediator.trigger('treeUpdate');
                     }
-                },type.type));
+                }, type.type));
 
                 links.push(link);
             });
-            return tabs = h('ul', {className: "vertical-tabs"}, links);
+            return h('ul', {className: "vertical-tabs"}, links);
         }
 
         return that;

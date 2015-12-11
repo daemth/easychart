@@ -10,7 +10,7 @@
         isEqual: require('lodash.isequal'),
         merge: require('lodash.merge')
     };
-
+    var colorjoe = require('colorjoe');
     var h = require('virtual-dom/h');
     var that = {};
 
@@ -77,7 +77,45 @@
 
         else {
             switch (true) {
+
                 // check if array
+                case property.returnType.toLowerCase() == 'array<color>':
+
+                    var Hook = function () {};
+                    
+                    Hook.prototype.hook = function(node){
+                        colorjoe.hsl(node, node.value);
+                    };
+                    var list = [];
+                    var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);
+                    _.forEach(property.defaults, function (value, index) {
+                        //values.push(configValue[index]);
+                        list.push(h('div.form-item', [
+                            h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
+                            h('div.form-item__input', h('input', {
+                                'type': 'text',
+                                'afterRender': Hook,
+                                'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
+                                'ev-input': function (e) {
+                                    values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
+                                    console.log(property.defaults);
+                                    console.log(values);
+                                    if (_.isEqual(property.defaults, values)) {
+                                        configService.removeValue(property.fullname);
+                                    } else {
+
+                                        configService.setValue(property.fullname, values);
+                                    }
+                                }
+                            }))
+                        ]))
+                    });
+                    element = h('div', [
+                        h('div', h('h4', [property.title])),
+                        h('div', list)
+                    ]);
+                    break;
+
                 case (property.returnType.lastIndexOf('Array', 0) === 0):
                     var list = [];
                     var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);

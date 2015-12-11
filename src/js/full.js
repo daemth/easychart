@@ -7,16 +7,21 @@
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var optionsService = require('./services/options');
+        var templateService = require('./services/templates');
+        var Api = require('./services/api');
         var mediator = require('mediatorjs');
         var h = require('virtual-dom/h');
+
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);
+
         var services = {
             data: data,
             config: new confService(mInstance, data),
             mediator: mInstance,
-            options: new optionsService()
+            options: new optionsService(),
+            templates: new templateService()
         };
 
         element.className += ' ec';
@@ -37,11 +42,11 @@
                 title: 'Templates',
                 dependencies: function(){
                     var that = {};
-                    that.templates = require('./components/templates.js')(services);
+                    that.templateSelection = require('./components/templateSelection.js')(services);
                     return that;
                 },
                 template: function (dependencies) {
-                    return h('div', [dependencies.templates.template()]);
+                    return h('div', [dependencies.templateSelection.template()]);
                 }
             },
             'customise': {
@@ -69,57 +74,9 @@
         };
 
         var mainRouter = new router(element, states , services);
+
         mainRouter.goToState('import');
-
-        function setData (data){
-            services.data.set(data);
-        }
-
-        function getData (){
-            return services.data.get();
-        }
-        function setDataCSV(csv){
-            services.data.setCSV(csv);
-        }
-        function setDataUrl(url){
-            services.data.setUrl(url);
-        }
-        function getDataUrl(){
-            return services.data.getUrl();
-        }
-        function setOptions(options){
-            services.options.set(options);
-        }
-
-        function setConfig(config){
-            services.config.set(config);
-        }
-
-        function getConfig(config){
-            return services.config.getRaw(config);
-        }
-
-        function on(event, callback){
-            mInstance.on(event, function (data) {
-                callback(data);
-            });
-        }
-
-        function setConfigTemplate(configTemplate){
-            services.config.setConfigTemplate(configTemplate);
-        }
-        return {
-            setData:setData,
-            getData:getData,
-            setDataUrl:setDataUrl,
-            getDataUrl:getDataUrl,
-            setDataCSV: setDataCSV,
-            setOptions:setOptions,
-            setConfig:setConfig,
-            getConfig:getConfig,
-            on:on,
-            setConfigTemplate: setConfigTemplate
-        }
+        return new Api(services);
     }
 
     window.ec = constructor;

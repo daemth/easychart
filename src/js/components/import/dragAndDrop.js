@@ -4,7 +4,7 @@
     var h = require('virtual-dom/h');
     var that = {};
     that.template = function (services) {
-        gitdataService = services.data;
+        dataService = services.data;
         var mediator = services.mediator;
         var Hook = function () {};
         var content = 'Drop your files here';

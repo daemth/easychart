@@ -11,12 +11,7 @@
         var series = require('../factories/series.js');
         var templates = require('../config/templates.json');
         var that = {};
-        var presetConf = {
-            type: 'line',
-            preset: 'dataLabels'
-        };
-
-        var configTemplate = {
+        var preset = {
             chart: {
 
             },
@@ -27,7 +22,7 @@
             }
         };
 
-        var config = _.cloneDeep(configTemplate);
+        var config = _.cloneDeep(preset);
 
         that.get = function () {
             var labels = hasLabels(data.get());
@@ -43,18 +38,6 @@
         that.set = function (_config_) {
             delete _config_.series;
             config = _.cloneDeep(_config_);
-        };
-
-        that.setConfigTemplate = function(newTemplate){
-            configTemplate = newTemplate;
-        };
-
-        that.getConfigTemplate = function(){
-            return _.cloneDeep(configTemplate);
-        };
-
-        that.reset = function (preset) {
-            config = _.merge(_.cloneDeep(configTemplate), preset)
         };
 
         that.setValue = function (path, value) {
@@ -113,19 +96,19 @@
             mediator.trigger('configUpdate',that.get());
         };
 
-        that.setPreset = function (type, preset) {
-            presetConf = {
-                type: type,
-                preset: preset
-            };
-            that.reset(loadPreset(type, preset));
+        that.loadTemplate = function (template) {
+            config = _.merge(template, _.cloneDeep(preset));
             mediator.trigger('configUpdate',that.get());
         };
 
-        function loadPreset(type, preset) {
-            var typeConfig = _.find(templates, {id: type});
-            return _.cloneDeep(_.find(typeConfig.presets, {id: preset}).definition);
-        }
+        that.setPreset = function(_preset_){
+            preset = _preset_;
+        };
+
+        that.getPreset = function(){
+            return _.cloneDeep(preset);
+        };
+
 
         function hasLabels(data) {
             var labels = {
