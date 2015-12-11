@@ -50,6 +50,7 @@
     "node-neat": "^1.7.2",
     "node-sass": "latest",
     "papaparse": "^4.1.2",
+    "simple-color-picker": "0.0.9",
     "strictify": "latest",
     "svg-browserify": "0.0.2",
     "uglify-js": "latest",
