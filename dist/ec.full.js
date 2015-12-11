@@ -13153,7 +13153,7 @@ module.exports=module.exports = [
                         "parent": "chart",
                         "isParent": false,
                         "returnType": "String",
-                        "defaults": "column",
+                        "defaults": "line",
                         "values": "[\"line\", \"spline\", \"column\", \"bar\", \"area\", \"areaspline\", \"pie\", \"arearange\", \"areasplinerange\", \"boxplot\", \"bubble\", \"columnrange\", \"errorbar\", \"funnel\", \"gauge\", \"heatmap\", \"polygon\", \"pyramid\", \"scatter\", \"solidgauge\", \"treemap\", \"waterfall\"]",
                         "since": "2.1.0",
                         "description": "The default series type for the chart. Can be any of the chart types listed under <a href=\"#plotOptions\">plotOptions</a>.",
@@ -13226,8 +13226,7 @@ module.exports=module.exports = [
                         "isParent": false,
                         "returnType": "Number",
                         "description": "An explicit width for the chart. By default the width is calculated from the offset width of the containing element.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/width/\" target=\"_blank\">800px wide</a>",
-                        "defaults": "600"
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/width/\" target=\"_blank\">800px wide</a>"
                     },
                     {
                         "name": "chart--height",
@@ -13309,17 +13308,7 @@ module.exports=module.exports = [
                         "title": "colors",
                         "isParent": false,
                         "returnType": "Array<Color>",
-                        "defaults": [
-                            "#3799ba",
-                            "#57f2a9",
-                            "#c900a1",
-                            "#1a9944",
-                            "#7eeae5",
-                            "#ed8c71",
-                            "#899cf4",
-                            "#e07dc6",
-                            "#5addb0"
-                        ],
+                        "defaults": "[ \"#7cb5ec\" , \"#434348\" , \"#90ed7d\" , \"#f7a35c\" , \"#8085e9\" , \"#f15c80\" , \"#e4d354\" , \"#2b908f\" , \"#f45b5b\" , \"#91e8e1\"]",
                         "description": "<p>An array containing the default colors for the chart's series. When all colors are used, new colors are pulled from the start again. Defaults to:\r\n<pre>colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', \r\n   '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']</pre>\r\n\r\nDefault colors can also be set on a series or series.type basis, see <a href=\"#plotOptions.column.colors\">column.colors</a>, <a href=\"#plotOptions.pie.colors\">pie.colors</a>.\r\n</p>\r\n\r\n<h3>Legacy</h3>\r\n<p>In Highcharts 3.x, the default colors were:\r\n<pre>colors: ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce', \r\n   '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']</pre>\r\n</p>\r\n\r\n<p>In Highcharts 2.x, the default colors were:\r\n<pre>colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', \r\n   '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92']</pre></p>",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/colors/\" target=\"_blank\">Assign a global color theme</a>",
                         "deprecated": false
@@ -13517,7 +13506,7 @@ module.exports=module.exports = [
                         "parent": "xAxis",
                         "isParent": false,
                         "returnType": "String",
-                        "defaults": "category",
+                        "defaults": "linear",
                         "values": "[\"linear\", \"logarithmic\", \"datetime\", \"category\"]",
                         "description": "The type of axis. Can be one of <code>\"linear\"</code>, <code>\"logarithmic\"</code>, <code>\"datetime\"</code> or <code>\"category\"</code>. In a datetime axis, the numbers are given in milliseconds, and tick marks are placed \t\ton appropriate values like full hours or days. In a category axis, the <a href=\"#series.data\">point names</a> of the chart's series are used for categories, if not a <a href=\"#xAxis.categories\">categories</a> array is defined.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-linear/\" target=\"_blank\">\"linear\"</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-datetime/\" target=\"_blank\">\"datetime\" with regular intervals</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-datetime-irregular/\" target=\"_blank\">\"datetime\" with irregular intervals</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/type-log/\" target=\"_blank\">\"logarithmic\"</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/type-log-minorgrid/\" target=\"_blank\">\"logarithmic\" with minor grid lines</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-log-both/\" target=\"_blank\">\"logarithmic\" on two axes</a>.",
@@ -13853,7 +13842,7 @@ module.exports=module.exports = [
                         "parent": "credits",
                         "isParent": false,
                         "returnType": "Boolean",
-                        "defaults": "false",
+                        "defaults": "true",
                         "description": "Whether to show the credits text.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/enabled-false/\" target=\"_blank\">Credits disabled</a>"
                     },
@@ -13864,7 +13853,7 @@ module.exports=module.exports = [
                         "parent": "credits",
                         "isParent": false,
                         "returnType": "String",
-                        "defaults": "easychart.org",
+                        "defaults": "Highcharts.com",
                         "description": "The text for the credits label.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/href/\" target=\"_blank\">Custom URL and text</a>"
                     },
@@ -13875,7 +13864,7 @@ module.exports=module.exports = [
                         "parent": "credits",
                         "isParent": false,
                         "returnType": "String",
-                        "defaults": "http://www.easychart.org",
+                        "defaults": "http://www.highcharts.com",
                         "description": "The URL for the credits label.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/href/\" target=\"_blank\">Custom URL and text</a>"
                     }
@@ -15377,14 +15366,13 @@ return self})();
                 case property.returnType.toLowerCase() == 'array<color>':
 
                     var Hook = function () {};
-                    
+
                     Hook.prototype.hook = function(node){
                         colorjoe.hsl(node, node.value);
                     };
                     var list = [];
                     var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);
                     _.forEach(property.defaults, function (value, index) {
-                        //values.push(configValue[index]);
                         list.push(h('div.form-item', [
                             h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
                             h('div.form-item__input', h('input', {
@@ -15423,8 +15411,6 @@ return self})();
                                 'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                                 'ev-input': function (e) {
                                     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
-                                    console.log(property.defaults);
-                                    console.log(values);
                                     if (_.isEqual(property.defaults, values)) {
                                         configService.removeValue(property.fullname);
                                     } else {

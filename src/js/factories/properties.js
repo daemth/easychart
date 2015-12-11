@@ -80,14 +80,13 @@
                 case property.returnType.toLowerCase() == 'array<color>':
 
                     var Hook = function () {};
-                    
+
                     Hook.prototype.hook = function(node){
                         colorjoe.hsl(node, node.value);
                     };
                     var list = [];
                     var values = _.merge(_.cloneDeep(property.defaults), configValue,[]);
                     _.forEach(property.defaults, function (value, index) {
-                        //values.push(configValue[index]);
                         list.push(h('div.form-item', [
                             h('div.form-item__label', h('label', {title: property.description}, property.title + ' ' + index + ' :')),
                             h('div.form-item__input', h('input', {
@@ -126,8 +125,6 @@
                                 'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
                                 'ev-input': function (e) {
                                     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
-                                    console.log(property.defaults);
-                                    console.log(values);
                                     if (_.isEqual(property.defaults, values)) {
                                         configService.removeValue(property.fullname);
                                     } else {

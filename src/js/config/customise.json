@@ -7,8 +7,7 @@
         "title": "Chart type and interaction",
         "options": [
           {
-            "fullname": "chart.type",
-            "defaults": "column"
+            "fullname": "chart.type"
           },
           {
             "fullname": "chart.inverted"
@@ -30,8 +29,7 @@
         "title": "Size and margins",
         "options": [
           {
-            "fullname": "chart.width",
-            "defaults": "600"
+            "fullname": "chart.width"
           },
           {
             "fullname": "chart.height"
@@ -60,18 +58,7 @@
         "title": "default colors",
         "options": [
           {
-            "fullname": "colors",
-            "defaults": [
-              "#3799ba",
-              "#57f2a9",
-              "#c900a1",
-              "#1a9944",
-              "#7eeae5",
-              "#ed8c71",
-              "#899cf4",
-              "#e07dc6",
-              "#5addb0"
-            ]
+            "fullname": "colors"
           }
         ]
       },
@@ -158,8 +145,7 @@
         "title": "X axis",
         "options": [
           {
-            "fullname": "xAxis.type",
-            "defaults": "category"
+            "fullname": "xAxis.type"
           },
           {
             "fullname": "xAxis.min"
@@ -284,16 +270,13 @@
         "title": "Credits",
         "options": [
           {
-            "fullname": "credits.enabled",
-            "defaults": "false"
+            "fullname": "credits.enabled"
           },
           {
-            "fullname": "credits.text",
-            "defaults": "easychart.org"
+            "fullname": "credits.text"
           },
           {
-            "fullname": "credits.href",
-            "defaults":"http://www.easychart.org"
+            "fullname": "credits.href"
           }
         ]
       }
