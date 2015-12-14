@@ -20,13 +20,10 @@
         var tabs;
         var activeTab = _.first(options).id;
         var activeTabChild;
-        var that = {};
+        // when any config is updated we just re diff the ui -> e.g series labels
+        mediator.on('configUpate', function () {mediator.trigger('treeUpdate');});
 
-
-        mediator.on('configUpate', function(){
-            mediator.trigger('treeUpdate');
-        });
-        that.template = function () {
+        function template() {
             var tabs = h('ul', {className: "vertical-tabs"},
                 [
                     generateGenericTabs(genericConfig(options)),
@@ -37,7 +34,7 @@
             ]);
             var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
             return container;
-        };
+        }
 
         function genericConfig(options) {
             var newOptions = _.cloneDeep(options);
@@ -182,7 +179,14 @@
             mediator.trigger('treeUpdate');
         }
 
-        return that;
+        function destroy() {
+            mediator.off('configUpate', function () {mediator.trigger('treeUpdate');});
+        }
+
+        return {
+            template: template,
+            destroy: destroy
+        };
     };
 
     module.exports = constructor;

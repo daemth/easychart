@@ -10932,10 +10932,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var activeTab = 'paste';
         var mediator = services.mediator;
 
-        mediator.on('goToTable', function(){
-            activeTab = 'data';
-            mediator.trigger('treeUpdate');
-        });
+        mediator.on('goToTable', goToTable);
 
         var tabOptions = {
             paste:{
@@ -10963,7 +10960,8 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                 label: 'Data table',
                 template: function(){
                     return table.template(services);
-                }
+                },
+                destroy: table.destroy
             }
         };
 
@@ -10981,6 +10979,18 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             }))
         }
 
+        function goToTable(){
+            activeTab = 'data';
+            mediator.trigger('treeUpdate');
+        }
+
+        function destroy(){
+            mediator.off('goToTable', goToTable);
+            if(tabOptions[activeTab]['destroy']){
+                tabOptions[activeTab]['destroy']();
+            }
+        }
+
         function template (){
             return h('div.accordion-tabs-minimal', [
                 tabLinks(),
@@ -10989,7 +10999,8 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         }
 
         return {
-            template: template
+            template: template,
+            destroy: destroy
         };
     };
 
@@ -11173,12 +11184,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var data = services.data.get();
         var mediator = services.mediator;
 
-        mediator.on('dataUpdate', function (_data_) {
-            if (!_.isEqual(_data_, data)) {
-                data = _data_;
-                mediator.trigger('treeUpdate');
-            }
-        });
+        mediator.on('dataUpdate', updateData);
 
         function template() {
             var rows = [];
@@ -11240,7 +11246,12 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             ]);
         }
 
-
+        function updateData(_data_) {
+            if (!_.isEqual(_data_, data)) {
+                data = _data_;
+                mediator.trigger('treeUpdate');
+            }
+        }
         function addRow(data) {
             data = _.cloneDeep(data);
             data.push(_.fill(Array(data[0] ? data[0].length : 1), ''));
@@ -11257,7 +11268,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
         function removeColumn(index, data) {
             data = _.cloneDeep(data);
-            console.log(index);
             data = _.map(data, function (row) {
                 _.pullAt(row, index);
                 return row;
@@ -11271,8 +11281,13 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             services.data.set(data);
         }
 
+        function destroy(){
+            mediator.off('dataUpdate', updateData);
+        }
+
         return {
-            template: template
+            template: template,
+            destroy:destroy
         };
     };
 
@@ -14025,10 +14040,13 @@ return self})();
 
         function goToState(state) {
             var newState = loop.state;
+            if(loop.state.destroy && newState.dependencies){
+                loop.state.destroy(newState.dependencies);
+            }
             newState.dependencies = states[state].dependencies();
             newState.template = states[state].template;
-            newState.template = states[state].template;
             newState.title = states[state].title;
+            newState.destroy = states[state].destroy;
             loop.update(newState);
 
         }
@@ -14131,6 +14149,9 @@ return self})();
                 },
                 template: function (dependencies) {
                     return h('div', [dependencies.import.template()]);
+                },
+                destroy: function(dependencies){
+                    dependencies.import.destroy()
                 }
             },
             'templates': {

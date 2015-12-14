@@ -9,10 +9,7 @@
         var activeTab = 'paste';
         var mediator = services.mediator;
 
-        mediator.on('goToTable', function(){
-            activeTab = 'data';
-            mediator.trigger('treeUpdate');
-        });
+        mediator.on('goToTable', goToTable);
 
         var tabOptions = {
             paste:{
@@ -40,7 +37,8 @@
                 label: 'Data table',
                 template: function(){
                     return table.template(services);
-                }
+                },
+                destroy: table.destroy
             }
         };
 
@@ -58,6 +56,18 @@
             }))
         }
 
+        function goToTable(){
+            activeTab = 'data';
+            mediator.trigger('treeUpdate');
+        }
+
+        function destroy(){
+            mediator.off('goToTable', goToTable);
+            if(tabOptions[activeTab]['destroy']){
+                tabOptions[activeTab]['destroy']();
+            }
+        }
+
         function template (){
             return h('div.accordion-tabs-minimal', [
                 tabLinks(),
@@ -66,7 +76,8 @@
         }
 
         return {
-            template: template
+            template: template,
+            destroy: destroy
         };
     };
 

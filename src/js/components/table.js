@@ -16,12 +16,7 @@
         var data = services.data.get();
         var mediator = services.mediator;
 
-        mediator.on('dataUpdate', function (_data_) {
-            if (!_.isEqual(_data_, data)) {
-                data = _data_;
-                mediator.trigger('treeUpdate');
-            }
-        });
+        mediator.on('dataUpdate', updateData);
 
         function template() {
             var rows = [];
@@ -83,7 +78,12 @@
             ]);
         }
 
-
+        function updateData(_data_) {
+            if (!_.isEqual(_data_, data)) {
+                data = _data_;
+                mediator.trigger('treeUpdate');
+            }
+        }
         function addRow(data) {
             data = _.cloneDeep(data);
             data.push(_.fill(Array(data[0] ? data[0].length : 1), ''));
@@ -100,7 +100,6 @@
 
         function removeColumn(index, data) {
             data = _.cloneDeep(data);
-            console.log(index);
             data = _.map(data, function (row) {
                 _.pullAt(row, index);
                 return row;
@@ -114,8 +113,13 @@
             services.data.set(data);
         }
 
+        function destroy(){
+            mediator.off('dataUpdate', updateData);
+        }
+
         return {
-            template: template
+            template: template,
+            destroy:destroy
         };
     };
 

@@ -31,6 +31,9 @@
                 },
                 template: function (dependencies) {
                     return h('div', [dependencies.import.template()]);
+                },
+                destroy: function(dependencies){
+                    dependencies.import.destroy()
                 }
             },
             'templates': {
