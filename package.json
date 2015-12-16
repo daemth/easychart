@@ -4,7 +4,7 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
-    "highcharts-release": "^4.1.10"
+    "highcharts": "^4.2.0"
   },
   "devDependencies": {
     "bourbon-neat": "^1.7.2",
