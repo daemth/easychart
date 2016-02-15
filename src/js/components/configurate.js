@@ -21,7 +21,7 @@
         var activeTab = _.first(options).id;
         var activeTabChild;
         // when any config is updated we just re diff the ui -> e.g series labels
-        mediator.on('configUpate', function () {mediator.trigger('treeUpdate');});
+        mediator.on('configUpdate', function () {mediator.trigger('treeUpdate');});
 
         function template() {
             var tabs = h('ul', {className: "vertical-tabs"},

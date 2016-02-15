@@ -6,9 +6,9 @@
         var dad = require('./import/dragAndDrop');
         var url = require('./import/url');
         var table = require('./table')(services);
+        var hot = require('./hot')(services);
         var activeTab = 'paste';
         var mediator = services.mediator;
-
         mediator.on('goToTable', goToTable);
 
         var tabOptions = {
@@ -36,9 +36,20 @@
             data:{
                 label: 'Data table',
                 template: function(){
-                    return table.template(services);
+                    if(typeof Handsontable !== 'undefined'){
+                        return hot.template(services);
+                    } else {
+                        return table.template(services);
+                    }
+
                 },
-                destroy: table.destroy
+                destroy: function(){
+                    if(typeof Handsontable !== 'undefined'){
+                        hot.destroy();
+                    } else {
+                        table.destroy();
+                    }
+                }
             }
         };
 
@@ -49,13 +60,16 @@
                 return h('li.tab-link', {
                     'className': className,
                     'ev-click': function () {
-                        activeTab = id;
-                        mediator.trigger('treeUpdate');
+                        load(id);
                     }
                 }, tabOptions[id].label)
             }))
         }
-
+        function load(id){
+            if(tabOptions[activeTab].destroy){tabOptions[activeTab].destroy();}
+            activeTab = id;
+            mediator.trigger('treeUpdate');
+        }
         function goToTable(){
             activeTab = 'data';
             mediator.trigger('treeUpdate');

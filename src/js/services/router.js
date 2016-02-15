@@ -30,7 +30,6 @@
             newState.title = states[state].title;
             newState.destroy = states[state].destroy;
             loop.update(newState);
-
         }
 
         function render(state) {
