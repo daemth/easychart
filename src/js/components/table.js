@@ -23,7 +23,7 @@
                     var cells = [];
                     _.forEach(row, function (cell, cellIndex) {
                         cells.push(h('td', {
-                            contentEditable: true,
+                            contentEditable: services.data.getDataUrl()?false:true,
                             "ev-input": function (e) {
                                 var value = _.trim(e.target.innerHTML);
                                 data[rowIndex][cellIndex] = value;

@@ -22,6 +22,13 @@
                     }
                 }
             });
+            hot.updateSettings({
+                cells: function (row, col, prop) {
+                    var cellProperties = {};
+                    cellProperties.editor = services.data.getUrl() ? false : 'text';
+                    return cellProperties;
+                }
+            });
             if (!_.isEmpty(services.data.get())) {
                 hot.updateSettings({
                     data: services.data.get()
@@ -31,10 +38,11 @@
                 hot.updateSettings({
                     data: _data_
                 });
-            });
+            }, 'hot');
         };
 
-        var Hook = function () {};
+        var Hook = function () {
+        };
         Hook.prototype.hook = function (node) {
             setTimeout(function () {
                 that.load(node);
@@ -48,9 +56,7 @@
         };
 
         that.destroy = function () {
-            services.mediator.stopListening('dataUpdate', function (data) {
-                hot.updateSettings({data: data});
-            });
+            services.mediator.off(null, null, 'hot');
             var data = removeEmptyRows(hot);
             if (!_.isEmpty(data)) {
                 services.data.set(removeEmptyRows(hot));

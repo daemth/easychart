@@ -26737,6 +26737,13 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                     }
                 }
             });
+            hot.updateSettings({
+                cells: function (row, col, prop) {
+                    var cellProperties = {};
+                    cellProperties.editor = services.data.getUrl() ? false : 'text';
+                    return cellProperties;
+                }
+            });
             if (!_.isEmpty(services.data.get())) {
                 hot.updateSettings({
                     data: services.data.get()
@@ -26746,10 +26753,11 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                 hot.updateSettings({
                     data: _data_
                 });
-            });
+            }, 'hot');
         };
 
-        var Hook = function () {};
+        var Hook = function () {
+        };
         Hook.prototype.hook = function (node) {
             setTimeout(function () {
                 that.load(node);
@@ -26763,9 +26771,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         };
 
         that.destroy = function () {
-            services.mediator.stopListening('dataUpdate', function (data) {
-                hot.updateSettings({data: data});
-            });
+            services.mediator.off(null, null, 'hot');
             var data = removeEmptyRows(hot);
             if (!_.isEmpty(data)) {
                 services.data.set(removeEmptyRows(hot));
@@ -27024,17 +27030,25 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var dataService = services.data;
         var mediator = services.mediator;
         var inputNode;
+
         var Hook = function(){};
+
         Hook.prototype.hook = function(node) {
             inputNode = node;
         };
 
-        var input = h('input', {
+        var input = h('input.push-half', {
             "type": 'text',
+            "style" : {
+                display: "inline"
+            },
             "hook": new Hook()
         });
 
-        var importElement = h('button.btn.btn--small', {
+        var importElement = h('button.btn.btn--small.push-half', {
+            "style" : {
+                display: "inline"
+            },
             'ev-click': function (e) {
                 e.preventDefault();
                 dataService.setUrl(inputNode.value);
@@ -27073,7 +27087,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                     var cells = [];
                     _.forEach(row, function (cell, cellIndex) {
                         cells.push(h('td', {
-                            contentEditable: true,
+                            contentEditable: services.data.getDataUrl()?false:true,
                             "ev-input": function (e) {
                                 var value = _.trim(e.target.innerHTML);
                                 data[rowIndex][cellIndex] = value;
@@ -30231,25 +30245,33 @@ return self})();
         };
 
         that.setUrl = function(url){
-            var client = new XMLHttpRequest();
-            client.open("GET", url);
-            client.onreadystatechange = handler;
-            //client.responseType = "text";
-            client.setRequestHeader("Accept", "application/json");
-            client.send();
+            if(url !== ''){
+                var client = new XMLHttpRequest();
+                client.open("GET", url);
+                client.onreadystatechange = handler;
+                //client.responseType = "text";
+                client.setRequestHeader("Accept", "application/json");
+                client.send();
 
-            function handler() {
-                if (this.readyState === this.DONE) {
-                    if (this.status === 200) {
-                        dataSet = papa.parse(this.response).data;
-                        dataUrl = url;
-                        mediator.trigger('dataUpdate', that.get());
-                        console.log('success');
+                function handler() {
+                    if (this.readyState === this.DONE) {
+                        if (this.status === 200) {
+                            dataSet = papa.parse(this.response).data;
+                            dataUrl = url;
+                            mediator.trigger('dataUpdate', that.get());
+                            console.log('success');
+                        }
+                        else { reject(this); }
                     }
-                    else { reject(this); }
                 }
+            } else {
+                dataUrl = '';
             }
 
+        };
+
+        that.getUrl = function(){
+            return dataUrl;
         };
 
         return that;

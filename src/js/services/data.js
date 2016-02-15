@@ -75,25 +75,33 @@
         };
 
         that.setUrl = function(url){
-            var client = new XMLHttpRequest();
-            client.open("GET", url);
-            client.onreadystatechange = handler;
-            //client.responseType = "text";
-            client.setRequestHeader("Accept", "application/json");
-            client.send();
+            if(url !== ''){
+                var client = new XMLHttpRequest();
+                client.open("GET", url);
+                client.onreadystatechange = handler;
+                //client.responseType = "text";
+                client.setRequestHeader("Accept", "application/json");
+                client.send();
 
-            function handler() {
-                if (this.readyState === this.DONE) {
-                    if (this.status === 200) {
-                        dataSet = papa.parse(this.response).data;
-                        dataUrl = url;
-                        mediator.trigger('dataUpdate', that.get());
-                        console.log('success');
+                function handler() {
+                    if (this.readyState === this.DONE) {
+                        if (this.status === 200) {
+                            dataSet = papa.parse(this.response).data;
+                            dataUrl = url;
+                            mediator.trigger('dataUpdate', that.get());
+                            console.log('success');
+                        }
+                        else { reject(this); }
                     }
-                    else { reject(this); }
                 }
+            } else {
+                dataUrl = '';
             }
 
+        };
+
+        that.getUrl = function(){
+            return dataUrl;
         };
 
         return that;
