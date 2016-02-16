@@ -1,9 +1,3 @@
-/**
- * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
- * @version v3.0.0
- * @link 
- * @license MIT
- */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -1641,6 +1635,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],23:[function(require,module,exports){
 'use strict';
 
@@ -1684,6 +1679,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"min-document":3}],25:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
@@ -2518,6 +2514,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],29:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -3612,6 +3609,7 @@ function isObject(value) {
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._arraycopy":31,"lodash._arrayeach":32,"lodash._baseassign":34,"lodash._basefor":46,"lodash.isarray":75,"lodash.keys":38}],38:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
 },{"dup":35,"lodash._getnative":62,"lodash.isarguments":74,"lodash.isarray":75}],39:[function(require,module,exports){
@@ -5152,6 +5150,7 @@ SetCache.prototype.push = cachePush;
 module.exports = createCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._getnative":62}],61:[function(require,module,exports){
 (function (global){
 /**
@@ -5551,6 +5550,7 @@ function isObject(value) {
 module.exports = createWrapper;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._arraycopy":31,"lodash._basecreate":40,"lodash._replaceholders":64}],62:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
@@ -21203,6 +21203,7 @@ module.exports = union;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],102:[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
@@ -22763,6 +22764,7 @@ function main(initialState, view, opts) {
 */
 
 }).call(this,require('_process'))
+
 },{"_process":107}],106:[function(require,module,exports){
 
 var style = document.createElement('p').style
@@ -23064,6 +23066,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
+
 },{"_process":107}],110:[function(require,module,exports){
 'use strict';
 
@@ -29464,6 +29467,7 @@ return self})();
             if (_.isEqual(property.defaults, values)) {
               configService.removeValue(property.fullname);
             } else {
+
               configService.setValue(property.fullname, values);
             }
           }
@@ -29761,23 +29765,23 @@ return self})();
 
     function generateEmptySeries(series, defaultType, size){
         var array = [];
-        _.forEach(series, function(item){
-            if(size > 0){
-                var object = {
-                    data: [],
-                    type: item.type
-                };
-                size = size - getValuesPerPoint(object.type);
-                array.push(object);
-            }
-        });
+        var index = 0;
+
 
         while(size > 0){
             var object = {
                 data: []
             };
-            size = size - getValuesPerPoint(defaultType);
+            // look for settings for the series;
+            if(series && series[index]){
+                object.type = series[index].type;
+            } else {
+                object.type = defaultType;
+            }
+
+            size = size - getValuesPerPoint(object.type);
             array.push(object);
+            index++;
         }
         return array;
     }
@@ -29786,7 +29790,6 @@ return self})();
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
         return _.map(emptySeries, function(item, index){
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
-
             _.forEach(data, function(row, index){
                 item.data.push(parseDataFloat(_.slice(row,0,vpp)));
                 data[index] = _.drop(data[index],vpp);
@@ -30405,4 +30408,7 @@ return self})();
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":163,"virtual-dom/h":121}]},{},[172]);
+},{"../factories/iconLoader":163,"virtual-dom/h":121}]},{},[172])
+
+
+//# sourceMappingURL=ec.full.js.map

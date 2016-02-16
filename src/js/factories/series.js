@@ -55,23 +55,23 @@
 
     function generateEmptySeries(series, defaultType, size){
         var array = [];
-        _.forEach(series, function(item){
-            if(size > 0){
-                var object = {
-                    data: [],
-                    type: item.type
-                };
-                size = size - getValuesPerPoint(object.type);
-                array.push(object);
-            }
-        });
+        var index = 0;
+
 
         while(size > 0){
             var object = {
                 data: []
             };
-            size = size - getValuesPerPoint(defaultType);
+            // look for settings for the series;
+            if(series && series[index]){
+                object.type = series[index].type;
+            } else {
+                object.type = defaultType;
+            }
+
+            size = size - getValuesPerPoint(object.type);
             array.push(object);
+            index++;
         }
         return array;
     }
@@ -80,7 +80,6 @@
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
         return _.map(emptySeries, function(item, index){
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
-
             _.forEach(data, function(row, index){
                 item.data.push(parseDataFloat(_.slice(row,0,vpp)));
                 data[index] = _.drop(data[index],vpp);
