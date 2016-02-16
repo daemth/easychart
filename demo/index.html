@@ -23,6 +23,12 @@
     document.addEventListener("DOMContentLoaded", function () {
         var container = document.getElementById('container');
         window.easychart = new ec(container);
+        easychart.setPreset({
+            chart: {
+                type: 'column',
+                animation: false
+            }
+        });
         easychart.setData([
             ["", "test", "lowpoint", "highpoint"],
             ["experiment 6", "50", "171", "179"],

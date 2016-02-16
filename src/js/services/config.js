@@ -1,5 +1,5 @@
 (function () {
-    function constructor (mediator, data) {
+    function constructor(mediator, data) {
         var _ = {
             isUndefined: require('lodash.isundefined'),
             find: require('lodash.find'),
@@ -12,25 +12,19 @@
         var templates = require('../config/templates.json');
         var that = {};
         var preset = {
-            chart: {
-
-            },
-            plotOptions: {
-                series: {
-                    'animation': false
-                }
-            }
+            chart:{}
         };
-
         var config = _.cloneDeep(preset);
+
         that.get = function () {
             var labels = hasLabels(data.get());
-            var object = _.cloneDeep(config);
+            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
+
             object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
             return _.cloneDeep(object);
         };
 
-        that.getRaw = function (){
+        that.getRaw = function () {
             return _.cloneDeep(config);
         };
 
@@ -40,7 +34,7 @@
         };
 
         that.setValue = function (path, value) {
-            ids = path.split('.');
+            var ids = path.split('.');
             var step;
             var object = config;
             while (step = ids.shift()) {
@@ -80,7 +74,7 @@
             return object;
         };
 
-        that.isEditable = function(path){
+        that.isEditable = function (path) {
             var object = _.cloneDeep(preset);
             path = path.split('.');
             var step;
@@ -107,19 +101,20 @@
                     }
                 }
             }
-            mediator.trigger('configUpdate',that.get());
+            mediator.trigger('configUpdate', that.get());
         };
 
         that.loadTemplate = function (template) {
             config = _.merge(template, _.cloneDeep(preset));
-            mediator.trigger('configUpdate',that.get());
+            mediator.trigger('configUpdate', that.get());
         };
 
-        that.setPreset = function(_preset_){
+        that.setPreset = function (_preset_) {
             preset = _preset_;
+            mediator.trigger('configUpdate', that.get());
         };
 
-        that.getPreset = function(){
+        that.getPreset = function () {
             return _.cloneDeep(preset);
         };
 

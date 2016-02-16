@@ -17,21 +17,20 @@
         merge: require('lodash.merge')
     };
 
-    that.get = function(data, config, labels, categories, series) {
+    that.get = function (data, config, labels, categories, series) {
         var object = generateDataSeries(config, data);
-        if(labels.categories){
+        if (labels.categories) {
             object = setCategories(object, categories);
         }
-        if(labels.series){
+        if (labels.series) {
             object = setSeries(object, series);
         }
         return object;
     };
 
 
-
-    function setCategories (series, categorieLabels){
-        _.forEach(series ,function(item, index){
+    function setCategories(series, categorieLabels) {
+        _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
                 series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
             });
@@ -39,13 +38,13 @@
         return series;
     }
 
-    function setSeries (series, seriesLabels){
-        seriesLabels = _.remove(seriesLabels, function(n) {
+    function setSeries(series, seriesLabels) {
+        seriesLabels = _.remove(seriesLabels, function (n) {
             return !_.isEmpty(n);
         });
 
-        _.forEach(series ,function(item, index){
-            if(_.isUndefined(series[index].name)){
+        _.forEach(series, function (item, index) {
+            if (_.isUndefined(series[index].name)) {
                 series[index].name = seriesLabels[index];
             }
         });
@@ -53,22 +52,20 @@
         return series;
     }
 
-    function generateEmptySeries(series, defaultType, size){
+    function generateEmptySeries(series, defaultType, size, animation) {
         var array = [];
         var index = 0;
-
-
-        while(size > 0){
+        while (size > 0) {
             var object = {
-                data: []
+                data: [],
+                animation: animation ? animation : false
             };
             // look for settings for the series;
-            if(series && series[index]){
+            if (series && series[index]) {
                 object.type = series[index].type;
             } else {
                 object.type = defaultType;
             }
-
             size = size - getValuesPerPoint(object.type);
             array.push(object);
             index++;
@@ -76,16 +73,17 @@
         return array;
     }
 
-    function generateDataSeries(config, data){
-        var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
-        return _.map(emptySeries, function(item, index){
+    function generateDataSeries(config, data) {
+        console.log(config.chart);
+        var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)), config.chart.animation);
+        return _.map(emptySeries, function (item, index) {
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
-            _.forEach(data, function(row, index){
-                item.data.push(parseDataFloat(_.slice(row,0,vpp)));
-                data[index] = _.drop(data[index],vpp);
+            _.forEach(data, function (row, index) {
+                item.data.push(parseDataFloat(_.slice(row, 0, vpp)));
+                data[index] = _.drop(data[index], vpp);
             });
             // check for series config and apply this
-            if(!_.isUndefined(config.series) && !_.isUndefined(config.series[index])){
+            if (!_.isUndefined(config.series) && !_.isUndefined(config.series[index])) {
                 item = _.merge(config.series[index], item);
             }
             return item;
@@ -125,7 +123,7 @@
                 newData[index] = parseDataFloat(value);
             }
             else {
-                newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
+                newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
 
