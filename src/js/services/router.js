@@ -6,11 +6,12 @@
     var logo = require('./../templates/logo');
     var mainLoop = require("main-loop");
     var _ = {
-        keys : require('lodash.keys')
+        keys: require('lodash.keys')
     };
+
     function constructor(element, states, services) {
         var initState = {
-            links : _.keys(states)
+            links: _.keys(states)
         };
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
@@ -22,7 +23,7 @@
 
         function goToState(state) {
             var newState = loop.state;
-            if(loop.state.destroy && newState.dependencies){
+            if (loop.state.destroy && newState.dependencies) {
                 loop.state.destroy(newState.dependencies);
             }
             newState.dependencies = states[state].dependencies();
@@ -33,31 +34,33 @@
         }
 
         function render(state) {
-            if(state.dependencies && state.template){
+            if (state.dependencies && state.template) {
                 return h('div', [
-                    logo,
-                    h('ul.navigation.navigation--steps', state.links.map(function (id) {
-                        var className = state.title === states[id].title ? 'active' : '';
-                        return h('li.navigation__item', {
-                            'className': className
-                        }, h('a', {
-                            'href':'#' + id,
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                goToState(id);
-                            }
-                        }, states[id].title))
-                    })),
-                    h('h1', state.title),
+                    h('div.header', [
+                        h('div.navigation.accordion-tabs-minimal',[
+                            h('ul.tab-list', state.links.map(function (id) {
+                                var className = state.title === states[id].title ? 'is-active' : '';
+                                return h('li.tab-link', {
+                                    'className': className
+                                }, h('a', {
+                                    'href': '#' + id,
+                                    'ev-click': function (e) {
+                                        e.preventDefault();
+                                        goToState(id);
+                                    }
+                                }, states[id].title))
+                            }))
+                        ]),
+                        logo
+                    ]),
                     h('div.left', state.template(state.dependencies))
                 ])
             } else {
                 return h('div', logo)
             }
-
         }
 
-        services.mediator.on('treeUpdate',function(){
+        services.mediator.on('treeUpdate', function () {
             loop.update(loop.state);
         });
 
