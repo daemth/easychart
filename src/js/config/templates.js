@@ -429,16 +429,6 @@ var templates = [
                     chart: {
                         type: 'column'
                     },
-                    title: {
-                        text: 'Efficiency Optimization by Branch'
-                    },
-                    xAxis: {
-                        categories: [
-                            'Seattle HQ',
-                            'San Francisco',
-                            'Tokyo'
-                        ]
-                    },
                     yAxis: [{
                         min: 0,
                         title: {
@@ -450,7 +440,6 @@ var templates = [
                         },
                         opposite: true
                     }],
-
                     tooltip: {
                         shared: true
                     },
@@ -462,17 +451,14 @@ var templates = [
                         }
                     },
                     series: [{
-                        name: 'Employees',
                         color: 'rgba(165,170,217,1)',
                         pointPadding: 0.3,
                         pointPlacement: -0.2
                     }, {
-                        name: 'Employees Optimized',
                         color: 'rgba(126,86,134,.9)',
                         pointPadding: 0.4,
                         pointPlacement: -0.2
                     }, {
-                        name: 'Profit',
                         color: 'rgba(248,161,63,1)',
                         tooltip: {
                             valuePrefix: '$',
@@ -482,7 +468,6 @@ var templates = [
                         pointPlacement: 0.2,
                         yAxis: 1
                     }, {
-                        name: 'Profit Optimized',
                         color: 'rgba(186,60,61,.9)',
                         tooltip: {
                             valuePrefix: '$',
@@ -1436,6 +1421,110 @@ var templates = [
                     "xAxis": {
                         "type": "category"
                     }
+                }
+            },
+            {
+                "id": "appleWatch",
+                "title": "Activity Gauge (Apple Watch)",
+                "description": "",
+                "definition": {
+
+                    chart: {
+                        type: 'solidgauge',
+                        marginTop: 50
+                    },
+
+                    title: {
+                        text: 'Activity',
+                        style: {
+                            fontSize: '24px'
+                        }
+                    },
+
+                    tooltip: {
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        shadow: false,
+                        style: {
+                            fontSize: '16px'
+                        },
+                        pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+                        positioner: function (labelWidth, labelHeight) {
+                            return {
+                                x: 200 - labelWidth / 2,
+                                y: 180
+                            };
+                        }
+                    },
+
+                    pane: {
+                        startAngle: 0,
+                        endAngle: 360,
+                        background: [{ // Track for Move
+                            outerRadius: '112%',
+                            innerRadius: '88%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }, { // Track for Exercise
+                            outerRadius: '87%',
+                            innerRadius: '63%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }, { // Track for Stand
+                            outerRadius: '62%',
+                            innerRadius: '38%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }]
+                    },
+
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        lineWidth: 0,
+                        tickPositions: []
+                    },
+
+                    plotOptions: {
+                        solidgauge: {
+                            borderWidth: '34px',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            linecap: 'round',
+                            stickyTracking: false
+                        }
+                    },
+
+                    series: [{
+
+                        borderColor: Highcharts.getOptions().colors[0],
+                        data: [{
+                            color: Highcharts.getOptions().colors[0],
+                            radius: '100%',
+                            innerRadius: '100%'
+
+                        }]
+                    }, {
+
+                        borderColor: Highcharts.getOptions().colors[1],
+                        data: [{
+                            color: Highcharts.getOptions().colors[1],
+                            radius: '75%',
+                            innerRadius: '75%'
+
+                        }]
+                    }, {
+
+                        borderColor: Highcharts.getOptions().colors[2],
+                        data: [{
+                            color: Highcharts.getOptions().colors[2],
+                            radius: '50%',
+                            innerRadius: '50%'
+
+                        }]
+                    }]
+
                 }
             }
         ]
