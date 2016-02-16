@@ -2,11 +2,12 @@
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
     Delegator();
-    function constructor(options){
+    function constructor(opts){
         var router = require('./services/router.js');
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var optionsService = require('./services/options');
+        var initializer = require('./services/initializer');
         var templateService = require('./services/templates');
         var mediator = require('mediatorjs');
         var h = require('virtual-dom/h');
@@ -48,10 +49,11 @@
                 }
             }
         };
-
-        if(typeof options.element !== 'undefined'){
-            options.element.className += ' ec';
-            var mainRouter = new router(options.element, states , services);
+        // initialise the application with given options
+        initializer(opts, services);
+        if(typeof opts.element !== 'undefined'){
+            opts.element.className += ' ec';
+            var mainRouter = new router(opts.element, states , services);
             mainRouter.goToState('import');
         }
 

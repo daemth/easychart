@@ -29622,7 +29622,6 @@ function constructor(opts, services) {
             });
         });
     }
-
 }
 
 module.exports = constructor;
