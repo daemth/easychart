@@ -23,7 +23,6 @@
         };
 
         function generateContent(activeType) {
-            var title = h('h2', activeType.type);
             var templateList = [];
             var svg = iconLoader.get(activeType.icon);
             _.forEach(activeType.templates, function (template) {
@@ -40,7 +39,7 @@
                 templateList.push(item)
             });
             var templateGrid = h('div', {className: "templatelist"}, templateList);
-            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, templateGrid]));
+            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', templateGrid));
         }
 
         function generateTabs(types, active) {
