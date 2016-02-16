@@ -26093,6 +26093,7 @@ return self})();
         };
 
         that.setUrl = function(url){
+
             if(url !== ''){
                 var client = new XMLHttpRequest();
                 client.open("GET", url);

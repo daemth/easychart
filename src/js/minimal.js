@@ -1,5 +1,5 @@
 (function () {
-    function constructor(element){
+    function constructor(options){
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var mediator = require('mediatorjs');
@@ -13,9 +13,9 @@
         };
 
         if(typeof element !== 'undefined'){
-            element.className += ' ec';
+            options.element.className += ' ec';
             var chart = require('./components/chart.js');
-            chart.load(element, services);
+            chart.load(options.element, services);
         }
 
         function setData (data){

@@ -47,8 +47,6 @@
             return services.config.getRaw(config);
         }
 
-
-
         // preset
         function setPreset(preset){
             services.config.setPreset(preset);

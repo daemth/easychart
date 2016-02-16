@@ -22,22 +22,17 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var container = document.getElementById('container');
-        window.easychart = new ec(container);
-        easychart.setPreset({
-            chart: {
-                type: 'column',
-                animation: false
+        window.easychart = new ec({
+            element: container,
+            optionsUrl: 'http://localhost:63342/easychart/demo/options.json',
+            dataUrl: 'http://localhost:63342/easychart/demo/data/area.csv',
+            preset: {
+                chart: {
+                    type: 'column',
+                    animation: false
+                }
             }
         });
-        easychart.setOptionsUrl('http://localhost:63342/easychart/demo/options.json');
-        easychart.setData([
-            ["", "test", "lowpoint", "highpoint"],
-            ["experiment 6", "50", "171", "179"],
-            ["experiment 7", "50", "135", "143"],
-            ["experiment 8", "50", "142", "149"],
-            ["experiment 9", "50", "204", "220"],
-            ["experiment 10", "50", "189", "199"]
-        ]);
     })
 </script>
 </body>

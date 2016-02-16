@@ -26024,8 +26024,10 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     function constructor(services) {
         var that = {};
         var element;
+        var editable;
         that.load = function (_element_) {
             element = _element_;
+            editable = services.data.getUrl() ? false : 'text';
             hot = new Handsontable(element, {
                 startRows: 8,
                 startCols: 5,
@@ -26040,10 +26042,11 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                     }
                 }
             });
+
             hot.updateSettings({
                 cells: function (row, col, prop) {
                     var cellProperties = {};
-                    cellProperties.editor = services.data.getUrl() ? false : 'text';
+                    cellProperties.editor = editable;
                     return cellProperties;
                 }
             });
@@ -26053,14 +26056,19 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                 });
             }
             services.mediator.on('dataUpdate', function (_data_) {
+                editable = services.data.getUrl() ? false : 'text';
                 hot.updateSettings({
-                    data: _data_
+                    data: _data_,
+                    cells: function (row, col, prop) {
+                        var cellProperties = {};
+                        cellProperties.editor = editable;
+                        return cellProperties;
+                    }
                 });
             }, 'hot');
         };
 
-        var Hook = function () {
-        };
+        var Hook = function () {};
         Hook.prototype.hook = function (node) {
             setTimeout(function () {
                 that.load(node);
@@ -29148,16 +29156,16 @@ return self})();
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
     Delegator();
-    function constructor(element){
+    function constructor(opts){
         var router = require('./services/router.js');
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var optionsService = require('./services/options');
         var templateService = require('./services/templates');
+        var initializer = require('./services/initializer');
         var Api = require('./services/api');
         var mediator = require('mediatorjs');
         var h = require('virtual-dom/h');
-
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);
@@ -29222,10 +29230,11 @@ return self})();
                 }
             }
         };
-
-        if(typeof element !== 'undefined'){
-            element.className += ' ec';
-            var mainRouter = new router(element, states , services);
+        // initialise the application with given options
+        initializer(opts, services);
+        if(typeof opts.element !== 'undefined'){
+            opts.element.className += ' ec';
+            var mainRouter = new router(opts.element, states , services);
             mainRouter.goToState('data');
         }
 
@@ -29235,7 +29244,7 @@ return self})();
     window.ec = constructor;
 })();
 
-},{"../css/style.css":140,"./components/configurate.js":142,"./components/debug.js":143,"./components/import.js":145,"./components/templateSelection.js":151,"./services/api":164,"./services/config":165,"./services/data":166,"./services/options":167,"./services/router.js":168,"./services/templates":169,"dom-delegator":12,"mediatorjs":95,"virtual-dom/h":112}],164:[function(require,module,exports){
+},{"../css/style.css":140,"./components/configurate.js":142,"./components/debug.js":143,"./components/import.js":145,"./components/templateSelection.js":151,"./services/api":164,"./services/config":165,"./services/data":166,"./services/initializer":167,"./services/options":168,"./services/router.js":169,"./services/templates":170,"dom-delegator":12,"mediatorjs":95,"virtual-dom/h":112}],164:[function(require,module,exports){
 
 (function () {
     function constructor(services){
@@ -29284,8 +29293,6 @@ return self})();
         function getConfig(config){
             return services.config.getRaw(config);
         }
-
-
 
         // preset
         function setPreset(preset){
@@ -29501,9 +29508,7 @@ return self})();
             return _.cloneDeep(dataSet);
         };
 
-        that.getUrl = function (){
-            return _.cloneDeep(dataUrl);
-        };
+
 
         that.getData = function (series, categories) {
             var data = dataSet;
@@ -29525,8 +29530,9 @@ return self})();
             if (!_.isEqual(dataSet, newDataSet)) {
                 dataSet = _.cloneDeep(newDataSet);
                 mediator.trigger('dataUpdate', that.get());
+                dataUrl = undefined;
             }
-            dataUrl = undefined;
+
         };
 
         that.setValue = function(row, cell, value){
@@ -29543,22 +29549,25 @@ return self})();
             dataUrl = undefined;
         };
 
+        that.getUrl = function (){
+            return _.cloneDeep(dataUrl);
+        };
+
         that.setUrl = function(url){
             if(url !== ''){
+                dataUrl = url;
                 var client = new XMLHttpRequest();
                 client.open("GET", url);
                 client.onreadystatechange = handler;
                 //client.responseType = "text";
                 client.setRequestHeader("Accept", "application/json");
                 client.send();
-
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
                             dataSet = papa.parse(this.response).data;
-                            dataUrl = url;
+
                             mediator.trigger('dataUpdate', that.get());
-                            console.log('success');
                         }
                         else { reject(this); }
                     }
@@ -29566,10 +29575,6 @@ return self})();
             } else {
                 dataUrl = undefined;
             }
-        };
-
-        that.getUrl = function(){
-            return dataUrl
         };
 
         return that;
@@ -29580,6 +29585,49 @@ return self})();
 
 
 },{"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isequal":73,"lodash.isnan":75,"lodash.isundefined":79,"lodash.map":82,"lodash.rest":86,"lodash.slice":89,"papaparse":96}],167:[function(require,module,exports){
+var _ = {
+    forEach: require('lodash.foreach')
+};
+
+function constructor(opts, services) {
+
+    if(typeof opts.data !== 'undefined'){
+        services.data.set(opts.data);
+    }
+    if(typeof opts.dataCSV !== 'undefined'){
+        services.data.setCSV(opts.dataCSV);
+    }
+    if(typeof opts.dataUrl !== 'undefined'){
+        services.data.setUrl(opts.dataUrl);
+    }
+    if(typeof opts.options !== 'undefined'){
+        services.options.set(opts.options);
+    }
+    if(typeof opts.optionsUrl !== 'undefined'){
+        services.options.setUrl(opts.optionsUrl);
+    }
+    if(typeof opts.templates !== 'undefined'){
+        services.templates.set(opts.templates);
+    }
+    if(typeof opts.config !== 'undefined'){
+        services.config.set(opts.config);
+    }
+    if(typeof opts.preset !== 'undefined'){
+        services.config.setPreset(opts.preset);
+    }
+    if(typeof opts.events !== 'undefined'){
+        _.forEach(opts.events, function(callback, event){
+            services.mediator.on(event, function (data) {
+                callback(data);
+            });
+        });
+    }
+
+}
+
+module.exports = constructor;
+
+},{"lodash.foreach":68}],168:[function(require,module,exports){
 (function () {
     var constructor = function (mediator){
         var options = require('../config/options.json');
@@ -29604,7 +29652,6 @@ return self})();
                 //client.responseType = "text";
                 client.setRequestHeader("Accept", "application/json");
                 client.send();
-
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
@@ -29630,7 +29677,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../config/options.json":152,"lodash.clonedeep":64}],168:[function(require,module,exports){
+},{"../config/options.json":152,"lodash.clonedeep":64}],169:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -29708,7 +29755,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":141,"./../templates/logo":170,"lodash.keys":80,"main-loop":94,"virtual-dom/create-element":110,"virtual-dom/diff":111,"virtual-dom/h":112,"virtual-dom/patch":113}],169:[function(require,module,exports){
+},{"./../components/chart.js":141,"./../templates/logo":171,"lodash.keys":80,"main-loop":94,"virtual-dom/create-element":110,"virtual-dom/diff":111,"virtual-dom/h":112,"virtual-dom/patch":113}],170:[function(require,module,exports){
 (function () {
     function constructor(){
         var templates = require('../config/templates');
@@ -29729,7 +29776,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../config/templates":153,"lodash.clonedeep":64}],170:[function(require,module,exports){
+},{"../config/templates":153,"lodash.clonedeep":64}],171:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');

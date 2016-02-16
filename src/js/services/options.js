@@ -22,7 +22,6 @@
                 //client.responseType = "text";
                 client.setRequestHeader("Accept", "application/json");
                 client.send();
-
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {

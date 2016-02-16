@@ -2,16 +2,16 @@
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
     Delegator();
-    function constructor(element){
+    function constructor(opts){
         var router = require('./services/router.js');
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var optionsService = require('./services/options');
         var templateService = require('./services/templates');
+        var initializer = require('./services/initializer');
         var Api = require('./services/api');
         var mediator = require('mediatorjs');
         var h = require('virtual-dom/h');
-
         var mInstance = new mediator.Mediator();
         var data = new dataService(mInstance);
         var config = new confService(mInstance, data);
@@ -76,10 +76,11 @@
                 }
             }
         };
-
-        if(typeof element !== 'undefined'){
-            element.className += ' ec';
-            var mainRouter = new router(element, states , services);
+        // initialise the application with given options
+        initializer(opts, services);
+        if(typeof opts.element !== 'undefined'){
+            opts.element.className += ' ec';
+            var mainRouter = new router(opts.element, states , services);
             mainRouter.goToState('data');
         }
 

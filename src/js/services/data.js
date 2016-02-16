@@ -32,9 +32,7 @@
             return _.cloneDeep(dataSet);
         };
 
-        that.getUrl = function (){
-            return _.cloneDeep(dataUrl);
-        };
+
 
         that.getData = function (series, categories) {
             var data = dataSet;
@@ -56,8 +54,9 @@
             if (!_.isEqual(dataSet, newDataSet)) {
                 dataSet = _.cloneDeep(newDataSet);
                 mediator.trigger('dataUpdate', that.get());
+                dataUrl = undefined;
             }
-            dataUrl = undefined;
+
         };
 
         that.setValue = function(row, cell, value){
@@ -74,22 +73,25 @@
             dataUrl = undefined;
         };
 
+        that.getUrl = function (){
+            return _.cloneDeep(dataUrl);
+        };
+
         that.setUrl = function(url){
             if(url !== ''){
+                dataUrl = url;
                 var client = new XMLHttpRequest();
                 client.open("GET", url);
                 client.onreadystatechange = handler;
                 //client.responseType = "text";
                 client.setRequestHeader("Accept", "application/json");
                 client.send();
-
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
                             dataSet = papa.parse(this.response).data;
-                            dataUrl = url;
+
                             mediator.trigger('dataUpdate', that.get());
-                            console.log('success');
                         }
                         else { reject(this); }
                     }
@@ -97,10 +99,6 @@
             } else {
                 dataUrl = undefined;
             }
-        };
-
-        that.getUrl = function(){
-            return dataUrl
         };
 
         return that;

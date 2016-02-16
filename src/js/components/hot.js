@@ -5,8 +5,10 @@
     function constructor(services) {
         var that = {};
         var element;
+        var editable;
         that.load = function (_element_) {
             element = _element_;
+            editable = services.data.getUrl() ? false : 'text';
             hot = new Handsontable(element, {
                 startRows: 8,
                 startCols: 5,
@@ -21,10 +23,11 @@
                     }
                 }
             });
+
             hot.updateSettings({
                 cells: function (row, col, prop) {
                     var cellProperties = {};
-                    cellProperties.editor = services.data.getUrl() ? false : 'text';
+                    cellProperties.editor = editable;
                     return cellProperties;
                 }
             });
@@ -34,14 +37,19 @@
                 });
             }
             services.mediator.on('dataUpdate', function (_data_) {
+                editable = services.data.getUrl() ? false : 'text';
                 hot.updateSettings({
-                    data: _data_
+                    data: _data_,
+                    cells: function (row, col, prop) {
+                        var cellProperties = {};
+                        cellProperties.editor = editable;
+                        return cellProperties;
+                    }
                 });
             }, 'hot');
         };
 
-        var Hook = function () {
-        };
+        var Hook = function () {};
         Hook.prototype.hook = function (node) {
             setTimeout(function () {
                 that.load(node);

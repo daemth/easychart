@@ -2,7 +2,7 @@
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
     Delegator();
-    function constructor(element){
+    function constructor(options){
         var router = require('./services/router.js');
         var dataService = require('./services/data');
         var confService = require('./services/config');
@@ -49,9 +49,9 @@
             }
         };
 
-        if(typeof element !== 'undefined'){
-            element.className += ' ec';
-            var mainRouter = new router(element, states , services);
+        if(typeof options.element !== 'undefined'){
+            options.element.className += ' ec';
+            var mainRouter = new router(options.element, states , services);
             mainRouter.goToState('import');
         }
 
