@@ -25,8 +25,8 @@
         };
 
         var states = {
-            'import': {
-                title: 'Import',
+            'data': {
+                title: 'Data',
                 dependencies: function(){
                     var that = {};
                     that.import = require('./components/import.js')(services);
@@ -80,7 +80,7 @@
         if(typeof element !== 'undefined'){
             element.className += ' ec';
             var mainRouter = new router(element, states , services);
-            mainRouter.goToState('import');
+            mainRouter.goToState('data');
         }
 
         return new Api(services);
