@@ -26,6 +26,12 @@
         function getOptions(){
             return services.options.get();
         }
+        function setOptionsUrl(url){
+            services.options.setUrl(url);
+        }
+        function getOptionsUrl(){
+            return services.options.getUrl();
+        }
         // templates
         function setTemplates(templates){
             services.templates.set(templates);
@@ -37,10 +43,12 @@
         function setConfig(config){
             services.config.set(config);
         }
-
         function getConfig(config){
             return services.config.getRaw(config);
         }
+
+
+
         // preset
         function setPreset(preset){
             services.config.setPreset(preset);
@@ -67,6 +75,8 @@
             getTemplates:getTemplates,
             setConfig:setConfig,
             getConfig:getConfig,
+            setOptionsUrl:setOptionsUrl,
+            getOptionsUrl:getOptionsUrl,
             setPreset:setPreset,
             getPreset:getPreset,
             on:on

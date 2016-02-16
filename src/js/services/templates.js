@@ -1,6 +1,6 @@
 (function () {
     function constructor(){
-        var templates = require('../config/templates.json');
+        var templates = require('../config/templates');
         var that = {};
         var _ = {
             cloneDeep: require('lodash.clonedeep')

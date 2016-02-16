@@ -97,7 +97,6 @@
             } else {
                 dataUrl = undefined;
             }
-
         };
 
         that.getUrl = function(){

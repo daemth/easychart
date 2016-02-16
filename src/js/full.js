@@ -20,7 +20,7 @@
             data: data,
             config: new confService(mInstance, data),
             mediator: mInstance,
-            options: new optionsService(),
+            options: new optionsService(mInstance),
             templates: new templateService()
         };
 

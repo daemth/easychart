@@ -11,7 +11,6 @@
         Hook.prototype.hook = function(node) {
             inputNode = node;
         };
-        console.log(services.data.getUrl());
         var input = h('input.push-half', {
             "type": 'text',
             "style" : {

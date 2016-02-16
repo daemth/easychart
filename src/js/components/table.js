@@ -14,7 +14,6 @@
             var editRow = [];
             mediator.on('dataUpdate', updateData);
             // only add if there is data
-            console.log(data);
             if (data[0]) {
                 rows.push(h('tr', editRow));
                 _.forEach(data, function (row, rowIndex) {

@@ -1,4 +1,4 @@
-[
+var templates = [
   {
     "id": "line",
     "type": "Line charts",
@@ -1323,4 +1323,5 @@
       }
     ]
   }
-]
+];
+module.exports = templates;

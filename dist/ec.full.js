@@ -26339,7 +26339,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         Hook.prototype.hook = function(node) {
             inputNode = node;
         };
-        console.log(services.data.getUrl());
         var input = h('input.push-half', {
             "type": 'text',
             "style" : {
@@ -26383,7 +26382,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             var editRow = [];
             mediator.on('dataUpdate', updateData);
             // only add if there is data
-            console.log(data);
             if (data[0]) {
                 rows.push(h('tr', editRow));
                 _.forEach(data, function (row, rowIndex) {
@@ -26462,7 +26460,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         };
 
         function generateContent(activeType) {
-            var title = h('h2', activeType.type);
             var templateList = [];
             var svg = iconLoader.get(activeType.icon);
             _.forEach(activeType.templates, function (template) {
@@ -26479,7 +26476,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                 templateList.push(item)
             });
             var templateGrid = h('div', {className: "templatelist"}, templateList);
-            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', [title, templateGrid]));
+            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', templateGrid));
         }
 
         function generateTabs(types, active) {
@@ -27294,7 +27291,7 @@ module.exports=module.exports = [
     }
 ]
 },{}],153:[function(require,module,exports){
-module.exports=module.exports = [
+var templates = [
   {
     "id": "line",
     "type": "Line charts",
@@ -28619,7 +28616,8 @@ module.exports=module.exports = [
       }
     ]
   }
-]
+];
+module.exports = templates;
 },{}],154:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
@@ -29087,7 +29085,6 @@ return self})();
     }
 
     function generateDataSeries(config, data) {
-        console.log(config.chart);
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)), config.chart.animation);
         return _.map(emptySeries, function (item, index) {
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
@@ -29169,13 +29166,13 @@ return self})();
             data: data,
             config: new confService(mInstance, data),
             mediator: mInstance,
-            options: new optionsService(),
+            options: new optionsService(mInstance),
             templates: new templateService()
         };
 
         var states = {
-            'import': {
-                title: 'Import',
+            'data': {
+                title: 'Data',
                 dependencies: function(){
                     var that = {};
                     that.import = require('./components/import.js')(services);
@@ -29229,7 +29226,7 @@ return self})();
         if(typeof element !== 'undefined'){
             element.className += ' ec';
             var mainRouter = new router(element, states , services);
-            mainRouter.goToState('import');
+            mainRouter.goToState('data');
         }
 
         return new Api(services);
@@ -29267,6 +29264,12 @@ return self})();
         function getOptions(){
             return services.options.get();
         }
+        function setOptionsUrl(url){
+            services.options.setUrl(url);
+        }
+        function getOptionsUrl(){
+            return services.options.getUrl();
+        }
         // templates
         function setTemplates(templates){
             services.templates.set(templates);
@@ -29278,10 +29281,12 @@ return self})();
         function setConfig(config){
             services.config.set(config);
         }
-
         function getConfig(config){
             return services.config.getRaw(config);
         }
+
+
+
         // preset
         function setPreset(preset){
             services.config.setPreset(preset);
@@ -29308,6 +29313,8 @@ return self})();
             getTemplates:getTemplates,
             setConfig:setConfig,
             getConfig:getConfig,
+            setOptionsUrl:setOptionsUrl,
+            getOptionsUrl:getOptionsUrl,
             setPreset:setPreset,
             getPreset:getPreset,
             on:on
@@ -29329,7 +29336,7 @@ return self})();
             isEmpty: require('lodash.isempty')
         };
         var series = require('../factories/series.js');
-        var templates = require('../config/templates.json');
+        var templates = require('../config/templates');
         var that = {};
         var preset = {
             chart:{}
@@ -29438,7 +29445,6 @@ return self})();
             return _.cloneDeep(preset);
         };
 
-
         function hasLabels(data) {
             var labels = {
                 categories: true,
@@ -29460,7 +29466,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../config/templates.json":153,"../factories/series.js":162,"lodash.clonedeep":64,"lodash.find":66,"lodash.foreach":68,"lodash.isempty":72,"lodash.isundefined":79,"lodash.merge":83}],166:[function(require,module,exports){
+},{"../config/templates":153,"../factories/series.js":162,"lodash.clonedeep":64,"lodash.find":66,"lodash.foreach":68,"lodash.isempty":72,"lodash.isundefined":79,"lodash.merge":83}],166:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -29560,7 +29566,6 @@ return self})();
             } else {
                 dataUrl = undefined;
             }
-
         };
 
         that.getUrl = function(){
@@ -29576,8 +29581,9 @@ return self})();
 
 },{"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isequal":73,"lodash.isnan":75,"lodash.isundefined":79,"lodash.map":82,"lodash.rest":86,"lodash.slice":89,"papaparse":96}],167:[function(require,module,exports){
 (function () {
-    var constructor = function (services){
+    var constructor = function (mediator){
         var options = require('../config/options.json');
+        var configUrl;
         var that = {};
         var _ = {
             cloneDeep: require('lodash.clonedeep')
@@ -29590,9 +29596,37 @@ return self})();
             options = _.cloneDeep(_options_);
         };
 
+        that.setUrl = function(url){
+            if(url !== ''){
+                var client = new XMLHttpRequest();
+                client.open("GET", url);
+                client.onreadystatechange = handler;
+                //client.responseType = "text";
+                client.setRequestHeader("Accept", "application/json");
+                client.send();
+
+                function handler() {
+                    if (this.readyState === this.DONE) {
+                        if (this.status === 200) {
+                            options = JSON.parse(this.response);
+                            configUrl = url;
+                            mediator.trigger('configUpdate', that.get());
+                        }
+
+                        else { reject(this); }
+                    }
+                }
+            } else {
+                configUrl = undefined;
+            }
+        };
+
+        that.getUrl = function(){
+            return _.cloneDeep(configUrl);
+        };
+
         return that;
     };
-
     module.exports = constructor;
 })();
 
@@ -29677,7 +29711,7 @@ return self})();
 },{"./../components/chart.js":141,"./../templates/logo":170,"lodash.keys":80,"main-loop":94,"virtual-dom/create-element":110,"virtual-dom/diff":111,"virtual-dom/h":112,"virtual-dom/patch":113}],169:[function(require,module,exports){
 (function () {
     function constructor(){
-        var templates = require('../config/templates.json');
+        var templates = require('../config/templates');
         var that = {};
         var _ = {
             cloneDeep: require('lodash.clonedeep')
@@ -29695,7 +29729,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../config/templates.json":153,"lodash.clonedeep":64}],170:[function(require,module,exports){
+},{"../config/templates":153,"lodash.clonedeep":64}],170:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');

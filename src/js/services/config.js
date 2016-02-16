@@ -9,7 +9,7 @@
             isEmpty: require('lodash.isempty')
         };
         var series = require('../factories/series.js');
-        var templates = require('../config/templates.json');
+        var templates = require('../config/templates');
         var that = {};
         var preset = {
             chart:{}
@@ -117,7 +117,6 @@
         that.getPreset = function () {
             return _.cloneDeep(preset);
         };
-
 
         function hasLabels(data) {
             var labels = {

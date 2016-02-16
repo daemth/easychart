@@ -1,0 +1,351 @@
+[
+    {
+        "id": "chart",
+        "panelTitle": "Chart settings",
+        "panes": [
+            {
+                "title": "Chart type and interaction",
+                "options": [
+                    {
+                        "name": "chart--type",
+                        "fullname": "chart.type",
+                        "title": "type",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "line",
+                        "values": "[\"line\", \"spline\", \"column\", \"bar\", \"area\", \"areaspline\", \"pie\", \"arearange\", \"areasplinerange\", \"boxplot\", \"bubble\", \"columnrange\", \"errorbar\", \"funnel\", \"gauge\", \"heatmap\", \"polygon\", \"pyramid\", \"scatter\", \"solidgauge\", \"treemap\", \"waterfall\"]",
+                        "since": "2.1.0",
+                        "description": "The default series type for the chart. Can be any of the chart types listed under <a href=\"#plotOptions\">plotOptions</a>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/type-bar/\" target=\"_blank\">Bar</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--inverted",
+                        "fullname": "chart.inverted",
+                        "title": "inverted",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "false",
+                        "since": "",
+                        "description": "Whether to invert the axes so that the x axis is vertical and y axis is horizontal.\r When true, the x axis is reversed by default. If a bar series is present in the chart,\r it will be inverted automatically.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/inverted/\" target=\"_blank\">Inverted line</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--zoomType",
+                        "fullname": "chart.zoomType",
+                        "title": "zoomType",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "String",
+                        "values": "[null, \"x\", \"y\", \"xy\"]",
+                        "description": "Decides in what dimensions the user can zoom by dragging the mouse. Can be one of <code>x</code>, <code>y</code> or <code>xy</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/zoomtype-none/\" target=\"_blank\">None by default</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/zoomtype-x/\" target=\"_blank\">x</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/zoomtype-y/\" target=\"_blank\">y</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/zoomtype-xy/\" target=\"_blank\">xy</a>",
+                        "seeAlso": "<a href=\"#chart.panKey\">panKey</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "plotOptions-column--stacking",
+                        "fullname": "plotOptions.column.stacking",
+                        "title": "column stacking",
+                        "parent": "plotOptions-column",
+                        "isParent": false,
+                        "returnType": "String",
+                        "values": "[null, \"normal\", \"percent\"]",
+                        "description": "Whether to stack the values of each series on top of each other. Possible values are null to disable, \"normal\" to stack by value or \"percent\".",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-area/\" target=\"_blank\">area</a> with \"normal\" stacking. \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-area/\" target=\"_blank\">area</a> with \"percent\" stacking.",
+                        "seeAlso": "<a href=\"#yAxis.reversedStacks\">yAxis.reversedStacks</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "plotOptions-bar--stacking",
+                        "fullname": "plotOptions.bar.stacking",
+                        "title": "bar stacking",
+                        "parent": "plotOptions-bar",
+                        "isParent": false,
+                        "returnType": "String",
+                        "values": "[null, \"normal\", \"percent\"]",
+                        "description": "Whether to stack the values of each series on top of each other. Possible values are null to disable, \"normal\" to stack by value or \"percent\".",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-area/\" target=\"_blank\">area</a> with \"normal\" stacking. \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-area/\" target=\"_blank\">area</a> with \"percent\" stacking.",
+                        "seeAlso": "<a href=\"#yAxis.reversedStacks\">yAxis.reversedStacks</a>",
+                        "deprecated": false
+                    }
+                ]
+            },
+            {
+                "title": "Size and margins",
+                "options": [
+                    {
+                        "name": "chart--width",
+                        "fullname": "chart.width",
+                        "title": "width",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "description": "An explicit width for the chart. By default the width is calculated from the offset width of the containing element.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/width/\" target=\"_blank\">800px wide</a>"
+                    },
+                    {
+                        "name": "chart--height",
+                        "fullname": "chart.height",
+                        "title": "height",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "description": "An explicit height for the chart. By default the height is calculated from the offset height of the containing element, or 400 pixels if the containing element's height is 0.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/height/\" target=\"_blank\">500px height</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--spacingTop",
+                        "fullname": "chart.spacingTop",
+                        "title": "spacingTop",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "10",
+                        "since": "2.1",
+                        "description": "<p>The space between the top edge of the chart and the content (plot area, axis title and labels, title, subtitle or \r\n legend in top position).</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/spacingtop-100/\" target=\"_blank\">A top spacing of 100</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/spacingtop-10/\" target=\"_blank\">floating chart title makes the plot area align to the \r\n\t\t\tdefault spacingTop of 10.</a>.",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--spacingRight",
+                        "fullname": "chart.spacingRight",
+                        "title": "spacingRight",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "10",
+                        "since": "2.1",
+                        "description": "<p>The space between the right edge of the chart and the content (plot area, axis title and labels, title, subtitle or \r legend in top position).</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/spacingright-100/\" target=\"_blank\">Spacing set to 100</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/spacingright-legend/\" target=\"_blank\">legend in right position with default spacing</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--spacingBottom",
+                        "fullname": "chart.spacingBottom",
+                        "title": "spacingBottom",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "15",
+                        "since": "2.1",
+                        "description": "<p>The space between the bottom edge of the chart and the content (plot area, axis title and labels, title, subtitle or \r legend in top position).</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/spacingbottom/\" target=\"_blank\">Spacing bottom set to 100</a>.",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--spacingLeft",
+                        "fullname": "chart.spacingLeft",
+                        "title": "spacingLeft",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "10",
+                        "since": "2.1",
+                        "description": "<p>The space between the left edge of the chart and the content (plot area, axis title and labels, title, subtitle or \r legend in top position).</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/spacingleft/\" target=\"_blank\">Spacing left set to 100</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "colorsAndBorders",
+        "panelTitle": "Colors and borders",
+        "panes": [
+            {
+                "title": "default colors",
+                "options": [
+                    {
+                        "name": "colors",
+                        "fullname": "colors",
+                        "title": "colors",
+                        "isParent": false,
+                        "returnType": "Array<Color>",
+                        "defaults": "[ \"#7cb5ec\" , \"#434348\" , \"#90ed7d\" , \"#f7a35c\" , \"#8085e9\" , \"#f15c80\" , \"#e4d354\" , \"#2b908f\" , \"#f45b5b\" , \"#91e8e1\"]",
+                        "description": "<p>An array containing the default colors for the chart's series. When all colors are used, new colors are pulled from the start again. Defaults to:\r\n<pre>colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', \r\n   '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']</pre>\r\n\r\nDefault colors can also be set on a series or series.type basis, see <a href=\"#plotOptions.column.colors\">column.colors</a>, <a href=\"#plotOptions.pie.colors\">pie.colors</a>.\r\n</p>\r\n\r\n<h3>Legacy</h3>\r\n<p>In Highcharts 3.x, the default colors were:\r\n<pre>colors: ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce', \r\n   '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']</pre>\r\n</p>\r\n\r\n<p>In Highcharts 2.x, the default colors were:\r\n<pre>colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', \r\n   '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92']</pre></p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/colors/\" target=\"_blank\">Assign a global color theme</a>",
+                        "deprecated": false
+                    }
+                ]
+            },
+            {
+                "title": "Chart area",
+                "options": [
+                    {
+                        "name": "chart--backgroundColor",
+                        "fullname": "chart.backgroundColor",
+                        "title": "backgroundColor",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "#FFFFFF",
+                        "description": "The background color or gradient for the outer chart area.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/backgroundcolor-color/\" target=\"_blank\">Color</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/backgroundcolor-gradient/\" target=\"_blank\">gradient</a>"
+                    },
+                    {
+                        "name": "chart--borderWidth",
+                        "fullname": "chart.borderWidth",
+                        "title": "borderWidth",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "0",
+                        "description": "The pixel width of the outer chart border.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/borderwidth/\" target=\"_blank\">5px border</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--borderRadius",
+                        "fullname": "chart.borderRadius",
+                        "title": "borderRadius",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "0",
+                        "description": "The corner radius of the outer chart border.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/borderradius/\" target=\"_blank\">20px radius</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--borderColor",
+                        "fullname": "chart.borderColor",
+                        "title": "borderColor",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "#4572A7",
+                        "description": "The color of the outer chart border.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/bordercolor/\" target=\"_blank\">Brown border</a>",
+                        "deprecated": false
+                    }
+                ]
+            },
+            {
+                "title": "Plot area",
+                "options": [
+                    {
+                        "name": "chart--plotBackgroundColor",
+                        "fullname": "chart.plotBackgroundColor",
+                        "title": "plotBackgroundColor",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "description": "The background color or gradient for the plot area.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/plotbackgroundcolor-color/\" target=\"_blank\">Color</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/plotbackgroundcolor-gradient/\" target=\"_blank\">gradient</a>"
+                    },
+                    {
+                        "name": "chart--plotBackgroundImage",
+                        "fullname": "chart.plotBackgroundImage",
+                        "title": "plotBackgroundImage",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "String",
+                        "description": "The URL for an image to use as the plot background. To set an image as the background for the entire chart, set a CSS background image to the container element. Note that for the image to be applied to exported charts, its URL needs to be accessible by the export server.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/plotbackgroundimage/\" target=\"_blank\">Skies</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "chart--plotBorderWidth",
+                        "fullname": "chart.plotBorderWidth",
+                        "title": "plotBorderWidth",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "0",
+                        "description": "The pixel width of the plot area border.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/plotborderwidth/\" target=\"_blank\">1px border</a>"
+                    },
+                    {
+                        "name": "chart--plotBorderColor",
+                        "fullname": "chart.plotBorderColor",
+                        "title": "plotBorderColor",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "#C0C0C0",
+                        "description": "The color of the inner chart or plot area border.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/plotbordercolor/\" target=\"_blank\">Blue border</a>"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "titles",
+        "panelTitle": "Titles",
+        "panes": [
+            {
+                "title": "Titles",
+                "options": [
+                    {
+                        "name": "title--text",
+                        "fullname": "title.text",
+                        "title": "chart title",
+                        "parent": "title",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "Chart title",
+                        "description": "The title of the chart. To disable the title, set the <code>text</code> to <code>null</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/text/\" target=\"_blank\">Custom title</a>"
+                    },
+                    {
+                        "name": "subtitle--text",
+                        "fullname": "subtitle.text",
+                        "title": "chart subtitle",
+                        "parent": "subtitle",
+                        "isParent": false,
+                        "returnType": "String",
+                        "description": "The subtitle of the chart.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text/\" target=\"_blank\">Custom subtitle</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text-formatted/\" target=\"_blank\">formatted and linked text.</a>"
+                    },
+                    {
+                        "name": "yAxis-title--text",
+                        "fullname": "yAxis.title.text",
+                        "title": "Y axis title",
+                        "parent": "yAxis-title",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "Values",
+                        "description": "The actual text of the axis title. Horizontal texts can contain HTML, \r but rotated texts are painted using vector techniques and must be \r clean text. The Y axis title is disabled by setting the <code>text</code>\r option to <code>null</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "xAxis-title--text",
+                        "fullname": "xAxis.title.text",
+                        "title": "X axis title",
+                        "parent": "xAxis-title",
+                        "isParent": false,
+                        "returnType": "String",
+                        "description": "The actual text of the axis title. It can contain basic HTML text markup like &lt;b&gt;, &lt;i&gt; and spans with style.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis"
+                    }
+                ]
+            },
+            {
+                "title": "Title advanced",
+                "options": [
+                    {
+                        "name": "title--style",
+                        "fullname": "title.style",
+                        "title": "style",
+                        "parent": "title",
+                        "isParent": false,
+                        "returnType": "CSSObject",
+                        "defaults": "{ \"color\": \"#333333\", \"fontSize\": \"18px\" }",
+                        "description": "CSS styles for the title. Use this for font styling, but use <code>align</code>, <code>x</code> and <code>y</code> for text alignment.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/style/\" target=\"_blank\">Custom color and weight</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+    }
+]
