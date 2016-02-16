@@ -25,7 +25,6 @@
         window.easychart = new ec({
             element: container,
             optionsUrl: 'http://localhost:63342/easychart/demo/options.json',
-            dataUrl: 'http://localhost:63342/easychart/demo/data/area.csv',
             preset: {
                 chart: {
                     type: 'column',
@@ -33,6 +32,7 @@
                 }
             }
         });
+        easychart.setDataUrl('http://localhost:63342/easychart/demo/data/area.csv');
     })
 </script>
 </body>
