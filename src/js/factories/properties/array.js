@@ -29,7 +29,6 @@
             if (_.isEqual(property.defaults, values)) {
               configService.removeValue(property.fullname);
             } else {
-
               configService.setValue(property.fullname, values);
             }
           }

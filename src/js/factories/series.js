@@ -79,7 +79,6 @@
     function generateDataSeries(config, data){
         var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
         return _.map(emptySeries, function(item, index){
-
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
 
             _.forEach(data, function(row, index){

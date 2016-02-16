@@ -23,7 +23,6 @@
         };
 
         var config = _.cloneDeep(preset);
-
         that.get = function () {
             var labels = hasLabels(data.get());
             var object = _.cloneDeep(config);
