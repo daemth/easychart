@@ -3,7 +3,6 @@
 @import "base/variables";
 
 .ec {
-
   background: $super-light-gray;
   font-family: 'Roboto', sans-serif;
   float: left;
@@ -38,14 +37,42 @@
     border: 1px solid $light-gray;
     border-radius: 3px;
   }
-  .logo {
+  .header{
+    margin-bottom: 20px;
     background-color: #333;
-    padding: 7px 1em;
-    height: 64px;
-    svg {
-      height: 50px;
+    width:100%;
+    display: inline-block;
+    .logo {
+      float: right;
+      text-align: right;
+      padding: 7px 1em;
+      height: 64px;
+      svg {
+        height: 50px;
+      }
+    }
+    .navigation{
+      margin-left: 20px;
+      margin-top: 20px;
+      float: left;
+      .tab-link a{
+        text-decoration: none;
+        color: white;
+      }
+
+      .tab-link.is-active{
+        background: $super-light-gray;
+        border: none;
+        a{
+          color: $base-accent-color;
+        }
+      }
+    }
+    &:after{
+      clear: both;
     }
   }
+
 
   .templatelist {
     display: flex;

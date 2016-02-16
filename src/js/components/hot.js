@@ -5,17 +5,18 @@
     function constructor(services) {
         var that = {};
         var element;
-        var editable;
+        var readOnly;
         that.load = function (_element_) {
             element = _element_;
-            editable = services.data.getUrl() ? false : 'text';
+            readOnly = services.data.getUrl() ? true : false;
             hot = new Handsontable(element, {
                 startRows: 8,
                 startCols: 5,
+                height: 500,
+                stretchH: 'all',
                 rowHeaders: true,
                 colHeaders: true,
                 contextMenu: true,
-                stretchH: 'all',
                 afterChange: function () {
                     var data = removeEmptyRows(this);
                     if (!_.isEmpty(data)) {
@@ -24,10 +25,11 @@
                 }
             });
 
+
             hot.updateSettings({
                 cells: function (row, col, prop) {
                     var cellProperties = {};
-                    cellProperties.editor = editable;
+                    cellProperties.readOnly = readOnly;
                     return cellProperties;
                 }
             });
@@ -37,12 +39,12 @@
                 });
             }
             services.mediator.on('dataUpdate', function (_data_) {
-                editable = services.data.getUrl() ? false : 'text';
+                readOnly = services.data.getUrl() ? true : false;
                 hot.updateSettings({
                     data: _data_,
                     cells: function (row, col, prop) {
                         var cellProperties = {};
-                        cellProperties.editor = editable;
+                        cellProperties.readOnly = readOnly;
                         return cellProperties;
                     }
                 });

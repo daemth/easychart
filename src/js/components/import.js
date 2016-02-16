@@ -1,5 +1,5 @@
 (function () {
-    var constructor = function(services){
+    var constructor = function (services) {
         var h = require('virtual-dom/h');
         var paste = require('./import/paste');
         var upload = require('./import/upload');
@@ -7,44 +7,44 @@
         var url = require('./import/url');
         var table = require('./table')(services);
         var hot = require('./hot')(services);
-        var activeTab = services.data.getUrl()?'url':'paste';
+        var activeTab = services.data.getUrl() ? 'url' : 'paste';
         var mediator = services.mediator;
         mediator.on('goToTable', goToTable);
 
         var tabOptions = {
-            paste:{
+            paste: {
                 label: 'Paste CSV',
-                template: function(){
+                template: function () {
                     return paste.template(services);
                 }
             },
-            upload:{
+            upload: {
                 label: 'upload CSV',
-                template: function(){
+                template: function () {
                     return h('div', [
                         upload.template(services),
                         dad.template(services)
                     ]);
                 }
             },
-            url:{
+            url: {
                 label: 'url CSV',
-                template: function(){
+                template: function () {
                     return url.template(services);
                 }
             },
-            data:{
+            data: {
                 label: 'Data table',
-                template: function(){
-                    if(typeof Handsontable !== 'undefined'){
+                template: function () {
+                    if (typeof Handsontable !== 'undefined') {
                         return hot.template(services);
                     } else {
                         return table.template(services);
                     }
 
                 },
-                destroy: function(){
-                    if(typeof Handsontable !== 'undefined'){
+                destroy: function () {
+                    if (typeof Handsontable !== 'undefined') {
                         hot.destroy();
                     } else {
                         table.destroy();
@@ -55,37 +55,47 @@
 
         function tabLinks() {
             var links = ['paste', 'upload', 'url', 'data'];
-            return h('ul.tab-list', links.map(function (id) {
-                var className = activeTab === id ? 'is-active' : '';
-                return h('li.tab-link', {
-                    'className': className,
-                    'ev-click': function () {
-                        load(id);
-                    }
-                }, tabOptions[id].label)
-            }))
+            return h('ul.vertical-tabs', links.map(function (id) {
+                    var className = activeTab === id ? 'active' : '';
+                    return h('li', {
+                            'className': className
+                        }, h('a', {
+                            'href': '#' + tabOptions[id].label,
+                            'ev-click': function () {
+                                load(id);
+                            }
+                        }, tabOptions[id].label)
+                    )
+                })
+            )
         }
-        function load(id){
-            if(tabOptions[activeTab].destroy){tabOptions[activeTab].destroy();}
+
+        function load(id) {
+            if (tabOptions[activeTab].destroy) {
+                tabOptions[activeTab].destroy();
+            }
             activeTab = id;
             mediator.trigger('treeUpdate');
         }
-        function goToTable(){
+
+        function goToTable() {
             activeTab = 'data';
             mediator.trigger('treeUpdate');
         }
 
-        function destroy(){
+        function destroy() {
             mediator.off('goToTable', goToTable);
-            if(tabOptions[activeTab]['destroy']){
+            if (tabOptions[activeTab]['destroy']) {
                 tabOptions[activeTab]['destroy']();
             }
         }
 
-        function template (){
-            return h('div.accordion-tabs-minimal', [
+        function template() {
+            return h('div.vertical-tabs-container', [
                 tabLinks(),
-                h('div.tab-content', tabOptions[activeTab].template())
+                h('div.vertical-tab-content-container',
+                    h('div.vertical-tab-content', tabOptions[activeTab].template())
+                )
             ]);
         }
 
