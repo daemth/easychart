@@ -5,25 +5,23 @@
             trim: require('lodash.trim'),
             isEqual: require('lodash.isequal')
         };
-
+        var data;
         var h = require('virtual-dom/h');
-        var data = services.data.get();
         var mediator = services.mediator;
-
-
-
         function template() {
+            data = services.data.get();
             var rows = [];
             var editRow = [];
             mediator.on('dataUpdate', updateData);
             // only add if there is data
+            console.log(data);
             if (data[0]) {
                 rows.push(h('tr', editRow));
                 _.forEach(data, function (row, rowIndex) {
                     var cells = [];
                     _.forEach(row, function (cell, cellIndex) {
                         cells.push(h('td', {
-                            contentEditable: services.data.getDataUrl()?false:true,
+                            contentEditable: services.data.getUrl()?false:true,
                             "ev-input": function (e) {
                                 var value = _.trim(e.target.innerHTML);
                                 data[rowIndex][cellIndex] = value;

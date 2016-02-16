@@ -26716,9 +26716,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 (function () {
     var _ = require('lodash');
     var h = require('virtual-dom/h');
-
     var hot;
-
     function constructor(services) {
         var that = {};
         var element;
@@ -26730,6 +26728,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                 rowHeaders: true,
                 colHeaders: true,
                 contextMenu: true,
+                stretchH: 'all',
                 afterChange: function () {
                     var data = removeEmptyRows(this);
                     if (!_.isEmpty(data)) {
@@ -26804,7 +26803,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var url = require('./import/url');
         var table = require('./table')(services);
         var hot = require('./hot')(services);
-        var activeTab = 'paste';
+        var activeTab = services.data.getUrl()?'url':'paste';
         var mediator = services.mediator;
         mediator.on('goToTable', goToTable);
 
@@ -27036,14 +27035,16 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         Hook.prototype.hook = function(node) {
             inputNode = node;
         };
-
+        console.log(services.data.getUrl());
         var input = h('input.push-half', {
             "type": 'text',
             "style" : {
                 display: "inline"
             },
+            value: services.data.getUrl(),
             "hook": new Hook()
         });
+
 
         var importElement = h('button.btn.btn--small.push-half', {
             "style" : {
@@ -27069,25 +27070,23 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             trim: require('lodash.trim'),
             isEqual: require('lodash.isequal')
         };
-
+        var data;
         var h = require('virtual-dom/h');
-        var data = services.data.get();
         var mediator = services.mediator;
-
-
-
         function template() {
+            data = services.data.get();
             var rows = [];
             var editRow = [];
             mediator.on('dataUpdate', updateData);
             // only add if there is data
+            console.log(data);
             if (data[0]) {
                 rows.push(h('tr', editRow));
                 _.forEach(data, function (row, rowIndex) {
                     var cells = [];
                     _.forEach(row, function (cell, cellIndex) {
                         cells.push(h('td', {
-                            contentEditable: services.data.getDataUrl()?false:true,
+                            contentEditable: services.data.getUrl()?false:true,
                             "ev-input": function (e) {
                                 var value = _.trim(e.target.innerHTML);
                                 data[rowIndex][cellIndex] = value;
@@ -29874,6 +29873,7 @@ return self})();
             options: new optionsService(),
             templates: new templateService()
         };
+
         var states = {
             'import': {
                 title: 'Import',
@@ -30265,19 +30265,17 @@ return self})();
                     }
                 }
             } else {
-                dataUrl = '';
+                dataUrl = undefined;
             }
 
         };
 
         that.getUrl = function(){
-            return dataUrl;
+            return dataUrl
         };
 
         return that;
     }
-
-
     module.exports = constructor;
 })
 ();

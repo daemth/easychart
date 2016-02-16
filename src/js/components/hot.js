@@ -1,9 +1,7 @@
 (function () {
     var _ = require('lodash');
     var h = require('virtual-dom/h');
-
     var hot;
-
     function constructor(services) {
         var that = {};
         var element;
@@ -15,6 +13,7 @@
                 rowHeaders: true,
                 colHeaders: true,
                 contextMenu: true,
+                stretchH: 'all',
                 afterChange: function () {
                     var data = removeEmptyRows(this);
                     if (!_.isEmpty(data)) {

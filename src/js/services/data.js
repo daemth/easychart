@@ -95,19 +95,17 @@
                     }
                 }
             } else {
-                dataUrl = '';
+                dataUrl = undefined;
             }
 
         };
 
         that.getUrl = function(){
-            return dataUrl;
+            return dataUrl
         };
 
         return that;
     }
-
-
     module.exports = constructor;
 })
 ();

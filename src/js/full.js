@@ -23,6 +23,7 @@
             options: new optionsService(),
             templates: new templateService()
         };
+
         var states = {
             'import': {
                 title: 'Import',

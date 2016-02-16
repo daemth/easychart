@@ -11,14 +11,16 @@
         Hook.prototype.hook = function(node) {
             inputNode = node;
         };
-
+        console.log(services.data.getUrl());
         var input = h('input.push-half', {
             "type": 'text',
             "style" : {
                 display: "inline"
             },
+            value: services.data.getUrl(),
             "hook": new Hook()
         });
+
 
         var importElement = h('button.btn.btn--small.push-half', {
             "style" : {

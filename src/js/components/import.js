@@ -7,7 +7,7 @@
         var url = require('./import/url');
         var table = require('./table')(services);
         var hot = require('./hot')(services);
-        var activeTab = 'paste';
+        var activeTab = services.data.getUrl()?'url':'paste';
         var mediator = services.mediator;
         mediator.on('goToTable', goToTable);
 
