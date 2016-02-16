@@ -28814,7 +28814,11 @@ return self})();
     var list = [];
     var values = _.merge(_.cloneDeep(property.defaults), configValue, []);
     _.forEach(property.defaults, function (value, index) {
-      var colorPicker;
+      var colorPicker = new ColorPicker({
+        background: 'white',
+        width     : 200
+      });
+      var test = 'notest';
       list.push(h('div.form-item', [
         h('div.form-item__label', h('label', {
           title     : property.description,
@@ -28828,11 +28832,7 @@ return self})();
           'disabled': disabled,
           'value'   : !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
           'ev-focus': function (e) {
-            colorPicker = new ColorPicker({
-              color     : e.target.value,
-              background: 'white',
-              width     : 200
-            });
+            colorPicker.setColor(e.target.value);
             colorPicker.appendTo(e.target.parentNode);
             colorPicker.onChange(function () {
               e.target.value = colorPicker.getHexString();
@@ -28842,25 +28842,15 @@ return self})();
               } else {
                 configService.setValue(property.fullname, values);
               }
-            })
-          },
-          'ev-blur' : function () {
-            colorPicker.remove();
+            });
+            e.target.onblur = function(){
+              colorPicker.remove();
+              e.target.onblur = undefined;
+            }
           }
-
         }))
       ]))
     });
-    /*
-     'ev-input': function (e) {
-     values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
-     if (_.isEqual(property.defaults, values)) {
-     configService.removeValue(property.fullname);
-     } else {
-     configService.setValue(property.fullname, values);
-     }
-     }
-     */
     return h('div', [
       h('div', h('h4', [property.title])),
       h('div', list)
@@ -29566,10 +29556,12 @@ return self})();
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
                             dataSet = papa.parse(this.response).data;
-
                             mediator.trigger('dataUpdate', that.get());
                         }
-                        else { reject(this); }
+                        else {
+                            dataUrl = undefined;
+                            reject(this);
+                        }
                     }
                 }
             } else {

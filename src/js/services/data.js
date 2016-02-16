@@ -90,10 +90,12 @@
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
                             dataSet = papa.parse(this.response).data;
-
                             mediator.trigger('dataUpdate', that.get());
                         }
-                        else { reject(this); }
+                        else {
+                            dataUrl = undefined;
+                            reject(this);
+                        }
                     }
                 }
             } else {
