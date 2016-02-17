@@ -32,7 +32,12 @@
     function setCategories(series, categorieLabels) {
         _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
-                series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
+                // depending on the notation we add it to the array or set its as property
+                if(series[index]['data'][dataIndex].isArray){
+                    series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
+                } else {
+                    series[index]['data'][dataIndex].name = categorieLabels[dataIndex];
+                }
             });
         });
         return series;
@@ -56,60 +61,110 @@
         var array = [];
         var index = 0;
         while (size > 0) {
-            var object = {
-                data: [],
-                animation: animation ? animation : false
-            };
+            var object = {};
             // look for settings for the series;
             if (series && series[index]) {
-                object.type = series[index].type;
+                object = _.merge(object, series[index]);
             } else {
                 object.type = defaultType;
             }
-            size = size - getValuesPerPoint(object.type);
+            object.animation = animation ? animation : false;
+            object.data = [];
+            size = size - getValuesPerPoint(object.type).points;
             array.push(object);
             index++;
         }
+
         return array;
     }
 
     function generateDataSeries(config, data) {
-        var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)), config.chart.animation);
+        // check for series config for the data and apply this
+        var configClone = _.cloneDeep(config);
+        var emptySeries = generateEmptySeries(configClone.series, configClone.chart.type, _.size(_.first(data)), configClone.chart.animation);
         return _.map(emptySeries, function (item, index) {
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
-            _.forEach(data, function (row, index) {
-                item.data.push(parseDataFloat(_.slice(row, 0, vpp)));
-                data[index] = _.drop(data[index], vpp);
+            _.forEach(data, function (row, rowIndex) {
+                var cell = {};
+                var points = parseDataFloat(_.slice(row, 0, vpp.points));
+                // check for turboThreshold
+                if(data.length >= 1000){
+                    cell = points;
+                } else {
+                    _.forEach(vpp.definition, function(label, pointIndex){
+                        cell[label] = points[pointIndex];
+                    });
+                    if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data)) {
+                        cell = _.merge(configClone.series[index].data, cell);
+                    }
+                }
+                item.data.push(cell);
+                data[rowIndex] = _.drop(data[rowIndex], vpp.points);
             });
-            // check for series config and apply this
-            if (!_.isUndefined(config.series) && !_.isUndefined(config.series[index])) {
-                item = _.merge(config.series[index], item);
-            }
             return item;
         });
-
     }
+
 
     function getValuesPerPoint(type) {
         var vpp;
         switch (type) {
-            case 'arearange':
-            case 'areasplinerange':
-            case 'columnrange':
-            case 'errorbar':
             case 'scatter':
-                vpp = 2;
+                vpp = {
+                    points: 2,
+                    definition: ['x', 'y']
+                };
                 break;
             case 'bubble':
-                vpp = 3;
+                vpp = {
+                    points: 3,
+                    definition: ['x', 'y', 'z']
+                };
                 break;
-
+            case 'heatmap':
+                vpp = {
+                    points: 2,
+                    definition: ['y', 'value']
+                };
+                break;
             case 'boxplot':
-                vpp = 5;
+                vpp = {
+                    points: 5,
+                    definition: ['low', 'q1', 'median', 'q3', 'high']
+                };
                 break;
-
+            case 'errorbar':
+            case 'areasplinerange':
+            case 'arearange':
+            case 'columnrange':
+                vpp = {
+                    points: 2,
+                    definition: ['low', 'high']
+                };
+                break;
+            case 'line':
+            case 'spline':
+            case 'treemap':
+            case 'solidgauge':
+            case 'polygon':
+            case 'pyramid':
+            case 'pie':
+            case 'funnel':
+            case 'gauge':
+            case 'areaspline':
+            case 'waterfall':
+            case 'column':
+            case 'bar':
+                vpp = {
+                    points: 1,
+                    definition: ['y']
+                };
+                break;
             default:
-                vpp = 1;
+                vpp = {
+                    points: 1,
+                    definition: ['y']
+                };
                 break;
         }
         return vpp;

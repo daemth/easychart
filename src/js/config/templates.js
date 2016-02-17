@@ -1497,32 +1497,28 @@ var templates = [
                     },
 
                     series: [{
-
                         borderColor: Highcharts.getOptions().colors[0],
-                        data: [{
+                        data: {
                             color: Highcharts.getOptions().colors[0],
                             radius: '100%',
                             innerRadius: '100%'
 
-                        }]
+                        }
                     }, {
 
                         borderColor: Highcharts.getOptions().colors[1],
-                        data: [{
+                        data: {
                             color: Highcharts.getOptions().colors[1],
                             radius: '75%',
                             innerRadius: '75%'
-
-                        }]
+                        }
                     }, {
-
                         borderColor: Highcharts.getOptions().colors[2],
-                        data: [{
+                        data: {
                             color: Highcharts.getOptions().colors[2],
                             radius: '50%',
                             innerRadius: '50%'
-
-                        }]
+                        }
                     }]
 
                 }
