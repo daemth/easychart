@@ -30,7 +30,7 @@
                 dataService.setUrl(inputNode.value);
                 mediator.trigger('goToTable');
             }
-        }, 'import');
+        }, 'save');
 
         return h('div', [input, importElement])
     };

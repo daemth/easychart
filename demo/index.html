@@ -24,13 +24,13 @@
         var container = document.getElementById('container');
         window.easychart = new ec({
             element: container,
+            dataUrl: 'http://localhost:63342/easychart/demo/data/line.csv',
             preset: {
                 chart: {
                     animation: true
                 }
             }
         });
-        easychart.setDataUrl('http://localhost:63342/easychart/demo/data/line.csv');
     })
 </script>
 </body>

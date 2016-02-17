@@ -17,12 +17,10 @@
         var config = _.cloneDeep(preset);
         var configCache;
         that.get = function () {
-            if(typeof configCache == 'undefined'){
-                var labels = hasLabels(data.get());
-                var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
-                object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
-                configCache = _.cloneDeep(object);
-            }
+            var labels = hasLabels(data.get());
+            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
+            object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
+            configCache = _.cloneDeep(object);
             return configCache;
         };
 
@@ -136,10 +134,10 @@
             return labels;
         }
         function configUpdate(){
-            configCache = undefined;
             mediator.trigger('configUpdate', that.get());
         }
-        mediator.on('dataUpdate', function(){
+
+        mediator.on('dataUpdate', function(data){
             configUpdate();
         });
 

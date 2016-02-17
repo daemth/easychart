@@ -4,6 +4,7 @@
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
+
     var mainLoop = require("main-loop");
     var _ = {
         keys: require('lodash.keys')
@@ -13,6 +14,7 @@
         var initState = {
             links: _.keys(states)
         };
+        var revision = require('./../components/revision')(services);
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
             diff: require("virtual-dom/diff"),
@@ -69,8 +71,8 @@
         var chart = require('./../components/chart.js');
         chartElement = createElement(h('div.right', {id: 'chartContainer'}));
         element.appendChild(chartElement);
+        element.appendChild(createElement(h('div', revision.template())));
         chart.load(chartElement, services);
-
         return {
             goToState: goToState
         };

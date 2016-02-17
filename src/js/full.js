@@ -7,6 +7,7 @@
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var optionsService = require('./services/options');
+        var revisionService = require('./services/revision');
         var templateService = require('./services/templates');
         var initializer = require('./services/initializer');
         var Api = require('./services/api');
@@ -18,10 +19,11 @@
 
         var services = {
             data: data,
-            config: new confService(mInstance, data),
+            config: config,
             mediator: mInstance,
-            options: new optionsService(mInstance),
-            templates: new templateService()
+            options: optionsService(mInstance),
+            templates: templateService(),
+            revision: revisionService(mInstance)
         };
 
         var states = {

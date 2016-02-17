@@ -32,8 +32,6 @@
             return _.cloneDeep(dataSet);
         };
 
-
-
         that.getData = function (series, categories) {
             var data = dataSet;
 
@@ -51,27 +49,40 @@
         };
 
         that.set = function (newDataSet) {
-            if (!_.isEqual(dataSet, newDataSet)) {
+            if (!_.isEqual(dataSet, newDataSet)) {+
+                mediator.trigger('backup', _.cloneDeep(dataSet));
                 dataSet = _.cloneDeep(newDataSet);
-                mediator.trigger('dataUpdate', that.get());
+                var data = that.get();
+                mediator.trigger('dataUpdate', data);
                 dataUrl = undefined;
             }
-
         };
+
+        that.revert = function(oldDataSet){
+            if (!_.isEqual(dataSet, oldDataSet)) {
+                dataSet = oldDataSet;
+                mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
+            }
+        };
+
+        mediator.on('backup.revert', that.revert);
 
         that.setValue = function(row, cell, value){
             if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
+                mediator.trigger('backup',_.cloneDeep(dataSet));
                 dataSet[row][cell] = _.isNaN(value) ? null : value;
             }
-            mediator.trigger('dataUpdate', that.get());
+            mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
             dataUrl = undefined;
         };
 
         that.setCSV = function(csv){
+            mediator.trigger('backup', _.cloneDeep(dataSet));
             dataSet = papa.parse(csv).data;
-            mediator.trigger('dataUpdate', that.get());
+            mediator.trigger('dataUpdate', dataSet);
             dataUrl = undefined;
         };
+
 
         that.getUrl = function (){
             return _.cloneDeep(dataUrl);
@@ -89,8 +100,9 @@
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
+                            mediator.trigger('backup',  _.cloneDeep(dataSet));
                             dataSet = papa.parse(this.response).data;
-                            mediator.trigger('dataUpdate', that.get());
+                            mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
                         }
                         else {
                             dataUrl = undefined;
@@ -102,7 +114,6 @@
                 dataUrl = undefined;
             }
         };
-
         return that;
     }
     module.exports = constructor;

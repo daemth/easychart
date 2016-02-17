@@ -41,14 +41,19 @@
             }
             services.mediator.on('dataUpdate', function (_data_) {
                 readOnly = services.data.getUrl() ? true : false;
-                hot.updateSettings({
-                    data: _data_,
-                    cells: function (row, col, prop) {
-                        var cellProperties = {};
-                        cellProperties.readOnly = readOnly;
-                        return cellProperties;
-                    }
-                });
+                if(_data_.length > 0){
+                    hot.updateSettings({
+                        data: _data_,
+                        cells: function (row, col, prop) {
+                            var cellProperties = {};
+                            cellProperties.readOnly = readOnly;
+                            return cellProperties;
+                        }
+                    });
+                } else {
+                    hot.clear();
+                }
+
             }, 'hot');
         };
 

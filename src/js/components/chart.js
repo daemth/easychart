@@ -14,8 +14,6 @@
             config.chart.renderTo = element;
             chart = new Highcharts.Chart(config);
         });
-
-
     };
 
     module.exports = that;

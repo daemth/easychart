@@ -25783,8 +25783,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             config.chart.renderTo = element;
             chart = new Highcharts.Chart(config);
         });
-
-
     };
 
     module.exports = that;
@@ -25897,7 +25895,6 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             });
             return h('div.vertical-tab-content', [title, presetList]);
         }
-
         function generateGenericTabs(panes) {
             var links = [];
             _.forEach(panes, function (pane, index) {
@@ -25984,7 +25981,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
     module.exports = constructor;
 
 })();
-},{"../factories/properties":155,"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isundefined":79,"lodash.map":82,"lodash.remove":85,"virtual-dom/h":112}],143:[function(require,module,exports){
+},{"../factories/properties":156,"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isundefined":79,"lodash.map":82,"lodash.remove":85,"virtual-dom/h":112}],143:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -26060,14 +26057,19 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             }
             services.mediator.on('dataUpdate', function (_data_) {
                 readOnly = services.data.getUrl() ? true : false;
-                hot.updateSettings({
-                    data: _data_,
-                    cells: function (row, col, prop) {
-                        var cellProperties = {};
-                        cellProperties.readOnly = readOnly;
-                        return cellProperties;
-                    }
-                });
+                if(_data_.length > 0){
+                    hot.updateSettings({
+                        data: _data_,
+                        cells: function (row, col, prop) {
+                            var cellProperties = {};
+                            cellProperties.readOnly = readOnly;
+                            return cellProperties;
+                        }
+                    });
+                } else {
+                    hot.clear();
+                }
+
             }, 'hot');
         };
 
@@ -26223,7 +26225,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
 
 
-},{"./hot":144,"./import/dragAndDrop":146,"./import/paste":147,"./import/upload":148,"./import/url":149,"./table":150,"virtual-dom/h":112}],146:[function(require,module,exports){
+},{"./hot":144,"./import/dragAndDrop":146,"./import/paste":147,"./import/upload":148,"./import/url":149,"./table":151,"virtual-dom/h":112}],146:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -26379,7 +26381,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                 dataService.setUrl(inputNode.value);
                 mediator.trigger('goToTable');
             }
-        }, 'import');
+        }, 'save');
 
         return h('div', [input, importElement])
     };
@@ -26387,6 +26389,24 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 })();
 
 },{"virtual-dom/h":112}],150:[function(require,module,exports){
+var constructor = function (services) {
+    var h = require('virtual-dom/h');
+    function template(){
+        return h('button', {
+            'ev-click':  function(){
+                services.revision.revertLastChange();
+            }
+        }, 'undo')
+    }
+
+    return {
+        template: template
+    }
+};
+
+module.exports = constructor;
+
+},{"virtual-dom/h":112}],151:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -26460,7 +26480,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
 
 
-},{"lodash.foreach":68,"lodash.isequal":73,"lodash.trim":91,"virtual-dom/h":112}],151:[function(require,module,exports){
+},{"lodash.foreach":68,"lodash.isequal":73,"lodash.trim":91,"virtual-dom/h":112}],152:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -26532,7 +26552,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":154,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"virtual-dom/h":112}],152:[function(require,module,exports){
+},{"../factories/iconLoader":155,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"virtual-dom/h":112}],153:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -27316,7 +27336,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],153:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 var templates = [
     {
         "id": "line",
@@ -28846,7 +28866,7 @@ var templates = [
     }
 ];
 module.exports = templates;
-},{}],154:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -28881,7 +28901,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":79,"vdom-virtualize":108}],155:[function(require,module,exports){
+},{"fs":6,"lodash.isundefined":79,"vdom-virtualize":108}],156:[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -28965,7 +28985,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":156,"./properties/arrayColor":157,"./properties/boolean":158,"./properties/number":159,"./properties/select":160,"./properties/string":161,"lodash.clonedeep":64,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isstring":77,"lodash.isundefined":79}],156:[function(require,module,exports){
+},{"./properties/array":157,"./properties/arrayColor":158,"./properties/boolean":159,"./properties/number":160,"./properties/select":161,"./properties/string":162,"lodash.clonedeep":64,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isstring":77,"lodash.isundefined":79}],157:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -29013,7 +29033,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"virtual-dom/h":112}],157:[function(require,module,exports){
+},{"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"virtual-dom/h":112}],158:[function(require,module,exports){
 (function () {
   var ColorPicker = require('simple-color-picker');
   var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -29080,7 +29100,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":103,"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"simple-color-picker":102,"virtual-dom/h":112}],158:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":103,"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"simple-color-picker":102,"virtual-dom/h":112}],159:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -29124,7 +29144,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":77,"virtual-dom/h":112}],159:[function(require,module,exports){
+},{"lodash.isstring":77,"virtual-dom/h":112}],160:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -29153,7 +29173,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"virtual-dom/h":112}],160:[function(require,module,exports){
+},{"virtual-dom/h":112}],161:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -29196,7 +29216,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.foreach":68,"virtual-dom/h":112}],161:[function(require,module,exports){
+},{"lodash.foreach":68,"virtual-dom/h":112}],162:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -29226,7 +29246,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":112}],162:[function(require,module,exports){
+},{"virtual-dom/h":112}],163:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -29416,7 +29436,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"lodash.clonedeep":64,"lodash.drop":65,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isempty":72,"lodash.isundefined":79,"lodash.map":82,"lodash.merge":83,"lodash.remove":85,"lodash.size":88,"lodash.slice":89,"lodash.union":92}],163:[function(require,module,exports){
+},{"lodash.clonedeep":64,"lodash.drop":65,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isempty":72,"lodash.isundefined":79,"lodash.map":82,"lodash.merge":83,"lodash.remove":85,"lodash.size":88,"lodash.slice":89,"lodash.union":92}],164:[function(require,module,exports){
 (function () {
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
@@ -29426,6 +29446,7 @@ return self})();
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var optionsService = require('./services/options');
+        var revisionService = require('./services/revision');
         var templateService = require('./services/templates');
         var initializer = require('./services/initializer');
         var Api = require('./services/api');
@@ -29437,10 +29458,11 @@ return self})();
 
         var services = {
             data: data,
-            config: new confService(mInstance, data),
+            config: config,
             mediator: mInstance,
-            options: new optionsService(mInstance),
-            templates: new templateService()
+            options: optionsService(mInstance),
+            templates: templateService(),
+            revision: revisionService(mInstance)
         };
 
         var states = {
@@ -29509,7 +29531,7 @@ return self})();
     window.ec = constructor;
 })();
 
-},{"../css/style.css":140,"./components/configurate.js":142,"./components/debug.js":143,"./components/import.js":145,"./components/templateSelection.js":151,"./services/api":164,"./services/config":165,"./services/data":166,"./services/initializer":167,"./services/options":168,"./services/router.js":169,"./services/templates":170,"dom-delegator":12,"mediatorjs":95,"virtual-dom/h":112}],164:[function(require,module,exports){
+},{"../css/style.css":140,"./components/configurate.js":142,"./components/debug.js":143,"./components/import.js":145,"./components/templateSelection.js":152,"./services/api":165,"./services/config":166,"./services/data":167,"./services/initializer":168,"./services/options":169,"./services/revision":170,"./services/router.js":171,"./services/templates":172,"dom-delegator":12,"mediatorjs":95,"virtual-dom/h":112}],165:[function(require,module,exports){
 
 (function () {
     function constructor(services){
@@ -29596,7 +29618,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],165:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -29616,15 +29638,10 @@ return self})();
         var config = _.cloneDeep(preset);
         var configCache;
         that.get = function () {
-
-            if(typeof configCache == 'undefined'){
-                console.log('get');
-                var labels = hasLabels(data.get());
-                var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
-                object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
-                configCache = _.cloneDeep(object);
-            }
-
+            var labels = hasLabels(data.get());
+            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
+            object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
+            configCache = _.cloneDeep(object);
             return configCache;
         };
 
@@ -29738,10 +29755,10 @@ return self})();
             return labels;
         }
         function configUpdate(){
-            configCache = undefined;
             mediator.trigger('configUpdate', that.get());
         }
-        mediator.on('dataUpdate', function(){
+
+        mediator.on('dataUpdate', function(data){
             configUpdate();
         });
 
@@ -29751,7 +29768,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../config/templates":153,"../factories/series.js":162,"lodash.clonedeep":64,"lodash.find":66,"lodash.foreach":68,"lodash.isempty":72,"lodash.isundefined":79,"lodash.merge":83}],166:[function(require,module,exports){
+},{"../config/templates":154,"../factories/series.js":163,"lodash.clonedeep":64,"lodash.find":66,"lodash.foreach":68,"lodash.isempty":72,"lodash.isundefined":79,"lodash.merge":83}],167:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -29786,8 +29803,6 @@ return self})();
             return _.cloneDeep(dataSet);
         };
 
-
-
         that.getData = function (series, categories) {
             var data = dataSet;
 
@@ -29805,27 +29820,40 @@ return self})();
         };
 
         that.set = function (newDataSet) {
-            if (!_.isEqual(dataSet, newDataSet)) {
+            if (!_.isEqual(dataSet, newDataSet)) {+
+                mediator.trigger('backup', _.cloneDeep(dataSet));
                 dataSet = _.cloneDeep(newDataSet);
-                mediator.trigger('dataUpdate', that.get());
+                var data = that.get();
+                mediator.trigger('dataUpdate', data);
                 dataUrl = undefined;
             }
-
         };
+
+        that.revert = function(oldDataSet){
+            if (!_.isEqual(dataSet, oldDataSet)) {
+                dataSet = oldDataSet;
+                mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
+            }
+        };
+
+        mediator.on('backup.revert', that.revert);
 
         that.setValue = function(row, cell, value){
             if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
+                mediator.trigger('backup',_.cloneDeep(dataSet));
                 dataSet[row][cell] = _.isNaN(value) ? null : value;
             }
-            mediator.trigger('dataUpdate', that.get());
+            mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
             dataUrl = undefined;
         };
 
         that.setCSV = function(csv){
+            mediator.trigger('backup', _.cloneDeep(dataSet));
             dataSet = papa.parse(csv).data;
-            mediator.trigger('dataUpdate', that.get());
+            mediator.trigger('dataUpdate', dataSet);
             dataUrl = undefined;
         };
+
 
         that.getUrl = function (){
             return _.cloneDeep(dataUrl);
@@ -29843,8 +29871,9 @@ return self})();
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
+                            mediator.trigger('backup',  _.cloneDeep(dataSet));
                             dataSet = papa.parse(this.response).data;
-                            mediator.trigger('dataUpdate', that.get());
+                            mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
                         }
                         else {
                             dataUrl = undefined;
@@ -29856,7 +29885,6 @@ return self})();
                 dataUrl = undefined;
             }
         };
-
         return that;
     }
     module.exports = constructor;
@@ -29864,7 +29892,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isequal":73,"lodash.isnan":75,"lodash.isundefined":79,"lodash.map":82,"lodash.rest":86,"lodash.slice":89,"papaparse":96}],167:[function(require,module,exports){
+},{"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isequal":73,"lodash.isnan":75,"lodash.isundefined":79,"lodash.map":82,"lodash.rest":86,"lodash.slice":89,"papaparse":96}],168:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -29906,7 +29934,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":68}],168:[function(require,module,exports){
+},{"lodash.foreach":68}],169:[function(require,module,exports){
 (function () {
     var constructor = function (mediator){
         var options = require('../config/options.json');
@@ -29956,13 +29984,51 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":152,"lodash.clonedeep":64}],169:[function(require,module,exports){
+},{"../config/options.json":153,"lodash.clonedeep":64}],170:[function(require,module,exports){
+function constructor(mediator) {
+    var undoAmount = 5;
+    var backup = [];
+    var _ = {
+        cloneDeep: require('lodash.clonedeep')
+    };
+
+    mediator.on('backup',function(value){
+        backup.push({
+            time: Date.now(),
+            value: value
+        });
+
+        if (backup.length > undoAmount){
+            backup.shift();
+        }
+    });
+
+    function revertLastChange(){
+        var slice = backup.pop();
+        if(slice){
+            mediator.trigger('backup.revert', slice.value);
+        }
+    }
+
+    function getList(){
+        return _.cloneDeep(backup);
+    }
+
+    return {
+        revertLastChange: revertLastChange,
+        getList: getList
+    }
+}
+
+module.exports = constructor;
+},{"lodash.clonedeep":64}],171:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
     var patch = require('virtual-dom/patch');
     var createElement = require('virtual-dom/create-element');
     var logo = require('./../templates/logo');
+
     var mainLoop = require("main-loop");
     var _ = {
         keys: require('lodash.keys')
@@ -29972,6 +30038,7 @@ module.exports = constructor;
         var initState = {
             links: _.keys(states)
         };
+        var revision = require('./../components/revision')(services);
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
             diff: require("virtual-dom/diff"),
@@ -30028,8 +30095,8 @@ module.exports = constructor;
         var chart = require('./../components/chart.js');
         chartElement = createElement(h('div.right', {id: 'chartContainer'}));
         element.appendChild(chartElement);
+        element.appendChild(createElement(h('div', revision.template())));
         chart.load(chartElement, services);
-
         return {
             goToState: goToState
         };
@@ -30037,7 +30104,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":141,"./../templates/logo":171,"lodash.keys":80,"main-loop":94,"virtual-dom/create-element":110,"virtual-dom/diff":111,"virtual-dom/h":112,"virtual-dom/patch":113}],170:[function(require,module,exports){
+},{"./../components/chart.js":141,"./../components/revision":150,"./../templates/logo":173,"lodash.keys":80,"main-loop":94,"virtual-dom/create-element":110,"virtual-dom/diff":111,"virtual-dom/h":112,"virtual-dom/patch":113}],172:[function(require,module,exports){
 (function () {
     function constructor(){
         var templates = require('../config/templates');
@@ -30058,7 +30125,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates":153,"lodash.clonedeep":64}],171:[function(require,module,exports){
+},{"../config/templates":154,"lodash.clonedeep":64}],173:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -30067,7 +30134,7 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":154,"virtual-dom/h":112}]},{},[163])
+},{"../factories/iconLoader":155,"virtual-dom/h":112}]},{},[164])
 
 
 //# sourceMappingURL=ec.full.js.map
