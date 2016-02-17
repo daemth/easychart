@@ -25779,17 +25779,12 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var options = configService.get();
         options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
-        mediator.on('configUpdate', function () {
-            var options = configService.get();
-            options.chart.renderTo = element;
-            chart = new Highcharts.Chart(options);
+        mediator.on('configUpdate', function (config) {
+            config.chart.renderTo = element;
+            chart = new Highcharts.Chart(config);
         });
 
-        mediator.on('dataUpdate', function () {
-            var options = configService.get();
-            options.chart.renderTo = element;
-            chart = new Highcharts.Chart(options);
-        });
+
     };
 
     module.exports = that;
@@ -25800,7 +25795,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var optionsService = services.options;
         var mediator = services.mediator;
         var configService = services.config;
-
+        var config = configService.get();
         var options = optionsService.get();
         var propertyServices = require('../factories/properties');
         var _ = {
@@ -25818,7 +25813,10 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         var activeTab = _.first(options).id;
         var activeTabChild;
         // when any config is updated we just re diff the ui -> e.g series labels
-        mediator.on('configUpdate', function () {mediator.trigger('treeUpdate');});
+        mediator.on('configUpdate', function (_config_) {
+            config = _config_;
+            mediator.trigger('treeUpdate');
+        });
 
         function template() {
             var tabs = h('ul', {className: "vertical-tabs"},
@@ -25878,11 +25876,10 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
         }
 
         function generateSeriesContent(panel, child) {
-            var series = configService.get().series;
             if (!_.isUndefined(child)) {
-                return seriesPanel(panel, series[child], child);
+                return seriesPanel(panel, config.series[child], child);
             } else {
-                return seriesPanel(panel, series[0], 0);
+                return seriesPanel(panel, config.series[0], 0);
             }
         }
 
@@ -25922,19 +25919,17 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             return links;
         }
 
-        function generateSeriesTabs(config) {
-            if (!_.isUndefined(config)) {
-                var series = configService.get().series;
+        function generateSeriesTabs(options) {
+            if (!_.isUndefined(options)) {
                 var links = [];
-
-                if (config.id == activeTab) {
-                    _.forEach(series, function (serie, index) {
+                if (options.id == activeTab) {
+                    _.forEach(config.series, function (serie, index) {
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === index ? 'sub-active' : 'sub-non-active',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(config.id, index);
+                                    setActive(options.id, index);
                                 }
                             }, serie.name ? serie.name : 'serie ' + index)
                         )
@@ -25945,7 +25940,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                                 'href': '#data-series',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(config.id);
+                                    setActive(options.id);
                                 }
                             }, 'data series'),
                             h('ul', links)
@@ -25958,7 +25953,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                                 'href': '#data-series',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(config.id);
+                                    setActive(options.id);
                                 }
                             }, 'data series'),
                             h('ul', links)
@@ -26000,6 +25995,11 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
 
         var configService = services.config;
         var that = {};
+        var config = JSON.stringify(configService.get(),null,4);
+        services.mediator.on('configUpdate', function (_config_) {
+            config = _config_;
+        });
+
         var Hook = function(){};
         Hook.prototype.hook = function(node){
             setTimeout(function(){
@@ -26007,7 +26007,7 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             });
         };
         that.template = function () {
-            return h('pre', h('code', {'afterRender': new Hook()}, JSON.stringify(configService.get(),null,4)));
+            return h('pre', h('code', {'afterRender': new Hook()}, config));
         };
 
         return that;
@@ -26052,9 +26052,10 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
                     return cellProperties;
                 }
             });
-            if (!_.isEmpty(services.data.get())) {
+            var data = services.data.get();
+            if (!_.isEmpty(data)) {
                 hot.updateSettings({
-                    data: services.data.get()
+                    data: data
                 });
             }
             services.mediator.on('dataUpdate', function (_data_) {
@@ -26393,11 +26394,16 @@ var css = "@import url(\"https://fonts.googleapis.com/css?family=Roboto\");\n@ch
             trim: require('lodash.trim'),
             isEqual: require('lodash.isequal')
         };
-        var data;
+
+        var data = services.data.get();
+
+        services.mediator.on('dataUpdate', function(_data_){
+            data = _data_;
+        });
+
         var h = require('virtual-dom/h');
         var mediator = services.mediator;
         function template() {
-            data = services.data.get();
             var rows = [];
             var editRow = [];
             mediator.on('dataUpdate', updateData);
@@ -29608,13 +29614,18 @@ return self})();
             chart:{}
         };
         var config = _.cloneDeep(preset);
-
+        var configCache;
         that.get = function () {
-            var labels = hasLabels(data.get());
-            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
 
-            object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
-            return _.cloneDeep(object);
+            if(typeof configCache == 'undefined'){
+                console.log('get');
+                var labels = hasLabels(data.get());
+                var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
+                object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
+                configCache = _.cloneDeep(object);
+            }
+
+            return configCache;
         };
 
         that.getRaw = function () {
@@ -29642,14 +29653,14 @@ return self})();
                     object[step] = value;
                 }
             }
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.setValues = function (array) {
             _.forEach(array, function (row) {
                 that.setValue(row[0], row[1]);
             });
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.getValue = function (path) {
@@ -29694,17 +29705,17 @@ return self})();
                     }
                 }
             }
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.loadTemplate = function (template) {
             config = _.merge(template, _.cloneDeep(preset));
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.setPreset = function (_preset_) {
             preset = _preset_;
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.getPreset = function () {
@@ -29726,8 +29737,16 @@ return self})();
             }
             return labels;
         }
+        function configUpdate(){
+            configCache = undefined;
+            mediator.trigger('configUpdate', that.get());
+        }
+        mediator.on('dataUpdate', function(){
+            configUpdate();
+        });
 
         return that;
+
     }
 
     module.exports = constructor;

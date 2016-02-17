@@ -10,17 +10,12 @@
         var options = configService.get();
         options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
-        mediator.on('configUpdate', function () {
-            var options = configService.get();
-            options.chart.renderTo = element;
-            chart = new Highcharts.Chart(options);
+        mediator.on('configUpdate', function (config) {
+            config.chart.renderTo = element;
+            chart = new Highcharts.Chart(config);
         });
 
-        mediator.on('dataUpdate', function () {
-            var options = configService.get();
-            options.chart.renderTo = element;
-            chart = new Highcharts.Chart(options);
-        });
+
     };
 
     module.exports = that;

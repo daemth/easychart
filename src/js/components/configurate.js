@@ -3,7 +3,7 @@
         var optionsService = services.options;
         var mediator = services.mediator;
         var configService = services.config;
-
+        var config = configService.get();
         var options = optionsService.get();
         var propertyServices = require('../factories/properties');
         var _ = {
@@ -21,7 +21,10 @@
         var activeTab = _.first(options).id;
         var activeTabChild;
         // when any config is updated we just re diff the ui -> e.g series labels
-        mediator.on('configUpdate', function () {mediator.trigger('treeUpdate');});
+        mediator.on('configUpdate', function (_config_) {
+            config = _config_;
+            mediator.trigger('treeUpdate');
+        });
 
         function template() {
             var tabs = h('ul', {className: "vertical-tabs"},
@@ -81,11 +84,10 @@
         }
 
         function generateSeriesContent(panel, child) {
-            var series = configService.get().series;
             if (!_.isUndefined(child)) {
-                return seriesPanel(panel, series[child], child);
+                return seriesPanel(panel, config.series[child], child);
             } else {
-                return seriesPanel(panel, series[0], 0);
+                return seriesPanel(panel, config.series[0], 0);
             }
         }
 
@@ -103,7 +105,6 @@
             });
             return h('div.vertical-tab-content', [title, presetList]);
         }
-
         function generateGenericTabs(panes) {
             var links = [];
             _.forEach(panes, function (pane, index) {
@@ -125,19 +126,17 @@
             return links;
         }
 
-        function generateSeriesTabs(config) {
-            if (!_.isUndefined(config)) {
-                var series = configService.get().series;
+        function generateSeriesTabs(options) {
+            if (!_.isUndefined(options)) {
                 var links = [];
-
-                if (config.id == activeTab) {
-                    _.forEach(series, function (serie, index) {
+                if (options.id == activeTab) {
+                    _.forEach(config.series, function (serie, index) {
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === index ? 'sub-active' : 'sub-non-active',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(config.id, index);
+                                    setActive(options.id, index);
                                 }
                             }, serie.name ? serie.name : 'serie ' + index)
                         )
@@ -148,7 +147,7 @@
                                 'href': '#data-series',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(config.id);
+                                    setActive(options.id);
                                 }
                             }, 'data series'),
                             h('ul', links)
@@ -161,7 +160,7 @@
                                 'href': '#data-series',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(config.id);
+                                    setActive(options.id);
                                 }
                             }, 'data series'),
                             h('ul', links)

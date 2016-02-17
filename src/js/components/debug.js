@@ -8,6 +8,11 @@
 
         var configService = services.config;
         var that = {};
+        var config = JSON.stringify(configService.get(),null,4);
+        services.mediator.on('configUpdate', function (_config_) {
+            config = _config_;
+        });
+
         var Hook = function(){};
         Hook.prototype.hook = function(node){
             setTimeout(function(){
@@ -15,7 +20,7 @@
             });
         };
         that.template = function () {
-            return h('pre', h('code', {'afterRender': new Hook()}, JSON.stringify(configService.get(),null,4)));
+            return h('pre', h('code', {'afterRender': new Hook()}, config));
         };
 
         return that;

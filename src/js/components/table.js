@@ -5,11 +5,16 @@
             trim: require('lodash.trim'),
             isEqual: require('lodash.isequal')
         };
-        var data;
+
+        var data = services.data.get();
+
+        services.mediator.on('dataUpdate', function(_data_){
+            data = _data_;
+        });
+
         var h = require('virtual-dom/h');
         var mediator = services.mediator;
         function template() {
-            data = services.data.get();
             var rows = [];
             var editRow = [];
             mediator.on('dataUpdate', updateData);

@@ -15,13 +15,15 @@
             chart:{}
         };
         var config = _.cloneDeep(preset);
-
+        var configCache;
         that.get = function () {
-            var labels = hasLabels(data.get());
-            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
-
-            object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
-            return _.cloneDeep(object);
+            if(typeof configCache == 'undefined'){
+                var labels = hasLabels(data.get());
+                var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
+                object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
+                configCache = _.cloneDeep(object);
+            }
+            return configCache;
         };
 
         that.getRaw = function () {
@@ -49,14 +51,14 @@
                     object[step] = value;
                 }
             }
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.setValues = function (array) {
             _.forEach(array, function (row) {
                 that.setValue(row[0], row[1]);
             });
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.getValue = function (path) {
@@ -101,17 +103,17 @@
                     }
                 }
             }
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.loadTemplate = function (template) {
             config = _.merge(template, _.cloneDeep(preset));
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.setPreset = function (_preset_) {
             preset = _preset_;
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.getPreset = function () {
@@ -133,8 +135,16 @@
             }
             return labels;
         }
+        function configUpdate(){
+            configCache = undefined;
+            mediator.trigger('configUpdate', that.get());
+        }
+        mediator.on('dataUpdate', function(){
+            configUpdate();
+        });
 
         return that;
+
     }
 
     module.exports = constructor;

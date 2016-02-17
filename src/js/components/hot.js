@@ -33,9 +33,10 @@
                     return cellProperties;
                 }
             });
-            if (!_.isEmpty(services.data.get())) {
+            var data = services.data.get();
+            if (!_.isEmpty(data)) {
                 hot.updateSettings({
-                    data: services.data.get()
+                    data: data
                 });
             }
             services.mediator.on('dataUpdate', function (_data_) {
