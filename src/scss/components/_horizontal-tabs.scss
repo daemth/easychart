@@ -3,9 +3,9 @@
   @include clearfix;
   line-height: 1.5;
   padding: 0;
-  ul.tab-list{
-    margin:0;
-    padding:0;
+  ul.tab-list {
+    margin: 0;
+    padding: 0;
   }
   li.tab-header-and-content {
     list-style: none;
@@ -14,27 +14,24 @@
 
   .tab-link {
     border-top: 1px solid $base-border-color;
-    display: block;
-    padding: ($base-spacing / 2) $gutter;
-    text-decoration: none;
     display: inline-block;
     border-top: 0;
-    cursor: pointer;
-    &:hover {
-      color: $hover-link-color;
-    }
+    a {
+      text-decoration: none;
+      display: block;
+      padding: ($base-spacing / 2) $gutter;
 
-    &:focus {
-      outline: none;
-    }
-
-    &.is-active {
-      border: 1px solid $base-border-color;
-      border-bottom-color: white;
-      background: white;
-      margin-bottom: -1px;
-      color: $base-accent-color;
-      a{
+      &:hover {
+        color: $hover-link-color;
+      }
+      &:focus {
+        outline: none;
+      }
+      &.is-active {
+        border: 1px solid $base-border-color;
+        border-bottom-color: white;
+        background: white;
+        margin-bottom: -1px;
         color: $base-accent-color;
       }
     }
