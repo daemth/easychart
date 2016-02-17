@@ -6,6 +6,7 @@ var templates = [
         "templates": [
             {
                 "id": "basic",
+                "icon": "area",
                 "title": "Line chart",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {

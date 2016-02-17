@@ -24,8 +24,9 @@
 
         function generateContent(activeType) {
             var templateList = [];
-            var svg = iconLoader.get(activeType.icon);
+
             _.forEach(activeType.templates, function (template) {
+                var svg = iconLoader.get(template.icon ? template.icon : activeType.icon);
                 var item = h('a',
                     {
                         className: "templatelist__item",

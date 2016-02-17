@@ -1,9 +1,3 @@
-/**
- * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
- * @version v3.0.0
- * @link 
- * @license MIT
- */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -1616,6 +1610,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],22:[function(require,module,exports){
 'use strict';
 
@@ -1684,6 +1679,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"min-document":3}],25:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
@@ -2518,6 +2514,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],29:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -3390,6 +3387,7 @@ function isObject(value) {
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._arraycopy":32,"lodash._arrayeach":33,"lodash._baseassign":35,"lodash._basefor":43,"lodash.isarray":71,"lodash.keys":80}],38:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
@@ -4827,6 +4825,7 @@ SetCache.prototype.push = cachePush;
 module.exports = createCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"lodash._getnative":58}],57:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
@@ -5840,6 +5839,7 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],61:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
@@ -20592,6 +20592,7 @@ module.exports = union;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],94:[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
@@ -22152,6 +22153,7 @@ function main(initialState, view, opts) {
 */
 
 }).call(this,require('_process'))
+
 },{"_process":99}],98:[function(require,module,exports){
 function identity(x) { return x; }
 
@@ -22384,6 +22386,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
+
 },{"_process":99}],102:[function(require,module,exports){
 'use strict';
 
@@ -26554,8 +26557,9 @@ module.exports = constructor;
 
         function generateContent(activeType) {
             var templateList = [];
-            var svg = iconLoader.get(activeType.icon);
+
             _.forEach(activeType.templates, function (template) {
+                var svg = iconLoader.get(template.icon ? template.icon : activeType.icon);
                 var item = h('a',
                     {
                         className: "templatelist__item",
@@ -27392,6 +27396,7 @@ var templates = [
         "templates": [
             {
                 "id": "basic",
+                "icon": "area",
                 "title": "Line chart",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -30293,4 +30298,7 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":155,"virtual-dom/h":112}]},{},[164]);
+},{"../factories/iconLoader":155,"virtual-dom/h":112}]},{},[164])
+
+
+//# sourceMappingURL=ec.full.js.map
