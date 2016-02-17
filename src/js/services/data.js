@@ -48,9 +48,11 @@
             return _.cloneDeep(data);
         };
 
-        that.set = function (newDataSet) {
-            if (!_.isEqual(dataSet, newDataSet)) {+
-                mediator.trigger('backup', _.cloneDeep(dataSet));
+        that.set = function (newDataSet, init) {
+            if (!_.isEqual(dataSet, newDataSet)) {
+                if(!init){
+                    mediator.trigger('backup', _.cloneDeep(dataSet));
+                }
                 dataSet = _.cloneDeep(newDataSet);
                 var data = that.get();
                 mediator.trigger('dataUpdate', data);
@@ -76,8 +78,10 @@
             dataUrl = undefined;
         };
 
-        that.setCSV = function(csv){
-            mediator.trigger('backup', _.cloneDeep(dataSet));
+        that.setCSV = function(csv, init){
+            if(!init){
+                mediator.trigger('backup', _.cloneDeep(dataSet));
+            }
             dataSet = papa.parse(csv).data;
             mediator.trigger('dataUpdate', dataSet);
             dataUrl = undefined;
@@ -88,7 +92,7 @@
             return _.cloneDeep(dataUrl);
         };
 
-        that.setUrl = function(url){
+        that.setUrl = function(url, init){
             if(url !== ''){
                 dataUrl = url;
                 var client = new XMLHttpRequest();
@@ -100,7 +104,9 @@
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
-                            mediator.trigger('backup',  _.cloneDeep(dataSet));
+                            if(!init){
+                                mediator.trigger('backup', _.cloneDeep(dataSet));
+                            }
                             dataSet = papa.parse(this.response).data;
                             mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
                         }

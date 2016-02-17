@@ -410,245 +410,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"lodash._basecopy":11,"lodash.keys":7}],7:[function(require,module,exports){
-/**
- * lodash 3.1.2 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var getNative = require('lodash._getnative'),
-    isArguments = require('lodash.isarguments'),
-    isArray = require('lodash.isarray');
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^\d+$/;
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeKeys = getNative(Object, 'keys');
-
-/**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-/**
- * Checks if `value` is array-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value));
-}
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * A fallback implementation of `Object.keys` which creates an array of the
- * own enumerable property names of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function shimKeys(object) {
-  var props = keysIn(object),
-      propsLength = props.length,
-      length = propsLength && object.length;
-
-  var allowIndexes = !!length && isLength(length) &&
-    (isArray(object) || isArguments(object));
-
-  var index = -1,
-      result = [];
-
-  while (++index < propsLength) {
-    var key = props[index];
-    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Creates an array of the own enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
- * for more details.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keys(new Foo);
- * // => ['a', 'b'] (iteration order is not guaranteed)
- *
- * _.keys('hi');
- * // => ['0', '1']
- */
-var keys = !nativeKeys ? shimKeys : function(object) {
-  var Ctor = object == null ? undefined : object.constructor;
-  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
-      (typeof object != 'function' && isArrayLike(object))) {
-    return shimKeys(object);
-  }
-  return isObject(object) ? nativeKeys(object) : [];
-};
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  if (object == null) {
-    return [];
-  }
-  if (!isObject(object)) {
-    object = Object(object);
-  }
-  var length = object.length;
-  length = (length && isLength(length) &&
-    (isArray(object) || isArguments(object)) && length) || 0;
-
-  var Ctor = object.constructor,
-      index = -1,
-      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-      result = Array(length),
-      skipIndexes = length > 0;
-
-  while (++index < length) {
-    result[index] = (index + '');
-  }
-  for (var key in object) {
-    if (!(skipIndexes && isIndex(key, length)) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keys;
-
-},{"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],8:[function(require,module,exports){
+},{"lodash._basecopy":9,"lodash.keys":41}],7:[function(require,module,exports){
 /**
  * lodash 3.3.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1072,7 +834,7 @@ function property(path) {
 
 module.exports = baseCallback;
 
-},{"lodash._baseisequal":19,"lodash._bindcallback":24,"lodash.isarray":36,"lodash.pairs":50}],9:[function(require,module,exports){
+},{"lodash._baseisequal":16,"lodash._bindcallback":20,"lodash.isarray":32,"lodash.pairs":45}],8:[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.3.0 (Custom Build) <https://lodash.com/>
@@ -1347,9 +1109,7 @@ function isObject(value) {
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._baseassign":6,"lodash._basefor":17,"lodash.isarray":36,"lodash.keys":10}],10:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7,"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],11:[function(require,module,exports){
+},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._baseassign":6,"lodash._basefor":14,"lodash.isarray":32,"lodash.keys":41}],9:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1383,7 +1143,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],12:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1566,9 +1326,7 @@ function isObject(value) {
 
 module.exports = baseEach;
 
-},{"lodash.keys":13}],13:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7,"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],14:[function(require,module,exports){
+},{"lodash.keys":41}],11:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1604,7 +1362,7 @@ function baseFind(collection, predicate, eachFunc, retKey) {
 
 module.exports = baseFind;
 
-},{}],15:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * lodash 3.6.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1638,7 +1396,7 @@ function baseFindIndex(array, predicate, fromRight) {
 
 module.exports = baseFindIndex;
 
-},{}],16:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * lodash 3.1.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1771,13 +1529,13 @@ function isLength(value) {
 
 module.exports = baseFlatten;
 
-},{"lodash.isarguments":35,"lodash.isarray":36}],17:[function(require,module,exports){
+},{"lodash.isarguments":31,"lodash.isarray":32}],14:[function(require,module,exports){
 /**
- * lodash 3.0.2 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
 
@@ -1796,7 +1554,7 @@ module.exports = baseFlatten;
 var baseFor = createBaseFor();
 
 /**
- * Creates a base function for `_.forIn` or `_.forInRight`.
+ * Creates a base function for methods like `_.forIn`.
  *
  * @private
  * @param {boolean} [fromRight] Specify iterating from right to left.
@@ -1804,13 +1562,13 @@ var baseFor = createBaseFor();
  */
 function createBaseFor(fromRight) {
   return function(object, iteratee, keysFunc) {
-    var iterable = toObject(object),
+    var index = -1,
+        iterable = Object(object),
         props = keysFunc(object),
-        length = props.length,
-        index = fromRight ? length : -1;
+        length = props.length;
 
-    while ((fromRight ? index-- : ++index < length)) {
-      var key = props[index];
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
       if (iteratee(iterable[key], key, iterable) === false) {
         break;
       }
@@ -1819,47 +1577,9 @@ function createBaseFor(fromRight) {
   };
 }
 
-/**
- * Converts `value` to an object if it's not one.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {Object} Returns the object.
- */
-function toObject(value) {
-  return isObject(value) ? value : Object(value);
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
 module.exports = baseFor;
 
-},{}],18:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -1918,7 +1638,7 @@ function indexOfNaN(array, fromIndex, fromRight) {
 
 module.exports = baseIndexOf;
 
-},{}],19:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * lodash 3.0.7 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2262,9 +1982,7 @@ function isObject(value) {
 
 module.exports = baseIsEqual;
 
-},{"lodash.isarray":36,"lodash.istypedarray":44,"lodash.keys":20}],20:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7,"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],21:[function(require,module,exports){
+},{"lodash.isarray":32,"lodash.istypedarray":39,"lodash.keys":41}],17:[function(require,module,exports){
 /**
  * lodash 3.8.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2326,7 +2044,7 @@ function isIndex(value, length) {
 
 module.exports = basePullAt;
 
-},{}],22:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * lodash 3.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2369,7 +2087,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],23:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * lodash 3.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2439,7 +2157,7 @@ function baseUniq(array, iteratee) {
 
 module.exports = baseUniq;
 
-},{"lodash._baseindexof":18,"lodash._cacheindexof":25,"lodash._createcache":27}],24:[function(require,module,exports){
+},{"lodash._baseindexof":15,"lodash._cacheindexof":21,"lodash._createcache":23}],20:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2506,7 +2224,7 @@ function identity(value) {
 
 module.exports = bindCallback;
 
-},{}],25:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2561,7 +2279,7 @@ function isObject(value) {
 
 module.exports = cacheIndexOf;
 
-},{}],26:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * lodash 3.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2615,7 +2333,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"lodash._bindcallback":24,"lodash._isiterateecall":29,"lodash.restparam":54}],27:[function(require,module,exports){
+},{"lodash._bindcallback":20,"lodash._isiterateecall":25,"lodash.restparam":48}],23:[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.1.2 (Custom Build) <https://lodash.com/>
@@ -2710,7 +2428,7 @@ SetCache.prototype.push = cachePush;
 module.exports = createCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"lodash._getnative":28}],28:[function(require,module,exports){
+},{"lodash._getnative":24}],24:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2849,7 +2567,7 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],29:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * lodash 3.0.9 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2983,7 +2701,7 @@ function isObject(value) {
 
 module.exports = isIterateeCall;
 
-},{}],30:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3048,7 +2766,7 @@ function cloneDeep(value, customizer, thisArg) {
 
 module.exports = cloneDeep;
 
-},{"lodash._baseclone":9,"lodash._bindcallback":24}],31:[function(require,module,exports){
+},{"lodash._baseclone":8,"lodash._bindcallback":20}],27:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3098,7 +2816,7 @@ function drop(array, n, guard) {
 
 module.exports = drop;
 
-},{"lodash._baseslice":22,"lodash._isiterateecall":29}],32:[function(require,module,exports){
+},{"lodash._baseslice":18,"lodash._isiterateecall":25}],28:[function(require,module,exports){
 /**
  * lodash 3.2.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3186,7 +2904,7 @@ var find = createFind(baseEach);
 
 module.exports = find;
 
-},{"lodash._basecallback":8,"lodash._baseeach":12,"lodash._basefind":14,"lodash._basefindindex":15,"lodash.isarray":36}],33:[function(require,module,exports){
+},{"lodash._basecallback":7,"lodash._baseeach":10,"lodash._basefind":11,"lodash._basefindindex":12,"lodash.isarray":32}],29:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3219,7 +2937,7 @@ function first(array) {
 
 module.exports = first;
 
-},{}],34:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * lodash 3.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3283,41 +3001,38 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"lodash._arrayeach":4,"lodash._baseeach":12,"lodash._bindcallback":24,"lodash.isarray":36}],35:[function(require,module,exports){
+},{"lodash._arrayeach":4,"lodash._baseeach":10,"lodash._bindcallback":20,"lodash.isarray":32}],31:[function(require,module,exports){
 /**
- * lodash 3.0.4 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.0.7 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
 
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
 
-/** Used for native method references. */
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
+
+/** Used for built-in method references. */
 var objectProto = Object.prototype;
 
 /** Used to check objects for own properties. */
 var hasOwnProperty = objectProto.hasOwnProperty;
 
-/** Native method references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
 /**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
  */
-var MAX_SAFE_INTEGER = 9007199254740991;
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
 
 /**
  * The base implementation of `_.property` without support for deep paths.
@@ -3345,31 +3060,7 @@ function baseProperty(key) {
 var getLength = baseProperty('length');
 
 /**
- * Checks if `value` is array-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value));
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is classified as an `arguments` object.
+ * Checks if `value` is likely an `arguments` object.
  *
  * @static
  * @memberOf _
@@ -3385,13 +3076,178 @@ function isLength(value) {
  * // => false
  */
 function isArguments(value) {
-  return isObjectLike(value) && isArrayLike(value) &&
-    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null &&
+    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array constructors, and
+  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
 }
 
 module.exports = isArguments;
 
-},{}],36:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3573,7 +3429,7 @@ function isNative(value) {
 
 module.exports = isArray;
 
-},{}],37:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3694,9 +3550,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"lodash.isarguments":35,"lodash.isarray":36,"lodash.isfunction":40,"lodash.isstring":43,"lodash.keys":38}],38:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7,"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],39:[function(require,module,exports){
+},{"lodash.isarguments":31,"lodash.isarray":32,"lodash.isfunction":35,"lodash.isstring":38,"lodash.keys":41}],34:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3760,27 +3614,28 @@ function isEqual(value, other, customizer, thisArg) {
 
 module.exports = isEqual;
 
-},{"lodash._baseisequal":19,"lodash._bindcallback":24}],40:[function(require,module,exports){
+},{"lodash._baseisequal":16,"lodash._bindcallback":20}],35:[function(require,module,exports){
 /**
- * lodash 3.0.6 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.0.8 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
 
 /** `Object#toString` result references. */
-var funcTag = '[object Function]';
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
 
-/** Used for native method references. */
+/** Used for built-in method references. */
 var objectProto = Object.prototype;
 
 /**
  * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
  * of values.
  */
-var objToString = objectProto.toString;
+var objectToString = objectProto.toString;
 
 /**
  * Checks if `value` is classified as a `Function` object.
@@ -3800,9 +3655,10 @@ var objToString = objectProto.toString;
  */
 function isFunction(value) {
   // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in older versions of Chrome and Safari which return 'function' for regexes
-  // and Safari 8 equivalents which return 'object' for typed array constructors.
-  return isObject(value) && objToString.call(value) == funcTag;
+  // in Safari 8 which returns 'object' for typed array constructors, and
+  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
 }
 
 /**
@@ -3822,19 +3678,20 @@ function isFunction(value) {
  * _.isObject([1, 2, 3]);
  * // => true
  *
- * _.isObject(1);
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
  * // => false
  */
 function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
   var type = typeof value;
   return !!value && (type == 'object' || type == 'function');
 }
 
 module.exports = isFunction;
 
-},{}],41:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -3946,7 +3803,7 @@ function isNumber(value) {
 
 module.exports = isNaN;
 
-},{}],42:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4051,7 +3908,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"lodash._basefor":17,"lodash.isarguments":35,"lodash.keysin":46}],43:[function(require,module,exports){
+},{"lodash._basefor":14,"lodash.isarguments":31,"lodash.keysin":42}],38:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4106,15 +3963,18 @@ function isString(value) {
 
 module.exports = isString;
 
-},{}],44:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
- * lodash 3.0.2 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.0.5 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -4157,43 +4017,69 @@ typedArrayTags[numberTag] = typedArrayTags[objectTag] =
 typedArrayTags[regexpTag] = typedArrayTags[setTag] =
 typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
 
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/** Used for native method references. */
+/** Used for built-in method references. */
 var objectProto = Object.prototype;
 
 /**
- * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
  * of values.
  */
-var objToString = objectProto.toString;
-
-/**
- * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
+var objectToString = objectProto.toString;
 
 /**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+ * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
  *
- * @private
+ * @static
+ * @memberOf _
+ * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
  */
 function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
 }
 
 /**
@@ -4213,12 +4099,13 @@ function isLength(value) {
  * // => false
  */
 function isTypedArray(value) {
-  return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[objToString.call(value)];
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
 }
 
 module.exports = isTypedArray;
 
-},{}],45:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4250,7 +4137,245 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],46:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
+/**
+ * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var getNative = require('lodash._getnative'),
+    isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray');
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^\d+$/;
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeKeys = getNative(Object, 'keys');
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * A fallback implementation of `Object.keys` which creates an array of the
+ * own enumerable property names of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function shimKeys(object) {
+  var props = keysIn(object),
+      propsLength = props.length,
+      length = propsLength && object.length;
+
+  var allowIndexes = !!length && isLength(length) &&
+    (isArray(object) || isArguments(object));
+
+  var index = -1,
+      result = [];
+
+  while (++index < propsLength) {
+    var key = props[index];
+    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+var keys = !nativeKeys ? shimKeys : function(object) {
+  var Ctor = object == null ? undefined : object.constructor;
+  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
+      (typeof object != 'function' && isArrayLike(object))) {
+    return shimKeys(object);
+  }
+  return isObject(object) ? nativeKeys(object) : [];
+};
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  if (object == null) {
+    return [];
+  }
+  if (!isObject(object)) {
+    object = Object(object);
+  }
+  var length = object.length;
+  length = (length && isLength(length) &&
+    (isArray(object) || isArguments(object)) && length) || 0;
+
+  var Ctor = object.constructor,
+      index = -1,
+      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+      result = Array(length),
+      skipIndexes = length > 0;
+
+  while (++index < length) {
+    result[index] = (index + '');
+  }
+  for (var key in object) {
+    if (!(skipIndexes && isIndex(key, length)) &&
+        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keys;
+
+},{"lodash._getnative":24,"lodash.isarguments":31,"lodash.isarray":32}],42:[function(require,module,exports){
 /**
  * lodash 3.0.8 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4384,7 +4509,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"lodash.isarguments":35,"lodash.isarray":36}],47:[function(require,module,exports){
+},{"lodash.isarguments":31,"lodash.isarray":32}],43:[function(require,module,exports){
 /**
  * lodash 3.1.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4536,7 +4661,7 @@ function map(collection, iteratee, thisArg) {
 
 module.exports = map;
 
-},{"lodash._arraymap":5,"lodash._basecallback":8,"lodash._baseeach":12,"lodash.isarray":36}],48:[function(require,module,exports){
+},{"lodash._arraymap":5,"lodash._basecallback":7,"lodash._baseeach":10,"lodash.isarray":32}],44:[function(require,module,exports){
 /**
  * lodash 3.3.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4804,9 +4929,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._createassigner":26,"lodash.isarguments":35,"lodash.isarray":36,"lodash.isplainobject":42,"lodash.istypedarray":44,"lodash.keys":49,"lodash.toplainobject":58}],49:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7,"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],50:[function(require,module,exports){
+},{"lodash._arraycopy":3,"lodash._arrayeach":4,"lodash._createassigner":22,"lodash.isarguments":31,"lodash.isarray":32,"lodash.isplainobject":37,"lodash.istypedarray":39,"lodash.keys":41,"lodash.toplainobject":51}],45:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4886,9 +5009,7 @@ function pairs(object) {
 
 module.exports = pairs;
 
-},{"lodash.keys":51}],51:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7,"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],52:[function(require,module,exports){
+},{"lodash.keys":41}],46:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -4962,7 +5083,7 @@ function remove(array, predicate, thisArg) {
 
 module.exports = remove;
 
-},{"lodash._basecallback":8,"lodash._basepullat":21}],53:[function(require,module,exports){
+},{"lodash._basecallback":7,"lodash._basepullat":17}],47:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5030,7 +5151,7 @@ function rest(array) {
 
 module.exports = rest;
 
-},{"lodash._baseslice":22,"lodash._isiterateecall":29}],54:[function(require,module,exports){
+},{"lodash._baseslice":18,"lodash._isiterateecall":25}],48:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5099,7 +5220,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],55:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5181,9 +5302,7 @@ function size(collection) {
 
 module.exports = size;
 
-},{"lodash.keys":56}],56:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7,"lodash._getnative":28,"lodash.isarguments":35,"lodash.isarray":36}],57:[function(require,module,exports){
+},{"lodash.keys":41}],50:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5223,7 +5342,7 @@ function slice(array, start, end) {
 
 module.exports = slice;
 
-},{"lodash._baseslice":22,"lodash._isiterateecall":29}],58:[function(require,module,exports){
+},{"lodash._baseslice":18,"lodash._isiterateecall":25}],51:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5264,7 +5383,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"lodash._basecopy":11,"lodash.keysin":46}],59:[function(require,module,exports){
+},{"lodash._basecopy":9,"lodash.keysin":42}],52:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5301,7 +5420,7 @@ var union = restParam(function(arrays) {
 
 module.exports = union;
 
-},{"lodash._baseflatten":16,"lodash._baseuniq":23,"lodash.restparam":54}],60:[function(require,module,exports){
+},{"lodash._baseflatten":13,"lodash._baseuniq":19,"lodash.restparam":48}],53:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -5335,7 +5454,7 @@ module.exports = union;
 
 }).call(this);
 
-},{"backbone-events-standalone":2}],61:[function(require,module,exports){
+},{"backbone-events-standalone":2}],54:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -6740,7 +6859,7 @@ module.exports = union;
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],62:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -6753,1349 +6872,1642 @@ module.exports = union;
         var options = configService.get();
         options.chart.renderTo = element;
         var chart = new Highcharts.Chart(options);
-        mediator.on('configUpdate', function () {
-            var options = configService.get();
-            options.chart.renderTo = element;
-            chart = new Highcharts.Chart(options);
-        });
-
-        mediator.on('dataUpdate', function () {
-            var options = configService.get();
-            options.chart.renderTo = element;
-            chart = new Highcharts.Chart(options);
+        mediator.on('configUpdate', function (config) {
+            config.chart.renderTo = element;
+            chart = new Highcharts.Chart(config);
         });
     };
 
     module.exports = that;
 })();
-},{}],63:[function(require,module,exports){
-module.exports=module.exports = [
-  {
-    "id": "line",
-    "type": "Line charts",
-    "icon": "line",
-    "templates": [
-      {
-        "id": "basic",
-        "title": "Line chart",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "line"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "dataLabels",
-        "title": "With data labels",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",
-        "definition": {
-          "chart": {
-            "type": "line"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "spline",
-        "title": "Spline",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "spline"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "splineDataLabels",
-        "title": "Spline with labels",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "spline"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "splineLogarithmic",
-        "title": "Logarithmic",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "spline"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "yAxis": {
-            "type": "logarithmic"
-          },
-          "plotOptions": {
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "step",
-        "title": "Step line",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "line"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "step": "left"
-            }
-          }
-        }
-      },
-      {
-        "id": "stepWithLabels",
-        "title": "Step line with labels",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "line"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "step": "left",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "inverted",
-        "title": "Inverted",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "line",
-            "inverted": true
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "negativeColor",
-        "title": "Negative color",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "line"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "negativeColor": "#0088FF"
-            }
-          }
-        }
-      },
-      {
-        "id": "errorBar",
-        "title": "Error bar",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
-        "definition": {
-          "chart": {
-            "type": "line"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "series": [
-            {"type": null},
-            {"type": "errorbar"}
-          ]
-        }
-      },
-      {
-        "id": "combinationColumn",
-        "title": "Combination chart",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "line"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "series": [
-            {"type": null},
-            {"type": "column"}
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "id": "area",
-    "type": "Area charts",
-    "icon": "area",
-    "templates": [
-      {
-        "id": "basic",
-        "title": "Area Chart",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "withLabels",
-        "title": "Area with labels",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "stacked",
-        "title": "Stacked",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "normal"
-            }
-          }
-        }
-      },
-      {
-        "id": "stackedWithLabels",
-        "title": "Stacked with labels",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "normal",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "stackedPercentage",
-        "title": "Stacked percentage",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "percent"
-            }
-          }
-        }
-      },
-      {
-        "id": "inverted",
-        "title": "Inverted",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area",
-            "inverted": true
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "invertedWithLabels",
-        "title": "Inverted with labels",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area",
-            "inverted": true
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "normal",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "stepLine",
-        "title": "Step line",
-        "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "step": "left"
-            }
-          }
-        }
-      },
-      {
-        "id": "negativeColor",
-        "title": "Negative color",
-        "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "area"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions": {
-            "series": {
-              "negativeColor": "#0088FF",
-              "color": "#FF000000"
-            }
-          }
-        }
-      },
-      {
-        "id": "range",
-        "title": "Area range",
-        "desc": "Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "arearange"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "id": "column",
-    "type": "Column charts",
-    "icon": "column",
-    "templates": [
-      {
-        "id": "basic",
-        "title": "Basic",
-        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "withLabels",
-        "title": "With labels",
-        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions":{
-            "series":{
-              "dataLabels":{
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "3d",
-        "title": "Column 3D",
-        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "margin": 75,
-            "options3d": {
-              "enabled": true,
-              "alpha": 15,
-              "beta": 15,
-              "depth": 50,
-              "viewDistance": 15
-            }
-          },
-          "plotOptions": {
-            "column": {
-              "depth": 25
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stacked",
-        "title": "Stacked",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "normal"
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stackedWithLabels",
-        "title": "Stacked with labels",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "normal",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stacked3d",
-        "title": "Stacked 3D",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "margin": 75,
-            "options3d": {
-              "enabled": true,
-              "alpha": 15,
-              "beta": 15,
-              "depth": 50,
-              "viewDistance": 15
-            }
-          },
-          "plotOptions": {
-            "column": {
-              "depth": 25
-            },
-            "series": {
-              "stacking": "normal"
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stackedPercent",
-        "title": "Stacked percent",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "percent"
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stackedPercentWithLabels",
-        "title": "Stacked percent with labels",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "percent",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "negativeColor",
-        "title": "Negative color",
-        "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "plotOptions":{
-            "series":{
-              "negativeColor": "#0088FF",
-              "color": "#FF0000"
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "multiColor",
-        "title": "Multi color",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "plotOptions":{
-            "series":{
-              "colorByPoint": true
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "logarithmic",
-        "title": "Logarithmic",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "yAxis": {
-            "type": "logarithmic",
-            "minorTickInterval": "auto"
-          }
-        }
-      },
-      {
-        "id": "range",
-        "title": "Columnrange",
-        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "columnrange"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "rangeWithLabels",
-        "title": "Columnrange with labels",
-        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "columnrange"
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions":{
-            "series":{
-              "dataLabels":{
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "packed",
-        "title": "Packed Columns",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "plotOptions": {
-            "series": {
-              "pointPadding": 0,
-              "groupPadding": 0,
-              "borderWidth": 0,
-              "shadow": false
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "errorbar",
-        "title": "Error bar",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "series": [
-            {"type": null},
-            {
-              "type": "errorbar",
-              "showInLegend": true
-            }
-          ],
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "id": "bar",
-    "type": "Bar charts",
-    "icon": "bar",
-    "templates": [
-      {
-        "id": "basic",
-        "title": "Basic bar",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "basicWithLabels",
-        "title": "Basic with labels",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "plotOptions":{
-            "series":{
-              "dataLabels":{
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "stacked",
-        "title": "Stacked bar",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "normal"
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stackedWithLabels",
-        "title": "Stacked with labels",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "normal",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stackedPercentage",
-        "title": "Stacked percentage bar",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "percent"
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "stackedPercentageWithLabels",
-        "title": "Stacked percentage bar with labels",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "plotOptions": {
-            "series": {
-              "stacking": "percent",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "negativeColor",
-        "title": "Negative color",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "plotOptions":{
-            "series":{
-              "negativeColor": "#0088FF",
-              "color": "#FF0000"
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "multiColor",
-        "title": "Multi color",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "plotOptions": {
-            "series": {
-              "colorByPoint": true
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "horizontalColumnrange",
-        "title": "Horizontal columnrange",
-        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "columnrange",
-            "inverted": true
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "logarithmic",
-        "title": "Logarithmic",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "yAxis": {
-            "type": "logarithmic",
-            "minorTickInterval": "auto"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "horizontalColumnrangeWithLabels",
-        "title": "Horizontal columnrange with labels",
-        "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "columnrange",
-            "inverted": true
-          },
-          "plotOptions": {
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "packedBars",
-        "title": "Packed Bars",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "plotOptions": {
-            "series": {
-              "pointPadding": 0,
-              "groupPadding": 0,
-              "borderWidth": 0,
-              "shadow": false
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "errorbar",
-        "title": "Error bar",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "xAxis": {
-            "type": "category"
-          },
-          "series": [
-            {"type": null},
-            {"type": "errorbar"}
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "id": "scatterAndBubble",
-    "type": "Scatter and bubble",
-    "icon": "spider",
-    "templates": [
-      {
-        "id": "scatter",
-        "title": "Scatter chart",
-        "description": "Requires one data column for X values and one for Y values.",
-        "definition": {
-          "chart": {
-            "type": "scatter"
-          }
-        }
-      },
-      {
-        "id": "bubble",
-        "title": "Bubble chart",
-        "description": "Requires three data columns: one for X values, one for Y values and one for the size of the bubble (Z value).",
-        "definition": {
-          "chart": {
-            "type": "bubble"
-          }
-        }
-      },
-      {
-        "id": "scatterWithLine",
-        "title": "Scatter with line",
-        "description": "Requires one data column for X values and one for Y values.",
-        "definition": {
-          "chart": {
-            "type": "scatter"
-          },
-          "plotOptions":{
-            "series":{
-              "lineWidth": 1
-            }
-          }
-        }
-      },
-      {
-        "id": "scatterWithLineNoMarker",
-        "title": "Scatter with line, no marker",
-        "description": "Requires one data column for X values and one for Y values.",
-        "definition": {
-          "chart": {
-            "type": "scatter"
-          },
-          "plotOptions":{
-            "series":{
-              "lineWidth": 1,
-              "marker":{
-                "enabled": false
-              }
-            }
-          }
-        }
-      }
-    ]
-  },
-  {
-    "id": "pie",
-    "type": "Pie charts",
-    "icon": "spider",
-    "templates": [
-      {
-        "id": "basic",
-        "title": "Pie chart",
-        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "3d",
-        "title": "3D pie chart",
-        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie",
-            "options3d": {
-              "enabled": true,
-              "alpha": 45,
-              "beta": 0
-            }
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": true,
-              "depth": 35,
-              "cursor": "pointer"
-            },
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "withLegend",
-        "title": "Pie chart",
-        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie"
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": true,
-              "cursor": true,
-              "showInLegend": true,
-              "dataLabels": {
-                "enabled": false
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "3dWithLegend",
-        "title": "3D pie with legend",
-        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie",
-            "options3d": {
-              "enabled": true,
-              "alpha": 45,
-              "beta": 0
-            }
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": true,
-              "depth": 35,
-              "cursor": "pointer",
-              "showInLegend": true,
-              "dataLabels": {
-                "enabled": false
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "donut",
-        "title": "Donut",
-        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie"
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": true,
-              "cursor": true,
-              "innerSize": "60%",
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "donutWithLegend",
-        "title": "Donut with legend",
-        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie"
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": true,
-              "cursor": true,
-              "showInLegend": true,
-              "innerSize": "60%",
-              "dataLabels": {
-                "enabled": false
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "3dDonut",
-        "title": "3D donut chart",
-        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie",
-            "options3d": {
-              "enabled": true,
-              "alpha": 45,
-              "beta": 0
-            }
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": true,
-              "depth": 35,
-              "innerSize": "60%",
-              "cursor": "pointer"
-            },
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          }
-        }
-      },
-      {
-        "id": "3dDonutWithLegend",
-        "title": "3D donut chart with legend",
-        "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie",
-            "options3d": {
-              "enabled": true,
-              "alpha": 45,
-              "beta": 0
-            }
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": true,
-              "depth": 35,
-              "cursor": "pointer",
-              "showInLegend": true,
-              "innerSize": "60%"
-            },
-            "series": {
-              "dataLabels": {
-                "enabled": false
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "semiCircleDonut",
-        "title": "Semi circle donut",
-        "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-        "definition": {
-          "chart": {
-            "type": "pie"
-          },
-          "plotOptions": {
-            "pie": {
-              "allowPointSelect": false,
-              "dataLabels": {
-                "distance": -30,
-                "style": {
-                  "fontWeight": "bold",
-                  "color": "white",
-                  "textShadow": "0px 1px 2px black"
-                }
-              },
-              "innerSize": "50%",
-              "startAngle": -90,
-              "endAngle": 90,
-              "center": ["50%", "75%"]
-            },
-            "series": {
-              "dataLabels": {
-                "enabled": true
-              }
-            }
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      }
-    ]
-  },
-  {
-    "id": "polar",
-    "type": "Polar charts",
-    "icon": "bar",
-    "templates": [
-      {
+},{}],56:[function(require,module,exports){
+var templates = [
+    {
         "id": "line",
-        "title": "Polar line",
-        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
-        "definition": {
-          "chart": {
-            "type": "line",
-            "polar": true
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "spider",
-        "title": "Spider line",
-        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
-        "definition": {
-          "chart": {
-            "type": "line",
-            "polar": true
-          },
-          "xAxis": {
-            "tickmarkPlacement": "on",
-            "lineWidth": 0
-          },
-          "yAxis": {
-            "lineWidth": 0,
-            "gridLineInterpolation": "polygon"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
+        "type": "Line charts",
+        "icon": "line",
+        "templates": [
+            {
+                "id": "basic",
+                "title": "Line chart",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "dataLabels",
+                "title": "With data labels",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "spline",
+                "title": "Spline",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "spline"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "splineDataLabels",
+                "title": "Spline with labels",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "spline"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "splineLogarithmic",
+                "title": "Logarithmic",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "spline"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "yAxis": {
+                        "type": "logarithmic"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "step",
+                "title": "Step line",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "step": "left"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "stepWithLabels",
+                "title": "Step line with labels",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "step": "left",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "inverted",
+                "title": "Inverted",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line",
+                        "inverted": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "negativeColor",
+                "title": "Negative color",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "negativeColor": "#0088FF"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "errorBar",
+                "title": "Error bar",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "series": [
+                        {"type": null},
+                        {"type": "errorbar"}
+                    ]
+                }
+            },
+            {
+                "id": "combinationColumn",
+                "title": "Combination chart",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "series": [
+                        {"type": null},
+                        {"type": "column"}
+                    ]
+                }
+            }
+        ]
+    },
+    {
         "id": "area",
-        "title": "Polar area",
-        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
-        "definition": {
-          "chart": {
-            "type": "area",
-            "polar": true
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      },
-      {
-        "id": "spiderArea",
-        "title": "Spider area",
-        "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
-        "definition": {
-          "chart": {
-            "type": "area",
-            "polar": true
-          },
-          "xAxis": {
-            "tickmarkPlacement": "on",
-            "lineWidth": 0
-          },
-          "yAxis": {
-            "lineWidth": 0,
-            "gridLineInterpolation": "polygon"
-          },
-          "xAxis": {
-            "type": "category"
-          }
-        }
-      }
-    ]
-  }
-]
-},{}],64:[function(require,module,exports){
+        "type": "Area charts",
+        "icon": "area",
+        "templates": [
+            {
+                "id": "basic",
+                "title": "Area Chart",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "withLabels",
+                "title": "Area with labels",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "stacked",
+                "title": "Stacked",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "normal"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "stackedWithLabels",
+                "title": "Stacked with labels",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "normal",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "stackedPercentage",
+                "title": "Stacked percentage",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "percent"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "inverted",
+                "title": "Inverted",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area",
+                        "inverted": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "invertedWithLabels",
+                "title": "Inverted with labels",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area",
+                        "inverted": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "normal",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "stepLine",
+                "title": "Step line",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "step": "left"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "negativeColor",
+                "title": "Negative color",
+                "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "area"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "negativeColor": "#0088FF",
+                            "color": "#FF000000"
+                        }
+                    }
+                }
+            },
+            {
+                "id": "range",
+                "title": "Area range",
+                "desc": "Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "arearange"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "column",
+        "type": "Column charts",
+        "icon": "column",
+        "templates": [
+            {
+                "id": "basic",
+                "title": "Basic",
+                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "withLabels",
+                "title": "With labels",
+                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "dataLabels":{
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "fixedPlacement",
+                "title": "Column with fixed placement",
+                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    chart: {
+                        type: 'column'
+                    },
+                    yAxis: [{
+                        min: 0,
+                        title: {
+                            text: 'Employees'
+                        }
+                    }, {
+                        title: {
+                            text: 'Profit (millions)'
+                        },
+                        opposite: true
+                    }],
+                    tooltip: {
+                        shared: true
+                    },
+                    plotOptions: {
+                        column: {
+                            grouping: false,
+                            shadow: false,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        color: 'rgba(165,170,217,1)',
+                        pointPadding: 0.3,
+                        pointPlacement: -0.2
+                    }, {
+                        color: 'rgba(126,86,134,.9)',
+                        pointPadding: 0.4,
+                        pointPlacement: -0.2
+                    }, {
+                        color: 'rgba(248,161,63,1)',
+                        tooltip: {
+                            valuePrefix: '$',
+                            valueSuffix: ' M'
+                        },
+                        pointPadding: 0.3,
+                        pointPlacement: 0.2,
+                        yAxis: 1
+                    }, {
+                        color: 'rgba(186,60,61,.9)',
+                        tooltip: {
+                            valuePrefix: '$',
+                            valueSuffix: ' M'
+                        },
+                        pointPadding: 0.4,
+                        pointPlacement: 0.2,
+                        yAxis: 1
+                    }]
+                }
+            },
+            {
+                "id": "3d",
+                "title": "Column 3D",
+                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "margin": 75,
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 15,
+                            "beta": 15,
+                            "depth": 50,
+                            "viewDistance": 15
+                        }
+                    },
+                    "plotOptions": {
+                        "column": {
+                            "depth": 25
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stacked",
+                "title": "Stacked",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "normal"
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stackedWithLabels",
+                "title": "Stacked with labels",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "normal",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stacked3d",
+                "title": "Stacked 3D",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "margin": 75,
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 15,
+                            "beta": 15,
+                            "depth": 50,
+                            "viewDistance": 15
+                        }
+                    },
+                    "plotOptions": {
+                        "column": {
+                            "depth": 25
+                        },
+                        "series": {
+                            "stacking": "normal"
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stackedPercent",
+                "title": "Stacked percent",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "percent"
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stackedPercentWithLabels",
+                "title": "Stacked percent with labels",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "percent",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "negativeColor",
+                "title": "Negative color",
+                "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "negativeColor": "#0088FF",
+                            "color": "#FF0000"
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "multiColor",
+                "title": "Multi color",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "colorByPoint": true
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "logarithmic",
+                "title": "Logarithmic",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "yAxis": {
+                        "type": "logarithmic",
+                        "minorTickInterval": "auto"
+                    }
+                }
+            },
+            {
+                "id": "range",
+                "title": "Columnrange",
+                "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "columnrange"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "rangeWithLabels",
+                "title": "Columnrange with labels",
+                "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "columnrange"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "dataLabels":{
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "packed",
+                "title": "Packed Columns",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "pointPadding": 0,
+                            "groupPadding": 0,
+                            "borderWidth": 0,
+                            "shadow": false
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "errorbar",
+                "title": "Error bar",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
+                "definition": {
+                    "chart": {
+                        "type": "column"
+                    },
+                    "series": [
+                        {"type": null},
+                        {
+                            "type": "errorbar",
+                            "showInLegend": true
+                        }
+                    ],
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "bar",
+        "type": "Bar charts",
+        "icon": "bar",
+        "templates": [
+            {
+                "id": "basic",
+                "title": "Basic bar",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "barWithNegativeStack",
+                "title": "Bar with negative stack",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    chart: {
+                        type: 'bar'
+                    },
+                    xAxis: [{
+                        reversed: false,
+                        labels: {
+                            step: 1
+                        }
+                    }, { // mirror axis on right side
+                        opposite: true,
+                        reversed: false,
+                        linkedTo: 0,
+                        labels: {
+                            step: 1
+                        }
+                    }],
+                    yAxis: {
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            formatter: function () {
+                                return Math.abs(this.value) + '%';
+                            }
+                        }
+                    },
+                    plotOptions: {
+                        series: {
+                            stacking: 'normal'
+                        }
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
+                                'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
+                        }
+                    }
+                }
+            },
+            {
+                "id": "basicWithLabels",
+                "title": "Basic with labels",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "dataLabels":{
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "stacked",
+                "title": "Stacked bar",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "normal"
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stackedWithLabels",
+                "title": "Stacked with labels",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "normal",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stackedPercentage",
+                "title": "Stacked percentage bar",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "percent"
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "stackedPercentageWithLabels",
+                "title": "Stacked percentage bar with labels",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "stacking": "percent",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "negativeColor",
+                "title": "Negative color",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "negativeColor": "#0088FF",
+                            "color": "#FF0000"
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "multiColor",
+                "title": "Multi color",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "colorByPoint": true
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "horizontalColumnrange",
+                "title": "Horizontal columnrange",
+                "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "columnrange",
+                        "inverted": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "logarithmic",
+                "title": "Logarithmic",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "yAxis": {
+                        "type": "logarithmic",
+                        "minorTickInterval": "auto"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "horizontalColumnrangeWithLabels",
+                "title": "Horizontal columnrange with labels",
+                "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "columnrange",
+                        "inverted": true
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "packedBars",
+                "title": "Packed Bars",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "plotOptions": {
+                        "series": {
+                            "pointPadding": 0,
+                            "groupPadding": 0,
+                            "borderWidth": 0,
+                            "shadow": false
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "errorbar",
+                "title": "Error bar",
+                "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "inverted": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    },
+                    "series": [
+                        {"type": null},
+                        {"type": "errorbar"}
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "scatterAndBubble",
+        "type": "Scatter and bubble",
+        "icon": "spider",
+        "templates": [
+            {
+                "id": "scatter",
+                "title": "Scatter chart",
+                "description": "Requires one data column for X values and one for Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "scatter"
+                    }
+                }
+            },
+            {
+                "id": "bubble",
+                "title": "Bubble chart",
+                "description": "Requires three data columns: one for X values, one for Y values and one for the size of the bubble (Z value).",
+                "definition": {
+                    "chart": {
+                        "type": "bubble"
+                    }
+                }
+            },
+            {
+                "id": "scatterWithLine",
+                "title": "Scatter with line",
+                "description": "Requires one data column for X values and one for Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "scatter"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "lineWidth": 1
+                        }
+                    }
+                }
+            },
+            {
+                "id": "scatterWithLineNoMarker",
+                "title": "Scatter with line, no marker",
+                "description": "Requires one data column for X values and one for Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "scatter"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "lineWidth": 1,
+                            "marker":{
+                                "enabled": false
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "pie",
+        "type": "Pie charts",
+        "icon": "spider",
+        "templates": [
+            {
+                "id": "basic",
+                "title": "Pie chart",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "3d",
+                "title": "3D pie chart",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "cursor": "pointer"
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "withLegend",
+                "title": "Pie chart",
+                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie"
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "cursor": true,
+                            "showInLegend": true,
+                            "dataLabels": {
+                                "enabled": false
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "3dWithLegend",
+                "title": "3D pie with legend",
+                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "cursor": "pointer",
+                            "showInLegend": true,
+                            "dataLabels": {
+                                "enabled": false
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "donut",
+                "title": "Donut",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie"
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "cursor": true,
+                            "innerSize": "60%",
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "donutWithLegend",
+                "title": "Donut with legend",
+                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie"
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "cursor": true,
+                            "showInLegend": true,
+                            "innerSize": "60%",
+                            "dataLabels": {
+                                "enabled": false
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "3dDonut",
+                "title": "3D donut chart",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "innerSize": "60%",
+                            "cursor": "pointer"
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "3dDonutWithLegend",
+                "title": "3D donut chart with legend",
+                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "cursor": "pointer",
+                            "showInLegend": true,
+                            "innerSize": "60%"
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": false
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "semiCircleDonut",
+                "title": "Semi circle donut",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie"
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": false,
+                            "dataLabels": {
+                                "distance": -30,
+                                "style": {
+                                    "fontWeight": "bold",
+                                    "color": "white",
+                                    "textShadow": "0px 1px 2px black"
+                                }
+                            },
+                            "innerSize": "50%",
+                            "startAngle": -90,
+                            "endAngle": 90,
+                            "center": ["50%", "75%"]
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "polar",
+        "type": "Polar charts",
+        "icon": "bar",
+        "templates": [
+            {
+                "id": "line",
+                "title": "Polar line",
+                "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+                "definition": {
+                    "chart": {
+                        "type": "line",
+                        "polar": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "spider",
+                "title": "Spider line",
+                "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+                "definition": {
+                    "chart": {
+                        "type": "line",
+                        "polar": true
+                    },
+                    "xAxis": {
+                        "tickmarkPlacement": "on",
+                        "lineWidth": 0
+                    },
+                    "yAxis": {
+                        "lineWidth": 0,
+                        "gridLineInterpolation": "polygon"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "area",
+                "title": "Polar area",
+                "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+                "definition": {
+                    "chart": {
+                        "type": "area",
+                        "polar": true
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "spiderArea",
+                "title": "Spider area",
+                "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+                "definition": {
+                    "chart": {
+                        "type": "area",
+                        "polar": true
+                    },
+                    "xAxis": {
+                        "tickmarkPlacement": "on",
+                        "lineWidth": 0
+                    },
+                    "yAxis": {
+                        "lineWidth": 0,
+                        "gridLineInterpolation": "polygon"
+                    },
+                    "xAxis": {
+                        "type": "category"
+                    }
+                }
+            },
+            {
+                "id": "appleWatchIsh",
+                "title": "Activity Gauge",
+                "description": "",
+                "definition": {
+
+                    chart: {
+                        type: 'solidgauge',
+                        marginTop: 50
+                    },
+
+                    tooltip: {
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        shadow: false,
+                        style: {
+                            fontSize: '16px'
+                        },
+                        positioner: function (labelWidth, labelHeight) {
+                            return {
+                                x: 200 - labelWidth / 2,
+                                y: 180
+                            };
+                        },
+                        pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>'
+                    },
+
+                    pane: {
+                        startAngle: 0,
+                        endAngle: 360,
+                        background: [{ // Track for Move
+                            outerRadius: '112%',
+                            innerRadius: '88%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }, { // Track for Exercise
+                            outerRadius: '87%',
+                            innerRadius: '63%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }, { // Track for Stand
+                            outerRadius: '62%',
+                            innerRadius: '38%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }]
+                    },
+
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        lineWidth: 0,
+                        tickPositions: []
+                    },
+
+                    plotOptions: {
+                        solidgauge: {
+                            borderWidth: '34px',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            linecap: 'round',
+                            stickyTracking: false
+                        }
+                    },
+
+                    series: [{
+                        borderColor: Highcharts.getOptions().colors[0],
+                        data: {
+                            color: Highcharts.getOptions().colors[0],
+                            radius: '100%',
+                            innerRadius: '100%'
+
+                        }
+                    }, {
+
+                        borderColor: Highcharts.getOptions().colors[1],
+                        data: {
+                            color: Highcharts.getOptions().colors[1],
+                            radius: '75%',
+                            innerRadius: '75%'
+                        }
+                    }, {
+                        borderColor: Highcharts.getOptions().colors[2],
+                        data: {
+                            color: Highcharts.getOptions().colors[2],
+                            radius: '50%',
+                            innerRadius: '50%'
+                        }
+                    }]
+
+                }
+            },
+            {
+                "id": "appleWatch",
+                "title": "Activity Gauge (Apple Watch)",
+                "description": "",
+                "definition": {
+                    chart: {
+                        type: 'solidgauge',
+                        marginTop: 50,
+                        backgroundColor: 'black',
+                        width:400
+                    },
+                    //colors: ['#F62366', '#9DFF02', '#0CCDD6'],
+
+                    title: {
+                        text: 'Activity',
+                        style: {
+                            fontSize: '24px',
+                            color: 'silver'
+                        }
+                    },
+
+                    tooltip: {
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        shadow: false,
+                        style: {
+                            fontSize: '16px',
+                            color: 'silver'
+                        },
+                        positioner: function (labelWidth, labelHeight) {
+                            return {
+                                x: 200 - labelWidth / 2,
+                                y: 180
+                            };
+                        },
+                        pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>'
+                    },
+
+                    pane: {
+                        startAngle: 0,
+                        endAngle: 360,
+                        background: [{ // Track for Move
+                            outerRadius: '112%',
+                            innerRadius: '88%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }, { // Track for Exercise
+                            outerRadius: '87%',
+                            innerRadius: '63%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }, { // Track for Stand
+                            outerRadius: '62%',
+                            innerRadius: '38%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0.3).get(),
+                            borderWidth: 0
+                        }]
+                    },
+
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        lineWidth: 0,
+                        tickPositions: []
+                    },
+
+                    plotOptions: {
+                        solidgauge: {
+                            borderWidth: '34px',
+                            dataLabels: {
+                                enabled: false
+                            },
+                            linecap: 'round',
+                            stickyTracking: false
+                        }
+                    },
+
+                    series: [{
+                        borderColor: Highcharts.getOptions().colors[0],
+                        data: {
+                            color: Highcharts.getOptions().colors[0],
+                            radius: '100%',
+                            innerRadius: '100%'
+
+                        }
+                    }, {
+
+                        borderColor: Highcharts.getOptions().colors[1],
+                        data: {
+                            color: Highcharts.getOptions().colors[1],
+                            radius: '75%',
+                            innerRadius: '75%'
+                        }
+                    }, {
+                        borderColor: Highcharts.getOptions().colors[2],
+                        data: {
+                            color: Highcharts.getOptions().colors[2],
+                            radius: '50%',
+                            innerRadius: '50%'
+                        }
+                    }]
+
+                }
+            }
+        ]
+    }
+];
+module.exports = templates;
+},{}],57:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -8115,35 +8527,39 @@ module.exports=module.exports = [
         merge: require('lodash.merge')
     };
 
-    that.get = function(data, config, labels, categories, series) {
+    that.get = function (data, config, labels, categories, series) {
         var object = generateDataSeries(config, data);
-        if(labels.categories){
+        if (labels.categories) {
             object = setCategories(object, categories);
         }
-        if(labels.series){
+        if (labels.series) {
             object = setSeries(object, series);
         }
         return object;
     };
 
 
-
-    function setCategories (series, categorieLabels){
-        _.forEach(series ,function(item, index){
+    function setCategories(series, categorieLabels) {
+        _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
-                series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
+                // depending on the notation we add it to the array or set its as property
+                if(series[index]['data'][dataIndex].isArray){
+                    series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
+                } else {
+                    series[index]['data'][dataIndex].name = categorieLabels[dataIndex];
+                }
             });
         });
         return series;
     }
 
-    function setSeries (series, seriesLabels){
-        seriesLabels = _.remove(seriesLabels, function(n) {
+    function setSeries(series, seriesLabels) {
+        seriesLabels = _.remove(seriesLabels, function (n) {
             return !_.isEmpty(n);
         });
 
-        _.forEach(series ,function(item, index){
-            if(_.isUndefined(series[index].name)){
+        _.forEach(series, function (item, index) {
+            if (_.isUndefined(series[index].name)) {
                 series[index].name = seriesLabels[index];
             }
         });
@@ -8151,67 +8567,114 @@ module.exports=module.exports = [
         return series;
     }
 
-    function generateEmptySeries(series, defaultType, size){
+    function generateEmptySeries(series, defaultType, size, animation) {
         var array = [];
-        _.forEach(series, function(item){
-            if(size > 0){
-                var object = {
-                    data: [],
-                    type: item.type
-                };
-                size = size - getValuesPerPoint(object.type);
-                array.push(object);
+        var index = 0;
+        while (size > 0) {
+            var object = {};
+            // look for settings for the series;
+            if (series && series[index]) {
+                object = _.merge(object, series[index]);
+            } else {
+                object.type = defaultType;
             }
-        });
-
-        while(size > 0){
-            var object = {
-                data: []
-            };
-            size = size - getValuesPerPoint(defaultType);
+            object.animation = animation ? animation : false;
+            object.data = [];
+            size = size - getValuesPerPoint(object.type).points;
             array.push(object);
+            index++;
         }
+
         return array;
     }
 
-    function generateDataSeries(config, data){
-        var emptySeries = generateEmptySeries(config.series, config.chart.type, _.size(_.first(data)));
-        return _.map(emptySeries, function(item, index){
+    function generateDataSeries(config, data) {
+        // check for series config for the data and apply this
+        var configClone = _.cloneDeep(config);
+        var emptySeries = generateEmptySeries(configClone.series, configClone.chart.type, _.size(_.first(data)), configClone.chart.animation);
+        return _.map(emptySeries, function (item, index) {
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
-
-            _.forEach(data, function(row, index){
-                item.data.push(parseDataFloat(_.slice(row,0,vpp)));
-                data[index] = _.drop(data[index],vpp);
+            _.forEach(data, function (row, rowIndex) {
+                var cell = {};
+                var points = parseDataFloat(_.slice(row, 0, vpp.points));
+                // check for turboThreshold
+                if(data.length >= 1000){
+                    cell = points;
+                } else {
+                    _.forEach(vpp.definition, function(label, pointIndex){
+                        cell[label] = points[pointIndex];
+                    });
+                    if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data)) {
+                        cell = _.merge(configClone.series[index].data, cell);
+                    }
+                }
+                item.data.push(cell);
+                data[rowIndex] = _.drop(data[rowIndex], vpp.points);
             });
-            // check for series config and apply this
-            if(!_.isUndefined(config.series) && !_.isUndefined(config.series[index])){
-                item = _.merge(config.series[index], item);
-            }
             return item;
         });
-
     }
+
 
     function getValuesPerPoint(type) {
         var vpp;
         switch (type) {
-            case 'arearange':
-            case 'areasplinerange':
-            case 'columnrange':
-            case 'errorbar':
             case 'scatter':
-                vpp = 2;
+                vpp = {
+                    points: 2,
+                    definition: ['x', 'y']
+                };
                 break;
             case 'bubble':
-                vpp = 3;
+                vpp = {
+                    points: 3,
+                    definition: ['x', 'y', 'z']
+                };
                 break;
-
+            case 'heatmap':
+                vpp = {
+                    points: 2,
+                    definition: ['y', 'value']
+                };
+                break;
             case 'boxplot':
-                vpp = 5;
+                vpp = {
+                    points: 5,
+                    definition: ['low', 'q1', 'median', 'q3', 'high']
+                };
                 break;
-
+            case 'errorbar':
+            case 'areasplinerange':
+            case 'arearange':
+            case 'columnrange':
+                vpp = {
+                    points: 2,
+                    definition: ['low', 'high']
+                };
+                break;
+            case 'line':
+            case 'spline':
+            case 'treemap':
+            case 'solidgauge':
+            case 'polygon':
+            case 'pyramid':
+            case 'pie':
+            case 'funnel':
+            case 'gauge':
+            case 'areaspline':
+            case 'waterfall':
+            case 'column':
+            case 'bar':
+                vpp = {
+                    points: 1,
+                    definition: ['y']
+                };
+                break;
             default:
-                vpp = 1;
+                vpp = {
+                    points: 1,
+                    definition: ['y']
+                };
                 break;
         }
         return vpp;
@@ -8224,7 +8687,7 @@ module.exports=module.exports = [
                 newData[index] = parseDataFloat(value);
             }
             else {
-                newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
+                newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
 
@@ -8234,9 +8697,9 @@ module.exports=module.exports = [
     module.exports = that;
 })();
 
-},{"lodash.clonedeep":30,"lodash.drop":31,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isarray":36,"lodash.isempty":37,"lodash.isundefined":45,"lodash.map":47,"lodash.merge":48,"lodash.remove":52,"lodash.size":55,"lodash.slice":57,"lodash.union":59}],65:[function(require,module,exports){
+},{"lodash.clonedeep":26,"lodash.drop":27,"lodash.find":28,"lodash.first":29,"lodash.foreach":30,"lodash.isarray":32,"lodash.isempty":33,"lodash.isundefined":40,"lodash.map":43,"lodash.merge":44,"lodash.remove":46,"lodash.size":49,"lodash.slice":50,"lodash.union":52}],58:[function(require,module,exports){
 (function () {
-    function constructor(element){
+    function constructor(opts){
         var dataService = require('./services/data');
         var confService = require('./services/config');
         var mediator = require('mediatorjs');
@@ -8249,10 +8712,25 @@ module.exports=module.exports = [
             mediator: mInstance
         };
 
-        if(typeof element !== 'undefined'){
-            element.className += ' ec';
+        if(typeof opts.data !== 'undefined'){
+            services.data.set(opts.data);
+        }
+
+        if(typeof opts.dataUrl !== 'undefined'){
+            services.data.setUrl(opts.dataUrl);
+        }
+
+        if(typeof opts.config !== 'undefined'){
+            services.config.set(opts.config);
+        }
+        if(typeof opts.preset !== 'undefined'){
+            services.config.setPreset(opts.preset);
+        }
+
+        if(typeof opts.element !== 'undefined'){
+            opts.element.className += ' ec';
             var chart = require('./components/chart.js');
-            chart.load(element, services);
+            chart.load(opts.element, services);
         }
 
         function setData (data){
@@ -8271,6 +8749,8 @@ module.exports=module.exports = [
             services.config.setPreset(preset);
         }
 
+
+
         return {
             setData:setData,
             setDataUrl:setDataUrl,
@@ -8282,9 +8762,9 @@ module.exports=module.exports = [
     window.ec = constructor;
 })();
 
-},{"./components/chart.js":62,"./services/config":66,"./services/data":67,"mediatorjs":60}],66:[function(require,module,exports){
+},{"./components/chart.js":55,"./services/config":59,"./services/data":60,"mediatorjs":53}],59:[function(require,module,exports){
 (function () {
-    function constructor (mediator, data) {
+    function constructor(mediator, data) {
         var _ = {
             isUndefined: require('lodash.isundefined'),
             find: require('lodash.find'),
@@ -8294,28 +8774,22 @@ module.exports=module.exports = [
             isEmpty: require('lodash.isempty')
         };
         var series = require('../factories/series.js');
-        var templates = require('../config/templates.json');
+        var templates = require('../config/templates');
         var that = {};
         var preset = {
-            chart: {
-
-            },
-            plotOptions: {
-                series: {
-                    'animation': false
-                }
-            }
+            chart:{}
         };
-
         var config = _.cloneDeep(preset);
+        var configCache;
         that.get = function () {
             var labels = hasLabels(data.get());
-            var object = _.cloneDeep(config);
+            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
             object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
-            return _.cloneDeep(object);
+            configCache = _.cloneDeep(object);
+            return configCache;
         };
 
-        that.getRaw = function (){
+        that.getRaw = function () {
             return _.cloneDeep(config);
         };
 
@@ -8325,7 +8799,7 @@ module.exports=module.exports = [
         };
 
         that.setValue = function (path, value) {
-            ids = path.split('.');
+            var ids = path.split('.');
             var step;
             var object = config;
             while (step = ids.shift()) {
@@ -8340,14 +8814,14 @@ module.exports=module.exports = [
                     object[step] = value;
                 }
             }
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.setValues = function (array) {
             _.forEach(array, function (row) {
                 that.setValue(row[0], row[1]);
             });
-            mediator.trigger('configUpdate', that.get());
+            configUpdate();
         };
 
         that.getValue = function (path) {
@@ -8365,7 +8839,7 @@ module.exports=module.exports = [
             return object;
         };
 
-        that.isEditable = function(path){
+        that.isEditable = function (path) {
             var object = _.cloneDeep(preset);
             path = path.split('.');
             var step;
@@ -8392,22 +8866,22 @@ module.exports=module.exports = [
                     }
                 }
             }
-            mediator.trigger('configUpdate',that.get());
+            configUpdate();
         };
 
         that.loadTemplate = function (template) {
             config = _.merge(template, _.cloneDeep(preset));
-            mediator.trigger('configUpdate',that.get());
+            configUpdate();
         };
 
-        that.setPreset = function(_preset_){
+        that.setPreset = function (_preset_) {
             preset = _preset_;
+            configUpdate();
         };
 
-        that.getPreset = function(){
+        that.getPreset = function () {
             return _.cloneDeep(preset);
         };
-
 
         function hasLabels(data) {
             var labels = {
@@ -8424,13 +8898,21 @@ module.exports=module.exports = [
             }
             return labels;
         }
+        function configUpdate(){
+            mediator.trigger('configUpdate', that.get());
+        }
+
+        mediator.on('dataUpdate', function(data){
+            configUpdate();
+        });
 
         return that;
+
     }
 
     module.exports = constructor;
 })();
-},{"../config/templates.json":63,"../factories/series.js":64,"lodash.clonedeep":30,"lodash.find":32,"lodash.foreach":34,"lodash.isempty":37,"lodash.isundefined":45,"lodash.merge":48}],67:[function(require,module,exports){
+},{"../config/templates":56,"../factories/series.js":57,"lodash.clonedeep":26,"lodash.find":28,"lodash.foreach":30,"lodash.isempty":33,"lodash.isundefined":40,"lodash.merge":44}],60:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -8465,10 +8947,6 @@ module.exports=module.exports = [
             return _.cloneDeep(dataSet);
         };
 
-        that.getUrl = function (){
-            return _.cloneDeep(dataUrl);
-        };
-
         that.getData = function (series, categories) {
             var data = dataSet;
 
@@ -8485,58 +8963,78 @@ module.exports=module.exports = [
             return _.cloneDeep(data);
         };
 
-        that.set = function (newDataSet) {
+        that.set = function (newDataSet, init) {
             if (!_.isEqual(dataSet, newDataSet)) {
+                if(!init){
+                    mediator.trigger('backup', _.cloneDeep(dataSet));
+                }
                 dataSet = _.cloneDeep(newDataSet);
-                mediator.trigger('dataUpdate', that.get());
+                var data = that.get();
+                mediator.trigger('dataUpdate', data);
+                dataUrl = undefined;
             }
-            dataUrl = undefined;
         };
+
+        that.revert = function(oldDataSet){
+            if (!_.isEqual(dataSet, oldDataSet)) {
+                dataSet = oldDataSet;
+                mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
+            }
+        };
+
+        mediator.on('backup.revert', that.revert);
 
         that.setValue = function(row, cell, value){
             if(!_.isUndefined(dataSet[row]) && !_.isUndefined(dataSet[row][cell])){
+                mediator.trigger('backup',_.cloneDeep(dataSet));
                 dataSet[row][cell] = _.isNaN(value) ? null : value;
             }
-            mediator.trigger('dataUpdate', that.get());
+            mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
             dataUrl = undefined;
         };
 
-        that.setCSV = function(csv){
+        that.setCSV = function(csv, init){
+            if(!init){
+                mediator.trigger('backup', _.cloneDeep(dataSet));
+            }
             dataSet = papa.parse(csv).data;
-            mediator.trigger('dataUpdate', that.get());
+            mediator.trigger('dataUpdate', dataSet);
             dataUrl = undefined;
         };
 
-        that.setUrl = function(url){
+
+        that.getUrl = function (){
+            return _.cloneDeep(dataUrl);
+        };
+
+        that.setUrl = function(url, init){
             if(url !== ''){
+                dataUrl = url;
                 var client = new XMLHttpRequest();
                 client.open("GET", url);
                 client.onreadystatechange = handler;
                 //client.responseType = "text";
                 client.setRequestHeader("Accept", "application/json");
                 client.send();
-
                 function handler() {
                     if (this.readyState === this.DONE) {
                         if (this.status === 200) {
+                            if(!init){
+                                mediator.trigger('backup', _.cloneDeep(dataSet));
+                            }
                             dataSet = papa.parse(this.response).data;
-                            dataUrl = url;
-                            mediator.trigger('dataUpdate', that.get());
-                            console.log('success');
+                            mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
                         }
-                        else { reject(this); }
+                        else {
+                            dataUrl = undefined;
+                            reject(this);
+                        }
                     }
                 }
             } else {
                 dataUrl = undefined;
             }
-
         };
-
-        that.getUrl = function(){
-            return dataUrl
-        };
-
         return that;
     }
     module.exports = constructor;
@@ -8544,4 +9042,4 @@ module.exports=module.exports = [
 ();
 
 
-},{"lodash.clonedeep":30,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isequal":39,"lodash.isnan":41,"lodash.isundefined":45,"lodash.map":47,"lodash.rest":53,"lodash.slice":57,"papaparse":61}]},{},[65]);
+},{"lodash.clonedeep":26,"lodash.find":28,"lodash.first":29,"lodash.foreach":30,"lodash.isequal":34,"lodash.isnan":36,"lodash.isundefined":40,"lodash.map":43,"lodash.rest":47,"lodash.slice":50,"papaparse":54}]},{},[58]);

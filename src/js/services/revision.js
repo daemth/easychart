@@ -10,16 +10,21 @@ function constructor(mediator) {
             time: Date.now(),
             value: value
         });
-
+        mediator.trigger('backup.list.update', getList());
         if (backup.length > undoAmount){
             backup.shift();
         }
+    });
+
+    mediator.on('backup.revert.last',function(value){
+        revertLastChange();
     });
 
     function revertLastChange(){
         var slice = backup.pop();
         if(slice){
             mediator.trigger('backup.revert', slice.value);
+            mediator.trigger('backup.list.update', getList());
         }
     }
 

@@ -5,13 +5,13 @@ var _ = {
 function constructor(opts, services) {
 
     if(typeof opts.data !== 'undefined'){
-        services.data.set(opts.data);
+        services.data.set(opts.data, true);
     }
     if(typeof opts.dataCSV !== 'undefined'){
-        services.data.setCSV(opts.dataCSV);
+        services.data.setCSV(opts.dataCSV, true);
     }
     if(typeof opts.dataUrl !== 'undefined'){
-        services.data.setUrl(opts.dataUrl);
+        services.data.setUrl(opts.dataUrl, true);
     }
     if(typeof opts.options !== 'undefined'){
         services.options.set(opts.options);

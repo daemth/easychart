@@ -1,6 +1,7 @@
 (function () {
     var _ = require('lodash');
     var h = require('virtual-dom/h');
+    var createElement = require('virtual-dom/create-element');
     var hot;
     function constructor(services) {
         var that = {};
@@ -8,8 +9,10 @@
         var readOnly;
         that.load = function (_element_) {
             element = _element_;
+            var wrapper = createElement(h('div'))
+            element.appendChild(wrapper);
             readOnly = services.data.getUrl() ? true : false;
-            hot = new Handsontable(element, {
+            hot = new Handsontable(wrapper, {
                 startRows: 8,
                 startCols: 5,
                 height: 500,
@@ -77,6 +80,7 @@
                 services.data.set(removeEmptyRows(hot));
             }
             hot.destroy();
+            element.innerHTML = '';
         };
 
         function removeEmptyRows(hot) {

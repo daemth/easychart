@@ -19,6 +19,7 @@
   @import "components/loader";
 
   a, .hover {
+    color: $base-accent-color;
     cursor: pointer;
   }
 
@@ -72,7 +73,15 @@
       clear: both;
     }
   }
-
+  .revisionElement{
+    margin-top: 20px;
+    border: 1px solid $light-gray;
+    background: white;
+    padding: 20px;
+    display: block;
+    float: left;
+    width: 100%;
+  }
 
   .templatelist {
     display: flex;

@@ -14,12 +14,13 @@
         var initState = {
             links: _.keys(states)
         };
-        var revision = require('./../components/revision')(services);
+
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
             diff: require("virtual-dom/diff"),
             patch: require("virtual-dom/patch")
         });
+        var revisionElement = require('./../components/revision')(services.mediator, services.revision.getList());
 
         element.appendChild(loop.target);
 
@@ -69,10 +70,11 @@
         // chart stuff
         var chartElement;
         var chart = require('./../components/chart.js');
+
         chartElement = createElement(h('div.right', {id: 'chartContainer'}));
         element.appendChild(chartElement);
-        element.appendChild(createElement(h('div', revision.template())));
         chart.load(chartElement, services);
+        element.appendChild(revisionElement.template());
         return {
             goToState: goToState
         };
