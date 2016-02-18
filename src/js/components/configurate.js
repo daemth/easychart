@@ -68,7 +68,6 @@
         }
 
         function generateGenericContent(panel) {
-            var title = h('h2', panel.panelTitle);
             var presetList = [];
             _.forEach(panel.panes, function (pane) {
                 var inputs = [];
@@ -80,7 +79,7 @@
                 presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]))
             });
 
-            return h('div.vertical-tab-content', [title, presetList]);
+            return h('div.vertical-tab-content', [presetList]);
         }
 
         function generateSeriesContent(panel, child) {
@@ -92,7 +91,7 @@
         }
 
         function seriesPanel(panel, series, index) {
-            var title = h('h2', series.name);
+            var title = h('h3', series.name);
             var presetList = [];
             _.forEach(panel.panes, function (pane) {
                 var inputs = [];
@@ -100,8 +99,7 @@
                     inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
                 });
 
-                var item = h('h3', pane.title);
-                presetList.push(h('div', [item, inputs]))
+                presetList.push(h('div', [inputs]))
             });
             return h('div.vertical-tab-content', [title, presetList]);
         }

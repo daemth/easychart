@@ -1,12 +1,14 @@
 .left {
   @include media($breakpoint_2) {
-    @include span-columns(6);
-   }
+    width: 49%;
+    margin-right: 2%;
+    float: left;
+  }
 }
 
 .right {
   @include media($breakpoint_2) {
-    @include span-columns(6);
-    @include omega();
+    width: 49%;
+    float: left;
   }
 }

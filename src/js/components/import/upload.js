@@ -10,6 +10,7 @@
             uploadElement =
                 h('input.soft--ends', {
                     type: 'file',
+                    "size": 50,
                     onchange: function(e){
                         loadFile(e);
                     }

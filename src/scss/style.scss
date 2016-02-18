@@ -3,8 +3,10 @@
 @import "base/variables";
 
 .ec {
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
   background: $super-light-gray;
-  font-family: 'Roboto', sans-serif;
   float: left;
   width: 100%;
   @import "base/tables";
@@ -54,7 +56,7 @@
     }
     .navigation{
       margin-left: 20px;
-      margin-top: 20px;
+      margin-top: 22px;
       float: left;
       .tab-link a{
         text-decoration: none;

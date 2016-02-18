@@ -1,14 +1,14 @@
 $breakpoint_1 : '600px';
-$breakpoint_2 : '960px';
+$breakpoint_2 : '800px';
 
 // Font Sizes
-$base-font-size: 1em;
+$base-font-size: 14px;
 $base-font-family: 'sans-serif';
-$h1-font-size: $base-font-size * 2.25;
-$h2-font-size: $base-font-size * 2;
-$h3-font-size: $base-font-size * 1.75;
-$h4-font-size: $base-font-size * 1.5;
-$h5-font-size: $base-font-size * 1.25;
+$h1-font-size: $base-font-size * 2;
+$h2-font-size: $base-font-size * 1.75;
+$h3-font-size: $base-font-size * 1.5;
+$h4-font-size: $base-font-size * 1.25;
+$h5-font-size: $base-font-size * 1.125;
 $h6-font-size: $base-font-size;
 
 // Line height

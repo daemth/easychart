@@ -12,7 +12,8 @@
             inputNode = node;
         };
         var input = h('input.push-half', {
-            "type": 'text',
+            "size": 50,
+            "type": "text",
             "style" : {
                 display: "inline"
             },
