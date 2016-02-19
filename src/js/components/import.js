@@ -7,10 +7,9 @@
         var url = require('./import/url');
         var table = require('./table')(services);
         var hot = require('./hot')(services);
-        var activeTab = services.data.getUrl() ? 'url' : 'paste';
+        var activeTab = services.data.getUrl() ? 'url' : services.data.get().length == 0 ? 'paste' : 'data';
         var mediator = services.mediator;
         mediator.on('goToTable', goToTable);
-
         var tabOptions = {
             paste: {
                 label: 'Paste CSV',

@@ -56,7 +56,7 @@
                 title: 'Customise',
                 dependencies: function(){
                     var that = {};
-                    that.configurate = require('./components/configurate.js')(services);
+                    that.configurate = require('./components/configure.js')(services);
                     return that;
                 },
                 template: function (dependencies) {
@@ -83,7 +83,7 @@
         if(typeof opts.element !== 'undefined'){
             opts.element.className += ' ec';
             var mainRouter = new router(opts.element, states , services);
-            mainRouter.goToState('data');
+            mainRouter.goToState('customise');
         }
 
         return new Api(services);

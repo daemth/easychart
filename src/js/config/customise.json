@@ -134,15 +134,21 @@
     ]
   },
   {
-    "id": "axes",
-    "panelTitle": "Axes",
+    "id": "axis",
+    "panelTitle": "Axis",
     "panes": [
       {
         "title": "Axes setup",
-        "options": []
+        "id": "general",
+        "options": [
+          {
+            "fullname": "chart.inverted"
+          }
+        ]
       },
       {
         "title": "X axis",
+        "id": "xAxis",
         "options": [
           {
             "fullname": "xAxis.type"
@@ -172,6 +178,7 @@
       },
       {
         "title": "Value axis",
+        "id": "yAxis",
         "options": [
           {
             "fullname": "yAxis.type"

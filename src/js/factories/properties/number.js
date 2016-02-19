@@ -13,7 +13,7 @@
         disabled  : disabled,
         'type'    : 'number',
         'value'   : configValue,
-        'ev-input': function (e) {
+        'ev-blur': function (e) {
           if (parseInt(property.defaults) !== parseInt(e.target.value)) {
             configService.setValue(property.fullname, parseInt(e.target.value));
           } else {

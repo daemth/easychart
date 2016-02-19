@@ -13,9 +13,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -26,9 +26,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -46,9 +46,9 @@ var templates = [
                     "chart": {
                         "type": "spline"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -59,9 +59,9 @@ var templates = [
                     "chart": {
                         "type": "spline"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -79,12 +79,12 @@ var templates = [
                     "chart": {
                         "type": "spline"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "type": "logarithmic"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -102,9 +102,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "step": "left"
@@ -120,9 +120,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "step": "left",
@@ -142,9 +142,9 @@ var templates = [
                         "type": "line",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -155,9 +155,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "negativeColor": "#0088FF"
@@ -173,9 +173,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "series": [
                         {"type": null},
                         {"type": "errorbar"}
@@ -190,9 +190,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "series": [
                         {"type": null},
                         {"type": "column"}
@@ -214,9 +214,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -227,9 +227,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -247,9 +247,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "normal"
@@ -265,9 +265,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "normal",
@@ -286,9 +286,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "percent"
@@ -305,9 +305,9 @@ var templates = [
                         "type": "area",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -319,9 +319,9 @@ var templates = [
                         "type": "area",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "normal",
@@ -340,9 +340,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "step": "left"
@@ -358,9 +358,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "negativeColor": "#0088FF",
@@ -377,9 +377,9 @@ var templates = [
                     "chart": {
                         "type": "arearange"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             }
         ]
@@ -397,9 +397,9 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -410,9 +410,9 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions":{
                         "series":{
                             "dataLabels":{
@@ -501,9 +501,9 @@ var templates = [
                             "depth": 25
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -519,9 +519,9 @@ var templates = [
                             "stacking": "normal"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -540,9 +540,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -569,9 +569,9 @@ var templates = [
                             "stacking": "normal"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -587,9 +587,9 @@ var templates = [
                             "stacking": "percent"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -608,9 +608,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -627,9 +627,9 @@ var templates = [
                             "color": "#FF0000"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -645,9 +645,9 @@ var templates = [
                             "colorByPoint": true
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -658,13 +658,13 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "type": "logarithmic",
                         "minorTickInterval": "auto"
-                    }
+                    }]
                 }
             },
             {
@@ -675,9 +675,9 @@ var templates = [
                     "chart": {
                         "type": "columnrange"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -688,9 +688,9 @@ var templates = [
                     "chart": {
                         "type": "columnrange"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions":{
                         "series":{
                             "dataLabels":{
@@ -716,9 +716,9 @@ var templates = [
                             "shadow": false
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -736,9 +736,9 @@ var templates = [
                             "showInLegend": true
                         }
                     ],
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             }
         ]
@@ -757,9 +757,9 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -783,7 +783,7 @@ var templates = [
                             step: 1
                         }
                     }],
-                    yAxis: {
+                    yAxis: [{
                         title: {
                             text: null
                         },
@@ -792,7 +792,7 @@ var templates = [
                                 return Math.abs(this.value) + '%';
                             }
                         }
-                    },
+                    }],
                     plotOptions: {
                         series: {
                             stacking: 'normal'
@@ -815,9 +815,9 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions":{
                         "series":{
                             "dataLabels":{
@@ -841,9 +841,9 @@ var templates = [
                             "stacking": "normal"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -863,9 +863,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -882,9 +882,9 @@ var templates = [
                             "stacking": "percent"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -904,9 +904,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -924,9 +924,9 @@ var templates = [
                             "color": "#FF0000"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -943,9 +943,9 @@ var templates = [
                             "colorByPoint": true
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -957,9 +957,9 @@ var templates = [
                         "type": "columnrange",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -971,13 +971,13 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "yAxis": {
+                    "yAxis": [{
                         "type": "logarithmic",
                         "minorTickInterval": "auto"
-                    },
-                    "xAxis": {
+                    }],
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -996,9 +996,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1018,9 +1018,9 @@ var templates = [
                             "shadow": false
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1032,9 +1032,9 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "series": [
                         {"type": null},
                         {"type": "errorbar"}
@@ -1116,9 +1116,9 @@ var templates = [
                     "chart": {
                         "type": "pie"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1146,9 +1146,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1169,9 +1169,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1198,9 +1198,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1221,9 +1221,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1245,9 +1245,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1305,9 +1305,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1340,9 +1340,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             }
         ]
@@ -1361,9 +1361,9 @@ var templates = [
                         "type": "line",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1375,17 +1375,15 @@ var templates = [
                         "type": "line",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
+                        "type": "category",
                         "tickmarkPlacement": "on",
                         "lineWidth": 0
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "lineWidth": 0,
                         "gridLineInterpolation": "polygon"
-                    },
-                    "xAxis": {
-                        "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1397,9 +1395,9 @@ var templates = [
                         "type": "area",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1411,17 +1409,15 @@ var templates = [
                         "type": "area",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
+                        "type": "category",
                         "tickmarkPlacement": "on",
                         "lineWidth": 0
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "lineWidth": 0,
                         "gridLineInterpolation": "polygon"
-                    },
-                    "xAxis": {
-                        "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -1472,12 +1468,12 @@ var templates = [
                         }]
                     },
 
-                    yAxis: {
+                    yAxis: [{
                         min: 0,
                         max: 100,
                         lineWidth: 0,
                         tickPositions: []
-                    },
+                    }],
 
                     plotOptions: {
                         solidgauge: {
@@ -1576,12 +1572,12 @@ var templates = [
                         }]
                     },
 
-                    yAxis: {
+                    yAxis: [{
                         min: 0,
                         max: 100,
                         lineWidth: 0,
                         tickPositions: []
-                    },
+                    }],
 
                     plotOptions: {
                         solidgauge: {

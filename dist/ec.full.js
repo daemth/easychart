@@ -25793,9 +25793,12 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
         var optionsService = services.options;
         var mediator = services.mediator;
         var configService = services.config;
+        var genericTabs = require('./configure/genericTabs')(services);
+        var seriesTabs = require('./configure/seriesTabs')(services);
+        var axisTabs = require('./configure/axisTabs')(services);
         var config = configService.get();
         var options = optionsService.get();
-        var propertyServices = require('../factories/properties');
+
         var _ = {
             isUndefined: require('lodash.isundefined'),
             find: require('lodash.find'),
@@ -25817,23 +25820,19 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
         });
 
         function template() {
+
             var tabs = h('ul', {className: "vertical-tabs"},
                 [
-                    generateGenericTabs(genericConfig(options)),
-                    generateSeriesTabs(typeConfig(options, 'series'))
+                    genericTabs.tabs(options, setActive, activeTab),
+                    axisTabs.tabs(typeConfig(options, 'axis'), setActive, activeTab, activeTabChild, config),
+                    seriesTabs.tabs(typeConfig(options, 'series'), setActive, activeTab, activeTabChild, config)
                 ]);
+
             var content = h('div.vertical-tab-content-container', [
                 generateContent(options, activeTab, activeTabChild)
             ]);
-            var container = h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
-            return container;
-        }
 
-        function genericConfig(options) {
-            var newOptions = _.cloneDeep(options);
-            return _.remove(newOptions, function (panel) {
-                return panel.id !== "series";
-            })
+            return h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
         }
 
         function typeConfig(options, type) {
@@ -25849,115 +25848,15 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
             var content;
             switch (activePanel.id) {
                 case 'series':
-                    content = generateSeriesContent(activePanel, activeChildId);
+                    content = seriesTabs.content(activePanel, activeChildId, config);
+                    break;
+                case 'axis':
+                    content = axisTabs.content(activePanel, activeChildId, config);
                     break;
                 default:
-                    content = generateGenericContent(activePanel);
+                    content = genericTabs.content(activePanel);
             }
             return content;
-        }
-
-        function generateGenericContent(panel) {
-            var presetList = [];
-            _.forEach(panel.panes, function (pane) {
-                var inputs = [];
-                _.forEach(pane.options, function (option) {
-                    inputs.push(propertyServices.get(option, configService));
-                });
-
-                var item = h('h3', pane.title);
-                presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]))
-            });
-
-            return h('div.vertical-tab-content', [presetList]);
-        }
-
-        function generateSeriesContent(panel, child) {
-            if (!_.isUndefined(child)) {
-                return seriesPanel(panel, config.series[child], child);
-            } else {
-                return seriesPanel(panel, config.series[0], 0);
-            }
-        }
-
-        function seriesPanel(panel, series, index) {
-            var title = h('h3', series.name);
-            var presetList = [];
-            _.forEach(panel.panes, function (pane) {
-                var inputs = [];
-                _.forEach(pane.options, function (option) {
-                    inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
-                });
-
-                presetList.push(h('div', [inputs]))
-            });
-            return h('div.vertical-tab-content', [title, presetList]);
-        }
-        function generateGenericTabs(panes) {
-            var links = [];
-            _.forEach(panes, function (pane, index) {
-                var children = [];
-                var className = pane.id === activeTab ? 'active' : '';
-                var link = h('li', {className: className},
-                    h('a', {
-                            'href': '#' + pane.panelTitle,
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(pane.id);
-                            }
-                        }, [pane.panelTitle, children]
-                    )
-                );
-
-                links.push(link);
-            });
-            return links;
-        }
-
-        function generateSeriesTabs(options) {
-            if (!_.isUndefined(options)) {
-                var links = [];
-                if (options.id == activeTab) {
-                    _.forEach(config.series, function (serie, index) {
-                        links.push(
-                            h('li.hover', {
-                                'className': activeTabChild === index ? 'sub-active' : 'sub-non-active',
-                                'ev-click': function (e) {
-                                    e.preventDefault();
-                                    setActive(options.id, index);
-                                }
-                            }, serie.name ? serie.name : 'serie ' + index)
-                        )
-                    });
-                    return h('li.active',
-                        [
-                            h('a', {
-                                'href': '#data-series',
-                                'ev-click': function (e) {
-                                    e.preventDefault();
-                                    setActive(options.id);
-                                }
-                            }, 'data series'),
-                            h('ul', links)
-                        ])
-                }
-                else {
-                    return h('li',
-                        [
-                            h('a', {
-                                'href': '#data-series',
-                                'ev-click': function (e) {
-                                    e.preventDefault();
-                                    setActive(options.id);
-                                }
-                            }, 'data series'),
-                            h('ul', links)
-                        ])
-                }
-
-
-            }
-
         }
 
         function setActive(id, child) {
@@ -25979,7 +25878,318 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
     module.exports = constructor;
 
 })();
-},{"../factories/properties":156,"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isundefined":79,"lodash.map":82,"lodash.remove":85,"virtual-dom/h":112}],143:[function(require,module,exports){
+},{"./configure/axisTabs":143,"./configure/genericTabs":144,"./configure/seriesTabs":145,"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isundefined":79,"lodash.map":82,"lodash.remove":85,"virtual-dom/h":112}],143:[function(require,module,exports){
+var propertyServices = require('../../factories/properties');
+var _ = {
+    isUndefined: require('lodash.isundefined'),
+    find: require('lodash.find'),
+    map: require('lodash.map'),
+    cloneDeep: require('lodash.clonedeep'),
+    remove: require('lodash.remove'),
+    forEach: require('lodash.foreach'),
+    first: require('lodash.first')
+};
+var h = require('virtual-dom/h');
+
+function constructor(services) {
+    var configService = services.config;
+
+    function tabs(options, setActive, activeTab, activeTabChild, config) {
+        if (!_.isUndefined(options)) {
+            var links = [];
+            if (options.id == activeTab) {
+                if (generalOptions(options.panes)) {
+                    links.push(
+                        h('li.hover', {
+                            'className': activeTabChild === 'general' ? 'sub-active' : 'sub-non-active',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id, 'general');
+                            }
+                        }, 'general')
+                    )
+                }
+                if(config.xAxis){
+                    _.forEach(config.xAxis, function (axis, index) {
+                        links.push(
+                            h('li.hover', {
+                                'className': activeTabChild === 'xAxis' +index ? 'sub-active' : 'sub-non-active',
+                                'ev-click': function (e) {
+                                    e.preventDefault();
+                                    setActive(options.id, 'xAxis' +index);
+                                }
+                            }, axis.name ? axis.name : 'X axis ' + (index + 1))
+                        )
+                    });
+                } else {
+                    links.push(
+                        h('li.hover', {
+                            'className': activeTabChild === 'xAxis' +  0 ? 'sub-active' : 'sub-non-active',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id, 'xAxis' +  0);
+                            }
+                        }, 'X axis')
+                    )
+                }
+
+                if(config.yAxis){
+                    _.forEach(config.yAxis, function (axis, index) {
+                        links.push(
+                            h('li.hover', {
+                                'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
+                                'ev-click': function (e) {
+                                    e.preventDefault();
+                                    setActive(options.id, 'yAxis' + index);
+                                }
+                            }, axis.name ? axis.name : 'Y axis ' + (index + 1))
+                        )
+                    });
+                } else {
+                    links.push(
+                        h('li.hover', {
+                            'className': activeTabChild === 'yAxis' +  0 ? 'sub-active' : 'sub-non-active',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id, 'yAxis' +  0);
+                            }
+                        }, 'Y axis')
+                    )
+                }
+
+
+                return h('li.active',
+                    [
+                        h('a', {
+                            'href': '#data-series',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id, 'general');
+                            }
+                        }, 'Data series'),
+                        h('ul', links)
+                    ])
+            }
+            else {
+                return h('li',
+                    [
+                        h('a', {
+                            'href': '#data-series',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id, 'general');
+                            }
+                        }, 'Axis')
+                    ])
+            }
+        }
+    }
+
+    function generalOptions(panes) {
+        return _.find(panes, function (pane) {
+            return pane.id == "general";
+        })
+    }
+
+
+    function generalContent(pane) {
+        var presetList = [];
+        var inputs = [];
+        _.forEach(pane.options, function (option) {
+            inputs.push(propertyServices.get(option, configService));
+        });
+        var item = h('h3', pane.title);
+        presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]));
+
+        return h('div.vertical-tab-content', [presetList]);
+    }
+
+    function axisContent(panes, config, child) {
+
+        var inputs = [];
+        var type = child.substring(0, 5);
+        var index = child.substring(5, 6);
+        var pane = _.find(panes, function(pane){
+            return pane.id == type;
+        });
+
+
+        if(pane){
+            var title = h('h3', pane.title);
+            _.forEach(pane.options, function (option) {
+                inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
+            });
+        }
+
+        return h('div.vertical-tab-content', [title, inputs]);
+    }
+    function content(panel, child, config) {
+        if (child == 'general') {
+            return generalContent(generalOptions(panel.panes));
+        } else {
+            return axisContent(panel.panes, config, child);
+        }
+    }
+
+
+    return {
+        tabs: tabs,
+        content: content
+    }
+}
+module.exports = constructor;
+},{"../../factories/properties":159,"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isundefined":79,"lodash.map":82,"lodash.remove":85,"virtual-dom/h":112}],144:[function(require,module,exports){
+var propertyServices = require('../../factories/properties');
+var _ = {
+    isUndefined: require('lodash.isundefined'),
+    find: require('lodash.find'),
+    map: require('lodash.map'),
+    cloneDeep: require('lodash.clonedeep'),
+    remove: require('lodash.remove'),
+    forEach: require('lodash.foreach'),
+    first: require('lodash.first')
+};
+var h = require('virtual-dom/h');
+
+function constructor (services){
+    var configService = services.config;
+    function genericConfig(options) {
+        var newOptions = _.cloneDeep(options);
+        return _.remove(newOptions, function (panel) {
+            return panel.id !== "series" && panel.id !== "axis";
+        })
+    }
+
+    function tabs(options, setActive, activeTab) {
+        var links = [];
+        var panes = genericConfig(options);
+        _.forEach(panes, function (pane, index) {
+            var children = [];
+            var className = pane.id === activeTab ? 'active' : '';
+            var link = h('li', {className: className},
+                h('a', {
+                        'href': '#' + pane.panelTitle,
+                        'ev-click': function (e) {
+                            e.preventDefault();
+                            setActive(pane.id);
+                        }
+                    }, [pane.panelTitle, children]
+                )
+            );
+
+            links.push(link);
+        });
+        return links;
+    }
+
+    function content(panel) {
+        var presetList = [];
+        _.forEach(panel.panes, function (pane) {
+            var inputs = [];
+            _.forEach(pane.options, function (option) {
+                inputs.push(propertyServices.get(option, configService));
+            });
+
+            var item = h('h3', pane.title);
+            presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]))
+        });
+
+        return h('div.vertical-tab-content', [presetList]);
+    }
+
+    return{
+        tabs: tabs,
+        content: content
+    }
+}
+module.exports = constructor;
+},{"../../factories/properties":159,"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isundefined":79,"lodash.map":82,"lodash.remove":85,"virtual-dom/h":112}],145:[function(require,module,exports){
+var propertyServices = require('../../factories/properties');
+var _ = {
+    isUndefined: require('lodash.isundefined'),
+    find: require('lodash.find'),
+    map: require('lodash.map'),
+    cloneDeep: require('lodash.clonedeep'),
+    remove: require('lodash.remove'),
+    forEach: require('lodash.foreach'),
+    first: require('lodash.first')
+};
+var h = require('virtual-dom/h');
+
+function constructor (services){
+    var configService = services.config;
+    function tabs(options, setActive, activeTab, activeTabChild, config) {
+        if (!_.isUndefined(options)) {
+            var links = [];
+            if (options.id == activeTab) {
+                _.forEach(config.series, function (serie, index) {
+                    links.push(
+                        h('li.hover', {
+                            'className': activeTabChild === index ? 'sub-active' : 'sub-non-active',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id, index);
+                            }
+                        }, serie.name ? serie.name : 'serie ' + index)
+                    )
+                });
+                return h('li.active',
+                    [
+                        h('a', {
+                            'href': '#data-series',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id);
+                            }
+                        }, 'Data series'),
+                        h('ul', links)
+                    ])
+            }
+            else {
+                return h('li',
+                    [
+                        h('a', {
+                            'href': '#data-series',
+                            'ev-click': function (e) {
+                                e.preventDefault();
+                                setActive(options.id);
+                            }
+                        }, 'data series'),
+                        h('ul', links)
+                    ])
+            }
+        }
+
+    }
+    function panelContent(panel, series, index, config) {
+        var title = h('h3', series.name);
+        var presetList = [];
+        _.forEach(panel.panes, function (pane) {
+            var inputs = [];
+            _.forEach(pane.options, function (option) {
+                inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
+            });
+
+            presetList.push(h('div', [inputs]))
+        });
+        return h('div.vertical-tab-content', [title, presetList]);
+    }
+
+    function content(panel, child, config) {
+        if (!_.isUndefined(child)) {
+            return panelContent(panel, config.series[child], child, config);
+        } else {
+            return panelContent(panel, config.series[0], 0, config);
+        }
+    }
+
+    return{
+        tabs: tabs,
+        content: content
+    }
+}
+module.exports = constructor;
+},{"../../factories/properties":159,"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isundefined":79,"lodash.map":82,"lodash.remove":85,"virtual-dom/h":112}],146:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -26011,7 +26221,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
     module.exports = constructor;
 })();
 
-},{"../../../node_modules/highlight.js/lib/highlight":25,"../../../node_modules/highlight.js/lib/languages/json":26,"../../../node_modules/highlight.js/styles/monokai.css":27,"virtual-dom/h":112}],144:[function(require,module,exports){
+},{"../../../node_modules/highlight.js/lib/highlight":25,"../../../node_modules/highlight.js/lib/languages/json":26,"../../../node_modules/highlight.js/styles/monokai.css":27,"virtual-dom/h":112}],147:[function(require,module,exports){
 (function () {
     var _ = require('lodash');
     var h = require('virtual-dom/h');
@@ -26112,7 +26322,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
     module.exports = constructor;
 })();
 
-},{"lodash":93,"virtual-dom/create-element":110,"virtual-dom/h":112}],145:[function(require,module,exports){
+},{"lodash":93,"virtual-dom/create-element":110,"virtual-dom/h":112}],148:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -26122,10 +26332,9 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
         var url = require('./import/url');
         var table = require('./table')(services);
         var hot = require('./hot')(services);
-        var activeTab = services.data.getUrl() ? 'url' : 'paste';
+        var activeTab = services.data.getUrl() ? 'url' : services.data.get().length == 0 ? 'paste' : 'data';
         var mediator = services.mediator;
         mediator.on('goToTable', goToTable);
-
         var tabOptions = {
             paste: {
                 label: 'Paste CSV',
@@ -26227,7 +26436,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
 
 
 
-},{"./hot":144,"./import/dragAndDrop":146,"./import/paste":147,"./import/upload":148,"./import/url":149,"./table":151,"virtual-dom/h":112}],146:[function(require,module,exports){
+},{"./hot":147,"./import/dragAndDrop":149,"./import/paste":150,"./import/upload":151,"./import/url":152,"./table":154,"virtual-dom/h":112}],149:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -26274,7 +26483,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
     module.exports = that;
 })();
 
-},{"drag-drop":18,"virtual-dom/h":112}],147:[function(require,module,exports){
+},{"drag-drop":18,"virtual-dom/h":112}],150:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -26310,7 +26519,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
     module.exports = that;
 })();
 
-},{"virtual-dom/h":112}],148:[function(require,module,exports){
+},{"virtual-dom/h":112}],151:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var that = {};
@@ -26351,7 +26560,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
 
     module.exports = that;
 })();
-},{"virtual-dom/h":112}],149:[function(require,module,exports){
+},{"virtual-dom/h":112}],152:[function(require,module,exports){
 (function () {
     var that = {};
     var h = require('virtual-dom/h');
@@ -26392,7 +26601,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
     module.exports = that;
 })();
 
-},{"virtual-dom/h":112}],150:[function(require,module,exports){
+},{"virtual-dom/h":112}],153:[function(require,module,exports){
 var constructor = function (mediator, list) {
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
@@ -26456,7 +26665,7 @@ module.exports = constructor;
 
 
 
-},{"virtual-dom/create-element":110,"virtual-dom/h":112}],151:[function(require,module,exports){
+},{"virtual-dom/create-element":110,"virtual-dom/h":112}],154:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -26530,7 +26739,7 @@ module.exports = constructor;
 
 
 
-},{"lodash.foreach":68,"lodash.isequal":73,"lodash.trim":91,"virtual-dom/h":112}],152:[function(require,module,exports){
+},{"lodash.foreach":68,"lodash.isequal":73,"lodash.trim":91,"virtual-dom/h":112}],155:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -26603,7 +26812,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":155,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"virtual-dom/h":112}],153:[function(require,module,exports){
+},{"../factories/iconLoader":158,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"virtual-dom/h":112}],156:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -26955,15 +27164,32 @@ module.exports=module.exports = [
         ]
     },
     {
-        "id": "axes",
-        "panelTitle": "Axes",
+        "id": "axis",
+        "panelTitle": "Axis",
         "panes": [
             {
                 "title": "Axes setup",
-                "options": []
+                "id": "general",
+                "options": [
+                    {
+                        "name": "chart--inverted",
+                        "fullname": "chart.inverted",
+                        "title": "inverted",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "false",
+                        "since": "",
+                        "description": "Whether to invert the axes so that the x axis is vertical and y axis is horizontal.\r When true, the x axis is reversed by default. If a bar series is present in the chart,\r it will be inverted automatically.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/inverted/\" target=\"_blank\">Inverted line</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    }
+                ]
             },
             {
                 "title": "X axis",
+                "id": "xAxis",
                 "options": [
                     {
                         "name": "xAxis--type",
@@ -27064,6 +27290,7 @@ module.exports=module.exports = [
             },
             {
                 "title": "Value axis",
+                "id": "yAxis",
                 "options": [
                     {
                         "name": "yAxis--type",
@@ -27387,7 +27614,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],154:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 var templates = [
     {
         "id": "line",
@@ -27403,9 +27630,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27416,9 +27643,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -27436,9 +27663,9 @@ var templates = [
                     "chart": {
                         "type": "spline"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27449,9 +27676,9 @@ var templates = [
                     "chart": {
                         "type": "spline"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -27469,12 +27696,12 @@ var templates = [
                     "chart": {
                         "type": "spline"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "type": "logarithmic"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -27492,9 +27719,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "step": "left"
@@ -27510,9 +27737,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "step": "left",
@@ -27532,9 +27759,9 @@ var templates = [
                         "type": "line",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27545,9 +27772,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "negativeColor": "#0088FF"
@@ -27563,9 +27790,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "series": [
                         {"type": null},
                         {"type": "errorbar"}
@@ -27580,9 +27807,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "series": [
                         {"type": null},
                         {"type": "column"}
@@ -27604,9 +27831,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27617,9 +27844,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "dataLabels": {
@@ -27637,9 +27864,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "normal"
@@ -27655,9 +27882,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "normal",
@@ -27676,9 +27903,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "percent"
@@ -27695,9 +27922,9 @@ var templates = [
                         "type": "area",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27709,9 +27936,9 @@ var templates = [
                         "type": "area",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "stacking": "normal",
@@ -27730,9 +27957,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "step": "left"
@@ -27748,9 +27975,9 @@ var templates = [
                     "chart": {
                         "type": "area"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions": {
                         "series": {
                             "negativeColor": "#0088FF",
@@ -27767,9 +27994,9 @@ var templates = [
                     "chart": {
                         "type": "arearange"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             }
         ]
@@ -27787,9 +28014,9 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27800,9 +28027,9 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions":{
                         "series":{
                             "dataLabels":{
@@ -27891,9 +28118,9 @@ var templates = [
                             "depth": 25
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27909,9 +28136,9 @@ var templates = [
                             "stacking": "normal"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27930,9 +28157,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27959,9 +28186,9 @@ var templates = [
                             "stacking": "normal"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27977,9 +28204,9 @@ var templates = [
                             "stacking": "percent"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -27998,9 +28225,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28017,9 +28244,9 @@ var templates = [
                             "color": "#FF0000"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28035,9 +28262,9 @@ var templates = [
                             "colorByPoint": true
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28048,13 +28275,13 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "type": "logarithmic",
                         "minorTickInterval": "auto"
-                    }
+                    }]
                 }
             },
             {
@@ -28065,9 +28292,9 @@ var templates = [
                     "chart": {
                         "type": "columnrange"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28078,9 +28305,9 @@ var templates = [
                     "chart": {
                         "type": "columnrange"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions":{
                         "series":{
                             "dataLabels":{
@@ -28106,9 +28333,9 @@ var templates = [
                             "shadow": false
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28126,9 +28353,9 @@ var templates = [
                             "showInLegend": true
                         }
                     ],
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             }
         ]
@@ -28147,9 +28374,9 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28173,7 +28400,7 @@ var templates = [
                             step: 1
                         }
                     }],
-                    yAxis: {
+                    yAxis: [{
                         title: {
                             text: null
                         },
@@ -28182,7 +28409,7 @@ var templates = [
                                 return Math.abs(this.value) + '%';
                             }
                         }
-                    },
+                    }],
                     plotOptions: {
                         series: {
                             stacking: 'normal'
@@ -28205,9 +28432,9 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "plotOptions":{
                         "series":{
                             "dataLabels":{
@@ -28231,9 +28458,9 @@ var templates = [
                             "stacking": "normal"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28253,9 +28480,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28272,9 +28499,9 @@ var templates = [
                             "stacking": "percent"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28294,9 +28521,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28314,9 +28541,9 @@ var templates = [
                             "color": "#FF0000"
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28333,9 +28560,9 @@ var templates = [
                             "colorByPoint": true
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28347,9 +28574,9 @@ var templates = [
                         "type": "columnrange",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28361,13 +28588,13 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "yAxis": {
+                    "yAxis": [{
                         "type": "logarithmic",
                         "minorTickInterval": "auto"
-                    },
-                    "xAxis": {
+                    }],
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28386,9 +28613,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28408,9 +28635,9 @@ var templates = [
                             "shadow": false
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28422,9 +28649,9 @@ var templates = [
                         "type": "column",
                         "inverted": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    },
+                    }],
                     "series": [
                         {"type": null},
                         {"type": "errorbar"}
@@ -28506,9 +28733,9 @@ var templates = [
                     "chart": {
                         "type": "pie"
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28536,9 +28763,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28559,9 +28786,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28588,9 +28815,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28611,9 +28838,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28635,9 +28862,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28695,9 +28922,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28730,9 +28957,9 @@ var templates = [
                             }
                         }
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             }
         ]
@@ -28751,9 +28978,9 @@ var templates = [
                         "type": "line",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28765,17 +28992,15 @@ var templates = [
                         "type": "line",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
+                        "type": "category",
                         "tickmarkPlacement": "on",
                         "lineWidth": 0
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "lineWidth": 0,
                         "gridLineInterpolation": "polygon"
-                    },
-                    "xAxis": {
-                        "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28787,9 +29012,9 @@ var templates = [
                         "type": "area",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
                         "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28801,17 +29026,15 @@ var templates = [
                         "type": "area",
                         "polar": true
                     },
-                    "xAxis": {
+                    "xAxis": [{
+                        "type": "category",
                         "tickmarkPlacement": "on",
                         "lineWidth": 0
-                    },
-                    "yAxis": {
+                    }],
+                    "yAxis": [{
                         "lineWidth": 0,
                         "gridLineInterpolation": "polygon"
-                    },
-                    "xAxis": {
-                        "type": "category"
-                    }
+                    }]
                 }
             },
             {
@@ -28862,12 +29085,12 @@ var templates = [
                         }]
                     },
 
-                    yAxis: {
+                    yAxis: [{
                         min: 0,
                         max: 100,
                         lineWidth: 0,
                         tickPositions: []
-                    },
+                    }],
 
                     plotOptions: {
                         solidgauge: {
@@ -28966,12 +29189,12 @@ var templates = [
                         }]
                     },
 
-                    yAxis: {
+                    yAxis: [{
                         min: 0,
                         max: 100,
                         lineWidth: 0,
                         tickPositions: []
-                    },
+                    }],
 
                     plotOptions: {
                         solidgauge: {
@@ -29015,7 +29238,7 @@ var templates = [
     }
 ];
 module.exports = templates;
-},{}],155:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -29052,7 +29275,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":79,"vdom-virtualize":108}],156:[function(require,module,exports){
+},{"fs":6,"lodash.isundefined":79,"vdom-virtualize":108}],159:[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -29136,7 +29359,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":157,"./properties/arrayColor":158,"./properties/boolean":159,"./properties/number":160,"./properties/select":161,"./properties/string":162,"lodash.clonedeep":64,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isstring":77,"lodash.isundefined":79}],157:[function(require,module,exports){
+},{"./properties/array":160,"./properties/arrayColor":161,"./properties/boolean":162,"./properties/number":163,"./properties/select":164,"./properties/string":165,"lodash.clonedeep":64,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isstring":77,"lodash.isundefined":79}],160:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -29184,7 +29407,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"virtual-dom/h":112}],158:[function(require,module,exports){
+},{"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"virtual-dom/h":112}],161:[function(require,module,exports){
 (function () {
   var ColorPicker = require('simple-color-picker');
   var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -29251,7 +29474,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":103,"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"simple-color-picker":102,"virtual-dom/h":112}],159:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":103,"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"simple-color-picker":102,"virtual-dom/h":112}],162:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -29295,7 +29518,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":77,"virtual-dom/h":112}],160:[function(require,module,exports){
+},{"lodash.isstring":77,"virtual-dom/h":112}],163:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -29311,7 +29534,7 @@ return self})();
         disabled  : disabled,
         'type'    : 'number',
         'value'   : configValue,
-        'ev-input': function (e) {
+        'ev-blur': function (e) {
           if (parseInt(property.defaults) !== parseInt(e.target.value)) {
             configService.setValue(property.fullname, parseInt(e.target.value));
           } else {
@@ -29324,7 +29547,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"virtual-dom/h":112}],161:[function(require,module,exports){
+},{"virtual-dom/h":112}],164:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -29367,7 +29590,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.foreach":68,"virtual-dom/h":112}],162:[function(require,module,exports){
+},{"lodash.foreach":68,"virtual-dom/h":112}],165:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -29397,7 +29620,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":112}],163:[function(require,module,exports){
+},{"virtual-dom/h":112}],166:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -29587,7 +29810,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"lodash.clonedeep":64,"lodash.drop":65,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isempty":72,"lodash.isundefined":79,"lodash.map":82,"lodash.merge":83,"lodash.remove":85,"lodash.size":88,"lodash.slice":89,"lodash.union":92}],164:[function(require,module,exports){
+},{"lodash.clonedeep":64,"lodash.drop":65,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isarray":71,"lodash.isempty":72,"lodash.isundefined":79,"lodash.map":82,"lodash.merge":83,"lodash.remove":85,"lodash.size":88,"lodash.slice":89,"lodash.union":92}],167:[function(require,module,exports){
 (function () {
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
@@ -29646,7 +29869,7 @@ return self})();
                 title: 'Customise',
                 dependencies: function(){
                     var that = {};
-                    that.configurate = require('./components/configurate.js')(services);
+                    that.configurate = require('./components/configure.js')(services);
                     return that;
                 },
                 template: function (dependencies) {
@@ -29673,7 +29896,7 @@ return self})();
         if(typeof opts.element !== 'undefined'){
             opts.element.className += ' ec';
             var mainRouter = new router(opts.element, states , services);
-            mainRouter.goToState('data');
+            mainRouter.goToState('customise');
         }
 
         return new Api(services);
@@ -29682,7 +29905,7 @@ return self})();
     window.ec = constructor;
 })();
 
-},{"../css/style.css":140,"./components/configurate.js":142,"./components/debug.js":143,"./components/import.js":145,"./components/templateSelection.js":152,"./services/api":165,"./services/config":166,"./services/data":167,"./services/initializer":168,"./services/options":169,"./services/revision":170,"./services/router.js":171,"./services/templates":172,"dom-delegator":12,"mediatorjs":95,"virtual-dom/h":112}],165:[function(require,module,exports){
+},{"../css/style.css":140,"./components/configure.js":142,"./components/debug.js":146,"./components/import.js":148,"./components/templateSelection.js":155,"./services/api":168,"./services/config":169,"./services/data":170,"./services/initializer":171,"./services/options":172,"./services/revision":173,"./services/router.js":174,"./services/templates":175,"dom-delegator":12,"mediatorjs":95,"virtual-dom/h":112}],168:[function(require,module,exports){
 
 (function () {
     function constructor(services){
@@ -29769,7 +29992,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],166:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -29784,7 +30007,9 @@ return self})();
         var templates = require('../config/templates');
         var that = {};
         var preset = {
-            chart:{}
+            chart:{},
+            xAxis:[{}],
+            yAxis:[{}]
         };
         var config = _.cloneDeep(preset);
         var configCache;
@@ -29919,7 +30144,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../config/templates":154,"../factories/series.js":163,"lodash.clonedeep":64,"lodash.find":66,"lodash.foreach":68,"lodash.isempty":72,"lodash.isundefined":79,"lodash.merge":83}],167:[function(require,module,exports){
+},{"../config/templates":157,"../factories/series.js":166,"lodash.clonedeep":64,"lodash.find":66,"lodash.foreach":68,"lodash.isempty":72,"lodash.isundefined":79,"lodash.merge":83}],170:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -30049,7 +30274,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isequal":73,"lodash.isnan":75,"lodash.isundefined":79,"lodash.map":82,"lodash.rest":86,"lodash.slice":89,"papaparse":96}],168:[function(require,module,exports){
+},{"lodash.clonedeep":64,"lodash.find":66,"lodash.first":67,"lodash.foreach":68,"lodash.isequal":73,"lodash.isnan":75,"lodash.isundefined":79,"lodash.map":82,"lodash.rest":86,"lodash.slice":89,"papaparse":96}],171:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -30091,7 +30316,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":68}],169:[function(require,module,exports){
+},{"lodash.foreach":68}],172:[function(require,module,exports){
 (function () {
     var constructor = function (mediator){
         var options = require('../config/options.json');
@@ -30141,7 +30366,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":153,"lodash.clonedeep":64}],170:[function(require,module,exports){
+},{"../config/options.json":156,"lodash.clonedeep":64}],173:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -30183,7 +30408,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":64}],171:[function(require,module,exports){
+},{"lodash.clonedeep":64}],174:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -30268,7 +30493,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":141,"./../components/revision":150,"./../templates/logo":173,"lodash.keys":80,"main-loop":94,"virtual-dom/create-element":110,"virtual-dom/diff":111,"virtual-dom/h":112,"virtual-dom/patch":113}],172:[function(require,module,exports){
+},{"./../components/chart.js":141,"./../components/revision":153,"./../templates/logo":176,"lodash.keys":80,"main-loop":94,"virtual-dom/create-element":110,"virtual-dom/diff":111,"virtual-dom/h":112,"virtual-dom/patch":113}],175:[function(require,module,exports){
 (function () {
     function constructor(){
         var templates = require('../config/templates');
@@ -30289,7 +30514,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates":154,"lodash.clonedeep":64}],173:[function(require,module,exports){
+},{"../config/templates":157,"lodash.clonedeep":64}],176:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -30298,7 +30523,7 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":155,"virtual-dom/h":112}]},{},[164])
+},{"../factories/iconLoader":158,"virtual-dom/h":112}]},{},[167])
 
 
 //# sourceMappingURL=ec.full.js.map

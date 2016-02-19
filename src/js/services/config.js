@@ -12,7 +12,9 @@
         var templates = require('../config/templates');
         var that = {};
         var preset = {
-            chart:{}
+            chart:{},
+            xAxis:[{}],
+            yAxis:[{}]
         };
         var config = _.cloneDeep(preset);
         var configCache;

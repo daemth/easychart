@@ -349,15 +349,32 @@
         ]
     },
     {
-        "id": "axes",
-        "panelTitle": "Axes",
+        "id": "axis",
+        "panelTitle": "Axis",
         "panes": [
             {
                 "title": "Axes setup",
-                "options": []
+                "id": "general",
+                "options": [
+                    {
+                        "name": "chart--inverted",
+                        "fullname": "chart.inverted",
+                        "title": "inverted",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "false",
+                        "since": "",
+                        "description": "Whether to invert the axes so that the x axis is vertical and y axis is horizontal.\r When true, the x axis is reversed by default. If a bar series is present in the chart,\r it will be inverted automatically.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/inverted/\" target=\"_blank\">Inverted line</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    }
+                ]
             },
             {
                 "title": "X axis",
+                "id": "xAxis",
                 "options": [
                     {
                         "name": "xAxis--type",
@@ -458,6 +475,7 @@
             },
             {
                 "title": "Value axis",
+                "id": "yAxis",
                 "options": [
                     {
                         "name": "yAxis--type",
