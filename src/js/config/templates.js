@@ -450,6 +450,7 @@ var templates = [
                         },
                         opposite: true
                     }],
+                    xAxis:[{type:'category'}],
                     tooltip: {
                         shared: true
                     },
