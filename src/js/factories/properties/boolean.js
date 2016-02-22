@@ -1,13 +1,17 @@
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
-    isString: require('lodash.isstring')
+    isString: require('lodash.isstring'),
+    isUndefined: require('lodash.isundefined')
   };
 
   function constructor(property, configService, configValue, disabled) {
+
     if (_.isString(configValue)) {
       configValue = configValue == 'true';
     }
+    property.defaults = property.defaults === 'true';
+
     return h('div.form-item', [
       h('div.form-item__label', h('label', {
         title     : property.description,
@@ -27,7 +31,7 @@
       h('div.form-item__input', h('input', {
         disabled  : disabled,
         'type'    : 'checkbox',
-        'checked' : configValue,
+        'checked': _.isUndefined(configValue) ? property.defaults : !property.defaults,
         'ev-click': function (e) {
           if (property.defaults !== e.target.checked) {
             configService.setValue(property.fullname, e.target.checked);
