@@ -139,6 +139,7 @@
             }
             return labels;
         }
+
         function configUpdate(){
             mediator.trigger('configUpdate', that.get());
         }

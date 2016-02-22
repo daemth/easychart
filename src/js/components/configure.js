@@ -8,7 +8,7 @@
         var axisTabs = require('./configure/axisTabs')(services);
         var config = configService.get();
         var options = optionsService.get();
-
+        var context = 'configUpdate';
         var _ = {
             isUndefined: require('lodash.isundefined'),
             find: require('lodash.find'),
@@ -19,15 +19,15 @@
             first: require('lodash.first')
         };
         var h = require('virtual-dom/h');
-
         var tabs;
         var activeTab = _.first(options).id;
         var activeTabChild;
         // when any config is updated we just re diff the ui -> e.g series labels
+
         mediator.on('configUpdate', function (_config_) {
             config = _config_;
             mediator.trigger('treeUpdate');
-        });
+        }, context);
 
         function template() {
 
@@ -76,9 +76,8 @@
         }
 
         function destroy() {
-            mediator.off('configUpate', function () {mediator.trigger('treeUpdate');});
+            mediator.off(null, null, context);
         }
-
         return {
             template: template,
             destroy: destroy
