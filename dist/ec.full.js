@@ -34647,6 +34647,7 @@ module.exports=module.exports = [
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis",
                         "deprecated": false
                     },
+                    null,
                     {
                         "name": "yAxis--type",
                         "fullname": "yAxis.type",
@@ -34727,7 +34728,9 @@ module.exports=module.exports = [
                         "defaults": "0",
                         "description": "Rotation of the labels in degrees.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-rotation/\" target=\"_blank\">X axis labels rotated 90°</a>"
-                    }
+                    },
+                    null,
+                    null
                 ]
             }
         ]
@@ -34938,18 +34941,6 @@ module.exports=module.exports = [
                 "title": "Series configuration",
                 "options": [
                     {
-                        "name": "series--yAxis",
-                        "fullname": "series.yAxis",
-                        "title": "yAxis",
-                        "parent": "series",
-                        "isParent": false,
-                        "returnType": "Number|String",
-                        "defaults": "0",
-                        "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
-                        "deprecated": false
-                    },
-                    {
                         "name": "series--name",
                         "fullname": "series.name",
                         "title": "name",
@@ -35008,7 +34999,9 @@ module.exports=module.exports = [
                         "demo": "",
                         "seeAlso": "",
                         "deprecated": false
-                    }
+                    },
+                    null,
+                    null
                 ]
             }
         ]
@@ -37616,7 +37609,7 @@ return self})();
         };
 
         that.getData = function (series, categories) {
-            var data = dataSet;
+            var data = _.cloneDeep(dataSet);
 
             if (series) {
                 data = _.slice(data, 1);
@@ -37628,6 +37621,7 @@ return self})();
                     return row;
                 });
             }
+
             return _.cloneDeep(data);
         };
 

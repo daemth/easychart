@@ -32,7 +32,7 @@
         };
 
         that.getData = function (series, categories) {
-            var data = dataSet;
+            var data = _.cloneDeep(dataSet);
 
             if (series) {
                 data = _.slice(data, 1);
@@ -44,6 +44,7 @@
                     return row;
                 });
             }
+
             return _.cloneDeep(data);
         };
 
