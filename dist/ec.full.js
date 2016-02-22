@@ -36959,7 +36959,7 @@ return self})();
         disabled  : disabled,
         'placeholder' : property.defaults,
         'type'    : 'number',
-        'value'   : configValue,
+        'value'   : configValue?configValue:"",
         'ev-blur': function (e) {
           if (e.target.value !== '') {
             configService.setValue(property.fullname, parseInt(e.target.value));
@@ -37036,7 +37036,7 @@ return self})();
         disabled  : disabled,
         'type'    : 'text',
         'placeholder' : property.defaults,
-        'value'   : configValue,
+        'value': configValue ? configValue : '',
         'ev-input': function (e) {
           if (e.target.value !== '') {
             configService.setValue(property.fullname, e.target.value);
@@ -37322,13 +37322,14 @@ return self})();
                 }
             }
         };
-        
+
         // initialise the application with given options
         initializer(opts, services);
         if(typeof opts.element !== 'undefined'){
             opts.element.className += ' ec';
             var mainRouter = new router(opts.element, states , services);
-            mainRouter.goToState('customise');
+            mainRouter.goToState('data');
+            
         }
 
         return new Api(services);

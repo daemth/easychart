@@ -15,7 +15,7 @@
         disabled  : disabled,
         'placeholder' : property.defaults,
         'type'    : 'number',
-        'value'   : configValue,
+        'value'   : configValue?configValue:"",
         'ev-blur': function (e) {
           if (e.target.value !== '') {
             configService.setValue(property.fullname, parseInt(e.target.value));

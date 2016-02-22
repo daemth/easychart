@@ -15,7 +15,7 @@
         disabled  : disabled,
         'type'    : 'text',
         'placeholder' : property.defaults,
-        'value'   : configValue,
+        'value': configValue ? configValue : '',
         'ev-input': function (e) {
           if (e.target.value !== '') {
             configService.setValue(property.fullname, e.target.value);

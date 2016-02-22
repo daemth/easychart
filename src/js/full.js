@@ -84,7 +84,8 @@
         if(typeof opts.element !== 'undefined'){
             opts.element.className += ' ec';
             var mainRouter = new router(opts.element, states , services);
-            mainRouter.goToState('customise');
+            mainRouter.goToState('data');
+
         }
 
         return new Api(services);
