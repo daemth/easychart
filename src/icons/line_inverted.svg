@@ -1,0 +1,17 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 80 80" style="enable-background:new 0 0 80 80;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	.st1{fill:none;}
+	.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}
+	.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}
+	.st5{fill:#989898;}
+</style>
+<polyline class="st2" points="50,77.2 22.8,64 29.5,50 8.8,36 36.8,22 15,8 "/>
+<polyline class="st2" points="64,77.2 58.8,64 43.5,50 42.8,36 54.8,22 39,8 "/>
+<g>
+	<polyline class="st0" points="72,78 2,78 2,8 	"/>
+	<rect class="st1" width="80" height="80"/>
+</g>
+</svg>

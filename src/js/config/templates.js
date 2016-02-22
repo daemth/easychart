@@ -6,7 +6,7 @@ var templates = [
         "templates": [
             {
                 "id": "basic",
-                "icon": "area",
+                "icon": "line_basic",
                 "title": "Line chart",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -20,6 +20,7 @@ var templates = [
             },
             {
                 "id": "dataLabels",
+                "icon": "line_labels",
                 "title": "With data labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values. Data labels by default displays the Y value.",
                 "definition": {
@@ -40,6 +41,7 @@ var templates = [
             },
             {
                 "id": "spline",
+                "icon": "spline_basic",
                 "title": "Spline",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -53,6 +55,7 @@ var templates = [
             },
             {
                 "id": "splineDataLabels",
+                "icon": "spline_labels",
                 "title": "Spline with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -73,6 +76,7 @@ var templates = [
             },
             {
                 "id": "splineLogarithmic",
+
                 "title": "Logarithmic",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -96,6 +100,7 @@ var templates = [
             },
             {
                 "id": "step",
+                "icon": "line_step",
                 "title": "Step line",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -114,6 +119,7 @@ var templates = [
             },
             {
                 "id": "stepWithLabels",
+                "icon": "line_step_labels",
                 "title": "Step line with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -135,6 +141,7 @@ var templates = [
             },
             {
                 "id": "inverted",
+                "icon": "line_inverted",
                 "title": "Inverted",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -149,6 +156,7 @@ var templates = [
             },
             {
                 "id": "negativeColor",
+                "icon": "line_negative_color",
                 "title": "Negative color",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -167,6 +175,7 @@ var templates = [
             },
             {
                 "id": "errorBar",
+                "icon": "line_errorbar",
                 "title": "Error bar",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values and two columns for the error bar series maximum and minimum.",
                 "definition": {
