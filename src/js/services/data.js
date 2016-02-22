@@ -10,7 +10,6 @@
             forEach: require('lodash.foreach'),
             first: require('lodash.first'),
             isEqual: require('lodash.isequal'),
-            rest: require('lodash.rest'),
             isNaN: require('lodash.isnan')
         };
         var papa = require('papaparse');
@@ -41,7 +40,8 @@
 
             if (categories) {
                 data = _.map(data, function (row) {
-                    return _.rest(row);
+                    row.slice(0,1);
+                    return row;
                 });
             }
 

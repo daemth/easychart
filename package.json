@@ -39,7 +39,6 @@
     "lodash.merge": "^4.3.0",
     "lodash.pullat": "^4.1.0",
     "lodash.remove": "^4.2.0",
-    "lodash.rest": "^4.0.1",
     "lodash.size": "^4.0.3",
     "lodash.slice": "^4.0.2",
     "lodash.trim": "^4.2.0",

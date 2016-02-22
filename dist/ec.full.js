@@ -34938,6 +34938,18 @@ module.exports=module.exports = [
                 "title": "Series configuration",
                 "options": [
                     {
+                        "name": "series--yAxis",
+                        "fullname": "series.yAxis",
+                        "title": "yAxis",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number|String",
+                        "defaults": "0",
+                        "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
+                        "deprecated": false
+                    },
+                    {
                         "name": "series--name",
                         "fullname": "series.name",
                         "title": "name",
@@ -37287,6 +37299,7 @@ return self})();
                 }
             }
         };
+        
         // initialise the application with given options
         initializer(opts, services);
         if(typeof opts.element !== 'undefined'){
@@ -37589,7 +37602,7 @@ return self})();
 
             if (categories) {
                 data = _.map(data, function (row) {
-                    return _.rest(row);
+                    return _.slice(row, 1);
                 });
             }
 

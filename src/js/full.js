@@ -78,6 +78,7 @@
                 }
             }
         };
+
         // initialise the application with given options
         initializer(opts, services);
         if(typeof opts.element !== 'undefined'){
