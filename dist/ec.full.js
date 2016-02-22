@@ -25909,14 +25909,14 @@ function constructor(services) {
                         }, 'general')
                     )
                 }
-                if(config.xAxis){
+                if (config.xAxis) {
                     _.forEach(config.xAxis, function (axis, index) {
                         links.push(
                             h('li.hover', {
-                                'className': activeTabChild === 'xAxis' +index ? 'sub-active' : 'sub-non-active',
+                                'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(options.id, 'xAxis' +index);
+                                    setActive(options.id, 'xAxis' + index);
                                 }
                             }, axis.name ? axis.name : 'X axis ' + (index + 1))
                         )
@@ -25924,16 +25924,16 @@ function constructor(services) {
                 } else {
                     links.push(
                         h('li.hover', {
-                            'className': activeTabChild === 'xAxis' +  0 ? 'sub-active' : 'sub-non-active',
+                            'className': activeTabChild === 'xAxis' + 0 ? 'sub-active' : 'sub-non-active',
                             'ev-click': function (e) {
                                 e.preventDefault();
-                                setActive(options.id, 'xAxis' +  0);
+                                setActive(options.id, 'xAxis' + 0);
                             }
                         }, 'X axis')
                     )
                 }
 
-                if(config.yAxis){
+                if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
                         links.push(
                             h('li.hover', {
@@ -25948,10 +25948,10 @@ function constructor(services) {
                 } else {
                     links.push(
                         h('li.hover', {
-                            'className': activeTabChild === 'yAxis' +  0 ? 'sub-active' : 'sub-non-active',
+                            'className': activeTabChild === 'yAxis' + 0 ? 'sub-active' : 'sub-non-active',
                             'ev-click': function (e) {
                                 e.preventDefault();
-                                setActive(options.id, 'yAxis' +  0);
+                                setActive(options.id, 'yAxis' + 0);
                             }
                         }, 'Y axis')
                     )
@@ -26004,33 +26004,49 @@ function constructor(services) {
         return h('div.vertical-tab-content', [presetList]);
     }
 
-    function axisContent(panes, config, child) {
-
+    function axisContent(panes, child, config) {
         var inputs = [];
         var type = child.substring(0, 5);
         var index = child.substring(5, 6);
-        var pane = _.find(panes, function(pane){
+        var pane = _.find(panes, function (pane) {
             return pane.id == type;
         });
-
-
-        if(pane){
+        if (pane) {
             var title = h('h3', pane.title);
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
             });
+            return h('div.vertical-tab-content', [title, removeButton(type, index, pane.title, config[type]), addButton(type, config[type]), inputs]);
+        }
+    }
+
+    function removeButton(type, index, title, typeConfig) {
+        if(typeConfig.length > 1){
+            return h('button', {
+                'ev-click': function () {
+                    configService.removeValue(type + '.' + index, {})
+                }
+            }, 'remove ' + title);
         }
 
-        return h('div.vertical-tab-content', [title, inputs]);
     }
+
+    function addButton(type, typeConfig) {
+        return h('button', {
+            'ev-click': function () {
+                configService.setValue(type + '.' + typeConfig.length, {})
+            }
+        }, 'add ' + type)
+    }
+
+
     function content(panel, child, config) {
         if (child == 'general') {
             return generalContent(generalOptions(panel.panes));
         } else {
-            return axisContent(panel.panes, config, child);
+            return axisContent(panel.panes, child, config);
         }
     }
-
 
     return {
         tabs: tabs,
@@ -26233,9 +26249,10 @@ module.exports = constructor;
         var readOnly;
         that.load = function (_element_) {
             element = _element_;
-            var wrapper = createElement(h('div'))
+            var wrapper = createElement(h('div'));
             element.appendChild(wrapper);
             readOnly = services.data.getUrl() ? true : false;
+            var data = services.data.get();
             hot = new Handsontable(wrapper, {
                 startRows: 8,
                 startCols: 5,
@@ -26244,15 +26261,17 @@ module.exports = constructor;
                 rowHeaders: true,
                 colHeaders: true,
                 contextMenu: true,
+                data: data,
                 afterChange: function () {
-                    var data = removeEmptyRows(this);
-                    if (!_.isEmpty(data)) {
-                        services.data.set(removeEmptyRows(hot));
-                    }
+                    services.data.set(removeEmptyRows(this));
+                },
+                afterRemoveRow:function () {
+                    services.data.set(removeEmptyRows(this));
+                },
+                afterRemoveCol:function (test) {
+                    services.data.set(removeEmptyRows(this));
                 }
             });
-
-
             hot.updateSettings({
                 cells: function (row, col, prop) {
                     var cellProperties = {};
@@ -26260,12 +26279,7 @@ module.exports = constructor;
                     return cellProperties;
                 }
             });
-            var data = services.data.get();
-            if (!_.isEmpty(data)) {
-                hot.updateSettings({
-                    data: data
-                });
-            }
+
             services.mediator.on('dataUpdate', function (_data_) {
                 readOnly = services.data.getUrl() ? true : false;
                 if(_data_.length > 0){
@@ -27192,6 +27206,16 @@ module.exports=module.exports = [
                 "id": "xAxis",
                 "options": [
                     {
+                        "name": "xAxis-title--text",
+                        "fullname": "xAxis.title.text",
+                        "title": "X axis title",
+                        "parent": "xAxis-title",
+                        "isParent": false,
+                        "returnType": "String",
+                        "description": "The actual text of the axis title. It can contain basic HTML text markup like &lt;b&gt;, &lt;i&gt; and spans with style.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis"
+                    },
+                    {
                         "name": "xAxis--type",
                         "fullname": "xAxis.type",
                         "title": "type",
@@ -27292,6 +27316,18 @@ module.exports=module.exports = [
                 "title": "Value axis",
                 "id": "yAxis",
                 "options": [
+                    {
+                        "name": "yAxis-title--text",
+                        "fullname": "yAxis.title.text",
+                        "title": "Y axis title",
+                        "parent": "yAxis-title",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "Values",
+                        "description": "The actual text of the axis title. Horizontal texts can contain HTML, \r but rotated texts are painted using vector techniques and must be \r clean text. The Y axis title is disabled by setting the <code>text</code>\r option to <code>null</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis",
+                        "deprecated": false
+                    },
                     {
                         "name": "yAxis--type",
                         "fullname": "yAxis.type",
@@ -29322,6 +29358,7 @@ return self})();
             }
         }
 
+        var returnType = property.returnType ? property.returnType : "string";
         // select
         if (property.hasOwnProperty('values') && property.values !== '') {
             element = require('./properties/select')(property, configService, configValue, disabled);
@@ -29329,23 +29366,23 @@ return self})();
         else {
             switch (true) {
                 // Color array
-                case property.returnType.toLowerCase() == 'array<color>':
+                case returnType.toLowerCase() == 'array<color>':
                     element = require('./properties/arrayColor')(property, configService, configValue, disabled);
                     break;
                 // array
-                case (property.returnType.lastIndexOf('Array', 0) === 0):
+                case (returnType.lastIndexOf('Array', 0) === 0):
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
                 // number
-                case property.returnType.toLowerCase() == 'number':
+                case returnType.toLowerCase() == 'number':
                     element = require('./properties/number')(property, configService, configValue, disabled);
                     break;
                 // boolean
-                case property.returnType.toLowerCase() == 'boolean':
+                case returnType.toLowerCase() == 'boolean':
                     element = require('./properties/boolean')(property, configService, configValue, disabled);
                     break;
 
-                case property.returnType.toLowerCase() == 'string':
+                case returnType.toLowerCase() == 'string':
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
 
@@ -30087,14 +30124,18 @@ return self})();
         };
 
         that.removeValue = function (path) {
-            var object = config;
+            var temp = config;
             path = path.split('.');
             while (step = path.shift()) {
-                if (!_.isUndefined(object[step])) {
+                if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
-                        object = object[step];
+                        temp = temp[step];
                     } else {
-                        delete object[step];
+                        if(Object.prototype.toString.call( temp ) === '[object Array]'){
+                            temp.splice(step, 1);
+                        } else {
+                            delete temp[step];
+                        }
                     }
                 }
             }

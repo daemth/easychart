@@ -151,6 +151,9 @@
         "id": "xAxis",
         "options": [
           {
+            "fullname": "xAxis.title.text"
+          },
+          {
             "fullname": "xAxis.type"
           },
           {
@@ -180,6 +183,9 @@
         "title": "Value axis",
         "id": "yAxis",
         "options": [
+          {
+            "fullname": "yAxis.title.text"
+          },
           {
             "fullname": "yAxis.type"
           },

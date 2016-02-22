@@ -44,6 +44,7 @@
             }
         }
 
+        var returnType = property.returnType ? property.returnType : "string";
         // select
         if (property.hasOwnProperty('values') && property.values !== '') {
             element = require('./properties/select')(property, configService, configValue, disabled);
@@ -51,23 +52,23 @@
         else {
             switch (true) {
                 // Color array
-                case property.returnType.toLowerCase() == 'array<color>':
+                case returnType.toLowerCase() == 'array<color>':
                     element = require('./properties/arrayColor')(property, configService, configValue, disabled);
                     break;
                 // array
-                case (property.returnType.lastIndexOf('Array', 0) === 0):
+                case (returnType.lastIndexOf('Array', 0) === 0):
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
                 // number
-                case property.returnType.toLowerCase() == 'number':
+                case returnType.toLowerCase() == 'number':
                     element = require('./properties/number')(property, configService, configValue, disabled);
                     break;
                 // boolean
-                case property.returnType.toLowerCase() == 'boolean':
+                case returnType.toLowerCase() == 'boolean':
                     element = require('./properties/boolean')(property, configService, configValue, disabled);
                     break;
 
-                case property.returnType.toLowerCase() == 'string':
+                case returnType.toLowerCase() == 'string':
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
 

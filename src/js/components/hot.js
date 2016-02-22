@@ -9,9 +9,10 @@
         var readOnly;
         that.load = function (_element_) {
             element = _element_;
-            var wrapper = createElement(h('div'))
+            var wrapper = createElement(h('div'));
             element.appendChild(wrapper);
             readOnly = services.data.getUrl() ? true : false;
+            var data = services.data.get();
             hot = new Handsontable(wrapper, {
                 startRows: 8,
                 startCols: 5,
@@ -20,15 +21,17 @@
                 rowHeaders: true,
                 colHeaders: true,
                 contextMenu: true,
+                data: data,
                 afterChange: function () {
-                    var data = removeEmptyRows(this);
-                    if (!_.isEmpty(data)) {
-                        services.data.set(removeEmptyRows(hot));
-                    }
+                    services.data.set(removeEmptyRows(this));
+                },
+                afterRemoveRow:function () {
+                    services.data.set(removeEmptyRows(this));
+                },
+                afterRemoveCol:function (test) {
+                    services.data.set(removeEmptyRows(this));
                 }
             });
-
-
             hot.updateSettings({
                 cells: function (row, col, prop) {
                     var cellProperties = {};
@@ -36,12 +39,7 @@
                     return cellProperties;
                 }
             });
-            var data = services.data.get();
-            if (!_.isEmpty(data)) {
-                hot.updateSettings({
-                    data: data
-                });
-            }
+
             services.mediator.on('dataUpdate', function (_data_) {
                 readOnly = services.data.getUrl() ? true : false;
                 if(_data_.length > 0){

@@ -92,14 +92,18 @@
         };
 
         that.removeValue = function (path) {
-            var object = config;
+            var temp = config;
             path = path.split('.');
             while (step = path.shift()) {
-                if (!_.isUndefined(object[step])) {
+                if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
-                        object = object[step];
+                        temp = temp[step];
                     } else {
-                        delete object[step];
+                        if(Object.prototype.toString.call( temp ) === '[object Array]'){
+                            temp.splice(step, 1);
+                        } else {
+                            delete temp[step];
+                        }
                     }
                 }
             }

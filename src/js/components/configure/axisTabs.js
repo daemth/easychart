@@ -28,14 +28,14 @@ function constructor(services) {
                         }, 'general')
                     )
                 }
-                if(config.xAxis){
+                if (config.xAxis) {
                     _.forEach(config.xAxis, function (axis, index) {
                         links.push(
                             h('li.hover', {
-                                'className': activeTabChild === 'xAxis' +index ? 'sub-active' : 'sub-non-active',
+                                'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    setActive(options.id, 'xAxis' +index);
+                                    setActive(options.id, 'xAxis' + index);
                                 }
                             }, axis.name ? axis.name : 'X axis ' + (index + 1))
                         )
@@ -43,16 +43,16 @@ function constructor(services) {
                 } else {
                     links.push(
                         h('li.hover', {
-                            'className': activeTabChild === 'xAxis' +  0 ? 'sub-active' : 'sub-non-active',
+                            'className': activeTabChild === 'xAxis' + 0 ? 'sub-active' : 'sub-non-active',
                             'ev-click': function (e) {
                                 e.preventDefault();
-                                setActive(options.id, 'xAxis' +  0);
+                                setActive(options.id, 'xAxis' + 0);
                             }
                         }, 'X axis')
                     )
                 }
 
-                if(config.yAxis){
+                if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
                         links.push(
                             h('li.hover', {
@@ -67,10 +67,10 @@ function constructor(services) {
                 } else {
                     links.push(
                         h('li.hover', {
-                            'className': activeTabChild === 'yAxis' +  0 ? 'sub-active' : 'sub-non-active',
+                            'className': activeTabChild === 'yAxis' + 0 ? 'sub-active' : 'sub-non-active',
                             'ev-click': function (e) {
                                 e.preventDefault();
-                                setActive(options.id, 'yAxis' +  0);
+                                setActive(options.id, 'yAxis' + 0);
                             }
                         }, 'Y axis')
                     )
@@ -123,33 +123,49 @@ function constructor(services) {
         return h('div.vertical-tab-content', [presetList]);
     }
 
-    function axisContent(panes, config, child) {
-
+    function axisContent(panes, child, config) {
         var inputs = [];
         var type = child.substring(0, 5);
         var index = child.substring(5, 6);
-        var pane = _.find(panes, function(pane){
+        var pane = _.find(panes, function (pane) {
             return pane.id == type;
         });
-
-
-        if(pane){
+        if (pane) {
             var title = h('h3', pane.title);
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
             });
+            return h('div.vertical-tab-content', [title, removeButton(type, index, pane.title, config[type]), addButton(type, config[type]), inputs]);
+        }
+    }
+
+    function removeButton(type, index, title, typeConfig) {
+        if(typeConfig.length > 1){
+            return h('button', {
+                'ev-click': function () {
+                    configService.removeValue(type + '.' + index, {})
+                }
+            }, 'remove ' + title);
         }
 
-        return h('div.vertical-tab-content', [title, inputs]);
     }
+
+    function addButton(type, typeConfig) {
+        return h('button', {
+            'ev-click': function () {
+                configService.setValue(type + '.' + typeConfig.length, {})
+            }
+        }, 'add ' + type)
+    }
+
+
     function content(panel, child, config) {
         if (child == 'general') {
             return generalContent(generalOptions(panel.panes));
         } else {
-            return axisContent(panel.panes, config, child);
+            return axisContent(panel.panes, child, config);
         }
     }
-
 
     return {
         tabs: tabs,
