@@ -12,6 +12,7 @@ var h = require('virtual-dom/h');
 
 function constructor(services) {
     var configService = services.config;
+    var axesTabTitle = 'Axes';
 
     function tabs(options, setActive, activeTab, activeTabChild, config) {
         if (!_.isUndefined(options)) {
@@ -67,7 +68,7 @@ function constructor(services) {
                                 e.preventDefault();
                                 setActive(options.id, 'general');
                             }
-                        }, 'Data series'),
+                        }, axesTabTitle),
                         h('ul', links)
                     ])
             }
@@ -80,7 +81,7 @@ function constructor(services) {
                                 e.preventDefault();
                                 setActive(options.id, 'general');
                             }
-                        }, 'Axis')
+                        }, axesTabTitle)
                     ])
             }
         }
