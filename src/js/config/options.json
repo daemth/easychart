@@ -822,19 +822,6 @@
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/name/\" target=\"_blank\">Series name</a>"
                     },
                     {
-                        "name": "series--index",
-                        "fullname": "series.index",
-                        "title": "index",
-                        "parent": "series",
-                        "isParent": false,
-                        "returnType": "Number",
-                        "since": "2.3.0",
-                        "description": "The index of the series in the chart, affecting the internal index in the <code>chart.series</code> array, the visible Z index as well as the order in the legend.",
-                        "demo": "",
-                        "seeAlso": "",
-                        "deprecated": false
-                    },
-                    {
                         "name": "series--type",
                         "fullname": "series.type",
                         "title": "type",
@@ -845,6 +832,42 @@
                         "since": "",
                         "description": "The type of series. Can be one of <code>area</code>, <code>areaspline</code>,\r <code>bar</code>, <code>column</code>, <code>line</code>, <code>pie</code>,\r <code>scatter</code> or <code>spline</code>. From version 2.3, <code>arearange</code>, <code>areasplinerange</code> and <code>columnrange</code> are supported with the highcharts-more.js component.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/type/\" target=\"_blank\">Line and column in the same chart</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--xAxis",
+                        "fullname": "series.xAxis",
+                        "title": "xAxis",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number|String",
+                        "defaults": "0",
+                        "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--yAxis",
+                        "fullname": "series.yAxis",
+                        "title": "yAxis",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number|String",
+                        "defaults": "0",
+                        "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--index",
+                        "fullname": "series.index",
+                        "title": "index",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "since": "2.3.0",
+                        "description": "The index of the series in the chart, affecting the internal index in the <code>chart.series</code> array, the visible Z index as well as the order in the legend.",
+                        "demo": "",
                         "seeAlso": "",
                         "deprecated": false
                     }
