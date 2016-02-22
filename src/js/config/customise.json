@@ -311,10 +311,16 @@
           "fullname": "series.name"
         },
         {
-          "fullname": "series.index"
+          "fullname": "series.type"
         },
         {
-          "fullname": "series.type"
+          "fullname": "series.xaxis"
+        },
+        {
+          "fullname": "series.yaxis"
+        },
+        {
+          "fullname": "series.index"
         }
       ]
     }]
