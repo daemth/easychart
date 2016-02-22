@@ -12,14 +12,15 @@
       h('div.form-item__label', h('label', {
         title     : property.description,
         'ev-click': function (e) {
-          var _checkbox = e.target.parentNode.parentNode.querySelector('input');
-          var _val = _checkbox.checked;
-          _checkbox.checked = !_val;
-
-          if (property.defaults !== !_val) {
-            configService.setValue(property.fullname, !_val);
-          } else {
-            configService.removeValue(property.fullname);
+          if(!disabled) {
+            var _checkbox = e.target.parentNode.parentNode.querySelector('input');
+            var _val = _checkbox.checked;
+            _checkbox.checked = !_val;
+            if (property.defaults !== !_val) {
+              configService.setValue(property.fullname, !_val);
+            } else {
+              configService.removeValue(property.fullname);
+            }
           }
         }
       }, [property.title])),

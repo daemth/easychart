@@ -22,6 +22,7 @@
         var tabs;
         var activeTab = _.first(options).id;
         var activeTabChild;
+
         // when any config is updated we just re diff the ui -> e.g series labels
 
         mediator.on('configUpdate', function (_config_) {

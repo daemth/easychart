@@ -27,7 +27,9 @@
         h('div.form-item__label', h('label', {
           title     : property.description,
           'ev-click': function (e) {
-            e.target.parentNode.parentNode.querySelector('input').focus();
+            if(!disabled) {
+              e.target.parentNode.parentNode.querySelector('input').focus();
+            }
           }
         }, property.title + ' ' + index + ' :')),
         h('div.form-item__input', h('input', {

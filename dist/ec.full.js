@@ -25812,6 +25812,7 @@ var css = "@charset \"UTF-8\";\nhtml {\n  box-sizing: border-box;\n}\n*,\n*::aft
         var tabs;
         var activeTab = _.first(options).id;
         var activeTabChild;
+
         // when any config is updated we just re diff the ui -> e.g series labels
 
         mediator.on('configUpdate', function (_config_) {
@@ -29294,6 +29295,7 @@ self["columnStackedPercent"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!
 self["columnStacked"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-545 791.8 100 100\" style=\"enable-background:new -545 791.8 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-453,891.8h-90.5c-0.8,0-1.5-0.7-1.5-1.5v-90.5c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-452.2,891.8-453,891.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-490,854.8v34h-16v-34H-490 M-490,852.8h-16c-1.1,0-2,0.9-2,2v34c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-34\r\n\t\t\tC-488,853.7-488.9,852.8-490,852.8L-490,852.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-490,838.8v14h-16v-14H-490 M-490,836.8h-16c-1.1,0-2,0.9-2,2v14c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-14\r\n\t\t\tC-488,837.7-488.9,836.8-490,836.8L-490,836.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-514,864.8v24h-17v-24H-514 M-514,862.8h-17c-1.1,0-2,0.9-2,2v24c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-24\r\n\t\t\tC-512,863.7-512.9,862.8-514,862.8L-514,862.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-514,818.8v44h-17v-44H-514 M-514,816.8h-17c-1.1,0-2,0.9-2,2v44c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-44\r\n\t\t\tC-512,817.7-512.9,816.8-514,816.8L-514,816.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-465,874.8v14h-17v-14H-465 M-465,872.8h-17c-1.1,0-2,0.9-2,2v14c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-14\r\n\t\t\tC-463,873.7-463.9,872.8-465,872.8L-465,872.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-465,828.8v44h-17v-44H-465 M-465,826.8h-17c-1.1,0-2,0.9-2,2v44c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-44\r\n\t\t\tC-463,827.7-463.9,826.8-465,826.8L-465,826.8z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
 self["column"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-366,419h-90.5c-0.8,0-1.5-0.7-1.5-1.5V327c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-365.2,419-366,419z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-403,382v34h-16v-34H-403 M-403,380h-16c-1.1,0-2,0.9-2,2v34c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-34\r\n\t\t\tC-401,380.9-401.9,380-403,380L-403,380z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-427,362v54h-17v-54H-427 M-427,360h-17c-1.1,0-2,0.9-2,2v54c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-54\r\n\t\t\tC-425,360.9-425.9,360-427,360L-427,360z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-378,342v74h-17v-74H-378 M-378,340h-17c-1.1,0-2,0.9-2,2v74c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-74\r\n\t\t\tC-376,340.9-376.9,340-378,340L-378,340z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
 self["iconInfo"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t width=\"512px\" height=\"512px\" viewBox=\"0 0 512 512\" enable-background=\"new 0 0 512 512\" xml:space=\"preserve\">\r\n<g>\r\n\t<path fill=\"#aaa\" d=\"M256,0C114.609,0,0,114.609,0,256s114.609,256,256,256s256-114.609,256-256S397.391,0,256,0z M256,472\r\n\t\tc-119.297,0-216-96.703-216-216S136.703,40,256,40s216,96.703,216,216S375.297,472,256,472z\"/>\r\n\t<rect fill=\"#aaa\" x=\"240\" y=\"352\" width=\"32\" height=\"32\"/>\r\n\t<path fill=\"#aaa\" d=\"M317.734,150.148c-6.484-6.625-14.688-11.922-24.766-16.031c-10.203-4.102-22.172-6.117-36.281-6.117\r\n\t\tc-11.969,0-22.875,2.016-32.781,6.117c-9.938,4.109-18.5,9.773-25.688,17.125c-7.125,7.289-12.672,14.508-16.5,24.773\r\n\t\tC177.906,186.281,176,192,176,208h32.656c0-16,4.234-28.109,12.938-38.516c8.594-10.453,20.266-14.82,35.094-14.82\r\n\t\tc14.438,0,25.234,3.914,32.172,10.938c6.875,7.023,10.391,17.086,10.391,29.797c0,9.883-3.25,18.758-9.734,26.492\r\n\t\tc-6.375,7.75-13.359,15.297-20.844,22.438c-7.594,7.141-13.672,14.766-19.953,22.641S240,284.016,240,294.469V320h32v-13.75\r\n\t\tc0-8.203,1.203-15.312,4.406-21.516c3.094-6.219,6.953-11.859,11.844-16.891c4.734-5.094,9.812-10,15.469-14.828\r\n\t\tc5.5-4.766,10.781-9.859,15.531-15.172c4.844-5.344,8.875-11.344,11.938-17.969c3.219-6.625,4.828-14.406,4.828-23.477\r\n\t\tc0-7.875-1.422-15.891-4.391-24.039C328.719,164.148,324.031,156.766,317.734,150.148z\"/>\r\n</g>\r\n</svg>\r\n";
+self["line"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-366,419h-90.5c-0.8,0-1.5-0.7-1.5-1.5V327c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-365.2,419-366,419z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-456,385c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0l21.3,21.3l38.3-41.2\r\n\t\t\tc0.4-0.4,1-0.4,1.4-0.1s0.4,1,0.1,1.4l-39,42c-0.2,0.2-0.4,0.3-0.7,0.3c-0.3,0-0.5-0.1-0.7-0.3l-21.3-21.3l-22.3,22.3\r\n\t\t\tC-455.5,384.9-455.7,385-456,385z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-456,404c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0l21.3,21.3l38.3-41.2\r\n\t\t\tc0.4-0.4,1-0.4,1.4-0.1s0.4,1,0.1,1.4l-39,42c-0.2,0.2-0.4,0.3-0.7,0.3c-0.3,0-0.5-0.1-0.7-0.3l-21.3-21.3l-22.3,22.3\r\n\t\t\tC-455.5,403.9-455.7,404-456,404z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
 self["line_basic"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<polyline class=\"st2\" points=\"1.8,64.2 15,37 29,43.8 43,23 57,51 71,29.2 \"/>\r\n<polyline class=\"st2\" points=\"1.8,78.2 15,73 29,57.8 43,57 57,69 71,53.2 \"/>\r\n</svg>";
 self["line_errorbar"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"42.5\" y1=\"14\" x2=\"42.5\" y2=\"32\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"40\" y=\"14\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"40\" y=\"31\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"56.5\" y1=\"38\" x2=\"56.5\" y2=\"64\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"54\" y=\"38\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"54\" y=\"63\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"70.5\" y1=\"21\" x2=\"70.5\" y2=\"38\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"68\" y=\"21\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"68\" y=\"37\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"28.5\" y1=\"31\" x2=\"28.5\" y2=\"56\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"26\" y=\"31\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"26\" y=\"55\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"14.5\" y1=\"27\" x2=\"14.5\" y2=\"48\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"12\" y=\"27\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"12\" y=\"47\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<polyline class=\"st2\" points=\"1.8,64.2 15,37 29,43.8 43,23 57,51 71,29.2 \"/>\r\n</svg>";
 self["line_inverted"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<polyline class=\"st2\" points=\"50,77.2 22.8,64 29.5,50 8.8,36 36.8,22 15,8 \"/>\r\n<polyline class=\"st2\" points=\"64,77.2 58.8,64 43.5,50 42.8,36 54.8,22 39,8 \"/>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n</svg>";
@@ -29433,7 +29435,9 @@ return self})();
         h('div.form-item__label', h('label', {
           title     : property.description,
           'ev-click': function (e) {
-            e.target.parentNode.parentNode.querySelector('input').focus();
+            if(!disabled){
+              e.target.parentNode.parentNode.querySelector('input').focus();
+            }
           }
         }, property.title + ' ' + index + ' :')),
         h('div.form-item__input', h('input', {
@@ -29491,7 +29495,9 @@ return self})();
         h('div.form-item__label', h('label', {
           title     : property.description,
           'ev-click': function (e) {
-            e.target.parentNode.parentNode.querySelector('input').focus();
+            if(!disabled) {
+              e.target.parentNode.parentNode.querySelector('input').focus();
+            }
           }
         }, property.title + ' ' + index + ' :')),
         h('div.form-item__input', h('input', {
@@ -29543,14 +29549,15 @@ return self})();
       h('div.form-item__label', h('label', {
         title     : property.description,
         'ev-click': function (e) {
-          var _checkbox = e.target.parentNode.parentNode.querySelector('input');
-          var _val = _checkbox.checked;
-          _checkbox.checked = !_val;
-
-          if (property.defaults !== !_val) {
-            configService.setValue(property.fullname, !_val);
-          } else {
-            configService.removeValue(property.fullname);
+          if(!disabled) {
+            var _checkbox = e.target.parentNode.parentNode.querySelector('input');
+            var _val = _checkbox.checked;
+            _checkbox.checked = !_val;
+            if (property.defaults !== !_val) {
+              configService.setValue(property.fullname, !_val);
+            } else {
+              configService.removeValue(property.fullname);
+            }
           }
         }
       }, [property.title])),
@@ -29581,7 +29588,9 @@ return self})();
       h('div.form-item__label', h('label', {
         title     : property.description,
         'ev-click': function (e) {
-          e.target.parentNode.parentNode.querySelector('input').focus();
+          if(!disabled) {
+            e.target.parentNode.parentNode.querySelector('input').focus();
+          }
         }
       }, [property.title])),
       h('div.form-item__input', h('input', {
@@ -29625,7 +29634,9 @@ return self})();
       h('div.form-item__label', h('label', {
         title     : property.description,
         'ev-click': function (e) {
-          e.target.parentNode.parentNode.querySelector('select').focus();
+          if(!disabled) {
+            e.target.parentNode.parentNode.querySelector('select').focus();
+          }
         }
       }, [property.title])),
       h('div.form-item__input', h('select', {
@@ -29653,7 +29664,9 @@ return self})();
       h('div.form-item__label', h('label', {
         title: property.description,
         'ev-click': function (e) {
-          e.target.parentNode.parentNode.querySelector('input').focus();
+          if(!disabled) {
+            e.target.parentNode.parentNode.querySelector('input').focus();
+          }
         }
       }, [property.title])),
       h('div.form-item__input', h('input', {
