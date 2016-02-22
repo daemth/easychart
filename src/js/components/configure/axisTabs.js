@@ -30,6 +30,7 @@ function constructor(services) {
                 }
                 if (config.xAxis) {
                     _.forEach(config.xAxis, function (axis, index) {
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) ? axis.title.text : 'X axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -37,23 +38,15 @@ function constructor(services) {
                                     e.preventDefault();
                                     setActive(options.id, 'xAxis' + index);
                                 }
-                            }, axis.name ? axis.name : 'X axis ' + (index + 1))
+                            }, titleText)
                         )
                     });
-                } else {
-                    links.push(
-                        h('li.hover', {
-                            'className': activeTabChild === 'xAxis' + 0 ? 'sub-active' : 'sub-non-active',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id, 'xAxis' + 0);
-                            }
-                        }, 'X axis')
-                    )
                 }
+
 
                 if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text)? axis.title.text : 'Y axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -61,21 +54,10 @@ function constructor(services) {
                                     e.preventDefault();
                                     setActive(options.id, 'yAxis' + index);
                                 }
-                            }, axis.name ? axis.name : 'Y axis ' + (index + 1))
+                            }, titleText)
                         )
                     });
-                } else {
-                    links.push(
-                        h('li.hover', {
-                            'className': activeTabChild === 'yAxis' + 0 ? 'sub-active' : 'sub-non-active',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id, 'yAxis' + 0);
-                            }
-                        }, 'Y axis')
-                    )
                 }
-
 
                 return h('li.active',
                     [
@@ -119,7 +101,6 @@ function constructor(services) {
         });
         var item = h('h3', pane.title);
         presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]));
-
         return h('div.vertical-tab-content', [presetList]);
     }
 
@@ -131,7 +112,8 @@ function constructor(services) {
             return pane.id == type;
         });
         if (pane) {
-            var title = h('h3', pane.title);
+            var titleText = !_.isUndefined(config[type][index]) && !_.isUndefined(config[type][index].title) && !_.isUndefined(config[type][index].title.text) ? config[type][index].title.text : pane.title;
+            var title = h('h3', titleText);
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
             });
@@ -140,7 +122,7 @@ function constructor(services) {
     }
 
     function removeButton(type, index, title, typeConfig) {
-        if(typeConfig.length > 1){
+        if (typeConfig.length > 1) {
             return h('button', {
                 'ev-click': function () {
                     configService.removeValue(type + '.' + index, {})

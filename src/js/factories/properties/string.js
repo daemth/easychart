@@ -1,7 +1,7 @@
 (function () {
   var h = require('virtual-dom/h');
 
-  function constructor(property, configService, configValue, disabled) {
+  function constructor(property, configService, configValue, disabled, defaultValue) {
     return h('div.form-item', [
       h('div.form-item__label', h('label', {
         title: property.description,
@@ -14,9 +14,10 @@
       h('div.form-item__input', h('input', {
         disabled  : disabled,
         'type'    : 'text',
+        'placeholder' : property.defaults,
         'value'   : configValue,
         'ev-input': function (e) {
-          if (property.defaults !== e.target.value) {
+          if (e.target.value !== '') {
             configService.setValue(property.fullname, e.target.value);
           } else {
             configService.removeValue(property.fullname);

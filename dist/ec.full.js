@@ -25911,6 +25911,7 @@ function constructor(services) {
                 }
                 if (config.xAxis) {
                     _.forEach(config.xAxis, function (axis, index) {
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) ? axis.title.text : 'X axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -25918,23 +25919,15 @@ function constructor(services) {
                                     e.preventDefault();
                                     setActive(options.id, 'xAxis' + index);
                                 }
-                            }, axis.name ? axis.name : 'X axis ' + (index + 1))
+                            }, titleText)
                         )
                     });
-                } else {
-                    links.push(
-                        h('li.hover', {
-                            'className': activeTabChild === 'xAxis' + 0 ? 'sub-active' : 'sub-non-active',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id, 'xAxis' + 0);
-                            }
-                        }, 'X axis')
-                    )
                 }
+
 
                 if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text)? axis.title.text : 'Y axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -25942,21 +25935,10 @@ function constructor(services) {
                                     e.preventDefault();
                                     setActive(options.id, 'yAxis' + index);
                                 }
-                            }, axis.name ? axis.name : 'Y axis ' + (index + 1))
+                            }, titleText)
                         )
                     });
-                } else {
-                    links.push(
-                        h('li.hover', {
-                            'className': activeTabChild === 'yAxis' + 0 ? 'sub-active' : 'sub-non-active',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id, 'yAxis' + 0);
-                            }
-                        }, 'Y axis')
-                    )
                 }
-
 
                 return h('li.active',
                     [
@@ -26000,7 +25982,6 @@ function constructor(services) {
         });
         var item = h('h3', pane.title);
         presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]));
-
         return h('div.vertical-tab-content', [presetList]);
     }
 
@@ -26012,7 +25993,8 @@ function constructor(services) {
             return pane.id == type;
         });
         if (pane) {
-            var title = h('h3', pane.title);
+            var titleText = !_.isUndefined(config[type][index]) && !_.isUndefined(config[type][index].title) && !_.isUndefined(config[type][index].title.text) ? config[type][index].title.text : pane.title;
+            var title = h('h3', titleText);
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
             });
@@ -26021,7 +26003,7 @@ function constructor(services) {
     }
 
     function removeButton(type, index, title, typeConfig) {
-        if(typeConfig.length > 1){
+        if (typeConfig.length > 1) {
             return h('button', {
                 'ev-click': function () {
                     configService.removeValue(type + '.' + index, {})
@@ -27239,6 +27221,16 @@ module.exports=module.exports = [
                         "demo": "Y axis min of <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/min-startontick-false/\" target=\"_blank\">-50 with startOnTick to false</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/min-startontick-true/\" target=\"_blank\">-50 with startOnTick true by default</a>"
                     },
                     {
+                        "name": "xAxis--max",
+                        "fullname": "xAxis.max",
+                        "title": "max",
+                        "parent": "xAxis",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "description": "The maximum value of the axis. If <code>null</code>, the max value is automatically calculated. If the <code>endOnTick</code> option is true, the <code>max</code> value might be rounded up. The actual maximum value is also influenced by  <a class=\"internal\" href=\"#chart\">chart.alignTicks</a>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-200/\" target=\"_blank\">Y axis max of 200</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-logarithmic/\" target=\"_blank\">Y axis max on logarithmic axis</a>"
+                    },
+                    {
                         "name": "xAxis--opposite",
                         "fullname": "xAxis.opposite",
                         "title": "opposite",
@@ -27351,6 +27343,16 @@ module.exports=module.exports = [
                         "description": "<p>The minimum value of the axis. If <code>null</code> the min value is automatically calculated.</p>\r\n\r\n<p>If the <code>startOnTick</code> option is true, the <code>min</code> value might be rounded down.</p>\r\n\r\n<p>The automatically calculated minimum value is also affected by <a href=\"#yAxis.floor\">floor</a>, <a href=\"#yAxis.minPadding\">minPadding</a>, <a href=\"#yAxis.minRange\">minRange</a> as well as <a href=\"#plotOptions.series.threshold\">series.threshold</a> and <a href=\"#plotOptions.series.softThreshold\">series.softThreshold</a>.</p>",
                         "demo": "Y axis min of <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/min-startontick-false/\" target=\"_blank\">-50 with startOnTick to false</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/min-startontick-true/\" target=\"_blank\">-50 with startOnTick true by default</a>",
                         "deprecated": false
+                    },
+                    {
+                        "name": "yAxis--max",
+                        "fullname": "yAxis.max",
+                        "title": "max",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "description": "The maximum value of the axis. If <code>null</code>, the max value is automatically calculated. If the <code>endOnTick</code> option is true, the <code>max</code> value might be rounded up. The actual maximum value is also influenced by  <a class=\"internal\" href=\"#chart\">chart.alignTicks</a>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-200/\" target=\"_blank\">Y axis max of 200</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-logarithmic/\" target=\"_blank\">Y axis max on logarithmic axis</a>"
                     },
                     {
                         "name": "yAxis--opposite",
@@ -29359,6 +29361,7 @@ return self})();
         var disabled = !configService.isEditable(property.fullname);
 
         // set the default/configvalue
+
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
             // defaults is a string
             if (_.isString(property.defaults)) {
@@ -29366,16 +29369,20 @@ return self})();
             }
             if (property.defaults.length == 1) {
                 property.defaults = _.first(property.defaults).trim();
-                configValue = !_.isUndefined(configValue) ? configValue : property.defaults;
-            } else if (property.defaults.length > 1) {
-                if (!configValue) {
-                    configValue = [];
-                }
-                _.forEach(property.defaults, function (defaultValue, index) {
-                    configValue[index] = configValue && configValue[index] ? configValue[index] : property.defaults[index].trim();
-                })
+                //configValue = !_.isUndefined(configValue) ? configValue : property.defaults;
             }
         }
+
+        /*
+         else if (property.defaults.length > 1) {
+         if (!configValue) {
+         configValue = [];
+         }
+         _.forEach(property.defaults, function (defaultValue, index) {
+         configValue[index] = configValue && configValue[index] ? configValue[index] : property.defaults[index].trim();
+         })
+         }
+         */
 
         var returnType = property.returnType ? property.returnType : "string";
         // select
@@ -29443,7 +29450,8 @@ return self})();
         h('div.form-item__input', h('input', {
           disabled  : disabled,
           'type'    : 'text',
-          'value'   : !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
+          'placeholder': property.defaults[index],
+          'value'   : !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) && configValue[index] !== property.defaults[index] ? configValue[index] : '',
           'ev-input': function (e) {
             values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
             if (_.isEqual(property.defaults, values)) {
@@ -29467,71 +29475,73 @@ return self})();
 
 },{"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"virtual-dom/h":112}],161:[function(require,module,exports){
 (function () {
-  var ColorPicker = require('simple-color-picker');
-  var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
-  var h = require('virtual-dom/h');
-  var _ = {
-    isUndefined: require('lodash.isundefined'),
-    forEach    : require('lodash.foreach'),
-    isEqual    : require('lodash.isequal'),
-    merge      : require('lodash.merge'),
-    cloneDeep  : require('lodash.clonedeep')
-  };
-
-  function constructor(property, configService, configValue, disabled) {
-    var Hook = function () {};
-    Hook.prototype.hook = function (node) {
-
+    var ColorPicker = require('simple-color-picker');
+    var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
+    var h = require('virtual-dom/h');
+    var _ = {
+        isUndefined: require('lodash.isundefined'),
+        forEach: require('lodash.foreach'),
+        isEqual: require('lodash.isequal'),
+        merge: require('lodash.merge'),
+        cloneDeep: require('lodash.clonedeep')
     };
-    var list = [];
-    var values = _.merge(_.cloneDeep(property.defaults), configValue, []);
-    _.forEach(property.defaults, function (value, index) {
-      var colorPicker = new ColorPicker({
-        background: 'white',
-        width     : 200
-      });
-      var test = 'notest';
-      list.push(h('div.form-item', [
-        h('div.form-item__label', h('label', {
-          title     : property.description,
-          'ev-click': function (e) {
-            if(!disabled) {
-              e.target.parentNode.parentNode.querySelector('input').focus();
-            }
-          }
-        }, property.title + ' ' + index + ' :')),
-        h('div.form-item__input', h('input', {
-          'type'    : 'text',
-          'hook'    : new Hook(),
-          'disabled': disabled,
-          'value'   : !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
-          'ev-focus': function (e) {
-            colorPicker.setColor(e.target.value);
-            colorPicker.appendTo(e.target.parentNode);
-            colorPicker.onChange(function () {
-              e.target.value = colorPicker.getHexString();
-              values[index] = colorPicker.getHexString();
-              if (_.isEqual(property.defaults, values)) {
-                configService.removeValue(property.fullname);
-              } else {
-                configService.setValue(property.fullname, values);
-              }
-            });
-            e.target.onblur = function(){
-              colorPicker.remove();
-              e.target.onblur = undefined;
-            }
-          }
-        }))
-      ]))
-    });
-    return h('div', [
-      h('div', h('h4', [property.title])),
-      h('div', list)
-    ]);
-  }
 
-  module.exports = constructor;
+    function constructor(property, configService, configValue, disabled) {
+        var Hook = function () {
+        };
+        Hook.prototype.hook = function (node) {
+
+        };
+        var list = [];
+        var values = _.merge(_.cloneDeep(property.defaults), configValue, []);
+        _.forEach(property.defaults, function (value, index) {
+            var colorPicker = new ColorPicker({
+                background: 'white',
+                width: 200
+            });
+            var test = 'notest';
+            list.push(h('div.form-item', [
+                h('div.form-item__label', h('label', {
+                    title: property.description,
+                    'ev-click': function (e) {
+                        if (!disabled) {
+                            e.target.parentNode.parentNode.querySelector('input').focus();
+                        }
+                    }
+                }, property.title + ' ' + index + ' :')),
+                h('div.form-item__input', h('input', {
+                    'type': 'text',
+                    'hook': new Hook(),
+                    'disabled': disabled,
+                    'placeholder': property.defaults[index],
+                    'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) && configValue[index] !== property.defaults[index] ? configValue[index] : '',
+                    'ev-focus': function (e) {
+                        colorPicker.setColor(e.target.value? e.target.value : property.defaults[index]);
+                        colorPicker.appendTo(e.target.parentNode);
+                        colorPicker.onChange(function () {
+                            e.target.value = colorPicker.getHexString();
+                            values[index] = colorPicker.getHexString();
+                            if (_.isEqual(property.defaults, values)) {
+                                configService.removeValue(property.fullname);
+                            } else {
+                                configService.setValue(property.fullname, values);
+                            }
+                        });
+                        e.target.onblur = function () {
+                            colorPicker.remove();
+                            e.target.onblur = undefined;
+                        }
+                    }
+                }))
+            ]))
+        });
+        return h('div', [
+            h('div', h('h4', [property.title])),
+            h('div', list)
+        ]);
+    }
+
+    module.exports = constructor;
 })();
 
 },{"../../../../node_modules/simple-color-picker/simple-color-picker.css":103,"lodash.clonedeep":64,"lodash.foreach":68,"lodash.isequal":73,"lodash.isundefined":79,"lodash.merge":83,"simple-color-picker":102,"virtual-dom/h":112}],162:[function(require,module,exports){
@@ -29595,10 +29605,11 @@ return self})();
       }, [property.title])),
       h('div.form-item__input', h('input', {
         disabled  : disabled,
+        'placeholder' : property.defaults,
         'type'    : 'number',
         'value'   : configValue,
         'ev-blur': function (e) {
-          if (parseInt(property.defaults) !== parseInt(e.target.value)) {
+          if (e.target.value !== '') {
             configService.setValue(property.fullname, parseInt(e.target.value));
           } else {
             configService.removeValue(property.fullname);
@@ -29659,7 +29670,7 @@ return self})();
 (function () {
   var h = require('virtual-dom/h');
 
-  function constructor(property, configService, configValue, disabled) {
+  function constructor(property, configService, configValue, disabled, defaultValue) {
     return h('div.form-item', [
       h('div.form-item__label', h('label', {
         title: property.description,
@@ -29672,9 +29683,10 @@ return self})();
       h('div.form-item__input', h('input', {
         disabled  : disabled,
         'type'    : 'text',
+        'placeholder' : property.defaults,
         'value'   : configValue,
         'ev-input': function (e) {
-          if (property.defaults !== e.target.value) {
+          if (e.target.value !== '') {
             configService.setValue(property.fullname, e.target.value);
           } else {
             configService.removeValue(property.fullname);

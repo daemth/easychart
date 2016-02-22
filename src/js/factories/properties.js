@@ -26,6 +26,7 @@
         var disabled = !configService.isEditable(property.fullname);
 
         // set the default/configvalue
+
         if (!_.isUndefined(property.defaults) && !_.isArray(property.defaults)) {
             // defaults is a string
             if (_.isString(property.defaults)) {
@@ -33,16 +34,10 @@
             }
             if (property.defaults.length == 1) {
                 property.defaults = _.first(property.defaults).trim();
-                configValue = !_.isUndefined(configValue) ? configValue : property.defaults;
-            } else if (property.defaults.length > 1) {
-                if (!configValue) {
-                    configValue = [];
-                }
-                _.forEach(property.defaults, function (defaultValue, index) {
-                    configValue[index] = configValue && configValue[index] ? configValue[index] : property.defaults[index].trim();
-                })
             }
         }
+
+
 
         var returnType = property.returnType ? property.returnType : "string";
         // select

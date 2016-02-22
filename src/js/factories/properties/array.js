@@ -25,7 +25,8 @@
         h('div.form-item__input', h('input', {
           disabled  : disabled,
           'type'    : 'text',
-          'value'   : !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) ? configValue[index] : property.defaults[index],
+          'placeholder': property.defaults[index],
+          'value'   : !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) && configValue[index] !== property.defaults[index] ? configValue[index] : '',
           'ev-input': function (e) {
             values[index] = e.target.value != '' ? e.target.value : property.defaults[index];
             if (_.isEqual(property.defaults, values)) {

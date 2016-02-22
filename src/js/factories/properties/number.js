@@ -13,10 +13,11 @@
       }, [property.title])),
       h('div.form-item__input', h('input', {
         disabled  : disabled,
+        'placeholder' : property.defaults,
         'type'    : 'number',
         'value'   : configValue,
         'ev-blur': function (e) {
-          if (parseInt(property.defaults) !== parseInt(e.target.value)) {
+          if (e.target.value !== '') {
             configService.setValue(property.fullname, parseInt(e.target.value));
           } else {
             configService.removeValue(property.fullname);
