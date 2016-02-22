@@ -160,6 +160,9 @@
             "fullname": "xAxis.min"
           },
           {
+            "fullname": "xAxis.max"
+          },
+          {
             "fullname": "xAxis.opposite"
           },
           {
@@ -191,6 +194,9 @@
           },
           {
             "fullname": "yAxis.min"
+          },
+          {
+            "fullname": "yAxis.max"
           },
           {
             "fullname": "yAxis.opposite"
