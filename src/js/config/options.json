@@ -509,7 +509,6 @@
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis",
                         "deprecated": false
                     },
-                    null,
                     {
                         "name": "yAxis--type",
                         "fullname": "yAxis.type",
@@ -590,9 +589,7 @@
                         "defaults": "0",
                         "description": "Rotation of the labels in degrees.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-rotation/\" target=\"_blank\">X axis labels rotated 90°</a>"
-                    },
-                    null,
-                    null
+                    }
                 ]
             }
         ]
@@ -861,9 +858,7 @@
                         "demo": "",
                         "seeAlso": "",
                         "deprecated": false
-                    },
-                    null,
-                    null
+                    }
                 ]
             }
         ]

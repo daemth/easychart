@@ -3,7 +3,8 @@ var highchartsOptionsDump = require('./config/dump.json');
 var _ = {
     isUndefined: require('lodash.isundefined'),
     find: require('lodash.find'),
-    map: require('lodash.map')
+    map: require('lodash.map'),
+    filter: require('lodash.filter')
 };
 var fs = require('fs');
 
@@ -17,7 +18,9 @@ var data = _.map(guiConfig, function (panel) {
             if(_item_ && !_.isUndefined(item.defaults)){_item_.defaults = item.defaults;}
             return _item_;
         });
+        pane.options = _.filter(pane.options,function(option){return !_.isUndefined(option) });
         return pane;
+
     });
     return panel;
 });

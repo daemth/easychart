@@ -5,6 +5,7 @@
   "main": "dist/easychart.js",
   "dependencies": {
     "highcharts": "^4.2.2",
+    "lodash.filter": "^4.2.0",
     "lodash.tonumber": "^4.0.1"
   },
   "devDependencies": {

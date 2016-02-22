@@ -61,6 +61,7 @@ function constructor (services){
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
+                console.log(pane.options);
                 inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
             });
 

@@ -33492,6 +33492,7 @@ function constructor (services){
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
+                console.log(pane.options);
                 inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
             });
 
@@ -34647,7 +34648,6 @@ module.exports=module.exports = [
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis",
                         "deprecated": false
                     },
-                    null,
                     {
                         "name": "yAxis--type",
                         "fullname": "yAxis.type",
@@ -34728,9 +34728,7 @@ module.exports=module.exports = [
                         "defaults": "0",
                         "description": "Rotation of the labels in degrees.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-rotation/\" target=\"_blank\">X axis labels rotated 90°</a>"
-                    },
-                    null,
-                    null
+                    }
                 ]
             }
         ]
@@ -34999,9 +34997,7 @@ module.exports=module.exports = [
                         "demo": "",
                         "seeAlso": "",
                         "deprecated": false
-                    },
-                    null,
-                    null
+                    }
                 ]
             }
         ]
@@ -37116,6 +37112,7 @@ return self})();
                 object.type = defaultType;
             }
             object.animation = animation ? animation : false;
+            object.connectNulls = true;
             object.data = [];
             size = size - getValuesPerPoint(object.type).points;
             array.push(object);
