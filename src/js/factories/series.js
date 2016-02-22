@@ -180,7 +180,6 @@
                 newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
-
         return newData;
     }
 

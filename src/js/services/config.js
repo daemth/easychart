@@ -126,7 +126,7 @@
 
         function hasLabels(data) {
             var labels = {
-                categories: true,
+                categories: false,
                 series: true
             };
             if (data[0]) {

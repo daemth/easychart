@@ -37234,7 +37234,6 @@ return self})();
                 newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
             }
         });
-
         return newData;
     }
 
@@ -37329,7 +37328,7 @@ return self})();
             opts.element.className += ' ec';
             var mainRouter = new router(opts.element, states , services);
             mainRouter.goToState('data');
-            
+
         }
 
         return new Api(services);
@@ -37554,7 +37553,7 @@ return self})();
 
         function hasLabels(data) {
             var labels = {
-                categories: true,
+                categories: false,
                 series: true
             };
             if (data[0]) {
@@ -37595,7 +37594,6 @@ return self})();
             forEach: require('lodash.foreach'),
             first: require('lodash.first'),
             isEqual: require('lodash.isequal'),
-            rest: require('lodash.rest'),
             isNaN: require('lodash.isnan')
         };
         var papa = require('papaparse');
@@ -37626,10 +37624,10 @@ return self})();
 
             if (categories) {
                 data = _.map(data, function (row) {
-                    return _.slice(row, 1);
+                    row.shift();
+                    return row;
                 });
             }
-
             return _.cloneDeep(data);
         };
 
@@ -37712,7 +37710,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":52,"lodash.find":54,"lodash.first":55,"lodash.foreach":56,"lodash.isequal":63,"lodash.isnan":66,"lodash.isundefined":69,"lodash.map":73,"lodash.rest":76,"lodash.slice":80,"papaparse":87}],161:[function(require,module,exports){
+},{"lodash.clonedeep":52,"lodash.find":54,"lodash.first":55,"lodash.foreach":56,"lodash.isequal":63,"lodash.isnan":66,"lodash.isundefined":69,"lodash.map":73,"lodash.slice":80,"papaparse":87}],161:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };

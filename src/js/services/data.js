@@ -40,11 +40,10 @@
 
             if (categories) {
                 data = _.map(data, function (row) {
-                    row.slice(0,1);
+                    row.shift();
                     return row;
                 });
             }
-
             return _.cloneDeep(data);
         };
 

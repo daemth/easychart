@@ -71,6 +71,7 @@
             });
         };
 
+
         that.destroy = function () {
             services.mediator.off(null, null, 'hot');
             var data = removeEmptyRows(hot);
