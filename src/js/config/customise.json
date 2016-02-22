@@ -190,6 +190,9 @@
             "fullname": "yAxis.title.text"
           },
           {
+            "fullname": "yAxis.title.style.color"
+          },
+          {
             "fullname": "yAxis.type"
           },
           {
@@ -209,6 +212,12 @@
           },
           {
             "fullname": "yAxis.labels.rotation"
+          },
+          {
+            "fullname": "yAxis.labels.style.format"
+          },
+          {
+            "fullname": "yAxis.labels.style.color"
           }
         ]
       }
@@ -321,7 +330,14 @@
         },
         {
           "fullname": "series.index"
+        },
+        {
+          "fullname": "series.dashStyle"
+        },
+        {
+          "fullname": "series.marker.enabled"
         }
+
       ]
     }]
   }
