@@ -55,7 +55,7 @@
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
                 // number
-                case returnType.toLowerCase() == 'number':
+                case returnType.toLowerCase().indexOf('number') > -1:
                     element = require('./properties/number')(property, configService, configValue, disabled);
                     break;
                 // boolean

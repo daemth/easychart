@@ -308,9 +308,6 @@
       "title": "Series configuration",
       "options": [
         {
-          "fullname": "series.yAxis"
-        },
-        {
           "fullname": "series.name"
         },
         {
