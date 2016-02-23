@@ -18,9 +18,13 @@
         that.load = function (_element_) {
             element = _element_;
             var wrapper = createElement(h('div'));
-            element.appendChild(wrapper);
-            readOnly = services.data.getUrl() ? true : false;
 
+
+            readOnly = services.data.getUrl() ? true : false;
+            if (readOnly){
+                element.appendChild(createElement(h('div.readOnlyBox', h('span', 'A data url was found, the data will be read only'))));
+            }
+            element.appendChild(wrapper);
             var data = services.data.get();
             data = _.isUndefined(data[0]) ? [[]] : data;
 

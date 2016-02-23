@@ -1,6 +1,7 @@
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
+        var xhr = require("xhr");
         var _ = {
             isUndefined: require('lodash.isundefined'),
             find: require('lodash.find'),
@@ -94,32 +95,24 @@
 
         that.setUrl = function(url, init){
             if(url !== ''){
-                dataUrl = url;
-                var client = new XMLHttpRequest();
-                client.open("GET", url);
-                client.onreadystatechange = handler;
-                //client.responseType = "text";
-                client.setRequestHeader("Accept", "application/json");
-                client.send();
-                function handler() {
-                    if (this.readyState === this.DONE) {
-                        if (this.status === 200) {
-                            if(!init){
-                                mediator.trigger('backup', _.cloneDeep(dataSet));
-                            }
-                            dataSet = papa.parse(this.response).data;
-                            mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
+                xhr.get(url, function(err, resp){
+                    if(typeof err !== 'undefined'){
+                        if(!init){
+                            mediator.trigger('backup', _.cloneDeep(dataSet));
                         }
-                        else {
-                            dataUrl = undefined;
-                            reject(this);
-                        }
+                        dataSet = papa.parse(resp.body).data;
+                        dataUrl = url;
+                        mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
                     }
-                }
+                    else {
+                        dataUrl = undefined;
+                    }
+                })
             } else {
                 dataUrl = undefined;
             }
         };
+
         return that;
     }
     module.exports = constructor;

@@ -92,8 +92,13 @@
                 if(data.length >= 1000){
                     cell = points;
                 } else {
+
                     _.forEach(vpp.definition, function(label, pointIndex){
-                        cell[label] = points[pointIndex];
+                        if( points[pointIndex] !== 'null'){
+                            cell[label] = points[pointIndex];
+                        } else {
+                            cell[label] = null;
+                        }
                     });
                     if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data)) {
                         cell = _.merge(configClone.series[index].data, cell);
@@ -178,7 +183,7 @@
                 newData[index] = parseDataFloat(value);
             }
             else {
-                newData[index] = value === '' || value === 'null' ? null : parseFloat(value);
+                newData[index] = value === '' || value === 'null' || isNaN(value) || value === null ? null : parseFloat(value);
             }
         });
         return newData;

@@ -6,7 +6,8 @@
   "dependencies": {
     "highcharts": "^4.2.2",
     "lodash.filter": "^4.2.0",
-    "lodash.tonumber": "^4.0.1"
+    "lodash.tonumber": "^4.0.1",
+    "xhr": "^2.2.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",

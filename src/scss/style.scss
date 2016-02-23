@@ -84,7 +84,13 @@
     float: left;
     width: 100%;
   }
-
+  .readOnlyBox{
+    border: 1px solid $light-gray;
+    background: white;
+    padding: 10px 20px;
+    display: block;
+    margin-bottom: 10px;
+  }
   .templatelist {
     display: flex;
     flex-wrap: wrap;

@@ -3,6 +3,7 @@
         var options = require('../config/options.json');
         var configUrl;
         var that = {};
+        var xhr = require("xhr");
         var _ = {
             cloneDeep: require('lodash.clonedeep')
         };
@@ -16,27 +17,18 @@
 
         that.setUrl = function(url){
             if(url !== ''){
-                var client = new XMLHttpRequest();
-                client.open("GET", url);
-                client.onreadystatechange = handler;
-                //client.responseType = "text";
-                client.setRequestHeader("Accept", "application/json");
-                client.send();
-                function handler() {
-                    if (this.readyState === this.DONE) {
-                        if (this.status === 200) {
-                            options = JSON.parse(this.response);
-                            configUrl = url;
-                            mediator.trigger('configUpdate', that.get());
-                        }
-
-                        else { reject(this); }
+                xhr.get(url, function(err, resp){
+                    if(typeof err !== 'undefined'){
+                        options = JSON.parse(resp.body);
+                        configUrl = url;
+                        mediator.trigger('configUpdate', that.get());
                     }
-                }
+                });
             } else {
                 configUrl = undefined;
             }
         };
+
 
         that.getUrl = function(){
             return _.cloneDeep(configUrl);
