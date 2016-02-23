@@ -1628,6 +1628,67 @@ var templates = [
                 }
             }
         ]
+    },
+    {
+        "id": "combinationCharts",
+        "type": "combination charts",
+        "icon": "line",
+        "templates": [
+            {
+                "id": "line",
+                "title": "Highcharts weather chart",
+                "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+                "definition": {
+
+                    "xAxis": [
+                        {
+                            "type": "category",
+                            "title": {}
+                        }
+                    ],
+                    "yAxis": [
+                        {
+                            "title": {
+                                "text": "temperature"
+                            },
+                            "opposite": true,
+                            "labels": {
+                                "format": "{value}°C"
+                            }
+                        },
+                        {
+                            "title": {
+                                "text": "rain"
+                            },
+                            "labels": {
+                                "format": "{value}mm"
+                            }
+                        },
+                        {
+                            "title": {
+                                "text": "air pressure"
+                            },
+                            "opposite": true
+                        }
+                    ],
+                    "series": [
+                        {
+                            "type": "column",
+                            "yAxis": 1,
+
+                            "name": "rainfall"
+                        },
+                        {
+                            "yAxis": 2,
+                            "name": "SEA-LEVEL PRESSURE"
+                        },
+                        {
+                            "name": "TEMPERATURE"
+                        }
+                    ]
+                }
+            }
+        ]
     }
 ];
 module.exports = templates;
