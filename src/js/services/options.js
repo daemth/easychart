@@ -18,7 +18,7 @@
         that.setUrl = function(url){
             if(url !== ''){
                 xhr.get(url, function(err, resp){
-                    if(typeof err !== 'undefined'){
+                    if (resp.status === 200) {
                         options = JSON.parse(resp.body);
                         configUrl = url;
                         mediator.trigger('configUpdate', that.get());

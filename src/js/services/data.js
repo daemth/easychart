@@ -96,7 +96,7 @@
         that.setUrl = function(url, init){
             if(url !== ''){
                 xhr.get(url, function(err, resp){
-                    if(typeof err !== 'undefined'){
+                    if (resp.status === 200) {
                         if(!init){
                             mediator.trigger('backup', _.cloneDeep(dataSet));
                         }

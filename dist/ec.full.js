@@ -1,3 +1,9 @@
+/**
+ * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
+ * @version v3.0.0
+ * @link 
+ * @license MIT
+ */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -1707,7 +1713,6 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],23:[function(require,module,exports){
 'use strict';
 
@@ -1824,7 +1829,6 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"min-document":3}],27:[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
@@ -1838,7 +1842,6 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],28:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
@@ -2673,7 +2676,6 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],32:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -4400,7 +4402,6 @@ Stack.prototype.set = stackSet;
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],37:[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
@@ -7518,7 +7519,6 @@ Stack.prototype.set = stackSet;
 module.exports = baseIteratee;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],44:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
@@ -9082,7 +9082,6 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],50:[function(require,module,exports){
 (function (global){
 /**
@@ -9675,7 +9674,6 @@ SetCache.prototype.push = cachePush;
 module.exports = SetCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],51:[function(require,module,exports){
 (function (global){
 /**
@@ -10342,7 +10340,6 @@ Stack.prototype.set = stackSet;
 module.exports = Stack;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],52:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
@@ -16076,7 +16073,6 @@ function toString(value) {
 module.exports = toString;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],85:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
@@ -17876,7 +17872,6 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
-
 },{"_process":7}],92:[function(require,module,exports){
 function identity(x) { return x; }
 
@@ -18016,7 +18011,6 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-
 },{"_process":7}],95:[function(require,module,exports){
 'use strict';
 
@@ -23790,23 +23784,6 @@ var templates = [
                         {"type": "errorbar"}
                     ]
                 }
-            },
-            {
-                "id": "combinationColumn",
-                "title": "Combination chart",
-                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "line"
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }],
-                    "series": [
-                        {"type": null},
-                        {"type": "column"}
-                    ]
-                }
             }
         ]
     },
@@ -24677,39 +24654,6 @@ var templates = [
                         "type": "bubble"
                     }
                 }
-            },
-            {
-                "id": "scatterWithLine",
-                "title": "Scatter with line",
-                "description": "Requires one data column for X values and one for Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "scatter"
-                    },
-                    "plotOptions":{
-                        "series":{
-                            "lineWidth": 1
-                        }
-                    }
-                }
-            },
-            {
-                "id": "scatterWithLineNoMarker",
-                "title": "Scatter with line, no marker",
-                "description": "Requires one data column for X values and one for Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "scatter"
-                    },
-                    "plotOptions":{
-                        "series":{
-                            "lineWidth": 1,
-                            "marker":{
-                                "enabled": false
-                            }
-                        }
-                    }
-                }
             }
         ]
     },
@@ -25235,8 +25179,8 @@ var templates = [
         "icon": "line",
         "templates": [
             {
-                "id": "line",
-                "title": "Highcharts weather chart",
+                "id": "multipleAxes",
+                "title": "Multiple axes",
                 "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
                 "definition": {
                     chart: {
@@ -25249,6 +25193,7 @@ var templates = [
                         text: 'Source: WorldClimate.com'
                     },
                     xAxis: [{
+                        type: 'category',
                         crosshair: true
                     }],
                     yAxis: [{ // Primary yAxis
@@ -25331,6 +25276,117 @@ var templates = [
                         type: 'spline',
                         tooltip: {
                             valueSuffix: ' °C'
+                        }
+                    }]
+                }
+            },
+            {
+                "id": "scatterWithLine",
+                "title": "Scatter with line",
+                "description": "Requires one data column for X values and one for Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "scatter"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "lineWidth": 1
+                        }
+                    }
+                }
+            },
+            {
+                "id": "scatterWithLineNoMarker",
+                "title": "Scatter with line, no marker",
+                "description": "Requires one data column for X values and one for Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "scatter"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "lineWidth": 1,
+                            "marker":{
+                                "enabled": false
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "combinationColumn",
+                "title": "Combination chart",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }],
+                    "series": [
+                        {"type": null},
+                        {"type": "column"}
+                    ]
+                }
+            },
+            // todo
+            {
+                "id": "colSplinePie",
+                "title": "Combination chart (col, spline, pie)",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    title: {
+                        text: 'Combination chart'
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    labels: {
+                        items: [{
+                            html: 'Total fruit consumption',
+                            style: {
+                                left: '50px',
+                                top: '18px',
+                                color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                            }
+                        }]
+                    },
+                    series: [{
+                        type: 'column',
+                        name: 'Jane'
+                    }, {
+                        type: 'column',
+                        name: 'John'
+                    }, {
+                        type: 'column',
+                        name: 'Joe'
+                    }, {
+                        type: 'spline',
+                        name: 'Average',
+                        marker: {
+                            lineWidth: 2,
+                            lineColor: Highcharts.getOptions().colors[3],
+                            fillColor: 'white'
+                        }
+                    }, {
+                        type: 'pie',
+                        //name: 'Total consumption',
+                        /*data: [{
+                            name: 'Jane',
+                            color: Highcharts.getOptions().colors[0] // Jane's color
+                        }, {
+                            name: 'John',
+                            color: Highcharts.getOptions().colors[1] // John's color
+                        }, {
+                            name: 'Joe',
+                            color: Highcharts.getOptions().colors[2] // Joe's color
+                        }],*/
+                        center: [100, 80],
+                        size: 100,
+                        showInLegend: false,
+                        dataLabels: {
+                            enabled: false
                         }
                     }]
                 }
@@ -26389,7 +26445,7 @@ return self})();
         that.setUrl = function(url, init){
             if(url !== ''){
                 xhr.get(url, function(err, resp){
-                    if(typeof err !== 'undefined'){
+                    if (resp.status === 200) {
                         if(!init){
                             mediator.trigger('backup', _.cloneDeep(dataSet));
                         }
@@ -26476,7 +26532,7 @@ module.exports = constructor;
         that.setUrl = function(url){
             if(url !== ''){
                 xhr.get(url, function(err, resp){
-                    if(typeof err !== 'undefined'){
+                    if (resp.status === 200) {
                         options = JSON.parse(resp.body);
                         configUrl = url;
                         mediator.trigger('configUpdate', that.get());
@@ -26654,7 +26710,4 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":154,"virtual-dom/h":105}]},{},[163])
-
-
-//# sourceMappingURL=ec.full.js.map
+},{"../factories/iconLoader":154,"virtual-dom/h":105}]},{},[163]);
