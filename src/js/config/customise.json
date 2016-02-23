@@ -171,17 +171,16 @@
           },
           {
             "fullname": "xAxis.labels.align"
+          },
+          {
+            "fullname": "xAxis.plotBands",
+            "options":[
+              {
+                "fullname": "xAxis.plotbands.color"
+              }
+            ]
           }
-        ],
-        "panes":[{
-          "title": "Plotbands",
-          "id": "plotbands ",
-          "options": [
-            {
-              "fullname": "xAxis.plotbands.color"
-            }
-          ]
-        }]
+        ]
       },
       {
         "title": "Value axis",

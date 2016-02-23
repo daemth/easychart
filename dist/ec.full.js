@@ -21869,15 +21869,30 @@ function constructor(services) {
 
 
     function generalContent(pane) {
-        var presetList = [];
-        var inputs = [];
-        _.forEach(pane.options, function (option) {
-            inputs.push(propertyServices.get(option, configService));
-        });
-        var item = h('h3', pane.title);
-        presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]));
-        return h('div.vertical-tab-content', [presetList]);
+        return h('div.vertical-tab-content', [generateContent({panes:[pane]})]);
     }
+
+    function generateContent(panel) {
+        var list = [];
+        _.forEach(panel.panes, function (pane) {
+            var inputs = [];
+            _.forEach(pane.options, function (option) {
+                inputs.push(propertyServices.get(option, configService));
+            });
+            var subPanes = pane.panes ? generateContent(pane) : '';
+            var item = h('h3', pane.title);
+            list.push(h('div.field-group',
+                [
+                    h('div.field-group__title', [item]),
+                    h('div.field-group__items', inputs),
+                    h('div', subPanes)
+                ]
+            ))
+
+        });
+        return list;
+    }
+
 
     function axisContent(panes, child, config, setActive) {
         var inputs = [];
@@ -23226,12 +23241,16 @@ module.exports=module.exports = [
                         "description": "What part of the string the given position is anchored to. Can be one of <code>\"left\"</code>, <code>\"center\"</code> or <code>\"right\"</code>. Defaults to an intelligent guess based on which side of the chart the axis is on and the rotation of the label.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-left/\" target=\"_blank\">\"left\"</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-right/\" target=\"_blank\">\"right\"</a> on X axis",
                         "deprecated": false
-                    }
-                ],
-                "panes": [
+                    },
                     {
-                        "title": "Plotbands",
-                        "id": "plotbands ",
+                        "name": "xAxis-plotBands",
+                        "fullname": "xAxis.plotBands",
+                        "title": "plotBands",
+                        "parent": "xAxis",
+                        "isParent": true,
+                        "returnType": "Array<Object>",
+                        "description": "<p>An array of colored bands stretching across the plot area marking an interval on the axis.</p>\r\n\r\n<p>In a gauge, a plot band on the Y axis (value axis) will stretch along the perimeter of the gauge.</p>",
+                        "deprecated": false,
                         "options": [
                             {
                                 "name": "xAxis-plotBands--color",

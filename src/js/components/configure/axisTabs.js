@@ -95,15 +95,30 @@ function constructor(services) {
 
 
     function generalContent(pane) {
-        var presetList = [];
-        var inputs = [];
-        _.forEach(pane.options, function (option) {
-            inputs.push(propertyServices.get(option, configService));
-        });
-        var item = h('h3', pane.title);
-        presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]));
-        return h('div.vertical-tab-content', [presetList]);
+        return h('div.vertical-tab-content', [generateContent({panes:[pane]})]);
     }
+
+    function generateContent(panel) {
+        var list = [];
+        _.forEach(panel.panes, function (pane) {
+            var inputs = [];
+            _.forEach(pane.options, function (option) {
+                inputs.push(propertyServices.get(option, configService));
+            });
+            var subPanes = pane.panes ? generateContent(pane) : '';
+            var item = h('h3', pane.title);
+            list.push(h('div.field-group',
+                [
+                    h('div.field-group__title', [item]),
+                    h('div.field-group__items', inputs),
+                    h('div', subPanes)
+                ]
+            ))
+
+        });
+        return list;
+    }
+
 
     function axisContent(panes, child, config, setActive) {
         var inputs = [];

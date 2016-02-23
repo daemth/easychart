@@ -15,14 +15,12 @@ var data = _.map(guiConfig, function (panel) {
 
 function panesMap(panes){
     return _.map(panes, function(pane){
-        pane.options = _.map(pane.options, function(item){
-            var _item_ = _.find(highchartsOptionsDump, function (record) {
-                return record.fullname.toLowerCase() == item.fullname.toLowerCase();
+        if(pane.fullname){
+            pane.data = _.find(highchartsOptionsDump, function (record) {
+                return record.fullname.toLowerCase() == pane.fullname.toLowerCase();
             });
-            if(_item_ && !_.isUndefined(item.title)){_item_.title = item.title;}
-            if(_item_ && !_.isUndefined(item.defaults)){_item_.defaults = item.defaults;}
-            return _item_;
-        });
+        }
+        pane.options = optionsMap(pane.options);
         if(pane.panes){
             pane.panes = panesMap(pane.panes);
         }
@@ -30,6 +28,18 @@ function panesMap(panes){
         return pane;
     });
 }
+function optionsMap(options){
+    return _.map(options, function(item){
+        var _item_ = _.find(highchartsOptionsDump, function (record) {
+            return record.fullname.toLowerCase() == item.fullname.toLowerCase();
+        });
+        if(_item_ && !_.isUndefined(item.title)){_item_.title = item.title;}
+        if(_item_ && !_.isUndefined(item.defaults)){_item_.defaults = item.defaults;}
+        if(_item_ && !_.isUndefined(item.options)){_item_.options = optionsMap(item.options)}
+        return _item_;
+    });
+}
+
 var outputFilename = './src/js/config/options.json';
 
 fs.writeFile(outputFilename, JSON.stringify(data, null, 4), function(err) {
