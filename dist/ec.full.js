@@ -22013,7 +22013,8 @@ function constructor (services){
     var seriesTabTitle = 'Data series';
 
     function tabs(options, setActive, activeTab, activeTabChild, config) {
-        if (!_.isUndefined(options)) {
+
+        if (!_.isUndefined(options) && config.series.length > 1) {
             var links = [];
             if (options.id == activeTab) {
                 _.forEach(config.series, function (serie, index) {
@@ -22061,7 +22062,6 @@ function constructor (services){
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
-                console.log(pane.options);
                 inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
             });
 
@@ -25835,6 +25835,7 @@ return self})();
                 if(data.length >= 1000){
                     cell = points;
                 } else {
+
                     _.forEach(vpp.definition, function(label, pointIndex){
                         if( points[pointIndex] !== 'null'){
                             cell[label] = points[pointIndex];
@@ -25925,7 +25926,7 @@ return self})();
                 newData[index] = parseDataFloat(value);
             }
             else {
-                newData[index] = value === '' || value === 'null' || isNaN(value) || value === null ? 'null' : parseFloat(value);
+                newData[index] = value === '' || value === 'null' || isNaN(value) || value === null ? null : parseFloat(value);
             }
         });
         return newData;

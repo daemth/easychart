@@ -92,6 +92,7 @@
                 if(data.length >= 1000){
                     cell = points;
                 } else {
+
                     _.forEach(vpp.definition, function(label, pointIndex){
                         if( points[pointIndex] !== 'null'){
                             cell[label] = points[pointIndex];
@@ -182,7 +183,7 @@
                 newData[index] = parseDataFloat(value);
             }
             else {
-                newData[index] = value === '' || value === 'null' || isNaN(value) || value === null ? 'null' : parseFloat(value);
+                newData[index] = value === '' || value === 'null' || isNaN(value) || value === null ? null : parseFloat(value);
             }
         });
         return newData;
