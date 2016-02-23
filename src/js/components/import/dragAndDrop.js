@@ -7,7 +7,7 @@
         dataService = services.data;
         var mediator = services.mediator;
         var Hook = function () {};
-        var content = 'Drop your files here';
+        var content = 'Drop your CSV file here';
         Hook.prototype.hook = function (node) {
             dragDrop(node, function (files) {
                 // `files` is an Array!

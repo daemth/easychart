@@ -1639,53 +1639,100 @@ var templates = [
                 "title": "Highcharts weather chart",
                 "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
                 "definition": {
-
-                    "xAxis": [
-                        {
-                            "type": "category",
-                            "title": {}
-                        }
-                    ],
-                    "yAxis": [
-                        {
-                            "title": {
-                                "text": "temperature"
-                            },
-                            "opposite": true,
-                            "labels": {
-                                "format": "{value}°C"
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: 'Average Monthly Weather Data for Tokyo'
+                    },
+                    subtitle: {
+                        text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: [{
+                        crosshair: true
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}°C',
+                            style: {
+                                color: Highcharts.getOptions().colors[2]
                             }
                         },
-                        {
-                            "title": {
-                                "text": "rain"
-                            },
-                            "labels": {
-                                "format": "{value}mm"
+                        title: {
+                            text: 'Temperature',
+                            style: {
+                                color: Highcharts.getOptions().colors[2]
                             }
                         },
-                        {
-                            "title": {
-                                "text": "air pressure"
-                            },
-                            "opposite": true
-                        }
-                    ],
-                    "series": [
-                        {
-                            "type": "column",
-                            "yAxis": 1,
+                        opposite: true
 
-                            "name": "rainfall"
+                    }, { // Secondary yAxis
+                        gridLineWidth: 0,
+                        title: {
+                            text: 'Rainfall',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
                         },
-                        {
-                            "yAxis": 2,
-                            "name": "SEA-LEVEL PRESSURE"
-                        },
-                        {
-                            "name": "TEMPERATURE"
+                        labels: {
+                            format: '{value} mm',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
                         }
-                    ]
+
+                    }, { // Tertiary yAxis
+                        gridLineWidth: 0,
+                        title: {
+                            text: 'Sea-Level Pressure',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        labels: {
+                            format: '{value} mb',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        opposite: true
+                    }],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 80,
+                        verticalAlign: 'top',
+                        y: 55,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    },
+                    series: [{
+                        type: 'column',
+                        yAxis: 1,
+                        tooltip: {
+                            valueSuffix: ' mm'
+                        }
+
+                    }, {
+                        type: 'spline',
+                        yAxis: 2,
+                        marker: {
+                            enabled: false
+                        },
+                        dashStyle: 'shortdot',
+                        tooltip: {
+                            valueSuffix: ' mb'
+                        }
+
+                    }, {
+                        type: 'spline',
+                        tooltip: {
+                            valueSuffix: ' °C'
+                        }
+                    }]
                 }
             }
         ]
