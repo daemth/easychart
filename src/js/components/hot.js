@@ -1,5 +1,13 @@
 (function () {
-    var _ = require('lodash');
+    //var _ = require('lodash');
+
+    var _ = {
+        forEach: require('lodash.foreach'),
+        isEmpty: require('lodash.isempty'),
+        isUndefined: require('lodash.isundefined')
+    };
+
+
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
     var hot;
@@ -18,9 +26,13 @@
             }
             element.appendChild(wrapper);
             var data = services.data.get();
+            data = _.isUndefined(data[0]) ? [[]] : data;
+
             hot = new Handsontable(wrapper, {
-                startRows: 8,
-                startCols: 5,
+                minRows: 1,
+                minCols: 2,
+                minSpareRows: 1,
+                //minSpareCols: 1,
                 height: 500,
                 stretchH: 'all',
                 rowHeaders: true,

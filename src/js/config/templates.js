@@ -450,6 +450,7 @@ var templates = [
                         },
                         opposite: true
                     }],
+                    xAxis:[{type:'category'}],
                     tooltip: {
                         shared: true
                     },
@@ -1624,6 +1625,114 @@ var templates = [
                         }
                     }]
 
+                }
+            }
+        ]
+    },
+    {
+        "id": "combinationCharts",
+        "type": "combination charts",
+        "icon": "line",
+        "templates": [
+            {
+                "id": "line",
+                "title": "Highcharts weather chart",
+                "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
+                "definition": {
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: 'Average Monthly Weather Data for Tokyo'
+                    },
+                    subtitle: {
+                        text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: [{
+                        crosshair: true
+                    }],
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            format: '{value}°C',
+                            style: {
+                                color: Highcharts.getOptions().colors[2]
+                            }
+                        },
+                        title: {
+                            text: 'Temperature',
+                            style: {
+                                color: Highcharts.getOptions().colors[2]
+                            }
+                        },
+                        opposite: true
+
+                    }, { // Secondary yAxis
+                        gridLineWidth: 0,
+                        title: {
+                            text: 'Rainfall',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        labels: {
+                            format: '{value} mm',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        }
+
+                    }, { // Tertiary yAxis
+                        gridLineWidth: 0,
+                        title: {
+                            text: 'Sea-Level Pressure',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        labels: {
+                            format: '{value} mb',
+                            style: {
+                                color: Highcharts.getOptions().colors[1]
+                            }
+                        },
+                        opposite: true
+                    }],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 80,
+                        verticalAlign: 'top',
+                        y: 55,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    },
+                    series: [{
+                        type: 'column',
+                        yAxis: 1,
+                        tooltip: {
+                            valueSuffix: ' mm'
+                        }
+
+                    }, {
+                        type: 'spline',
+                        yAxis: 2,
+                        marker: {
+                            enabled: false
+                        },
+                        dashStyle: 'shortdot',
+                        tooltip: {
+                            valueSuffix: ' mb'
+                        }
+
+                    }, {
+                        type: 'spline',
+                        tooltip: {
+                            valueSuffix: ' °C'
+                        }
+                    }]
                 }
             }
         ]

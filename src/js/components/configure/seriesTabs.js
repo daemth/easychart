@@ -12,6 +12,8 @@ var h = require('virtual-dom/h');
 
 function constructor (services){
     var configService = services.config;
+    var seriesTabTitle = 'Data series';
+
     function tabs(options, setActive, activeTab, activeTabChild, config) {
         if (!_.isUndefined(options)) {
             var links = [];
@@ -35,7 +37,7 @@ function constructor (services){
                                 e.preventDefault();
                                 setActive(options.id);
                             }
-                        }, 'Data series'),
+                        }, seriesTabTitle),
                         h('ul', links)
                     ])
             }
@@ -48,7 +50,7 @@ function constructor (services){
                                 e.preventDefault();
                                 setActive(options.id);
                             }
-                        }, 'data series'),
+                        }, seriesTabTitle),
                         h('ul', links)
                     ])
             }
