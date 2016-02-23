@@ -16,6 +16,7 @@
             xAxis:[{}],
             yAxis:[{}]
         };
+
         var config = _.cloneDeep(preset);
         var configCache;
         that.get = function () {
