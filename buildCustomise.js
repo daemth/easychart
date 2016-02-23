@@ -1,5 +1,5 @@
-var guiConfig = require('./config/customise.json');
-var highchartsOptionsDump = require('./config/dump.json');
+var guiConfig = require('./src/js/config/customise.json');
+var highchartsOptionsDump = require('./src/js/config/dump.json');
 var _ = {
     isUndefined: require('lodash.isundefined'),
     find: require('lodash.find'),
@@ -9,7 +9,12 @@ var _ = {
 var fs = require('fs');
 
 var data = _.map(guiConfig, function (panel) {
-    panel.panes = _.map(panel.panes, function(pane){
+    panel.panes = panesMap(panel.panes);
+    return panel;
+});
+
+function panesMap(panes){
+    return _.map(panes, function(pane){
         pane.options = _.map(pane.options, function(item){
             var _item_ = _.find(highchartsOptionsDump, function (record) {
                 return record.fullname.toLowerCase() == item.fullname.toLowerCase();
@@ -18,13 +23,13 @@ var data = _.map(guiConfig, function (panel) {
             if(_item_ && !_.isUndefined(item.defaults)){_item_.defaults = item.defaults;}
             return _item_;
         });
+        if(pane.panes){
+            pane.panes = panesMap(pane.panes);
+        }
         pane.options = _.filter(pane.options,function(option){return !_.isUndefined(option) });
         return pane;
-
     });
-    return panel;
-});
-
+}
 var outputFilename = './src/js/config/options.json';
 
 fs.writeFile(outputFilename, JSON.stringify(data, null, 4), function(err) {

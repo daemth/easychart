@@ -15,7 +15,6 @@ function constructor (services){
     var seriesTabTitle = 'Data series';
 
     function tabs(options, setActive, activeTab, activeTabChild, config) {
-
         if (!_.isUndefined(options) && config.series.length > 1) {
             var links = [];
             if (options.id == activeTab) {
@@ -58,19 +57,30 @@ function constructor (services){
         }
 
     }
-    function panelContent(panel, series, index, config) {
-        var title = h('h3', series.name);
-        var presetList = [];
+    function panelContent(panel, series, index) {
+        return h('div.vertical-tab-content', [generatePanelContent(panel, index)]);
+    }
+
+    function generatePanelContent(panel, index) {
+        var list = [];
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
             });
-
-            presetList.push(h('div', [inputs]))
+            var subPanes = pane.panes ? generatePanelContent(pane, index) : '';
+            var item = h('h3', pane.title);
+            list.push(h('div.field-group',
+                [
+                    h('div.field-group__title', [item]),
+                    h('div.field-group__items', inputs),
+                    h('div', subPanes)
+                ]
+            ))
         });
-        return h('div.vertical-tab-content', [title, presetList]);
+        return list;
     }
+
 
     function content(panel, child, config) {
         if (!_.isUndefined(child)) {

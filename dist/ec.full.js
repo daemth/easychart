@@ -1,9 +1,3 @@
-/**
- * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
- * @version v3.0.0
- * @link 
- * @license MIT
- */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -1713,6 +1707,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],23:[function(require,module,exports){
 'use strict';
 
@@ -1829,6 +1824,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"min-document":3}],27:[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
@@ -1842,6 +1838,7 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],28:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
@@ -2676,6 +2673,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],32:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -4402,6 +4400,7 @@ Stack.prototype.set = stackSet;
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],37:[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
@@ -7519,6 +7518,7 @@ Stack.prototype.set = stackSet;
 module.exports = baseIteratee;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],44:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
@@ -9082,6 +9082,7 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],50:[function(require,module,exports){
 (function (global){
 /**
@@ -9674,6 +9675,7 @@ SetCache.prototype.push = cachePush;
 module.exports = SetCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],51:[function(require,module,exports){
 (function (global){
 /**
@@ -10340,6 +10342,7 @@ Stack.prototype.set = stackSet;
 module.exports = Stack;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],52:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
@@ -16073,6 +16076,7 @@ function toString(value) {
 module.exports = toString;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],85:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
@@ -17872,6 +17876,7 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
+
 },{"_process":7}],92:[function(require,module,exports){
 function identity(x) { return x; }
 
@@ -18011,6 +18016,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
+
 },{"_process":7}],95:[function(require,module,exports){
 'use strict';
 
@@ -21944,8 +21950,9 @@ var _ = {
 };
 var h = require('virtual-dom/h');
 
-function constructor (services){
+function constructor(services) {
     var configService = services.config;
+
     function genericConfig(options) {
         var newOptions = _.cloneDeep(options);
         return _.remove(newOptions, function (panel) {
@@ -21975,22 +21982,35 @@ function constructor (services){
         return links;
     }
 
+
     function content(panel) {
-        var presetList = [];
+        return h('div.vertical-tab-content', [generateContent(panel)]);
+    }
+
+    function generateContent(panel) {
+        var list = [];
+        console.log(panel);
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService));
             });
 
+            var subPanes = pane.panes ? generateContent(pane) : '';
             var item = h('h3', pane.title);
-            presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]))
-        });
 
-        return h('div.vertical-tab-content', [presetList]);
+            list.push(h('div.field-group',
+                [
+                    h('div.field-group__title', [item]),
+                    h('div.field-group__items', inputs),
+                    h('div', subPanes)
+                ]))
+
+        });
+        return list;
     }
 
-    return{
+    return {
         tabs: tabs,
         content: content
     }
@@ -22014,7 +22034,6 @@ function constructor (services){
     var seriesTabTitle = 'Data series';
 
     function tabs(options, setActive, activeTab, activeTabChild, config) {
-
         if (!_.isUndefined(options) && config.series.length > 1) {
             var links = [];
             if (options.id == activeTab) {
@@ -22057,19 +22076,31 @@ function constructor (services){
         }
 
     }
-    function panelContent(panel, series, index, config) {
+    function panelContent(panel, series, index) {
         var title = h('h3', series.name);
-        var presetList = [];
+        return h('div.vertical-tab-content', [title, generatePanelContent(panel, index)]);
+    }
+
+    function generatePanelContent(panel, index) {
+        var list = [];
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
             });
-
-            presetList.push(h('div', [inputs]))
+            var subPanes = pane.panes ? generatePanelContent(pane, index) : '';
+            var item = h('h3', pane.title);
+            list.push(h('div.field-group',
+                [
+                    h('div.field-group__title', [item]),
+                    h('div.field-group__items', inputs),
+                    h('div', subPanes)
+                ]
+            ))
         });
-        return h('div.vertical-tab-content', [title, presetList]);
+        return list;
     }
+
 
     function content(panel, child, config) {
         if (!_.isUndefined(child)) {
@@ -23031,28 +23062,6 @@ module.exports=module.exports = [
                         "returnType": "String",
                         "description": "The subtitle of the chart.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text/\" target=\"_blank\">Custom subtitle</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text-formatted/\" target=\"_blank\">formatted and linked text.</a>"
-                    },
-                    {
-                        "name": "yAxis-title--text",
-                        "fullname": "yAxis.title.text",
-                        "title": "Y axis title",
-                        "parent": "yAxis-title",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "Values",
-                        "description": "The actual text of the axis title. Horizontal texts can contain HTML, \r but rotated texts are painted using vector techniques and must be \r clean text. The Y axis title is disabled by setting the <code>text</code>\r option to <code>null</code>.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis",
-                        "deprecated": false
-                    },
-                    {
-                        "name": "xAxis-title--text",
-                        "fullname": "xAxis.title.text",
-                        "title": "X axis title",
-                        "parent": "xAxis-title",
-                        "isParent": false,
-                        "returnType": "String",
-                        "description": "The actual text of the axis title. It can contain basic HTML text markup like &lt;b&gt;, &lt;i&gt; and spans with style.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis"
                     }
                 ]
             },
@@ -23106,7 +23115,7 @@ module.exports=module.exports = [
                     {
                         "name": "xAxis-title--text",
                         "fullname": "xAxis.title.text",
-                        "title": "X axis title",
+                        "title": "text",
                         "parent": "xAxis-title",
                         "isParent": false,
                         "returnType": "String",
@@ -23218,6 +23227,24 @@ module.exports=module.exports = [
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-left/\" target=\"_blank\">\"left\"</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-right/\" target=\"_blank\">\"right\"</a> on X axis",
                         "deprecated": false
                     }
+                ],
+                "panes": [
+                    {
+                        "title": "Plotbands",
+                        "id": "plotbands ",
+                        "options": [
+                            {
+                                "name": "xAxis-plotBands--color",
+                                "fullname": "xAxis.plotBands.color",
+                                "title": "color",
+                                "parent": "xAxis-plotBands",
+                                "isParent": false,
+                                "returnType": "Color",
+                                "description": "The color of the plot band.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Color band</a>"
+                            }
+                        ]
+                    }
                 ]
             },
             {
@@ -23227,7 +23254,7 @@ module.exports=module.exports = [
                     {
                         "name": "yAxis-title--text",
                         "fullname": "yAxis.title.text",
-                        "title": "Y axis title",
+                        "title": "text",
                         "parent": "yAxis-title",
                         "isParent": false,
                         "returnType": "String",
@@ -23551,29 +23578,6 @@ module.exports=module.exports = [
                         "deprecated": false
                     },
                     {
-                        "name": "series--xAxis",
-                        "fullname": "series.xAxis",
-                        "title": "xAxis",
-                        "parent": "series",
-                        "isParent": false,
-                        "returnType": "Number|String",
-                        "defaults": "0",
-                        "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
-                        "deprecated": false
-                    },
-                    {
-                        "name": "series--yAxis",
-                        "fullname": "series.yAxis",
-                        "title": "yAxis",
-                        "parent": "series",
-                        "isParent": false,
-                        "returnType": "Number|String",
-                        "defaults": "0",
-                        "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
-                        "deprecated": false
-                    },
-                    {
                         "name": "series--index",
                         "fullname": "series.index",
                         "title": "index",
@@ -23585,6 +23589,36 @@ module.exports=module.exports = [
                         "demo": "",
                         "seeAlso": "",
                         "deprecated": false
+                    }
+                ],
+                "panes": [
+                    {
+                        "title": "axis",
+                        "options": [
+                            {
+                                "name": "series--xAxis",
+                                "fullname": "series.xAxis",
+                                "title": "xAxis",
+                                "parent": "series",
+                                "isParent": false,
+                                "returnType": "Number|String",
+                                "defaults": "0",
+                                "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "series--yAxis",
+                                "fullname": "series.yAxis",
+                                "title": "yAxis",
+                                "parent": "series",
+                                "isParent": false,
+                                "returnType": "Number|String",
+                                "defaults": "0",
+                                "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
+                                "deprecated": false
+                            }
+                        ]
                     }
                 ]
             }
@@ -26710,4 +26744,7 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":154,"virtual-dom/h":105}]},{},[163]);
+},{"../factories/iconLoader":154,"virtual-dom/h":105}]},{},[163])
+
+
+//# sourceMappingURL=ec.full.js.map

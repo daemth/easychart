@@ -4,12 +4,14 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
-    "highcharts": "^4.2.2",
-    "lodash.filter": "^4.2.0",
-    "lodash.tonumber": "^4.0.1",
-    "xhr": "^2.2.0"
+    "highcharts": "^4.2.2"
   },
   "devDependencies": {
+    "connect": "^3.4.1",
+    "lodash.filter": "^4.2.0",
+    "lodash.tonumber": "^4.0.1",
+    "serve-static": "^1.10.2",
+    "xhr": "^2.2.0",
     "browserify": "^13.0.0",
     "bourbon-neat": "^1.7.2",
     "browserify-css": "^0.9.0",
@@ -62,7 +64,7 @@
     "watchify": "3.3.0"
   },
   "scripts": {
-    "genOptions": "node src/js/buildCustomise"
+    "genOptions": "node buildCustomise"
   },
   "repository": {
     "type": "git",

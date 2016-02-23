@@ -112,14 +112,6 @@
           {
             "fullname": "subtitle.text",
             "title": "chart subtitle"
-          },
-          {
-            "fullname": "yAxis.title.text",
-            "title": "Y axis title"
-          },
-          {
-            "fullname": "xAxis.title.text",
-            "title": "X axis title"
           }
         ]
       },
@@ -180,7 +172,16 @@
           {
             "fullname": "xAxis.labels.align"
           }
-        ]
+        ],
+        "panes":[{
+          "title": "Plotbands",
+          "id": "plotbands ",
+          "options": [
+            {
+              "fullname": "xAxis.plotbands.color"
+            }
+          ]
+        }]
       },
       {
         "title": "Value axis",
@@ -311,33 +312,42 @@
     ]
   },
   {
-    "id" : "series",
+    "id": "series",
     "panelTitle": "Series",
-    "panes": [{
-      "title": "Series configuration",
-      "options": [
-        {
-          "fullname": "series.name"
-        },
-        {
-          "fullname": "series.type"
-        },
-        {
-          "fullname": "series.xaxis"
-        },
-        {
-          "fullname": "series.yaxis"
-        },
-        {
-          "fullname": "series.index"
-        },
-        {
-          "fullname": "series.dashStyle"
-        },
-        {
-          "fullname": "series.marker.enabled"
-        }
-      ]
-    }]
+    "panes": [
+      {
+        "title": "Series configuration",
+        "options": [
+          {
+            "fullname": "series.name"
+          },
+          {
+            "fullname": "series.type"
+          },
+          {
+            "fullname": "series.index"
+          },
+          {
+            "fullname": "series.dashStyle"
+          },
+          {
+            "fullname": "series.marker.enabled"
+          }
+        ],
+        "panes":[
+          {
+            "title": "axis",
+            "options": [
+              {
+                "fullname": "series.xaxis"
+              },
+              {
+                "fullname": "series.yaxis"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

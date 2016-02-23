@@ -10,8 +10,9 @@ var _ = {
 };
 var h = require('virtual-dom/h');
 
-function constructor (services){
+function constructor(services) {
     var configService = services.config;
+
     function genericConfig(options) {
         var newOptions = _.cloneDeep(options);
         return _.remove(newOptions, function (panel) {
@@ -41,22 +42,33 @@ function constructor (services){
         return links;
     }
 
+
     function content(panel) {
-        var presetList = [];
+        return h('div.vertical-tab-content', [generateContent(panel)]);
+    }
+
+    function generateContent(panel) {
+        var list = [];
         _.forEach(panel.panes, function (pane) {
             var inputs = [];
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService));
             });
-
+            var subPanes = pane.panes ? generateContent(pane) : '';
             var item = h('h3', pane.title);
-            presetList.push(h('div.field-group', [h('div.field-group__title', [item]), h('div.field-group__items', inputs)]))
-        });
+            list.push(h('div.field-group',
+                [
+                    h('div.field-group__title', [item]),
+                    h('div.field-group__items', inputs),
+                    h('div', subPanes)
+                ]
+            ))
 
-        return h('div.vertical-tab-content', [presetList]);
+        });
+        return list;
     }
 
-    return{
+    return {
         tabs: tabs,
         content: content
     }

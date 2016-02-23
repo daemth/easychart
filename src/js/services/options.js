@@ -3,6 +3,7 @@
         var options = require('../config/options.json');
         var configUrl;
         var that = {};
+
         var xhr = require("xhr");
         var _ = {
             cloneDeep: require('lodash.clonedeep')
