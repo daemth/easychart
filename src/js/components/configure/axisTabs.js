@@ -47,7 +47,7 @@ function constructor(services) {
 
                 if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
-                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text)? axis.title.text : 'Y axis ' + (index + 1);
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) ? axis.title.text : 'Y axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -105,7 +105,7 @@ function constructor(services) {
         return h('div.vertical-tab-content', [presetList]);
     }
 
-    function axisContent(panes, child, config) {
+    function axisContent(panes, child, config, setActive) {
         var inputs = [];
         var type = child.substring(0, 5);
         var index = child.substring(5, 6);
@@ -114,39 +114,46 @@ function constructor(services) {
         });
         if (pane) {
             var titleText = !_.isUndefined(config[type][index]) && !_.isUndefined(config[type][index].title) && !_.isUndefined(config[type][index].title.text) ? config[type][index].title.text : pane.title;
-            var title = h('h3', titleText);
+            var title = h('h3.float--left', titleText);
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
             });
-            return h('div.vertical-tab-content', [title, removeButton(type, index, pane.title, config[type]), addButton(type, config[type]), inputs]);
+            return h('div.vertical-tab-content', [h('div.titleBar',
+                [
+                    title,
+                    removeButton(type, index, pane.title, config[type], setActive),
+                    addButton(type, config[type], setActive)]
+            ), inputs]);
         }
     }
 
-    function removeButton(type, index, title, typeConfig) {
+    function removeButton(type, index, title, typeConfig, setActive) {
         if (typeConfig.length > 1) {
-            return h('button', {
+            return h('button.btn.btn--small', {
                 'ev-click': function () {
-                    configService.removeValue(type + '.' + index, {})
+                    configService.removeValue(type + '.' + index, {});
+                    setActive('axis', 'general');
                 }
-            }, 'remove ' + title);
+            }, 'remove axis');
         }
 
     }
 
-    function addButton(type, typeConfig) {
-        return h('button', {
+    function addButton(type, typeConfig, setActive) {
+        return h('button.btn.btn--small', {
             'ev-click': function () {
                 configService.setValue(type + '.' + typeConfig.length, {})
+                setActive('axis', type + typeConfig.length);
             }
         }, 'add ' + type)
     }
 
 
-    function content(panel, child, config) {
+    function content(panel, child, config, setActive) {
         if (child == 'general') {
             return generalContent(generalOptions(panel.panes));
         } else {
-            return axisContent(panel.panes, child, config);
+            return axisContent(panel.panes, child, config, setActive);
         }
     }
 

@@ -3,7 +3,6 @@
 @import "base/variables";
 
 .ec {
-  font-family: $base-font-family;
   font-size: $base-font-size;
   line-height: $base-line-height;
   background: $super-light-gray;
@@ -90,6 +89,18 @@
     padding: 10px 20px;
     display: block;
     margin-bottom: 10px;
+  }
+  .titleBar{
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 20px;
+    h3{
+      float: left;
+    }
+    .btn{
+      margin-left: 10px;
+      float: right;
+    }
   }
   .templatelist {
     display: flex;

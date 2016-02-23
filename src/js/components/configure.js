@@ -62,7 +62,7 @@
                     content = seriesTabs.content(activePanel, activeChildId, config);
                     break;
                 case 'axis':
-                    content = axisTabs.content(activePanel, activeChildId, config);
+                    content = axisTabs.content(activePanel, activeChildId, config, setActive);
                     break;
                 default:
                     content = genericTabs.content(activePanel);
