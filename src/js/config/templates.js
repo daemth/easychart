@@ -190,23 +190,6 @@ var templates = [
                         {"type": "errorbar"}
                     ]
                 }
-            },
-            {
-                "id": "combinationColumn",
-                "title": "Combination chart",
-                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "line"
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }],
-                    "series": [
-                        {"type": null},
-                        {"type": "column"}
-                    ]
-                }
             }
         ]
     },
@@ -1077,39 +1060,6 @@ var templates = [
                         "type": "bubble"
                     }
                 }
-            },
-            {
-                "id": "scatterWithLine",
-                "title": "Scatter with line",
-                "description": "Requires one data column for X values and one for Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "scatter"
-                    },
-                    "plotOptions":{
-                        "series":{
-                            "lineWidth": 1
-                        }
-                    }
-                }
-            },
-            {
-                "id": "scatterWithLineNoMarker",
-                "title": "Scatter with line, no marker",
-                "description": "Requires one data column for X values and one for Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "scatter"
-                    },
-                    "plotOptions":{
-                        "series":{
-                            "lineWidth": 1,
-                            "marker":{
-                                "enabled": false
-                            }
-                        }
-                    }
-                }
             }
         ]
     },
@@ -1635,8 +1585,8 @@ var templates = [
         "icon": "line",
         "templates": [
             {
-                "id": "line",
-                "title": "Highcharts weather chart",
+                "id": "multipleAxes",
+                "title": "Multiple axes",
                 "description": "Requires one column for X values or categories (labels around the perimeter), subsequently one column for each series' Y values (plotted from center and out).",
                 "definition": {
                     chart: {
@@ -1649,6 +1599,7 @@ var templates = [
                         text: 'Source: WorldClimate.com'
                     },
                     xAxis: [{
+                        type: 'category',
                         crosshair: true
                     }],
                     yAxis: [{ // Primary yAxis
@@ -1731,6 +1682,117 @@ var templates = [
                         type: 'spline',
                         tooltip: {
                             valueSuffix: ' °C'
+                        }
+                    }]
+                }
+            },
+            {
+                "id": "scatterWithLine",
+                "title": "Scatter with line",
+                "description": "Requires one data column for X values and one for Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "scatter"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "lineWidth": 1
+                        }
+                    }
+                }
+            },
+            {
+                "id": "scatterWithLineNoMarker",
+                "title": "Scatter with line, no marker",
+                "description": "Requires one data column for X values and one for Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "scatter"
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "lineWidth": 1,
+                            "marker":{
+                                "enabled": false
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "combinationColumn",
+                "title": "Combination chart",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }],
+                    "series": [
+                        {"type": null},
+                        {"type": "column"}
+                    ]
+                }
+            },
+            // todo
+            {
+                "id": "colSplinePie",
+                "title": "Combination chart (col, spline, pie)",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    title: {
+                        text: 'Combination chart'
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    labels: {
+                        items: [{
+                            html: 'Total fruit consumption',
+                            style: {
+                                left: '50px',
+                                top: '18px',
+                                color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                            }
+                        }]
+                    },
+                    series: [{
+                        type: 'column',
+                        name: 'Jane'
+                    }, {
+                        type: 'column',
+                        name: 'John'
+                    }, {
+                        type: 'column',
+                        name: 'Joe'
+                    }, {
+                        type: 'spline',
+                        name: 'Average',
+                        marker: {
+                            lineWidth: 2,
+                            lineColor: Highcharts.getOptions().colors[3],
+                            fillColor: 'white'
+                        }
+                    }, {
+                        type: 'pie',
+                        //name: 'Total consumption',
+                        /*data: [{
+                            name: 'Jane',
+                            color: Highcharts.getOptions().colors[0] // Jane's color
+                        }, {
+                            name: 'John',
+                            color: Highcharts.getOptions().colors[1] // John's color
+                        }, {
+                            name: 'Joe',
+                            color: Highcharts.getOptions().colors[2] // Joe's color
+                        }],*/
+                        center: [100, 80],
+                        size: 100,
+                        showInLegend: false,
+                        dataLabels: {
+                            enabled: false
                         }
                     }]
                 }
