@@ -5,19 +5,17 @@
             trim: require('lodash.trim'),
             isEqual: require('lodash.isequal')
         };
-
-        var data = services.data.get();
-
-        services.mediator.on('dataUpdate', function(_data_){
-            data = _data_;
-        });
-
         var h = require('virtual-dom/h');
         var mediator = services.mediator;
+        var data;
+
         function template() {
-            var rows = [];
-            var editRow = [];
+            data = services.data.get();
             mediator.on('dataUpdate', updateData);
+            var editable = services.data.getUrl() ? false : true;
+            var rows = [];
+            var readOnly = !editable ? h('div.readOnlyBox', h('span', 'A data url was found, the data will be read only')) : '';
+            var editRow = [];
             // only add if there is data
             if (data[0]) {
                 rows.push(h('tr', editRow));
@@ -25,13 +23,8 @@
                     var cells = [];
                     _.forEach(row, function (cell, cellIndex) {
                         cells.push(h('td', {
-                            contentEditable: services.data.getUrl()?false:true,
+                            contentEditable: services.data.getUrl() ? false : true,
                             "ev-input": function (e) {
-                                var value = _.trim(e.target.innerHTML);
-                                data[rowIndex][cellIndex] = value;
-                                services.data.setValue(rowIndex, cellIndex, value);
-                            },
-                            "ev-blur": function (e) {
                                 var value = _.trim(e.target.innerHTML);
                                 data[rowIndex][cellIndex] = value;
                                 services.data.setValue(rowIndex, cellIndex, value);
@@ -43,24 +36,30 @@
             }
 
             return h('div', [
-                h('table.table--data.table--bordered', rows)
+                readOnly,
+                h('table.table--data.table--bordered', {
+                    className: !editable ? "table--disabled" : ""
+                }, rows)
             ]);
         }
 
+
         function updateData(_data_) {
+            console.log(_data_);
+            console.log(data);
             if (!_.isEqual(_data_, data)) {
                 data = _data_;
                 mediator.trigger('treeUpdate');
             }
         }
 
-        function destroy(){
+        function destroy() {
             mediator.off('dataUpdate', updateData);
         }
 
         return {
             template: template,
-            destroy:destroy
+            destroy: destroy
         };
     };
 
