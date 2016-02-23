@@ -93,7 +93,6 @@ function constructor(services) {
         })
     }
 
-
     function generalContent(pane) {
         return h('div.vertical-tab-content', [generateContent({panes:[pane]})]);
     }
@@ -114,32 +113,44 @@ function constructor(services) {
                     h('div', subPanes)
                 ]
             ))
-
         });
         return list;
     }
 
 
     function axisContent(panes, child, config, setActive) {
-        var inputs = [];
         var type = child.substring(0, 5);
         var index = child.substring(5, 6);
         var pane = _.find(panes, function (pane) {
             return pane.id == type;
         });
         if (pane) {
-            var titleText = !_.isUndefined(config[type][index]) && !_.isUndefined(config[type][index].title) && !_.isUndefined(config[type][index].title.text) ? config[type][index].title.text : pane.title;
-            var title = h('h3.float--left', titleText);
+            return h('div.vertical-tab-content', [h('div.titleBar',
+                [
+                    removeButton(type, index, pane.title, config[type], setActive),
+                    addButton(type, config[type], setActive)
+                ]
+            ), generateAxisContentPane({panes:[pane]}, index, type)]);
+        }
+    }
+    function generateAxisContentPane(panel, index, type){
+        var list = [];
+        _.forEach(panel.panes, function (pane) {
+            var inputs = [];
             _.forEach(pane.options, function (option) {
                 inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
             });
-            return h('div.vertical-tab-content', [h('div.titleBar',
+            var subPanes = pane.panes ? generateAxisContentPane(pane, index) : '';
+            var item = h('h3', pane.title);
+            list.push(h('div.field-group',
                 [
-                    title,
-                    removeButton(type, index, pane.title, config[type], setActive),
-                    addButton(type, config[type], setActive)]
-            ), inputs]);
-        }
+                    h('div.field-group__title', [item]),
+                    h('div.field-group__items', inputs),
+                    h('div', subPanes)
+                ]
+            ))
+        });
+        return list;
     }
 
     function removeButton(type, index, title, typeConfig, setActive) {

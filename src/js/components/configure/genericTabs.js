@@ -63,7 +63,6 @@ function constructor(services) {
                     h('div', subPanes)
                 ]
             ))
-
         });
         return list;
     }
