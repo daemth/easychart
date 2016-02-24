@@ -8,12 +8,10 @@
 
         var configService = services.config;
         var that = {};
-        console.log(configService.get());
         var config = JSON.stringify(configService.get(),null,4);
         services.mediator.on('configUpdate', function (_config_) {
             config = _config_;
         });
-
         var Hook = function(){};
         Hook.prototype.hook = function(node){
             setTimeout(function(){
