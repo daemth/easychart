@@ -488,6 +488,26 @@
                                 "returnType": "Color",
                                 "description": "The color of the plot band.",
                                 "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Color band</a>"
+                            },
+                            {
+                                "name": "xAxis-plotBands--from",
+                                "fullname": "xAxis.plotBands.from",
+                                "title": "from",
+                                "parent": "xAxis-plotBands",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The start position of the plot band in axis units.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Datetime axis</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-from/\" target=\"_blank\">categorized axis</a>,"
+                            },
+                            {
+                                "name": "xAxis-plotBands--to",
+                                "fullname": "xAxis.plotBands.to",
+                                "title": "to",
+                                "parent": "xAxis-plotBands",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The end position of the plot band in axis units.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Datetime axis</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-from/\" target=\"_blank\">categorized axis</a>,"
                             }
                         ]
                     }

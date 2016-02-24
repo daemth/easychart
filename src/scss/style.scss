@@ -83,6 +83,40 @@
     float: left;
     width: 100%;
   }
+  .objectArray{
+    border: 1px solid $light-gray;
+    display: inline-block;
+    width: 100%;
+    .title{
+      width: 100%;
+      float: left;
+      padding: 7.5px 10px;
+      background: $super-light-gray;
+      h4, h5{
+        float: left;
+      }
+      .btn{
+        float: right;
+      }
+    }
+    .list{
+      width: 100%;
+      float: left;
+      .item{
+        .title{
+          border-bottom: 1px solid $light-gray;
+          border-top: 1px solid $light-gray;
+        }
+        width: 100%;
+        float: left;
+        .options{
+          float: left;
+          width: 100%;
+          padding-top: 20px;
+        }
+      }
+    }
+  }
   .readOnlyBox{
     border: 1px solid $light-gray;
     background: white;

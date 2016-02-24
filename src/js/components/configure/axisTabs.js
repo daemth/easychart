@@ -174,7 +174,6 @@ function constructor(services) {
         }, 'add ' + type)
     }
 
-
     function content(panel, child, config, setActive) {
         if (child == 'general') {
             return generalContent(generalOptions(panel.panes));

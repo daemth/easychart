@@ -37,8 +37,6 @@
             }
         }
 
-
-
         var returnType = property.returnType ? property.returnType : "string";
         // select
         if (property.hasOwnProperty('values') && property.values !== '') {
@@ -49,6 +47,9 @@
                 // Color array
                 case returnType.toLowerCase() == 'array<color>':
                     element = require('./properties/arrayColor')(property, configService, configValue, disabled);
+                    break;
+                case returnType.toLowerCase() == 'array<object>':
+                    element = require('./properties/arrayObject')(property, configService, configValue, that);
                     break;
                 // array
                 case (returnType.lastIndexOf('Array', 0) === 0):

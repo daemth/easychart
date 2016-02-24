@@ -1,31 +1,31 @@
 (function () {
-  var h = require('virtual-dom/h');
+    var h = require('virtual-dom/h');
 
-  function constructor(property, configService, configValue, disabled) {
-    return h('div.form-item', [
-      h('div.form-item__label', h('label', {
-        title     : property.description,
-        'ev-click': function (e) {
-          if(!disabled) {
-            e.target.parentNode.parentNode.querySelector('input').focus();
-          }
-        }
-      }, [property.title])),
-      h('div.form-item__input', h('input', {
-        disabled  : disabled,
-        'placeholder' : property.defaults,
-        'type'    : 'number',
-        'value'   : configValue?configValue:"",
-        'ev-blur': function (e) {
-          if (e.target.value !== '') {
-            configService.setValue(property.fullname, parseInt(e.target.value));
-          } else {
-            configService.removeValue(property.fullname);
-          }
-        }
-      }))
-    ]);
-  }
+    function constructor(property, configService, configValue, disabled) {
+        return h('div.form-item', [
+            h('div.form-item__label', h('label', {
+                title: property.description,
+                'ev-click': function (e) {
+                    if (!disabled) {
+                        e.target.parentNode.parentNode.querySelector('input').focus();
+                    }
+                }
+            }, [property.title])),
+            h('div.form-item__input', h('input', {
+                disabled: disabled,
+                'placeholder': property.defaults,
+                'type': 'number',
+                'value': typeof configValue !== 'undefined' ? configValue : "",
+                'ev-blur': function (e) {
+                    if (e.target.value !== '') {
+                        configService.setValue(property.fullname, parseInt(e.target.value));
+                    } else {
+                        configService.removeValue(property.fullname);
+                    }
+                }
+            }))
+        ]);
+    }
 
-  module.exports = constructor;
+    module.exports = constructor;
 })();

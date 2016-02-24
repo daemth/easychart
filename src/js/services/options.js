@@ -19,7 +19,7 @@
         that.setUrl = function(url){
             if(url !== ''){
                 xhr.get(url, function(err, resp){
-                    if (resp.status === 200) {
+                    if (resp.statusCode === 200) {
                         options = JSON.parse(resp.body);
                         configUrl = url;
                         mediator.trigger('configUpdate', that.get());

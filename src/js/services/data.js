@@ -96,12 +96,14 @@
         that.setUrl = function(url, init){
             if(url !== ''){
                 xhr.get(url, function(err, resp){
-                    if (resp.status === 200) {
+
+                    if (resp.statusCode == "200") {
                         if(!init){
                             mediator.trigger('backup', _.cloneDeep(dataSet));
                         }
                         dataSet = papa.parse(resp.body).data;
                         dataUrl = url;
+
                         mediator.trigger('dataUpdate', _.cloneDeep(dataSet));
                     }
                     else {

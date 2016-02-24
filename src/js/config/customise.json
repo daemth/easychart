@@ -177,6 +177,12 @@
             "options":[
               {
                 "fullname": "xAxis.plotbands.color"
+              },
+              {
+                "fullname": "xAxis.plotbands.from"
+              },
+              {
+                "fullname": "xAxis.plotbands.to"
               }
             ]
           }
