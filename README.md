@@ -52,7 +52,7 @@ For commercial and governmental websites and projects, you need to buy a license
 With Easychart we hope to make the beauty of Highcharts accessible to almost everyone.
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
 
-## api
+## options
 You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
 ```javascript
 document.addEventListener("DOMContentLoaded", function () {
@@ -75,113 +75,150 @@ new ec({
 });
 ```
 ### options.debugger
-Toggle on and off the customise tab [default:false]
+Toggle on and off the debugger tab [default:false]
 ```javascript
 new ec({
     debugger: true
 });
 ```
-### options.on
+### options.data
+Pass a data array object with data
+```javascript
+var data = [
+    [0,1,3],
+    [1,5,7]
+]
+new ec({
+    data: data
+});
+```
+### options.dataCSV
+
 ```javascript
 new ec({
 
 });
 ```
-### options.setData
+### options.dataUrl
+
 ```javascript
 new ec({
 
 });
 ```
-### options.getData
+### options.options
+
 ```javascript
 new ec({
 
 });
 ```
-### options.setDataUrl
+### options.optionsUrl
+
 ```javascript
 new ec({
 
 });
 ```
-### options.getDataUrl
+### options.templates
+
 ```javascript
 new ec({
 
 });
 ```
-### options.setDataCSV
+### options.config
+
 ```javascript
 new ec({
 
 });
 ```
-### options.setOptions
+### options.config
+
 ```javascript
 new ec({
 
 });
 ```
-### options.getOptions
+### options.preset
+
 ```javascript
 new ec({
 
 });
 ```
-### options.setTemplates
+### options.events
+
 ```javascript
 new ec({
 
 });
 ```
-### options.getTemplates
+## api
+### instance.setData
 ```javascript
-new ec({
-
-});
+var instance = new ec();
 ```
-### options.setConfig
+### instance.getData
 ```javascript
-new ec({
-
-});
+var instance = new ec();
 ```
-### options.getConfig
+### instance.setDataUrl
 ```javascript
-new ec({
-
-});
+var instance = new ec();
 ```
-### options.setOptionsUrl
+### instance.getDataUrl
 ```javascript
-new ec({
-
-});
+var instance = new ec();
 ```
-### options.getOptionsUrl
+### instance.setDataCSV
 ```javascript
-new ec({
-
-});
+var instance = new ec();
 ```
-### options.setPreset
+### instance.setOptions
 ```javascript
-new ec({
-
-});
+var instance = new ec();
 ```
-### options.getPreset
+### instance.getOptions
 ```javascript
-new ec({
-
-});
+var instance = new ec();
 ```
-### options.on
+### instance.setTemplates
 ```javascript
-new ec({
-
-});
+var instance = new ec();
+```
+### instance.getTemplates
+```javascript
+var instance = new ec();
+```
+### instance.setConfig
+```javascript
+var instance = new ec();
+```
+### instance.getConfig
+```javascript
+var instance = new ec();
+```
+### instance.setOptionsUrl
+```javascript
+var instance = new ec();
+```
+### instance.getOptionsUrl
+```javascript
+var instance = new ec();
+```
+### instance.setPreset
+```javascript
+var instance = new ec();
+```
+### instance.getPreset
+```javascript
+var instance = new ec();
+```
+### instance.on
+```javascript
+var instance = new ec();
 ```
 
 ## builds
