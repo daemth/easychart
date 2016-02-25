@@ -127,7 +127,7 @@ new ec({
 ### options.templates
 Pass a array with preconfigured templates for the template page.
 ```javascript
-var templatesObject = [
+var templatesArray = [
     {
         "id": "line",
         "type": "Line charts",
@@ -162,59 +162,24 @@ Load a existing config object
 new ec({
     data:[['move', 'excersise', 'stand'], [80,65,50]],
     config:{
-               "chart": {
-                   "type": "column",
-                   "inverted": true,
-                   "animation": false
-               },
-               "xAxis": [
-                   {
-                       "type": "category"
+           "chart": {
+               "type": "column",
+               "inverted": true,
+               "animation": false
+           },
+           "xAxis": [
+               {
+                   "type": "category"
+               }
+           ],
+           "plotOptions": {
+               "series": {
+                   "dataLabels": {
+                       "enabled": true
                    }
-               ],
-               "plotOptions": {
-                   "series": {
-                       "dataLabels": {
-                           "enabled": true
-                       }
-                   }
-               },
-               "series": [
-                   {
-                       "type": "column",
-                       "animation": false,
-                       "connectNulls": true,
-                       "data": [
-                           {
-                               "y": 80
-                           }
-                       ],
-                       "name": "Move"
-                   },
-                   {
-                       "type": "column",
-                       "animation": false,
-                       "connectNulls": true,
-                       "data": [
-                           {
-                               "y": 65
-                           }
-                       ],
-                       "name": "Exercise"
-                   },
-                   {
-                       "type": "column",
-                       "animation": false,
-                       "connectNulls": true,
-                       "data": [
-                           {
-                               "y": 50
-                           }
-                       ],
-                       "name": "Stand"
-                   }
-               ]
+               }
            }
+    }
 });
 ```
 ### options.preset
@@ -225,82 +190,184 @@ new ec({
        "colors": [
             "#ECFF7C",
             "#000000",
-            "#FF0000",
-            "#f7a35c",
-            "#8085e9",
-            "#f15c80",
-            "#e4d354",
-            "#2b908f",
-            "#f45b5b",
-            "#91e8e1"
+            "#FF0000"
         ]
     }
 });
 ```
 ## api
 ### instance.setData
+Set the current data object.
 ```javascript
 var instance = new ec();
+var data = [
+    [0,1,3],
+    [1,5,7]
+]
+instance.setData(data);
 ```
 ### instance.getData
+Get the current data object.
 ```javascript
 var instance = new ec();
+
+instance.getData();
 ```
 ### instance.setDataUrl
+Set a data url to a csv file
 ```javascript
 var instance = new ec();
+instance.setDataUrl('pathtocsvfile/file.csv)
 ```
 ### instance.getDataUrl
+Get current data url
 ```javascript
 var instance = new ec();
+instance.getDataUrl();
 ```
 ### instance.setDataCSV
+Set a csv string with data.
 ```javascript
+var csvString = '1,2,3'
 var instance = new ec();
+instance.setDataCSV(csvString);
 ```
 ### instance.setOptions
+Set the options with the customisable attributes for the customise page
 ```javascript
+var opts:[
+    {
+        "id": "chart",
+        "panelTitle": "Chart settings",
+        "panes": [
+            {
+                "title": "Chart type and interaction",
+                "options": [
+                    {
+                        "name": "chart--type",
+                        "fullname": "chart.type",
+                        "title": "type",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "line",
+                        "values": "[\"line\", \"spline\", \"column\", \"bar\", \"area\", \"areaspline\", \"pie\", \"arearange\", \"areasplinerange\", \"boxplot\", \"bubble\", \"columnrange\", \"errorbar\", \"funnel\", \"gauge\", \"heatmap\", \"polygon\", \"pyramid\", \"scatter\", \"solidgauge\", \"treemap\", \"waterfall\"]",
+                        "since": "2.1.0",
+                        "description": "The default series type for the chart. Can be any of the chart types listed under <a href=\"#plotOptions\">plotOptions</a>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/type-bar/\" target=\"_blank\">Bar</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+    }
+];
 var instance = new ec();
+instance.setOptions(opts)
 ```
 ### instance.getOptions
+Get the current options config.
 ```javascript
 var instance = new ec();
+instance.getOptions()
 ```
 ### instance.setTemplates
+Set an array with preconfigured templates for the template page.
 ```javascript
+var templatesArray = [
+    {
+        "id": "line",
+        "type": "Line charts",
+        "icon": "line",
+        "templates": [
+            {
+                "id": "basic",
+                "icon": "line_basic",
+                "title": "Line chart",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            }
+        ]
+    }
+];
 var instance = new ec();
+instance.setTemplates(templatesArray);
 ```
 ### instance.getTemplates
+Get the current template list.
 ```javascript
 var instance = new ec();
+instance.getTemplates();
 ```
 ### instance.setConfig
+Set the current config from code
 ```javascript
 var instance = new ec();
+var config = 
+    {
+        "chart": {
+            "type": "column",
+            "inverted": true,
+            "animation": false
+        },
+        "xAxis": [
+            {
+                "type": "category"
+            }
+        ],
+        "plotOptions": {
+            "series": {
+                "dataLabels": {
+                    "enabled": true
+                }
+            }
+        }
+    };
+instance.setConfig(config);
 ```
 ### instance.getConfig
+Get the current config.
 ```javascript
 var instance = new ec();
+instance.getConfig()
 ```
 ### instance.setOptionsUrl
 ```javascript
 var instance = new ec();
+instance.setOptionsUrl('urltojsonfile.json')
 ```
 ### instance.getOptionsUrl
+Get the current options url.
 ```javascript
 var instance = new ec();
+instance.getOptionsUrl()
 ```
 ### instance.setPreset
+set the preset for the instance
 ```javascript
+ var preset = {
+       "colors": [
+            "#ECFF7C",
+            "#000000",
+            "#FF0000"
+        ]
+    }
+    
 var instance = new ec();
+instance.setPreset(preset)
 ```
 ### instance.getPreset
+Get the current preset.
 ```javascript
 var instance = new ec();
-```
-### instance.on
-```javascript
-var instance = new ec();
+instance.getPreset()
 ```
 ## Generate options file
 ## Builds
