@@ -21276,14 +21276,8 @@ return self})();
 
             },
             xAxis:[{
-                plotBands: [{
-                    color: 'orange', // Color value
-                    from: 0, // Start of the plot band
-                    to: 1 // End of the plot band
-                }]
             }],
             yAxis:[{
-
             }]
         };
 

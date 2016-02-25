@@ -2,7 +2,7 @@
 **A visual editor for the world's best web charting tool: [Highcharts] (http://www.highcharts.com/)**
 
 ## Features
-* Support for Highcharts 4.1.7
+* Support for Highcharts 4.2.3
 * Built on top of the [Highcharts Configuration Options] (http://api.highcharts.com/highcharts/option/dump.json)
 * More chart-types available: 
   * area
@@ -52,27 +52,21 @@ For commercial and governmental websites and projects, you need to buy a license
 With Easychart we hope to make the beauty of Highcharts accessible to almost everyone.
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
 
-
-##Requirements
-jQuery 1.4.4: http://jquery.com/download/
-
-Highcharts: http://www.highcharts.com/download
-
-## Example
-The Easychart plugin can be called on any div.
-
-1. Add this in your javascript file:
-	```
-    $(document).ready(function() {
-      $('#myDiv').easychart();
-    });
-    ```
-
-2. This would be your HTML:
-    ```
-      <div id="myDiv"></div>
-    ```
-
+## api
+You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
+```javascript
+    document.addEventListener("DOMContentLoaded", function () {
+        var options = {};
+        new ec(options);
+    })
+```
+### options.element
+```javascript
+var containerNode = document.getElementById('container');
+new ec({
+    element: containerNode
+});
+```
 
 ## License
 Available under the MIT license.
