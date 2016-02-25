@@ -34,6 +34,15 @@ gulp.task('sass', function () {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./src/css'));
 });
+gulp.task('sass:prod', function () {
+    gulp.src('src/scss/style.scss')
+        .pipe(sourcemaps.init())
+        .pipe(sass({
+            outputStyle: 'compressed',
+            includePaths: require('node-neat').includePaths
+        }))
+        .pipe(gulp.dest('./src/css'));
+});
 
 gulp.task('sass:watch', function () {
     gulp.watch('./src/scss/**/*.scss', ['sass']);
@@ -48,7 +57,7 @@ gulp.task('browserify:minimal', function () {
 });
 
 function build(file, output) {
-    var bundler = browserify('./src/js/' + file + '.js');
+    var bundler = browserify('./src/js/' + file + '.js', {fullPaths:false});
     return bundler.bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(source(output + '.js'))
@@ -88,6 +97,6 @@ function bundle(file, output) {
     return rebundle();
 }
 
-gulp.task('build', ['sass', 'browserify:full', 'browserify:minimal']);
+gulp.task('build', ['sass:prod', 'browserify:full', 'browserify:minimal']);
 gulp.task('watch:full', ['sass:watch', 'watchify:full']);
 gulp.task('watch:minimal', ['watchify:minimal']);
