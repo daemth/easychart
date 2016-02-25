@@ -217,7 +217,7 @@ instance.getData();
 Set a data url to a csv file
 ```javascript
 var instance = new ec();
-instance.setDataUrl('pathtocsvfile/file.csv)
+instance.setDataUrl('pathtocsvfile/file.csv')
 ```
 ### instance.getDataUrl
 Get current data url
