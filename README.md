@@ -83,7 +83,8 @@ new ec({
 Pass an options object with the customisable attributes for the customise page
 
 ```javascript
-var opts:{
+var opts:[
+    {
         "id": "chart",
         "panelTitle": "Chart settings",
         "panes": [
@@ -107,7 +108,8 @@ var opts:{
                 ]
             }
         ]
-};
+    }
+];
 
 new ec({
     options: opts
@@ -153,33 +155,86 @@ new ec({
     templates:templatesObject
 });
 ```
-example [options](src/js/config/templates.js)
+example [templates](src/js/config/templates.js)
 ### options.config
-
+Load a existing config object
 ```javascript
 new ec({
-
-});
-```
-### options.config
-
-```javascript
-new ec({
-
+    data:[['move', 'excersise', 'stand'], [80,65,50]],
+    config:{
+               "chart": {
+                   "type": "column",
+                   "inverted": true,
+                   "animation": false
+               },
+               "xAxis": [
+                   {
+                       "type": "category"
+                   }
+               ],
+               "plotOptions": {
+                   "series": {
+                       "dataLabels": {
+                           "enabled": true
+                       }
+                   }
+               },
+               "series": [
+                   {
+                       "type": "column",
+                       "animation": false,
+                       "connectNulls": true,
+                       "data": [
+                           {
+                               "y": 80
+                           }
+                       ],
+                       "name": "Move"
+                   },
+                   {
+                       "type": "column",
+                       "animation": false,
+                       "connectNulls": true,
+                       "data": [
+                           {
+                               "y": 65
+                           }
+                       ],
+                       "name": "Exercise"
+                   },
+                   {
+                       "type": "column",
+                       "animation": false,
+                       "connectNulls": true,
+                       "data": [
+                           {
+                               "y": 50
+                           }
+                       ],
+                       "name": "Stand"
+                   }
+               ]
+           }
 });
 ```
 ### options.preset
-
+Load preset options, a preset has the same structure as options but cannot be overwritten by the user or other config. Is a tool for setting site wide config. e.g. colors
 ```javascript
 new ec({
-
-});
-```
-### options.events
-
-```javascript
-new ec({
-
+    preset:{
+       "colors": [
+            "#ECFF7C",
+            "#000000",
+            "#FF0000",
+            "#f7a35c",
+            "#8085e9",
+            "#f15c80",
+            "#e4d354",
+            "#2b908f",
+            "#f45b5b",
+            "#91e8e1"
+        ]
+    }
 });
 ```
 ## api

@@ -1,3 +1,9 @@
+/**
+ * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
+ * @version v3.0.0
+ * @link 
+ * @license MIT
+ */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -1707,7 +1713,6 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],23:[function(require,module,exports){
 'use strict';
 
@@ -1824,7 +1829,6 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"min-document":3}],27:[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
@@ -1838,7 +1842,6 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],28:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
@@ -2673,7 +2676,6 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],32:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -4400,7 +4402,6 @@ Stack.prototype.set = stackSet;
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],37:[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
@@ -7518,7 +7519,6 @@ Stack.prototype.set = stackSet;
 module.exports = baseIteratee;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],44:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
@@ -9082,7 +9082,6 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],50:[function(require,module,exports){
 (function (global){
 /**
@@ -9675,7 +9674,6 @@ SetCache.prototype.push = cachePush;
 module.exports = SetCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],51:[function(require,module,exports){
 (function (global){
 /**
@@ -10342,7 +10340,6 @@ Stack.prototype.set = stackSet;
 module.exports = Stack;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],52:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
@@ -16076,7 +16073,6 @@ function toString(value) {
 module.exports = toString;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{}],85:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
@@ -17876,7 +17872,6 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
-
 },{"_process":7}],92:[function(require,module,exports){
 function identity(x) { return x; }
 
@@ -18016,7 +18011,6 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-
 },{"_process":7}],95:[function(require,module,exports){
 'use strict';
 
@@ -26043,7 +26037,6 @@ return self})();
                 object.type = defaultType;
             }
             object.animation = animation ? animation : false;
-            object.connectNulls = true;
             object.data = [];
             size = size - getValuesPerPoint(object.type).points;
             array.push(object);
@@ -26686,6 +26679,11 @@ module.exports = constructor;
 
 },{"lodash.foreach":59}],169:[function(require,module,exports){
 (function () {
+    /**
+     * Service for setting and getting the customisable options list for the customise page.
+     * @param mediator
+     * @returns {{}}
+     */
     var constructor = function (mediator){
         var options = require('../config/options.json');
         var configUrl;
@@ -26884,7 +26882,4 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":154,"virtual-dom/h":105}]},{},[164])
-
-
-//# sourceMappingURL=ec.full.js.map
+},{"../factories/iconLoader":154,"virtual-dom/h":105}]},{},[164]);

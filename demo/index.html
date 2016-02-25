@@ -24,14 +24,26 @@
         var container = document.getElementById('container');
         window.easychart = new ec({
             element: container,
-            dataUrl: 'http://localhost:9001/demo/data/gauge_activity.csv',
-            customise: true,
-            debugger: true,
-            preset: {
+            data:[['move', 'excersise', 'stand'], [80,65,50]],
+            preset:{
                 chart: {
                     animation: false
-                }
-            }
+                },
+                "colors": [
+                    "#ECFF7C",
+                    "#000000",
+                    "#FF0000",
+                    "#f7a35c",
+                    "#8085e9",
+                    "#f15c80",
+                    "#e4d354",
+                    "#2b908f",
+                    "#f45b5b",
+                    "#91e8e1"
+                ]
+            },
+            customise: true,
+            debugger: true,
         });
     })
 </script>

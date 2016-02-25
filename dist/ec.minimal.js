@@ -15286,7 +15286,6 @@ module.exports = templates;
                 object.type = defaultType;
             }
             object.animation = animation ? animation : false;
-            object.connectNulls = true;
             object.data = [];
             size = size - getValuesPerPoint(object.type).points;
             array.push(object);
