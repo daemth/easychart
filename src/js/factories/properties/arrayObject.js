@@ -31,7 +31,13 @@
     function addButton(type, typeConfig, label) {
       return h('button.btn.btn--small', {
         'ev-click': function () {
-          configService.setValue(type + '.' + typeConfig.length, {});
+          if(typeof typeConfig == 'undefined'){
+            configService.setValue(type, []);
+            configService.setValue(type + '.' + 0, {});
+          } else {
+            configService.setValue(type + '.' + typeConfig.length, {});
+          }
+
         }
       }, 'add ' + label)
     }
