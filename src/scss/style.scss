@@ -151,7 +151,9 @@
         background: $super-light-gray;
         border: 1px solid $light-gray;
       }
-
+      svg{
+        max-height: 120px;
+      }
     }
   }
 
