@@ -26359,7 +26359,6 @@ return self})();
             isEmpty: require('lodash.isempty')
         };
         var series = require('../factories/series.js');
-        var templates = require('../config/templates');
         var that = {};
         var preset = {
             chart:{
@@ -26510,7 +26509,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../config/templates":153,"../factories/series.js":163,"lodash.clonedeep":55,"lodash.find":57,"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"lodash.merge":77}],167:[function(require,module,exports){
+},{"../factories/series.js":163,"lodash.clonedeep":55,"lodash.find":57,"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"lodash.merge":77}],167:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;

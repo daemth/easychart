@@ -49,8 +49,6 @@
             services.config.setPreset(preset);
         }
 
-
-
         return {
             setData:setData,
             setDataUrl:setDataUrl,

@@ -9,7 +9,6 @@
             isEmpty: require('lodash.isempty')
         };
         var series = require('../factories/series.js');
-        var templates = require('../config/templates');
         var that = {};
         var preset = {
             chart:{

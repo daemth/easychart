@@ -24,6 +24,8 @@ With Easychart we hope to make the beauty of Highcharts accessible to almost eve
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
 ### Handsontables 
 
+
+### highlightjs
 ## options
 You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
 ```javascript
@@ -372,6 +374,7 @@ instance.getPreset()
 ## Generate options file
 ## Builds
 ### full
+Full build is used when configuring a chart and is best used in a backend/logged in usecase, since it quite large and has loos dependencies like highlightjs and handsontables.
 ### minimal
 Minimal build is used for converting raw data and configuration to an highcharts graph, this build is best used for displaying graphs build by easychart.
 The minimal build only has a limited set op options and api calls.
