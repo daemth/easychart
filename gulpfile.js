@@ -47,10 +47,6 @@ gulp.task('browserify:minimal', function () {
     return build('minimal', 'ec.minimal')
 });
 
-gulp.task('browserify:simple', function () {
-    return build('simple', 'ec.simple')
-});
-
 function build(file, output) {
     var bundler = browserify('./src/js/' + file + '.js');
     return bundler.bundle()
@@ -73,10 +69,6 @@ gulp.task('watchify:minimal', function () {
     return bundle('minimal', 'ec.minimal')
 });
 
-gulp.task('watchify:simple', function () {
-    return bundle('simple', 'ec.simple')
-});
-
 
 function bundle(file, output) {
     watchify.args.debug = true;
@@ -96,7 +88,6 @@ function bundle(file, output) {
     return rebundle();
 }
 
-gulp.task('build', ['sass', 'browserify:full','browserify:simple', 'browserify:minimal']);
+gulp.task('build', ['sass', 'browserify:full', 'browserify:minimal']);
 gulp.task('watch:full', ['sass:watch', 'watchify:full']);
 gulp.task('watch:minimal', ['watchify:minimal']);
-gulp.task('watch:simple', ['watchify:simple']);

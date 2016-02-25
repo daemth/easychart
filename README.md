@@ -55,10 +55,10 @@ With Easychart we hope to make the beauty of Highcharts accessible to almost eve
 ## api
 You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
 ```javascript
-    document.addEventListener("DOMContentLoaded", function () {
-        var options = {};
-        new ec(options);
-    })
+document.addEventListener("DOMContentLoaded", function () {
+    var options = {};
+    new ec(options);
+})
 ```
 ### options.element
 ```javascript
@@ -67,7 +67,126 @@ new ec({
     element: containerNode
 });
 ```
+### options.customise
+Toggle on and off the customise tab [default:false]
+```javascript
+new ec({
+    customise: true
+});
+```
+### options.debugger
+Toggle on and off the customise tab [default:false]
+```javascript
+new ec({
+    debugger: true
+});
+```
+### options.on
+```javascript
+new ec({
 
+});
+```
+### options.setData
+```javascript
+new ec({
+
+});
+```
+### options.getData
+```javascript
+new ec({
+
+});
+```
+### options.setDataUrl
+```javascript
+new ec({
+
+});
+```
+### options.getDataUrl
+```javascript
+new ec({
+
+});
+```
+### options.setDataCSV
+```javascript
+new ec({
+
+});
+```
+### options.setOptions
+```javascript
+new ec({
+
+});
+```
+### options.getOptions
+```javascript
+new ec({
+
+});
+```
+### options.setTemplates
+```javascript
+new ec({
+
+});
+```
+### options.getTemplates
+```javascript
+new ec({
+
+});
+```
+### options.setConfig
+```javascript
+new ec({
+
+});
+```
+### options.getConfig
+```javascript
+new ec({
+
+});
+```
+### options.setOptionsUrl
+```javascript
+new ec({
+
+});
+```
+### options.getOptionsUrl
+```javascript
+new ec({
+
+});
+```
+### options.setPreset
+```javascript
+new ec({
+
+});
+```
+### options.getPreset
+```javascript
+new ec({
+
+});
+```
+### options.on
+```javascript
+new ec({
+
+});
+```
+
+## builds
+### full
+### minimal
 ## License
 Available under the MIT license.
 
