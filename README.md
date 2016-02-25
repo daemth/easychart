@@ -54,7 +54,7 @@ new ec({
 });
 ```
 ### options.data
-Pass a data array object with data
+Pass an array with data.
 ```javascript
 var data = [
     [0,1,3],
@@ -65,22 +65,25 @@ new ec({
 });
 ```
 ### options.dataCSV
-
+Pass a csv string with data.
 ```javascript
+var csvString = '1,2,3'
 new ec({
-
+    dataCSV: csvString
 });
 ```
 ### options.dataUrl
-
+Pass an url to a csv file with data
 ```javascript
 new ec({
-
+    dataUrl:'//dummyurl.com/dummy.csv'
 });
 ```
 ### options.options
 
 ```javascript
+Pass an options object with the customisable attributes for the customise page
+example json : [options.json](src/js/config/options.json)
 new ec({
 
 });

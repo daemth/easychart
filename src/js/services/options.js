@@ -1,4 +1,9 @@
 (function () {
+    /**
+     * Service for setting and getting the customisable options list for the customise page.
+     * @param mediator
+     * @returns {{}}
+     */
     var constructor = function (mediator){
         var options = require('../config/options.json');
         var configUrl;
