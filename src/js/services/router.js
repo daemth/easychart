@@ -40,6 +40,7 @@
             if (state.dependencies && state.template) {
                 return h('div', [
                     h('div.header', [
+                        logo,
                         h('div.navigation.accordion-tabs-minimal',[
                             h('ul.tab-list', state.links.map(function (id) {
                                 var className = state.title === states[id].title ? 'is-active' : '';
@@ -53,8 +54,7 @@
                                     }
                                 }, states[id].title))
                             }))
-                        ]),
-                        logo
+                        ])
                     ]),
                     h('div.left', state.template(state.dependencies))
                 ])

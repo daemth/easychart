@@ -137,9 +137,12 @@
     }
   }
   .templatelist {
+
     display: flex;
     flex-wrap: wrap;
     &__item {
+      float: left;
+      width: 33%;
       padding: $base-spacing/2;
       margin: 5px;
       width: 125px;
