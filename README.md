@@ -80,28 +80,80 @@ new ec({
 });
 ```
 ### options.options
+Pass an options object with the customisable attributes for the customise page
 
 ```javascript
-Pass an options object with the customisable attributes for the customise page
-example json : [options.json](src/js/config/options.json)
-new ec({
+var opts:{
+        "id": "chart",
+        "panelTitle": "Chart settings",
+        "panes": [
+            {
+                "title": "Chart type and interaction",
+                "options": [
+                    {
+                        "name": "chart--type",
+                        "fullname": "chart.type",
+                        "title": "type",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "line",
+                        "values": "[\"line\", \"spline\", \"column\", \"bar\", \"area\", \"areaspline\", \"pie\", \"arearange\", \"areasplinerange\", \"boxplot\", \"bubble\", \"columnrange\", \"errorbar\", \"funnel\", \"gauge\", \"heatmap\", \"polygon\", \"pyramid\", \"scatter\", \"solidgauge\", \"treemap\", \"waterfall\"]",
+                        "since": "2.1.0",
+                        "description": "The default series type for the chart. Can be any of the chart types listed under <a href=\"#plotOptions\">plotOptions</a>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/type-bar/\" target=\"_blank\">Bar</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+};
 
+new ec({
+    options: opts
 });
 ```
+example [options](src/js/config/options.json)
+disclaimer this file is generated -> [link](#generate-options-file) 
 ### options.optionsUrl
-
+Pass an url to a options json file
 ```javascript
 new ec({
-
+    optionsUrl: 'examplepathto/options.json'
 });
 ```
 ### options.templates
-
+Pass a array with preconfigured templates for the template page.
 ```javascript
-new ec({
+var templatesObject = [
+    {
+        "id": "line",
+        "type": "Line charts",
+        "icon": "line",
+        "templates": [
+            {
+                "id": "basic",
+                "icon": "line_basic",
+                "title": "Line chart",
+                "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "line"
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            }
+        ]
+    }
+];
 
+new ec({
+    templates:templatesObject
 });
 ```
+example [options](src/js/config/templates.js)
 ### options.config
 
 ```javascript
@@ -195,8 +247,8 @@ var instance = new ec();
 ```javascript
 var instance = new ec();
 ```
-
-## builds
+## Generate options file
+## Builds
 ### full
 ### minimal
 Minimal build is used for converting raw data and configuration to an highcharts graph, this build is best used for displaying graphs build by easychart.
