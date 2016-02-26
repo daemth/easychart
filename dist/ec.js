@@ -26035,7 +26035,7 @@ return self})();
       }, [property.title])),
       h('div.form-item__input', h('select', {
         disabled  : disabled,
-        'ev-input': function (e) {
+        'ev-change': function (e) {
           if (e.target.value === 'null') {
             configService.removeValue(property.fullname);
           } else {
