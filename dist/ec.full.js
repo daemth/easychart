@@ -4,7 +4,7 @@
  * @link 
  * @license MIT
  */
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/backbone-events-standalone.js":[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -282,12 +282,12 @@
   }
 })(this);
 
-},{}],2:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/index.js":[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":1}],3:[function(require,module,exports){
+},{"./backbone-events-standalone":"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/backbone-events-standalone.js"}],"/home/frank/workspace/easychart/node_modules/browser-resolve/empty.js":[function(require,module,exports){
 
-},{}],4:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/browser-split/index.js":[function(require,module,exports){
 /*!
  * Cross-Browser Split 1.1.1
  * Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
@@ -395,7 +395,7 @@ module.exports = (function split(undef) {
   return self;
 })();
 
-},{}],5:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/browserify-css/browser.js":[function(require,module,exports){
 'use strict';
 // For more information about browser field, check out the browser field at https://github.com/substack/browserify-handbook#browser-field.
 
@@ -447,9 +447,9 @@ module.exports = {
     }
 };
 
-},{}],6:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],7:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/browserify/lib/_empty.js":[function(require,module,exports){
+arguments[4]["/home/frank/workspace/easychart/node_modules/browser-resolve/empty.js"][0].apply(exports,arguments)
+},{}],"/home/frank/workspace/easychart/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -542,7 +542,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],8:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/camelize/index.js":[function(require,module,exports){
 module.exports = function(obj) {
     if (typeof obj === 'string') return camelCase(obj);
     return walk(obj);
@@ -603,7 +603,7 @@ function reduce (xs, f, acc) {
     return acc;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/component-emitter/index.js":[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -766,7 +766,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],10:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/cuid/dist/browser-cuid.js":[function(require,module,exports){
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -878,7 +878,7 @@ Emitter.prototype.hasListeners = function(event){
 
 }(this.applitude || this));
 
-},{}],11:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/dom-delegator/add-event.js":[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = addEvent
@@ -898,7 +898,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":21}],12:[function(require,module,exports){
+},{"ev-store":"/home/frank/workspace/easychart/node_modules/ev-store/index.js"}],"/home/frank/workspace/easychart/node_modules/dom-delegator/dom-delegator.js":[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -1087,7 +1087,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":11,"./proxy-event.js":14,"./remove-event.js":15,"ev-store":21,"global/document":26,"weakmap-shim/create-store":129}],13:[function(require,module,exports){
+},{"./add-event.js":"/home/frank/workspace/easychart/node_modules/dom-delegator/add-event.js","./proxy-event.js":"/home/frank/workspace/easychart/node_modules/dom-delegator/proxy-event.js","./remove-event.js":"/home/frank/workspace/easychart/node_modules/dom-delegator/remove-event.js","ev-store":"/home/frank/workspace/easychart/node_modules/ev-store/index.js","global/document":"/home/frank/workspace/easychart/node_modules/global/document.js","weakmap-shim/create-store":"/home/frank/workspace/easychart/node_modules/weakmap-shim/create-store.js"}],"/home/frank/workspace/easychart/node_modules/dom-delegator/index.js":[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1149,7 +1149,7 @@ function Delegator(opts) {
 Delegator.allocateHandle = DOMDelegator.allocateHandle;
 Delegator.transformHandle = DOMDelegator.transformHandle;
 
-},{"./dom-delegator.js":12,"cuid":10,"global/document":26,"individual":31}],14:[function(require,module,exports){
+},{"./dom-delegator.js":"/home/frank/workspace/easychart/node_modules/dom-delegator/dom-delegator.js","cuid":"/home/frank/workspace/easychart/node_modules/cuid/dist/browser-cuid.js","global/document":"/home/frank/workspace/easychart/node_modules/global/document.js","individual":"/home/frank/workspace/easychart/node_modules/individual/index.js"}],"/home/frank/workspace/easychart/node_modules/dom-delegator/proxy-event.js":[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -1229,7 +1229,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":32}],15:[function(require,module,exports){
+},{"inherits":"/home/frank/workspace/easychart/node_modules/inherits/inherits_browser.js"}],"/home/frank/workspace/easychart/node_modules/dom-delegator/remove-event.js":[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -1250,7 +1250,7 @@ function removeEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":21}],16:[function(require,module,exports){
+},{"ev-store":"/home/frank/workspace/easychart/node_modules/ev-store/index.js"}],"/home/frank/workspace/easychart/node_modules/dom-transform/index.js":[function(require,module,exports){
 'use strict';
 
 var trim = require('trim');
@@ -1338,7 +1338,7 @@ function numToString(value) {
   return value;
 }
 
-},{"./lib/properties":18,"prefix":92,"trim":100}],17:[function(require,module,exports){
+},{"./lib/properties":"/home/frank/workspace/easychart/node_modules/dom-transform/lib/properties.js","prefix":"/home/frank/workspace/easychart/node_modules/prefix/index.js","trim":"/home/frank/workspace/easychart/node_modules/trim/index.js"}],"/home/frank/workspace/easychart/node_modules/dom-transform/lib/compose.js":[function(require,module,exports){
 'use strict';
 
 exports = module.exports = compose;
@@ -1355,7 +1355,7 @@ function compose() {
   };
 }
 
-},{}],18:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/dom-transform/lib/properties.js":[function(require,module,exports){
 'use strict';
 
 var trim = require('trim');
@@ -1478,7 +1478,7 @@ function defaultUnit(unit) {
   };
 }
 
-},{"./compose":17,"trim":100}],19:[function(require,module,exports){
+},{"./compose":"/home/frank/workspace/easychart/node_modules/dom-transform/lib/compose.js","trim":"/home/frank/workspace/easychart/node_modules/trim/index.js"}],"/home/frank/workspace/easychart/node_modules/drag-drop/index.js":[function(require,module,exports){
 module.exports = dragDrop
 
 var flatten = require('flatten')
@@ -1618,7 +1618,7 @@ function toArray (list) {
   return Array.prototype.slice.call(list || [], 0)
 }
 
-},{"flatten":24,"run-parallel":94}],20:[function(require,module,exports){
+},{"flatten":"/home/frank/workspace/easychart/node_modules/flatten/index.js","run-parallel":"/home/frank/workspace/easychart/node_modules/run-parallel/index.js"}],"/home/frank/workspace/easychart/node_modules/error/typed.js":[function(require,module,exports){
 var camelize = require("camelize")
 var template = require("string-template")
 var extend = require("xtend/mutable")
@@ -1668,7 +1668,7 @@ function TypedError(args) {
 }
 
 
-},{"camelize":8,"string-template":98,"xtend/mutable":135}],21:[function(require,module,exports){
+},{"camelize":"/home/frank/workspace/easychart/node_modules/camelize/index.js","string-template":"/home/frank/workspace/easychart/node_modules/string-template/index.js","xtend/mutable":"/home/frank/workspace/easychart/node_modules/xtend/mutable.js"}],"/home/frank/workspace/easychart/node_modules/ev-store/index.js":[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -1690,7 +1690,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":23}],22:[function(require,module,exports){
+},{"individual/one-version":"/home/frank/workspace/easychart/node_modules/ev-store/node_modules/individual/one-version.js"}],"/home/frank/workspace/easychart/node_modules/ev-store/node_modules/individual/index.js":[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1713,7 +1713,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],23:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/ev-store/node_modules/individual/one-version.js":[function(require,module,exports){
 'use strict';
 
 var Individual = require('./index.js');
@@ -1737,7 +1737,7 @@ function OneVersion(moduleName, version, defaultValue) {
     return Individual(key, defaultValue);
 }
 
-},{"./index.js":22}],24:[function(require,module,exports){
+},{"./index.js":"/home/frank/workspace/easychart/node_modules/ev-store/node_modules/individual/index.js"}],"/home/frank/workspace/easychart/node_modules/flatten/index.js":[function(require,module,exports){
 module.exports = function flatten(list, depth) {
   depth = (typeof depth == 'number') ? depth : Infinity;
 
@@ -1762,7 +1762,7 @@ module.exports = function flatten(list, depth) {
   }
 };
 
-},{}],25:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/for-each/index.js":[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -1810,7 +1810,7 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":33}],26:[function(require,module,exports){
+},{"is-function":"/home/frank/workspace/easychart/node_modules/is-function/index.js"}],"/home/frank/workspace/easychart/node_modules/global/document.js":[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -1829,7 +1829,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":3}],27:[function(require,module,exports){
+},{"min-document":"/home/frank/workspace/easychart/node_modules/browser-resolve/empty.js"}],"/home/frank/workspace/easychart/node_modules/global/window.js":[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
     module.exports = window;
@@ -1842,7 +1842,7 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],28:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/highlight.js/lib/highlight.js":[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
 https://highlightjs.org/
@@ -2615,7 +2615,7 @@ https://highlightjs.org/
   return hljs;
 }));
 
-},{}],29:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/highlight.js/lib/languages/json.js":[function(require,module,exports){
 module.exports = function(hljs) {
   var LITERALS = {literal: 'true false null'};
   var TYPES = [
@@ -2652,9 +2652,9 @@ module.exports = function(hljs) {
     illegal: '\\S'
   };
 };
-},{}],30:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/highlight.js/styles/monokai.css":[function(require,module,exports){
 var css = "/*\nMonokai style - ported by Luigi Maselli - http://grigio.org\n*/\n.hljs {\n  display: block;\n  overflow-x: auto;\n  padding: 0.5em;\n  background: #272822;\n  color: #ddd;\n}\n.hljs-tag,\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-literal,\n.hljs-strong,\n.hljs-name {\n  color: #f92672;\n}\n.hljs-code {\n  color: #66d9ef;\n}\n.hljs-class .hljs-title {\n  color: white;\n}\n.hljs-attribute,\n.hljs-symbol,\n.hljs-regexp,\n.hljs-link {\n  color: #bf79db;\n}\n.hljs-string,\n.hljs-bullet,\n.hljs-subst,\n.hljs-title,\n.hljs-section,\n.hljs-emphasis,\n.hljs-type,\n.hljs-built_in,\n.hljs-builtin-name,\n.hljs-selector-attr,\n.hljs-selector-pseudo,\n.hljs-addition,\n.hljs-variable,\n.hljs-template-tag,\n.hljs-template-variable {\n  color: #a6e22e;\n}\n.hljs-comment,\n.hljs-quote,\n.hljs-deletion,\n.hljs-meta {\n  color: #75715e;\n}\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-literal,\n.hljs-doctag,\n.hljs-title,\n.hljs-section,\n.hljs-type,\n.hljs-selector-id {\n  font-weight: bold;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/highlight.js/styles/monokai.css"})); module.exports = css;
-},{"browserify-css":5}],31:[function(require,module,exports){
+},{"browserify-css":"/home/frank/workspace/easychart/node_modules/browserify-css/browser.js"}],"/home/frank/workspace/easychart/node_modules/individual/index.js":[function(require,module,exports){
 (function (global){
 var root = typeof window !== 'undefined' ?
     window : typeof global !== 'undefined' ?
@@ -2676,7 +2676,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],32:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/inherits/inherits_browser.js":[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -2701,7 +2701,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],33:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/is-function/index.js":[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -2718,7 +2718,7 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}],34:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/is-number/index.js":[function(require,module,exports){
 /*!
  * is-number <https://github.com/jonschlinkert/is-number>
  *
@@ -2734,14 +2734,14 @@ module.exports = function isNumber(n) {
     || n === 0;
 };
 
-},{}],35:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/is-object/index.js":[function(require,module,exports){
 "use strict";
 
 module.exports = function isObject(x) {
 	return typeof x === "object" && x !== null;
 };
 
-},{}],36:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseclone/index.js":[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.5.0 (Custom Build) <https://lodash.com/>
@@ -4402,7 +4402,7 @@ Stack.prototype.set = stackSet;
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],37:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -4655,7 +4655,7 @@ function isObject(value) {
 
 module.exports = baseEach;
 
-},{"lodash.keys":38}],38:[function(require,module,exports){
+},{"lodash.keys":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -5094,7 +5094,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{}],39:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._basefind/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5130,7 +5130,7 @@ function baseFind(collection, predicate, eachFunc, retKey) {
 
 module.exports = baseFind;
 
-},{}],40:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._basefindindex/index.js":[function(require,module,exports){
 /**
  * lodash 3.6.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5164,7 +5164,7 @@ function baseFindIndex(array, predicate, fromRight) {
 
 module.exports = baseFindIndex;
 
-},{}],41:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseflatten/index.js":[function(require,module,exports){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -5487,7 +5487,7 @@ function isObjectLike(value) {
 
 module.exports = baseFlatten;
 
-},{}],42:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._basefunctions/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5524,7 +5524,7 @@ function baseFunctions(object, props) {
 
 module.exports = baseFunctions;
 
-},{"lodash.isfunction":68}],43:[function(require,module,exports){
+},{"lodash.isfunction":"/home/frank/workspace/easychart/node_modules/lodash.isfunction/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js":[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.5.0 (Custom Build) <https://lodash.com/>
@@ -7519,7 +7519,7 @@ Stack.prototype.set = stackSet;
 module.exports = baseIteratee;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],44:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._basepullat/index.js":[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7750,7 +7750,7 @@ function get(object, path, defaultValue) {
 
 module.exports = basePullAt;
 
-},{"lodash._baseslice":45,"lodash.tostring":84}],45:[function(require,module,exports){
+},{"lodash._baseslice":"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js","lodash.tostring":"/home/frank/workspace/easychart/node_modules/lodash.tostring/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7792,7 +7792,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],46:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseuniq/index.js":[function(require,module,exports){
 /**
  * lodash 4.4.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -8203,7 +8203,7 @@ function noop() {
 
 module.exports = baseUniq;
 
-},{"lodash._root":49,"lodash._setcache":50}],47:[function(require,module,exports){
+},{"lodash._root":"/home/frank/workspace/easychart/node_modules/lodash._root/index.js","lodash._setcache":"/home/frank/workspace/easychart/node_modules/lodash._setcache/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._createwrapper/index.js":[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -8880,7 +8880,7 @@ function toNumber(value) {
 
 module.exports = createWrapper;
 
-},{"lodash._root":49}],48:[function(require,module,exports){
+},{"lodash._root":"/home/frank/workspace/easychart/node_modules/lodash._root/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._getnative/index.js":[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -9019,7 +9019,7 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],49:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._root/index.js":[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
@@ -9082,7 +9082,7 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],50:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._setcache/index.js":[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
@@ -9674,7 +9674,7 @@ SetCache.prototype.push = cachePush;
 module.exports = SetCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],51:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash._stack/index.js":[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
@@ -10340,7 +10340,7 @@ Stack.prototype.set = stackSet;
 module.exports = Stack;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],52:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.bindall/index.js":[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -10400,7 +10400,7 @@ var bindAll = restParam(function(object, methodNames) {
 
 module.exports = bindAll;
 
-},{"lodash._baseflatten":53,"lodash._createwrapper":47,"lodash.functions":60,"lodash.restparam":80}],53:[function(require,module,exports){
+},{"lodash._baseflatten":"/home/frank/workspace/easychart/node_modules/lodash.bindall/node_modules/lodash._baseflatten/index.js","lodash._createwrapper":"/home/frank/workspace/easychart/node_modules/lodash._createwrapper/index.js","lodash.functions":"/home/frank/workspace/easychart/node_modules/lodash.functions/index.js","lodash.restparam":"/home/frank/workspace/easychart/node_modules/lodash.restparam/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.bindall/node_modules/lodash._baseflatten/index.js":[function(require,module,exports){
 /**
  * lodash 3.1.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -10533,7 +10533,7 @@ function isLength(value) {
 
 module.exports = baseFlatten;
 
-},{"lodash.isarguments":63,"lodash.isarray":54}],54:[function(require,module,exports){
+},{"lodash.isarguments":"/home/frank/workspace/easychart/node_modules/lodash.isarguments/index.js","lodash.isarray":"/home/frank/workspace/easychart/node_modules/lodash.bindall/node_modules/lodash.isarray/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.bindall/node_modules/lodash.isarray/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -10715,7 +10715,7 @@ function isNative(value) {
 
 module.exports = isArray;
 
-},{}],55:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js":[function(require,module,exports){
 /**
  * lodash 4.3.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10748,7 +10748,7 @@ function cloneDeep(value) {
 
 module.exports = cloneDeep;
 
-},{"lodash._baseclone":36}],56:[function(require,module,exports){
+},{"lodash._baseclone":"/home/frank/workspace/easychart/node_modules/lodash._baseclone/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.drop/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10953,7 +10953,7 @@ function toNumber(value) {
 
 module.exports = drop;
 
-},{"lodash._baseslice":45}],57:[function(require,module,exports){
+},{"lodash._baseslice":"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.find/index.js":[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11037,7 +11037,7 @@ var isArray = Array.isArray;
 
 module.exports = find;
 
-},{"lodash._baseeach":37,"lodash._basefind":39,"lodash._basefindindex":40,"lodash._baseiteratee":43}],58:[function(require,module,exports){
+},{"lodash._baseeach":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js","lodash._basefind":"/home/frank/workspace/easychart/node_modules/lodash._basefind/index.js","lodash._basefindindex":"/home/frank/workspace/easychart/node_modules/lodash._basefindindex/index.js","lodash._baseiteratee":"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.first/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -11070,7 +11070,7 @@ function first(array) {
 
 module.exports = first;
 
-},{}],59:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js":[function(require,module,exports){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11193,7 +11193,7 @@ function identity(value) {
 
 module.exports = forEach;
 
-},{"lodash._baseeach":37}],60:[function(require,module,exports){
+},{"lodash._baseeach":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.functions/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -11226,9 +11226,9 @@ function functions(object) {
 
 module.exports = functions;
 
-},{"lodash._basefunctions":42,"lodash.keysin":62}],61:[function(require,module,exports){
-arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],62:[function(require,module,exports){
+},{"lodash._basefunctions":"/home/frank/workspace/easychart/node_modules/lodash._basefunctions/index.js","lodash.keysin":"/home/frank/workspace/easychart/node_modules/lodash.functions/node_modules/lodash.keysin/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.functions/node_modules/lodash.isarray/index.js":[function(require,module,exports){
+arguments[4]["/home/frank/workspace/easychart/node_modules/lodash.bindall/node_modules/lodash.isarray/index.js"][0].apply(exports,arguments)
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.functions/node_modules/lodash.keysin/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.8 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -11362,7 +11362,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"lodash.isarguments":63,"lodash.isarray":61}],63:[function(require,module,exports){
+},{"lodash.isarguments":"/home/frank/workspace/easychart/node_modules/lodash.isarguments/index.js","lodash.isarray":"/home/frank/workspace/easychart/node_modules/lodash.functions/node_modules/lodash.isarray/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.isarguments/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.7 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11608,7 +11608,7 @@ function isObjectLike(value) {
 
 module.exports = isArguments;
 
-},{}],64:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isarray/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11645,7 +11645,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],65:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isempty/index.js":[function(require,module,exports){
 /**
  * lodash 4.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11979,7 +11979,7 @@ function isString(value) {
 
 module.exports = isEmpty;
 
-},{}],66:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js":[function(require,module,exports){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -12721,9 +12721,9 @@ function isTypedArray(value) {
 
 module.exports = isEqual;
 
-},{"lodash._root":49,"lodash._stack":51,"lodash.keys":67}],67:[function(require,module,exports){
-arguments[4][38][0].apply(exports,arguments)
-},{"dup":38}],68:[function(require,module,exports){
+},{"lodash._root":"/home/frank/workspace/easychart/node_modules/lodash._root/index.js","lodash._stack":"/home/frank/workspace/easychart/node_modules/lodash._stack/index.js","lodash.keys":"/home/frank/workspace/easychart/node_modules/lodash.isequal/node_modules/lodash.keys/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.isequal/node_modules/lodash.keys/index.js":[function(require,module,exports){
+arguments[4]["/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js"][0].apply(exports,arguments)
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isfunction/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.8 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -12800,7 +12800,7 @@ function isObject(value) {
 
 module.exports = isFunction;
 
-},{}],69:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isnan/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -12912,7 +12912,7 @@ function isNumber(value) {
 
 module.exports = isNaN;
 
-},{}],70:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -13035,7 +13035,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{}],71:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isstring/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -13132,7 +13132,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{}],72:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js":[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -13164,7 +13164,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],73:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.keys/index.js":[function(require,module,exports){
 /**
  * lodash 3.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -13402,9 +13402,9 @@ function keysIn(object) {
 
 module.exports = keys;
 
-},{"lodash._getnative":48,"lodash.isarguments":63,"lodash.isarray":74}],74:[function(require,module,exports){
-arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],75:[function(require,module,exports){
+},{"lodash._getnative":"/home/frank/workspace/easychart/node_modules/lodash._getnative/index.js","lodash.isarguments":"/home/frank/workspace/easychart/node_modules/lodash.isarguments/index.js","lodash.isarray":"/home/frank/workspace/easychart/node_modules/lodash.keys/node_modules/lodash.isarray/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.keys/node_modules/lodash.isarray/index.js":[function(require,module,exports){
+arguments[4]["/home/frank/workspace/easychart/node_modules/lodash.bindall/node_modules/lodash.isarray/index.js"][0].apply(exports,arguments)
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.keysin/index.js":[function(require,module,exports){
 /**
  * lodash 4.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -13851,7 +13851,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"lodash._root":49}],76:[function(require,module,exports){
+},{"lodash._root":"/home/frank/workspace/easychart/node_modules/lodash._root/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.map/index.js":[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14125,7 +14125,7 @@ function isObject(value) {
 
 module.exports = map;
 
-},{"lodash._baseeach":37,"lodash._baseiteratee":43}],77:[function(require,module,exports){
+},{"lodash._baseeach":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js","lodash._baseiteratee":"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js":[function(require,module,exports){
 /**
  * lodash 4.3.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14849,7 +14849,7 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"lodash._baseclone":36,"lodash._stack":51,"lodash.isplainobject":70,"lodash.keysin":75,"lodash.rest":79}],78:[function(require,module,exports){
+},{"lodash._baseclone":"/home/frank/workspace/easychart/node_modules/lodash._baseclone/index.js","lodash._stack":"/home/frank/workspace/easychart/node_modules/lodash._stack/index.js","lodash.isplainobject":"/home/frank/workspace/easychart/node_modules/lodash.isplainobject/index.js","lodash.keysin":"/home/frank/workspace/easychart/node_modules/lodash.keysin/index.js","lodash.rest":"/home/frank/workspace/easychart/node_modules/lodash.rest/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js":[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14910,7 +14910,7 @@ function remove(array, predicate) {
 
 module.exports = remove;
 
-},{"lodash._baseiteratee":43,"lodash._basepullat":44}],79:[function(require,module,exports){
+},{"lodash._baseiteratee":"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js","lodash._basepullat":"/home/frank/workspace/easychart/node_modules/lodash._basepullat/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.rest/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15159,7 +15159,7 @@ function toNumber(value) {
 
 module.exports = rest;
 
-},{}],80:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.restparam/index.js":[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -15228,7 +15228,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],81:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.size/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15544,9 +15544,9 @@ function isString(value) {
 
 module.exports = size;
 
-},{"lodash.keys":82}],82:[function(require,module,exports){
-arguments[4][38][0].apply(exports,arguments)
-},{"dup":38}],83:[function(require,module,exports){
+},{"lodash.keys":"/home/frank/workspace/easychart/node_modules/lodash.size/node_modules/lodash.keys/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.size/node_modules/lodash.keys/index.js":[function(require,module,exports){
+arguments[4]["/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js"][0].apply(exports,arguments)
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.slice/index.js":[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15905,7 +15905,7 @@ function toNumber(value) {
 
 module.exports = slice;
 
-},{"lodash._baseslice":45}],84:[function(require,module,exports){
+},{"lodash._baseslice":"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.tostring/index.js":[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.1 (Custom Build) <https://lodash.com/>
@@ -16073,7 +16073,7 @@ function toString(value) {
 module.exports = toString;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],85:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/lodash.trim/index.js":[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16246,7 +16246,7 @@ function trim(string, chars, guard) {
 
 module.exports = trim;
 
-},{"lodash.tostring":84}],86:[function(require,module,exports){
+},{"lodash.tostring":"/home/frank/workspace/easychart/node_modules/lodash.tostring/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.union/index.js":[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16280,7 +16280,7 @@ var union = rest(function(arrays) {
 
 module.exports = union;
 
-},{"lodash._baseflatten":41,"lodash._baseuniq":46,"lodash.rest":79}],87:[function(require,module,exports){
+},{"lodash._baseflatten":"/home/frank/workspace/easychart/node_modules/lodash._baseflatten/index.js","lodash._baseuniq":"/home/frank/workspace/easychart/node_modules/lodash._baseuniq/index.js","lodash.rest":"/home/frank/workspace/easychart/node_modules/lodash.rest/index.js"}],"/home/frank/workspace/easychart/node_modules/main-loop/index.js":[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
 
@@ -16361,7 +16361,7 @@ function main(initialState, view, opts) {
     }
 }
 
-},{"error/typed":20,"raf":93}],88:[function(require,module,exports){
+},{"error/typed":"/home/frank/workspace/easychart/node_modules/error/typed.js","raf":"/home/frank/workspace/easychart/node_modules/raf/index.js"}],"/home/frank/workspace/easychart/node_modules/mediatorjs/dist/mediator.js":[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -16395,7 +16395,7 @@ function main(initialState, view, opts) {
 
 }).call(this);
 
-},{"backbone-events-standalone":2}],89:[function(require,module,exports){
+},{"backbone-events-standalone":"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/index.js"}],"/home/frank/workspace/easychart/node_modules/papaparse/papaparse.js":[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -17800,7 +17800,7 @@ function main(initialState, view, opts) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],90:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/parse-headers/parse-headers.js":[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -17832,7 +17832,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":25,"trim":100}],91:[function(require,module,exports){
+},{"for-each":"/home/frank/workspace/easychart/node_modules/for-each/index.js","trim":"/home/frank/workspace/easychart/node_modules/trim/index.js"}],"/home/frank/workspace/easychart/node_modules/performance-now/lib/performance-now.js":[function(require,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.6.3
 (function() {
@@ -17872,14 +17872,14 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
-},{"_process":7}],92:[function(require,module,exports){
+},{"_process":"/home/frank/workspace/easychart/node_modules/browserify/node_modules/process/browser.js"}],"/home/frank/workspace/easychart/node_modules/prefix/index.js":[function(require,module,exports){
 function identity(x) { return x; }
 
 module.exports = identity;
 module.exports.dash = identity;
 module.exports.dash = identity;
 
-},{}],93:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/raf/index.js":[function(require,module,exports){
 var now = require('performance-now')
   , global = typeof window === 'undefined' ? {} : window
   , vendors = ['moz', 'webkit']
@@ -17961,7 +17961,7 @@ module.exports.cancel = function() {
   caf.apply(global, arguments)
 }
 
-},{"performance-now":91}],94:[function(require,module,exports){
+},{"performance-now":"/home/frank/workspace/easychart/node_modules/performance-now/lib/performance-now.js"}],"/home/frank/workspace/easychart/node_modules/run-parallel/index.js":[function(require,module,exports){
 (function (process){
 module.exports = function (tasks, cb) {
   var results, pending, keys
@@ -18011,7 +18011,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-},{"_process":7}],95:[function(require,module,exports){
+},{"_process":"/home/frank/workspace/easychart/node_modules/browserify/node_modules/process/browser.js"}],"/home/frank/workspace/easychart/node_modules/simple-color-picker/index.js":[function(require,module,exports){
 'use strict';
 
 var bindAll = require('lodash.bindall');
@@ -18374,15 +18374,15 @@ SimpleColorPicker.prototype._onHueMouseUp = function() {
 
 module.exports = SimpleColorPicker;
 
-},{"./src/utils/maths/clamp":97,"component-emitter":9,"dom-transform":16,"is-number":34,"lodash.bindall":52,"tinycolor2":99}],96:[function(require,module,exports){
+},{"./src/utils/maths/clamp":"/home/frank/workspace/easychart/node_modules/simple-color-picker/src/utils/maths/clamp.js","component-emitter":"/home/frank/workspace/easychart/node_modules/component-emitter/index.js","dom-transform":"/home/frank/workspace/easychart/node_modules/dom-transform/index.js","is-number":"/home/frank/workspace/easychart/node_modules/is-number/index.js","lodash.bindall":"/home/frank/workspace/easychart/node_modules/lodash.bindall/index.js","tinycolor2":"/home/frank/workspace/easychart/node_modules/tinycolor2/tinycolor.js"}],"/home/frank/workspace/easychart/node_modules/simple-color-picker/simple-color-picker.css":[function(require,module,exports){
 var css = ".Scp {\n  width: 175px;\n  height: 150px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  position: relative;\n}\n.Scp-saturation {\n  position: relative;\n  width: calc(100% - 25px);\n  height: 100%;\n  background: linear-gradient(to right, #fff 0%, #f00 100%);\n  float: left;\n  margin-right: 5px;\n}\n.Scp-brightness {\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(to top, #000 0%, rgba(255,255,255,0) 100%);\n}\n.Scp-sbSelector {\n  border: 2px solid;\n  border-color: #fff;\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: #fff;\n  border-radius: 10px;\n  top: -7px;\n  left: -7px;\n  box-sizing: border-box;\n  z-index: 10;\n}\n.Scp-hue {\n  width: 20px;\n  height: 100%;\n  position: relative;\n  float: left;\n  background: linear-gradient(to bottom, #f00 0%, #f0f 17%, #00f 34%, #0ff 50%, #0f0 67%, #ff0 84%, #f00 100%);\n}\n.Scp-hSelector {\n  position: absolute;\n  background: #fff;\n  border-bottom: 1px solid #000;\n  right: -3px;\n  width: 10px;\n  height: 2px;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/simple-color-picker/simple-color-picker.css"})); module.exports = css;
-},{"browserify-css":5}],97:[function(require,module,exports){
+},{"browserify-css":"/home/frank/workspace/easychart/node_modules/browserify-css/browser.js"}],"/home/frank/workspace/easychart/node_modules/simple-color-picker/src/utils/maths/clamp.js":[function(require,module,exports){
 'use strict';
 
 module.exports = function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 };
-},{}],98:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/string-template/index.js":[function(require,module,exports){
 var nargs = /\{([0-9a-zA-Z]+)\}/g
 var slice = Array.prototype.slice
 
@@ -18418,7 +18418,7 @@ function template(string) {
     })
 }
 
-},{}],99:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/tinycolor2/tinycolor.js":[function(require,module,exports){
 // TinyColor v1.3.0
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
@@ -19586,7 +19586,7 @@ else {
 
 })();
 
-},{}],100:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/trim/index.js":[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -19602,7 +19602,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],101:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/vdom-virtualize/index.js":[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -19868,7 +19868,7 @@ var attrBlacklist =
 module.exports.attrBlacklist = {
   'class': 'className'
 }
-},{"./vcomment":102,"virtual-dom/vnode/vnode":124,"virtual-dom/vnode/vtext":126}],102:[function(require,module,exports){
+},{"./vcomment":"/home/frank/workspace/easychart/node_modules/vdom-virtualize/vcomment.js","virtual-dom/vnode/vnode":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vnode.js","virtual-dom/vnode/vtext":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vtext.js"}],"/home/frank/workspace/easychart/node_modules/vdom-virtualize/vcomment.js":[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -19886,27 +19886,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],103:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/virtual-dom/create-element.js":[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":108}],104:[function(require,module,exports){
+},{"./vdom/create-element.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/create-element.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/diff.js":[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":128}],105:[function(require,module,exports){
+},{"./vtree/diff.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vtree/diff.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js":[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":115}],106:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/index.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/patch.js":[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":111}],107:[function(require,module,exports){
+},{"./vdom/patch.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/patch.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/apply-properties.js":[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -20005,7 +20005,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":119,"is-object":35}],108:[function(require,module,exports){
+},{"../vnode/is-vhook.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vhook.js","is-object":"/home/frank/workspace/easychart/node_modules/is-object/index.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/create-element.js":[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -20053,7 +20053,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":117,"../vnode/is-vnode.js":120,"../vnode/is-vtext.js":121,"../vnode/is-widget.js":122,"./apply-properties":107,"global/document":26}],109:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/handle-thunk.js","../vnode/is-vnode.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vnode.js","../vnode/is-vtext.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vtext.js","../vnode/is-widget.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js","./apply-properties":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/apply-properties.js","global/document":"/home/frank/workspace/easychart/node_modules/global/document.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/dom-index.js":[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -20140,7 +20140,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],110:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/patch-op.js":[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -20293,7 +20293,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":122,"../vnode/vpatch.js":125,"./apply-properties":107,"./update-widget":112}],111:[function(require,module,exports){
+},{"../vnode/is-widget.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js","../vnode/vpatch.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vpatch.js","./apply-properties":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/apply-properties.js","./update-widget":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/update-widget.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/patch.js":[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -20375,7 +20375,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":108,"./dom-index":109,"./patch-op":110,"global/document":26,"x-is-array":131}],112:[function(require,module,exports){
+},{"./create-element":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/create-element.js","./dom-index":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/dom-index.js","./patch-op":"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/patch-op.js","global/document":"/home/frank/workspace/easychart/node_modules/global/document.js","x-is-array":"/home/frank/workspace/easychart/node_modules/x-is-array/index.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vdom/update-widget.js":[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -20392,7 +20392,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":122}],113:[function(require,module,exports){
+},{"../vnode/is-widget.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/hooks/ev-hook.js":[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -20421,7 +20421,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":21}],114:[function(require,module,exports){
+},{"ev-store":"/home/frank/workspace/easychart/node_modules/ev-store/index.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/hooks/soft-set-hook.js":[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -20440,7 +20440,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],115:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/index.js":[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -20579,7 +20579,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":118,"../vnode/is-vhook":119,"../vnode/is-vnode":120,"../vnode/is-vtext":121,"../vnode/is-widget":122,"../vnode/vnode.js":124,"../vnode/vtext.js":126,"./hooks/ev-hook.js":113,"./hooks/soft-set-hook.js":114,"./parse-tag.js":116,"x-is-array":131}],116:[function(require,module,exports){
+},{"../vnode/is-thunk":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-thunk.js","../vnode/is-vhook":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vhook.js","../vnode/is-vnode":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vnode.js","../vnode/is-vtext":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vtext.js","../vnode/is-widget":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js","../vnode/vnode.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vnode.js","../vnode/vtext.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vtext.js","./hooks/ev-hook.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/hooks/ev-hook.js","./hooks/soft-set-hook.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/hooks/soft-set-hook.js","./parse-tag.js":"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/parse-tag.js","x-is-array":"/home/frank/workspace/easychart/node_modules/x-is-array/index.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/virtual-hyperscript/parse-tag.js":[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -20635,7 +20635,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":4}],117:[function(require,module,exports){
+},{"browser-split":"/home/frank/workspace/easychart/node_modules/browser-split/index.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/handle-thunk.js":[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -20677,14 +20677,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":118,"./is-vnode":120,"./is-vtext":121,"./is-widget":122}],118:[function(require,module,exports){
+},{"./is-thunk":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-thunk.js","./is-vnode":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vnode.js","./is-vtext":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vtext.js","./is-widget":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-thunk.js":[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],119:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vhook.js":[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -20693,7 +20693,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],120:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vnode.js":[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -20702,7 +20702,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":123}],121:[function(require,module,exports){
+},{"./version":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/version.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vtext.js":[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -20711,17 +20711,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":123}],122:[function(require,module,exports){
+},{"./version":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/version.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js":[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],123:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/version.js":[function(require,module,exports){
 module.exports = "2"
 
-},{}],124:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vnode.js":[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -20795,7 +20795,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":118,"./is-vhook":119,"./is-vnode":120,"./is-widget":122,"./version":123}],125:[function(require,module,exports){
+},{"./is-thunk":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-thunk.js","./is-vhook":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vhook.js","./is-vnode":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vnode.js","./is-widget":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js","./version":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/version.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vpatch.js":[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -20819,7 +20819,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":123}],126:[function(require,module,exports){
+},{"./version":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/version.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vtext.js":[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -20831,7 +20831,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":123}],127:[function(require,module,exports){
+},{"./version":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/version.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vtree/diff-props.js":[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -20891,7 +20891,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":119,"is-object":35}],128:[function(require,module,exports){
+},{"../vnode/is-vhook":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vhook.js","is-object":"/home/frank/workspace/easychart/node_modules/is-object/index.js"}],"/home/frank/workspace/easychart/node_modules/virtual-dom/vtree/diff.js":[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -21320,7 +21320,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":117,"../vnode/is-thunk":118,"../vnode/is-vnode":120,"../vnode/is-vtext":121,"../vnode/is-widget":122,"../vnode/vpatch":125,"./diff-props":127,"x-is-array":131}],129:[function(require,module,exports){
+},{"../vnode/handle-thunk":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/handle-thunk.js","../vnode/is-thunk":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-thunk.js","../vnode/is-vnode":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vnode.js","../vnode/is-vtext":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-vtext.js","../vnode/is-widget":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/is-widget.js","../vnode/vpatch":"/home/frank/workspace/easychart/node_modules/virtual-dom/vnode/vpatch.js","./diff-props":"/home/frank/workspace/easychart/node_modules/virtual-dom/vtree/diff-props.js","x-is-array":"/home/frank/workspace/easychart/node_modules/x-is-array/index.js"}],"/home/frank/workspace/easychart/node_modules/weakmap-shim/create-store.js":[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -21341,7 +21341,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":130}],130:[function(require,module,exports){
+},{"./hidden-store.js":"/home/frank/workspace/easychart/node_modules/weakmap-shim/hidden-store.js"}],"/home/frank/workspace/easychart/node_modules/weakmap-shim/hidden-store.js":[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -21359,7 +21359,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],131:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/x-is-array/index.js":[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -21369,7 +21369,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],132:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/xhr/index.js":[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var once = require("once")
@@ -21590,7 +21590,7 @@ function _createXHR(options) {
 
 function noop() {}
 
-},{"global/window":27,"is-function":33,"once":133,"parse-headers":90,"xtend":134}],133:[function(require,module,exports){
+},{"global/window":"/home/frank/workspace/easychart/node_modules/global/window.js","is-function":"/home/frank/workspace/easychart/node_modules/is-function/index.js","once":"/home/frank/workspace/easychart/node_modules/xhr/node_modules/once/once.js","parse-headers":"/home/frank/workspace/easychart/node_modules/parse-headers/parse-headers.js","xtend":"/home/frank/workspace/easychart/node_modules/xtend/immutable.js"}],"/home/frank/workspace/easychart/node_modules/xhr/node_modules/once/once.js":[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -21611,7 +21611,7 @@ function once (fn) {
   }
 }
 
-},{}],134:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/xtend/immutable.js":[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -21632,7 +21632,7 @@ function extend() {
     return target
 }
 
-},{}],135:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/node_modules/xtend/mutable.js":[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -21651,9 +21651,9 @@ function extend(target) {
     return target
 }
 
-},{}],136:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/src/css/style.css":[function(require,module,exports){
 var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  box-sizing: inherit;\n}\n.ec {\n  font-size: 14px;\n  line-height: 1.5;\n  background: #f5f5f5;\n  float: left;\n  width: 100%;\n  /*!*\n *\n * @csswizardry -- csswizardry.com/beautons\n *\n */\n}\n.ec table {\n  width: 100%;\n}\n.ec table [contenteditable=\"true\"]:active,\n.ec table [contenteditable=\"true\"]:focus {\n  border: none;\n  outline: none;\n  background: #f5f5f5;\n}\n.ec th,\n.ec td {\n  padding: 0.375em;\n  text-align: left;\n}\n@media screen and (min-width: 480px) {\n  .ec th,\n  .ec td {\n    padding: 0.75em;\n  }\n}\n.ec [colspan] {\n  text-align: center;\n}\n.ec [colspan=\"1\"] {\n  text-align: left;\n}\n.ec [rowspan] {\n  vertical-align: middle;\n}\n.ec [rowspan=\"1\"] {\n  vertical-align: top;\n}\n.ec .numerical {\n  text-align: right;\n}\n.ec .t5 {\n  width: 5%;\n}\n.ec .t10 {\n  width: 10%;\n}\n.ec .t12 {\n  width: 12.5%;\n}\n.ec .t15 {\n  width: 15%;\n}\n.ec .t20 {\n  width: 20%;\n}\n.ec .t25 {\n  width: 25%;\n}\n.ec .t30 {\n  width: 30%;\n}\n.ec .t33 {\n  width: 33.333%;\n}\n.ec .t35 {\n  width: 35%;\n}\n.ec .t37 {\n  width: 37.5%;\n}\n.ec .t40 {\n  width: 40%;\n}\n.ec .t45 {\n  width: 45%;\n}\n.ec .t50 {\n  width: 50%;\n}\n.ec .t55 {\n  width: 55%;\n}\n.ec .t60 {\n  width: 60%;\n}\n.ec .t62 {\n  width: 62.5%;\n}\n.ec .t65 {\n  width: 65%;\n}\n.ec .t66 {\n  width: 66.666%;\n}\n.ec .t70 {\n  width: 70%;\n}\n.ec .t75 {\n  width: 75%;\n}\n.ec .t80 {\n  width: 80%;\n}\n.ec .t85 {\n  width: 85%;\n}\n.ec .t87 {\n  width: 87.5%;\n}\n.ec .t90 {\n  width: 90%;\n}\n.ec .t95 {\n  width: 95%;\n}\n.ec .table--bordered {\n  border-collapse: collapse;\n}\n.ec .table--bordered tr {\n  border: 1px solid #DDD;\n}\n.ec .table--bordered th,\n.ec .table--bordered td {\n  border-right: 1px solid #DDD;\n}\n.ec .table--bordered thead tr:last-child th {\n  border-bottom-width: 2px;\n}\n.ec .table--bordered tbody tr th:last-of-type {\n  border-right-width: 2px;\n}\n.ec .table--striped tbody tr:nth-of-type(odd) {\n  background-color: #ffc;\n}\n.ec .table--data {\n  font: 12px/1.5 sans-serif;\n}\n.ec .table--disabled {\n  color: #777;\n  border-color: #777;\n}\n.ec fieldset {\n  background-color: #f5f5f5;\n  border: 1px solid #DDD;\n  margin: 0 0 0.75em;\n  padding: 1.5em;\n}\n.ec input,\n.ec label,\n.ec select {\n  display: block;\n  font-family: \"sans-serif\";\n  font-size: 14px;\n}\n.ec label {\n  font-weight: 600;\n}\n.ec label.required::after {\n  content: \"*\";\n}\n.ec label abbr {\n  display: none;\n}\n.ec input[type=\"color\"],\n.ec input[type=\"date\"],\n.ec input[type=\"datetime\"],\n.ec input[type=\"datetime-local\"],\n.ec input[type=\"email\"],\n.ec input[type=\"month\"],\n.ec input[type=\"number\"],\n.ec input[type=\"password\"],\n.ec input[type=\"search\"],\n.ec input[type=\"tel\"],\n.ec input[type=\"text\"],\n.ec input[type=\"time\"],\n.ec input[type=\"url\"],\n.ec input[type=\"week\"],\n.ec textarea,\n.ec select {\n  background-color: #fff;\n  border: 1px solid #bfbfbf;\n  border-radius: 3px;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);\n  box-sizing: border-box;\n  font-family: \"sans-serif\";\n  font-size: 14px;\n  padding: 0.375em;\n  transition: border-color 0.2s ease-in;\n  max-width: 100%;\n}\n.ec input[type=\"color\"]:hover,\n.ec input[type=\"date\"]:hover,\n.ec input[type=\"datetime\"]:hover,\n.ec input[type=\"datetime-local\"]:hover,\n.ec input[type=\"email\"]:hover,\n.ec input[type=\"month\"]:hover,\n.ec input[type=\"number\"]:hover,\n.ec input[type=\"password\"]:hover,\n.ec input[type=\"search\"]:hover,\n.ec input[type=\"tel\"]:hover,\n.ec input[type=\"text\"]:hover,\n.ec input[type=\"time\"]:hover,\n.ec input[type=\"url\"]:hover,\n.ec input[type=\"week\"]:hover,\n.ec textarea:hover,\n.ec select:hover {\n  border-color: #b1b1b1;\n}\n.ec input[type=\"color\"]:focus,\n.ec input[type=\"date\"]:focus,\n.ec input[type=\"datetime\"]:focus,\n.ec input[type=\"datetime-local\"]:focus,\n.ec input[type=\"email\"]:focus,\n.ec input[type=\"month\"]:focus,\n.ec input[type=\"number\"]:focus,\n.ec input[type=\"password\"]:focus,\n.ec input[type=\"search\"]:focus,\n.ec input[type=\"tel\"]:focus,\n.ec input[type=\"text\"]:focus,\n.ec input[type=\"time\"]:focus,\n.ec input[type=\"url\"]:focus,\n.ec input[type=\"week\"]:focus,\n.ec textarea:focus,\n.ec select:focus {\n  border-color: #477dca;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06),0 0 5px rgba(55,112,192,0.7);\n  outline: none;\n}\n.ec input[type=\"color\"]:disabled,\n.ec input[type=\"date\"]:disabled,\n.ec input[type=\"datetime\"]:disabled,\n.ec input[type=\"datetime-local\"]:disabled,\n.ec input[type=\"email\"]:disabled,\n.ec input[type=\"month\"]:disabled,\n.ec input[type=\"number\"]:disabled,\n.ec input[type=\"password\"]:disabled,\n.ec input[type=\"search\"]:disabled,\n.ec input[type=\"tel\"]:disabled,\n.ec input[type=\"text\"]:disabled,\n.ec input[type=\"time\"]:disabled,\n.ec input[type=\"url\"]:disabled,\n.ec input[type=\"week\"]:disabled,\n.ec textarea:disabled,\n.ec select:disabled {\n  background-color: #f2f2f2;\n  cursor: not-allowed;\n}\n.ec input[type=\"color\"]:disabled:hover,\n.ec input[type=\"date\"]:disabled:hover,\n.ec input[type=\"datetime\"]:disabled:hover,\n.ec input[type=\"datetime-local\"]:disabled:hover,\n.ec input[type=\"email\"]:disabled:hover,\n.ec input[type=\"month\"]:disabled:hover,\n.ec input[type=\"number\"]:disabled:hover,\n.ec input[type=\"password\"]:disabled:hover,\n.ec input[type=\"search\"]:disabled:hover,\n.ec input[type=\"tel\"]:disabled:hover,\n.ec input[type=\"text\"]:disabled:hover,\n.ec input[type=\"time\"]:disabled:hover,\n.ec input[type=\"url\"]:disabled:hover,\n.ec input[type=\"week\"]:disabled:hover,\n.ec textarea:disabled:hover,\n.ec select:disabled:hover {\n  border: 1px solid #DDD;\n}\n.ec textarea {\n  width: 100%;\n  resize: vertical;\n}\n.ec input[type=\"search\"] {\n  appearance: none;\n}\n.ec input[type=\"checkbox\"],\n.ec input[type=\"radio\"] {\n  display: inline;\n  margin-right: 0.375em;\n}\n.ec input[type=\"checkbox\"]+label,\n.ec input[type=\"radio\"]+label {\n  display: inline-block;\n}\n.ec input[type=\"file\"] {\n  width: 100%;\n}\n.ec select {\n  max-width: 100%;\n  width: auto;\n}\n.ec .form-item {\n  width: 100%;\n  color: #333;\n  margin-bottom: 0.75em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n.ec .form-item__input {\n  width: 100%;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__input {\n    width: 60%;\n  }\n}\n.ec .form-item__label {\n  width: 100%;\n  padding-bottom: 0.75em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__label {\n    padding: 0;\n    width: 40%;\n    text-align: right;\n    margin-right: 1.5em;\n  }\n}\n.ec .field-group {\n  padding: 0.375em 0 0.75em 0;\n}\n.ec .field-group__title {\n  padding-bottom: 0.75em;\n}\n.ec h1 {\n  margin: 0;\n  padding: 0;\n  font-size: 28px;\n}\n.ec h2 {\n  margin: 0;\n  padding: 0;\n  font-size: 24.5px;\n}\n.ec h3 {\n  margin: 0;\n  padding: 0;\n  font-size: 21px;\n}\n.ec h4 {\n  margin: 0;\n  padding: 0;\n  font-size: 17.5px;\n}\n.ec h5 {\n  margin: 0;\n  padding: 0;\n  font-size: 15.75px;\n}\n.ec h6 {\n  margin: 0;\n  padding: 0;\n  font-size: 14px;\n}\n.ec .vertical-tabs-container {\n  margin-bottom: 1.5em;\n  overflow: hidden;\n  display: flex;\n}\n.ec .vertical-tabs-container::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .vertical-tabs-container .vertical-tabs {\n  padding: 0;\n  margin: 0;\n  display: inline;\n  float: left;\n  width: 20%;\n  list-style: none;\n  border-right: 1px solid #DDD;\n}\n.ec .vertical-tabs-container li.active {\n  background-color: white;\n  margin-right: -1px;\n  border: 1px solid #DDD;\n  border-right-color: white;\n}\n.ec .vertical-tabs-container li.active .sub-active {\n  color: #477dca;\n}\n.ec .vertical-tabs-container li.active .sub-non-active {\n  color: #333;\n}\n.ec .vertical-tabs-container li a {\n  padding: 0.75em 0.809em;\n  text-decoration: none;\n  color: inherit;\n  display: block;\n}\n.ec .vertical-tabs-container li ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.ec .vertical-tabs-container li ul li {\n  padding-bottom: 5px;\n  padding-left: 20px;\n}\n.ec .vertical-tabs-container .vertical-tab:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container {\n  border: 1px solid #DDD;\n  border-left: none;\n  display: inline-block;\n  width: 80%;\n  background-color: white;\n  margin: 0 auto;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container a:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content {\n  display: inline-block;\n  background-color: white;\n  padding: 1.5em 1.618em;\n  border: none;\n  width: 100%;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading {\n  border-top: 1px solid #DDD;\n  cursor: pointer;\n  display: block;\n  font-weight: bold;\n  padding: 0.75em 0.809em;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:hover {\n  color: #477dca;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:first-child {\n  border-top: none;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading.active {\n  background: white;\n  border-bottom: none;\n}\n.ec .accordion-tabs-minimal {\n  margin: 0 0.75em;\n  line-height: 1.5;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .accordion-tabs-minimal ul.tab-list {\n  margin: 0;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal li.tab-header-and-content {\n  list-style: none;\n  display: inline;\n}\n.ec .accordion-tabs-minimal .tab-link {\n  border-top: 1px solid #DDD;\n  display: inline-block;\n  border-top: 0;\n}\n.ec .accordion-tabs-minimal .tab-link a {\n  text-decoration: none;\n  display: block;\n  padding: 0.75em 1.618em;\n}\n.ec .accordion-tabs-minimal .tab-link a:hover {\n  color: #2c5999;\n}\n.ec .accordion-tabs-minimal .tab-link a:focus {\n  outline: none;\n}\n.ec .accordion-tabs-minimal .tab-link a.is-active {\n  border: 1px solid #DDD;\n  border-bottom-color: white;\n  background: white;\n  margin-bottom: -1px;\n  color: #477dca;\n}\n.ec .accordion-tabs-minimal .tab-content {\n  border: 1px solid #DDD;\n  padding: 1.5em 1.618em;\n  width: 100%;\n  float: left;\n  background: white;\n  min-height: 250px;\n}\n.ec .btn {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n  font-family: inherit;\n  font-size: 100%;\n  cursor: pointer;\n  border: none;\n  margin: 0;\n  padding-top: 0;\n  padding-bottom: 0;\n  line-height: 3;\n  padding-right: 1em;\n  padding-left: 1em;\n  border-radius: 3px;\n  background: #477dca;\n  color: white;\n}\n.ec .btn,\n.ec .btn:hover {\n  text-decoration: none;\n  background: #2c5999;\n}\n.ec .btn:active,\n.ec .btn:focus {\n  outline: none;\n}\n.ec .btn--small {\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n  line-height: 2;\n}\n.ec .btn--large {\n  padding-right: 1.5em;\n  padding-left: 1.5em;\n  line-height: 4;\n}\n.ec .btn--huge {\n  padding-right: 2em;\n  padding-left: 2em;\n  line-height: 5;\n}\n.ec .btn--full {\n  width: 100%;\n  padding-right: 0;\n  padding-left: 0;\n  text-align: center;\n}\n.ec .btn--alpha {\n  font-size: 3rem;\n}\n.ec .btn--beta {\n  font-size: 2rem;\n}\n.ec .btn--gamma {\n  font-size: 1rem;\n}\n.ec .btn--natural {\n  vertical-align: baseline;\n  font-size: inherit;\n  line-height: inherit;\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n}\n.ec .btn--positive {\n  background-color: #4A993E;\n  color: #fff;\n}\n.ec .btn--negative {\n  background-color: #b33630;\n  color: #fff;\n}\n.ec .btn--inactive,\n.ec .btn--inactive:hover,\n.ec .btn--inactive:active,\n.ec .btn--inactive:focus {\n  background-color: #ddd;\n  color: #777;\n  cursor: text;\n}\n.ec .btn--soft {\n  border-radius: 200px;\n}\n.ec .btn--hard {\n  border-radius: 0;\n}\n@media screen and (min-width: 800px) {\n  .ec .left {\n    width: 49%;\n    margin-right: 2%;\n    float: left;\n  }\n}\n@media screen and (min-width: 800px) {\n  .ec .right {\n    width: 49%;\n    float: left;\n  }\n}\n.ec .navigation {\n  padding: 0;\n  margin: 0;\n  display: block;\n}\n.ec .navigation__item {\n  margin: 20px 10px 20px 10px;\n  padding-bottom: 10px;\n  cursor: pointer;\n  display: inline-block;\n}\n.ec .navigation--steps .ec .navigation__item {\n  border-bottom: 5px solid;\n}\n.ec .float--right {\n  float: right !important;\n}\n.ec .float--left {\n  float: left !important;\n}\n.ec .float--none {\n  float: none !important;\n}\n.ec .text--left {\n  text-align: left  !important;\n}\n.ec .text--center {\n  text-align: center !important;\n}\n.ec .text--right {\n  text-align: right !important;\n}\n.ec .weight--light {\n  font-weight: 300 !important;\n}\n.ec .weight--normal {\n  font-weight: 400 !important;\n}\n.ec .weight--semibold {\n  font-weight: 600 !important;\n}\n.ec .push {\n  margin: 1.5em !important;\n}\n.ec .push--top {\n  margin-top: 1.5em !important;\n}\n.ec .push--right {\n  margin-right: 1.5em !important;\n}\n.ec .push--bottom {\n  margin-bottom: 1.5em !important;\n}\n.ec .push--left {\n  margin-left: 1.5em !important;\n}\n.ec .push--ends {\n  margin-top: 1.5em !important;\n  margin-bottom: 1.5em !important;\n}\n.ec .push--sides {\n  margin-right: 1.5em !important;\n  margin-left: 1.5em !important;\n}\n.ec .push-half {\n  margin: 0.75em !important;\n}\n.ec .push-half--top {\n  margin-top: 0.75em !important;\n}\n.ec .push-half--right {\n  margin-right: 0.75em !important;\n}\n.ec .push-half--bottom {\n  margin-bottom: 0.75em !important;\n}\n.ec .push-half--left {\n  margin-left: 0.75em !important;\n}\n.ec .push-half--ends {\n  margin-top: 0.75em !important;\n  margin-bottom: 0.75em !important;\n}\n.ec .push-half--sides {\n  margin-right: 0.75em !important;\n  margin-left: 0.75em !important;\n}\n.ec .flush {\n  margin: 0 !important;\n}\n.ec .flush--top {\n  margin-top: 0 !important;\n}\n.ec .flush--right {\n  margin-right: 0 !important;\n}\n.ec .flush--bottom {\n  margin-bottom: 0 !important;\n}\n.ec .flush--left {\n  margin-left: 0 !important;\n}\n.ec .flush--ends {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n}\n.ec .flush--sides {\n  margin-right: 0 !important;\n  margin-left: 0 !important;\n}\n.ec .soft {\n  padding: 1.5em !important;\n}\n.ec .soft--top {\n  padding-top: 1.5em !important;\n}\n.ec .soft--right {\n  padding-right: 1.5em !important;\n}\n.ec .soft--bottom {\n  padding-bottom: 1.5em !important;\n}\n.ec .soft--left {\n  padding-left: 1.5em !important;\n}\n.ec .soft--ends {\n  padding-top: 1.5em !important;\n  padding-bottom: 1.5em !important;\n}\n.ec .soft--sides {\n  padding-right: 1.5em !important;\n  padding-left: 1.5em !important;\n}\n.ec .soft-half {\n  padding: 0.75em !important;\n}\n.ec .soft-half--top {\n  padding-top: 0.75em !important;\n}\n.ec .soft-half--right {\n  padding-right: 0.75em !important;\n}\n.ec .soft-half--bottom {\n  padding-bottom: 0.75em !important;\n}\n.ec .soft-half--left {\n  padding-left: 0.75em !important;\n}\n.ec .soft-half--ends {\n  padding-top: 0.75em !important;\n  padding-bottom: 0.75em !important;\n}\n.ec .soft-half--sides {\n  padding-right: 0.75em !important;\n  padding-left: 0.75em !important;\n}\n.ec .hard {\n  padding: 0 !important;\n}\n.ec .hard--top {\n  padding-top: 0 !important;\n}\n.ec .hard--right {\n  padding-right: 0 !important;\n}\n.ec .hard--bottom {\n  padding-bottom: 0 !important;\n}\n.ec .hard--left {\n  padding-left: 0 !important;\n}\n.ec .hard--ends {\n  padding-top: 0 !important;\n  padding-bottom: 0 !important;\n}\n.ec .hard--sides {\n  padding-right: 0 !important;\n  padding-left: 0 !important;\n}\n.ec .full-bleed {\n  margin-right: -1.5em !important;\n  margin-left: -1.5em !important;\n}\n.islet .ec .full-bleed {\n  margin-right: -0.75em !important;\n  margin-left: -0.75em !important;\n}\n.ec .loader,\n.ec .loader:before,\n.ec .loader:after {\n  border-radius: 50%;\n}\n.ec .loader:before,\n.ec .loader:after {\n  position: absolute;\n  content: '';\n}\n.ec .loader:before {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 10.2em 0 0 10.2em;\n  top: -0.1em;\n  left: -0.1em;\n  -webkit-transform-origin: 5.2em 5.1em;\n  transform-origin: 5.2em 5.1em;\n  -webkit-animation: load2 2s infinite ease 1.5s;\n  animation: load2 2s infinite ease 1.5s;\n}\n.ec .loader {\n  font-size: 11px;\n  text-indent: -99999em;\n  margin: 55px auto;\n  position: relative;\n  width: 10em;\n  height: 10em;\n  box-shadow: inset 0 0 0 1em #ffffff;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n}\n.ec .loader:after {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 0 10.2em 10.2em 0;\n  top: -0.1em;\n  left: 5.1em;\n  -webkit-transform-origin: 0px 5.1em;\n  transform-origin: 0px 5.1em;\n  -webkit-animation: load2 2s infinite ease;\n  animation: load2 2s infinite ease;\n}\n@-webkit-keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n.ec a,\n.ec .hover {\n  color: #477dca;\n  cursor: pointer;\n}\n.ec .active {\n  color: #477dca;\n}\n.ec .container {\n  clear: both;\n}\n.ec .Scp {\n  position: absolute;\n  margin-top: 5px;\n  width: 200px;\n  height: 150px;\n  border: 1px solid #DDD;\n  border-radius: 3px;\n}\n.ec .header {\n  margin-bottom: 20px;\n  background-color: #333;\n  width: 100%;\n  display: inline-block;\n}\n.ec .header .logo {\n  float: right;\n  text-align: right;\n  padding: 7px 1em;\n  height: 64px;\n}\n.ec .header .logo svg {\n  height: 50px;\n}\n.ec .header .navigation {\n  margin-left: 20px;\n  margin-top: 22px;\n  float: left;\n}\n.ec .header .navigation .tab-link a {\n  text-decoration: none;\n  color: white;\n}\n.ec .header .navigation .tab-link.is-active {\n  background: #f5f5f5;\n  border: none;\n}\n.ec .header .navigation .tab-link.is-active a {\n  color: #477dca;\n}\n.ec .header:after {\n  clear: both;\n}\n.ec .revisionElement {\n  margin-top: 20px;\n  border: 1px solid #DDD;\n  background: white;\n  padding: 20px;\n  display: block;\n  float: left;\n  width: 100%;\n}\n.ec .objectArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .objectArray .title {\n  width: 100%;\n  float: left;\n  padding: 7.5px 10px;\n  background: #f5f5f5;\n}\n.ec .objectArray .title h4,\n.ec .objectArray .title h5 {\n  float: left;\n}\n.ec .objectArray .title .btn {\n  float: right;\n}\n.ec .objectArray .list {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item .title {\n  border-bottom: 1px solid #DDD;\n  border-top: 1px solid #DDD;\n}\n.ec .objectArray .list .item .options {\n  float: left;\n  width: 100%;\n  padding-top: 20px;\n}\n.ec .readOnlyBox {\n  border: 1px solid #DDD;\n  background: white;\n  padding: 10px 20px;\n  display: block;\n  margin-bottom: 10px;\n}\n.ec .titleBar {\n  display: inline-block;\n  width: 100%;\n  padding-bottom: 20px;\n}\n.ec .titleBar h3 {\n  float: left;\n}\n.ec .titleBar .btn {\n  margin-left: 10px;\n  float: right;\n}\n.ec .templatelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .templatelist__item {\n  float: left;\n  width: 33%;\n  padding: 0.75em;\n  margin: 5px;\n  width: 125px;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in 0.2s,border-color ease-in 0.2s;\n}\n.ec .templatelist__item:hover {\n  background: #f5f5f5;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item svg {\n  max-height: 120px;\n}\n.ec .file_drop {\n  padding: 50px;\n  background: #DDD;\n}\n"; (require("browserify-css").createStyle(css, { "href": "src/css/style.css"})); module.exports = css;
-},{"browserify-css":5}],137:[function(require,module,exports){
+},{"browserify-css":"/home/frank/workspace/easychart/node_modules/browserify-css/browser.js"}],"/home/frank/workspace/easychart/src/js/components/chart.js":[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -21674,7 +21674,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
 
     module.exports = that;
 })();
-},{}],138:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/src/js/components/configure.js":[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var optionsService = services.options;
@@ -21765,7 +21765,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
     module.exports = constructor;
 
 })();
-},{"./configure/axisTabs":139,"./configure/genericTabs":140,"./configure/seriesTabs":141,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],139:[function(require,module,exports){
+},{"./configure/axisTabs":"/home/frank/workspace/easychart/src/js/components/configure/axisTabs.js","./configure/genericTabs":"/home/frank/workspace/easychart/src/js/components/configure/genericTabs.js","./configure/seriesTabs":"/home/frank/workspace/easychart/src/js/components/configure/seriesTabs.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.remove":"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/configure/axisTabs.js":[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -21956,7 +21956,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":155,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],140:[function(require,module,exports){
+},{"../../factories/properties":"/home/frank/workspace/easychart/src/js/factories/properties.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.remove":"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/configure/genericTabs.js":[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22032,7 +22032,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":155,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],141:[function(require,module,exports){
+},{"../../factories/properties":"/home/frank/workspace/easychart/src/js/factories/properties.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.remove":"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/configure/seriesTabs.js":[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22131,7 +22131,7 @@ function constructor (services){
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":155,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],142:[function(require,module,exports){
+},{"../../factories/properties":"/home/frank/workspace/easychart/src/js/factories/properties.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.remove":"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/debug.js":[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -22162,7 +22162,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../../../node_modules/highlight.js/lib/highlight":28,"../../../node_modules/highlight.js/lib/languages/json":29,"../../../node_modules/highlight.js/styles/monokai.css":30,"virtual-dom/h":105}],143:[function(require,module,exports){
+},{"../../../node_modules/highlight.js/lib/highlight":"/home/frank/workspace/easychart/node_modules/highlight.js/lib/highlight.js","../../../node_modules/highlight.js/lib/languages/json":"/home/frank/workspace/easychart/node_modules/highlight.js/lib/languages/json.js","../../../node_modules/highlight.js/styles/monokai.css":"/home/frank/workspace/easychart/node_modules/highlight.js/styles/monokai.css","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/hot.js":[function(require,module,exports){
 (function () {
     //var _ = require('lodash');
 
@@ -22279,7 +22279,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"virtual-dom/create-element":103,"virtual-dom/h":105}],144:[function(require,module,exports){
+},{"lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isempty":"/home/frank/workspace/easychart/node_modules/lodash.isempty/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","virtual-dom/create-element":"/home/frank/workspace/easychart/node_modules/virtual-dom/create-element.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/import.js":[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -22393,7 +22393,7 @@ module.exports = constructor;
 
 
 
-},{"./hot":143,"./import/dragAndDrop":145,"./import/paste":146,"./import/upload":147,"./import/url":148,"./table":150,"virtual-dom/h":105}],145:[function(require,module,exports){
+},{"./hot":"/home/frank/workspace/easychart/src/js/components/hot.js","./import/dragAndDrop":"/home/frank/workspace/easychart/src/js/components/import/dragAndDrop.js","./import/paste":"/home/frank/workspace/easychart/src/js/components/import/paste.js","./import/upload":"/home/frank/workspace/easychart/src/js/components/import/upload.js","./import/url":"/home/frank/workspace/easychart/src/js/components/import/url.js","./table":"/home/frank/workspace/easychart/src/js/components/table.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/import/dragAndDrop.js":[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -22440,7 +22440,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"drag-drop":19,"virtual-dom/h":105}],146:[function(require,module,exports){
+},{"drag-drop":"/home/frank/workspace/easychart/node_modules/drag-drop/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/import/paste.js":[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -22476,7 +22476,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":105}],147:[function(require,module,exports){
+},{"virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/import/upload.js":[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var that = {};
@@ -22517,7 +22517,7 @@ module.exports = constructor;
 
     module.exports = that;
 })();
-},{"virtual-dom/h":105}],148:[function(require,module,exports){
+},{"virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/import/url.js":[function(require,module,exports){
 (function () {
     var that = {};
     var h = require('virtual-dom/h');
@@ -22558,7 +22558,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":105}],149:[function(require,module,exports){
+},{"virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/revision.js":[function(require,module,exports){
 var constructor = function (mediator, list) {
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
@@ -22622,7 +22622,7 @@ module.exports = constructor;
 
 
 
-},{"virtual-dom/create-element":103,"virtual-dom/h":105}],150:[function(require,module,exports){
+},{"virtual-dom/create-element":"/home/frank/workspace/easychart/node_modules/virtual-dom/create-element.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/table.js":[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -22695,7 +22695,7 @@ module.exports = constructor;
 
 
 
-},{"lodash.foreach":59,"lodash.isequal":66,"lodash.trim":85,"virtual-dom/h":105}],151:[function(require,module,exports){
+},{"lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isequal":"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js","lodash.trim":"/home/frank/workspace/easychart/node_modules/lodash.trim/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/components/templateSelection.js":[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -22768,7 +22768,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":154,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"virtual-dom/h":105}],152:[function(require,module,exports){
+},{"../factories/iconLoader":"/home/frank/workspace/easychart/src/js/factories/iconLoader.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/config/options.json":[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -23662,7 +23662,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],153:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/src/js/config/templates.js":[function(require,module,exports){
 var templates = [
     {
         "id": "line",
@@ -25502,7 +25502,7 @@ var templates = [
     }
 ];
 module.exports = templates;
-},{}],154:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/src/js/factories/iconLoader.js":[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -25549,7 +25549,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":72,"vdom-virtualize":101}],155:[function(require,module,exports){
+},{"fs":"/home/frank/workspace/easychart/node_modules/browserify/lib/_empty.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","vdom-virtualize":"/home/frank/workspace/easychart/node_modules/vdom-virtualize/index.js"}],"/home/frank/workspace/easychart/src/js/factories/properties.js":[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -25630,7 +25630,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":156,"./properties/arrayColor":157,"./properties/arrayObject":158,"./properties/boolean":159,"./properties/number":160,"./properties/select":161,"./properties/string":162,"lodash.clonedeep":55,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isstring":71,"lodash.isundefined":72}],156:[function(require,module,exports){
+},{"./properties/array":"/home/frank/workspace/easychart/src/js/factories/properties/array.js","./properties/arrayColor":"/home/frank/workspace/easychart/src/js/factories/properties/arrayColor.js","./properties/arrayObject":"/home/frank/workspace/easychart/src/js/factories/properties/arrayObject.js","./properties/boolean":"/home/frank/workspace/easychart/src/js/factories/properties/boolean.js","./properties/number":"/home/frank/workspace/easychart/src/js/factories/properties/number.js","./properties/select":"/home/frank/workspace/easychart/src/js/factories/properties/select.js","./properties/string":"/home/frank/workspace/easychart/src/js/factories/properties/string.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isarray":"/home/frank/workspace/easychart/node_modules/lodash.isarray/index.js","lodash.isstring":"/home/frank/workspace/easychart/node_modules/lodash.isstring/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js"}],"/home/frank/workspace/easychart/src/js/factories/properties/array.js":[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -25681,7 +25681,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"virtual-dom/h":105}],157:[function(require,module,exports){
+},{"lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isequal":"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.merge":"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/factories/properties/arrayColor.js":[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
     var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -25752,7 +25752,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":96,"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"simple-color-picker":95,"virtual-dom/h":105}],158:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":"/home/frank/workspace/easychart/node_modules/simple-color-picker/simple-color-picker.css","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isequal":"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.merge":"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js","simple-color-picker":"/home/frank/workspace/easychart/node_modules/simple-color-picker/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/factories/properties/arrayObject.js":[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -25806,7 +25806,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"virtual-dom/h":105}],159:[function(require,module,exports){
+},{"lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isequal":"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.merge":"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/factories/properties/boolean.js":[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -25855,7 +25855,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":71,"lodash.isundefined":72,"virtual-dom/h":105}],160:[function(require,module,exports){
+},{"lodash.isstring":"/home/frank/workspace/easychart/node_modules/lodash.isstring/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/factories/properties/number.js":[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -25887,7 +25887,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"virtual-dom/h":105}],161:[function(require,module,exports){
+},{"virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/factories/properties/select.js":[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -25932,7 +25932,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.foreach":59,"virtual-dom/h":105}],162:[function(require,module,exports){
+},{"lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/factories/properties/string.js":[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -25965,7 +25965,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":105}],163:[function(require,module,exports){
+},{"virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/factories/series.js":[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -26159,7 +26159,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"lodash.clonedeep":55,"lodash.drop":56,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isempty":65,"lodash.isundefined":72,"lodash.map":76,"lodash.merge":77,"lodash.remove":78,"lodash.size":81,"lodash.slice":83,"lodash.union":86}],164:[function(require,module,exports){
+},{"lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.drop":"/home/frank/workspace/easychart/node_modules/lodash.drop/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isarray":"/home/frank/workspace/easychart/node_modules/lodash.isarray/index.js","lodash.isempty":"/home/frank/workspace/easychart/node_modules/lodash.isempty/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.merge":"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js","lodash.remove":"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js","lodash.size":"/home/frank/workspace/easychart/node_modules/lodash.size/index.js","lodash.slice":"/home/frank/workspace/easychart/node_modules/lodash.slice/index.js","lodash.union":"/home/frank/workspace/easychart/node_modules/lodash.union/index.js"}],"/home/frank/workspace/easychart/src/js/full.js":[function(require,module,exports){
 (function () {
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
@@ -26260,7 +26260,7 @@ return self})();
     window.ec = constructor;
 })();
 
-},{"../css/style.css":136,"./components/configure.js":138,"./components/debug.js":142,"./components/import.js":144,"./components/templateSelection.js":151,"./services/api":165,"./services/config":166,"./services/data":167,"./services/initializer":168,"./services/options":169,"./services/revision":170,"./services/router.js":171,"./services/templates":172,"dom-delegator":13,"mediatorjs":88,"virtual-dom/h":105}],165:[function(require,module,exports){
+},{"../css/style.css":"/home/frank/workspace/easychart/src/css/style.css","./components/configure.js":"/home/frank/workspace/easychart/src/js/components/configure.js","./components/debug.js":"/home/frank/workspace/easychart/src/js/components/debug.js","./components/import.js":"/home/frank/workspace/easychart/src/js/components/import.js","./components/templateSelection.js":"/home/frank/workspace/easychart/src/js/components/templateSelection.js","./services/api":"/home/frank/workspace/easychart/src/js/services/api.js","./services/config":"/home/frank/workspace/easychart/src/js/services/config.js","./services/data":"/home/frank/workspace/easychart/src/js/services/data.js","./services/initializer":"/home/frank/workspace/easychart/src/js/services/initializer.js","./services/options":"/home/frank/workspace/easychart/src/js/services/options.js","./services/revision":"/home/frank/workspace/easychart/src/js/services/revision.js","./services/router.js":"/home/frank/workspace/easychart/src/js/services/router.js","./services/templates":"/home/frank/workspace/easychart/src/js/services/templates.js","dom-delegator":"/home/frank/workspace/easychart/node_modules/dom-delegator/index.js","mediatorjs":"/home/frank/workspace/easychart/node_modules/mediatorjs/dist/mediator.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}],"/home/frank/workspace/easychart/src/js/services/api.js":[function(require,module,exports){
 
 (function () {
     function constructor(services){
@@ -26347,7 +26347,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],166:[function(require,module,exports){
+},{}],"/home/frank/workspace/easychart/src/js/services/config.js":[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -26509,7 +26509,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../factories/series.js":163,"lodash.clonedeep":55,"lodash.find":57,"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"lodash.merge":77}],167:[function(require,module,exports){
+},{"../factories/series.js":"/home/frank/workspace/easychart/src/js/factories/series.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isempty":"/home/frank/workspace/easychart/node_modules/lodash.isempty/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.merge":"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js"}],"/home/frank/workspace/easychart/src/js/services/data.js":[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -26634,7 +26634,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isequal":66,"lodash.isnan":69,"lodash.isundefined":72,"lodash.map":76,"lodash.slice":83,"papaparse":89,"xhr":132}],168:[function(require,module,exports){
+},{"lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isequal":"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js","lodash.isnan":"/home/frank/workspace/easychart/node_modules/lodash.isnan/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.slice":"/home/frank/workspace/easychart/node_modules/lodash.slice/index.js","papaparse":"/home/frank/workspace/easychart/node_modules/papaparse/papaparse.js","xhr":"/home/frank/workspace/easychart/node_modules/xhr/index.js"}],"/home/frank/workspace/easychart/src/js/services/initializer.js":[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -26676,7 +26676,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":59}],169:[function(require,module,exports){
+},{"lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js"}],"/home/frank/workspace/easychart/src/js/services/options.js":[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -26724,7 +26724,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":152,"lodash.clonedeep":55,"xhr":132}],170:[function(require,module,exports){
+},{"../config/options.json":"/home/frank/workspace/easychart/src/js/config/options.json","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","xhr":"/home/frank/workspace/easychart/node_modules/xhr/index.js"}],"/home/frank/workspace/easychart/src/js/services/revision.js":[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -26766,7 +26766,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":55}],171:[function(require,module,exports){
+},{"lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js"}],"/home/frank/workspace/easychart/src/js/services/router.js":[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -26851,7 +26851,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":137,"./../components/revision":149,"./../templates/logo":173,"lodash.keys":73,"main-loop":87,"virtual-dom/create-element":103,"virtual-dom/diff":104,"virtual-dom/h":105,"virtual-dom/patch":106}],172:[function(require,module,exports){
+},{"./../components/chart.js":"/home/frank/workspace/easychart/src/js/components/chart.js","./../components/revision":"/home/frank/workspace/easychart/src/js/components/revision.js","./../templates/logo":"/home/frank/workspace/easychart/src/js/templates/logo.js","lodash.keys":"/home/frank/workspace/easychart/node_modules/lodash.keys/index.js","main-loop":"/home/frank/workspace/easychart/node_modules/main-loop/index.js","virtual-dom/create-element":"/home/frank/workspace/easychart/node_modules/virtual-dom/create-element.js","virtual-dom/diff":"/home/frank/workspace/easychart/node_modules/virtual-dom/diff.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js","virtual-dom/patch":"/home/frank/workspace/easychart/node_modules/virtual-dom/patch.js"}],"/home/frank/workspace/easychart/src/js/services/templates.js":[function(require,module,exports){
 (function () {
     function constructor(){
         var templates = require('../config/templates');
@@ -26872,7 +26872,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates":153,"lodash.clonedeep":55}],173:[function(require,module,exports){
+},{"../config/templates":"/home/frank/workspace/easychart/src/js/config/templates.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js"}],"/home/frank/workspace/easychart/src/js/templates/logo.js":[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -26881,4 +26881,4 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":154,"virtual-dom/h":105}]},{},[164]);
+},{"../factories/iconLoader":"/home/frank/workspace/easychart/src/js/factories/iconLoader.js","virtual-dom/h":"/home/frank/workspace/easychart/node_modules/virtual-dom/h.js"}]},{},["/home/frank/workspace/easychart/src/js/full.js"]);

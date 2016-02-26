@@ -34,6 +34,7 @@ gulp.task('sass', function () {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./src/css'));
 });
+
 gulp.task('sass:prod', function () {
     gulp.src('src/scss/style.scss')
         .pipe(sourcemaps.init())
@@ -57,7 +58,7 @@ gulp.task('browserify:minimal', function () {
 });
 
 function build(file, output) {
-    var bundler = browserify('./src/js/' + file + '.js', {fullPaths:false});
+    var bundler = browserify('./src/js/' + file + '.js', {fullPaths:true});
     return bundler.bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(source(output + '.js'))

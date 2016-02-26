@@ -371,14 +371,35 @@ Get the current preset.
 var instance = new ec();
 instance.getPreset()
 ```
+## Setup
+```javascript
+// install dependencies
+npm install
+// watch and build full app
+gulp watchify:full
+// watch and build minimal app
+gulp watchify:minimal
+// production build the app
+gulp build
+
+```
+
 ## Generate options file
+The project also contains a small nodejs script that merges the [customise](src/js/config/customise.json) with the definitions from the highcharts attributes [dump](src/js/config/dump.json) file.
+
+To run the generator:
+```javascript
+// install dependencies
+npm install
+// run generator
+npm run genOptions
+```
 ## Builds
 ### full
 Full build is used when configuring a chart and is best used in a backend/logged in usecase, since it quite large and has loos dependencies like highlightjs and handsontables.
 ### minimal
 Minimal build is used for converting raw data and configuration to an highcharts graph, this build is best used for displaying graphs build by easychart.
 The minimal build only has a limited set op options and api calls.
-
 
 options:
 *   data
