@@ -23,8 +23,8 @@
         if(typeof opts.config !== 'undefined'){
             services.config.set(opts.config);
         }
-        if(typeof opts.preset !== 'undefined'){
-            services.config.setPreset(opts.preset);
+        if(typeof opts.presets !== 'undefined'){
+            services.config.setPresets(opts.presets);
         }
 
         if(typeof opts.element !== 'undefined'){
@@ -45,15 +45,15 @@
             services.config.set(config);
         }
 
-        function setPreset(preset){
-            services.config.setPreset(preset);
+        function setPresets(presets){
+            services.config.setPresets(presets);
         }
 
         return {
             setData:setData,
             setDataUrl:setDataUrl,
             setConfig:setConfig,
-            setPreset: setPreset
+            setPresets: setPresets
         }
     }
 

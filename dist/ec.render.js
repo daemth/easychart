@@ -13594,8 +13594,8 @@ function extend() {
         if(typeof opts.config !== 'undefined'){
             services.config.set(opts.config);
         }
-        if(typeof opts.preset !== 'undefined'){
-            services.config.setPreset(opts.preset);
+        if(typeof opts.presets !== 'undefined'){
+            services.config.setPresets(opts.presets);
         }
 
         if(typeof opts.element !== 'undefined'){
@@ -13616,15 +13616,15 @@ function extend() {
             services.config.set(config);
         }
 
-        function setPreset(preset){
-            services.config.setPreset(preset);
+        function setPresets(presets){
+            services.config.setPresets(presets);
         }
 
         return {
             setData:setData,
             setDataUrl:setDataUrl,
             setConfig:setConfig,
-            setPreset: setPreset
+            setPresets: setPresets
         }
     }
 
@@ -13644,7 +13644,7 @@ function extend() {
         };
         var series = require('../factories/series.js');
         var that = {};
-        var preset = {
+        var presets = {
             chart:{
 
             },
@@ -13655,11 +13655,11 @@ function extend() {
         };
 
 
-        var config = _.cloneDeep(preset);
+        var config = _.cloneDeep(presets);
         var configCache;
         that.get = function () {
             var labels = hasLabels(data.get());
-            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
+            var object = _.merge(_.cloneDeep(config), _.cloneDeep(presets));
             object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
             configCache = _.cloneDeep(object);
             return configCache;
@@ -13716,7 +13716,7 @@ function extend() {
         };
 
         that.isEditable = function (path) {
-            var object = _.cloneDeep(preset);
+            var object = _.cloneDeep(presets);
             path = path.split('.');
             var step;
             while (step = path.shift()) {
@@ -13750,17 +13750,17 @@ function extend() {
         };
 
         that.loadTemplate = function (template) {
-            config = _.merge(template, _.cloneDeep(preset));
+            config = _.merge(template, _.cloneDeep(presets));
             configUpdate();
         };
 
-        that.setPreset = function (_preset_) {
-            preset = _preset_;
+        that.setPresets = function (_presets_) {
+            presets = _presets_;
             configUpdate();
         };
 
-        that.getPreset = function () {
-            return _.cloneDeep(preset);
+        that.getPresets = function () {
+            return _.cloneDeep(presets);
         };
 
         function hasLabels(data) {

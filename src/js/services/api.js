@@ -47,12 +47,12 @@
             return services.config.getRaw(config);
         }
 
-        // preset
-        function setPreset(preset){
-            services.config.setPreset(preset);
+        // presets
+        function setPresets(presets){
+            services.config.setPresets(presets);
         }
-        function getPreset(preset){
-            services.config.getPreset(preset);
+        function getPresets(presets){
+            services.config.getPresets(presets);
         }
         // events
         function on(event, callback){
@@ -75,8 +75,8 @@
             getConfig:getConfig,
             setOptionsUrl:setOptionsUrl,
             getOptionsUrl:getOptionsUrl,
-            setPreset:setPreset,
-            getPreset:getPreset,
+            setPresets:setPresets,
+            getPresets:getPresets,
             on:on
         }
     }

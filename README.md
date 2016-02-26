@@ -24,7 +24,7 @@ With Easychart we hope to make the beauty of Highcharts accessible to almost eve
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
 ### Handsontables 
 
-If Handsontables is loaded before eachycharts, it will use it automatically as data editor. Otherwise is it will fallback to a simple
+If Handsontables is loaded before easycharts, it will use it automatically as data editor. Otherwise is it will fallback to a simple editable table.
 
 ### highlightjs
 ## options
@@ -185,11 +185,11 @@ new ec({
     }
 });
 ```
-### options.preset
-Load preset options, a preset has the same structure as options but cannot be overwritten by the user or other config. Is a tool for setting site wide config. e.g. colors
+### options.presets
+Load presets options, a preset has the same structure as options but cannot be overwritten by the user or other config. Is a tool for setting site wide config. e.g. colors
 ```javascript
 new ec({
-    preset:{
+    presets:{
        "colors": [
             "#ECFF7C",
             "#000000",
@@ -352,10 +352,10 @@ Get the current options url.
 var instance = new ec();
 instance.getOptionsUrl()
 ```
-### instance.setPreset
-set the preset for the instance
+### instance.setPresets
+set the presets for the instance
 ```javascript
- var preset = {
+ var presets = {
        "colors": [
             "#ECFF7C",
             "#000000",
@@ -366,11 +366,11 @@ set the preset for the instance
 var instance = new ec();
 instance.setPreset(preset)
 ```
-### instance.getPreset
-Get the current preset.
+### instance.getPresets
+Get the current presets.
 ```javascript
 var instance = new ec();
-instance.getPreset()
+instance.getPresets()
 ```
 ## Setup
 ```javascript
@@ -396,8 +396,8 @@ npm install
 npm run genOptions
 ```
 ## Builds
-### full
-Full build is used when configuring a chart and is best used in a backend/logged in usecase, since it quite large and has loos dependencies like highlightjs and handsontables.
+### App
+App build is used when configuring a chart and is best used in a backend/logged in usecase, since it quite large and has loos dependencies like highlightjs and handsontables.
 ### Render
 Render build is used for converting raw data and configuration to an highcharts graph, this build is best used for displaying graphs build by easychart.
 The render build only has a limited set op options and api calls.
@@ -406,7 +406,7 @@ options:
 *   data
 *   dataUrl
 *   config
-*   preset
+*   presets
 *   element
 
 
@@ -414,7 +414,7 @@ api:
 * setData
 * setDataUrl
 * setConfig
-* setPreset
+* setPresets
 
 ## License
 Available under the MIT license.

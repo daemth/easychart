@@ -26310,12 +26310,12 @@ return self})();
             return services.config.getRaw(config);
         }
 
-        // preset
-        function setPreset(preset){
-            services.config.setPreset(preset);
+        // presets
+        function setPresets(presets){
+            services.config.setPresets(presets);
         }
-        function getPreset(preset){
-            services.config.getPreset(preset);
+        function getPresets(presets){
+            services.config.getPresets(presets);
         }
         // events
         function on(event, callback){
@@ -26338,8 +26338,8 @@ return self})();
             getConfig:getConfig,
             setOptionsUrl:setOptionsUrl,
             getOptionsUrl:getOptionsUrl,
-            setPreset:setPreset,
-            getPreset:getPreset,
+            setPresets:setPresets,
+            getPresets:getPresets,
             on:on
         }
     }
@@ -26360,7 +26360,7 @@ return self})();
         };
         var series = require('../factories/series.js');
         var that = {};
-        var preset = {
+        var presets = {
             chart:{
 
             },
@@ -26371,11 +26371,11 @@ return self})();
         };
 
 
-        var config = _.cloneDeep(preset);
+        var config = _.cloneDeep(presets);
         var configCache;
         that.get = function () {
             var labels = hasLabels(data.get());
-            var object = _.merge(_.cloneDeep(config), _.cloneDeep(preset));
+            var object = _.merge(_.cloneDeep(config), _.cloneDeep(presets));
             object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
             configCache = _.cloneDeep(object);
             return configCache;
@@ -26432,7 +26432,7 @@ return self})();
         };
 
         that.isEditable = function (path) {
-            var object = _.cloneDeep(preset);
+            var object = _.cloneDeep(presets);
             path = path.split('.');
             var step;
             while (step = path.shift()) {
@@ -26466,17 +26466,17 @@ return self})();
         };
 
         that.loadTemplate = function (template) {
-            config = _.merge(template, _.cloneDeep(preset));
+            config = _.merge(template, _.cloneDeep(presets));
             configUpdate();
         };
 
-        that.setPreset = function (_preset_) {
-            preset = _preset_;
+        that.setPresets = function (_presets_) {
+            presets = _presets_;
             configUpdate();
         };
 
-        that.getPreset = function () {
-            return _.cloneDeep(preset);
+        that.getPresets = function () {
+            return _.cloneDeep(presets);
         };
 
         function hasLabels(data) {
@@ -26662,8 +26662,8 @@ function constructor(opts, services) {
     if(typeof opts.config !== 'undefined'){
         services.config.set(opts.config);
     }
-    if(typeof opts.preset !== 'undefined'){
-        services.config.setPreset(opts.preset);
+    if(typeof opts.presets !== 'undefined'){
+        services.config.setPresets(opts.presets);
     }
     if(typeof opts.events !== 'undefined'){
         _.forEach(opts.events, function(callback, event){
