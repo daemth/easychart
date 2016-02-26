@@ -13759,7 +13759,13 @@ function extend() {
         };
 
         that.loadTemplate = function (template) {
-            config = _.merge(_.cloneDeep(presets),template);
+            config = _.merge(_.cloneDeep(presets), template);
+            if(!config.xAxis){
+                config.xAxis = [{}];
+            }
+            if(!config.yAxis){
+                config.yAxis = [{}];
+            }
             configUpdate();
         };
 
