@@ -37,7 +37,7 @@
 
             return h('div', [
                 readOnly,
-                h('table.table--data.table--bordered', {
+                h('table.table.table--data.table--bordered', {
                     className: !editable ? "table--disabled" : ""
                 }, rows)
             ]);

@@ -55,7 +55,7 @@
    </table>
  *
  */
-table{
+.table{
   width:100%;
   [contenteditable="true"]:active,
   [contenteditable="true"]:focus{
@@ -64,15 +64,16 @@ table{
     background: $super-light-gray;
   }
 }
-th,
-td{
-  padding:$base-spacing / 4;
-  @media screen and (min-width:480px){
-    padding:$base-spacing/2;
+.table{
+  th,
+  td{
+    padding:$base-spacing / 4;
+    @media screen and (min-width:480px){
+      padding:$base-spacing/2;
+    }
+    text-align:left;
   }
-  text-align:left;
 }
-
 
 /**
  * Cell alignments
