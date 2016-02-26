@@ -4,7 +4,7 @@
  * @link 
  * @license MIT
  */
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/backbone-events-standalone.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
  * Degrades nicely when Backone/underscore are already available in the current
@@ -282,10 +282,10 @@
   }
 })(this);
 
-},{}],"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/index.js":[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 module.exports = require('./backbone-events-standalone');
 
-},{"./backbone-events-standalone":"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/backbone-events-standalone.js"}],"/home/frank/workspace/easychart/node_modules/for-each/index.js":[function(require,module,exports){
+},{"./backbone-events-standalone":1}],3:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -333,7 +333,7 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":"/home/frank/workspace/easychart/node_modules/is-function/index.js"}],"/home/frank/workspace/easychart/node_modules/global/window.js":[function(require,module,exports){
+},{"is-function":5}],4:[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
     module.exports = window;
@@ -346,7 +346,7 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/frank/workspace/easychart/node_modules/is-function/index.js":[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -363,7 +363,7 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseclone/index.js":[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.5.0 (Custom Build) <https://lodash.com/>
@@ -2024,7 +2024,7 @@ Stack.prototype.set = stackSet;
 module.exports = baseClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js":[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -2277,7 +2277,7 @@ function isObject(value) {
 
 module.exports = baseEach;
 
-},{"lodash.keys":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js":[function(require,module,exports){
+},{"lodash.keys":8}],8:[function(require,module,exports){
 /**
  * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -2716,7 +2716,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._basefind/index.js":[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2752,7 +2752,7 @@ function baseFind(collection, predicate, eachFunc, retKey) {
 
 module.exports = baseFind;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._basefindindex/index.js":[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * lodash 3.6.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -2786,7 +2786,7 @@ function baseFindIndex(array, predicate, fromRight) {
 
 module.exports = baseFindIndex;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseflatten/index.js":[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -3109,7 +3109,7 @@ function isObjectLike(value) {
 
 module.exports = baseFlatten;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js":[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.5.0 (Custom Build) <https://lodash.com/>
@@ -5104,7 +5104,7 @@ Stack.prototype.set = stackSet;
 module.exports = baseIteratee;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._basepullat/index.js":[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -5335,7 +5335,7 @@ function get(object, path, defaultValue) {
 
 module.exports = basePullAt;
 
-},{"lodash._baseslice":"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js","lodash.tostring":"/home/frank/workspace/easychart/node_modules/lodash.tostring/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js":[function(require,module,exports){
+},{"lodash._baseslice":14,"lodash.tostring":39}],14:[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -5377,7 +5377,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._baseuniq/index.js":[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * lodash 4.4.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -5788,7 +5788,7 @@ function noop() {
 
 module.exports = baseUniq;
 
-},{"lodash._root":"/home/frank/workspace/easychart/node_modules/lodash._root/index.js","lodash._setcache":"/home/frank/workspace/easychart/node_modules/lodash._setcache/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash._root/index.js":[function(require,module,exports){
+},{"lodash._root":16,"lodash._setcache":17}],16:[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
@@ -5851,7 +5851,7 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._setcache/index.js":[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
@@ -6443,7 +6443,7 @@ SetCache.prototype.push = cachePush;
 module.exports = SetCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/frank/workspace/easychart/node_modules/lodash._stack/index.js":[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
@@ -7109,7 +7109,7 @@ Stack.prototype.set = stackSet;
 module.exports = Stack;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js":[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * lodash 4.3.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7142,7 +7142,7 @@ function cloneDeep(value) {
 
 module.exports = cloneDeep;
 
-},{"lodash._baseclone":"/home/frank/workspace/easychart/node_modules/lodash._baseclone/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.drop/index.js":[function(require,module,exports){
+},{"lodash._baseclone":6}],20:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7347,7 +7347,7 @@ function toNumber(value) {
 
 module.exports = drop;
 
-},{"lodash._baseslice":"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.find/index.js":[function(require,module,exports){
+},{"lodash._baseslice":14}],21:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7431,7 +7431,7 @@ var isArray = Array.isArray;
 
 module.exports = find;
 
-},{"lodash._baseeach":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js","lodash._basefind":"/home/frank/workspace/easychart/node_modules/lodash._basefind/index.js","lodash._basefindindex":"/home/frank/workspace/easychart/node_modules/lodash._basefindindex/index.js","lodash._baseiteratee":"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.first/index.js":[function(require,module,exports){
+},{"lodash._baseeach":7,"lodash._basefind":9,"lodash._basefindindex":10,"lodash._baseiteratee":12}],22:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -7464,7 +7464,7 @@ function first(array) {
 
 module.exports = first;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js":[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7587,7 +7587,7 @@ function identity(value) {
 
 module.exports = forEach;
 
-},{"lodash._baseeach":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.isarray/index.js":[function(require,module,exports){
+},{"lodash._baseeach":7}],24:[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7624,7 +7624,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.isempty/index.js":[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * lodash 4.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7958,7 +7958,7 @@ function isString(value) {
 
 module.exports = isEmpty;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js":[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -8700,9 +8700,9 @@ function isTypedArray(value) {
 
 module.exports = isEqual;
 
-},{"lodash._root":"/home/frank/workspace/easychart/node_modules/lodash._root/index.js","lodash._stack":"/home/frank/workspace/easychart/node_modules/lodash._stack/index.js","lodash.keys":"/home/frank/workspace/easychart/node_modules/lodash.isequal/node_modules/lodash.keys/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.isequal/node_modules/lodash.keys/index.js":[function(require,module,exports){
-arguments[4]["/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js"][0].apply(exports,arguments)
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.isnan/index.js":[function(require,module,exports){
+},{"lodash._root":16,"lodash._stack":18,"lodash.keys":27}],27:[function(require,module,exports){
+arguments[4][8][0].apply(exports,arguments)
+},{"dup":8}],28:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -8814,7 +8814,7 @@ function isNumber(value) {
 
 module.exports = isNaN;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.isplainobject/index.js":[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -8937,7 +8937,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js":[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -8969,7 +8969,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.keysin/index.js":[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * lodash 4.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -9416,7 +9416,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"lodash._root":"/home/frank/workspace/easychart/node_modules/lodash._root/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.map/index.js":[function(require,module,exports){
+},{"lodash._root":16}],32:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -9690,7 +9690,7 @@ function isObject(value) {
 
 module.exports = map;
 
-},{"lodash._baseeach":"/home/frank/workspace/easychart/node_modules/lodash._baseeach/index.js","lodash._baseiteratee":"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js":[function(require,module,exports){
+},{"lodash._baseeach":7,"lodash._baseiteratee":12}],33:[function(require,module,exports){
 /**
  * lodash 4.3.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10414,7 +10414,7 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"lodash._baseclone":"/home/frank/workspace/easychart/node_modules/lodash._baseclone/index.js","lodash._stack":"/home/frank/workspace/easychart/node_modules/lodash._stack/index.js","lodash.isplainobject":"/home/frank/workspace/easychart/node_modules/lodash.isplainobject/index.js","lodash.keysin":"/home/frank/workspace/easychart/node_modules/lodash.keysin/index.js","lodash.rest":"/home/frank/workspace/easychart/node_modules/lodash.rest/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js":[function(require,module,exports){
+},{"lodash._baseclone":6,"lodash._stack":18,"lodash.isplainobject":29,"lodash.keysin":31,"lodash.rest":35}],34:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10475,7 +10475,7 @@ function remove(array, predicate) {
 
 module.exports = remove;
 
-},{"lodash._baseiteratee":"/home/frank/workspace/easychart/node_modules/lodash._baseiteratee/index.js","lodash._basepullat":"/home/frank/workspace/easychart/node_modules/lodash._basepullat/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.rest/index.js":[function(require,module,exports){
+},{"lodash._baseiteratee":12,"lodash._basepullat":13}],35:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10724,7 +10724,7 @@ function toNumber(value) {
 
 module.exports = rest;
 
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.size/index.js":[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 /**
  * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11040,9 +11040,9 @@ function isString(value) {
 
 module.exports = size;
 
-},{"lodash.keys":"/home/frank/workspace/easychart/node_modules/lodash.size/node_modules/lodash.keys/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.size/node_modules/lodash.keys/index.js":[function(require,module,exports){
-arguments[4]["/home/frank/workspace/easychart/node_modules/lodash._baseeach/node_modules/lodash.keys/index.js"][0].apply(exports,arguments)
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.slice/index.js":[function(require,module,exports){
+},{"lodash.keys":37}],37:[function(require,module,exports){
+arguments[4][8][0].apply(exports,arguments)
+},{"dup":8}],38:[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11401,7 +11401,7 @@ function toNumber(value) {
 
 module.exports = slice;
 
-},{"lodash._baseslice":"/home/frank/workspace/easychart/node_modules/lodash._baseslice/index.js"}],"/home/frank/workspace/easychart/node_modules/lodash.tostring/index.js":[function(require,module,exports){
+},{"lodash._baseslice":14}],39:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.1 (Custom Build) <https://lodash.com/>
@@ -11569,7 +11569,7 @@ function toString(value) {
 module.exports = toString;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"/home/frank/workspace/easychart/node_modules/lodash.union/index.js":[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11603,7 +11603,7 @@ var union = rest(function(arrays) {
 
 module.exports = union;
 
-},{"lodash._baseflatten":"/home/frank/workspace/easychart/node_modules/lodash._baseflatten/index.js","lodash._baseuniq":"/home/frank/workspace/easychart/node_modules/lodash._baseuniq/index.js","lodash.rest":"/home/frank/workspace/easychart/node_modules/lodash.rest/index.js"}],"/home/frank/workspace/easychart/node_modules/mediatorjs/dist/mediator.js":[function(require,module,exports){
+},{"lodash._baseflatten":11,"lodash._baseuniq":15,"lodash.rest":35}],41:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -11637,7 +11637,7 @@ module.exports = union;
 
 }).call(this);
 
-},{"backbone-events-standalone":"/home/frank/workspace/easychart/node_modules/backbone-events-standalone/index.js"}],"/home/frank/workspace/easychart/node_modules/papaparse/papaparse.js":[function(require,module,exports){
+},{"backbone-events-standalone":2}],42:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -13042,7 +13042,7 @@ module.exports = union;
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],"/home/frank/workspace/easychart/node_modules/parse-headers/parse-headers.js":[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -13074,7 +13074,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":"/home/frank/workspace/easychart/node_modules/for-each/index.js","trim":"/home/frank/workspace/easychart/node_modules/trim/index.js"}],"/home/frank/workspace/easychart/node_modules/trim/index.js":[function(require,module,exports){
+},{"for-each":3,"trim":44}],44:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -13090,7 +13090,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],"/home/frank/workspace/easychart/node_modules/xhr/index.js":[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var once = require("once")
@@ -13311,7 +13311,7 @@ function _createXHR(options) {
 
 function noop() {}
 
-},{"global/window":"/home/frank/workspace/easychart/node_modules/global/window.js","is-function":"/home/frank/workspace/easychart/node_modules/is-function/index.js","once":"/home/frank/workspace/easychart/node_modules/xhr/node_modules/once/once.js","parse-headers":"/home/frank/workspace/easychart/node_modules/parse-headers/parse-headers.js","xtend":"/home/frank/workspace/easychart/node_modules/xtend/immutable.js"}],"/home/frank/workspace/easychart/node_modules/xhr/node_modules/once/once.js":[function(require,module,exports){
+},{"global/window":4,"is-function":5,"once":46,"parse-headers":43,"xtend":47}],46:[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -13332,7 +13332,7 @@ function once (fn) {
   }
 }
 
-},{}],"/home/frank/workspace/easychart/node_modules/xtend/immutable.js":[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -13353,7 +13353,7 @@ function extend() {
     return target
 }
 
-},{}],"/home/frank/workspace/easychart/src/js/components/chart.js":[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -13374,7 +13374,7 @@ function extend() {
 
     module.exports = that;
 })();
-},{}],"/home/frank/workspace/easychart/src/js/factories/series.js":[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -13568,7 +13568,7 @@ function extend() {
     module.exports = that;
 })();
 
-},{"lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.drop":"/home/frank/workspace/easychart/node_modules/lodash.drop/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isarray":"/home/frank/workspace/easychart/node_modules/lodash.isarray/index.js","lodash.isempty":"/home/frank/workspace/easychart/node_modules/lodash.isempty/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.merge":"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js","lodash.remove":"/home/frank/workspace/easychart/node_modules/lodash.remove/index.js","lodash.size":"/home/frank/workspace/easychart/node_modules/lodash.size/index.js","lodash.slice":"/home/frank/workspace/easychart/node_modules/lodash.slice/index.js","lodash.union":"/home/frank/workspace/easychart/node_modules/lodash.union/index.js"}],"/home/frank/workspace/easychart/src/js/minimal.js":[function(require,module,exports){
+},{"lodash.clonedeep":19,"lodash.drop":20,"lodash.find":21,"lodash.first":22,"lodash.foreach":23,"lodash.isarray":24,"lodash.isempty":25,"lodash.isundefined":30,"lodash.map":32,"lodash.merge":33,"lodash.remove":34,"lodash.size":36,"lodash.slice":38,"lodash.union":40}],50:[function(require,module,exports){
 (function () {
     function constructor(opts){
         var dataService = require('./services/data');
@@ -13631,7 +13631,7 @@ function extend() {
     window.ec = constructor;
 })();
 
-},{"./components/chart.js":"/home/frank/workspace/easychart/src/js/components/chart.js","./services/config":"/home/frank/workspace/easychart/src/js/services/config.js","./services/data":"/home/frank/workspace/easychart/src/js/services/data.js","mediatorjs":"/home/frank/workspace/easychart/node_modules/mediatorjs/dist/mediator.js"}],"/home/frank/workspace/easychart/src/js/services/config.js":[function(require,module,exports){
+},{"./components/chart.js":48,"./services/config":51,"./services/data":52,"mediatorjs":41}],51:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -13793,7 +13793,7 @@ function extend() {
 
     module.exports = constructor;
 })();
-},{"../factories/series.js":"/home/frank/workspace/easychart/src/js/factories/series.js","lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isempty":"/home/frank/workspace/easychart/node_modules/lodash.isempty/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.merge":"/home/frank/workspace/easychart/node_modules/lodash.merge/index.js"}],"/home/frank/workspace/easychart/src/js/services/data.js":[function(require,module,exports){
+},{"../factories/series.js":49,"lodash.clonedeep":19,"lodash.find":21,"lodash.foreach":23,"lodash.isempty":25,"lodash.isundefined":30,"lodash.merge":33}],52:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -13918,4 +13918,4 @@ function extend() {
 ();
 
 
-},{"lodash.clonedeep":"/home/frank/workspace/easychart/node_modules/lodash.clonedeep/index.js","lodash.find":"/home/frank/workspace/easychart/node_modules/lodash.find/index.js","lodash.first":"/home/frank/workspace/easychart/node_modules/lodash.first/index.js","lodash.foreach":"/home/frank/workspace/easychart/node_modules/lodash.foreach/index.js","lodash.isequal":"/home/frank/workspace/easychart/node_modules/lodash.isequal/index.js","lodash.isnan":"/home/frank/workspace/easychart/node_modules/lodash.isnan/index.js","lodash.isundefined":"/home/frank/workspace/easychart/node_modules/lodash.isundefined/index.js","lodash.map":"/home/frank/workspace/easychart/node_modules/lodash.map/index.js","lodash.slice":"/home/frank/workspace/easychart/node_modules/lodash.slice/index.js","papaparse":"/home/frank/workspace/easychart/node_modules/papaparse/papaparse.js","xhr":"/home/frank/workspace/easychart/node_modules/xhr/index.js"}]},{},["/home/frank/workspace/easychart/src/js/minimal.js"]);
+},{"lodash.clonedeep":19,"lodash.find":21,"lodash.first":22,"lodash.foreach":23,"lodash.isequal":26,"lodash.isnan":28,"lodash.isundefined":30,"lodash.map":32,"lodash.slice":38,"papaparse":42,"xhr":45}]},{},[50]);

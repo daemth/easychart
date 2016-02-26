@@ -58,7 +58,7 @@ gulp.task('browserify:minimal', function () {
 });
 
 function build(file, output) {
-    var bundler = browserify('./src/js/' + file + '.js', {fullPaths:true});
+    var bundler = browserify('./src/js/' + file + '.js', {fullPaths:false});
     return bundler.bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(source(output + '.js'))
