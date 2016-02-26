@@ -14,11 +14,11 @@
       var optionsList = [];
       var title = h('div.title',[h('h4', '' + (index + 1)), removeButton(property.fullname + '.' + index)]);
       _.forEach(property.options, function(option){
-        optionsList.push(propertyService.get(option, configService, property.fullname + '.' + index + '.' + option.title))
+        var fullnamePartial = option.fullname.split(property.title)[1];
+        optionsList.push(propertyService.get(option, configService, property.fullname + '.' + index + fullnamePartial))
       });
       list.push(h('div.item', [title, h('div.options', optionsList)]))
     });
-
 
     function removeButton(name){
       return h('button.btn.btn--small', {

@@ -23380,6 +23380,16 @@ module.exports=module.exports = [
                                 "returnType": "Number",
                                 "description": "The end position of the plot band in axis units.",
                                 "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Datetime axis</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-from/\" target=\"_blank\">categorized axis</a>,"
+                            },
+                            {
+                                "name": "xAxis-plotBands-label--text",
+                                "fullname": "xAxis.plotBands.label.text",
+                                "title": "text",
+                                "parent": "xAxis-plotBands-label",
+                                "isParent": false,
+                                "returnType": "String",
+                                "since": "2.1",
+                                "description": "The string text itself. A subset of HTML is supported."
                             }
                         ]
                     }
@@ -25870,11 +25880,11 @@ return self})();
       var optionsList = [];
       var title = h('div.title',[h('h4', '' + (index + 1)), removeButton(property.fullname + '.' + index)]);
       _.forEach(property.options, function(option){
-        optionsList.push(propertyService.get(option, configService, property.fullname + '.' + index + '.' + option.title))
+        var fullnamePartial = option.fullname.split(property.title)[1];
+        optionsList.push(propertyService.get(option, configService, property.fullname + '.' + index + fullnamePartial))
       });
       list.push(h('div.item', [title, h('div.options', optionsList)]))
     });
-
 
     function removeButton(name){
       return h('button.btn.btn--small', {
