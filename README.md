@@ -376,10 +376,10 @@ instance.getPreset()
 ```javascript
 // install dependencies
 npm install
-// watch and build full app
-gulp watchify:full
-// watch and build minimal app
-gulp watchify:minimal
+// watch and build app
+gulp watchify:app
+// watch and build render app
+gulp watchify:render
 // production build the app
 gulp build
 
@@ -398,9 +398,9 @@ npm run genOptions
 ## Builds
 ### full
 Full build is used when configuring a chart and is best used in a backend/logged in usecase, since it quite large and has loos dependencies like highlightjs and handsontables.
-### minimal
-Minimal build is used for converting raw data and configuration to an highcharts graph, this build is best used for displaying graphs build by easychart.
-The minimal build only has a limited set op options and api calls.
+### Render
+Render build is used for converting raw data and configuration to an highcharts graph, this build is best used for displaying graphs build by easychart.
+The render build only has a limited set op options and api calls.
 
 options:
 *   data
