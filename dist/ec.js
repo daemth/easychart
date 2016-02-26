@@ -21893,6 +21893,7 @@ function constructor(services) {
         if (!_.isUndefined(options)) {
             var links = [];
             if (options.id == activeTab) {
+                console.log(config);
                 if (generalOptions(options.panes)) {
                     links.push(
                         h('li.hover', {
@@ -23795,6 +23796,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
+                    "colors": [
+                        "#F58E16"
+                    ],
                     "xAxis": [{
                         "type": "category"
                     }]
@@ -26404,6 +26408,13 @@ return self})();
         that.set = function (_config_) {
             delete _config_.series;
             config = _.cloneDeep(_config_);
+            if(!config.xAxis){
+                config.xAxis = [{}];
+            }
+            if(!config.yAxis){
+                config.yAxis = [{}];
+            }
+            console.log(_config_);
         };
 
         that.setValue = function (path, value) {

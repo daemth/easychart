@@ -13,6 +13,9 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
+                    "colors": [
+                        "#F58E16"
+                    ],
                     "xAxis": [{
                         "type": "category"
                     }]
