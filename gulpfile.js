@@ -49,12 +49,12 @@ gulp.task('sass:watch', function () {
     gulp.watch('./src/scss/**/*.scss', ['sass']);
 });
 
-gulp.task('browserify:full', function () {
-    return build('full', 'ec.full');
+gulp.task('browserify:app', function () {
+    return build('app', 'ec');
 });
 
-gulp.task('browserify:minimal', function () {
-    return build('minimal', 'ec.minimal')
+gulp.task('browserify:render', function () {
+    return build('render', 'ec.render')
 });
 
 function build(file, output) {
@@ -71,12 +71,12 @@ function build(file, output) {
         .pipe(gulp.dest('./dist'));
 }
 
-gulp.task('watchify:full', function () {
-    return bundle('full', 'ec.full')
+gulp.task('watchify:app', function () {
+    return bundle('app', 'ec')
 });
 
-gulp.task('watchify:minimal', function () {
-    return bundle('minimal', 'ec.minimal')
+gulp.task('watchify:render', function () {
+    return bundle('render', 'ec.render')
 });
 
 
@@ -98,6 +98,6 @@ function bundle(file, output) {
     return rebundle();
 }
 
-gulp.task('build', ['sass:prod', 'browserify:full', 'browserify:minimal']);
-gulp.task('watch:full', ['sass:watch', 'watchify:full']);
-gulp.task('watch:minimal', ['watchify:minimal']);
+gulp.task('build', ['sass:prod', 'browserify:app', 'browserify:render']);
+gulp.task('watch:app', ['sass:watch', 'watchify:app']);
+gulp.task('watch:render', ['watchify:render']);

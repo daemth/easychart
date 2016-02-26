@@ -24,6 +24,7 @@ With Easychart we hope to make the beauty of Highcharts accessible to almost eve
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
 ### Handsontables 
 
+If Handsontables is loaded before eachycharts, it will use it automatically as data editor. Otherwise is it will fallback to a simple
 
 ### highlightjs
 ## options
