@@ -21887,7 +21887,6 @@ function constructor(services) {
         if (!_.isUndefined(options)) {
             var links = [];
             if (options.id == activeTab) {
-                console.log(config);
                 if (generalOptions(options.panes)) {
                     links.push(
                         h('li.hover', {
@@ -22772,8 +22771,6 @@ module.exports = constructor;
 
 
         function updateData(_data_) {
-            console.log(_data_);
-            console.log(data);
             if (!_.isEqual(_data_, data)) {
                 data = _data_;
                 mediator.trigger('treeUpdate');

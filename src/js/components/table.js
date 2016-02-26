@@ -45,8 +45,6 @@
 
 
         function updateData(_data_) {
-            console.log(_data_);
-            console.log(data);
             if (!_.isEqual(_data_, data)) {
                 data = _data_;
                 mediator.trigger('treeUpdate');
