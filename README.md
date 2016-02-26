@@ -26,7 +26,6 @@ With Easychart we hope to make the beauty of Highcharts accessible to almost eve
 
 If Handsontables is loaded before easycharts, it will use it automatically as data editor. Otherwise is it will fallback to a simple editable table.
 
-### highlightjs
 ## options
 You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
 ```javascript
