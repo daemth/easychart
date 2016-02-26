@@ -13649,8 +13649,10 @@ function extend() {
 
             },
             xAxis:[{
+
             }],
             yAxis:[{
+
             }]
         };
 
@@ -13672,6 +13674,13 @@ function extend() {
         that.set = function (_config_) {
             delete _config_.series;
             config = _.cloneDeep(_config_);
+            if(!config.xAxis){
+                config.xAxis = [{}];
+            }
+            if(!config.yAxis){
+                config.yAxis = [{}];
+            }
+            console.log(_config_);
         };
 
         that.setValue = function (path, value) {
@@ -13750,7 +13759,7 @@ function extend() {
         };
 
         that.loadTemplate = function (template) {
-            config = _.merge(template, _.cloneDeep(presets));
+            config = _.merge(_.cloneDeep(presets),template);
             configUpdate();
         };
 
