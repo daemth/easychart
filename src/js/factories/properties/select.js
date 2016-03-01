@@ -7,11 +7,15 @@
   function constructor(property, configService, configValue, disabled) {
     var options = [];
     values = property.values.replace(/\[|\]|\"|\s/g, '').split(',');
+
+      if(values.indexOf(property.defaults) == -1 && values.indexOf('') == -1 && values.indexOf('null') == -1){
+         values.unshift(property.defaults);
+      }
     _.forEach(values, function (value) {
       var selected = value == configValue;
 
       var item = h('option', {
-        value   : value,
+        value   : value === 'false' ? '' : value,
         selected: selected
       }, value === 'null' ? '' : value);
       options.push(item);
