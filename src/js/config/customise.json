@@ -13,15 +13,12 @@
             "fullname": "chart.inverted"
           },
           {
-            "fullname": "chart.zoomType"
+            "fullname": "chart.zoomType",
+            "title": "zooming"
           },
           {
-            "fullname": "plotOptions.column.stacking",
-            "title": "column stacking"
-          },
-          {
-            "fullname": "plotOptions.bar.stacking",
-            "title": "bar stacking"
+            "fullname": "plotOptions.series.stacking",
+            "title": "stacking"
           }
         ]
       },
@@ -51,6 +48,25 @@
     ]
   },
   {
+    "id": "titles",
+    "panelTitle": "Titles",
+    "panes": [
+      {
+        "title": "Main titles",
+        "options": [
+          {
+            "fullname": "title.text",
+            "title": "chart title"
+          },
+          {
+            "fullname": "subtitle.text",
+            "title": "chart subtitle"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "colorsAndBorders",
     "panelTitle": "Colors and borders",
     "panes": [
@@ -58,8 +74,10 @@
         "title": "default colors",
         "options": [
           {
-            "fullname": "colors"
+            "fullname": "colors",
+            "title": "Series colors"
           }
+
         ]
       },
       {
@@ -93,33 +111,6 @@
           },
           {
             "fullname": "chart.plotBorderColor"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "titles",
-    "panelTitle": "Titles",
-    "panes": [
-      {
-        "title": "Titles",
-        "options": [
-          {
-            "fullname": "title.text",
-            "title": "chart title"
-          },
-          {
-            "fullname": "subtitle.text",
-            "title": "chart subtitle"
-          }
-        ]
-      },
-      {
-        "title": "Title advanced",
-        "options": [
-          {
-            "fullname": "title.style"
           }
         ]
       }
@@ -233,6 +224,70 @@
     ]
   },
   {
+    "id": "series",
+    "panelTitle": "Series",
+    "panes": [
+      {
+        "title": "Series configuration",
+        "options": [
+          {
+            "fullname": "series.name"
+          },
+          {
+            "fullname": "series.type"
+          },
+          {
+            "fullname": "series.index"
+          },
+          {
+            "fullname": "series.dashStyle"
+          },
+          {
+            "fullname": "series.marker.enabled"
+          },
+          {
+            "fullname": "series.negativeColor"
+          }
+        ],
+        "panes":[
+          {
+            "title": "axis",
+            "options": [
+              {
+                "fullname": "series.xaxis"
+              },
+              {
+                "fullname": "series.yaxis"
+              },
+              {
+                "fullname": "series.negativeColor"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "valueLabels",
+    "panelTitle": "Value labels",
+    "panes": [
+      {
+        "title": "Value labels",
+        "options": [
+          {
+            "fullname": "plotOptions.series.dataLabels.enabled",
+            "title": "enable value labels for all series"
+          },
+          {
+            "fullname": "plotOptions.series.dataLabels.format",
+            "title": "data label format"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "legend",
     "panelTitle": "Legend",
     "panes": [
@@ -257,10 +312,6 @@
             "fullname": "legend.verticalAlign"
           }
         ]
-      },
-      {
-        "title": "Color and border",
-        "options": []
       }
     ]
   },
@@ -287,72 +338,68 @@
       },
       {
         "title": "Color and border",
-        "options": []
+        "options": [
+          {
+            "fullname":"tooltip.backgroundColor"
+          },
+          {
+            "fullname":"tooltip.borderWidth"
+          },
+          {
+            "fullname":"tooltip.borderRadius"
+          },
+          {
+            "fullname":"tooltip.borderColor"
+          }
+        ]
       }
     ]
   },
+
   {
-    "id": "exportingCredits",
-    "panelTitle": "Exporting/Credits",
+    "id": "exporting",
+    "panelTitle": "Exporting",
     "panes": [
       {
         "title": "Exporting",
         "options": [
           {
             "fullname": "exporting.enabled"
-          }
-        ]
-      },
-      {
-        "title": "Credits",
-        "options": [
-          {
-            "fullname": "credits.enabled"
           },
           {
-            "fullname": "credits.text"
+            "fullname": "exporting.sourceWidth",
+            "title": "exported width"
           },
           {
-            "fullname": "credits.href"
+            "fullname": "exporting.sourceHeight",
+            "title": "exported height"
+          },
+          {
+            "fullname": "exporting.scale",
+            "title": "scaling factor"
           }
         ]
       }
     ]
   },
   {
-    "id": "series",
-    "panelTitle": "Series",
+    "id": "credits",
+    "panelTitle": "Credits",
     "panes": [
       {
-        "title": "Series configuration",
+        "title": "Credits",
         "options": [
           {
-            "fullname": "series.name"
+            "fullname": "credits.enabled",
+            "title": "enable credits"
           },
           {
-            "fullname": "series.type"
+            "fullname": "credits.text",
+            "title": "credits text"
           },
           {
-            "fullname": "series.index"
-          },
-          {
-            "fullname": "series.dashStyle"
-          },
-          {
-            "fullname": "series.marker.enabled"
-          }
-        ],
-        "panes":[
-          {
-            "title": "axis",
-            "options": [
-              {
-                "fullname": "series.xaxis"
-              },
-              {
-                "fullname": "series.yaxis"
-              }
-            ]
+            "fullname": "credits.href",
+            "title": "link"
           }
         ]
       }
