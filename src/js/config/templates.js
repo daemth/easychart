@@ -1,5 +1,56 @@
 var templates = [
     {
+        "id": "clean",
+        "type": "clean",
+        "icon": "test",
+        "templates": [
+            {
+                "id": "basic",
+                "icon": "test",
+                "title": "clean",
+                "desc": "",
+                "definition": {
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+                        tickWidth: 0,
+                        labels: {
+                            enabled: false
+                        }
+
+                    },
+                    yAxis: {
+                        title: '',
+                        labels: {
+                            enabled: false
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            marker: {
+                                enabled: false
+                            }
+                        }
+                    },
+                    exporting:
+                    {
+                        sourceWidth: 100,
+                        sourceHeight: 80
+                    }
+                }
+            }
+
+        ]
+    },
+
+    {
         "id": "line",
         "type": "Line charts",
         "icon": "line",
@@ -13,9 +64,6 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "colors": [
-                        "#F58E16"
-                    ],
                     "xAxis": [{
                         "type": "category"
                     }]

@@ -19,6 +19,10 @@
           {
             "fullname": "plotOptions.series.stacking",
             "title": "stacking"
+          },
+          {
+            "fullname": "plotOptions.series.step",
+            "title": "steps"
           }
         ]
       },
