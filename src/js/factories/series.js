@@ -115,6 +115,7 @@
         var vpp;
         switch (type) {
             case 'scatter':
+            case 'polygon':
                 vpp = {
                     points: 2,
                     definition: ['x', 'y']
@@ -151,7 +152,6 @@
             case 'spline':
             case 'treemap':
             case 'solidgauge':
-            case 'polygon':
             case 'pyramid':
             case 'pie':
             case 'funnel':
