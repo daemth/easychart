@@ -37,7 +37,7 @@
                     {
                         "name": "chart--zoomType",
                         "fullname": "chart.zoomType",
-                        "title": "zoomType",
+                        "title": "zooming",
                         "parent": "chart",
                         "isParent": false,
                         "returnType": "String",
@@ -48,10 +48,10 @@
                         "deprecated": false
                     },
                     {
-                        "name": "plotOptions-column--stacking",
-                        "fullname": "plotOptions.column.stacking",
-                        "title": "column stacking",
-                        "parent": "plotOptions-column",
+                        "name": "plotOptions-series--stacking",
+                        "fullname": "plotOptions.series.stacking",
+                        "title": "stacking",
+                        "parent": "plotOptions-series",
                         "isParent": false,
                         "returnType": "String",
                         "values": "[null, \"normal\", \"percent\"]",
@@ -61,16 +61,17 @@
                         "deprecated": false
                     },
                     {
-                        "name": "plotOptions-bar--stacking",
-                        "fullname": "plotOptions.bar.stacking",
-                        "title": "bar stacking",
-                        "parent": "plotOptions-bar",
+                        "name": "plotOptions-series--step",
+                        "fullname": "plotOptions.series.step",
+                        "title": "step(line)",
+                        "parent": "plotOptions-series",
                         "isParent": false,
                         "returnType": "String",
-                        "values": "[null, \"normal\", \"percent\"]",
-                        "description": "Whether to stack the values of each series on top of each other. Possible values are null to disable, \"normal\" to stack by value or \"percent\".",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-area/\" target=\"_blank\">area</a> with \"normal\" stacking. \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-area/\" target=\"_blank\">area</a> with \"percent\" stacking.",
-                        "seeAlso": "<a href=\"#yAxis.reversedStacks\">yAxis.reversedStacks</a>",
+                        "defaults": "false",
+                        "values": "[\"left\", \"center\", \"right\"]",
+                        "since": "1.2.5",
+                        "description": "Whether to apply steps to the line. Possible values are <code>left</code>, <code>center</code> and <code>right</code>. Prior to 2.3.5, only <code>left</code> was supported.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/line-step/\" target=\"_blank\">Different step line options</a>. <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/area-step/\" target=\"_blank\">Stepped, stacked area</a>.",
                         "deprecated": false
                     }
                 ]
@@ -156,6 +157,38 @@
         ]
     },
     {
+        "id": "titles",
+        "panelTitle": "Titles",
+        "panes": [
+            {
+                "title": "Main titles",
+                "options": [
+                    {
+                        "name": "title--text",
+                        "fullname": "title.text",
+                        "title": "chart title",
+                        "parent": "title",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "Chart title",
+                        "description": "The title of the chart. To disable the title, set the <code>text</code> to <code>null</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/text/\" target=\"_blank\">Custom title</a>"
+                    },
+                    {
+                        "name": "subtitle--text",
+                        "fullname": "subtitle.text",
+                        "title": "chart subtitle",
+                        "parent": "subtitle",
+                        "isParent": false,
+                        "returnType": "String",
+                        "description": "The subtitle of the chart.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text/\" target=\"_blank\">Custom subtitle</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text-formatted/\" target=\"_blank\">formatted and linked text.</a>"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "id": "colorsAndBorders",
         "panelTitle": "Colors and borders",
         "panes": [
@@ -165,7 +198,7 @@
                     {
                         "name": "colors",
                         "fullname": "colors",
-                        "title": "colors",
+                        "title": "Series colors",
                         "isParent": false,
                         "returnType": "Array<Color>",
                         "defaults": "[ \"#7cb5ec\" , \"#434348\" , \"#90ed7d\" , \"#f7a35c\" , \"#8085e9\" , \"#f15c80\" , \"#e4d354\" , \"#2b908f\" , \"#f45b5b\" , \"#91e8e1\"]",
@@ -272,55 +305,6 @@
                         "defaults": "#C0C0C0",
                         "description": "The color of the inner chart or plot area border.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/plotbordercolor/\" target=\"_blank\">Blue border</a>"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": "titles",
-        "panelTitle": "Titles",
-        "panes": [
-            {
-                "title": "Titles",
-                "options": [
-                    {
-                        "name": "title--text",
-                        "fullname": "title.text",
-                        "title": "chart title",
-                        "parent": "title",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "Chart title",
-                        "description": "The title of the chart. To disable the title, set the <code>text</code> to <code>null</code>.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/text/\" target=\"_blank\">Custom title</a>"
-                    },
-                    {
-                        "name": "subtitle--text",
-                        "fullname": "subtitle.text",
-                        "title": "chart subtitle",
-                        "parent": "subtitle",
-                        "isParent": false,
-                        "returnType": "String",
-                        "description": "The subtitle of the chart.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text/\" target=\"_blank\">Custom subtitle</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text-formatted/\" target=\"_blank\">formatted and linked text.</a>"
-                    }
-                ]
-            },
-            {
-                "title": "Title advanced",
-                "options": [
-                    {
-                        "name": "title--style",
-                        "fullname": "title.style",
-                        "title": "style",
-                        "parent": "title",
-                        "isParent": false,
-                        "returnType": "CSSObject",
-                        "defaults": "{ \"color\": \"#333333\", \"fontSize\": \"18px\" }",
-                        "description": "CSS styles for the title. Use this for font styling, but use <code>align</code>, <code>x</code> and <code>y</code> for text alignment.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/style/\" target=\"_blank\">Custom color and weight</a>",
-                        "deprecated": false
                     }
                 ]
             }
@@ -625,204 +609,6 @@
         ]
     },
     {
-        "id": "legend",
-        "panelTitle": "Legend",
-        "panes": [
-            {
-                "title": "General",
-                "options": [
-                    {
-                        "name": "legend--enabled",
-                        "fullname": "legend.enabled",
-                        "title": "enabled",
-                        "parent": "legend",
-                        "isParent": false,
-                        "returnType": "Boolean",
-                        "defaults": "true",
-                        "description": "Enable or disable the legend.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/enabled-false/\" target=\"_blank\">Legend disabled</a>"
-                    },
-                    {
-                        "name": "legend--layout",
-                        "fullname": "legend.layout",
-                        "title": "layout",
-                        "parent": "legend",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "horizontal",
-                        "values": "[\"horizontal\", \"vertical\"]",
-                        "description": "The layout of the legend items. Can be one of \"horizontal\" or \"vertical\".",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/layout-horizontal/\" target=\"_blank\">Horizontal by default</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/layout-vertical/\" target=\"_blank\">vertical</a>"
-                    }
-                ]
-            },
-            {
-                "title": "Placement",
-                "options": [
-                    {
-                        "name": "legend--align",
-                        "fullname": "legend.align",
-                        "title": "align",
-                        "parent": "legend",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "center",
-                        "values": "[\"left\", \"center\", \"right\"]",
-                        "since": "2.0",
-                        "description": "<p>The horizontal alignment of the legend box within the chart area. Valid values are <code>left</code>, <code>center</code> and <code>right</code>.</p>\r\n\r\n<p>In the case that the legend is aligned in a corner position, the <code>layout</code> option will determine whether to place it above/below or on the side of the plot area.</p>",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/align/\" target=\"_blank\">Legend at the right of the chart</a>",
-                        "deprecated": false
-                    },
-                    {
-                        "name": "legend--verticalAlign",
-                        "fullname": "legend.verticalAlign",
-                        "title": "verticalAlign",
-                        "parent": "legend",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "bottom",
-                        "values": "[\"top\", \"middle\", \"bottom\"]",
-                        "since": "2.0",
-                        "description": "<p>The vertical alignment of the legend box. Can be one of <code>top</code>, <code>middle</code> or  <code>bottom</code>. Vertical position can be further determined by the <code>y</code> option.</p>\r\n\r\n<p>In the case that the legend is aligned in a corner position, the <code>layout</code> option will determine whether to place it above/below or on the side of the plot area.</p>",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/verticalalign/\" target=\"_blank\">Legend 100px from the top of the chart</a>",
-                        "deprecated": false
-                    }
-                ]
-            },
-            {
-                "title": "Color and border",
-                "options": []
-            }
-        ]
-    },
-    {
-        "id": "tooltip",
-        "panelTitle": "Tooltip",
-        "panes": [
-            {
-                "title": "General",
-                "options": [
-                    {
-                        "name": "tooltip--headerFormat",
-                        "fullname": "tooltip.headerFormat",
-                        "title": "headerFormat",
-                        "parent": "tooltip",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "",
-                        "values": "",
-                        "since": "",
-                        "description": "<p>The HTML of the tooltip header line. Variables are enclosed by curly brackets. Available variables\t\t\tare <code>point.key</code>, <code>series.name</code>, <code>series.color</code> and other members from the <code>point</code> and <code>series</code> objects. The <code>point.key</code> variable contains the category name, x value or datetime string depending on the type of axis. For datetime axes, the <code>point.key</code> date format can be set using tooltip.xDateFormat.</p>\r \r\n<p>Defaults to <code>&lt;span style=\"font-size: 10px\"&gt;{point.key}&lt;/span&gt;&lt;br/&gt;</code></p>",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/footerformat/\" target=\"_blank\">A HTML table in the tooltip</a>",
-                        "seeAlso": "",
-                        "deprecated": false
-                    },
-                    {
-                        "name": "tooltip--pointFormat",
-                        "fullname": "tooltip.pointFormat",
-                        "title": "pointFormat",
-                        "parent": "tooltip",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "<span style=\"color:{point.color}\">\\u25CF</span> {series.name}: <b>{point.y}</b><br/>",
-                        "since": "2.2",
-                        "description": "<p>The HTML of the point's line in the tooltip. Variables are enclosed by curly brackets. Available variables are point.x, point.y, series.name and series.color and other properties on the same form. Furthermore,  point.y can be extended by the <code>tooltip.valuePrefix</code> and <code>tooltip.valueSuffix</code> variables. This can also be overridden for each series, which makes it a good hook for displaying units.</p>",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/pointformat/\" target=\"_blank\">A different point format with value suffix</a>",
-                        "deprecated": false
-                    },
-                    {
-                        "name": "tooltip--valuePrefix",
-                        "fullname": "tooltip.valuePrefix",
-                        "title": "valuePrefix",
-                        "parent": "tooltip",
-                        "isParent": false,
-                        "returnType": "String",
-                        "since": "2.2",
-                        "description": "A string to prepend to each series' y value. Overridable in each series' tooltip options object.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/valuedecimals/\" target=\"_blank\">Set decimals, prefix and suffix for the value</a>"
-                    },
-                    {
-                        "name": "tooltip--valueSuffix",
-                        "fullname": "tooltip.valueSuffix",
-                        "title": "valueSuffix",
-                        "parent": "tooltip",
-                        "isParent": false,
-                        "returnType": "String",
-                        "since": "2.2",
-                        "description": "A string to append to each series' y value. Overridable in each series' tooltip options object.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/valuedecimals/\" target=\"_blank\">Set decimals, prefix and suffix for the value</a>"
-                    }
-                ]
-            },
-            {
-                "title": "Color and border",
-                "options": []
-            }
-        ]
-    },
-    {
-        "id": "exportingCredits",
-        "panelTitle": "Exporting/Credits",
-        "panes": [
-            {
-                "title": "Exporting",
-                "options": [
-                    {
-                        "name": "exporting--enabled",
-                        "fullname": "exporting.enabled",
-                        "title": "enabled",
-                        "parent": "exporting",
-                        "isParent": false,
-                        "returnType": "Boolean",
-                        "defaults": "true",
-                        "since": "2.0",
-                        "description": "Whether to enable the exporting module. Disabling the module will hide the context button, but API methods will still be available.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/exporting/enabled-false/\" target=\"_blank\">Exporting module is loaded but disabled</a>",
-                        "deprecated": false
-                    }
-                ]
-            },
-            {
-                "title": "Credits",
-                "options": [
-                    {
-                        "name": "credits--enabled",
-                        "fullname": "credits.enabled",
-                        "title": "enabled",
-                        "parent": "credits",
-                        "isParent": false,
-                        "returnType": "Boolean",
-                        "defaults": "true",
-                        "description": "Whether to show the credits text.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/enabled-false/\" target=\"_blank\">Credits disabled</a>"
-                    },
-                    {
-                        "name": "credits--text",
-                        "fullname": "credits.text",
-                        "title": "text",
-                        "parent": "credits",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "Highcharts.com",
-                        "description": "The text for the credits label.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/href/\" target=\"_blank\">Custom URL and text</a>"
-                    },
-                    {
-                        "name": "credits--href",
-                        "fullname": "credits.href",
-                        "title": "href",
-                        "parent": "credits",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "http://www.highcharts.com",
-                        "description": "The URL for the credits label.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/href/\" target=\"_blank\">Custom URL and text</a>"
-                    }
-                ]
-            }
-        ]
-    },
-    {
         "id": "series",
         "panelTitle": "Series",
         "panes": [
@@ -895,6 +681,336 @@
                                 "deprecated": false
                             }
                         ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "valueLabels",
+        "panelTitle": "Value labels",
+        "panes": [
+            {
+                "title": "Value labels",
+                "options": [
+                    {
+                        "name": "plotOptions-series-dataLabels--enabled",
+                        "fullname": "plotOptions.series.dataLabels.enabled",
+                        "title": "enable value labels for all series",
+                        "parent": "plotOptions-series-dataLabels",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "false",
+                        "description": "Enable or disable the data labels.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-datalabels-enabled/\" target=\"_blank\">Data labels enabled</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "plotOptions-series-dataLabels--format",
+                        "fullname": "plotOptions.series.dataLabels.format",
+                        "title": "data label format",
+                        "parent": "plotOptions-series-dataLabels",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "{y}",
+                        "since": "3.0",
+                        "description": "A <a href=\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\">format string</a> for the data label. Available variables are the same as for <code>formatter</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-datalabels-format/\" target=\"_blank\">Add a unit</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "legend",
+        "panelTitle": "Legend",
+        "panes": [
+            {
+                "title": "General",
+                "options": [
+                    {
+                        "name": "legend--enabled",
+                        "fullname": "legend.enabled",
+                        "title": "enabled",
+                        "parent": "legend",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Enable or disable the legend.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/enabled-false/\" target=\"_blank\">Legend disabled</a>"
+                    },
+                    {
+                        "name": "legend--layout",
+                        "fullname": "legend.layout",
+                        "title": "layout",
+                        "parent": "legend",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "horizontal",
+                        "values": "[\"horizontal\", \"vertical\"]",
+                        "description": "The layout of the legend items. Can be one of \"horizontal\" or \"vertical\".",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/layout-horizontal/\" target=\"_blank\">Horizontal by default</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/layout-vertical/\" target=\"_blank\">vertical</a>"
+                    }
+                ]
+            },
+            {
+                "title": "Placement",
+                "options": [
+                    {
+                        "name": "legend--align",
+                        "fullname": "legend.align",
+                        "title": "align",
+                        "parent": "legend",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "center",
+                        "values": "[\"left\", \"center\", \"right\"]",
+                        "since": "2.0",
+                        "description": "<p>The horizontal alignment of the legend box within the chart area. Valid values are <code>left</code>, <code>center</code> and <code>right</code>.</p>\r\n\r\n<p>In the case that the legend is aligned in a corner position, the <code>layout</code> option will determine whether to place it above/below or on the side of the plot area.</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/align/\" target=\"_blank\">Legend at the right of the chart</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "legend--verticalAlign",
+                        "fullname": "legend.verticalAlign",
+                        "title": "verticalAlign",
+                        "parent": "legend",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "bottom",
+                        "values": "[\"top\", \"middle\", \"bottom\"]",
+                        "since": "2.0",
+                        "description": "<p>The vertical alignment of the legend box. Can be one of <code>top</code>, <code>middle</code> or  <code>bottom</code>. Vertical position can be further determined by the <code>y</code> option.</p>\r\n\r\n<p>In the case that the legend is aligned in a corner position, the <code>layout</code> option will determine whether to place it above/below or on the side of the plot area.</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/legend/verticalalign/\" target=\"_blank\">Legend 100px from the top of the chart</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "tooltip",
+        "panelTitle": "Tooltip",
+        "panes": [
+            {
+                "title": "General",
+                "options": [
+                    {
+                        "name": "tooltip--headerFormat",
+                        "fullname": "tooltip.headerFormat",
+                        "title": "headerFormat",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "",
+                        "values": "",
+                        "since": "",
+                        "description": "<p>The HTML of the tooltip header line. Variables are enclosed by curly brackets. Available variables\t\t\tare <code>point.key</code>, <code>series.name</code>, <code>series.color</code> and other members from the <code>point</code> and <code>series</code> objects. The <code>point.key</code> variable contains the category name, x value or datetime string depending on the type of axis. For datetime axes, the <code>point.key</code> date format can be set using tooltip.xDateFormat.</p>\r \r\n<p>Defaults to <code>&lt;span style=\"font-size: 10px\"&gt;{point.key}&lt;/span&gt;&lt;br/&gt;</code></p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/footerformat/\" target=\"_blank\">A HTML table in the tooltip</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--pointFormat",
+                        "fullname": "tooltip.pointFormat",
+                        "title": "pointFormat",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "<span style=\"color:{point.color}\">\\u25CF</span> {series.name}: <b>{point.y}</b><br/>",
+                        "since": "2.2",
+                        "description": "<p>The HTML of the point's line in the tooltip. Variables are enclosed by curly brackets. Available variables are point.x, point.y, series.name and series.color and other properties on the same form. Furthermore,  point.y can be extended by the <code>tooltip.valuePrefix</code> and <code>tooltip.valueSuffix</code> variables. This can also be overridden for each series, which makes it a good hook for displaying units.</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/pointformat/\" target=\"_blank\">A different point format with value suffix</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--valuePrefix",
+                        "fullname": "tooltip.valuePrefix",
+                        "title": "valuePrefix",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "String",
+                        "since": "2.2",
+                        "description": "A string to prepend to each series' y value. Overridable in each series' tooltip options object.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/valuedecimals/\" target=\"_blank\">Set decimals, prefix and suffix for the value</a>"
+                    },
+                    {
+                        "name": "tooltip--valueSuffix",
+                        "fullname": "tooltip.valueSuffix",
+                        "title": "valueSuffix",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "String",
+                        "since": "2.2",
+                        "description": "A string to append to each series' y value. Overridable in each series' tooltip options object.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/valuedecimals/\" target=\"_blank\">Set decimals, prefix and suffix for the value</a>"
+                    }
+                ]
+            },
+            {
+                "title": "Color and border",
+                "options": [
+                    {
+                        "name": "tooltip--backgroundColor",
+                        "fullname": "tooltip.backgroundColor",
+                        "title": "backgroundColor",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "rgba(255, 255, 255, 0.85)",
+                        "description": "The background color or gradient for the tooltip.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/backgroundcolor-solid/\" target=\"_blank\">Yellowish background</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/backgroundcolor-gradient/\" target=\"_blank\">gradient</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--borderWidth",
+                        "fullname": "tooltip.borderWidth",
+                        "title": "borderWidth",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "1",
+                        "description": "The pixel width of the tooltip border.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-default/\" target=\"_blank\">2px by default,</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/borderwidth/\" target=\"_blank\">no border (shadow only)</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--borderRadius",
+                        "fullname": "tooltip.borderRadius",
+                        "title": "borderRadius",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "3",
+                        "description": "The radius of the rounded border corners.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-default/\" target=\"_blank\">5px by default</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/borderradius-0/\" target=\"_blank\">square borders</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--borderColor",
+                        "fullname": "tooltip.borderColor",
+                        "title": "borderColor",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "null",
+                        "description": "The color of the tooltip border. When <code>null</code>, the border takes the color of the corresponding series or point.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-default/\" target=\"_blank\">Follow series by default</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-black/\" target=\"_blank\">black border</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "exporting",
+        "panelTitle": "Exporting",
+        "panes": [
+            {
+                "title": "Exporting",
+                "options": [
+                    {
+                        "name": "exporting--enabled",
+                        "fullname": "exporting.enabled",
+                        "title": "enabled",
+                        "parent": "exporting",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "since": "2.0",
+                        "description": "Whether to enable the exporting module. Disabling the module will hide the context button, but API methods will still be available.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/exporting/enabled-false/\" target=\"_blank\">Exporting module is loaded but disabled</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "exporting--sourceWidth",
+                        "fullname": "exporting.sourceWidth",
+                        "title": "exported width",
+                        "parent": "exporting",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "The width of the original chart when exported, unless an explicit <a href=\"#chart.width\">chart.width</a> is set. The width exported raster image is then multiplied by <a href=\"#exporting.scale\">scale</a>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/exporting/sourcewidth/\" target=\"_blank\">Source size demo</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "exporting--sourceHeight",
+                        "fullname": "exporting.sourceHeight",
+                        "title": "exported height",
+                        "parent": "exporting",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "Analogous to <a href=\"#exporting.sourceWidth\">sourceWidth</a>",
+                        "demo": "",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "exporting--scale",
+                        "fullname": "exporting.scale",
+                        "title": "scaling factor",
+                        "parent": "exporting",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "2",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "Defines the scale or zoom factor for the exported image compared to the on-screen display. While for instance a 600px wide chart may look good on a website, it will look bad in print. The default scale of 2 makes this chart export to a 1200px PNG or JPG. ",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/exporting/scale/\" target=\"_blank\">Scale demonstrated</a>",
+                        "seeAlso": "<a href=\"#chart.width\">chart.width</a>, <a href=\"#exporting.sourceWidth\">exporting.sourceWidth</a>",
+                        "deprecated": false
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "credits",
+        "panelTitle": "Credits",
+        "panes": [
+            {
+                "title": "Credits",
+                "options": [
+                    {
+                        "name": "credits--enabled",
+                        "fullname": "credits.enabled",
+                        "title": "enable credits",
+                        "parent": "credits",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Whether to show the credits text.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/enabled-false/\" target=\"_blank\">Credits disabled</a>"
+                    },
+                    {
+                        "name": "credits--text",
+                        "fullname": "credits.text",
+                        "title": "credits text",
+                        "parent": "credits",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "Highcharts.com",
+                        "description": "The text for the credits label.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/href/\" target=\"_blank\">Custom URL and text</a>"
+                    },
+                    {
+                        "name": "credits--href",
+                        "fullname": "credits.href",
+                        "title": "link",
+                        "parent": "credits",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "http://www.highcharts.com",
+                        "description": "The URL for the credits label.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/credits/href/\" target=\"_blank\">Custom URL and text</a>"
                     }
                 ]
             }

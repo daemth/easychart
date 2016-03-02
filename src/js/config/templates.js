@@ -10,6 +10,11 @@ var templates = [
                 "title": "clean",
                 "desc": "",
                 "definition": {
+                    chart:{
+                      type:'area'
+                    },
+
+                    colors:['#e5da04','#3ecbab'],
                     title: {
                         text: ''
                     },
@@ -36,7 +41,8 @@ var templates = [
                         series: {
                             marker: {
                                 enabled: false
-                            }
+                            },
+                            "negativeColor": "#ff0000"
                         }
                     },
                     exporting:
@@ -53,7 +59,7 @@ var templates = [
     {
         "id": "line",
         "type": "Line charts",
-        "icon": "line",
+        "icon": "line_basic",
         "templates": [
             {
                 "id": "basic",
@@ -127,7 +133,6 @@ var templates = [
             },
             {
                 "id": "splineLogarithmic",
-
                 "title": "Logarithmic",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -219,7 +224,7 @@ var templates = [
                     }],
                     "plotOptions": {
                         "series": {
-                            "negativeColor": "#0088FF"
+                            "negativeColor": "#ff0000"
                         }
                     }
                 }
@@ -247,7 +252,7 @@ var templates = [
     {
         "id": "area",
         "type": "Area charts",
-        "icon": "area",
+        "icon": "area_basic",
         "templates": [
             {
                 "id": "basic",
@@ -264,6 +269,7 @@ var templates = [
             },
             {
                 "id": "withLabels",
+                "icon": "area_basic_labels",
                 "title": "Area with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -284,6 +290,7 @@ var templates = [
             },
             {
                 "id": "stacked",
+                "icon": "area_stacked",
                 "title": "Stacked",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -302,6 +309,7 @@ var templates = [
             },
             {
                 "id": "stackedWithLabels",
+                "icon": "area_stacked_labels",
                 "title": "Stacked with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -323,6 +331,7 @@ var templates = [
             },
             {
                 "id": "stackedPercentage",
+                "icon": "area_stacked_percentage",
                 "title": "Stacked percentage",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -341,6 +350,7 @@ var templates = [
             },
             {
                 "id": "inverted",
+                "icon": "area_inverted",
                 "title": "Inverted",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -355,6 +365,7 @@ var templates = [
             },
             {
                 "id": "invertedWithLabels",
+                "icon": "area_inverted_labels",
                 "title": "Inverted with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -377,6 +388,7 @@ var templates = [
             },
             {
                 "id": "stepLine",
+                "icon": "area_step",
                 "title": "Step line",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -395,6 +407,7 @@ var templates = [
             },
             {
                 "id": "negativeColor",
+                "icon": "area_negative_color",
                 "title": "Negative color",
                 "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {

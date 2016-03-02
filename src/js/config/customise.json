@@ -22,7 +22,7 @@
           },
           {
             "fullname": "plotOptions.series.step",
-            "title": "steps"
+            "title": "step(line)"
           }
         ]
       },

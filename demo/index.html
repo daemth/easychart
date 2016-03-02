@@ -25,16 +25,11 @@
         var container = document.getElementById('container');
         window.easychart = new ec({
             element: container,
-            data:[['move', 'excersise', 'stand'], [80,65,50]],
+            dataUrl:'data/iconData.csv',
             presets:{
                 chart: {
                     animation: false
-                },
-                "colors": [
-                    "#ECFF7C",
-                    "#000000",
-                    "#FF0000"
-                ]
+                }
             },
             customise: true,
             debugger: true
