@@ -525,7 +525,7 @@ var templates = [
     {
         "id": "column",
         "type": "Column charts",
-        "icon": "column",
+        "icon": "column_basic",
         "templates": [
             {
                 "id": "basic",
@@ -543,6 +543,7 @@ var templates = [
             {
                 "id": "withLabels",
                 "title": "With labels",
+                "icon": "column_basic_labels",
                 "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -563,6 +564,7 @@ var templates = [
             {
                 "id": "fixedPlacement",
                 "title": "Column with fixed placement",
+                "icon": "column_fixed_placement",
                 "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     chart: {
@@ -620,34 +622,9 @@ var templates = [
                 }
             },
             {
-                "id": "3d",
-                "title": "Column 3D",
-                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "column",
-                        "margin": 75,
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 15,
-                            "beta": 15,
-                            "depth": 50,
-                            "viewDistance": 15
-                        }
-                    },
-                    "plotOptions": {
-                        "column": {
-                            "depth": 25
-                        }
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }]
-                }
-            },
-            {
                 "id": "stacked",
                 "title": "Stacked",
+                "icon": "column_stacked",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -666,6 +643,7 @@ var templates = [
             {
                 "id": "stackedWithLabels",
                 "title": "Stacked with labels",
+                "icon": "column_stacked_labels",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -685,37 +663,9 @@ var templates = [
                 }
             },
             {
-                "id": "stacked3d",
-                "title": "Stacked 3D",
-                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "column",
-                        "margin": 75,
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 15,
-                            "beta": 15,
-                            "depth": 50,
-                            "viewDistance": 15
-                        }
-                    },
-                    "plotOptions": {
-                        "column": {
-                            "depth": 25
-                        },
-                        "series": {
-                            "stacking": "normal"
-                        }
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }]
-                }
-            },
-            {
                 "id": "stackedPercent",
                 "title": "Stacked percent",
+                "icon": "column_stacked_percentage",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -734,6 +684,7 @@ var templates = [
             {
                 "id": "stackedPercentWithLabels",
                 "title": "Stacked percent with labels",
+                "icon": "column_stacked_percentage_labels",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -755,6 +706,7 @@ var templates = [
             {
                 "id": "negativeColor",
                 "title": "Negative color",
+                "icon": "column_negative_color",
                 "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -842,6 +794,7 @@ var templates = [
             {
                 "id": "packed",
                 "title": "Packed Columns",
+                "icon": "column_packed",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -1976,6 +1929,68 @@ var templates = [
                         dataLabels: {
                             enabled: false
                         }
+                    }]
+                }
+            }
+        ]
+    },
+    {
+        "id": "3d",
+        "type": "3D charts",
+        "icon": "column_basic",
+        "templates": [
+            {
+                "id": "3d",
+                "title": "Column 3D",
+                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "margin": 75,
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 15,
+                            "beta": 15,
+                            "depth": 50,
+                            "viewDistance": 15
+                        }
+                    },
+                    "plotOptions": {
+                        "column": {
+                            "depth": 25
+                        }
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            },
+            {
+                "id": "stacked3d",
+                "title": "Stacked 3D",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "margin": 75,
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 15,
+                            "beta": 15,
+                            "depth": 50,
+                            "viewDistance": 15
+                        }
+                    },
+                    "plotOptions": {
+                        "column": {
+                            "depth": 25
+                        },
+                        "series": {
+                            "stacking": "normal"
+                        }
+                    },
+                    "xAxis": [{
+                        "type": "category"
                     }]
                 }
             }
