@@ -450,99 +450,6 @@ module.exports = {
 },{}],6:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],7:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],8:[function(require,module,exports){
 module.exports = function(obj) {
     if (typeof obj === 'string') return camelCase(obj);
     return walk(obj);
@@ -603,7 +510,7 @@ function reduce (xs, f, acc) {
     return acc;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -766,7 +673,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -878,7 +785,7 @@ Emitter.prototype.hasListeners = function(event){
 
 }(this.applitude || this));
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = addEvent
@@ -898,7 +805,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":21}],12:[function(require,module,exports){
+},{"ev-store":21}],11:[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -1087,7 +994,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":11,"./proxy-event.js":14,"./remove-event.js":15,"ev-store":21,"global/document":26,"weakmap-shim/create-store":129}],13:[function(require,module,exports){
+},{"./add-event.js":10,"./proxy-event.js":14,"./remove-event.js":15,"ev-store":21,"global/document":24,"weakmap-shim/create-store":135}],12:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1149,7 +1056,29 @@ function Delegator(opts) {
 Delegator.allocateHandle = DOMDelegator.allocateHandle;
 Delegator.transformHandle = DOMDelegator.transformHandle;
 
-},{"./dom-delegator.js":12,"cuid":10,"global/document":26,"individual":31}],14:[function(require,module,exports){
+},{"./dom-delegator.js":11,"cuid":9,"global/document":24,"individual":13}],13:[function(require,module,exports){
+(function (global){
+var root = typeof window !== 'undefined' ?
+    window : typeof global !== 'undefined' ?
+    global : {};
+
+module.exports = Individual
+
+function Individual(key, value) {
+    if (root[key]) {
+        return root[key]
+    }
+
+    Object.defineProperty(root, key, {
+        value: value
+        , configurable: true
+    })
+
+    return value
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],14:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -1229,7 +1158,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":32}],15:[function(require,module,exports){
+},{"inherits":31}],15:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -1338,7 +1267,7 @@ function numToString(value) {
   return value;
 }
 
-},{"./lib/properties":18,"prefix":92,"trim":100}],17:[function(require,module,exports){
+},{"./lib/properties":18,"prefix":97,"trim":106}],17:[function(require,module,exports){
 'use strict';
 
 exports = module.exports = compose;
@@ -1478,7 +1407,7 @@ function defaultUnit(unit) {
   };
 }
 
-},{"./compose":17,"trim":100}],19:[function(require,module,exports){
+},{"./compose":17,"trim":106}],19:[function(require,module,exports){
 module.exports = dragDrop
 
 var flatten = require('flatten')
@@ -1618,7 +1547,7 @@ function toArray (list) {
   return Array.prototype.slice.call(list || [], 0)
 }
 
-},{"flatten":24,"run-parallel":94}],20:[function(require,module,exports){
+},{"flatten":22,"run-parallel":100}],20:[function(require,module,exports){
 var camelize = require("camelize")
 var template = require("string-template")
 var extend = require("xtend/mutable")
@@ -1668,7 +1597,7 @@ function TypedError(args) {
 }
 
 
-},{"camelize":8,"string-template":98,"xtend/mutable":135}],21:[function(require,module,exports){
+},{"camelize":7,"string-template":104,"xtend/mutable":141}],21:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -1690,54 +1619,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":23}],22:[function(require,module,exports){
-(function (global){
-'use strict';
-
-/*global window, global*/
-
-var root = typeof window !== 'undefined' ?
-    window : typeof global !== 'undefined' ?
-    global : {};
-
-module.exports = Individual;
-
-function Individual(key, value) {
-    if (key in root) {
-        return root[key];
-    }
-
-    root[key] = value;
-
-    return value;
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],23:[function(require,module,exports){
-'use strict';
-
-var Individual = require('./index.js');
-
-module.exports = OneVersion;
-
-function OneVersion(moduleName, version, defaultValue) {
-    var key = '__INDIVIDUAL_ONE_VERSION_' + moduleName;
-    var enforceKey = key + '_ENFORCE_SINGLETON';
-
-    var versionValue = Individual(enforceKey, version);
-
-    if (versionValue !== version) {
-        throw new Error('Can only have one copy of ' +
-            moduleName + '.\n' +
-            'You already have version ' + versionValue +
-            ' installed.\n' +
-            'This means you cannot install version ' + version);
-    }
-
-    return Individual(key, defaultValue);
-}
-
-},{"./index.js":22}],24:[function(require,module,exports){
+},{"individual/one-version":30}],22:[function(require,module,exports){
 module.exports = function flatten(list, depth) {
   depth = (typeof depth == 'number') ? depth : Infinity;
 
@@ -1762,7 +1644,7 @@ module.exports = function flatten(list, depth) {
   }
 };
 
-},{}],25:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -1810,7 +1692,7 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":33}],26:[function(require,module,exports){
+},{"is-function":32}],24:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -1829,7 +1711,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":3}],27:[function(require,module,exports){
+},{"min-document":3}],25:[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
     module.exports = window;
@@ -1842,7 +1724,7 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],28:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
 https://highlightjs.org/
@@ -1850,19 +1732,23 @@ https://highlightjs.org/
 
 (function(factory) {
 
+  // Find the global object for export to both the browser and web workers.
+  var globalObject = typeof window == 'object' && window ||
+                     typeof self == 'object' && self;
+
   // Setup highlight.js for different environments. First is Node.js or
   // CommonJS.
   if(typeof exports !== 'undefined') {
     factory(exports);
-  } else {
+  } else if(globalObject) {
     // Export hljs globally even when using AMD for cases when this script
     // is loaded with others that may still expect a global hljs.
-    self.hljs = factory({});
+    globalObject.hljs = factory({});
 
     // Finally register the global hljs with AMD.
     if(typeof define === 'function' && define.amd) {
-      define('hljs', [], function() {
-        return self.hljs;
+      define([], function() {
+        return globalObject.hljs;
       });
     }
   }
@@ -1894,7 +1780,7 @@ https://highlightjs.org/
 
     classes += block.parentNode ? block.parentNode.className : '';
 
-    // language-* takes precedence over non-prefixed class names
+    // language-* takes precedence over non-prefixed class names.
     match = (/\blang(?:uage)?-([\w-]+)\b/i).exec(classes);
     if (match) {
       return getLanguage(match[1]) ? match[1] : 'no-highlight';
@@ -2214,35 +2100,37 @@ https://highlightjs.org/
     }
 
     function processBuffer() {
-      return top.subLanguage !== undefined ? processSubLanguage() : processKeywords();
+      result += (top.subLanguage !== undefined ? processSubLanguage() : processKeywords());
+      mode_buffer = '';
     }
 
     function startNewMode(mode, lexeme) {
-      var markup = mode.className? buildSpan(mode.className, '', true): '';
-      if (mode.returnBegin) {
-        result += markup;
-        mode_buffer = '';
-      } else if (mode.excludeBegin) {
-        result += escape(lexeme) + markup;
-        mode_buffer = '';
-      } else {
-        result += markup;
-        mode_buffer = lexeme;
-      }
+      result += mode.className? buildSpan(mode.className, '', true): '';
       top = Object.create(mode, {parent: {value: top}});
     }
 
     function processLexeme(buffer, lexeme) {
 
       mode_buffer += buffer;
+
       if (lexeme === undefined) {
-        result += processBuffer();
+        processBuffer();
         return 0;
       }
 
       var new_mode = subMode(lexeme, top);
       if (new_mode) {
-        result += processBuffer();
+        if (new_mode.skip) {
+          mode_buffer += lexeme;
+        } else {
+          if (new_mode.excludeBegin) {
+            mode_buffer += lexeme;
+          }
+          processBuffer();
+          if (!new_mode.returnBegin && !new_mode.excludeBegin) {
+            mode_buffer = lexeme;
+          }
+        }
         startNewMode(new_mode, lexeme);
         return new_mode.returnBegin ? 0 : lexeme.length;
       }
@@ -2250,21 +2138,26 @@ https://highlightjs.org/
       var end_mode = endOfMode(top, lexeme);
       if (end_mode) {
         var origin = top;
-        if (!(origin.returnEnd || origin.excludeEnd)) {
+        if (origin.skip) {
           mode_buffer += lexeme;
+        } else {
+          if (!(origin.returnEnd || origin.excludeEnd)) {
+            mode_buffer += lexeme;
+          }
+          processBuffer();
+          if (origin.excludeEnd) {
+            mode_buffer = lexeme;
+          }
         }
-        result += processBuffer();
         do {
           if (top.className) {
             result += '</span>';
           }
-          relevance += top.relevance;
+          if (!top.skip) {
+            relevance += top.relevance;
+          }
           top = top.parent;
         } while (top != end_mode.parent);
-        if (origin.excludeEnd) {
-          result += escape(lexeme);
-        }
-        mode_buffer = '';
         if (end_mode.starts) {
           startNewMode(end_mode.starts, '');
         }
@@ -2454,7 +2347,7 @@ https://highlightjs.org/
   };
 
   /*
-  Updates highlight.js global options with values passed in the form of an object
+  Updates highlight.js global options with values passed in the form of an object.
   */
   function configure(user_options) {
     options = inherit(options, user_options);
@@ -2611,11 +2504,16 @@ https://highlightjs.org/
     begin: hljs.UNDERSCORE_IDENT_RE,
     relevance: 0
   };
+  hljs.METHOD_GUARD = {
+    // excludes method names from keyword processing
+    begin: '\\.\\s*' + hljs.UNDERSCORE_IDENT_RE,
+    relevance: 0
+  };
 
   return hljs;
 }));
 
-},{}],29:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function(hljs) {
   var LITERALS = {literal: 'true false null'};
   var TYPES = [
@@ -2632,11 +2530,11 @@ module.exports = function(hljs) {
     contains: [
       {
         className: 'attr',
-        begin: '\\s*"', end: '"\\s*:\\s*', excludeBegin: true, excludeEnd: true,
+        begin: /"/, end: /"/,
         contains: [hljs.BACKSLASH_ESCAPE],
         illegal: '\\n',
-        starts: VALUE_CONTAINER
-      }
+      },
+      hljs.inherit(VALUE_CONTAINER, {begin: /:/})
     ],
     illegal: '\\S'
   };
@@ -2652,31 +2550,56 @@ module.exports = function(hljs) {
     illegal: '\\S'
   };
 };
-},{}],30:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var css = "/*\nMonokai style - ported by Luigi Maselli - http://grigio.org\n*/\n.hljs {\n  display: block;\n  overflow-x: auto;\n  padding: 0.5em;\n  background: #272822;\n  color: #ddd;\n}\n.hljs-tag,\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-literal,\n.hljs-strong,\n.hljs-name {\n  color: #f92672;\n}\n.hljs-code {\n  color: #66d9ef;\n}\n.hljs-class .hljs-title {\n  color: white;\n}\n.hljs-attribute,\n.hljs-symbol,\n.hljs-regexp,\n.hljs-link {\n  color: #bf79db;\n}\n.hljs-string,\n.hljs-bullet,\n.hljs-subst,\n.hljs-title,\n.hljs-section,\n.hljs-emphasis,\n.hljs-type,\n.hljs-built_in,\n.hljs-builtin-name,\n.hljs-selector-attr,\n.hljs-selector-pseudo,\n.hljs-addition,\n.hljs-variable,\n.hljs-template-tag,\n.hljs-template-variable {\n  color: #a6e22e;\n}\n.hljs-comment,\n.hljs-quote,\n.hljs-deletion,\n.hljs-meta {\n  color: #75715e;\n}\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-literal,\n.hljs-doctag,\n.hljs-title,\n.hljs-section,\n.hljs-type,\n.hljs-selector-id {\n  font-weight: bold;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/highlight.js/styles/monokai.css"})); module.exports = css;
-},{"browserify-css":5}],31:[function(require,module,exports){
+},{"browserify-css":5}],29:[function(require,module,exports){
 (function (global){
+'use strict';
+
+/*global window, global*/
+
 var root = typeof window !== 'undefined' ?
     window : typeof global !== 'undefined' ?
     global : {};
 
-module.exports = Individual
+module.exports = Individual;
 
 function Individual(key, value) {
-    if (root[key]) {
-        return root[key]
+    if (key in root) {
+        return root[key];
     }
 
-    Object.defineProperty(root, key, {
-        value: value
-        , configurable: true
-    })
+    root[key] = value;
 
-    return value
+    return value;
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],32:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
+'use strict';
+
+var Individual = require('./index.js');
+
+module.exports = OneVersion;
+
+function OneVersion(moduleName, version, defaultValue) {
+    var key = '__INDIVIDUAL_ONE_VERSION_' + moduleName;
+    var enforceKey = key + '_ENFORCE_SINGLETON';
+
+    var versionValue = Individual(enforceKey, version);
+
+    if (versionValue !== version) {
+        throw new Error('Can only have one copy of ' +
+            moduleName + '.\n' +
+            'You already have version ' + versionValue +
+            ' installed.\n' +
+            'This means you cannot install version ' + version);
+    }
+
+    return Individual(key, defaultValue);
+}
+
+},{"./index.js":29}],31:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -2701,7 +2624,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],33:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -2718,7 +2641,7 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}],34:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /*!
  * is-number <https://github.com/jonschlinkert/is-number>
  *
@@ -2734,12 +2657,43 @@ module.exports = function isNumber(n) {
     || n === 0;
 };
 
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 "use strict";
 
 module.exports = function isObject(x) {
 	return typeof x === "object" && x !== null;
 };
+
+},{}],35:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * Copies the values of `source` to `array`.
+ *
+ * @private
+ * @param {Array} source The array to copy values from.
+ * @param {Array} [array=[]] The array to copy values to.
+ * @returns {Array} Returns `array`.
+ */
+function arrayCopy(source, array) {
+  var index = -1,
+      length = source.length;
+
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+
+module.exports = arrayCopy;
 
 },{}],36:[function(require,module,exports){
 (function (global){
@@ -4404,6 +4358,65 @@ module.exports = baseClone;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],37:[function(require,module,exports){
 /**
+ * lodash 3.0.3 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/**
+ * The base implementation of `_.create` without support for assigning
+ * properties to the created object.
+ *
+ * @private
+ * @param {Object} prototype The object to inherit from.
+ * @returns {Object} Returns the new object.
+ */
+var baseCreate = (function() {
+  function object() {}
+  return function(prototype) {
+    if (isObject(prototype)) {
+      object.prototype = prototype;
+      var result = new object;
+      object.prototype = undefined;
+    }
+    return result || {};
+  };
+}());
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = baseCreate;
+
+},{}],38:[function(require,module,exports){
+/**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
  * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
@@ -4655,7 +4668,7 @@ function isObject(value) {
 
 module.exports = baseEach;
 
-},{"lodash.keys":38}],38:[function(require,module,exports){
+},{"lodash.keys":39}],39:[function(require,module,exports){
 /**
  * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -5094,7 +5107,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5130,7 +5143,7 @@ function baseFind(collection, predicate, eachFunc, retKey) {
 
 module.exports = baseFind;
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /**
  * lodash 3.6.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5164,23 +5177,34 @@ function baseFindIndex(array, predicate, fromRight) {
 
 module.exports = baseFindIndex;
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
- * lodash 4.1.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.1.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
+var isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray');
 
-/** Used as references for various `Number` constants. */
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
 var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
 
 /**
  * Appends the elements of `values` to `array`.
@@ -5201,32 +5225,18 @@ function arrayPush(array, values) {
   return array;
 }
 
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
 /**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * The base implementation of `_.flatten` with support for restricting flattening.
+ * The base implementation of `_.flatten` with added support for restricting
+ * flattening and specifying the start index.
  *
  * @private
  * @param {Array} array The array to flatten.
- * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [isDeep] Specify a deep flatten.
  * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
  * @param {Array} [result=[]] The initial result value.
  * @returns {Array} Returns the new flattened array.
  */
-function baseFlatten(array, depth, isStrict, result) {
+function baseFlatten(array, isDeep, isStrict, result) {
   result || (result = []);
 
   var index = -1,
@@ -5234,11 +5244,11 @@ function baseFlatten(array, depth, isStrict, result) {
 
   while (++index < length) {
     var value = array[index];
-    if (depth > 0 && isArrayLikeObject(value) &&
+    if (isObjectLike(value) && isArrayLike(value) &&
         (isStrict || isArray(value) || isArguments(value))) {
-      if (depth > 1) {
+      if (isDeep) {
         // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, depth - 1, isStrict, result);
+        baseFlatten(value, isDeep, isStrict, result);
       } else {
         arrayPush(result, value);
       }
@@ -5275,25 +5285,113 @@ function baseProperty(key) {
 var getLength = baseProperty('length');
 
 /**
- * Checks if `value` is likely an `arguments` object.
+ * Checks if `value` is array-like.
  *
- * @static
- * @memberOf _
- * @category Lang
+ * @private
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
  */
-function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = baseFlatten;
+
+},{"lodash.isarguments":63,"lodash.isarray":43}],43:[function(require,module,exports){
+/**
+ * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** `Object#toString` result references. */
+var arrayTag = '[object Array]',
+    funcTag = '[object Function]';
+
+/** Used to detect host constructors (Safari > 5). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var fnToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeIsArray = getNative(Array, 'isArray');
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = object == null ? undefined : object[key];
+  return isNative(value) ? value : undefined;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
 }
 
 /**
@@ -5301,7 +5399,6 @@ function isArguments(value) {
  *
  * @static
  * @memberOf _
- * @type {Function}
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
@@ -5310,72 +5407,12 @@ function isArguments(value) {
  * _.isArray([1, 2, 3]);
  * // => true
  *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
+ * _.isArray(function() { return arguments; }());
  * // => false
  */
-var isArray = Array.isArray;
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null &&
-    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
+var isArray = nativeIsArray || function(value) {
+  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+};
 
 /**
  * Checks if `value` is classified as a `Function` object.
@@ -5395,39 +5432,9 @@ function isArrayLikeObject(value) {
  */
 function isFunction(value) {
   // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+  // in older versions of Chrome and Safari which return 'function' for regexes
+  // and Safari 8 equivalents which return 'object' for typed array constructors.
+  return isObject(value) && objToString.call(value) == funcTag;
 }
 
 /**
@@ -5447,47 +5454,45 @@ function isLength(value) {
  * _.isObject([1, 2, 3]);
  * // => true
  *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
+ * _.isObject(1);
  * // => false
  */
 function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
   var type = typeof value;
   return !!value && (type == 'object' || type == 'function');
 }
 
 /**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
+ * Checks if `value` is a native function.
  *
  * @static
  * @memberOf _
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
  * @example
  *
- * _.isObjectLike({});
+ * _.isNative(Array.prototype.push);
  * // => true
  *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
+ * _.isNative(_);
  * // => false
  */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (isFunction(value)) {
+    return reIsNative.test(fnToString.call(value));
+  }
+  return isObjectLike(value) && reIsHostCtor.test(value);
 }
 
-module.exports = baseFlatten;
+module.exports = isArray;
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -5524,7 +5529,7 @@ function baseFunctions(object, props) {
 
 module.exports = baseFunctions;
 
-},{"lodash.isfunction":68}],43:[function(require,module,exports){
+},{"lodash.isfunction":68}],45:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.5.0 (Custom Build) <https://lodash.com/>
@@ -7519,7 +7524,7 @@ Stack.prototype.set = stackSet;
 module.exports = baseIteratee;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],44:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7750,7 +7755,7 @@ function get(object, path, defaultValue) {
 
 module.exports = basePullAt;
 
-},{"lodash._baseslice":45,"lodash.tostring":84}],45:[function(require,module,exports){
+},{"lodash._baseslice":47,"lodash.tostring":87}],47:[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -7792,7 +7797,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /**
  * lodash 4.4.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -8203,16 +8208,19 @@ function noop() {
 
 module.exports = baseUniq;
 
-},{"lodash._root":49,"lodash._setcache":50}],47:[function(require,module,exports){
+},{"lodash._root":52,"lodash._setcache":53}],49:[function(require,module,exports){
+(function (global){
 /**
- * lodash 3.2.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.0.7 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
-var root = require('lodash._root');
+var arrayCopy = require('lodash._arraycopy'),
+    baseCreate = require('lodash._basecreate'),
+    replaceHolders = require('lodash._replaceholders');
 
 /** Used to compose bitmasks for wrapper metadata. */
 var BIND_FLAG = 1,
@@ -8222,134 +8230,23 @@ var BIND_FLAG = 1,
     CURRY_RIGHT_FLAG = 16,
     PARTIAL_FLAG = 32,
     PARTIAL_RIGHT_FLAG = 64,
-    ARY_FLAG = 128,
-    FLIP_FLAG = 512;
+    ARY_FLAG = 128;
 
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0,
-    MAX_SAFE_INTEGER = 9007199254740991,
-    MAX_INTEGER = 1.7976931348623157e+308,
-    NAN = 0 / 0;
-
-/** Used as the internal argument placeholder. */
-var PLACEHOLDER = '__lodash_placeholder__';
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
 /** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
+var reIsUint = /^\d+$/;
 
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
- *
- * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {...*} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
- */
-function apply(func, thisArg, args) {
-  var length = args.length;
-  switch (length) {
-    case 0: return func.call(thisArg);
-    case 1: return func.call(thisArg, args[0]);
-    case 2: return func.call(thisArg, args[0], args[1]);
-    case 3: return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-/**
- * Replaces all `placeholder` elements in `array` with an internal placeholder
- * and returns an array of their indexes.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {*} placeholder The placeholder to replace.
- * @returns {Array} Returns the new array of placeholder indexes.
- */
-function replaceHolders(array, placeholder) {
-  var index = -1,
-      length = array.length,
-      resIndex = -1,
-      result = [];
-
-  while (++index < length) {
-    if (array[index] === placeholder) {
-      array[index] = PLACEHOLDER;
-      result[++resIndex] = index;
-    }
-  }
-  return result;
-}
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
+/* Native method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max,
     nativeMin = Math.min;
 
 /**
- * The base implementation of `_.create` without support for assigning
- * properties to the created object.
- *
- * @private
- * @param {Object} prototype The object to inherit from.
- * @returns {Object} Returns the new object.
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
  */
-var baseCreate = (function() {
-  function object() {}
-  return function(prototype) {
-    if (isObject(prototype)) {
-      object.prototype = prototype;
-      var result = new object;
-      object.prototype = undefined;
-    }
-    return result || {};
-  };
-}());
+var MAX_SAFE_INTEGER = 9007199254740991;
 
 /**
  * Creates an array that is the composition of partially applied arguments,
@@ -8414,41 +8311,20 @@ function composeArgsRight(args, partials, holders) {
 }
 
 /**
- * Copies the values of `source` to `array`.
- *
- * @private
- * @param {Array} source The array to copy values from.
- * @param {Array} [array=[]] The array to copy values to.
- * @returns {Array} Returns `array`.
- */
-function copyArray(source, array) {
-  var index = -1,
-      length = source.length;
-
-  array || (array = Array(length));
-  while (++index < length) {
-    array[index] = source[index];
-  }
-  return array;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with the optional `this`
+ * Creates a function that wraps `func` and invokes it with the `this`
  * binding of `thisArg`.
  *
  * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
+ * @param {Function} func The function to bind.
  * @param {*} [thisArg] The `this` binding of `func`.
- * @returns {Function} Returns the new wrapped function.
+ * @returns {Function} Returns the new bound function.
  */
-function createBaseWrapper(func, bitmask, thisArg) {
-  var isBind = bitmask & BIND_FLAG,
-      Ctor = createCtorWrapper(func);
+function createBindWrapper(func, thisArg) {
+  var Ctor = createCtorWrapper(func);
 
   function wrapper() {
-    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-    return fn.apply(isBind ? thisArg : this, arguments);
+    var fn = (this && this !== global && this instanceof wrapper) ? Ctor : func;
+    return fn.apply(thisArg, arguments);
   }
   return wrapper;
 }
@@ -8487,46 +8363,12 @@ function createCtorWrapper(Ctor) {
 }
 
 /**
- * Creates a function that wraps `func` to enable currying.
+ * Creates a function that wraps `func` and invokes it with optional `this`
+ * binding of, partial application, and currying.
  *
  * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
- * @param {number} arity The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createCurryWrapper(func, bitmask, arity) {
-  var Ctor = createCtorWrapper(func);
-
-  function wrapper() {
-    var length = arguments.length,
-        index = length,
-        args = Array(length),
-        fn = (this && this !== root && this instanceof wrapper) ? Ctor : func,
-        placeholder = wrapper.placeholder;
-
-    while (index--) {
-      args[index] = arguments[index];
-    }
-    var holders = (length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder)
-      ? []
-      : replaceHolders(args, placeholder);
-
-    length -= holders.length;
-    return length < arity
-      ? createRecurryWrapper(func, bitmask, createHybridWrapper, placeholder, undefined, args, holders, undefined, undefined, arity - length)
-      : apply(fn, this, args);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with optional `this`
- * binding of `thisArg`, partial application, and currying.
- *
- * @private
- * @param {Function|string} func The function or method name to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
+ * @param {Function|string} func The function or method name to reference.
+ * @param {number} bitmask The bitmask of flags. See `createWrapper` for more details.
  * @param {*} [thisArg] The `this` binding of `func`.
  * @param {Array} [partials] The arguments to prepend to those provided to the new function.
  * @param {Array} [holders] The `partials` placeholder indexes.
@@ -8542,11 +8384,13 @@ function createHybridWrapper(func, bitmask, thisArg, partials, holders, partials
       isBind = bitmask & BIND_FLAG,
       isBindKey = bitmask & BIND_KEY_FLAG,
       isCurry = bitmask & CURRY_FLAG,
+      isCurryBound = bitmask & CURRY_BOUND_FLAG,
       isCurryRight = bitmask & CURRY_RIGHT_FLAG,
-      isFlip = bitmask & FLIP_FLAG,
       Ctor = isBindKey ? undefined : createCtorWrapper(func);
 
   function wrapper() {
+    // Avoid `arguments` object use disqualifying optimizations by
+    // converting it to an array before providing it to other functions.
     var length = arguments.length,
         index = length,
         args = Array(length);
@@ -8566,7 +8410,23 @@ function createHybridWrapper(func, bitmask, thisArg, partials, holders, partials
 
       length -= argsHolders.length;
       if (length < arity) {
-        return createRecurryWrapper(func, bitmask, createHybridWrapper, placeholder, thisArg, args, argsHolders, argPos, ary, arity - length);
+        var newArgPos = argPos ? arrayCopy(argPos) : undefined,
+            newArity = nativeMax(arity - length, 0),
+            newsHolders = isCurry ? argsHolders : undefined,
+            newHoldersRight = isCurry ? undefined : argsHolders,
+            newPartials = isCurry ? args : undefined,
+            newPartialsRight = isCurry ? undefined : args;
+
+        bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
+        bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
+
+        if (!isCurryBound) {
+          bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
+        }
+        var result = createHybridWrapper(func, bitmask, thisArg, newPartials, newsHolders, newPartialsRight, newHoldersRight, newArgPos, ary, newArity);
+
+        result.placeholder = placeholder;
+        return result;
       }
     }
     var thisBinding = isBind ? thisArg : this,
@@ -8574,14 +8434,12 @@ function createHybridWrapper(func, bitmask, thisArg, partials, holders, partials
 
     if (argPos) {
       args = reorder(args, argPos);
-    } else if (isFlip && args.length > 1) {
-      args.reverse();
     }
     if (isAry && ary < args.length) {
       args.length = ary;
     }
-    if (this && this !== root && this instanceof wrapper) {
-      fn = Ctor || createCtorWrapper(fn);
+    if (this && this !== global && this instanceof wrapper) {
+      fn = Ctor || createCtorWrapper(func);
     }
     return fn.apply(thisBinding, args);
   }
@@ -8589,28 +8447,29 @@ function createHybridWrapper(func, bitmask, thisArg, partials, holders, partials
 }
 
 /**
- * Creates a function that wraps `func` to invoke it with the optional `this`
+ * Creates a function that wraps `func` and invokes it with the optional `this`
  * binding of `thisArg` and the `partials` prepended to those provided to
  * the wrapper.
  *
  * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
+ * @param {Function} func The function to partially apply arguments to.
+ * @param {number} bitmask The bitmask of flags. See `createWrapper` for more details.
  * @param {*} thisArg The `this` binding of `func`.
  * @param {Array} partials The arguments to prepend to those provided to the new function.
- * @returns {Function} Returns the new wrapped function.
+ * @returns {Function} Returns the new bound function.
  */
 function createPartialWrapper(func, bitmask, thisArg, partials) {
   var isBind = bitmask & BIND_FLAG,
       Ctor = createCtorWrapper(func);
 
   function wrapper() {
+    // Avoid `arguments` object use disqualifying optimizations by
+    // converting it to an array before providing it `func`.
     var argsIndex = -1,
         argsLength = arguments.length,
         leftIndex = -1,
         leftLength = partials.length,
-        args = Array(leftLength + argsLength),
-        fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+        args = Array(leftLength + argsLength);
 
     while (++leftIndex < leftLength) {
       args[leftIndex] = partials[leftIndex];
@@ -8618,45 +8477,10 @@ function createPartialWrapper(func, bitmask, thisArg, partials) {
     while (argsLength--) {
       args[leftIndex++] = arguments[++argsIndex];
     }
-    return apply(fn, isBind ? thisArg : this, args);
+    var fn = (this && this !== global && this instanceof wrapper) ? Ctor : func;
+    return fn.apply(isBind ? thisArg : this, args);
   }
   return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to continue currying.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
- * @param {Function} wrapFunc The function to create the `func` wrapper.
- * @param {*} placeholder The placeholder to replace.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {Array} [partials] The arguments to prepend to those provided to the new function.
- * @param {Array} [holders] The `partials` placeholder indexes.
- * @param {Array} [argPos] The argument positions of the new function.
- * @param {number} [ary] The arity cap of `func`.
- * @param {number} [arity] The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createRecurryWrapper(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
-  var isCurry = bitmask & CURRY_FLAG,
-      newArgPos = argPos ? copyArray(argPos) : undefined,
-      newsHolders = isCurry ? holders : undefined,
-      newHoldersRight = isCurry ? undefined : holders,
-      newPartials = isCurry ? partials : undefined,
-      newPartialsRight = isCurry ? undefined : partials;
-
-  bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
-  bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
-
-  if (!(bitmask & CURRY_BOUND_FLAG)) {
-    bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
-  }
-  var result = wrapFunc(func, bitmask, thisArg, newPartials, newsHolders, newPartialsRight, newHoldersRight, newArgPos, ary, arity);
-
-  result.placeholder = placeholder;
-  return result;
 }
 
 /**
@@ -8664,8 +8488,8 @@ function createRecurryWrapper(func, bitmask, wrapFunc, placeholder, thisArg, par
  * `this` binding and partially applied arguments.
  *
  * @private
- * @param {Function|string} func The function or method name to wrap.
- * @param {number} bitmask The bitmask of wrapper flags.
+ * @param {Function|string} func The function or method name to reference.
+ * @param {number} bitmask The bitmask of flags.
  *  The bitmask may be composed of the following flags:
  *     1 - `_.bind`
  *     2 - `_.bindKey`
@@ -8694,10 +8518,7 @@ function createWrapper(func, bitmask, thisArg, partials, holders, argPos, ary, a
     bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
     partials = holders = undefined;
   }
-  ary = ary === undefined ? ary : nativeMax(toInteger(ary), 0);
-  arity = arity === undefined ? arity : toInteger(arity);
-  length -= holders ? holders.length : 0;
-
+  length -= (holders ? holders.length : 0);
   if (bitmask & PARTIAL_RIGHT_FLAG) {
     var partialsRight = partials,
         holdersRight = holders;
@@ -8706,28 +8527,32 @@ function createWrapper(func, bitmask, thisArg, partials, holders, argPos, ary, a
   }
   var newData = [func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity];
 
-  func = newData[0];
-  bitmask = newData[1];
-  thisArg = newData[2];
-  partials = newData[3];
-  holders = newData[4];
-  arity = newData[9] = newData[9] == null
+  newData[9] = arity == null
     ? (isBindKey ? 0 : func.length)
-    : nativeMax(newData[9] - length, 0);
+    : (nativeMax(arity - length, 0) || 0);
 
-  if (!arity && bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG)) {
-    bitmask &= ~(CURRY_FLAG | CURRY_RIGHT_FLAG);
-  }
-  if (!bitmask || bitmask == BIND_FLAG) {
-    var result = createBaseWrapper(func, bitmask, thisArg);
-  } else if (bitmask == CURRY_FLAG || bitmask == CURRY_RIGHT_FLAG) {
-    result = createCurryWrapper(func, bitmask, arity);
-  } else if ((bitmask == PARTIAL_FLAG || bitmask == (BIND_FLAG | PARTIAL_FLAG)) && !holders.length) {
-    result = createPartialWrapper(func, bitmask, thisArg, partials);
+  if (bitmask == BIND_FLAG) {
+    var result = createBindWrapper(newData[0], newData[2]);
+  } else if ((bitmask == PARTIAL_FLAG || bitmask == (BIND_FLAG | PARTIAL_FLAG)) && !newData[4].length) {
+    result = createPartialWrapper.apply(undefined, newData);
   } else {
     result = createHybridWrapper.apply(undefined, newData);
   }
   return result;
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
 }
 
 /**
@@ -8743,37 +8568,13 @@ function createWrapper(func, bitmask, thisArg, partials, holders, argPos, ary, a
 function reorder(array, indexes) {
   var arrLength = array.length,
       length = nativeMin(indexes.length, arrLength),
-      oldArray = copyArray(array);
+      oldArray = arrayCopy(array);
 
   while (length--) {
     var index = indexes[length];
     array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
   }
   return array;
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
 }
 
 /**
@@ -8793,94 +8594,20 @@ function isFunction(value) {
  * _.isObject([1, 2, 3]);
  * // => true
  *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
+ * _.isObject(1);
  * // => false
  */
 function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
   var type = typeof value;
   return !!value && (type == 'object' || type == 'function');
 }
 
-/**
- * Converts `value` to an integer.
- *
- * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted integer.
- * @example
- *
- * _.toInteger(3);
- * // => 3
- *
- * _.toInteger(Number.MIN_VALUE);
- * // => 0
- *
- * _.toInteger(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toInteger('3');
- * // => 3
- */
-function toInteger(value) {
-  if (!value) {
-    return value === 0 ? value : 0;
-  }
-  value = toNumber(value);
-  if (value === INFINITY || value === -INFINITY) {
-    var sign = (value < 0 ? -1 : 1);
-    return sign * MAX_INTEGER;
-  }
-  var remainder = value % 1;
-  return value === value ? (remainder ? value - remainder : value) : 0;
-}
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3);
- * // => 3
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3');
- * // => 3
- */
-function toNumber(value) {
-  if (isObject(value)) {
-    var other = isFunction(value.valueOf) ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
 module.exports = createWrapper;
 
-},{"lodash._root":49}],48:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"lodash._arraycopy":35,"lodash._basecreate":37,"lodash._replaceholders":51}],50:[function(require,module,exports){
 /**
  * lodash 3.9.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -9019,7 +8746,46 @@ function isNative(value) {
 
 module.exports = getNative;
 
-},{}],49:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
+/**
+ * lodash 3.0.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** Used as the internal argument placeholder. */
+var PLACEHOLDER = '__lodash_placeholder__';
+
+/**
+ * Replaces all `placeholder` elements in `array` with an internal placeholder
+ * and returns an array of their indexes.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {*} placeholder The placeholder to replace.
+ * @returns {Array} Returns the new array of placeholder indexes.
+ */
+function replaceHolders(array, placeholder) {
+  var index = -1,
+      length = array.length,
+      resIndex = -1,
+      result = [];
+
+  while (++index < length) {
+    if (array[index] === placeholder) {
+      array[index] = PLACEHOLDER;
+      result[++resIndex] = index;
+    }
+  }
+  return result;
+}
+
+module.exports = replaceHolders;
+
+},{}],52:[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
@@ -9082,7 +8848,7 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],50:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
@@ -9674,7 +9440,7 @@ SetCache.prototype.push = cachePush;
 module.exports = SetCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],51:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
@@ -10340,7 +10106,7 @@ Stack.prototype.set = stackSet;
 module.exports = Stack;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],52:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -10400,322 +10166,7 @@ var bindAll = restParam(function(object, methodNames) {
 
 module.exports = bindAll;
 
-},{"lodash._baseflatten":53,"lodash._createwrapper":47,"lodash.functions":60,"lodash.restparam":80}],53:[function(require,module,exports){
-/**
- * lodash 3.1.4 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var isArguments = require('lodash.isarguments'),
-    isArray = require('lodash.isarray');
-
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush(array, values) {
-  var index = -1,
-      length = values.length,
-      offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-}
-
-/**
- * The base implementation of `_.flatten` with added support for restricting
- * flattening and specifying the start index.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {boolean} [isDeep] Specify a deep flatten.
- * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten(array, isDeep, isStrict, result) {
-  result || (result = []);
-
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    var value = array[index];
-    if (isObjectLike(value) && isArrayLike(value) &&
-        (isStrict || isArray(value) || isArguments(value))) {
-      if (isDeep) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, isDeep, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-/**
- * Checks if `value` is array-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value));
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-module.exports = baseFlatten;
-
-},{"lodash.isarguments":63,"lodash.isarray":54}],54:[function(require,module,exports){
-/**
- * lodash 3.0.4 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** `Object#toString` result references. */
-var arrayTag = '[object Array]',
-    funcTag = '[object Function]';
-
-/** Used to detect host constructors (Safari > 5). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var fnToString = Function.prototype.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeIsArray = getNative(Array, 'isArray');
-
-/**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = object == null ? undefined : object[key];
-  return isNative(value) ? value : undefined;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(function() { return arguments; }());
- * // => false
- */
-var isArray = nativeIsArray || function(value) {
-  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
-};
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in older versions of Chrome and Safari which return 'function' for regexes
-  // and Safari 8 equivalents which return 'object' for typed array constructors.
-  return isObject(value) && objToString.call(value) == funcTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is a native function.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
- * @example
- *
- * _.isNative(Array.prototype.push);
- * // => true
- *
- * _.isNative(_);
- * // => false
- */
-function isNative(value) {
-  if (value == null) {
-    return false;
-  }
-  if (isFunction(value)) {
-    return reIsNative.test(fnToString.call(value));
-  }
-  return isObjectLike(value) && reIsHostCtor.test(value);
-}
-
-module.exports = isArray;
-
-},{}],55:[function(require,module,exports){
+},{"lodash._baseflatten":42,"lodash._createwrapper":49,"lodash.functions":62,"lodash.restparam":82}],56:[function(require,module,exports){
 /**
  * lodash 4.3.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10748,7 +10199,7 @@ function cloneDeep(value) {
 
 module.exports = cloneDeep;
 
-},{"lodash._baseclone":36}],56:[function(require,module,exports){
+},{"lodash._baseclone":36}],57:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10953,7 +10404,9 @@ function toNumber(value) {
 
 module.exports = drop;
 
-},{"lodash._baseslice":45}],57:[function(require,module,exports){
+},{"lodash._baseslice":58}],58:[function(require,module,exports){
+arguments[4][47][0].apply(exports,arguments)
+},{"dup":47}],59:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11037,7 +10490,7 @@ var isArray = Array.isArray;
 
 module.exports = find;
 
-},{"lodash._baseeach":37,"lodash._basefind":39,"lodash._basefindindex":40,"lodash._baseiteratee":43}],58:[function(require,module,exports){
+},{"lodash._baseeach":38,"lodash._basefind":40,"lodash._basefindindex":41,"lodash._baseiteratee":45}],60:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -11070,7 +10523,7 @@ function first(array) {
 
 module.exports = first;
 
-},{}],59:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 /**
  * lodash 4.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11193,7 +10646,7 @@ function identity(value) {
 
 module.exports = forEach;
 
-},{"lodash._baseeach":37}],60:[function(require,module,exports){
+},{"lodash._baseeach":38}],62:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -11226,22 +10679,26 @@ function functions(object) {
 
 module.exports = functions;
 
-},{"lodash._basefunctions":42,"lodash.keysin":62}],61:[function(require,module,exports){
-arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],62:[function(require,module,exports){
+},{"lodash._basefunctions":44,"lodash.keysin":75}],63:[function(require,module,exports){
 /**
- * lodash 3.0.8 (Custom Build) <https://lodash.com/>
+ * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
-var isArguments = require('lodash.isarguments'),
-    isArray = require('lodash.isarray');
 
-/** Used to detect unsigned integer values. */
-var reIsUint = /^\d+$/;
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
 
 /** Used for native method references. */
 var objectProto = Object.prototype;
@@ -11249,151 +10706,14 @@ var objectProto = Object.prototype;
 /** Used to check objects for own properties. */
 var hasOwnProperty = objectProto.hasOwnProperty;
 
+/** Native method references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
 /**
- * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
  */
 var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  if (object == null) {
-    return [];
-  }
-  if (!isObject(object)) {
-    object = Object(object);
-  }
-  var length = object.length;
-  length = (length && isLength(length) &&
-    (isArray(object) || isArguments(object)) && length) || 0;
-
-  var Ctor = object.constructor,
-      index = -1,
-      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-      result = Array(length),
-      skipIndexes = length > 0;
-
-  while (++index < length) {
-    result[index] = (index + '');
-  }
-  for (var key in object) {
-    if (!(skipIndexes && isIndex(key, length)) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keysIn;
-
-},{"lodash.isarguments":63,"lodash.isarray":61}],63:[function(require,module,exports){
-/**
- * lodash 3.0.7 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
 
 /**
  * The base implementation of `_.property` without support for deep paths.
@@ -11421,7 +10741,31 @@ function baseProperty(key) {
 var getLength = baseProperty('length');
 
 /**
- * Checks if `value` is likely an `arguments` object.
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is classified as an `arguments` object.
  *
  * @static
  * @memberOf _
@@ -11437,173 +10781,8 @@ var getLength = baseProperty('length');
  * // => false
  */
 function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null &&
-    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
+  return isObjectLike(value) && isArrayLike(value) &&
+    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
 }
 
 module.exports = isArguments;
@@ -12721,30 +11900,29 @@ function isTypedArray(value) {
 
 module.exports = isEqual;
 
-},{"lodash._root":49,"lodash._stack":51,"lodash.keys":67}],67:[function(require,module,exports){
-arguments[4][38][0].apply(exports,arguments)
-},{"dup":38}],68:[function(require,module,exports){
+},{"lodash._root":52,"lodash._stack":54,"lodash.keys":67}],67:[function(require,module,exports){
+arguments[4][39][0].apply(exports,arguments)
+},{"dup":39}],68:[function(require,module,exports){
 /**
- * lodash 3.0.8 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.0.6 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
 
 /** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
+var funcTag = '[object Function]';
 
-/** Used for built-in method references. */
+/** Used for native method references. */
 var objectProto = Object.prototype;
 
 /**
  * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
  * of values.
  */
-var objectToString = objectProto.toString;
+var objToString = objectProto.toString;
 
 /**
  * Checks if `value` is classified as a `Function` object.
@@ -12764,10 +11942,9 @@ var objectToString = objectProto.toString;
  */
 function isFunction(value) {
   // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
+  // in older versions of Chrome and Safari which return 'function' for regexes
+  // and Safari 8 equivalents which return 'object' for typed array constructors.
+  return isObject(value) && objToString.call(value) == funcTag;
 }
 
 /**
@@ -12787,13 +11964,12 @@ function isFunction(value) {
  * _.isObject([1, 2, 3]);
  * // => true
  *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
+ * _.isObject(1);
  * // => false
  */
 function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
   var type = typeof value;
   return !!value && (type == 'object' || type == 'function');
 }
@@ -12914,7 +12090,7 @@ module.exports = isNaN;
 
 },{}],70:[function(require,module,exports){
 /**
- * lodash 4.0.2 (Custom Build) <https://lodash.com/>
+ * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
  * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -13021,10 +12197,7 @@ function isPlainObject(value) {
       objectToString.call(value) != objectTag || isHostObject(value)) {
     return false;
   }
-  var proto = objectProto;
-  if (typeof value.constructor == 'function') {
-    proto = getPrototypeOf(value);
-  }
+  var proto = getPrototypeOf(value);
   if (proto === null) {
     return true;
   }
@@ -13402,49 +12575,34 @@ function keysIn(object) {
 
 module.exports = keys;
 
-},{"lodash._getnative":48,"lodash.isarguments":63,"lodash.isarray":74}],74:[function(require,module,exports){
-arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],75:[function(require,module,exports){
+},{"lodash._getnative":50,"lodash.isarguments":63,"lodash.isarray":74}],74:[function(require,module,exports){
+arguments[4][43][0].apply(exports,arguments)
+},{"dup":43}],75:[function(require,module,exports){
 /**
- * lodash 4.1.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash 3.0.8 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modern modularize exports="npm" -o ./`
+ * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
-var root = require('lodash._root');
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    stringTag = '[object String]';
+var isArguments = require('lodash.isarguments'),
+    isArray = require('lodash.isarray');
 
 /** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
+var reIsUint = /^\d+$/;
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
- * The base implementation of `_.times` without support for iteratee shorthands
- * or max array length checks.
- *
- * @private
- * @param {number} n The number of times to invoke `iteratee`.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the array of results.
+ * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+ * of an array-like value.
  */
-function baseTimes(n, iteratee) {
-  var index = -1,
-      result = Array(n);
-
-  while (++index < n) {
-    result[index] = iteratee(index);
-  }
-  return result;
-}
+var MAX_SAFE_INTEGER = 9007199254740991;
 
 /**
  * Checks if `value` is a valid array-like index.
@@ -13461,274 +12619,16 @@ function isIndex(value, length) {
 }
 
 /**
- * Converts `iterator` to an array.
- *
- * @private
- * @param {Object} iterator The iterator to convert.
- * @returns {Array} Returns the converted array.
- */
-function iteratorToArray(iterator) {
-  var data,
-      result = [];
-
-  while (!(data = iterator.next()).done) {
-    result.push(data.value);
-  }
-  return result;
-}
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var Reflect = root.Reflect,
-    enumerate = Reflect ? Reflect.enumerate : undefined,
-    propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * The base implementation of `_.keysIn` which doesn't skip the constructor
- * property of prototypes or treat sparse arrays as dense.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function baseKeysIn(object) {
-  object = object == null ? object : Object(object);
-
-  var result = [];
-  for (var key in object) {
-    result.push(key);
-  }
-  return result;
-}
-
-// Fallback for IE < 9 with es6-shim.
-if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
-  baseKeysIn = function(object) {
-    return iteratorToArray(enumerate(object));
-  };
-}
-
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-/**
- * Creates an array of index keys for `object` values of arrays,
- * `arguments` objects, and strings, otherwise `null` is returned.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array|null} Returns index keys, else `null`.
- */
-function indexKeys(object) {
-  var length = object ? object.length : undefined;
-  if (isLength(length) &&
-      (isArray(object) || isString(object) || isArguments(object))) {
-    return baseTimes(length, String);
-  }
-  return null;
-}
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-  return value === proto;
-}
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @type {Function}
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null &&
-    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
  *
- * @static
- * @memberOf _
- * @category Lang
+ * @private
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
  */
 function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
 }
 
 /**
@@ -13748,63 +12648,14 @@ function isLength(value) {
  * _.isObject([1, 2, 3]);
  * // => true
  *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
+ * _.isObject(1);
  * // => false
  */
 function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
   var type = typeof value;
   return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */
-function isString(value) {
-  return typeof value == 'string' ||
-    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
 }
 
 /**
@@ -13830,18 +12681,27 @@ function isString(value) {
  * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
  */
 function keysIn(object) {
-  var index = -1,
-      isProto = isPrototype(object),
-      props = baseKeysIn(object),
-      propsLength = props.length,
-      indexes = indexKeys(object),
-      skipIndexes = !!indexes,
-      result = indexes || [],
-      length = result.length;
+  if (object == null) {
+    return [];
+  }
+  if (!isObject(object)) {
+    object = Object(object);
+  }
+  var length = object.length;
+  length = (length && isLength(length) &&
+    (isArray(object) || isArguments(object)) && length) || 0;
 
-  while (++index < propsLength) {
-    var key = props[index];
-    if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
+  var Ctor = object.constructor,
+      index = -1,
+      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+      result = Array(length),
+      skipIndexes = length > 0;
+
+  while (++index < length) {
+    result[index] = (index + '');
+  }
+  for (var key in object) {
+    if (!(skipIndexes && isIndex(key, length)) &&
         !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
       result.push(key);
     }
@@ -13851,7 +12711,9 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"lodash._root":49}],76:[function(require,module,exports){
+},{"lodash.isarguments":63,"lodash.isarray":76}],76:[function(require,module,exports){
+arguments[4][43][0].apply(exports,arguments)
+},{"dup":43}],77:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14125,9 +12987,9 @@ function isObject(value) {
 
 module.exports = map;
 
-},{"lodash._baseeach":37,"lodash._baseiteratee":43}],77:[function(require,module,exports){
+},{"lodash._baseeach":38,"lodash._baseiteratee":45}],78:[function(require,module,exports){
 /**
- * lodash 4.3.0 (Custom Build) <https://lodash.com/>
+ * lodash 4.3.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
  * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -14265,8 +13127,7 @@ function assignMergeValue(object, key, value) {
  */
 function assignValue(object, key, value) {
   var objValue = object[key];
-  if ((!eq(objValue, value) ||
-        (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) ||
+  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
       (value === undefined && !(key in object))) {
     object[key] = value;
   }
@@ -14849,68 +13710,504 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"lodash._baseclone":36,"lodash._stack":51,"lodash.isplainobject":70,"lodash.keysin":75,"lodash.rest":79}],78:[function(require,module,exports){
+},{"lodash._baseclone":36,"lodash._stack":54,"lodash.isplainobject":70,"lodash.keysin":79,"lodash.rest":80}],79:[function(require,module,exports){
+(function (global){
 /**
- * lodash 4.2.0 (Custom Build) <https://lodash.com/>
+ * lodash 4.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
  * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  * Available under MIT license <https://lodash.com/license>
  */
-var baseIteratee = require('lodash._baseiteratee'),
-    basePullAt = require('lodash._basepullat');
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    stringTag = '[object String]';
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/** Used to determine if values are of the language type `Object`. */
+var objectTypes = {
+  'function': true,
+  'object': true
+};
+
+/** Detect free variable `exports`. */
+var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+  ? exports
+  : undefined;
+
+/** Detect free variable `module`. */
+var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+  ? module
+  : undefined;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+/** Detect free variable `self`. */
+var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+/** Detect free variable `window`. */
+var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+/** Detect `this` as the global object. */
+var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
 
 /**
- * Removes all elements from `array` that `predicate` returns truthy for
- * and returns an array of the removed elements. The predicate is invoked with
- * three arguments: (value, index, array).
+ * Used as a reference to the global object.
  *
- * **Note:** Unlike `_.filter`, this method mutates `array`.
- *
- * @static
- * @memberOf _
- * @category Array
- * @param {Array} array The array to modify.
- * @param {Function|Object|string} [predicate=_.identity] The function invoked per iteration.
- * @returns {Array} Returns the new array of removed elements.
- * @example
- *
- * var array = [1, 2, 3, 4];
- * var evens = _.remove(array, function(n) {
- *   return n % 2 == 0;
- * });
- *
- * console.log(array);
- * // => [1, 3]
- *
- * console.log(evens);
- * // => [2, 4]
+ * The `this` value is used if it's the global object to avoid Greasemonkey's
+ * restricted `window` object, otherwise the `window` object is used.
  */
-function remove(array, predicate) {
-  var result = [];
-  if (!(array && array.length)) {
-    return result;
-  }
-  var index = -1,
-      indexes = [],
-      length = array.length;
+var root = freeGlobal ||
+  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+    freeSelf || thisGlobal || Function('return this')();
 
-  predicate = baseIteratee(predicate, 3);
-  while (++index < length) {
-    var value = array[index];
-    if (predicate(value, index, array)) {
-      result.push(value);
-      indexes.push(index);
-    }
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
   }
-  basePullAt(array, indexes);
   return result;
 }
 
-module.exports = remove;
+/**
+ * Checks if `value` is a global object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+ */
+function checkGlobal(value) {
+  return (value && value.Object === Object) ? value : null;
+}
 
-},{"lodash._baseiteratee":43,"lodash._basepullat":44}],79:[function(require,module,exports){
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+/**
+ * Converts `iterator` to an array.
+ *
+ * @private
+ * @param {Object} iterator The iterator to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function iteratorToArray(iterator) {
+  var data,
+      result = [];
+
+  while (!(data = iterator.next()).done) {
+    result.push(data.value);
+  }
+  return result;
+}
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var Reflect = root.Reflect,
+    enumerate = Reflect ? Reflect.enumerate : undefined,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * The base implementation of `_.keysIn` which doesn't skip the constructor
+ * property of prototypes or treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeysIn(object) {
+  object = object == null ? object : Object(object);
+
+  var result = [];
+  for (var key in object) {
+    result.push(key);
+  }
+  return result;
+}
+
+// Fallback for IE < 9 with es6-shim.
+if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
+  baseKeysIn = function(object) {
+    return iteratorToArray(enumerate(object));
+  };
+}
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Creates an array of index keys for `object` values of arrays,
+ * `arguments` objects, and strings, otherwise `null` is returned.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array|null} Returns index keys, else `null`.
+ */
+function indexKeys(object) {
+  var length = object ? object.length : undefined;
+  if (isLength(length) &&
+      (isArray(object) || isString(object) || isArguments(object))) {
+    return baseTimes(length, String);
+  }
+  return null;
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (isFunction(Ctor) && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @type {Function}
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null &&
+    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array constructors, and
+  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' ||
+    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
+}
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  var index = -1,
+      isProto = isPrototype(object),
+      props = baseKeysIn(object),
+      propsLength = props.length,
+      indexes = indexKeys(object),
+      skipIndexes = !!indexes,
+      result = indexes || [],
+      length = result.length;
+
+  while (++index < propsLength) {
+    var key = props[index];
+    if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
+        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keysIn;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],80:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15159,7 +14456,68 @@ function toNumber(value) {
 
 module.exports = rest;
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
+/**
+ * lodash 4.2.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+var baseIteratee = require('lodash._baseiteratee'),
+    basePullAt = require('lodash._basepullat');
+
+/**
+ * Removes all elements from `array` that `predicate` returns truthy for
+ * and returns an array of the removed elements. The predicate is invoked with
+ * three arguments: (value, index, array).
+ *
+ * **Note:** Unlike `_.filter`, this method mutates `array`.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to modify.
+ * @param {Function|Object|string} [predicate=_.identity] The function invoked per iteration.
+ * @returns {Array} Returns the new array of removed elements.
+ * @example
+ *
+ * var array = [1, 2, 3, 4];
+ * var evens = _.remove(array, function(n) {
+ *   return n % 2 == 0;
+ * });
+ *
+ * console.log(array);
+ * // => [1, 3]
+ *
+ * console.log(evens);
+ * // => [2, 4]
+ */
+function remove(array, predicate) {
+  var result = [];
+  if (!(array && array.length)) {
+    return result;
+  }
+  var index = -1,
+      indexes = [],
+      length = array.length;
+
+  predicate = baseIteratee(predicate, 3);
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result.push(value);
+      indexes.push(index);
+    }
+  }
+  basePullAt(array, indexes);
+  return result;
+}
+
+module.exports = remove;
+
+},{"lodash._baseiteratee":45,"lodash._basepullat":46}],82:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -15228,7 +14586,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],81:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 /**
  * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15544,9 +14902,9 @@ function isString(value) {
 
 module.exports = size;
 
-},{"lodash.keys":82}],82:[function(require,module,exports){
-arguments[4][38][0].apply(exports,arguments)
-},{"dup":38}],83:[function(require,module,exports){
+},{"lodash.keys":84}],84:[function(require,module,exports){
+arguments[4][39][0].apply(exports,arguments)
+},{"dup":39}],85:[function(require,module,exports){
 /**
  * lodash 4.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15905,7 +15263,9 @@ function toNumber(value) {
 
 module.exports = slice;
 
-},{"lodash._baseslice":45}],84:[function(require,module,exports){
+},{"lodash._baseslice":86}],86:[function(require,module,exports){
+arguments[4][47][0].apply(exports,arguments)
+},{"dup":47}],87:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.1 (Custom Build) <https://lodash.com/>
@@ -16073,7 +15433,7 @@ function toString(value) {
 module.exports = toString;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],85:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16246,7 +15606,7 @@ function trim(string, chars, guard) {
 
 module.exports = trim;
 
-},{"lodash.tostring":84}],86:[function(require,module,exports){
+},{"lodash.tostring":87}],89:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16280,7 +15640,332 @@ var union = rest(function(arrays) {
 
 module.exports = union;
 
-},{"lodash._baseflatten":41,"lodash._baseuniq":46,"lodash.rest":79}],87:[function(require,module,exports){
+},{"lodash._baseflatten":90,"lodash._baseuniq":48,"lodash.rest":91}],90:[function(require,module,exports){
+/**
+ * lodash 4.1.0 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
+
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * The base implementation of `_.flatten` with support for restricting flattening.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, depth, isStrict, result) {
+  result || (result = []);
+
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    var value = array[index];
+    if (depth > 0 && isArrayLikeObject(value) &&
+        (isStrict || isArray(value) || isArguments(value))) {
+      if (depth > 1) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, depth - 1, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @type {Function}
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null &&
+    !(typeof value == 'function' && isFunction(value)) && isLength(getLength(value));
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array constructors, and
+  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = baseFlatten;
+
+},{}],91:[function(require,module,exports){
+arguments[4][80][0].apply(exports,arguments)
+},{"dup":80}],92:[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
 
@@ -16361,7 +16046,7 @@ function main(initialState, view, opts) {
     }
 }
 
-},{"error/typed":20,"raf":93}],88:[function(require,module,exports){
+},{"error/typed":20,"raf":99}],93:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -16395,7 +16080,7 @@ function main(initialState, view, opts) {
 
 }).call(this);
 
-},{"backbone-events-standalone":2}],89:[function(require,module,exports){
+},{"backbone-events-standalone":2}],94:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -17800,7 +17485,7 @@ function main(initialState, view, opts) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],90:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -17832,7 +17517,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":25,"trim":100}],91:[function(require,module,exports){
+},{"for-each":23,"trim":106}],96:[function(require,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.6.3
 (function() {
@@ -17872,14 +17557,176 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
-},{"_process":7}],92:[function(require,module,exports){
-function identity(x) { return x; }
+},{"_process":98}],97:[function(require,module,exports){
 
-module.exports = identity;
-module.exports.dash = identity;
-module.exports.dash = identity;
+var style = document.createElement('p').style
+var prefixes = 'O ms Moz Webkit'.split(' ')
+var upper = /([A-Z])/g
 
-},{}],93:[function(require,module,exports){
+var memo = {}
+
+/**
+ * memoized `prefix`
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+
+module.exports = exports = function(key){
+  return key in memo
+    ? memo[key]
+    : memo[key] = prefix(key)
+}
+
+exports.prefix = prefix
+exports.dash = dashedPrefix
+
+/**
+ * prefix `key`
+ *
+ *   prefix('transform') // => WebkitTransform
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+
+function prefix(key){
+  // camel case
+  key = key.replace(/-([a-z])/g, function(_, char){
+    return char.toUpperCase()
+  })
+
+  // without prefix
+  if (style[key] !== undefined) return key
+
+  // with prefix
+  var Key = capitalize(key)
+  var i = prefixes.length
+  while (i--) {
+    var name = prefixes[i] + Key
+    if (style[name] !== undefined) return name
+  }
+
+  throw new Error('unable to prefix ' + key)
+}
+
+function capitalize(str){
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+/**
+ * create a dasherized prefix
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+
+function dashedPrefix(key){
+  key = prefix(key)
+  if (upper.test(key)) {
+    key = '-' + key.replace(upper, '-$1')
+    upper.lastIndex = 0 // fix #1
+  }
+  return key.toLowerCase()
+}
+
+},{}],98:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],99:[function(require,module,exports){
 var now = require('performance-now')
   , global = typeof window === 'undefined' ? {} : window
   , vendors = ['moz', 'webkit']
@@ -17961,7 +17808,7 @@ module.exports.cancel = function() {
   caf.apply(global, arguments)
 }
 
-},{"performance-now":91}],94:[function(require,module,exports){
+},{"performance-now":96}],100:[function(require,module,exports){
 (function (process){
 module.exports = function (tasks, cb) {
   var results, pending, keys
@@ -18011,7 +17858,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-},{"_process":7}],95:[function(require,module,exports){
+},{"_process":98}],101:[function(require,module,exports){
 'use strict';
 
 var bindAll = require('lodash.bindall');
@@ -18374,15 +18221,15 @@ SimpleColorPicker.prototype._onHueMouseUp = function() {
 
 module.exports = SimpleColorPicker;
 
-},{"./src/utils/maths/clamp":97,"component-emitter":9,"dom-transform":16,"is-number":34,"lodash.bindall":52,"tinycolor2":99}],96:[function(require,module,exports){
+},{"./src/utils/maths/clamp":103,"component-emitter":8,"dom-transform":16,"is-number":33,"lodash.bindall":55,"tinycolor2":105}],102:[function(require,module,exports){
 var css = ".Scp {\n  width: 175px;\n  height: 150px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  position: relative;\n}\n.Scp-saturation {\n  position: relative;\n  width: calc(100% - 25px);\n  height: 100%;\n  background: linear-gradient(to right, #fff 0%, #f00 100%);\n  float: left;\n  margin-right: 5px;\n}\n.Scp-brightness {\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(to top, #000 0%, rgba(255,255,255,0) 100%);\n}\n.Scp-sbSelector {\n  border: 2px solid;\n  border-color: #fff;\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: #fff;\n  border-radius: 10px;\n  top: -7px;\n  left: -7px;\n  box-sizing: border-box;\n  z-index: 10;\n}\n.Scp-hue {\n  width: 20px;\n  height: 100%;\n  position: relative;\n  float: left;\n  background: linear-gradient(to bottom, #f00 0%, #f0f 17%, #00f 34%, #0ff 50%, #0f0 67%, #ff0 84%, #f00 100%);\n}\n.Scp-hSelector {\n  position: absolute;\n  background: #fff;\n  border-bottom: 1px solid #000;\n  right: -3px;\n  width: 10px;\n  height: 2px;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/simple-color-picker/simple-color-picker.css"})); module.exports = css;
-},{"browserify-css":5}],97:[function(require,module,exports){
+},{"browserify-css":5}],103:[function(require,module,exports){
 'use strict';
 
 module.exports = function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 };
-},{}],98:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 var nargs = /\{([0-9a-zA-Z]+)\}/g
 var slice = Array.prototype.slice
 
@@ -18418,7 +18265,7 @@ function template(string) {
     })
 }
 
-},{}],99:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 // TinyColor v1.3.0
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
@@ -19586,7 +19433,7 @@ else {
 
 })();
 
-},{}],100:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -19602,7 +19449,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],101:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -19868,7 +19715,7 @@ var attrBlacklist =
 module.exports.attrBlacklist = {
   'class': 'className'
 }
-},{"./vcomment":102,"virtual-dom/vnode/vnode":124,"virtual-dom/vnode/vtext":126}],102:[function(require,module,exports){
+},{"./vcomment":108,"virtual-dom/vnode/vnode":130,"virtual-dom/vnode/vtext":132}],108:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -19886,27 +19733,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],103:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":108}],104:[function(require,module,exports){
+},{"./vdom/create-element.js":114}],110:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":128}],105:[function(require,module,exports){
+},{"./vtree/diff.js":134}],111:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":115}],106:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":121}],112:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":111}],107:[function(require,module,exports){
+},{"./vdom/patch.js":117}],113:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -20005,7 +19852,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":119,"is-object":35}],108:[function(require,module,exports){
+},{"../vnode/is-vhook.js":125,"is-object":34}],114:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -20053,7 +19900,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":117,"../vnode/is-vnode.js":120,"../vnode/is-vtext.js":121,"../vnode/is-widget.js":122,"./apply-properties":107,"global/document":26}],109:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":123,"../vnode/is-vnode.js":126,"../vnode/is-vtext.js":127,"../vnode/is-widget.js":128,"./apply-properties":113,"global/document":24}],115:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -20140,7 +19987,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],110:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -20293,7 +20140,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":122,"../vnode/vpatch.js":125,"./apply-properties":107,"./update-widget":112}],111:[function(require,module,exports){
+},{"../vnode/is-widget.js":128,"../vnode/vpatch.js":131,"./apply-properties":113,"./update-widget":118}],117:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -20375,7 +20222,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":108,"./dom-index":109,"./patch-op":110,"global/document":26,"x-is-array":131}],112:[function(require,module,exports){
+},{"./create-element":114,"./dom-index":115,"./patch-op":116,"global/document":24,"x-is-array":137}],118:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -20392,7 +20239,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":122}],113:[function(require,module,exports){
+},{"../vnode/is-widget.js":128}],119:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -20421,7 +20268,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":21}],114:[function(require,module,exports){
+},{"ev-store":21}],120:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -20440,7 +20287,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],115:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -20579,7 +20426,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":118,"../vnode/is-vhook":119,"../vnode/is-vnode":120,"../vnode/is-vtext":121,"../vnode/is-widget":122,"../vnode/vnode.js":124,"../vnode/vtext.js":126,"./hooks/ev-hook.js":113,"./hooks/soft-set-hook.js":114,"./parse-tag.js":116,"x-is-array":131}],116:[function(require,module,exports){
+},{"../vnode/is-thunk":124,"../vnode/is-vhook":125,"../vnode/is-vnode":126,"../vnode/is-vtext":127,"../vnode/is-widget":128,"../vnode/vnode.js":130,"../vnode/vtext.js":132,"./hooks/ev-hook.js":119,"./hooks/soft-set-hook.js":120,"./parse-tag.js":122,"x-is-array":137}],122:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -20635,7 +20482,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":4}],117:[function(require,module,exports){
+},{"browser-split":4}],123:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -20677,14 +20524,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":118,"./is-vnode":120,"./is-vtext":121,"./is-widget":122}],118:[function(require,module,exports){
+},{"./is-thunk":124,"./is-vnode":126,"./is-vtext":127,"./is-widget":128}],124:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],119:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -20693,7 +20540,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],120:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -20702,7 +20549,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":123}],121:[function(require,module,exports){
+},{"./version":129}],127:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -20711,17 +20558,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":123}],122:[function(require,module,exports){
+},{"./version":129}],128:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],123:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 module.exports = "2"
 
-},{}],124:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -20795,7 +20642,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":118,"./is-vhook":119,"./is-vnode":120,"./is-widget":122,"./version":123}],125:[function(require,module,exports){
+},{"./is-thunk":124,"./is-vhook":125,"./is-vnode":126,"./is-widget":128,"./version":129}],131:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -20819,7 +20666,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":123}],126:[function(require,module,exports){
+},{"./version":129}],132:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -20831,7 +20678,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":123}],127:[function(require,module,exports){
+},{"./version":129}],133:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -20891,7 +20738,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":119,"is-object":35}],128:[function(require,module,exports){
+},{"../vnode/is-vhook":125,"is-object":34}],134:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -21320,7 +21167,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":117,"../vnode/is-thunk":118,"../vnode/is-vnode":120,"../vnode/is-vtext":121,"../vnode/is-widget":122,"../vnode/vpatch":125,"./diff-props":127,"x-is-array":131}],129:[function(require,module,exports){
+},{"../vnode/handle-thunk":123,"../vnode/is-thunk":124,"../vnode/is-vnode":126,"../vnode/is-vtext":127,"../vnode/is-widget":128,"../vnode/vpatch":131,"./diff-props":133,"x-is-array":137}],135:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -21341,7 +21188,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":130}],130:[function(require,module,exports){
+},{"./hidden-store.js":136}],136:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -21359,7 +21206,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],131:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -21369,7 +21216,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],132:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var once = require("once")
@@ -21590,7 +21437,7 @@ function _createXHR(options) {
 
 function noop() {}
 
-},{"global/window":27,"is-function":33,"once":133,"parse-headers":90,"xtend":134}],133:[function(require,module,exports){
+},{"global/window":25,"is-function":32,"once":139,"parse-headers":95,"xtend":140}],139:[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -21611,7 +21458,7 @@ function once (fn) {
   }
 }
 
-},{}],134:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -21632,7 +21479,7 @@ function extend() {
     return target
 }
 
-},{}],135:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -21651,9 +21498,9 @@ function extend(target) {
     return target
 }
 
-},{}],136:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  box-sizing: inherit;\n}\n.ec {\n  font-size: 14px;\n  line-height: 1.5;\n  background: #f5f5f5;\n  float: left;\n  width: 100%;\n  /*!*\n *\n * @csswizardry -- csswizardry.com/beautons\n *\n */\n}\n.ec .table {\n  width: 100%;\n}\n.ec .table [contenteditable=\"true\"]:active,\n.ec .table [contenteditable=\"true\"]:focus {\n  border: none;\n  outline: none;\n  background: #f5f5f5;\n}\n.ec .table th,\n.ec .table td {\n  padding: 0.375em;\n  text-align: left;\n}\n@media screen and (min-width: 480px) {\n  .ec .table th,\n  .ec .table td {\n    padding: 0.75em;\n  }\n}\n.ec [colspan] {\n  text-align: center;\n}\n.ec [colspan=\"1\"] {\n  text-align: left;\n}\n.ec [rowspan] {\n  vertical-align: middle;\n}\n.ec [rowspan=\"1\"] {\n  vertical-align: top;\n}\n.ec .numerical {\n  text-align: right;\n}\n.ec .t5 {\n  width: 5%;\n}\n.ec .t10 {\n  width: 10%;\n}\n.ec .t12 {\n  width: 12.5%;\n}\n.ec .t15 {\n  width: 15%;\n}\n.ec .t20 {\n  width: 20%;\n}\n.ec .t25 {\n  width: 25%;\n}\n.ec .t30 {\n  width: 30%;\n}\n.ec .t33 {\n  width: 33.333%;\n}\n.ec .t35 {\n  width: 35%;\n}\n.ec .t37 {\n  width: 37.5%;\n}\n.ec .t40 {\n  width: 40%;\n}\n.ec .t45 {\n  width: 45%;\n}\n.ec .t50 {\n  width: 50%;\n}\n.ec .t55 {\n  width: 55%;\n}\n.ec .t60 {\n  width: 60%;\n}\n.ec .t62 {\n  width: 62.5%;\n}\n.ec .t65 {\n  width: 65%;\n}\n.ec .t66 {\n  width: 66.666%;\n}\n.ec .t70 {\n  width: 70%;\n}\n.ec .t75 {\n  width: 75%;\n}\n.ec .t80 {\n  width: 80%;\n}\n.ec .t85 {\n  width: 85%;\n}\n.ec .t87 {\n  width: 87.5%;\n}\n.ec .t90 {\n  width: 90%;\n}\n.ec .t95 {\n  width: 95%;\n}\n.ec .table--bordered {\n  border-collapse: collapse;\n}\n.ec .table--bordered tr {\n  border: 1px solid #DDD;\n}\n.ec .table--bordered th,\n.ec .table--bordered td {\n  border-right: 1px solid #DDD;\n}\n.ec .table--bordered thead tr:last-child th {\n  border-bottom-width: 2px;\n}\n.ec .table--bordered tbody tr th:last-of-type {\n  border-right-width: 2px;\n}\n.ec .table--striped tbody tr:nth-of-type(odd) {\n  background-color: #ffc;\n}\n.ec .table--data {\n  font: 12px/1.5 sans-serif;\n}\n.ec .table--disabled {\n  color: #777;\n  border-color: #777;\n}\n.ec fieldset {\n  background-color: #f5f5f5;\n  border: 1px solid #DDD;\n  margin: 0 0 0.75em;\n  padding: 1.5em;\n}\n.ec input,\n.ec label,\n.ec select {\n  display: block;\n  font-family: \"sans-serif\";\n  font-size: 14px;\n}\n.ec label {\n  font-weight: 600;\n}\n.ec label.required::after {\n  content: \"*\";\n}\n.ec label abbr {\n  display: none;\n}\n.ec input[type=\"color\"],\n.ec input[type=\"date\"],\n.ec input[type=\"datetime\"],\n.ec input[type=\"datetime-local\"],\n.ec input[type=\"email\"],\n.ec input[type=\"month\"],\n.ec input[type=\"number\"],\n.ec input[type=\"password\"],\n.ec input[type=\"search\"],\n.ec input[type=\"tel\"],\n.ec input[type=\"text\"],\n.ec input[type=\"time\"],\n.ec input[type=\"url\"],\n.ec input[type=\"week\"],\n.ec textarea,\n.ec select {\n  background-color: #fff;\n  border: 1px solid #bfbfbf;\n  border-radius: 3px;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);\n  box-sizing: border-box;\n  font-family: \"sans-serif\";\n  font-size: 14px;\n  padding: 0.375em;\n  transition: border-color 0.2s ease-in;\n  max-width: 100%;\n}\n.ec input[type=\"color\"]:hover,\n.ec input[type=\"date\"]:hover,\n.ec input[type=\"datetime\"]:hover,\n.ec input[type=\"datetime-local\"]:hover,\n.ec input[type=\"email\"]:hover,\n.ec input[type=\"month\"]:hover,\n.ec input[type=\"number\"]:hover,\n.ec input[type=\"password\"]:hover,\n.ec input[type=\"search\"]:hover,\n.ec input[type=\"tel\"]:hover,\n.ec input[type=\"text\"]:hover,\n.ec input[type=\"time\"]:hover,\n.ec input[type=\"url\"]:hover,\n.ec input[type=\"week\"]:hover,\n.ec textarea:hover,\n.ec select:hover {\n  border-color: #b1b1b1;\n}\n.ec input[type=\"color\"]:focus,\n.ec input[type=\"date\"]:focus,\n.ec input[type=\"datetime\"]:focus,\n.ec input[type=\"datetime-local\"]:focus,\n.ec input[type=\"email\"]:focus,\n.ec input[type=\"month\"]:focus,\n.ec input[type=\"number\"]:focus,\n.ec input[type=\"password\"]:focus,\n.ec input[type=\"search\"]:focus,\n.ec input[type=\"tel\"]:focus,\n.ec input[type=\"text\"]:focus,\n.ec input[type=\"time\"]:focus,\n.ec input[type=\"url\"]:focus,\n.ec input[type=\"week\"]:focus,\n.ec textarea:focus,\n.ec select:focus {\n  border-color: #477dca;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06),0 0 5px rgba(55,112,192,0.7);\n  outline: none;\n}\n.ec input[type=\"color\"]:disabled,\n.ec input[type=\"date\"]:disabled,\n.ec input[type=\"datetime\"]:disabled,\n.ec input[type=\"datetime-local\"]:disabled,\n.ec input[type=\"email\"]:disabled,\n.ec input[type=\"month\"]:disabled,\n.ec input[type=\"number\"]:disabled,\n.ec input[type=\"password\"]:disabled,\n.ec input[type=\"search\"]:disabled,\n.ec input[type=\"tel\"]:disabled,\n.ec input[type=\"text\"]:disabled,\n.ec input[type=\"time\"]:disabled,\n.ec input[type=\"url\"]:disabled,\n.ec input[type=\"week\"]:disabled,\n.ec textarea:disabled,\n.ec select:disabled {\n  background-color: #f2f2f2;\n  cursor: not-allowed;\n}\n.ec input[type=\"color\"]:disabled:hover,\n.ec input[type=\"date\"]:disabled:hover,\n.ec input[type=\"datetime\"]:disabled:hover,\n.ec input[type=\"datetime-local\"]:disabled:hover,\n.ec input[type=\"email\"]:disabled:hover,\n.ec input[type=\"month\"]:disabled:hover,\n.ec input[type=\"number\"]:disabled:hover,\n.ec input[type=\"password\"]:disabled:hover,\n.ec input[type=\"search\"]:disabled:hover,\n.ec input[type=\"tel\"]:disabled:hover,\n.ec input[type=\"text\"]:disabled:hover,\n.ec input[type=\"time\"]:disabled:hover,\n.ec input[type=\"url\"]:disabled:hover,\n.ec input[type=\"week\"]:disabled:hover,\n.ec textarea:disabled:hover,\n.ec select:disabled:hover {\n  border: 1px solid #DDD;\n}\n.ec textarea {\n  width: 100%;\n  resize: vertical;\n}\n.ec input[type=\"search\"] {\n  appearance: none;\n}\n.ec input[type=\"checkbox\"],\n.ec input[type=\"radio\"] {\n  display: inline;\n  margin-right: 0.375em;\n}\n.ec input[type=\"checkbox\"]+label,\n.ec input[type=\"radio\"]+label {\n  display: inline-block;\n}\n.ec input[type=\"file\"] {\n  width: 100%;\n}\n.ec select {\n  max-width: 100%;\n  width: auto;\n}\n.ec .form-item {\n  width: 100%;\n  color: #333;\n  margin-bottom: 0.75em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n.ec .form-item__input {\n  width: 100%;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__input {\n    width: 60%;\n  }\n}\n.ec .form-item__label {\n  width: 100%;\n  padding-bottom: 0.75em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__label {\n    padding: 0;\n    width: 40%;\n    text-align: right;\n    margin-right: 1.5em;\n  }\n}\n.ec .field-group {\n  padding: 0.375em 0 0.75em 0;\n}\n.ec .field-group__title {\n  padding-bottom: 0.75em;\n}\n.ec h1 {\n  margin: 0;\n  padding: 0;\n  font-size: 28px;\n}\n.ec h2 {\n  margin: 0;\n  padding: 0;\n  font-size: 24.5px;\n}\n.ec h3 {\n  margin: 0;\n  padding: 0;\n  font-size: 21px;\n}\n.ec h4 {\n  margin: 0;\n  padding: 0;\n  font-size: 17.5px;\n}\n.ec h5 {\n  margin: 0;\n  padding: 0;\n  font-size: 15.75px;\n}\n.ec h6 {\n  margin: 0;\n  padding: 0;\n  font-size: 14px;\n}\n.ec .vertical-tabs-container {\n  margin-bottom: 1.5em;\n  overflow: hidden;\n  display: flex;\n}\n.ec .vertical-tabs-container::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .vertical-tabs-container .vertical-tabs {\n  padding: 0;\n  margin: 0;\n  display: inline;\n  float: left;\n  width: 20%;\n  list-style: none;\n  border-right: 1px solid #DDD;\n}\n.ec .vertical-tabs-container li.active {\n  background-color: white;\n  margin-right: -1px;\n  border: 1px solid #DDD;\n  border-right-color: white;\n}\n.ec .vertical-tabs-container li.active .sub-active {\n  color: #477dca;\n}\n.ec .vertical-tabs-container li.active .sub-non-active {\n  color: #333;\n}\n.ec .vertical-tabs-container li a {\n  padding: 0.75em 0.809em;\n  text-decoration: none;\n  color: inherit;\n  display: block;\n}\n.ec .vertical-tabs-container li ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.ec .vertical-tabs-container li ul li {\n  padding-bottom: 5px;\n  padding-left: 20px;\n}\n.ec .vertical-tabs-container .vertical-tab:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container {\n  border: 1px solid #DDD;\n  border-left: none;\n  display: inline-block;\n  width: 80%;\n  background-color: white;\n  margin: 0 auto;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container a:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content {\n  display: inline-block;\n  background-color: white;\n  padding: 1.5em 1.618em;\n  border: none;\n  width: 100%;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading {\n  border-top: 1px solid #DDD;\n  cursor: pointer;\n  display: block;\n  font-weight: bold;\n  padding: 0.75em 0.809em;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:hover {\n  color: #477dca;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:first-child {\n  border-top: none;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading.active {\n  background: white;\n  border-bottom: none;\n}\n.ec .accordion-tabs-minimal {\n  margin: 0 0.75em;\n  line-height: 1.5;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .accordion-tabs-minimal ul.tab-list {\n  margin: 0;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal li.tab-header-and-content {\n  list-style: none;\n  display: inline;\n}\n.ec .accordion-tabs-minimal .tab-link {\n  border-top: 1px solid #DDD;\n  display: inline-block;\n  border-top: 0;\n}\n.ec .accordion-tabs-minimal .tab-link a {\n  text-decoration: none;\n  display: block;\n  padding: 0.75em 1.618em;\n}\n.ec .accordion-tabs-minimal .tab-link a:hover {\n  color: #2c5999;\n}\n.ec .accordion-tabs-minimal .tab-link a:focus {\n  outline: none;\n}\n.ec .accordion-tabs-minimal .tab-link a.is-active {\n  border: 1px solid #DDD;\n  border-bottom-color: white;\n  background: white;\n  margin-bottom: -1px;\n  color: #477dca;\n}\n.ec .accordion-tabs-minimal .tab-content {\n  border: 1px solid #DDD;\n  padding: 1.5em 1.618em;\n  width: 100%;\n  float: left;\n  background: white;\n  min-height: 250px;\n}\n.ec .btn {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n  font-family: inherit;\n  font-size: 100%;\n  cursor: pointer;\n  border: none;\n  margin: 0;\n  padding-top: 0;\n  padding-bottom: 0;\n  line-height: 3;\n  padding-right: 1em;\n  padding-left: 1em;\n  border-radius: 3px;\n  background: #477dca;\n  color: white;\n}\n.ec .btn,\n.ec .btn:hover {\n  text-decoration: none;\n  background: #2c5999;\n}\n.ec .btn:active,\n.ec .btn:focus {\n  outline: none;\n}\n.ec .btn--small {\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n  line-height: 2;\n}\n.ec .btn--large {\n  padding-right: 1.5em;\n  padding-left: 1.5em;\n  line-height: 4;\n}\n.ec .btn--huge {\n  padding-right: 2em;\n  padding-left: 2em;\n  line-height: 5;\n}\n.ec .btn--full {\n  width: 100%;\n  padding-right: 0;\n  padding-left: 0;\n  text-align: center;\n}\n.ec .btn--alpha {\n  font-size: 3rem;\n}\n.ec .btn--beta {\n  font-size: 2rem;\n}\n.ec .btn--gamma {\n  font-size: 1rem;\n}\n.ec .btn--natural {\n  vertical-align: baseline;\n  font-size: inherit;\n  line-height: inherit;\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n}\n.ec .btn--positive {\n  background-color: #4A993E;\n  color: #fff;\n}\n.ec .btn--negative {\n  background-color: #b33630;\n  color: #fff;\n}\n.ec .btn--inactive,\n.ec .btn--inactive:hover,\n.ec .btn--inactive:active,\n.ec .btn--inactive:focus {\n  background-color: #ddd;\n  color: #777;\n  cursor: text;\n}\n.ec .btn--soft {\n  border-radius: 200px;\n}\n.ec .btn--hard {\n  border-radius: 0;\n}\n@media screen and (min-width: 800px) {\n  .ec .left {\n    width: 49%;\n    margin-right: 2%;\n    float: left;\n  }\n}\n@media screen and (min-width: 800px) {\n  .ec .right {\n    width: 49%;\n    float: left;\n  }\n}\n.ec .navigation {\n  padding: 0;\n  margin: 0;\n  display: block;\n}\n.ec .navigation__item {\n  margin: 20px 10px 20px 10px;\n  padding-bottom: 10px;\n  cursor: pointer;\n  display: inline-block;\n}\n.ec .navigation--steps .ec .navigation__item {\n  border-bottom: 5px solid;\n}\n.ec .float--right {\n  float: right !important;\n}\n.ec .float--left {\n  float: left !important;\n}\n.ec .float--none {\n  float: none !important;\n}\n.ec .text--left {\n  text-align: left  !important;\n}\n.ec .text--center {\n  text-align: center !important;\n}\n.ec .text--right {\n  text-align: right !important;\n}\n.ec .weight--light {\n  font-weight: 300 !important;\n}\n.ec .weight--normal {\n  font-weight: 400 !important;\n}\n.ec .weight--semibold {\n  font-weight: 600 !important;\n}\n.ec .push {\n  margin: 1.5em !important;\n}\n.ec .push--top {\n  margin-top: 1.5em !important;\n}\n.ec .push--right {\n  margin-right: 1.5em !important;\n}\n.ec .push--bottom {\n  margin-bottom: 1.5em !important;\n}\n.ec .push--left {\n  margin-left: 1.5em !important;\n}\n.ec .push--ends {\n  margin-top: 1.5em !important;\n  margin-bottom: 1.5em !important;\n}\n.ec .push--sides {\n  margin-right: 1.5em !important;\n  margin-left: 1.5em !important;\n}\n.ec .push-half {\n  margin: 0.75em !important;\n}\n.ec .push-half--top {\n  margin-top: 0.75em !important;\n}\n.ec .push-half--right {\n  margin-right: 0.75em !important;\n}\n.ec .push-half--bottom {\n  margin-bottom: 0.75em !important;\n}\n.ec .push-half--left {\n  margin-left: 0.75em !important;\n}\n.ec .push-half--ends {\n  margin-top: 0.75em !important;\n  margin-bottom: 0.75em !important;\n}\n.ec .push-half--sides {\n  margin-right: 0.75em !important;\n  margin-left: 0.75em !important;\n}\n.ec .flush {\n  margin: 0 !important;\n}\n.ec .flush--top {\n  margin-top: 0 !important;\n}\n.ec .flush--right {\n  margin-right: 0 !important;\n}\n.ec .flush--bottom {\n  margin-bottom: 0 !important;\n}\n.ec .flush--left {\n  margin-left: 0 !important;\n}\n.ec .flush--ends {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n}\n.ec .flush--sides {\n  margin-right: 0 !important;\n  margin-left: 0 !important;\n}\n.ec .soft {\n  padding: 1.5em !important;\n}\n.ec .soft--top {\n  padding-top: 1.5em !important;\n}\n.ec .soft--right {\n  padding-right: 1.5em !important;\n}\n.ec .soft--bottom {\n  padding-bottom: 1.5em !important;\n}\n.ec .soft--left {\n  padding-left: 1.5em !important;\n}\n.ec .soft--ends {\n  padding-top: 1.5em !important;\n  padding-bottom: 1.5em !important;\n}\n.ec .soft--sides {\n  padding-right: 1.5em !important;\n  padding-left: 1.5em !important;\n}\n.ec .soft-half {\n  padding: 0.75em !important;\n}\n.ec .soft-half--top {\n  padding-top: 0.75em !important;\n}\n.ec .soft-half--right {\n  padding-right: 0.75em !important;\n}\n.ec .soft-half--bottom {\n  padding-bottom: 0.75em !important;\n}\n.ec .soft-half--left {\n  padding-left: 0.75em !important;\n}\n.ec .soft-half--ends {\n  padding-top: 0.75em !important;\n  padding-bottom: 0.75em !important;\n}\n.ec .soft-half--sides {\n  padding-right: 0.75em !important;\n  padding-left: 0.75em !important;\n}\n.ec .hard {\n  padding: 0 !important;\n}\n.ec .hard--top {\n  padding-top: 0 !important;\n}\n.ec .hard--right {\n  padding-right: 0 !important;\n}\n.ec .hard--bottom {\n  padding-bottom: 0 !important;\n}\n.ec .hard--left {\n  padding-left: 0 !important;\n}\n.ec .hard--ends {\n  padding-top: 0 !important;\n  padding-bottom: 0 !important;\n}\n.ec .hard--sides {\n  padding-right: 0 !important;\n  padding-left: 0 !important;\n}\n.ec .full-bleed {\n  margin-right: -1.5em !important;\n  margin-left: -1.5em !important;\n}\n.islet .ec .full-bleed {\n  margin-right: -0.75em !important;\n  margin-left: -0.75em !important;\n}\n.ec .loader,\n.ec .loader:before,\n.ec .loader:after {\n  border-radius: 50%;\n}\n.ec .loader:before,\n.ec .loader:after {\n  position: absolute;\n  content: '';\n}\n.ec .loader:before {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 10.2em 0 0 10.2em;\n  top: -0.1em;\n  left: -0.1em;\n  -webkit-transform-origin: 5.2em 5.1em;\n  transform-origin: 5.2em 5.1em;\n  -webkit-animation: load2 2s infinite ease 1.5s;\n  animation: load2 2s infinite ease 1.5s;\n}\n.ec .loader {\n  font-size: 11px;\n  text-indent: -99999em;\n  margin: 55px auto;\n  position: relative;\n  width: 10em;\n  height: 10em;\n  box-shadow: inset 0 0 0 1em #ffffff;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n}\n.ec .loader:after {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 0 10.2em 10.2em 0;\n  top: -0.1em;\n  left: 5.1em;\n  -webkit-transform-origin: 0px 5.1em;\n  transform-origin: 0px 5.1em;\n  -webkit-animation: load2 2s infinite ease;\n  animation: load2 2s infinite ease;\n}\n@-webkit-keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n.ec a,\n.ec .hover {\n  color: #477dca;\n  cursor: pointer;\n}\n.ec .active {\n  color: #477dca;\n}\n.ec .container {\n  clear: both;\n}\n.ec .Scp {\n  position: absolute;\n  margin-top: 5px;\n  width: 200px;\n  height: 150px;\n  border: 1px solid #DDD;\n  border-radius: 3px;\n}\n.ec .header {\n  margin-bottom: 20px;\n  background-color: #333;\n  width: 100%;\n  display: inline-block;\n}\n.ec .header .logo {\n  float: right;\n  text-align: right;\n  padding: 7px 1em;\n  height: 64px;\n}\n.ec .header .logo svg {\n  height: 50px;\n}\n.ec .header .navigation {\n  margin-left: 20px;\n  margin-top: 22px;\n  float: left;\n}\n.ec .header .navigation .tab-link a {\n  text-decoration: none;\n  color: white;\n}\n.ec .header .navigation .tab-link.is-active {\n  background: #f5f5f5;\n  border: none;\n}\n.ec .header .navigation .tab-link.is-active a {\n  color: #477dca;\n}\n.ec .header:after {\n  clear: both;\n}\n.ec .revisionElement {\n  margin-top: 20px;\n  border: 1px solid #DDD;\n  background: white;\n  padding: 20px;\n  display: block;\n  float: left;\n  width: 100%;\n}\n.ec .objectArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .objectArray .title {\n  width: 100%;\n  float: left;\n  padding: 7.5px 10px;\n  background: #f5f5f5;\n}\n.ec .objectArray .title h4,\n.ec .objectArray .title h5 {\n  float: left;\n}\n.ec .objectArray .title .btn {\n  float: right;\n}\n.ec .objectArray .list {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item .title {\n  border-bottom: 1px solid #DDD;\n  border-top: 1px solid #DDD;\n}\n.ec .objectArray .list .item .options {\n  float: left;\n  width: 100%;\n  padding-top: 20px;\n}\n.ec .readOnlyBox {\n  border: 1px solid #DDD;\n  background: white;\n  padding: 10px 20px;\n  display: block;\n  margin-bottom: 10px;\n}\n.ec .titleBar {\n  display: inline-block;\n  width: 100%;\n  padding-bottom: 20px;\n}\n.ec .titleBar h3 {\n  float: left;\n}\n.ec .titleBar .btn {\n  margin-left: 10px;\n  float: right;\n}\n.ec .templatelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .templatelist__item {\n  float: left;\n  width: 33%;\n  padding: 0.75em;\n  margin: 5px;\n  width: 125px;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in 0.2s,border-color ease-in 0.2s;\n}\n.ec .templatelist__item:hover {\n  background: #f5f5f5;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item svg {\n  max-height: 120px;\n}\n.ec .file_drop {\n  padding: 50px;\n  background: #DDD;\n}\n"; (require("browserify-css").createStyle(css, { "href": "src/css/style.css"})); module.exports = css;
-},{"browserify-css":5}],137:[function(require,module,exports){
+},{"browserify-css":5}],143:[function(require,module,exports){
 (function () {
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
@@ -21754,7 +21601,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
     window.ec = constructor;
 })();
 
-},{"../css/style.css":136,"./components/configure.js":139,"./components/debug.js":143,"./components/import.js":145,"./components/templateSelection.js":152,"./services/api":165,"./services/config":166,"./services/data":167,"./services/initializer":168,"./services/options":169,"./services/revision":170,"./services/router.js":171,"./services/templates":172,"dom-delegator":13,"mediatorjs":88,"virtual-dom/h":105}],138:[function(require,module,exports){
+},{"../css/style.css":142,"./components/configure.js":145,"./components/debug.js":149,"./components/import.js":151,"./components/templateSelection.js":158,"./services/api":171,"./services/config":172,"./services/data":173,"./services/initializer":174,"./services/options":175,"./services/revision":176,"./services/router.js":177,"./services/templates":178,"dom-delegator":12,"mediatorjs":93,"virtual-dom/h":111}],144:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -21775,7 +21622,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
 
     module.exports = that;
 })();
-},{}],139:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var optionsService = services.options;
@@ -21866,7 +21713,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
     module.exports = constructor;
 
 })();
-},{"./configure/axisTabs":140,"./configure/genericTabs":141,"./configure/seriesTabs":142,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],140:[function(require,module,exports){
+},{"./configure/axisTabs":146,"./configure/genericTabs":147,"./configure/seriesTabs":148,"lodash.clonedeep":56,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":81,"virtual-dom/h":111}],146:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22057,7 +21904,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":156,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],141:[function(require,module,exports){
+},{"../../factories/properties":162,"lodash.clonedeep":56,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":81,"virtual-dom/h":111}],147:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22133,7 +21980,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":156,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],142:[function(require,module,exports){
+},{"../../factories/properties":162,"lodash.clonedeep":56,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":81,"virtual-dom/h":111}],148:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22232,7 +22079,7 @@ function constructor (services){
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":156,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":105}],143:[function(require,module,exports){
+},{"../../factories/properties":162,"lodash.clonedeep":56,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":81,"virtual-dom/h":111}],149:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -22263,7 +22110,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../../../node_modules/highlight.js/lib/highlight":28,"../../../node_modules/highlight.js/lib/languages/json":29,"../../../node_modules/highlight.js/styles/monokai.css":30,"virtual-dom/h":105}],144:[function(require,module,exports){
+},{"../../../node_modules/highlight.js/lib/highlight":26,"../../../node_modules/highlight.js/lib/languages/json":27,"../../../node_modules/highlight.js/styles/monokai.css":28,"virtual-dom/h":111}],150:[function(require,module,exports){
 (function () {
     //var _ = require('lodash');
 
@@ -22380,7 +22227,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"virtual-dom/create-element":103,"virtual-dom/h":105}],145:[function(require,module,exports){
+},{"lodash.foreach":61,"lodash.isempty":65,"lodash.isundefined":72,"virtual-dom/create-element":109,"virtual-dom/h":111}],151:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -22494,7 +22341,7 @@ module.exports = constructor;
 
 
 
-},{"./hot":144,"./import/dragAndDrop":146,"./import/paste":147,"./import/upload":148,"./import/url":149,"./table":151,"virtual-dom/h":105}],146:[function(require,module,exports){
+},{"./hot":150,"./import/dragAndDrop":152,"./import/paste":153,"./import/upload":154,"./import/url":155,"./table":157,"virtual-dom/h":111}],152:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -22541,7 +22388,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"drag-drop":19,"virtual-dom/h":105}],147:[function(require,module,exports){
+},{"drag-drop":19,"virtual-dom/h":111}],153:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -22577,7 +22424,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":105}],148:[function(require,module,exports){
+},{"virtual-dom/h":111}],154:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var that = {};
@@ -22618,7 +22465,7 @@ module.exports = constructor;
 
     module.exports = that;
 })();
-},{"virtual-dom/h":105}],149:[function(require,module,exports){
+},{"virtual-dom/h":111}],155:[function(require,module,exports){
 (function () {
     var that = {};
     var h = require('virtual-dom/h');
@@ -22659,7 +22506,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":105}],150:[function(require,module,exports){
+},{"virtual-dom/h":111}],156:[function(require,module,exports){
 var constructor = function (mediator, list) {
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
@@ -22723,7 +22570,7 @@ module.exports = constructor;
 
 
 
-},{"virtual-dom/create-element":103,"virtual-dom/h":105}],151:[function(require,module,exports){
+},{"virtual-dom/create-element":109,"virtual-dom/h":111}],157:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -22794,7 +22641,7 @@ module.exports = constructor;
 
 
 
-},{"lodash.foreach":59,"lodash.isequal":66,"lodash.trim":85,"virtual-dom/h":105}],152:[function(require,module,exports){
+},{"lodash.foreach":61,"lodash.isequal":66,"lodash.trim":88,"virtual-dom/h":111}],158:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -22867,7 +22714,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":155,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"virtual-dom/h":105}],153:[function(require,module,exports){
+},{"../factories/iconLoader":161,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"virtual-dom/h":111}],159:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -22907,7 +22754,7 @@ module.exports=module.exports = [
                     {
                         "name": "chart--zoomType",
                         "fullname": "chart.zoomType",
-                        "title": "zoomType",
+                        "title": "zooming",
                         "parent": "chart",
                         "isParent": false,
                         "returnType": "String",
@@ -22918,10 +22765,10 @@ module.exports=module.exports = [
                         "deprecated": false
                     },
                     {
-                        "name": "plotOptions-column--stacking",
-                        "fullname": "plotOptions.column.stacking",
-                        "title": "column stacking",
-                        "parent": "plotOptions-column",
+                        "name": "plotOptions-series--stacking",
+                        "fullname": "plotOptions.series.stacking",
+                        "title": "stacking",
+                        "parent": "plotOptions-series",
                         "isParent": false,
                         "returnType": "String",
                         "values": "[null, \"normal\", \"percent\"]",
@@ -22931,16 +22778,17 @@ module.exports=module.exports = [
                         "deprecated": false
                     },
                     {
-                        "name": "plotOptions-bar--stacking",
-                        "fullname": "plotOptions.bar.stacking",
-                        "title": "bar stacking",
-                        "parent": "plotOptions-bar",
+                        "name": "plotOptions-series--step",
+                        "fullname": "plotOptions.series.step",
+                        "title": "step(line)",
+                        "parent": "plotOptions-series",
                         "isParent": false,
                         "returnType": "String",
-                        "values": "[null, \"normal\", \"percent\"]",
-                        "description": "Whether to stack the values of each series on top of each other. Possible values are null to disable, \"normal\" to stack by value or \"percent\".",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-area/\" target=\"_blank\">area</a> with \"normal\" stacking. \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-line/\" target=\"_blank\">Line</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-column/\" target=\"_blank\">column</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-bar/\" target=\"_blank\">bar</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-stacking-percent-area/\" target=\"_blank\">area</a> with \"percent\" stacking.",
-                        "seeAlso": "<a href=\"#yAxis.reversedStacks\">yAxis.reversedStacks</a>",
+                        "defaults": "false",
+                        "values": "[\"left\", \"center\", \"right\"]",
+                        "since": "1.2.5",
+                        "description": "Whether to apply steps to the line. Possible values are <code>left</code>, <code>center</code> and <code>right</code>. Prior to 2.3.5, only <code>left</code> was supported.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/line-step/\" target=\"_blank\">Different step line options</a>. <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/area-step/\" target=\"_blank\">Stepped, stacked area</a>.",
                         "deprecated": false
                     }
                 ]
@@ -23026,6 +22874,38 @@ module.exports=module.exports = [
         ]
     },
     {
+        "id": "titles",
+        "panelTitle": "Titles",
+        "panes": [
+            {
+                "title": "Main titles",
+                "options": [
+                    {
+                        "name": "title--text",
+                        "fullname": "title.text",
+                        "title": "chart title",
+                        "parent": "title",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "Chart title",
+                        "description": "The title of the chart. To disable the title, set the <code>text</code> to <code>null</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/text/\" target=\"_blank\">Custom title</a>"
+                    },
+                    {
+                        "name": "subtitle--text",
+                        "fullname": "subtitle.text",
+                        "title": "chart subtitle",
+                        "parent": "subtitle",
+                        "isParent": false,
+                        "returnType": "String",
+                        "description": "The subtitle of the chart.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text/\" target=\"_blank\">Custom subtitle</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text-formatted/\" target=\"_blank\">formatted and linked text.</a>"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "id": "colorsAndBorders",
         "panelTitle": "Colors and borders",
         "panes": [
@@ -23035,7 +22915,7 @@ module.exports=module.exports = [
                     {
                         "name": "colors",
                         "fullname": "colors",
-                        "title": "colors",
+                        "title": "Series colors",
                         "isParent": false,
                         "returnType": "Array<Color>",
                         "defaults": "[ \"#7cb5ec\" , \"#434348\" , \"#90ed7d\" , \"#f7a35c\" , \"#8085e9\" , \"#f15c80\" , \"#e4d354\" , \"#2b908f\" , \"#f45b5b\" , \"#91e8e1\"]",
@@ -23148,55 +23028,6 @@ module.exports=module.exports = [
         ]
     },
     {
-        "id": "titles",
-        "panelTitle": "Titles",
-        "panes": [
-            {
-                "title": "Titles",
-                "options": [
-                    {
-                        "name": "title--text",
-                        "fullname": "title.text",
-                        "title": "chart title",
-                        "parent": "title",
-                        "isParent": false,
-                        "returnType": "String",
-                        "defaults": "Chart title",
-                        "description": "The title of the chart. To disable the title, set the <code>text</code> to <code>null</code>.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/text/\" target=\"_blank\">Custom title</a>"
-                    },
-                    {
-                        "name": "subtitle--text",
-                        "fullname": "subtitle.text",
-                        "title": "chart subtitle",
-                        "parent": "subtitle",
-                        "isParent": false,
-                        "returnType": "String",
-                        "description": "The subtitle of the chart.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text/\" target=\"_blank\">Custom subtitle</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/subtitle/text-formatted/\" target=\"_blank\">formatted and linked text.</a>"
-                    }
-                ]
-            },
-            {
-                "title": "Title advanced",
-                "options": [
-                    {
-                        "name": "title--style",
-                        "fullname": "title.style",
-                        "title": "style",
-                        "parent": "title",
-                        "isParent": false,
-                        "returnType": "CSSObject",
-                        "defaults": "{ \"color\": \"#333333\", \"fontSize\": \"18px\" }",
-                        "description": "CSS styles for the title. Use this for font styling, but use <code>align</code>, <code>x</code> and <code>y</code> for text alignment.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/title/style/\" target=\"_blank\">Custom color and weight</a>",
-                        "deprecated": false
-                    }
-                ]
-            }
-        ]
-    },
-    {
         "id": "axis",
         "panelTitle": "Axis",
         "panes": [
@@ -23301,6 +23132,17 @@ module.exports=module.exports = [
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/tickinterval-5/\" target=\"_blank\">Tick interval of 5 on a linear axis</a>",
                         "seeAlso": "<a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a>, <a href=\"#xAxis.tickPositions\">tickPositions</a>, <a href=\"#xAxis.tickPositioner\">tickPositioner</a>",
                         "deprecated": false
+                    },
+                    {
+                        "name": "xAxis-labels--enabled",
+                        "fullname": "xAxis.labels.enabled",
+                        "title": "labels",
+                        "parent": "xAxis-labels",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Enable or disable the axis labels.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-enabled/\" target=\"_blank\">X axis labels disabled</a>"
                     },
                     {
                         "name": "xAxis-labels--format",
@@ -23467,6 +23309,17 @@ module.exports=module.exports = [
                         "deprecated": false
                     },
                     {
+                        "name": "yAxis-labels--enabled",
+                        "fullname": "yAxis.labels.enabled",
+                        "title": "labels",
+                        "parent": "yAxis-labels",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Enable or disable the axis labels.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-enabled/\" target=\"_blank\">X axis labels disabled</a>"
+                    },
+                    {
                         "name": "yAxis-labels--format",
                         "fullname": "yAxis.labels.format",
                         "title": "format",
@@ -23489,6 +23342,132 @@ module.exports=module.exports = [
                         "defaults": "0",
                         "description": "Rotation of the labels in degrees.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-rotation/\" target=\"_blank\">X axis labels rotated 90°</a>"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "series",
+        "panelTitle": "Series",
+        "panes": [
+            {
+                "title": "Series configuration",
+                "options": [
+                    {
+                        "name": "series--name",
+                        "fullname": "series.name",
+                        "title": "name",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "String",
+                        "description": "The name of the series as shown in the legend, tooltip etc.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/name/\" target=\"_blank\">Series name</a>"
+                    },
+                    {
+                        "name": "series--type",
+                        "fullname": "series.type",
+                        "title": "type",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "String",
+                        "values": "[null, \"line\", \"spline\", \"column\", \"area\", \"areaspline\", \"pie\", \"arearange\", \"areasplinerange\", \"boxplot\", \"bubble\", \"columnrange\", \"errorbar\", \"funnel\", \"gauge\", \"scatter\", \"waterfall\"]",
+                        "since": "",
+                        "description": "The type of series. Can be one of <code>area</code>, <code>areaspline</code>,\r <code>bar</code>, <code>column</code>, <code>line</code>, <code>pie</code>,\r <code>scatter</code> or <code>spline</code>. From version 2.3, <code>arearange</code>, <code>areasplinerange</code> and <code>columnrange</code> are supported with the highcharts-more.js component.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/type/\" target=\"_blank\">Line and column in the same chart</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--index",
+                        "fullname": "series.index",
+                        "title": "index",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "since": "2.3.0",
+                        "description": "The index of the series in the chart, affecting the internal index in the <code>chart.series</code> array, the visible Z index as well as the order in the legend.",
+                        "demo": "",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--stack",
+                        "fullname": "series.stack",
+                        "title": "stack",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "String",
+                        "since": "2.1",
+                        "description": "This option allows grouping series in a stacked chart. The stack option can be a string  or a number or anything else, as long as the grouped series' stack options match each other.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/stack/\" target=\"_blank\">Stacked and grouped columns</a>",
+                        "deprecated": false
+                    }
+                ],
+                "panes": [
+                    {
+                        "title": "axis",
+                        "options": [
+                            {
+                                "name": "series--xAxis",
+                                "fullname": "series.xAxis",
+                                "title": "xAxis",
+                                "parent": "series",
+                                "isParent": false,
+                                "returnType": "Number|String",
+                                "defaults": "0",
+                                "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "series--yAxis",
+                                "fullname": "series.yAxis",
+                                "title": "yAxis",
+                                "parent": "series",
+                                "isParent": false,
+                                "returnType": "Number|String",
+                                "defaults": "0",
+                                "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
+                                "deprecated": false
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "valueLabels",
+        "panelTitle": "Value labels",
+        "panes": [
+            {
+                "title": "Value labels",
+                "options": [
+                    {
+                        "name": "plotOptions-series-dataLabels--enabled",
+                        "fullname": "plotOptions.series.dataLabels.enabled",
+                        "title": "enable value labels for all series",
+                        "parent": "plotOptions-series-dataLabels",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "false",
+                        "description": "Enable or disable the data labels.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-datalabels-enabled/\" target=\"_blank\">Data labels enabled</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "plotOptions-series-dataLabels--format",
+                        "fullname": "plotOptions.series.dataLabels.format",
+                        "title": "data label format",
+                        "parent": "plotOptions-series-dataLabels",
+                        "isParent": false,
+                        "returnType": "String",
+                        "defaults": "{y}",
+                        "since": "3.0",
+                        "description": "A <a href=\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\">format string</a> for the data label. Available variables are the same as for <code>formatter</code>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-datalabels-format/\" target=\"_blank\">Add a unit</a>",
+                        "deprecated": false
                     }
                 ]
             }
@@ -23558,10 +23537,6 @@ module.exports=module.exports = [
                         "deprecated": false
                     }
                 ]
-            },
-            {
-                "title": "Color and border",
-                "options": []
             }
         ]
     },
@@ -23626,13 +23601,62 @@ module.exports=module.exports = [
             },
             {
                 "title": "Color and border",
-                "options": []
+                "options": [
+                    {
+                        "name": "tooltip--backgroundColor",
+                        "fullname": "tooltip.backgroundColor",
+                        "title": "backgroundColor",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "rgba(255, 255, 255, 0.85)",
+                        "description": "The background color or gradient for the tooltip.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/backgroundcolor-solid/\" target=\"_blank\">Yellowish background</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/backgroundcolor-gradient/\" target=\"_blank\">gradient</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--borderWidth",
+                        "fullname": "tooltip.borderWidth",
+                        "title": "borderWidth",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "1",
+                        "description": "The pixel width of the tooltip border.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-default/\" target=\"_blank\">2px by default,</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/borderwidth/\" target=\"_blank\">no border (shadow only)</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--borderRadius",
+                        "fullname": "tooltip.borderRadius",
+                        "title": "borderRadius",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "3",
+                        "description": "The radius of the rounded border corners.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-default/\" target=\"_blank\">5px by default</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/borderradius-0/\" target=\"_blank\">square borders</a>",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "tooltip--borderColor",
+                        "fullname": "tooltip.borderColor",
+                        "title": "borderColor",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "null",
+                        "description": "The color of the tooltip border. When <code>null</code>, the border takes the color of the corresponding series or point.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-default/\" target=\"_blank\">Follow series by default</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/bordercolor-black/\" target=\"_blank\">black border</a>",
+                        "deprecated": false
+                    }
+                ]
             }
         ]
     },
     {
-        "id": "exportingCredits",
-        "panelTitle": "Exporting/Credits",
+        "id": "exporting",
+        "panelTitle": "Exporting",
         "panes": [
             {
                 "title": "Exporting",
@@ -23649,16 +23673,67 @@ module.exports=module.exports = [
                         "description": "Whether to enable the exporting module. Disabling the module will hide the context button, but API methods will still be available.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/exporting/enabled-false/\" target=\"_blank\">Exporting module is loaded but disabled</a>",
                         "deprecated": false
+                    },
+                    {
+                        "name": "exporting--sourceWidth",
+                        "fullname": "exporting.sourceWidth",
+                        "title": "exported width",
+                        "parent": "exporting",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "The width of the original chart when exported, unless an explicit <a href=\"#chart.width\">chart.width</a> is set. The width exported raster image is then multiplied by <a href=\"#exporting.scale\">scale</a>.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/exporting/sourcewidth/\" target=\"_blank\">Source size demo</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "exporting--sourceHeight",
+                        "fullname": "exporting.sourceHeight",
+                        "title": "exported height",
+                        "parent": "exporting",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "Analogous to <a href=\"#exporting.sourceWidth\">sourceWidth</a>",
+                        "demo": "",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "exporting--scale",
+                        "fullname": "exporting.scale",
+                        "title": "scaling factor",
+                        "parent": "exporting",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "2",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "Defines the scale or zoom factor for the exported image compared to the on-screen display. While for instance a 600px wide chart may look good on a website, it will look bad in print. The default scale of 2 makes this chart export to a 1200px PNG or JPG. ",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/exporting/scale/\" target=\"_blank\">Scale demonstrated</a>",
+                        "seeAlso": "<a href=\"#chart.width\">chart.width</a>, <a href=\"#exporting.sourceWidth\">exporting.sourceWidth</a>",
+                        "deprecated": false
                     }
                 ]
-            },
+            }
+        ]
+    },
+    {
+        "id": "credits",
+        "panelTitle": "Credits",
+        "panes": [
             {
                 "title": "Credits",
                 "options": [
                     {
                         "name": "credits--enabled",
                         "fullname": "credits.enabled",
-                        "title": "enabled",
+                        "title": "enable credits",
                         "parent": "credits",
                         "isParent": false,
                         "returnType": "Boolean",
@@ -23669,7 +23744,7 @@ module.exports=module.exports = [
                     {
                         "name": "credits--text",
                         "fullname": "credits.text",
-                        "title": "text",
+                        "title": "credits text",
                         "parent": "credits",
                         "isParent": false,
                         "returnType": "String",
@@ -23680,7 +23755,7 @@ module.exports=module.exports = [
                     {
                         "name": "credits--href",
                         "fullname": "credits.href",
-                        "title": "href",
+                        "title": "link",
                         "parent": "credits",
                         "isParent": false,
                         "returnType": "String",
@@ -23691,92 +23766,152 @@ module.exports=module.exports = [
                 ]
             }
         ]
-    },
-    {
-        "id": "series",
-        "panelTitle": "Series",
-        "panes": [
-            {
-                "title": "Series configuration",
-                "options": [
-                    {
-                        "name": "series--name",
-                        "fullname": "series.name",
-                        "title": "name",
-                        "parent": "series",
-                        "isParent": false,
-                        "returnType": "String",
-                        "description": "The name of the series as shown in the legend, tooltip etc.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/name/\" target=\"_blank\">Series name</a>"
-                    },
-                    {
-                        "name": "series--type",
-                        "fullname": "series.type",
-                        "title": "type",
-                        "parent": "series",
-                        "isParent": false,
-                        "returnType": "String",
-                        "values": "[null, \"line\", \"spline\", \"column\", \"area\", \"areaspline\", \"pie\", \"arearange\", \"areasplinerange\", \"boxplot\", \"bubble\", \"columnrange\", \"errorbar\", \"funnel\", \"gauge\", \"scatter\", \"waterfall\"]",
-                        "since": "",
-                        "description": "The type of series. Can be one of <code>area</code>, <code>areaspline</code>,\r <code>bar</code>, <code>column</code>, <code>line</code>, <code>pie</code>,\r <code>scatter</code> or <code>spline</code>. From version 2.3, <code>arearange</code>, <code>areasplinerange</code> and <code>columnrange</code> are supported with the highcharts-more.js component.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/type/\" target=\"_blank\">Line and column in the same chart</a>",
-                        "seeAlso": "",
-                        "deprecated": false
-                    },
-                    {
-                        "name": "series--index",
-                        "fullname": "series.index",
-                        "title": "index",
-                        "parent": "series",
-                        "isParent": false,
-                        "returnType": "Number",
-                        "since": "2.3.0",
-                        "description": "The index of the series in the chart, affecting the internal index in the <code>chart.series</code> array, the visible Z index as well as the order in the legend.",
-                        "demo": "",
-                        "seeAlso": "",
-                        "deprecated": false
-                    }
-                ],
-                "panes": [
-                    {
-                        "title": "axis",
-                        "options": [
-                            {
-                                "name": "series--xAxis",
-                                "fullname": "series.xAxis",
-                                "title": "xAxis",
-                                "parent": "series",
-                                "isParent": false,
-                                "returnType": "Number|String",
-                                "defaults": "0",
-                                "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
-                                "deprecated": false
-                            },
-                            {
-                                "name": "series--yAxis",
-                                "fullname": "series.yAxis",
-                                "title": "yAxis",
-                                "parent": "series",
-                                "isParent": false,
-                                "returnType": "Number|String",
-                                "defaults": "0",
-                                "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
-                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
-                                "deprecated": false
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
     }
 ]
-},{}],154:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 var templates = [
+  /*  {
+        "id": "clean",
+        "type": "clean",
+        "icon": "test",
+        "templates": [
+            {
+                "id": "basic",
+                "icon": "test",
+                "title": "clean",
+                "desc": "",
+                "definition": {
+                    chart:{
+                        type:'column'
+                    },
+
+                    colors:['#b05dbf','#e5da04'],
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+                        tickWidth: 0,
+                        labels: {
+                            enabled: false
+                        }
+
+                    },
+                    yAxis: {
+                        title: '',
+                        labels: {
+                            enabled: false
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            marker: {
+                                enabled: false
+                            },
+                            "negativeColor": "#ff0000"
+                        }
+                    },
+                    exporting:
+                    {
+                        sourceWidth: 100,
+                        sourceHeight: 80
+                    }
+                }
+            },
+            {
+                "id": "basicd",
+                "icon": "test",
+                "title": "clean",
+                "desc": "",
+                "definition": {
+                    chart:{
+                        type:'column'
+                    },
+
+                    colors:['#b05dbf','#e5da04'],
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+                        tickWidth: 0,
+                        labels: {
+                            enabled: false
+                        }
+
+                    },
+                    yAxis: {
+                        title: '',
+                        labels: {
+                            enabled: false
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            marker: {
+                                enabled: false
+                            },
+                            "negativeColor": "#ff0000"
+                        },
+                        column: {
+                            grouping: false,
+                            shadow: false,
+                            borderWidth: 0
+                        }
+                    },
+
+                    series: [{
+                        color: 'rgba(176,93,191,1)',
+                        pointPadding: 0.3,
+                        pointPlacement: -0.2
+                    }, {
+                        color: 'rgba(229,218,4,.9)',
+                        pointPadding: 0.4,
+                        pointPlacement: -0.2
+                    }, {
+                        color: 'rgba(229,218,4,1)',
+                        tooltip: {
+                            valuePrefix: '$',
+                            valueSuffix: ' M'
+                        },
+                        pointPadding: 0.3,
+                        pointPlacement: 0.2,
+                        yAxis: 1
+                    }, {
+                        color: 'rgba(176,93,191,.9)',
+                        tooltip: {
+                            valuePrefix: '$',
+                            valueSuffix: ' M'
+                        },
+                        pointPadding: 0.4,
+                        pointPlacement: 0.2,
+                        yAxis: 1
+                    }],
+                    exporting:
+                    {
+                        sourceWidth: 100,
+                        sourceHeight: 80
+                    }
+                }
+            }
+
+        ]
+    },
+    */
     {
         "id": "line",
         "type": "Line charts",
-        "icon": "line",
+        "icon": "line_basic",
         "templates": [
             {
                 "id": "basic",
@@ -23787,9 +23922,6 @@ var templates = [
                     "chart": {
                         "type": "line"
                     },
-                    "colors": [
-                        "#F58E16"
-                    ],
                     "xAxis": [{
                         "type": "category"
                     }]
@@ -23853,7 +23985,6 @@ var templates = [
             },
             {
                 "id": "splineLogarithmic",
-
                 "title": "Logarithmic",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -23945,7 +24076,7 @@ var templates = [
                     }],
                     "plotOptions": {
                         "series": {
-                            "negativeColor": "#0088FF"
+                            "negativeColor": "#ff0000"
                         }
                     }
                 }
@@ -23973,7 +24104,7 @@ var templates = [
     {
         "id": "area",
         "type": "Area charts",
-        "icon": "area",
+        "icon": "area_basic",
         "templates": [
             {
                 "id": "basic",
@@ -23990,6 +24121,7 @@ var templates = [
             },
             {
                 "id": "withLabels",
+                "icon": "area_basic_labels",
                 "title": "Area with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24010,6 +24142,7 @@ var templates = [
             },
             {
                 "id": "stacked",
+                "icon": "area_stacked",
                 "title": "Stacked",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24028,6 +24161,7 @@ var templates = [
             },
             {
                 "id": "stackedWithLabels",
+                "icon": "area_stacked_labels",
                 "title": "Stacked with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24049,6 +24183,7 @@ var templates = [
             },
             {
                 "id": "stackedPercentage",
+                "icon": "area_stacked_percentage",
                 "title": "Stacked percentage",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24067,6 +24202,7 @@ var templates = [
             },
             {
                 "id": "inverted",
+                "icon": "area_inverted",
                 "title": "Inverted",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24081,6 +24217,7 @@ var templates = [
             },
             {
                 "id": "invertedWithLabels",
+                "icon": "area_inverted_labels",
                 "title": "Inverted with labels",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24103,6 +24240,7 @@ var templates = [
             },
             {
                 "id": "stepLine",
+                "icon": "area_step",
                 "title": "Step line",
                 "desc": "Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24121,6 +24259,7 @@ var templates = [
             },
             {
                 "id": "negativeColor",
+                "icon": "area_negative_color",
                 "title": "Negative color",
                 "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
@@ -24156,7 +24295,7 @@ var templates = [
     {
         "id": "column",
         "type": "Column charts",
-        "icon": "column",
+        "icon": "column_basic",
         "templates": [
             {
                 "id": "basic",
@@ -24174,6 +24313,7 @@ var templates = [
             {
                 "id": "withLabels",
                 "title": "With labels",
+                "icon": "column_basic_labels",
                 "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -24194,6 +24334,7 @@ var templates = [
             {
                 "id": "fixedPlacement",
                 "title": "Column with fixed placement",
+                "icon": "column_fixed_placement",
                 "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     chart: {
@@ -24251,34 +24392,9 @@ var templates = [
                 }
             },
             {
-                "id": "3d",
-                "title": "Column 3D",
-                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "column",
-                        "margin": 75,
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 15,
-                            "beta": 15,
-                            "depth": 50,
-                            "viewDistance": 15
-                        }
-                    },
-                    "plotOptions": {
-                        "column": {
-                            "depth": 25
-                        }
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }]
-                }
-            },
-            {
                 "id": "stacked",
                 "title": "Stacked",
+                "icon": "column_stacked",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -24297,6 +24413,7 @@ var templates = [
             {
                 "id": "stackedWithLabels",
                 "title": "Stacked with labels",
+                "icon": "column_stacked_labels",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -24316,37 +24433,9 @@ var templates = [
                 }
             },
             {
-                "id": "stacked3d",
-                "title": "Stacked 3D",
-                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
-                "definition": {
-                    "chart": {
-                        "type": "column",
-                        "margin": 75,
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 15,
-                            "beta": 15,
-                            "depth": 50,
-                            "viewDistance": 15
-                        }
-                    },
-                    "plotOptions": {
-                        "column": {
-                            "depth": 25
-                        },
-                        "series": {
-                            "stacking": "normal"
-                        }
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }]
-                }
-            },
-            {
                 "id": "stackedPercent",
                 "title": "Stacked percent",
+                "icon": "column_stacked_percentage",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -24365,6 +24454,7 @@ var templates = [
             {
                 "id": "stackedPercentWithLabels",
                 "title": "Stacked percent with labels",
+                "icon": "column_stacked_percentage_labels",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -24386,6 +24476,7 @@ var templates = [
             {
                 "id": "negativeColor",
                 "title": "Negative color",
+                "icon": "column_negative_color",
                 "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -24393,8 +24484,7 @@ var templates = [
                     },
                     "plotOptions":{
                         "series":{
-                            "negativeColor": "#0088FF",
-                            "color": "#FF0000"
+                            "negativeColor": "#FF0000"
                         }
                     },
                     "xAxis": [{
@@ -24473,6 +24563,7 @@ var templates = [
             {
                 "id": "packed",
                 "title": "Packed Columns",
+                "icon": "column_packed",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -25611,36 +25702,116 @@ var templates = [
                 }
             }
         ]
+    },
+    {
+        "id": "3d",
+        "type": "3D charts",
+        "icon": "column_basic",
+        "templates": [
+            {
+                "id": "3d",
+                "title": "Column 3D",
+                "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "margin": 75,
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 15,
+                            "beta": 15,
+                            "depth": 50,
+                            "viewDistance": 15
+                        }
+                    },
+                    "plotOptions": {
+                        "column": {
+                            "depth": 25
+                        }
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            },
+            {
+                "id": "stacked3d",
+                "title": "Stacked 3D",
+                "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
+                "definition": {
+                    "chart": {
+                        "type": "column",
+                        "margin": 75,
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 15,
+                            "beta": 15,
+                            "depth": 50,
+                            "viewDistance": 15
+                        }
+                    },
+                    "plotOptions": {
+                        "column": {
+                            "depth": 25
+                        },
+                        "series": {
+                            "stacking": "normal"
+                        }
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            }
+        ]
     }
 ];
 module.exports = templates;
-},{}],155:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
-self["area"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-366,419h-90.5c-0.8,0-1.5-0.7-1.5-1.5V327c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-365.2,419-366,419z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-402,382c-0.3,0-0.5-0.1-0.7-0.3l-30.3-30.3l-22.3,22.3c-0.4,0.4-1,0.4-1.4,0s-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0\r\n\t\t\tl31,31c0.4,0.4,0.4,1,0,1.4C-401.5,381.9-401.7,382-402,382z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-372,418c-0.6,0-1-0.4-1-1v-65.5l-37.3,40.1c-0.2,0.2-0.4,0.3-0.7,0.3c-0.3,0-0.5-0.1-0.7-0.3l-21.3-21.3l-22.3,22.3\r\n\t\t\tc-0.4,0.4-1,0.4-1.4,0s-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0l21.3,21.3l38.3-41.2c0.3-0.3,0.7-0.4,1.1-0.2\r\n\t\t\tc0.4,0.1,0.6,0.5,0.6,0.9v68C-371,417.6-371.4,418-372,418z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
+self["area_basic"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-49\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-50\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-51\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-53\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-54\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-49)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-50)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-51)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-50)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-51)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-49)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-53)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-54)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-53)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-54)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_basic_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-103\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-104\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-105\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-107\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-108\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-103)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-104)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-105)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-104)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-105)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-103)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-107)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-108)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-107)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-108)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,24)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,13)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,16)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,2)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,-4)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,2)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,-1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,10)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_inverted"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-209\"><rect x=\"0\" y=\"0\" width=\"55\" height=\"80\"></rect></clipPath><clipPath id=\"highcharts-210\"><rect x=\"0\" y=\"80\" width=\"100\" height=\"0\"></rect></clipPath><clipPath id=\"highcharts-211\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\"></rect></clipPath><clipPath id=\"highcharts-213\"><rect x=\"0\" y=\"80\" width=\"100\" height=\"0\"></rect></clipPath><clipPath id=\"highcharts-214\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 49.5 10 L 49.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 90.5 10 L 90.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-209)\"><path fill=\"#e5da04\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-210)\"></path><path fill=\"#e5da04\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-211)\"></path><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-210)\"></path><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-211)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-209)\"><path fill=\"#3ecbab\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-213)\"></path><path fill=\"#3ecbab\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-214)\"></path><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-213)\"></path><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-214)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_inverted_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-227\"><rect x=\"0\" y=\"0\" width=\"55\" height=\"80\"></rect></clipPath><clipPath id=\"highcharts-228\"><rect x=\"0\" y=\"80\" width=\"100\" height=\"0\"></rect></clipPath><clipPath id=\"highcharts-229\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\"></rect></clipPath><clipPath id=\"highcharts-231\"><rect x=\"0\" y=\"80\" width=\"100\" height=\"0\"></rect></clipPath><clipPath id=\"highcharts-232\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 49.5 10 L 49.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 90.5 10 L 90.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-227)\"><path fill=\"#e5da04\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-228)\"></path><path fill=\"#e5da04\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-229)\"></path><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-228)\"></path><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-229)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-227)\"><path fill=\"#3ecbab\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-231)\"></path><path fill=\"#3ecbab\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40 L 0.5392156862745097 80 L 14.019607843137251 80 L 27.5 80 L 40.98039215686275 80 L 54.46078431372549 80\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-232)\"></path><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-231)\"></path><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-232)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(3,1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(19,14)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(15,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(32,18)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(40,31)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(32,14)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(36,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(23,18)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(28,31)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_negative_color"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-345\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-346\"><rect x=\"0\" y=\"41\" width=\"100\" height=\"24\"></rect></clipPath><clipPath id=\"highcharts-347\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"41\"></rect></clipPath><clipPath id=\"highcharts-349\"><rect x=\"0\" y=\"41\" width=\"100\" height=\"24\"></rect></clipPath><clipPath id=\"highcharts-350\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"41\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-345)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 L 79.2156862745098 41.25 L 59.6078431372549 41.25 L 40 41.25 L 20.3921568627451 41.25 L 0.7843137254901962 41.25\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 L 79.2156862745098 41.25 L 59.6078431372549 41.25 L 40 41.25 L 20.3921568627451 41.25 L 0.7843137254901962 41.25\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-346)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 L 79.2156862745098 41.25 L 59.6078431372549 41.25 L 40 41.25 L 20.3921568627451 41.25 L 0.7843137254901962 41.25\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-347)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-346)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-347)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-345)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 27.5 L 40 22 L 59.6078431372549 49.5 L 79.2156862745098 13.75 L 79.2156862745098 41.25 L 59.6078431372549 41.25 L 40 41.25 L 20.3921568627451 41.25 L 0.7843137254901962 41.25\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 27.5 L 40 22 L 59.6078431372549 49.5 L 79.2156862745098 13.75 L 79.2156862745098 41.25 L 59.6078431372549 41.25 L 40 41.25 L 20.3921568627451 41.25 L 0.7843137254901962 41.25\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-349)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 27.5 L 40 22 L 59.6078431372549 49.5 L 79.2156862745098 13.75 L 79.2156862745098 41.25 L 59.6078431372549 41.25 L 40 41.25 L 20.3921568627451 41.25 L 0.7843137254901962 41.25\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-350)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 27.5 L 40 22 L 59.6078431372549 49.5 L 79.2156862745098 13.75\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 27.5 L 40 22 L 59.6078431372549 49.5 L 79.2156862745098 13.75\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-349)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 27.5 L 40 22 L 59.6078431372549 49.5 L 79.2156862745098 13.75\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-350)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_range"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-287\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-288\"><rect x=\"0\" y=\"41\" width=\"100\" height=\"24\"></rect></clipPath><clipPath id=\"highcharts-289\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"41\"></rect></clipPath><clipPath id=\"highcharts-291\"><rect x=\"0\" y=\"41\" width=\"100\" height=\"24\"></rect></clipPath><clipPath id=\"highcharts-292\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"41\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-287)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 L 79.2156862745098 5.5 L 79.2156862745098 13.75 L 59.6078431372549 19.25 L 40 8.25 L 20.3921568627451 11 L 0.7843137254901962 41.25 L 0.7843137254901962 33\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 L 79.2156862745098 5.5 L 79.2156862745098 13.75 L 59.6078431372549 19.25 L 40 8.25 L 20.3921568627451 11 L 0.7843137254901962 41.25 L 0.7843137254901962 33\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-288)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 L 79.2156862745098 5.5 L 79.2156862745098 13.75 L 59.6078431372549 19.25 L 40 8.25 L 20.3921568627451 11 L 0.7843137254901962 41.25 L 0.7843137254901962 33\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-289)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 M 79.2156862745098 13.75 L 59.6078431372549 19.25 L 40 8.25 L 20.3921568627451 11 L 0.7843137254901962 41.25\" stroke=\"#e5da04\" stroke-width=\"1\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 M 79.2156862745098 13.75 L 59.6078431372549 19.25 L 40 8.25 L 20.3921568627451 11 L 0.7843137254901962 41.25\" stroke=\"#ff0000\" stroke-width=\"1\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-288)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5 M 79.2156862745098 13.75 L 59.6078431372549 19.25 L 40 8.25 L 20.3921568627451 11 L 0.7843137254901962 41.25\" stroke=\"#e5da04\" stroke-width=\"1\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-289)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-287)\"><path fill=\"#3ecbab\" d=\"M 0 0\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0 0\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-291)\"></path><path fill=\"#3ecbab\" d=\"M 0 0\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-292)\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#3ecbab\" stroke-width=\"1\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#ff0000\" stroke-width=\"1\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-291)\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#3ecbab\" stroke-width=\"1\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-292)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_spline"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-67\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-68\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-69\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-71\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-72\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-67)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-68)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-69)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-68)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-69)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-67)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-71)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-72)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-71)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-72)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_spline_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-85\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-86\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-87\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-89\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-90\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-85)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-86)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-87)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-86)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-87)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-85)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-89)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5 L 79.2156862745098 55 C 79.2156862745098 55 67.45098039215686 55 59.6078431372549 55 C 51.76470588235294 55 47.84313725490196 55 40 55 C 32.15686274509804 55 28.23529411764706 55 20.3921568627451 55 C 12.549019607843139 55 0.7843137254901962 55 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-90)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-89)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-90)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,24)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,13)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,16)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,2)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,-4)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,2)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,-1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,10)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_stacked"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-129\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-130\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-131\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-133\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-134\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-129)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375 L 79.2156862745098 41.25 L 59.6078431372549 44 L 40 38.5 L 20.3921568627451 39.875 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375 L 79.2156862745098 41.25 L 59.6078431372549 44 L 40 38.5 L 20.3921568627451 39.875 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-130)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375 L 79.2156862745098 41.25 L 59.6078431372549 44 L 40 38.5 L 20.3921568627451 39.875 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-131)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-130)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-131)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-129)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-133)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-134)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-133)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-134)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_stacked_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-147\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-148\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-149\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-151\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-152\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-147)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375 L 79.2156862745098 41.25 L 59.6078431372549 44 L 40 38.5 L 20.3921568627451 39.875 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375 L 79.2156862745098 41.25 L 59.6078431372549 44 L 40 38.5 L 20.3921568627451 39.875 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-148)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375 L 79.2156862745098 41.25 L 59.6078431372549 44 L 40 38.5 L 20.3921568627451 39.875 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-149)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-148)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 50.875 L 20.3921568627451 30.25 L 40 30.25 L 59.6078431372549 28.875 L 79.2156862745098 23.375\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-149)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-147)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-151)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-152)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-151)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 39.875 L 40 38.5 L 59.6078431372549 44 L 79.2156862745098 41.25\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-152)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,28)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,7)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,7)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,6)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,0)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,17)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,16)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,21)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,18)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_stacked_percentage"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-183\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-184\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-185\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-187\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-188\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 10.5 L 90 10.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-183)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15 L 79.2156862745098 31.08695652173925 L 59.6078431372549 31.842105263157748 L 40 18.33333333333315 L 20.3921568627451 21.38888888888895 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15 L 79.2156862745098 31.08695652173925 L 59.6078431372549 31.842105263157748 L 40 18.33333333333315 L 20.3921568627451 21.38888888888895 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-184)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15 L 79.2156862745098 31.08695652173925 L 59.6078431372549 31.842105263157748 L 40 18.33333333333315 L 20.3921568627451 21.38888888888895 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-185)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-184)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-185)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-183)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-187)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-188)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-187)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-188)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_stacked_percentage_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-165\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-166\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-167\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-169\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-170\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 10.5 L 90 10.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-165)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15 L 79.2156862745098 31.08695652173925 L 59.6078431372549 31.842105263157748 L 40 18.33333333333315 L 20.3921568627451 21.38888888888895 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15 L 79.2156862745098 31.08695652173925 L 59.6078431372549 31.842105263157748 L 40 18.33333333333315 L 20.3921568627451 21.38888888888895 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-166)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15 L 79.2156862745098 31.08695652173925 L 59.6078431372549 31.842105263157748 L 40 18.33333333333315 L 20.3921568627451 21.38888888888895 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-167)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-166)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 -7.105427357601002e-15 L 20.3921568627451 -7.105427357601002e-15 L 40 -7.105427357601002e-15 L 59.6078431372549 -7.105427357601002e-15 L 79.2156862745098 -7.105427357601002e-15\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-167)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-165)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-169)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925 L 79.2156862745098 55 L 59.6078431372549 55 L 40 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-170)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-169)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 21.38888888888895 L 40 18.33333333333315 L 59.6078431372549 31.842105263157748 L 79.2156862745098 31.08695652173925\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-170)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,0)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,0)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,0)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,0)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,0)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,-2)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,-5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,9)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,8)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["area_step"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-261\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-262\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-263\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-265\"><rect x=\"0\" y=\"55\" width=\"100\" height=\"10\"></rect></clipPath><clipPath id=\"highcharts-266\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-261)\"><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 79.2156862745098 55 L 59.6078431372549 55 L 59.6078431372549 55 L 40 55 L 40 55 L 20.3921568627451 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 79.2156862745098 55 L 59.6078431372549 55 L 59.6078431372549 55 L 40 55 L 40 55 L 20.3921568627451 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-262)\"></path><path fill=\"#e5da04\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25 L 79.2156862745098 55 L 79.2156862745098 55 L 59.6078431372549 55 L 59.6078431372549 55 L 40 55 L 40 55 L 20.3921568627451 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-263)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-262)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25\" stroke=\"#e5da04\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-263)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-261)\"><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 79.2156862745098 55 L 59.6078431372549 55 L 59.6078431372549 55 L 40 55 L 40 55 L 20.3921568627451 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" visibility=\"hidden\"></path><path fill=\"#ff0000\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 79.2156862745098 55 L 59.6078431372549 55 L 59.6078431372549 55 L 40 55 L 40 55 L 20.3921568627451 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-265)\"></path><path fill=\"#3ecbab\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5 L 79.2156862745098 55 L 79.2156862745098 55 L 59.6078431372549 55 L 59.6078431372549 55 L 40 55 L 40 55 L 20.3921568627451 55 L 20.3921568627451 55 L 0.7843137254901962 55\"  fill-opacity=\"0.75\" clip-path=\"url(#highcharts-266)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-265)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5\" stroke=\"#3ecbab\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-266)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
 self["bar"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-366,419h-90.5c-0.8,0-1.5-0.7-1.5-1.5V327c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-365.2,419-366,419z\"/>\r\n\t</g>\r\n\t<path d=\"M-421,365v16h-34v-16H-421 M-421,363h-34c-1.1,0-2,0.9-2,2v16c0,1.1,0.9,2,2,2h34c1.1,0,2-0.9,2-2v-16\r\n\t\tC-419,363.9-419.9,363-421,363L-421,363z\"/>\r\n\t<path d=\"M-401,340v17h-54v-17H-401 M-401,338h-54c-1.1,0-2,0.9-2,2v17c0,1.1,0.9,2,2,2h54c1.1,0,2-0.9,2-2v-17\r\n\t\tC-399,338.9-399.9,338-401,338L-401,338z\"/>\r\n\t<path d=\"M-381,389v17h-74v-17H-381 M-381,387h-74c-1.1,0-2,0.9-2,2v17c0,1.1,0.9,2,2,2h74c1.1,0,2-0.9,2-2v-17\r\n\t\tC-379,387.9-379.9,387-381,387L-381,387z\"/>\r\n</g>\r\n</svg>\r\n";
 self["bubble"] = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" x=\"0px\" y=\"0px\" viewBox=\"0 0 100 125\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\"><g><g><path d=\"M95,97H4.5C3.671,97,3,96.328,3,95.5V5c0-0.829,0.671-1.5,1.5-1.5S6,4.171,6,5v89h89c0.828,0,1.5,0.672,1.5,1.5    S95.828,97,95,97z\"/></g><g><path d=\"M50.5,63.5C42.505,63.5,36,56.995,36,49s6.505-14.5,14.5-14.5S65,41.005,65,49S58.495,63.5,50.5,63.5z M50.5,36.5    C43.607,36.5,38,42.107,38,49s5.607,12.5,12.5,12.5S63,55.893,63,49S57.393,36.5,50.5,36.5z\"/></g><g><path d=\"M23.5,71.5c-4.687,0-8.5-3.813-8.5-8.5s3.813-8.5,8.5-8.5S32,58.313,32,63S28.187,71.5,23.5,71.5z M23.5,56.5    c-3.584,0-6.5,2.916-6.5,6.5s2.916,6.5,6.5,6.5S30,66.584,30,63S27.084,56.5,23.5,56.5z\"/></g><g><path d=\"M76.5,58.5c-4.687,0-8.5-3.813-8.5-8.5c0-4.687,3.813-8.5,8.5-8.5S85,45.313,85,50C85,54.687,81.187,58.5,76.5,58.5z     M76.5,43.5c-3.584,0-6.5,2.916-6.5,6.5s2.916,6.5,6.5,6.5S83,53.584,83,50S80.084,43.5,76.5,43.5z\"/></g><g><path d=\"M51.5,31.5c-4.687,0-8.5-3.813-8.5-8.5s3.813-8.5,8.5-8.5c4.687,0,8.5,3.813,8.5,8.5S56.187,31.5,51.5,31.5z M51.5,16.5    c-3.584,0-6.5,2.916-6.5,6.5s2.916,6.5,6.5,6.5S58,26.584,58,23S55.084,16.5,51.5,16.5z\"/></g></g><text x=\"0\" y=\"115\" fill=\"#000000\" font-size=\"5px\" font-weight=\"bold\" font-family=\"'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif\">Created by Agus Purwanto</text><text x=\"0\" y=\"120\" fill=\"#000000\" font-size=\"5px\" font-weight=\"bold\" font-family=\"'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif\">from the Noun Project</text></svg>";
 self["chart"] = "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"400\"><desc>Created with Highcharts 4.1.9</desc><defs><clipPath id=\"highcharts-10\"><rect x=\"0\" y=\"0\" width=\"273\" height=\"497\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"600\" height=\"400\" strokeWidth=\"0\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 92.5 42 L 92.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 142.5 42 L 142.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 191.5 42 L 191.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 241.5 42 L 241.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 291.5 42 L 291.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 341.5 42 L 341.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 390.5 42 L 390.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 440.5 42 L 440.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 490.5 42 L 490.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 539.5 42 L 539.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 590.5 42 L 590.5 315\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 93 97.5 L 83 97.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" opacity=\"1\"></path><path fill=\"none\" d=\"M 93 151.5 L 83 151.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" opacity=\"1\"></path><path fill=\"none\" d=\"M 93 206.5 L 83 206.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" opacity=\"1\"></path><path fill=\"none\" d=\"M 93 260.5 L 83 260.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" opacity=\"1\"></path><path fill=\"none\" d=\"M 93 315.5 L 83 315.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" opacity=\"1\"></path><path fill=\"none\" d=\"M 93 41.5 L 83 41.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" opacity=\"1\"></path><path fill=\"none\" d=\"M 92.5 42 L 92.5 315\" stroke=\"#C0D0E0\" stroke-width=\"1\"  visibility=\"visible\"></path></g><g class=\"highcharts-axis\" ><text x=\"341.5\"  text-anchor=\"middle\" transform=\"translate(0,0)\" class=\" highcharts-yaxis-title\" style=\"color:#707070;fill:#707070;\" visibility=\"visible\" y=\"350\">Values</text></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\" visibility=\"visible\"  transform=\"translate(590,315) rotate(90) scale(-1,1) scale(1 1)\" width=\"497\" height=\"273\" clip-path=\"url(#highcharts-10)\"><rect x=\"218\" y=\"399\" width=\"19\" height=\"99\" fill=\"#7cb5ec\" rx=\"0\" ry=\"0\"></rect><rect x=\"164\" y=\"399\" width=\"18\" height=\"99\" fill=\"#7cb5ec\" rx=\"0\" ry=\"0\"></rect><rect x=\"109\" y=\"399\" width=\"18\" height=\"99\" fill=\"#7cb5ec\" rx=\"0\" ry=\"0\"></rect><rect x=\"55\" y=\"399\" width=\"18\" height=\"99\" fill=\"#7cb5ec\" rx=\"0\" ry=\"0\"></rect><rect x=\"0\" y=\"399\" width=\"18\" height=\"99\" fill=\"#7cb5ec\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\" visibility=\"visible\"  transform=\"translate(590,315) rotate(90) scale(-1,1) scale(1 1)\" width=\"497\" height=\"273\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\" visibility=\"visible\"  transform=\"translate(590,315) rotate(90) scale(-1,1) scale(1 1)\" width=\"497\" height=\"273\" clip-path=\"url(#highcharts-10)\"><rect x=\"237\" y=\"158\" width=\"18\" height=\"340\" fill=\"#434348\" rx=\"0\" ry=\"0\"></rect><rect x=\"182\" y=\"230\" width=\"18\" height=\"268\" fill=\"#434348\" rx=\"0\" ry=\"0\"></rect><rect x=\"127\" y=\"216\" width=\"19\" height=\"282\" fill=\"#434348\" rx=\"0\" ry=\"0\"></rect><rect x=\"73\" y=\"92\" width=\"18\" height=\"406\" fill=\"#434348\" rx=\"0\" ry=\"0\"></rect><rect x=\"18\" y=\"122\" width=\"18\" height=\"376\" fill=\"#434348\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\" visibility=\"visible\"  transform=\"translate(590,315) rotate(90) scale(-1,1) scale(1 1)\" width=\"497\" height=\"273\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-2\" visibility=\"visible\"  transform=\"translate(590,315) rotate(90) scale(-1,1) scale(1 1)\" width=\"497\" height=\"273\" clip-path=\"url(#highcharts-10)\"><rect x=\"255\" y=\"142\" width=\"18\" height=\"356\" fill=\"#90ed7d\" rx=\"0\" ry=\"0\"></rect><rect x=\"200\" y=\"214\" width=\"18\" height=\"284\" fill=\"#90ed7d\" rx=\"0\" ry=\"0\"></rect><rect x=\"146\" y=\"202\" width=\"18\" height=\"296\" fill=\"#90ed7d\" rx=\"0\" ry=\"0\"></rect><rect x=\"91\" y=\"61\" width=\"18\" height=\"437\" fill=\"#90ed7d\" rx=\"0\" ry=\"0\"></rect><rect x=\"36\" y=\"102\" width=\"19\" height=\"396\" fill=\"#90ed7d\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-2\" visibility=\"visible\"  transform=\"translate(590,315) rotate(90) scale(-1,1) scale(1 1)\" width=\"497\" height=\"273\" clip-path=\"none\"></g></g><text x=\"300\" text-anchor=\"middle\" class=\"highcharts-title\"  style=\"color:#333333;font-size:18px;fill:#333333;width:536px;\" y=\"24\"><tspan>Chart title</tspan></text><g class=\"highcharts-legend\"  transform=\"translate(180,362)\"><g ><g><g class=\"highcharts-legend-item\"  transform=\"translate(8,3)\"><text x=\"21\" style=\"color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;\" text-anchor=\"start\"  y=\"15\">test</text><rect x=\"0\" y=\"4\" width=\"16\" height=\"12\"  fill=\"#7cb5ec\"></rect></g><g class=\"highcharts-legend-item\"  transform=\"translate(71,3)\"><text x=\"21\" y=\"15\" style=\"color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;\" text-anchor=\"start\" >lowpoint</text><rect x=\"0\" y=\"4\" width=\"16\" height=\"12\"  fill=\"#434348\"></rect></g><g class=\"highcharts-legend-item\"  transform=\"translate(159,3)\"><text x=\"21\" y=\"15\" style=\"color:#333333;font-size:12px;font-weight:bold;cursor:pointer;fill:#333333;\" text-anchor=\"start\" >highpoint</text><rect x=\"0\" y=\"4\" width=\"16\" height=\"12\"  fill=\"#90ed7d\"></rect></g></g></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ><text x=\"78\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;width:188px;text-overflow:clip;\" text-anchor=\"end\" transform=\"translate(0,0)\" y=\"75\" opacity=\"1\"><tspan>experiment 6</tspan></text><text x=\"78\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;width:188px;text-overflow:clip;\" text-anchor=\"end\" transform=\"translate(0,0)\" y=\"130\" opacity=\"1\"><tspan>experiment 7</tspan></text><text x=\"78\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;width:188px;text-overflow:clip;\" text-anchor=\"end\" transform=\"translate(0,0)\" y=\"185\" opacity=\"1\"><tspan>experiment 8</tspan></text><text x=\"78\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;width:188px;text-overflow:clip;\" text-anchor=\"end\" transform=\"translate(0,0)\" y=\"239\" opacity=\"1\"><tspan>experiment 9</tspan></text><text x=\"78\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;width:188px;text-overflow:clip;\" text-anchor=\"end\" transform=\"translate(0,0)\" y=\"294\" opacity=\"1\"><tspan>experiment 10</tspan></text></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ><text x=\"93\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">0</text><text x=\"142.7\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">25</text><text x=\"192.4\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">50</text><text x=\"242.1\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">75</text><text x=\"291.8\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">100</text><text x=\"341.5\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">125</text><text x=\"391.2\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">150</text><text x=\"440.9\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">175</text><text x=\"490.6\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">200</text><text x=\"540.3\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">225</text><text x=\"581\" style=\"color:#606060;cursor:default;font-size:11px;fill:#606060;\" text-anchor=\"middle\" transform=\"translate(0,0)\" y=\"334\" opacity=\"1\">250</text></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g><text x=\"590\" text-anchor=\"end\"  style=\"cursor:pointer;color:#909090;font-size:9px;fill:#909090;\" y=\"395\">Highcharts.com</text></svg>";
-self["columnStackedPercent"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-545 791.8 100 100\" style=\"enable-background:new -545 791.8 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-453,891.8h-90.5c-0.8,0-1.5-0.7-1.5-1.5v-90.5c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-452.2,891.8-453,891.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-490,844.8v44h-16v-44H-490 M-490,842.8h-16c-1.1,0-2,0.9-2,2v44c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-44\r\n\t\t\tC-488,843.7-488.9,842.8-490,842.8L-490,842.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-490,818.8v24h-16v-24H-490 M-490,816.8h-16c-1.1,0-2,0.9-2,2v24c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-24\r\n\t\t\tC-488,817.7-488.9,816.8-490,816.8L-490,816.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-514,854.8v34h-17v-34H-514 M-514,852.8h-17c-1.1,0-2,0.9-2,2v34c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-34\r\n\t\t\tC-512,853.7-512.9,852.8-514,852.8L-514,852.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-514,818.8v34h-17v-34H-514 M-514,816.8h-17c-1.1,0-2,0.9-2,2v34c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-34\r\n\t\t\tC-512,817.7-512.9,816.8-514,816.8L-514,816.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-465,864.8v24h-17v-24H-465 M-465,862.8h-17c-1.1,0-2,0.9-2,2v24c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-24\r\n\t\t\tC-463,863.7-463.9,862.8-465,862.8L-465,862.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-465,818.8v44h-17v-44H-465 M-465,816.8h-17c-1.1,0-2,0.9-2,2v44c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-44\r\n\t\t\tC-463,817.7-463.9,816.8-465,816.8L-465,816.8z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
-self["columnStacked"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-545 791.8 100 100\" style=\"enable-background:new -545 791.8 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-453,891.8h-90.5c-0.8,0-1.5-0.7-1.5-1.5v-90.5c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-452.2,891.8-453,891.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-490,854.8v34h-16v-34H-490 M-490,852.8h-16c-1.1,0-2,0.9-2,2v34c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-34\r\n\t\t\tC-488,853.7-488.9,852.8-490,852.8L-490,852.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-490,838.8v14h-16v-14H-490 M-490,836.8h-16c-1.1,0-2,0.9-2,2v14c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-14\r\n\t\t\tC-488,837.7-488.9,836.8-490,836.8L-490,836.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-514,864.8v24h-17v-24H-514 M-514,862.8h-17c-1.1,0-2,0.9-2,2v24c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-24\r\n\t\t\tC-512,863.7-512.9,862.8-514,862.8L-514,862.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-514,818.8v44h-17v-44H-514 M-514,816.8h-17c-1.1,0-2,0.9-2,2v44c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-44\r\n\t\t\tC-512,817.7-512.9,816.8-514,816.8L-514,816.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-465,874.8v14h-17v-14H-465 M-465,872.8h-17c-1.1,0-2,0.9-2,2v14c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-14\r\n\t\t\tC-463,873.7-463.9,872.8-465,872.8L-465,872.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-465,828.8v44h-17v-44H-465 M-465,826.8h-17c-1.1,0-2,0.9-2,2v44c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-44\r\n\t\t\tC-463,827.7-463.9,826.8-465,826.8L-465,826.8z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
-self["column"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-366,419h-90.5c-0.8,0-1.5-0.7-1.5-1.5V327c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-365.2,419-366,419z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-403,382v34h-16v-34H-403 M-403,380h-16c-1.1,0-2,0.9-2,2v34c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2v-34\r\n\t\t\tC-401,380.9-401.9,380-403,380L-403,380z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-427,362v54h-17v-54H-427 M-427,360h-17c-1.1,0-2,0.9-2,2v54c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-54\r\n\t\t\tC-425,360.9-425.9,360-427,360L-427,360z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-378,342v74h-17v-74H-378 M-378,340h-17c-1.1,0-2,0.9-2,2v74c0,1.1,0.9,2,2,2h17c1.1,0,2-0.9,2-2v-74\r\n\t\t\tC-376,340.9-376.9,340-378,340L-378,340z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
+self["column_basic"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-21\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-21)\"><rect x=\"6.5\" y=\"36.5\" width=\"7\" height=\"19\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"32.5\" y=\"39.5\" width=\"7\" height=\"16\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"58.5\" y=\"25.5\" width=\"7\" height=\"30\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-21)\"><rect x=\"13.5\" y=\"25.5\" width=\"7\" height=\"30\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"40.5\" y=\"22.5\" width=\"7\" height=\"33\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"66.5\" y=\"33.5\" width=\"7\" height=\"22\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_basic_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-31\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-31)\"><rect x=\"6.5\" y=\"36.5\" width=\"7\" height=\"19\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"32.5\" y=\"39.5\" width=\"7\" height=\"16\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"58.5\" y=\"25.5\" width=\"7\" height=\"30\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-31)\"><rect x=\"13.5\" y=\"25.5\" width=\"7\" height=\"30\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"40.5\" y=\"22.5\" width=\"7\" height=\"33\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"66.5\" y=\"33.5\" width=\"7\" height=\"22\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(1,14)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(27,17)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(50,3)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(5,3)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(32,0)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(61,11)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_fixed_placement"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-57\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-57)\"><rect x=\"5\" y=\"37\" width=\"7\" height=\"19\" fill=\"rgb(176,93,191)\" fill-opacity=\"1\" rx=\"0\" ry=\"0\"></rect><rect x=\"32\" y=\"40\" width=\"7\" height=\"16\" fill=\"rgb(176,93,191)\" fill-opacity=\"1\" rx=\"0\" ry=\"0\"></rect><rect x=\"58\" y=\"26\" width=\"7\" height=\"30\" fill=\"rgb(176,93,191)\" fill-opacity=\"1\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-57)\"><rect x=\"7\" y=\"26\" width=\"4\" height=\"30\" fill=\"rgb(229,218,4)\" fill-opacity=\".9\" rx=\"0\" ry=\"0\"></rect><rect x=\"33\" y=\"23\" width=\"4\" height=\"33\" fill=\"rgb(229,218,4)\" fill-opacity=\".9\" rx=\"0\" ry=\"0\"></rect><rect x=\"59\" y=\"34\" width=\"4\" height=\"22\" fill=\"rgb(229,218,4)\" fill-opacity=\".9\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_negative_color"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-33\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-33)\"><rect x=\"3.5\" y=\"33.5\" width=\"4\" height=\"8\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"19.5\" y=\"22.5\" width=\"4\" height=\"19\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"35.5\" y=\"25.5\" width=\"4\" height=\"16\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"50.5\" y=\"11.5\" width=\"4\" height=\"30\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"66.5\" y=\"6.5\" width=\"4\" height=\"35\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-33)\"><rect x=\"8.5\" y=\"41.5\" width=\"4\" height=\"9\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#ff0000\" rx=\"0\" ry=\"0\"></rect><rect x=\"24.5\" y=\"41.5\" width=\"4\" height=\"11\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#ff0000\" rx=\"0\" ry=\"0\"></rect><rect x=\"39.5\" y=\"8.5\" width=\"4\" height=\"33\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"55.5\" y=\"19.5\" width=\"4\" height=\"22\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"71.5\" y=\"14.5\" width=\"4\" height=\"27\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_packed"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-109\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 22.5 65 L 22.5 75\" stroke=\"#C0D0E0\" stroke-width=\"1\" opacity=\"1\"></path><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-109)\"><rect x=\"0\" y=\"37\" width=\"13\" height=\"19\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"27\" y=\"40\" width=\"13\" height=\"16\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"53\" y=\"26\" width=\"14\" height=\"30\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-109)\"><rect x=\"13\" y=\"26\" width=\"14\" height=\"30\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"40\" y=\"23\" width=\"13\" height=\"33\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"67\" y=\"34\" width=\"13\" height=\"22\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_stacked"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-51\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-51)\"><rect x=\"6.5\" y=\"28.5\" width=\"13\" height=\"19\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"6.5\" width=\"13\" height=\"16\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"3.5\" width=\"13\" height=\"30\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-51)\"><rect x=\"6.5\" y=\"47.5\" width=\"13\" height=\"8\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"22.5\" width=\"13\" height=\"33\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"33.5\" width=\"13\" height=\"22\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_stacked_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-61\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-61)\"><rect x=\"6.5\" y=\"28.5\" width=\"13\" height=\"19\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"6.5\" width=\"13\" height=\"16\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"3.5\" width=\"13\" height=\"30\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-61)\"><rect x=\"6.5\" y=\"47.5\" width=\"13\" height=\"8\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"22.5\" width=\"13\" height=\"33\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"33.5\" width=\"13\" height=\"22\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(4,27)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,3)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(54,7)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(4,37)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(28,27)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(57,33)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_stacked_percentage"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-81\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 10.5 L 90 10.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-81)\"><rect x=\"6.5\" y=\"-0.5\" width=\"13\" height=\"40\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"-0.5\" width=\"13\" height=\"19\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"-0.5\" width=\"13\" height=\"33\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-81)\"><rect x=\"6.5\" y=\"39.5\" width=\"13\" height=\"16\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"18.5\" width=\"13\" height=\"37\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"32.5\" width=\"13\" height=\"23\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["column_stacked_percentage_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-75\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 10.5 L 90 10.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-75)\"><rect x=\"6.5\" y=\"-0.5\" width=\"13\" height=\"22\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"-0.5\" width=\"13\" height=\"19\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"-0.5\" width=\"13\" height=\"33\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#b05dbf\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-75)\"><rect x=\"6.5\" y=\"21.5\" width=\"13\" height=\"34\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"33.5\" y=\"18.5\" width=\"13\" height=\"37\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect><rect x=\"59.5\" y=\"32.5\" width=\"13\" height=\"23\" stroke=\"#FFFFFF\" stroke-width=\"1\" fill=\"#e5da04\" rx=\"0\" ry=\"0\"></rect></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(4,-1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,-2)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(54,5)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(1,27)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,25)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(57,32)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
 self["iconInfo"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t width=\"512px\" height=\"512px\" viewBox=\"0 0 512 512\" enable-background=\"new 0 0 512 512\" xml:space=\"preserve\">\r\n<g>\r\n\t<path fill=\"#aaa\" d=\"M256,0C114.609,0,0,114.609,0,256s114.609,256,256,256s256-114.609,256-256S397.391,0,256,0z M256,472\r\n\t\tc-119.297,0-216-96.703-216-216S136.703,40,256,40s216,96.703,216,216S375.297,472,256,472z\"/>\r\n\t<rect fill=\"#aaa\" x=\"240\" y=\"352\" width=\"32\" height=\"32\"/>\r\n\t<path fill=\"#aaa\" d=\"M317.734,150.148c-6.484-6.625-14.688-11.922-24.766-16.031c-10.203-4.102-22.172-6.117-36.281-6.117\r\n\t\tc-11.969,0-22.875,2.016-32.781,6.117c-9.938,4.109-18.5,9.773-25.688,17.125c-7.125,7.289-12.672,14.508-16.5,24.773\r\n\t\tC177.906,186.281,176,192,176,208h32.656c0-16,4.234-28.109,12.938-38.516c8.594-10.453,20.266-14.82,35.094-14.82\r\n\t\tc14.438,0,25.234,3.914,32.172,10.938c6.875,7.023,10.391,17.086,10.391,29.797c0,9.883-3.25,18.758-9.734,26.492\r\n\t\tc-6.375,7.75-13.359,15.297-20.844,22.438c-7.594,7.141-13.672,14.766-19.953,22.641S240,284.016,240,294.469V320h32v-13.75\r\n\t\tc0-8.203,1.203-15.312,4.406-21.516c3.094-6.219,6.953-11.859,11.844-16.891c4.734-5.094,9.812-10,15.469-14.828\r\n\t\tc5.5-4.766,10.781-9.859,15.531-15.172c4.844-5.344,8.875-11.344,11.938-17.969c3.219-6.625,4.828-14.406,4.828-23.477\r\n\t\tc0-7.875-1.422-15.891-4.391-24.039C328.719,164.148,324.031,156.766,317.734,150.148z\"/>\r\n</g>\r\n</svg>\r\n";
-self["line"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-366,419h-90.5c-0.8,0-1.5-0.7-1.5-1.5V327c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v89h89c0.8,0,1.5,0.7,1.5,1.5\r\n\t\t\tS-365.2,419-366,419z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-456,385c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0l21.3,21.3l38.3-41.2\r\n\t\t\tc0.4-0.4,1-0.4,1.4-0.1s0.4,1,0.1,1.4l-39,42c-0.2,0.2-0.4,0.3-0.7,0.3c-0.3,0-0.5-0.1-0.7-0.3l-21.3-21.3l-22.3,22.3\r\n\t\t\tC-455.5,384.9-455.7,385-456,385z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-456,404c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l23-23c0.4-0.4,1-0.4,1.4,0l21.3,21.3l38.3-41.2\r\n\t\t\tc0.4-0.4,1-0.4,1.4-0.1s0.4,1,0.1,1.4l-39,42c-0.2,0.2-0.4,0.3-0.7,0.3c-0.3,0-0.5-0.1-0.7-0.3l-21.3-21.3l-22.3,22.3\r\n\t\t\tC-455.5,403.9-455.7,404-456,404z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
-self["line_basic"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<polyline class=\"st2\" points=\"1.8,64.2 15,37 29,43.8 43,23 57,51 71,29.2 \"/>\r\n<polyline class=\"st2\" points=\"1.8,78.2 15,73 29,57.8 43,57 57,69 71,53.2 \"/>\r\n</svg>";
-self["line_errorbar"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"42.5\" y1=\"14\" x2=\"42.5\" y2=\"32\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"40\" y=\"14\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"40\" y=\"31\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"56.5\" y1=\"38\" x2=\"56.5\" y2=\"64\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"54\" y=\"38\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"54\" y=\"63\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"70.5\" y1=\"21\" x2=\"70.5\" y2=\"38\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"68\" y=\"21\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"68\" y=\"37\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"28.5\" y1=\"31\" x2=\"28.5\" y2=\"56\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"26\" y=\"31\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"26\" y=\"55\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<line class=\"st4\" x1=\"14.5\" y1=\"27\" x2=\"14.5\" y2=\"48\"/>\r\n\t\t<g>\r\n\t\t\t<rect x=\"12\" y=\"27\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t\t<g>\r\n\t\t\t<rect x=\"12\" y=\"47\" class=\"st5\" width=\"5\" height=\"1\"/>\r\n\t\t</g>\r\n\t</g>\r\n</g>\r\n<polyline class=\"st2\" points=\"1.8,64.2 15,37 29,43.8 43,23 57,51 71,29.2 \"/>\r\n</svg>";
-self["line_inverted"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<polyline class=\"st2\" points=\"50,77.2 22.8,64 29.5,50 8.8,36 36.8,22 15,8 \"/>\r\n<polyline class=\"st2\" points=\"64,77.2 58.8,64 43.5,50 42.8,36 54.8,22 39,8 \"/>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n</svg>";
-self["line_labels"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{font-family:'FlandersArtSans-Light';}\r\n\t.st4{font-size:12px;}\r\n\t.st5{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st6{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st7{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<polyline class=\"st2\" points=\"1.8,64.2 15,37 29,43.8 43,23 57,51 71,29.2 \"/>\r\n<text transform=\"matrix(1 0 0 1 9.083 32.75)\" class=\"st3 st4\">30</text>\r\n<text transform=\"matrix(1 0 0 1 36.668 20)\" class=\"st3 st4\">40</text>\r\n</svg>";
-self["line_logaritmic_labels"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{font-family:'FlandersArtSans-Light';}\r\n\t.st4{font-size:12px;}\r\n\t.st5{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st6{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st7{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<polyline class=\"st2\" points=\"1.8,64.2 15,37 29,43.8 43,23 57,51 71,29.2 \"/>\r\n<text transform=\"matrix(1 0 0 1 10.167 32.75)\" class=\"st3 st4\">10</text>\r\n<text transform=\"matrix(1 0 0 1 34.3945 20)\" class=\"st3 st4\">100</text>\r\n</svg>";
-self["line_negative_color"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{font-family:'FlandersArtSans-Light';}\r\n\t.st4{font-size:12px;}\r\n\t.st5{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st6{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st7{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<polyline class=\"st2\" points=\"1.8,45.2 15,37 29,43.8 43,73 57,64 71,29.2 \"/>\r\n<text transform=\"matrix(1 0 0 1 10.167 32.75)\" class=\"st3 st4\">10</text>\r\n<text transform=\"matrix(1 0 0 1 34.3945 20)\" class=\"st3 st4\">100</text>\r\n<polyline class=\"st5\" points=\"32.7,51.5 43,73 57,64 62,51.5 \"/>\r\n<line class=\"st2\" x1=\"2\" y1=\"51.5\" x2=\"72\" y2=\"51.5\"/>\r\n</svg>";
-self["line_step"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<polyline class=\"st2\" points=\"2,62.5 14.5,62.5 14.5,37.5 28.5,37.5 28.5,44.5 42.5,44.5 42.5,23.5 56.5,23.5 56.5,51.5 70.5,51.5 \r\n\t70.5,31 \"/>\r\n</svg>";
-self["line_step_labels"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{font-family:'FlandersArtSans-Light';}\r\n\t.st4{font-size:12px;}\r\n\t.st5{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st6{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st7{fill:#989898;}\r\n</style>\r\n<text transform=\"matrix(1 0 0 1 8.333 32.75)\" class=\"st3 st4\">30</text>\r\n<text transform=\"matrix(1 0 0 1 35.918 20)\" class=\"st3 st4\">40</text>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<polyline class=\"st2\" points=\"2,62.5 14.5,62.5 14.5,37.5 28.5,37.5 28.5,44.5 42.5,44.5 42.5,23.5 56.5,23.5 56.5,51.5 70.5,51.5 \r\n\t70.5,31 \"/>\r\n</svg>";
+self["line_basic"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-13\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-13)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-13)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["line_errorbar"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-227\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-227)\"><path fill=\"none\" d=\"M 8.503937007874017 46.75 L 24.251968503937007 35.75 L 40 38.5 L 55.74803149606299 24.75 L 71.49606299212599 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-227)\"><g><path fill=\"none\" d=\"M 8.5 49 L 8.5 44 M 8.5 49 L 8.5 49\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 6.5 44.5 L 10.5 44.5 M 6.5 49.5 L 10.5 49.5\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#000000\" stroke-width=\"2\"></path></g><g><path fill=\"none\" d=\"M 23.5 38 L 23.5 30 M 23.5 38 L 23.5 38\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 21.5 30.5 L 25.5 30.5 M 21.5 38.5 L 25.5 38.5\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#000000\" stroke-width=\"2\"></path></g><g><path fill=\"none\" d=\"M 39.5 44 L 39.5 33 M 39.5 44 L 39.5 44\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 37.5 33.5 L 41.5 33.5 M 37.5 44.5 L 41.5 44.5\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#000000\" stroke-width=\"2\"></path></g><g><path fill=\"none\" d=\"M 55.5 30 L 55.5 22 M 55.5 30 L 55.5 30\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 53.5 22.5 L 57.5 22.5 M 53.5 30.5 L 57.5 30.5\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#000000\" stroke-width=\"2\"></path></g><g><path fill=\"none\" d=\"M 71.5 27 L 71.5 22 M 71.5 27 L 71.5 27\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 69.5 22.5 L 73.5 22.5 M 69.5 27.5 L 73.5 27.5\" stroke=\"#000000\" stroke-width=\"1\"></path><path fill=\"none\" d=\"M 0 0\" stroke=\"#000000\" stroke-width=\"2\"></path></g></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["line_inverted"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-107\"><rect x=\"0\" y=\"0\" width=\"55\" height=\"80\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 49.5 10 L 49.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 90.5 10 L 90.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-107)\"><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-107)\"><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["line_inverted_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-117\"><rect x=\"0\" y=\"0\" width=\"55\" height=\"80\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 49.5 10 L 49.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 90.5 10 L 90.5 65\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 9.5 10 L 9.5 65\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-117)\"><path fill=\"none\" d=\"M 54.46078431372549 68 L 40.98039215686275 52 L 27.5 56 L 14.019607843137251 36 L 0.5392156862745097 28\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"url(#highcharts-117)\"><path fill=\"none\" d=\"M 54.46078431372549 80 L 40.98039215686275 36 L 27.5 32 L 14.019607843137251 48 L 0.5392156862745097 40\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(90,65) rotate(90) scale(-1,1) scale(1 1)\" width=\"80\" height=\"55\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(3,1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(19,14)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(15,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(32,18)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(40,31)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(32,14)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(36,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(23,18)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(28,31)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["line_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-23\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-23)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 35.75 L 40 38.5 L 59.6078431372549 24.75 L 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-23)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 24.75 L 40 22 L 59.6078431372549 33 L 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,24)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,13)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,16)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,2)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,-4)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,2)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,-1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,10)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["line_negative_color"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-33\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath><clipPath id=\"highcharts-34\"><rect x=\"0\" y=\"41\" width=\"100\" height=\"24\"></rect></clipPath><clipPath id=\"highcharts-35\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"41\"></rect></clipPath><clipPath id=\"highcharts-37\"><rect x=\"0\" y=\"41\" width=\"100\" height=\"24\"></rect></clipPath><clipPath id=\"highcharts-38\"><rect x=\"0\" y=\"0\" width=\"100\" height=\"41\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-33)\"><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-34)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 33 L 20.3921568627451 22 L 40 24.75 L 59.6078431372549 11 L 79.2156862745098 5.5\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-35)\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-33)\"><path fill=\"none\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 11 L 40 8.25 L 59.6078431372549 49.5 L 79.2156862745098 13.75\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" visibility=\"hidden\"></path><path fill=\"none\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 11 L 40 8.25 L 59.6078431372549 49.5 L 79.2156862745098 13.75\" stroke=\"#ff0000\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-37)\"></path><path fill=\"none\" d=\"M 0.7843137254901962 41.25 L 20.3921568627451 11 L 40 8.25 L 59.6078431372549 49.5 L 79.2156862745098 13.75\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\" clip-path=\"url(#highcharts-38)\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["line_step"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-79\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-79)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-79)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["line_step_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-89\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-89)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 L 20.3921568627451 46.75 L 20.3921568627451 35.75 L 40 35.75 L 40 38.5 L 59.6078431372549 38.5 L 59.6078431372549 24.75 L 79.2156862745098 24.75 L 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-89)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 L 20.3921568627451 55 L 20.3921568627451 24.75 L 40 24.75 L 40 22 L 59.6078431372549 22 L 59.6078431372549 33 L 79.2156862745098 33 L 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,24)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,13)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,16)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,2)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,-4)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,2)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,-1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,10)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
 self["logo"] = "<svg version=\"1.1\" id=\"Laag_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 247.8 61.6\" enable-background=\"new 0 0 247.8 61.6\" xml:space=\"preserve\">\r\n<circle fill=\"#C6F4C3\" cx=\"237.8\" cy=\"25.1\" r=\"5.8\"/>\r\n<g>\r\n\t<path fill=\"#ffffff\" d=\"M24,6v6.8H10v5.5H24v6.4H10v5.5H24V37H2.8V6H24z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M36.6,31.5L34.7,37h-7.6L37.7,6h10.5l10.7,31h-7.7l-1.9-5.5H36.6z M46.9,24.7l-4-11.6l-4,11.6H46.9z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M59.6,28.6c2.8,1.2,5.4,2.1,8.6,2.1c1.9,0,3.3-0.4,4.1-0.9c0.9-0.5,1.3-1.2,1.3-1.9c0-1.1-0.9-1.9-2.3-2.5\r\n\t\tc-0.7-0.3-1.5-0.6-2.4-0.9c-1.8-0.6-3.7-1.3-5.5-2.3c-1.8-1-3.3-2.3-4.1-4.3c-0.4-1-0.7-2.1-0.7-3.5c0-3.5,1.5-5.7,3.8-7\r\n\t\ts5.1-1.8,7.8-1.8c3.2,0,6,0.7,7.8,1.3v6.2L78,13.2c-0.5-0.2-1.6-0.4-2.9-0.6c-1.3-0.2-2.8-0.4-4.3-0.4c-1.3,0-2.6,0.1-3.6,0.5\r\n\t\ts-1.6,0.9-1.6,1.8c0,1.1,1,1.9,2.4,2.5c0.7,0.4,1.6,0.7,2.5,1c1.9,0.7,3.9,1.4,5.8,2.3c1.9,1,3.4,2.3,4.3,4.1\r\n\t\tc0.4,0.9,0.7,2,0.7,3.2c0,3.2-1.7,5.6-4.2,7.3c-2.5,1.7-5.8,2.5-9.1,2.5c-3.1,0-6.1-0.8-8.4-2.4V28.6z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M83.3,6h7.2l5.8,11.8L102.1,6h7.3l-9.4,19.4V37h-7.2V25.4L83.3,6z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M129.3,34.1v2.2c-2,0.8-3.8,1.2-5.7,1.2c-2.9,0-5.7-0.9-7.8-3s-3.4-5.3-3.4-9.8c0-4.5,1.3-7.6,3.3-9.6c2-2,4.8-2.9,7.8-2.9\r\n\t\tc1.9,0,3.7,0.3,5.7,1.2v2.1l-0.2,0.3c-1.7-0.7-3.3-0.9-5-0.9c-2.4,0-4.6,0.6-6.2,2.2c-1.6,1.5-2.6,4-2.6,7.6s1,6.2,2.6,7.9\r\n\t\tc1.6,1.7,3.8,2.5,6.2,2.5c1.6,0,3.3-0.3,5-0.9L129.3,34.1z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M138.6,3.4v11.4c2.3-1.5,4.8-2.7,7.5-2.7c1.9,0,3.9,0.6,5.4,1.8c1.5,1.3,2.5,3.2,2.5,6v17h-2.7v-16c0-2.2-0.7-3.7-1.7-4.8\r\n\t\tc-1-1-2.4-1.5-3.9-1.5c-1.2,0-2.5,0.3-3.7,0.8c-1.2,0.5-2.4,1.2-3.3,2V37h-2.7V3.9l2.4-0.5H138.6z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M177.2,28.8c0,1.4,0.3,2.8,0.9,3.9c0.6,1.1,1.6,1.9,2.9,2.2l-1.5,2.5c-1.8-0.6-3.1-2-3.9-3.8c-0.6,1.1-1.6,2-2.8,2.7\r\n\t\tc-1.2,0.7-2.8,1.1-4.5,1.1c-1.6,0-3.6-0.4-5.1-1.5c-1.6-1.1-2.7-3-2.7-6c0-2.3,0.7-4,2.2-5.2s3.9-1.8,7.2-1.8\r\n\t\tc1.2,0,2.7,0.1,4.9,0.3v-3.4c0-1.9-0.7-3.2-1.6-4c-1-0.8-2.3-1.1-3.6-1.1c-1.8,0-4.4,0.5-6.6,1.6l-0.7-2.5c2.3-1.1,5-1.7,7.4-1.7\r\n\t\tc2.1,0,4,0.5,5.5,1.7c1.4,1.2,2.3,3.3,2.3,6.3V28.8z M174.5,25.6c-1.8-0.2-2.7-0.2-3.8-0.2c-1.4,0-3.3,0-4.9,0.6\r\n\t\tc-1.6,0.6-2.8,1.7-2.8,3.8c0,1.3,0.5,2.6,1.4,3.5c0.9,0.9,2.2,1.5,3.9,1.5c2.6,0,4.7-1.3,6.1-4V25.6z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M187.6,12.6l0.8,2.5c1.8-2,3.9-3,6.1-3c1.2,0,2.2,0.3,3.3,0.7l-0.9,2.4c-1.2-0.4-1.7-0.6-2.7-0.6c-2.4,0-4.2,1.2-5.9,3.4\r\n\t\tV37h-2.7V12.6H187.6z\"/>\r\n\t<path fill=\"#ffffff\" d=\"M215.1,36.6c-1.7,0.6-3.2,0.9-4.6,0.9c-1.3,0-3.1-0.3-4.6-1.4c-1.5-1.2-2.6-3.2-2.6-6.8v-14h-2.7v-2.7h2.7V8.2l2.4-0.4h0.3\r\n\t\tv4.9h6v2.7h-6v12.5c0,2.6,0.4,4.3,1.3,5.4c0.8,1.1,2,1.6,3.4,1.6c1.1,0,2.3-0.3,3.7-0.8L215.1,36.6z\"/>\r\n</g>\r\n<g>\r\n\t<path fill=\"#97CCC2\" d=\"M4,46.5v3.3C4.7,49.3,5.4,49,6.2,49c0.5,0,1.1,0.2,1.6,0.5c0.4,0.4,0.7,0.9,0.7,1.7v5H7.7v-4.7\r\n\t\tc0-0.6-0.2-1.1-0.5-1.4c-0.3-0.3-0.7-0.4-1.1-0.4c-0.4,0-0.7,0.1-1.1,0.2c-0.4,0.2-0.7,0.4-1,0.6v5.7H3.3v-9.6L4,46.5L4,46.5z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M11.6,47.4c0-0.2,0.1-0.3,0.2-0.4c0.1-0.1,0.3-0.2,0.4-0.2s0.3,0.1,0.4,0.2c0.1,0.1,0.2,0.2,0.2,0.4\r\n\t\tc0,0.1-0.1,0.3-0.2,0.4c-0.1,0.1-0.3,0.2-0.4,0.2s-0.3-0.1-0.4-0.2C11.7,47.7,11.6,47.5,11.6,47.4z M11.8,56.2v-7.1h0.8v7.1H11.8z\"\r\n\t\t/>\r\n\t<path fill=\"#97CCC2\" d=\"M18.8,54.8c1,0,1.7,0.2,2.1,0.6c0.5,0.4,0.7,0.9,0.7,1.4c0,0.7-0.5,1.4-1.2,1.9s-1.6,0.8-2.5,0.8\r\n\t\tc-0.8,0-1.5-0.3-1.9-0.7c-0.5-0.4-0.7-1-0.7-1.5c0-0.7,0.3-1.4,0.9-1.9c-0.4-0.2-0.6-0.6-0.6-1c0-0.4,0.2-0.9,0.5-1.3\r\n\t\tc-0.4-0.4-0.6-1-0.6-1.6c0-0.7,0.3-1.3,0.7-1.7c0.5-0.4,1.1-0.7,1.9-0.7c0.6,0,1.1,0.2,1.5,0.4c0.3-0.2,0.6-0.4,0.9-0.6\r\n\t\tc0.3-0.1,0.6-0.2,0.8-0.2l0.3,0.7c-0.4,0-0.9,0.2-1.3,0.6c0.3,0.4,0.5,0.9,0.5,1.4c0,0.7-0.3,1.3-0.7,1.7s-1.1,0.7-1.9,0.7\r\n\t\tc-0.6,0-1-0.1-1.4-0.4c-0.2,0.2-0.3,0.5-0.3,0.6c0,0.1,0.1,0.3,0.2,0.4c0.1,0.1,0.4,0.2,0.6,0.2H18.8z M16.8,55.5\r\n\t\tc-0.5,0.5-0.8,1.1-0.8,1.7c0,0.4,0.2,0.8,0.5,1.1s0.8,0.5,1.5,0.5c0.8,0,1.5-0.2,2-0.6s0.8-0.8,0.8-1.3c0-0.6-0.3-0.9-0.8-1.1\r\n\t\ts-1.3-0.2-2.1-0.2H16.8z M18.1,49.8c-0.6,0-1.1,0.2-1.4,0.5c-0.3,0.3-0.5,0.7-0.5,1.1s0.2,0.8,0.5,1.1s0.8,0.5,1.4,0.5\r\n\t\tc0.6,0,1.1-0.2,1.4-0.5s0.4-0.7,0.4-1.1s-0.2-0.8-0.5-1.1C19.1,50,18.7,49.8,18.1,49.8z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M24.7,46.5v3.3c0.7-0.4,1.4-0.8,2.2-0.8c0.5,0,1.1,0.2,1.6,0.5c0.4,0.4,0.7,0.9,0.7,1.7v5h-0.8v-4.7\r\n\t\tc0-0.6-0.2-1.1-0.5-1.4c-0.3-0.3-0.7-0.4-1.1-0.4c-0.4,0-0.7,0.1-1.1,0.2c-0.4,0.2-0.7,0.4-1,0.6v5.7h-0.8v-9.6L24.7,46.5\r\n\t\tL24.7,46.5z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M36.7,55.4V56c-0.6,0.2-1.1,0.3-1.7,0.3c-0.9,0-1.7-0.3-2.3-0.9s-1-1.5-1-2.9c0-1.3,0.4-2.2,1-2.8\r\n\t\ts1.4-0.8,2.3-0.8c0.6,0,1.1,0.1,1.7,0.3V50L36.7,50c-0.5-0.2-1-0.3-1.5-0.3c-0.7,0-1.4,0.2-1.8,0.6s-0.8,1.2-0.8,2.2\r\n\t\ts0.3,1.8,0.8,2.3s1.1,0.7,1.8,0.7C35.7,55.6,36.2,55.5,36.7,55.4L36.7,55.4z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M40.2,46.5v3.3c0.7-0.4,1.4-0.8,2.2-0.8c0.5,0,1.1,0.2,1.6,0.5c0.4,0.4,0.7,0.9,0.7,1.7v5h-0.8v-4.7\r\n\t\tc0-0.6-0.2-1.1-0.5-1.4c-0.3-0.3-0.7-0.4-1.1-0.4c-0.4,0-0.7,0.1-1.1,0.2c-0.4,0.2-0.7,0.4-1,0.6v5.7h-0.8v-9.6L40.2,46.5\r\n\t\tL40.2,46.5z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M52.3,53.9c0,0.4,0.1,0.8,0.3,1.1s0.5,0.6,0.8,0.6l-0.4,0.7c-0.5-0.2-0.9-0.6-1.1-1.1\r\n\t\tc-0.2,0.3-0.5,0.6-0.8,0.8s-0.8,0.3-1.3,0.3c-0.5,0-1-0.1-1.5-0.4c-0.5-0.3-0.8-0.9-0.8-1.8c0-0.7,0.2-1.2,0.6-1.5s1.1-0.5,2.1-0.5\r\n\t\tc0.4,0,0.8,0,1.4,0.1v-1c0-0.5-0.2-0.9-0.5-1.2s-0.7-0.3-1.1-0.3c-0.5,0-1.3,0.2-1.9,0.5l-0.2-0.7c0.7-0.3,1.4-0.5,2.2-0.5\r\n\t\tc0.6,0,1.2,0.1,1.6,0.5c0.4,0.4,0.7,1,0.7,1.8V53.9z M51.5,52.9c-0.5-0.1-0.8-0.1-1.1-0.1c-0.4,0-1,0-1.4,0.2\r\n\t\tc-0.5,0.2-0.8,0.5-0.8,1.1c0,0.4,0.1,0.8,0.4,1c0.3,0.3,0.6,0.4,1.1,0.4c0.8,0,1.4-0.4,1.8-1.2V52.9z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M56.1,49.1l0.2,0.7c0.5-0.6,1.1-0.9,1.8-0.9c0.3,0,0.6,0.1,1,0.2l-0.3,0.7c-0.3-0.1-0.5-0.2-0.8-0.2\r\n\t\tc-0.7,0-1.2,0.3-1.7,1v5.5h-0.8v-7.1H56.1z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M64.9,56.1c-0.5,0.2-0.9,0.3-1.3,0.3c-0.4,0-0.9-0.1-1.3-0.4s-0.8-0.9-0.8-2v-4.1h-0.8v-0.8h0.8v-1.3\r\n\t\tl0.7-0.1h0.1v1.4H64v0.8h-1.7v3.7c0,0.7,0.1,1.3,0.4,1.6c0.2,0.3,0.6,0.5,1,0.5c0.3,0,0.7-0.1,1.1-0.2L64.9,56.1z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M66.6,55.4c0.2,0.1,0.4,0.1,0.7,0.2c0.3,0,0.5,0.1,0.8,0.1c0.4,0,0.9-0.1,1.3-0.3c0.4-0.2,0.7-0.5,0.7-1\r\n\t\tc0-0.5-0.4-0.8-0.9-1.1c-0.3-0.1-0.5-0.3-0.8-0.4c-0.6-0.2-1.1-0.6-1.5-1.1c-0.2-0.2-0.3-0.6-0.3-0.9c0-0.6,0.3-1.1,0.7-1.4\r\n\t\tc0.4-0.3,1-0.5,1.7-0.5c0.5,0,0.9,0.1,1.3,0.2v0.7l0,0c-0.3-0.1-0.8-0.2-1.3-0.2c-0.4,0-0.8,0.1-1,0.2c-0.3,0.2-0.4,0.4-0.4,0.8\r\n\t\tc0,0.4,0.2,0.7,0.5,0.9c0.3,0.2,0.8,0.4,1.2,0.6c0.4,0.2,0.9,0.4,1.2,0.7c0.3,0.3,0.5,0.7,0.5,1.3c0,0.7-0.3,1.3-0.9,1.6\r\n\t\tc-0.5,0.4-1.2,0.6-2,0.6c-0.5,0-1-0.1-1.5-0.3L66.6,55.4L66.6,55.4z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M76.2,51.9v0.8h-3.4v-0.8H76.2z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M79.4,49.1l0.2,0.6c0.5-0.5,1.2-0.8,2-0.8c1,0,1.7,0.4,2.2,1.1s0.8,1.6,0.8,2.6c0,1.1-0.4,2-1,2.7\r\n\t\ts-1.5,1-2.5,1c-0.4,0-1-0.1-1.5-0.2v3.2h-0.8V49.1H79.4z M79.6,55.3c0.5,0.2,1,0.3,1.5,0.3c0.7,0,1.4-0.3,1.9-0.8s0.8-1.3,0.8-2.2\r\n\t\tc0-0.8-0.2-1.5-0.6-2s-1-0.9-1.8-0.9c-0.8,0-1.4,0.3-1.8,0.9V55.3z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M86.7,52.7c0-1,0.3-2,0.9-2.6S89,49,89.9,49c1,0,1.8,0.4,2.3,1.1c0.5,0.7,0.9,1.6,0.9,2.6\r\n\t\tc0,1-0.3,1.9-0.9,2.6s-1.4,1.1-2.3,1.1c-1,0-1.8-0.4-2.3-1.1S86.7,53.7,86.7,52.7z M87.5,52.6c0,0.8,0.2,1.6,0.6,2.1\r\n\t\tc0.4,0.5,1,0.9,1.8,0.9c0.8,0,1.4-0.3,1.8-0.8c0.4-0.5,0.6-1.2,0.6-2.1c0-0.8-0.2-1.6-0.6-2.1c-0.4-0.5-1-0.9-1.8-0.9\r\n\t\tc-0.8,0-1.4,0.3-1.8,0.8S87.5,51.8,87.5,52.6z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M101.7,56.2h-0.9l-1.7-5.7l-1.7,5.7h-0.9l-2.2-7.1h0.9l1.8,5.7l1.7-5.7h0.8l1.7,5.7l1.8-5.7h0.9L101.7,56.2\r\n\t\tz\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M110.4,52.9H106c0,0.9,0.3,1.6,0.8,2.1c0.5,0.5,1.1,0.7,1.8,0.7c0.3,0,0.6,0,0.9-0.1\r\n\t\tc0.3-0.1,0.6-0.2,0.9-0.4l0,0v0.7c-0.7,0.4-1.4,0.5-2,0.5c-0.9,0-1.7-0.3-2.3-0.9s-1-1.6-1-2.9c0-1,0.2-1.9,0.7-2.6s1.2-1,2.3-1\r\n\t\tc0.7,0,1.2,0.2,1.5,0.5c0.3,0.3,0.5,0.7,0.6,1.2s0.1,1,0.1,1.4V52.9z M109.6,52.1c0-0.6-0.1-1.2-0.3-1.6c-0.2-0.4-0.6-0.7-1.3-0.7\r\n\t\tc-0.7,0-1.1,0.2-1.5,0.7c-0.3,0.4-0.5,1-0.6,1.7H109.6z\"/>\r\n\t<path fill=\"#97CCC2\" d=\"M113.7,49.1l0.2,0.7c0.5-0.6,1.1-0.9,1.8-0.9c0.3,0,0.6,0.1,1,0.2l-0.3,0.7c-0.3-0.1-0.5-0.2-0.8-0.2\r\n\t\tc-0.7,0-1.2,0.3-1.7,1v5.5h-0.8v-7.1H113.7z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M123.9,47.4c0-0.2,0.1-0.3,0.2-0.4c0.1-0.1,0.3-0.2,0.4-0.2s0.3,0.1,0.4,0.2c0.1,0.1,0.2,0.2,0.2,0.4\r\n\t\tc0,0.1-0.1,0.3-0.2,0.4c-0.1,0.1-0.3,0.2-0.4,0.2s-0.3-0.1-0.4-0.2C124,47.7,123.9,47.5,123.9,47.4z M124.1,56.2v-7.1h0.8v7.1\r\n\t\tH124.1z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M128.9,49.1l0.2,0.7c0.7-0.4,1.4-0.8,2.2-0.8c0.5,0,1.1,0.2,1.6,0.5c0.4,0.4,0.7,0.9,0.7,1.7v5h-0.8v-4.7\r\n\t\tc0-0.6-0.2-1.1-0.5-1.4s-0.7-0.4-1.1-0.4c-0.4,0-0.7,0.1-1.1,0.2c-0.4,0.2-0.7,0.4-1,0.6v5.7h-0.8v-7.1H128.9z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M143.6,55l2-5.8h0.9l-3.1,8.9c-0.2,0.5-0.5,0.9-0.8,1.1s-0.7,0.3-1.1,0.3c-0.5,0-1-0.1-1.4-0.4l0.4-0.9\r\n\t\tc0.3,0.2,0.6,0.3,0.9,0.3c0.6,0,1.1-0.3,1.3-1l0.4-1.3l-2.4-7.1h0.9L143.6,55z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M148.1,52.7c0-1,0.3-2,0.9-2.6s1.4-1.1,2.3-1.1c1,0,1.8,0.4,2.3,1.1c0.5,0.7,0.9,1.6,0.9,2.6\r\n\t\tc0,1-0.3,1.9-0.9,2.6s-1.4,1.1-2.3,1.1c-1,0-1.8-0.4-2.3-1.1S148.1,53.7,148.1,52.7z M148.9,52.6c0,0.8,0.2,1.6,0.6,2.1\r\n\t\tc0.4,0.5,1,0.9,1.8,0.9c0.8,0,1.4-0.3,1.8-0.8c0.4-0.5,0.6-1.2,0.6-2.1c0-0.8-0.2-1.6-0.6-2.1c-0.4-0.5-1-0.9-1.8-0.9\r\n\t\tc-0.8,0-1.4,0.3-1.8,0.8S148.9,51.8,148.9,52.6z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M161.9,56.2l-0.2-0.7c-0.3,0.2-0.7,0.4-1.1,0.6s-0.8,0.2-1.2,0.2c-0.5,0-1.1-0.2-1.6-0.5\r\n\t\tc-0.4-0.4-0.7-0.9-0.7-1.7v-5h0.8v4.7c0,0.6,0.2,1.1,0.5,1.4c0.3,0.3,0.7,0.4,1.1,0.4c0.4,0,0.7-0.1,1.1-0.3c0.3-0.2,0.7-0.4,1-0.6\r\n\t\tv-5.7h0.8v7.1H161.9z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M166.4,49.1l0.2,0.7c0.5-0.6,1.1-0.9,1.8-0.9c0.3,0,0.6,0.1,1,0.2l-0.3,0.7c-0.3-0.1-0.5-0.2-0.8-0.2\r\n\t\tc-0.7,0-1.2,0.3-1.7,1v5.5h-0.8v-7.1H166.4z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M177.6,46.5v3.3c0.7-0.4,1.4-0.8,2.2-0.8c0.5,0,1.1,0.2,1.6,0.5c0.4,0.4,0.7,0.9,0.7,1.7v5h-0.8v-4.7\r\n\t\tc0-0.6-0.2-1.1-0.5-1.4c-0.3-0.3-0.7-0.4-1.1-0.4c-0.4,0-0.7,0.1-1.1,0.2c-0.4,0.2-0.7,0.4-1,0.6v5.7h-0.8v-9.6L177.6,46.5\r\n\t\tL177.6,46.5z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M189.7,53.9c0,0.4,0.1,0.8,0.3,1.1s0.5,0.6,0.8,0.6l-0.4,0.7c-0.5-0.2-0.9-0.6-1.1-1.1\r\n\t\tc-0.2,0.3-0.5,0.6-0.8,0.8s-0.8,0.3-1.3,0.3c-0.5,0-1-0.1-1.5-0.4c-0.5-0.3-0.8-0.9-0.8-1.8c0-0.7,0.2-1.2,0.6-1.5s1.1-0.5,2.1-0.5\r\n\t\tc0.4,0,0.8,0,1.4,0.1v-1c0-0.5-0.2-0.9-0.5-1.2s-0.7-0.3-1.1-0.3c-0.5,0-1.3,0.2-1.9,0.5l-0.2-0.7c0.7-0.3,1.4-0.5,2.2-0.5\r\n\t\tc0.6,0,1.2,0.1,1.6,0.5c0.4,0.4,0.7,1,0.7,1.8V53.9z M188.9,52.9c-0.5-0.1-0.8-0.1-1.1-0.1c-0.4,0-1,0-1.4,0.2\r\n\t\tc-0.5,0.2-0.8,0.5-0.8,1.1c0,0.4,0.1,0.8,0.4,1c0.3,0.3,0.6,0.4,1.1,0.4c0.8,0,1.4-0.4,1.8-1.2V52.9z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M193.8,49.1l0.2,0.7c0.7-0.4,1.4-0.8,2.2-0.8c0.5,0,1.1,0.2,1.6,0.5c0.4,0.4,0.7,0.9,0.7,1.7v5h-0.8v-4.7\r\n\t\tc0-0.6-0.2-1.1-0.5-1.4s-0.7-0.4-1.1-0.4c-0.4,0-0.7,0.1-1.1,0.2c-0.4,0.2-0.7,0.4-1,0.6v5.7h-0.8v-7.1H193.8z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M206.9,56.2h-0.6l-0.2-0.6c-0.5,0.5-1.2,0.8-2,0.8c-0.9,0-1.7-0.4-2.2-1.1c-0.5-0.7-0.8-1.6-0.8-2.7\r\n\t\tc0-1,0.3-1.9,0.8-2.5s1.4-1,2.7-1c0.5,0,1,0.1,1.5,0.2v-2.6l0.7-0.1h0.1V56.2z M206.2,50.1c-0.5-0.2-1-0.4-1.5-0.4\r\n\t\tc-0.8,0-1.4,0.2-1.9,0.7s-0.8,1.2-0.8,2.2c0,0.8,0.2,1.5,0.6,2c0.4,0.5,1,0.9,1.8,0.9c0.8,0,1.4-0.3,1.9-0.9V50.1z\"/>\r\n\t<path fill=\"#9ABF99\" d=\"M209.7,55.4c0.2,0.1,0.4,0.1,0.7,0.2s0.5,0.1,0.8,0.1c0.4,0,0.9-0.1,1.3-0.3c0.4-0.2,0.7-0.5,0.7-1\r\n\t\tc0-0.5-0.4-0.8-0.9-1.1c-0.3-0.1-0.5-0.3-0.8-0.4c-0.6-0.2-1.1-0.6-1.5-1.1c-0.2-0.2-0.3-0.6-0.3-0.9c0-0.6,0.3-1.1,0.7-1.4\r\n\t\ts1-0.5,1.7-0.5c0.5,0,0.9,0.1,1.3,0.2v0.7l0,0c-0.3-0.1-0.8-0.2-1.3-0.2c-0.4,0-0.8,0.1-1,0.2c-0.3,0.2-0.4,0.4-0.4,0.8\r\n\t\tc0,0.4,0.2,0.7,0.5,0.9c0.3,0.2,0.8,0.4,1.2,0.6c0.4,0.2,0.9,0.4,1.2,0.7c0.3,0.3,0.5,0.7,0.5,1.3c0,0.7-0.3,1.3-0.9,1.6\r\n\t\tc-0.5,0.4-1.2,0.6-2,0.6c-0.5,0-1-0.1-1.5-0.3L209.7,55.4L209.7,55.4z\"/>\r\n</g>\r\n<circle fill=\"#97CCC2\" cx=\"231.8\" cy=\"31.1\" r=\"5.8\"/>\r\n</svg>\r\n";
 self["pie"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-411,420.5c-26.7,0-48.5-21.8-48.5-48.5s21.8-48.5,48.5-48.5c26.7,0,48.5,21.8,48.5,48.5\r\n\t\t\tC-362.5,398.7-384.3,420.5-411,420.5z M-411,326.5c-25.1,0-45.5,20.4-45.5,45.5s20.4,45.5,45.5,45.5s45.5-20.4,45.5-45.5\r\n\t\t\tS-385.9,326.5-411,326.5z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-378.2,406.8c-0.3,0-0.5-0.1-0.7-0.3l-33.8-33.8c-0.2-0.2-0.3-0.4-0.3-0.7v-47c0-0.6,0.4-1,1-1s1,0.4,1,1v46.6l33.5,33.5\r\n\t\t\tc0.4,0.4,0.4,1,0,1.4C-377.7,406.7-378,406.8-378.2,406.8z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-364,373h-48c-0.6,0-1-0.4-1-1s0.4-1,1-1h48c0.6,0,1,0.4,1,1S-363.4,373-364,373z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
 self["readme"] = "\nIMPORTANT NOTICE:\n-----------------\n\nAll icons by Agus Purwanto from the Noun Project. Thanks a lot!\nhttps://thenounproject.com/Brexebrex/collection/chart-icons/";
 self["spider"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"-461 322 100 100\" style=\"enable-background:new -461 322 100 100;\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path d=\"M-375,417.5c-0.4,0-0.9-0.2-1.2-0.5l-34.8-42.6l-34.8,42.6c-0.5,0.6-1.5,0.7-2.1,0.2c-0.6-0.5-0.7-1.5-0.2-2.1l36-44\r\n\t\t\tc0.6-0.7,1.8-0.7,2.3,0l36,44c0.5,0.6,0.4,1.6-0.2,2.1C-374.3,417.4-374.7,417.5-375,417.5z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-411.4,374c-0.2,0-0.5-0.1-0.7-0.2l-45.6-23.5c-0.7-0.4-1-1.3-0.6-2c0.4-0.7,1.3-1,2-0.6l44.9,23.2l44.7-23.2\r\n\t\t\tc0.7-0.4,1.6-0.1,2,0.6s0.1,1.6-0.6,2l-45.4,23.5C-411,374-411.2,374-411.4,374z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-411.5,374.5c-0.8,0-1.5-0.7-1.5-1.5v-49c0-0.8,0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5v49C-410,373.8-410.7,374.5-411.5,374.5z\r\n\t\t\t\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-412,339.1l32,17.8l-6.8,45.1H-436l-6.4-45.1L-412,339.1 M-412,337.1c-0.3,0-0.7,0.1-1,0.3l-30.5,17.5\r\n\t\t\tc-0.7,0.4-1.1,1.2-1,2l6.4,45.1c0.1,1,1,2,2,2h49.2c1,0,1.8-1,2-1.9l6.8-44.9c0.1-0.8-0.3-1.7-1-2.1l-32-17.6\r\n\t\t\tC-411.3,337.2-411.7,337.1-412,337.1L-412,337.1z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-411.8,349.1l21.7,12.2l-4.6,30.7h-33.4l-4.4-30.7L-411.8,349.1 M-411.8,347.1c-0.3,0-0.7,0.1-1,0.3l-20.7,11.9\r\n\t\t\tc-0.7,0.4-1.1,1.2-1,2l4.4,30.7c0.1,1,1,2,2,2h33.4c1,0,1.8-1,2-1.9l4.6-30.6c0.1-0.8-0.3-1.7-1-2.1l-21.7-12\r\n\t\t\tC-411.1,347.2-411.4,347.1-411.8,347.1L-411.8,347.1z\"/>\r\n\t</g>\r\n\t<g>\r\n\t\t<path d=\"M-411.5,358.1l12.5,7.1l-2.7,17.8h-19.2l-2.5-17.8L-411.5,358.1 M-411.5,356.1c-0.3,0-0.7,0.1-1,0.3l-11.9,6.8\r\n\t\t\tc-0.7,0.4-1.1,1.2-1,2l2.5,17.8c0.1,1,1,2,2,2h19.2c1,0,1.8-1,2-1.9l2.7-17.6c0.1-0.8-0.3-1.7-1-2.1l-12.5-6.9\r\n\t\t\tC-410.9,356.2-411.2,356.1-411.5,356.1L-411.5,356.1z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
-self["spline_basic"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st4{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st5{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<path class=\"st2\" d=\"M1.8,64.2c0,0,8.5-27.2,13.2-27.2s9.5,6.8,14,6.8S38.8,23,43,23s10.8,28,14,28s14-21.8,14-21.8\"/>\r\n<path class=\"st2\" d=\"M1.8,77.2c0,0,8.5-17.2,13.2-17.2s9.5-3.2,14-3.2S38.8,71,43,71s10.8-15,14-15s14,9.2,14,9.2\"/>\r\n</svg>";
-self["spline_labels"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"0 0 80 80\" style=\"enable-background:new 0 0 80 80;\" xml:space=\"preserve\">\r\n<style type=\"text/css\">\r\n\t.st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}\r\n\t.st1{fill:none;}\r\n\t.st2{fill:none;stroke:#000000;stroke-miterlimit:10;}\r\n\t.st3{font-family:'FlandersArtSans-Light';}\r\n\t.st4{font-size:12px;}\r\n\t.st5{fill:none;stroke:#8EEED4;stroke-miterlimit:10;}\r\n\t.st6{fill:none;stroke:#989898;stroke-miterlimit:10;}\r\n\t.st7{fill:#989898;}\r\n</style>\r\n<g>\r\n\t<polyline class=\"st0\" points=\"72,78 2,78 2,8 \t\"/>\r\n\t<rect class=\"st1\" width=\"80\" height=\"80\"/>\r\n</g>\r\n<path class=\"st2\" d=\"M1.8,64.2c0,0,8.5-27.2,13.2-27.2s9.5,6.8,14,6.8S38.8,23,43,23s10.8,28,14,28s14-21.8,14-21.8\"/>\r\n<text transform=\"matrix(1 0 0 1 9.083 32.75)\" class=\"st3 st4\">30</text>\r\n<text transform=\"matrix(1 0 0 1 36.668 20)\" class=\"st3 st4\">40</text>\r\n</svg>\r\n";
+self["spline_basic"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-39\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-39)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-39)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["spline_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-49\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-49)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-49)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,24)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,13)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,16)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,2)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,-4)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,2)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,-1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,10)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:12px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
+self["test"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"260 -160 600 400\" enable-background=\"new 260 -160 600 400\" xml:space=\"preserve\">\r\n<desc>Created with Highcharts 4.2.3</desc>\r\n<rect x=\"260\" y=\"-160\" fill=\"#FFFFFF\" width=\"162\" height=\"108\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-55.9h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-72.7h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-89.7h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-106.4h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-123.4h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-140.2h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-157.4h156.6\"/>\r\n<g>\r\n\t<path fill=\"none\" stroke=\"#C0D0E0\" stroke-width=\"0.27\" d=\"M262.7-55.9h156.6\"/>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_1_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_2_\">\r\n\t\t\t<use xlink:href=\"#SVGID_1_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_2_)\">\r\n\t\t\t<path fill=\"none\" stroke=\"#7CB5EC\" stroke-width=\"0.54\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M254.2-86.3l38.4-27\r\n\t\t\t\tl38.4,6.8l38.4-33.8l38.4-13.5\"/>\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_3_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_4_\">\r\n\t\t\t<use xlink:href=\"#SVGID_3_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_4_)\">\r\n\t\t\t<path fill=\"none\" stroke=\"#434348\" stroke-width=\"0.54\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M254.2-66.1\r\n\t\t\t\tl38.4-74.2l38.4-6.8l38.4,27l38.4-13.5\"/>\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_5_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_6_\">\r\n\t\t\t<use xlink:href=\"#SVGID_5_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_6_)\">\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_7_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_8_\">\r\n\t\t\t<use xlink:href=\"#SVGID_7_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_8_)\">\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n</g>\r\n<g transform=\"translate(0,-9999)\">\r\n\t<path fill=\"none\" stroke=\"#000000\" stroke-width=\"5\" stroke-opacity=\"5.000000e-02\" d=\"M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3\r\n\t\th-10c-3,0-3,0-3-3v-10C261.5-158.5,261.5-158.5,264.5-158.5\"/>\r\n\t<path fill=\"none\" stroke=\"#000000\" stroke-width=\"3\" stroke-opacity=\"0.1\" d=\"M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10\r\n\t\tc-3,0-3,0-3-3v-10C261.5-158.5,261.5-158.5,264.5-158.5\"/>\r\n\t<path fill=\"none\" stroke=\"#000000\" stroke-opacity=\"0.15\" d=\"M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10\r\n\t\tC261.5-158.5,261.5-158.5,264.5-158.5\"/>\r\n\t<path fill=\"#F9F9F9\" fill-opacity=\"0.85\" d=\"M263.5-159.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10\r\n\t\tC260.5-159.5,260.5-159.5,263.5-159.5\"/>\r\n</g>\r\n</svg>\r\n";
 return self})();
     var virtualize = require('vdom-virtualize');
     var _ = {
@@ -25661,7 +25832,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":72,"vdom-virtualize":101}],156:[function(require,module,exports){
+},{"fs":6,"lodash.isundefined":72,"vdom-virtualize":107}],162:[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -25742,7 +25913,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":157,"./properties/arrayColor":158,"./properties/arrayObject":159,"./properties/boolean":160,"./properties/number":161,"./properties/select":162,"./properties/string":163,"lodash.clonedeep":55,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isstring":71,"lodash.isundefined":72}],157:[function(require,module,exports){
+},{"./properties/array":163,"./properties/arrayColor":164,"./properties/arrayObject":165,"./properties/boolean":166,"./properties/number":167,"./properties/select":168,"./properties/string":169,"lodash.clonedeep":56,"lodash.first":60,"lodash.foreach":61,"lodash.isarray":64,"lodash.isstring":71,"lodash.isundefined":72}],163:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -25793,7 +25964,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"virtual-dom/h":105}],158:[function(require,module,exports){
+},{"lodash.clonedeep":56,"lodash.foreach":61,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":78,"virtual-dom/h":111}],164:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
     var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -25864,7 +26035,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":96,"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"simple-color-picker":95,"virtual-dom/h":105}],159:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":102,"lodash.clonedeep":56,"lodash.foreach":61,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":78,"simple-color-picker":101,"virtual-dom/h":111}],165:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -25918,7 +26089,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"virtual-dom/h":105}],160:[function(require,module,exports){
+},{"lodash.clonedeep":56,"lodash.foreach":61,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":78,"virtual-dom/h":111}],166:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -25967,7 +26138,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":71,"lodash.isundefined":72,"virtual-dom/h":105}],161:[function(require,module,exports){
+},{"lodash.isstring":71,"lodash.isundefined":72,"virtual-dom/h":111}],167:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -25999,7 +26170,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"virtual-dom/h":105}],162:[function(require,module,exports){
+},{"virtual-dom/h":111}],168:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -26009,6 +26180,12 @@ return self})();
   function constructor(property, configService, configValue, disabled) {
     var options = [];
     values = property.values.replace(/\[|\]|\"|\s/g, '').split(',');
+
+      // fix for properties where values doesn't contain the default value
+      if(values.indexOf(property.defaults) == -1 && values.indexOf('') == -1 && values.indexOf('null') == -1){
+         values.unshift(property.defaults);
+      }
+
     _.forEach(values, function (value) {
       var selected = value == configValue;
 
@@ -26031,7 +26208,7 @@ return self})();
       h('div.form-item__input', h('select', {
         disabled  : disabled,
         'ev-change': function (e) {
-          if (e.target.value === 'null') {
+          if (e.target.value === 'null' || e.target.value === 'false') {
             configService.removeValue(property.fullname);
           } else {
             configService.setValue(property.fullname, e.target.value);
@@ -26043,8 +26220,7 @@ return self})();
 
   module.exports = constructor;
 })();
-
-},{"lodash.foreach":59,"virtual-dom/h":105}],163:[function(require,module,exports){
+},{"lodash.foreach":61,"virtual-dom/h":111}],169:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -26077,7 +26253,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":105}],164:[function(require,module,exports){
+},{"virtual-dom/h":111}],170:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -26195,6 +26371,7 @@ return self})();
         var vpp;
         switch (type) {
             case 'scatter':
+            case 'polygon':
                 vpp = {
                     points: 2,
                     definition: ['x', 'y']
@@ -26231,7 +26408,6 @@ return self})();
             case 'spline':
             case 'treemap':
             case 'solidgauge':
-            case 'polygon':
             case 'pyramid':
             case 'pie':
             case 'funnel':
@@ -26270,8 +26446,7 @@ return self})();
 
     module.exports = that;
 })();
-
-},{"lodash.clonedeep":55,"lodash.drop":56,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isempty":65,"lodash.isundefined":72,"lodash.map":76,"lodash.merge":77,"lodash.remove":78,"lodash.size":81,"lodash.slice":83,"lodash.union":86}],165:[function(require,module,exports){
+},{"lodash.clonedeep":56,"lodash.drop":57,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isarray":64,"lodash.isempty":65,"lodash.isundefined":72,"lodash.map":77,"lodash.merge":78,"lodash.remove":81,"lodash.size":83,"lodash.slice":85,"lodash.union":89}],171:[function(require,module,exports){
 
 (function () {
     function constructor(services){
@@ -26358,7 +26533,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],166:[function(require,module,exports){
+},{}],172:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -26535,7 +26710,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../factories/series.js":164,"lodash.clonedeep":55,"lodash.find":57,"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"lodash.merge":77}],167:[function(require,module,exports){
+},{"../factories/series.js":170,"lodash.clonedeep":56,"lodash.find":59,"lodash.foreach":61,"lodash.isempty":65,"lodash.isundefined":72,"lodash.merge":78}],173:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -26660,7 +26835,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isequal":66,"lodash.isnan":69,"lodash.isundefined":72,"lodash.map":76,"lodash.slice":83,"papaparse":89,"xhr":132}],168:[function(require,module,exports){
+},{"lodash.clonedeep":56,"lodash.find":59,"lodash.first":60,"lodash.foreach":61,"lodash.isequal":66,"lodash.isnan":69,"lodash.isundefined":72,"lodash.map":77,"lodash.slice":85,"papaparse":94,"xhr":138}],174:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -26702,7 +26877,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":59}],169:[function(require,module,exports){
+},{"lodash.foreach":61}],175:[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -26750,7 +26925,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":153,"lodash.clonedeep":55,"xhr":132}],170:[function(require,module,exports){
+},{"../config/options.json":159,"lodash.clonedeep":56,"xhr":138}],176:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -26792,7 +26967,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":55}],171:[function(require,module,exports){
+},{"lodash.clonedeep":56}],177:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -26877,7 +27052,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":138,"./../components/revision":150,"./../templates/logo":173,"lodash.keys":73,"main-loop":87,"virtual-dom/create-element":103,"virtual-dom/diff":104,"virtual-dom/h":105,"virtual-dom/patch":106}],172:[function(require,module,exports){
+},{"./../components/chart.js":144,"./../components/revision":156,"./../templates/logo":179,"lodash.keys":73,"main-loop":92,"virtual-dom/create-element":109,"virtual-dom/diff":110,"virtual-dom/h":111,"virtual-dom/patch":112}],178:[function(require,module,exports){
 (function () {
     function constructor(){
         var templates = require('../config/templates');
@@ -26898,7 +27073,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates":154,"lodash.clonedeep":55}],173:[function(require,module,exports){
+},{"../config/templates":160,"lodash.clonedeep":56}],179:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -26907,4 +27082,4 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":155,"virtual-dom/h":105}]},{},[137]);
+},{"../factories/iconLoader":161,"virtual-dom/h":111}]},{},[143]);

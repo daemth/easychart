@@ -1,5 +1,5 @@
 var templates = [
-    {
+  /*  {
         "id": "clean",
         "type": "clean",
         "icon": "test",
@@ -11,7 +11,7 @@ var templates = [
                 "desc": "",
                 "definition": {
                     chart:{
-                      type:'column'
+                        type:'column'
                     },
 
                     colors:['#b05dbf','#e5da04'],
@@ -43,7 +43,6 @@ var templates = [
                                 enabled: false
                             },
                             "negativeColor": "#ff0000"
-
                         }
                     },
                     exporting:
@@ -137,7 +136,7 @@ var templates = [
 
         ]
     },
-
+    */
     {
         "id": "line",
         "type": "Line charts",
@@ -714,8 +713,7 @@ var templates = [
                     },
                     "plotOptions":{
                         "series":{
-                            "negativeColor": "#0088FF",
-                            "color": "#FF0000"
+                            "negativeColor": "#FF0000"
                         }
                     },
                     "xAxis": [{
