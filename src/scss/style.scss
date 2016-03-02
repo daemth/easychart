@@ -3,6 +3,7 @@
 @import "base/variables";
 
 .ec {
+  font-family: $base-font-family;
   font-size: $base-font-size;
   line-height: $base-line-height;
   background: $super-light-gray;
@@ -18,6 +19,7 @@
   @import "components/navigation";
   @import "components/helpers";
   @import "components/loader";
+  @import "components/template-list";
 
   a, .hover {
     color: $base-accent-color;
@@ -136,29 +138,7 @@
       float: right;
     }
   }
-  .templatelist {
 
-    display: flex;
-    flex-wrap: wrap;
-    &__item {
-      float: left;
-      width: 33%;
-      padding: $base-spacing/2;
-      margin: 5px;
-      width: 125px;
-      cursor: pointer;
-      border: 1px solid white;
-      background: white;
-      transition: background-color $base-timing $base-duration, border-color $base-timing $base-duration;
-      &:hover{
-        background: $super-light-gray;
-        border: 1px solid $light-gray;
-      }
-      svg{
-        max-height: 120px;
-      }
-    }
-  }
 
   .file_drop {
     padding: 50px;

@@ -1,0 +1,42 @@
+.templatelist {
+
+  display: flex;
+  flex-wrap: wrap;
+  &__item {
+    float: left;
+    width: 33%;
+    padding: $base-spacing/4;
+    margin: 2px;
+    width: 110px;
+    font-size: .8em;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid white;
+    background: white;
+    transition: background-color $base-timing $base-duration, border-color $base-timing $base-duration;
+    position: relative;
+    overflow: hidden;
+    color:#333333;
+    svg {
+      max-height: 80px;
+      border:1px solid $light-gray;
+    }
+    div {
+      transition: bottom $base-timing $base-duration;
+      padding-top:2px;
+      position: absolute;
+      bottom: -40px;
+      left: $base-spacing/4;
+      height: 26px;
+      width: 100px;
+      background: $super-light-gray;
+    }
+    &:hover {
+      background: $super-light-gray;
+      border: 1px solid $light-gray;
+      div {
+        bottom: $base-spacing/4;
+      }
+    }
+  }
+}
