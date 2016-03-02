@@ -405,6 +405,17 @@
                         "deprecated": false
                     },
                     {
+                        "name": "xAxis--tickWidth",
+                        "fullname": "xAxis.tickWidth",
+                        "title": "tickWidth",
+                        "parent": "xAxis",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "1",
+                        "description": "The pixel width of the major tick marks.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/tickwidth/\" target=\"_blank\">10 px width</a>"
+                    },
+                    {
                         "name": "xAxis--tickInterval",
                         "fullname": "xAxis.tickInterval",
                         "title": "tickInterval",

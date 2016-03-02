@@ -345,7 +345,14 @@ var templates = [
                     },
                     "xAxis": [{
                         "type": "category"
-                    }]
+                    }],
+                    "plotOptions":{
+                        "series":{
+                            "marker":{
+                                "enabled":false
+                            }
+                        }
+                    }
                 }
             },
             {
@@ -364,6 +371,9 @@ var templates = [
                         "series": {
                             "dataLabels": {
                                 "enabled": true
+                            },
+                            "marker":{
+                                "enabled":false
                             }
                         }
                     }
@@ -383,7 +393,10 @@ var templates = [
                     }],
                     "plotOptions": {
                         "series": {
-                            "stacking": "normal"
+                            "stacking": "normal",
+                            "marker":{
+                                "enabled":false
+                            }
                         }
                     }
                 }
@@ -405,6 +418,9 @@ var templates = [
                             "stacking": "normal",
                             "dataLabels": {
                                 "enabled": true
+                            },
+                            "marker":{
+                                "enabled":false
                             }
                         }
                     }
@@ -424,7 +440,10 @@ var templates = [
                     }],
                     "plotOptions": {
                         "series": {
-                            "stacking": "percent"
+                            "stacking": "percent",
+                            "marker":{
+                                "enabled":false
+                            }
                         }
                     }
                 }
@@ -438,6 +457,13 @@ var templates = [
                     "chart": {
                         "type": "area",
                         "inverted": true
+                    },
+                    "plotOptions":{
+                        "series":{
+                            "marker":{
+                                "enabled":false
+                            }
+                        }
                     },
                     "xAxis": [{
                         "type": "category"
@@ -462,6 +488,9 @@ var templates = [
                             "stacking": "normal",
                             "dataLabels": {
                                 "enabled": true
+                            },
+                            "marker":{
+                                "enabled":false
                             }
                         }
                     }
@@ -481,7 +510,10 @@ var templates = [
                     }],
                     "plotOptions": {
                         "series": {
-                            "step": "left"
+                            "step": "left",
+                            "marker":{
+                                "enabled":false
+                            }
                         }
                     }
                 }
@@ -501,7 +533,9 @@ var templates = [
                     "plotOptions": {
                         "series": {
                             "negativeColor": "#0088FF",
-                            "color": "#FF000000"
+                            "marker":{
+                                "enabled":false
+                            }
                         }
                     }
                 }
@@ -509,6 +543,7 @@ var templates = [
             {
                 "id": "range",
                 "title": "Area range",
+                "icon": "area_range",
                 "desc": "Requires one data column for X values or categories, subsequently two data column for each arearange series' Y values.",
                 "definition": {
                     "chart": {
@@ -759,6 +794,7 @@ var templates = [
             {
                 "id": "range",
                 "title": "Columnrange",
+                "icon": "column_range",
                 "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -772,6 +808,7 @@ var templates = [
             {
                 "id": "rangeWithLabels",
                 "title": "Columnrange with labels",
+                "icon": "column_range_labels",
                 "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -814,6 +851,7 @@ var templates = [
             {
                 "id": "errorbar",
                 "title": "Error bar",
+                "icon": "column_errorbar",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
                 "definition": {
                     "chart": {
@@ -836,7 +874,7 @@ var templates = [
     {
         "id": "bar",
         "type": "Bar charts",
-        "icon": "bar",
+        "icon": "bar_basic",
         "templates": [
             {
                 "id": "basic",
@@ -899,6 +937,7 @@ var templates = [
             {
                 "id": "basicWithLabels",
                 "title": "Basic with labels",
+                "icon": "bar_basic_labels",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -920,6 +959,7 @@ var templates = [
             {
                 "id": "stacked",
                 "title": "Stacked bar",
+                "icon": "bar_stacked",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -939,6 +979,7 @@ var templates = [
             {
                 "id": "stackedWithLabels",
                 "title": "Stacked with labels",
+                "icon": "bar_stacked_labels",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -961,6 +1002,7 @@ var templates = [
             {
                 "id": "stackedPercentage",
                 "title": "Stacked percentage bar",
+                "icon": "bar_stacked_percentage",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -980,6 +1022,7 @@ var templates = [
             {
                 "id": "stackedPercentageWithLabels",
                 "title": "Stacked percentage bar with labels",
+                "icon": "bar_stacked_percentage_labels",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -1002,6 +1045,7 @@ var templates = [
             {
                 "id": "negativeColor",
                 "title": "Negative color",
+                "icon":"bar_negative_color",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -1041,6 +1085,7 @@ var templates = [
             {
                 "id": "horizontalColumnrange",
                 "title": "Horizontal columnrange",
+                "icon": "bar_range",
                 "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -1073,6 +1118,7 @@ var templates = [
             {
                 "id": "horizontalColumnrangeWithLabels",
                 "title": "Horizontal columnrange with labels",
+                "icon": "bar_range_labels",
                 "desc": "Requires one data column for X values or categories, subsequently two data columns for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -1094,6 +1140,7 @@ var templates = [
             {
                 "id": "packedBars",
                 "title": "Packed Bars",
+                "icon":"bar_packed",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -1116,6 +1163,7 @@ var templates = [
             {
                 "id": "errorbar",
                 "title": "Error bar",
+                "icon":"bar_errorbar",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
                 "definition": {
                     "chart": {

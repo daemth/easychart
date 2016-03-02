@@ -156,6 +156,9 @@
             "fullname": "xAxis.reversed"
           },
           {
+            "fullname": "xAxis.tickWidth"
+          },
+          {
             "fullname": "xAxis.tickInterval"
           },
           {
