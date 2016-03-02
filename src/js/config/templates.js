@@ -11,10 +11,10 @@ var templates = [
                 "desc": "",
                 "definition": {
                     chart:{
-                      type:'area'
+                      type:'column'
                     },
 
-                    colors:['#e5da04','#3ecbab'],
+                    colors:['#b05dbf','#e5da04'],
                     title: {
                         text: ''
                     },
@@ -43,8 +43,90 @@ var templates = [
                                 enabled: false
                             },
                             "negativeColor": "#ff0000"
+
                         }
                     },
+                    exporting:
+                    {
+                        sourceWidth: 100,
+                        sourceHeight: 80
+                    }
+                }
+            },
+            {
+                "id": "basicd",
+                "icon": "test",
+                "title": "clean",
+                "desc": "",
+                "definition": {
+                    chart:{
+                        type:'column'
+                    },
+
+                    colors:['#b05dbf','#e5da04'],
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+                        tickWidth: 0,
+                        labels: {
+                            enabled: false
+                        }
+
+                    },
+                    yAxis: {
+                        title: '',
+                        labels: {
+                            enabled: false
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        series: {
+                            marker: {
+                                enabled: false
+                            },
+                            "negativeColor": "#ff0000"
+                        },
+                        column: {
+                            grouping: false,
+                            shadow: false,
+                            borderWidth: 0
+                        }
+                    },
+
+                    series: [{
+                        color: 'rgba(176,93,191,1)',
+                        pointPadding: 0.3,
+                        pointPlacement: -0.2
+                    }, {
+                        color: 'rgba(229,218,4,.9)',
+                        pointPadding: 0.4,
+                        pointPlacement: -0.2
+                    }, {
+                        color: 'rgba(229,218,4,1)',
+                        tooltip: {
+                            valuePrefix: '$',
+                            valueSuffix: ' M'
+                        },
+                        pointPadding: 0.3,
+                        pointPlacement: 0.2,
+                        yAxis: 1
+                    }, {
+                        color: 'rgba(176,93,191,.9)',
+                        tooltip: {
+                            valuePrefix: '$',
+                            valueSuffix: ' M'
+                        },
+                        pointPadding: 0.4,
+                        pointPlacement: 0.2,
+                        yAxis: 1
+                    }],
                     exporting:
                     {
                         sourceWidth: 100,

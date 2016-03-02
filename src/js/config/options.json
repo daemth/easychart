@@ -417,6 +417,17 @@
                         "deprecated": false
                     },
                     {
+                        "name": "xAxis-labels--enabled",
+                        "fullname": "xAxis.labels.enabled",
+                        "title": "labels",
+                        "parent": "xAxis-labels",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Enable or disable the axis labels.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-enabled/\" target=\"_blank\">X axis labels disabled</a>"
+                    },
+                    {
                         "name": "xAxis-labels--format",
                         "fullname": "xAxis.labels.format",
                         "title": "format",
@@ -581,6 +592,17 @@
                         "deprecated": false
                     },
                     {
+                        "name": "yAxis-labels--enabled",
+                        "fullname": "yAxis.labels.enabled",
+                        "title": "labels",
+                        "parent": "yAxis-labels",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Enable or disable the axis labels.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-enabled/\" target=\"_blank\">X axis labels disabled</a>"
+                    },
+                    {
                         "name": "yAxis-labels--format",
                         "fullname": "yAxis.labels.format",
                         "title": "format",
@@ -650,6 +672,18 @@
                         "description": "The index of the series in the chart, affecting the internal index in the <code>chart.series</code> array, the visible Z index as well as the order in the legend.",
                         "demo": "",
                         "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--stack",
+                        "fullname": "series.stack",
+                        "title": "stack",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "String",
+                        "since": "2.1",
+                        "description": "This option allows grouping series in a stacked chart. The stack option can be a string  or a number or anything else, as long as the grouped series' stack options match each other.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/stack/\" target=\"_blank\">Stacked and grouped columns</a>",
                         "deprecated": false
                     }
                 ],

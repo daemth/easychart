@@ -159,6 +159,10 @@
             "fullname": "xAxis.tickInterval"
           },
           {
+            "fullname": "xAxis.labels.enabled",
+            "title": "labels"
+          },
+          {
             "fullname": "xAxis.labels.format"
           },
           {
@@ -212,6 +216,10 @@
             "fullname": "yAxis.reversed"
           },
           {
+            "fullname": "yAxis.labels.enabled",
+            "title": "labels"
+          },
+          {
             "fullname": "yAxis.labels.format"
           },
           {
@@ -244,13 +252,7 @@
             "fullname": "series.index"
           },
           {
-            "fullname": "series.dashStyle"
-          },
-          {
-            "fullname": "series.marker.enabled"
-          },
-          {
-            "fullname": "series.negativeColor"
+            "fullname": "series.stack"
           }
         ],
         "panes":[
@@ -262,9 +264,6 @@
               },
               {
                 "fullname": "series.yaxis"
-              },
-              {
-                "fullname": "series.negativeColor"
               }
             ]
           }
