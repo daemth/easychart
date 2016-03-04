@@ -1,142 +1,142 @@
 var templates = [
-  /*  {
-        "id": "clean",
-        "type": "clean",
-        "icon": "test",
-        "templates": [
-            {
-                "id": "basic",
-                "icon": "test",
-                "title": "clean",
-                "desc": "",
-                "definition": {
-                    chart:{
-                        type:'column'
-                    },
+    /*  {
+     "id": "clean",
+     "type": "clean",
+     "icon": "test",
+     "templates": [
+     {
+     "id": "basic",
+     "icon": "test",
+     "title": "clean",
+     "desc": "",
+     "definition": {
+     chart:{
+     type:'column'
+     },
 
-                    colors:['#b05dbf','#e5da04'],
-                    title: {
-                        text: ''
-                    },
-                    xAxis: {
-                        tickWidth: 0,
-                        labels: {
-                            enabled: false
-                        }
+     colors:['#b05dbf','#e5da04'],
+     title: {
+     text: ''
+     },
+     xAxis: {
+     tickWidth: 0,
+     labels: {
+     enabled: false
+     }
 
-                    },
-                    yAxis: {
-                        title: '',
-                        labels: {
-                            enabled: false
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            marker: {
-                                enabled: false
-                            },
-                            "negativeColor": "#ff0000"
-                        }
-                    },
-                    exporting:
-                    {
-                        sourceWidth: 100,
-                        sourceHeight: 80
-                    }
-                }
-            },
-            {
-                "id": "basicd",
-                "icon": "test",
-                "title": "clean",
-                "desc": "",
-                "definition": {
-                    chart:{
-                        type:'column'
-                    },
+     },
+     yAxis: {
+     title: '',
+     labels: {
+     enabled: false
+     }
+     },
+     legend: {
+     enabled: false
+     },
+     credits: {
+     enabled: false
+     },
+     plotOptions: {
+     series: {
+     marker: {
+     enabled: false
+     },
+     "negativeColor": "#ff0000"
+     }
+     },
+     exporting:
+     {
+     sourceWidth: 100,
+     sourceHeight: 80
+     }
+     }
+     },
+     {
+     "id": "basicd",
+     "icon": "test",
+     "title": "clean",
+     "desc": "",
+     "definition": {
+     chart:{
+     type:'column'
+     },
 
-                    colors:['#b05dbf','#e5da04'],
-                    title: {
-                        text: ''
-                    },
-                    xAxis: {
-                        tickWidth: 0,
-                        labels: {
-                            enabled: false
-                        }
+     colors:['#b05dbf','#e5da04'],
+     title: {
+     text: ''
+     },
+     xAxis: {
+     tickWidth: 0,
+     labels: {
+     enabled: false
+     }
 
-                    },
-                    yAxis: {
-                        title: '',
-                        labels: {
-                            enabled: false
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    plotOptions: {
-                        series: {
-                            marker: {
-                                enabled: false
-                            },
-                            "negativeColor": "#ff0000"
-                        },
-                        column: {
-                            grouping: false,
-                            shadow: false,
-                            borderWidth: 0
-                        }
-                    },
+     },
+     yAxis: {
+     title: '',
+     labels: {
+     enabled: false
+     }
+     },
+     legend: {
+     enabled: false
+     },
+     credits: {
+     enabled: false
+     },
+     plotOptions: {
+     series: {
+     marker: {
+     enabled: false
+     },
+     "negativeColor": "#ff0000"
+     },
+     column: {
+     grouping: false,
+     shadow: false,
+     borderWidth: 0
+     }
+     },
 
-                    series: [{
-                        color: 'rgba(176,93,191,1)',
-                        pointPadding: 0.3,
-                        pointPlacement: -0.2
-                    }, {
-                        color: 'rgba(229,218,4,.9)',
-                        pointPadding: 0.4,
-                        pointPlacement: -0.2
-                    }, {
-                        color: 'rgba(229,218,4,1)',
-                        tooltip: {
-                            valuePrefix: '$',
-                            valueSuffix: ' M'
-                        },
-                        pointPadding: 0.3,
-                        pointPlacement: 0.2,
-                        yAxis: 1
-                    }, {
-                        color: 'rgba(176,93,191,.9)',
-                        tooltip: {
-                            valuePrefix: '$',
-                            valueSuffix: ' M'
-                        },
-                        pointPadding: 0.4,
-                        pointPlacement: 0.2,
-                        yAxis: 1
-                    }],
-                    exporting:
-                    {
-                        sourceWidth: 100,
-                        sourceHeight: 80
-                    }
-                }
-            }
+     series: [{
+     color: 'rgba(176,93,191,1)',
+     pointPadding: 0.3,
+     pointPlacement: -0.2
+     }, {
+     color: 'rgba(229,218,4,.9)',
+     pointPadding: 0.4,
+     pointPlacement: -0.2
+     }, {
+     color: 'rgba(229,218,4,1)',
+     tooltip: {
+     valuePrefix: '$',
+     valueSuffix: ' M'
+     },
+     pointPadding: 0.3,
+     pointPlacement: 0.2,
+     yAxis: 1
+     }, {
+     color: 'rgba(176,93,191,.9)',
+     tooltip: {
+     valuePrefix: '$',
+     valueSuffix: ' M'
+     },
+     pointPadding: 0.4,
+     pointPlacement: 0.2,
+     yAxis: 1
+     }],
+     exporting:
+     {
+     sourceWidth: 100,
+     sourceHeight: 80
+     }
+     }
+     }
 
-        ]
-    },
-    */
+     ]
+     },
+     */
     {
         "id": "line",
         "type": "Line charts",
@@ -346,10 +346,10 @@ var templates = [
                     "xAxis": [{
                         "type": "category"
                     }],
-                    "plotOptions":{
-                        "series":{
-                            "marker":{
-                                "enabled":false
+                    "plotOptions": {
+                        "series": {
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -372,8 +372,8 @@ var templates = [
                             "dataLabels": {
                                 "enabled": true
                             },
-                            "marker":{
-                                "enabled":false
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -394,8 +394,8 @@ var templates = [
                     "plotOptions": {
                         "series": {
                             "stacking": "normal",
-                            "marker":{
-                                "enabled":false
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -419,8 +419,8 @@ var templates = [
                             "dataLabels": {
                                 "enabled": true
                             },
-                            "marker":{
-                                "enabled":false
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -441,8 +441,8 @@ var templates = [
                     "plotOptions": {
                         "series": {
                             "stacking": "percent",
-                            "marker":{
-                                "enabled":false
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -458,10 +458,10 @@ var templates = [
                         "type": "area",
                         "inverted": true
                     },
-                    "plotOptions":{
-                        "series":{
-                            "marker":{
-                                "enabled":false
+                    "plotOptions": {
+                        "series": {
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     },
@@ -489,8 +489,8 @@ var templates = [
                             "dataLabels": {
                                 "enabled": true
                             },
-                            "marker":{
-                                "enabled":false
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -511,8 +511,8 @@ var templates = [
                     "plotOptions": {
                         "series": {
                             "step": "left",
-                            "marker":{
-                                "enabled":false
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -533,8 +533,8 @@ var templates = [
                     "plotOptions": {
                         "series": {
                             "negativeColor": "#0088FF",
-                            "marker":{
-                                "enabled":false
+                            "marker": {
+                                "enabled": false
                             }
                         }
                     }
@@ -586,9 +586,9 @@ var templates = [
                     "xAxis": [{
                         "type": "category"
                     }],
-                    "plotOptions":{
-                        "series":{
-                            "dataLabels":{
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
                                 "enabled": true
                             }
                         }
@@ -615,7 +615,7 @@ var templates = [
                         },
                         opposite: true
                     }],
-                    xAxis:[{type:'category'}],
+                    xAxis: [{type: 'category'}],
                     tooltip: {
                         shared: true
                     },
@@ -746,8 +746,8 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "plotOptions":{
-                        "series":{
+                    "plotOptions": {
+                        "series": {
                             "negativeColor": "#FF0000"
                         }
                     },
@@ -764,8 +764,8 @@ var templates = [
                     "chart": {
                         "type": "column"
                     },
-                    "plotOptions":{
-                        "series":{
+                    "plotOptions": {
+                        "series": {
                             "colorByPoint": true
                         }
                     },
@@ -817,9 +817,9 @@ var templates = [
                     "xAxis": [{
                         "type": "category"
                     }],
-                    "plotOptions":{
-                        "series":{
-                            "dataLabels":{
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
                                 "enabled": true
                             }
                         }
@@ -947,9 +947,9 @@ var templates = [
                     "xAxis": [{
                         "type": "category"
                     }],
-                    "plotOptions":{
-                        "series":{
-                            "dataLabels":{
+                    "plotOptions": {
+                        "series": {
+                            "dataLabels": {
                                 "enabled": true
                             }
                         }
@@ -1045,15 +1045,15 @@ var templates = [
             {
                 "id": "negativeColor",
                 "title": "Negative color",
-                "icon":"bar_negative_color",
+                "icon": "bar_negative_color",
                 "description": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
                         "type": "column",
                         "inverted": true
                     },
-                    "plotOptions":{
-                        "series":{
+                    "plotOptions": {
+                        "series": {
                             "negativeColor": "#0088FF",
                             "color": "#FF0000"
                         }
@@ -1140,7 +1140,7 @@ var templates = [
             {
                 "id": "packedBars",
                 "title": "Packed Bars",
-                "icon":"bar_packed",
+                "icon": "bar_packed",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for each series' Y values.",
                 "definition": {
                     "chart": {
@@ -1163,7 +1163,7 @@ var templates = [
             {
                 "id": "errorbar",
                 "title": "Error bar",
-                "icon":"bar_errorbar",
+                "icon": "bar_errorbar",
                 "desc": "Requires one data column for X values or categories, subsequently one data column for the series' Y values. and two columns for the error bar series maximum and minimum.",
                 "definition": {
                     "chart": {
@@ -1188,6 +1188,7 @@ var templates = [
         "templates": [
             {
                 "id": "scatter",
+                "icon": "scatter",
                 "title": "Scatter chart",
                 "description": "Requires one data column for X values and one for Y values.",
                 "definition": {
@@ -1198,6 +1199,7 @@ var templates = [
             },
             {
                 "id": "bubble",
+                "icon": "bubble",
                 "title": "Bubble chart",
                 "description": "Requires three data columns: one for X values, one for Y values and one for the size of the bubble (Z value).",
                 "definition": {
@@ -1211,7 +1213,7 @@ var templates = [
     {
         "id": "pie",
         "type": "Pie charts",
-        "icon": "spider",
+        "icon": "pie_basic",
         "templates": [
             {
                 "id": "basic",
@@ -1227,38 +1229,9 @@ var templates = [
                 }
             },
             {
-                "id": "3d",
-                "title": "3D pie chart",
-                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-                "definition": {
-                    "chart": {
-                        "type": "pie",
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 45,
-                            "beta": 0
-                        }
-                    },
-                    "plotOptions": {
-                        "pie": {
-                            "allowPointSelect": true,
-                            "depth": 35,
-                            "cursor": "pointer"
-                        },
-                        "series": {
-                            "dataLabels": {
-                                "enabled": true
-                            }
-                        }
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }]
-                }
-            },
-            {
                 "id": "withLegend",
-                "title": "Pie chart",
+                "title": "Pie chart with legend",
+                "icon":"pie_legend",
                 "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
                 "definition": {
                     "chart": {
@@ -1268,35 +1241,6 @@ var templates = [
                         "pie": {
                             "allowPointSelect": true,
                             "cursor": true,
-                            "showInLegend": true,
-                            "dataLabels": {
-                                "enabled": false
-                            }
-                        }
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }]
-                }
-            },
-            {
-                "id": "3dWithLegend",
-                "title": "3D pie with legend",
-                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
-                "definition": {
-                    "chart": {
-                        "type": "pie",
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 45,
-                            "beta": 0
-                        }
-                    },
-                    "plotOptions": {
-                        "pie": {
-                            "allowPointSelect": true,
-                            "depth": 35,
-                            "cursor": "pointer",
                             "showInLegend": true,
                             "dataLabels": {
                                 "enabled": false
@@ -1356,67 +1300,8 @@ var templates = [
                 }
             },
             {
-                "id": "3dDonut",
-                "title": "3D donut chart",
-                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
-                "definition": {
-                    "chart": {
-                        "type": "pie",
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 45,
-                            "beta": 0
-                        }
-                    },
-                    "plotOptions": {
-                        "pie": {
-                            "allowPointSelect": true,
-                            "depth": 35,
-                            "innerSize": "60%",
-                            "cursor": "pointer"
-                        },
-                        "series": {
-                            "dataLabels": {
-                                "enabled": true
-                            }
-                        }
-                    }
-                }
-            },
-            {
-                "id": "3dDonutWithLegend",
-                "title": "3D donut chart with legend",
-                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
-                "definition": {
-                    "chart": {
-                        "type": "pie",
-                        "options3d": {
-                            "enabled": true,
-                            "alpha": 45,
-                            "beta": 0
-                        }
-                    },
-                    "plotOptions": {
-                        "pie": {
-                            "allowPointSelect": true,
-                            "depth": 35,
-                            "cursor": "pointer",
-                            "showInLegend": true,
-                            "innerSize": "60%"
-                        },
-                        "series": {
-                            "dataLabels": {
-                                "enabled": false
-                            }
-                        }
-                    },
-                    "xAxis": [{
-                        "type": "category"
-                    }]
-                }
-            },
-            {
                 "id": "semiCircleDonut",
+                "icon": "pie_half_donut",
                 "title": "Semi circle donut",
                 "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
                 "definition": {
@@ -1455,7 +1340,7 @@ var templates = [
     {
         "id": "polar",
         "type": "Polar charts",
-        "icon": "bar",
+        "icon": "placeholder",
         "templates": [
             {
                 "id": "line",
@@ -1625,9 +1510,9 @@ var templates = [
                         type: 'solidgauge',
                         marginTop: 50,
                         backgroundColor: 'black',
-                        width:400,
-                        events:{
-                            load: function(){
+                        width: 400,
+                        events: {
+                            load: function () {
                                 this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
                                     .attr({
                                         'stroke': '#303030',
@@ -1763,7 +1648,7 @@ var templates = [
     {
         "id": "combinationCharts",
         "type": "combination charts",
-        "icon": "line",
+        "icon": "placeholder",
         "templates": [
             {
                 "id": "multipleAxes",
@@ -1875,8 +1760,8 @@ var templates = [
                     "chart": {
                         "type": "scatter"
                     },
-                    "plotOptions":{
-                        "series":{
+                    "plotOptions": {
+                        "series": {
                             "lineWidth": 1
                         }
                     }
@@ -1890,10 +1775,10 @@ var templates = [
                     "chart": {
                         "type": "scatter"
                     },
-                    "plotOptions":{
-                        "series":{
+                    "plotOptions": {
+                        "series": {
                             "lineWidth": 1,
-                            "marker":{
+                            "marker": {
                                 "enabled": false
                             }
                         }
@@ -1960,15 +1845,15 @@ var templates = [
                         type: 'pie',
                         //name: 'Total consumption',
                         /*data: [{
-                            name: 'Jane',
-                            color: Highcharts.getOptions().colors[0] // Jane's color
-                        }, {
-                            name: 'John',
-                            color: Highcharts.getOptions().colors[1] // John's color
-                        }, {
-                            name: 'Joe',
-                            color: Highcharts.getOptions().colors[2] // Joe's color
-                        }],*/
+                         name: 'Jane',
+                         color: Highcharts.getOptions().colors[0] // Jane's color
+                         }, {
+                         name: 'John',
+                         color: Highcharts.getOptions().colors[1] // John's color
+                         }, {
+                         name: 'Joe',
+                         color: Highcharts.getOptions().colors[2] // Joe's color
+                         }],*/
                         center: [100, 80],
                         size: 100,
                         showInLegend: false,
@@ -1983,7 +1868,7 @@ var templates = [
     {
         "id": "3d",
         "type": "3D charts",
-        "icon": "column_basic",
+        "icon": "placeholder",
         "templates": [
             {
                 "id": "3d",
@@ -2033,6 +1918,155 @@ var templates = [
                         },
                         "series": {
                             "stacking": "normal"
+                        }
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            },
+            {
+                "id": "3d",
+                "title": "3D pie chart",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "cursor": "pointer"
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            }, {
+                "id": "3dWithLegend",
+                "title": "3D pie with legend",
+                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "cursor": "pointer",
+                            "showInLegend": true,
+                            "dataLabels": {
+                                "enabled": false
+                            }
+                        }
+                    },
+                    "xAxis": [{
+                        "type": "category"
+                    }]
+                }
+            },
+
+            {
+                "id": "3dDonut",
+                "title": "3D donut chart",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "innerSize": "60%",
+                            "cursor": "pointer"
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+
+
+            {
+                "id": "3dDonut",
+                "title": "3D donut chart",
+                "description": "Requires two data columns: one for slice names (shown in data labels) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "innerSize": "60%",
+                            "cursor": "pointer"
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": true
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "id": "3dDonutWithLegend",
+                "title": "3D donut chart with legend",
+                "description": "Requires two data columns: one for slice names (shown in legend) and one for their values.",
+                "definition": {
+                    "chart": {
+                        "type": "pie",
+                        "options3d": {
+                            "enabled": true,
+                            "alpha": 45,
+                            "beta": 0
+                        }
+                    },
+                    "plotOptions": {
+                        "pie": {
+                            "allowPointSelect": true,
+                            "depth": 35,
+                            "cursor": "pointer",
+                            "showInLegend": true,
+                            "innerSize": "60%"
+                        },
+                        "series": {
+                            "dataLabels": {
+                                "enabled": false
+                            }
                         }
                     },
                     "xAxis": [{

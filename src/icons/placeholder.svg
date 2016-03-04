@@ -1,0 +1,13 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 80" style="enable-background:new 0 0 100 80;" xml:space="preserve">
+<style type="text/css">
+	.st0{stroke:#D53E5E;stroke-width:1.6333;stroke-miterlimit:10;}
+	.st1{fill:#FFFFFF;}
+	.st2{font-family:'MyriadPro-Regular';}
+	.st3{font-size:12px;}
+</style>
+<line class="st0" x1="9.2" y1="7.3" x2="90.8" y2="72.7"/>
+<line class="st0" x1="90.8" y1="7.3" x2="9.2" y2="72.7"/>
+<rect x="12.7" y="32.7" class="st1" width="75" height="14.7"/>
+<text transform="matrix(1 0 0 1 16.2388 43.5222)" class="st2 st3">no icon yet :-(</text>
+</svg>
