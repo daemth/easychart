@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts-3d.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts-more.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/funnel.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/heatmap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/solid-gauge.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/treemap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/boost.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script type="text/javascript" src="../dist/ec.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.css">
+    <title>EasychartJS plugin | DEMO</title>
+</head>
+<body>
+
+<div id="container" class="container"></div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var container = document.getElementById('container');
+        window.easychart = new ec({
+            element: container,
+            customise: true,
+            debugger: true
+        });
+    })
+</script>
+</body>
+</html>

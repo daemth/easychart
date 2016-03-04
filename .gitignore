@@ -1,4 +1,4 @@
 .idea*
 bower_components
 node_modules
-npm-debug*
+npm-debug

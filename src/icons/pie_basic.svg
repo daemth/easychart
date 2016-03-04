@@ -1,0 +1,71 @@
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="510 0 100 80" style="enable-background:new 510 0 100 80;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#57D8AF;stroke:#FFFFFF;stroke-width:0.2;stroke-linejoin:round;}
+	.st2{fill:#BE50A7;stroke:#FFFFFF;stroke-width:0.2;stroke-linejoin:round;}
+	.st3{fill:#E43891;stroke:#FFFFFF;stroke-width:0.2;stroke-linejoin:round;}
+	.st4{fill:#E5DA04;stroke:#FFFFFF;stroke-width:0.2;stroke-linejoin:round;}
+	.st5{fill:#443939;stroke:#FFFFFF;stroke-width:0.2;stroke-linejoin:round;}
+	.st6{fill:none;stroke:#57D8AF;stroke-width:0.2;}
+	.st7{fill:none;stroke:#BE50A7;stroke-width:0.2;}
+	.st8{fill:none;stroke:#E43891;stroke-width:0.2;}
+	.st9{fill:none;stroke:#E5DA04;stroke-width:0.2;}
+	.st10{fill:none;stroke:#443939;stroke-width:0.2;}
+	.st11{font-family:'Arial-BoldMT';}
+	.st12{font-size:4px;}
+	.st13{fill:none;stroke:#000000;stroke-width:5;stroke-opacity:5.000000e-02;}
+	.st14{fill:none;stroke:#000000;stroke-width:3;stroke-opacity:0.1;}
+	.st15{fill:none;stroke:#000000;stroke-opacity:0.15;}
+	.st16{fill:#F9F9F9;fill-opacity:0.85;}
+</style>
+<desc>Created with Highcharts 4.2.3</desc>
+<rect x="510" class="st0" width="100" height="80"/>
+<g>
+	<g transform="translate(10,10) scale(1 1)">
+		<path class="st1" d="M550-0.6c17.5,0,31.6,14.1,31.6,31.6c0,5.9-1.7,11.7-4.8,16.7L550,31l0,0L550-0.6z"/>
+		<path class="st2" d="M576.8,47.8c-4.3,6.9-11.1,11.8-18.9,13.8L550,31l0,0L576.8,47.8z"/>
+		<path class="st3" d="M557.8,61.6c-15.1,3.9-30.7-3.8-36.9-18.1L550,31l0,0L557.8,61.6z"/>
+		<path class="st4" d="M521,43.5c-6.7-15.5,0-33.4,15.1-40.8L550,31l0,0L521,43.5z"/>
+		<path class="st5" d="M536.1,2.6c4.3-2.1,9.1-3.2,13.9-3.2l0,31.6l0,0L536.1,2.6z"/>
+	</g>
+	<g transform="translate(10,10) scale(1 1)">
+	</g>
+</g>
+<g transform="translate(10,10) scale(1 1)">
+	<path class="st6" d="M583.9,12.8c-1,0-2.4,0.8-4.3,1.8l-1.9,1.1"/>
+	<path class="st7" d="M573.2,61.4c-1,0-1.9-1.3-3.2-3.1l-1.3-1.8"/>
+	<path class="st8" d="M532.4,64.8c1,0,1.7-1.4,2.7-3.4l1-2"/>
+	<path class="st9" d="M513.7,18c1,0,2.5,0.6,4.6,1.3l2.1,0.8"/>
+	<path class="st10" d="M540.5-5.6c1,0,1.4,1.6,1.9,3.7l0.5,2.1"/>
+	<g transform="translate(464,94)">
+		<g>
+			<text transform="matrix(1 0 0 1 116.7663 -83.2192)" class="st11 st12">Chrome</text>
+		</g>
+	</g>
+	<g transform="translate(411,337)">
+		<g>
+			<text transform="matrix(1 0 0 1 164.1997 -274.3993)" class="st11 st12">IE</text>
+		</g>
+	</g>
+	<g transform="translate(148,354)">
+		<g>
+			<text transform="matrix(1 0 0 1 368.6002 -287.5)" class="st11 st12">Firefox</text>
+		</g>
+	</g>
+	<g transform="translate(61,120)">
+		<text transform="matrix(1 0 0 1 441.1998 -103.8002)" class="st11 st12">Safari</text>
+	</g>
+	<g transform="translate(193,2)">
+		<g>
+			<text transform="matrix(1 0 0 1 334.6002 -7.3998)" class="st11 st12">Opera</text>
+		</g>
+	</g>
+</g>
+<g transform="translate(0,-9999)">
+	<path class="st13" d="M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10C261.5-158.5,261.5-158.5,264.5-158.5"/>
+	<path class="st14" d="M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10C261.5-158.5,261.5-158.5,264.5-158.5"/>
+	<path class="st15" d="M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10C261.5-158.5,261.5-158.5,264.5-158.5"/>
+	<path class="st16" d="M263.5-159.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10C260.5-159.5,260.5-159.5,263.5-159.5"/>
+</g>
+</svg>

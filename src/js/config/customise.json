@@ -1,0 +1,414 @@
+[
+  {
+    "id": "chart",
+    "panelTitle": "Chart settings",
+    "panes": [
+      {
+        "title": "Chart type and interaction",
+        "options": [
+          {
+            "fullname": "chart.type"
+          },
+          {
+            "fullname": "chart.inverted"
+          },
+          {
+            "fullname": "chart.zoomType",
+            "title": "zooming"
+          },
+          {
+            "fullname": "plotOptions.series.stacking",
+            "title": "stacking"
+          },
+          {
+            "fullname": "plotOptions.series.step",
+            "title": "step(line)"
+          }
+        ]
+      },
+      {
+        "title": "Size and margins",
+        "options": [
+          {
+            "fullname": "chart.width"
+          },
+          {
+            "fullname": "chart.height"
+          },
+          {
+            "fullname": "chart.spacingTop"
+          },
+          {
+            "fullname": "chart.spacingRight"
+          },
+          {
+            "fullname": "chart.spacingBottom"
+          },
+          {
+            "fullname": "chart.spacingLeft"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "titles",
+    "panelTitle": "Titles",
+    "panes": [
+      {
+        "title": "Main titles",
+        "options": [
+          {
+            "fullname": "title.text",
+            "title": "chart title"
+          },
+          {
+            "fullname": "subtitle.text",
+            "title": "chart subtitle"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "colorsAndBorders",
+    "panelTitle": "Colors and borders",
+    "panes": [
+      {
+        "title": "default colors",
+        "options": [
+          {
+            "fullname": "colors",
+            "title": "Series colors"
+          }
+
+        ]
+      },
+      {
+        "title": "Chart area",
+        "options": [
+          {
+            "fullname": "chart.backgroundColor"
+          },
+          {
+            "fullname": "chart.borderWidth"
+          },
+          {
+            "fullname": "chart.borderRadius"
+          },
+          {
+            "fullname": "chart.borderColor"
+          }
+        ]
+      },
+      {
+        "title": "Plot area",
+        "options": [
+          {
+            "fullname": "chart.plotBackgroundColor"
+          },
+          {
+            "fullname": "chart.plotBackgroundImage"
+          },
+          {
+            "fullname": "chart.plotBorderWidth"
+          },
+          {
+            "fullname": "chart.plotBorderColor"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "axis",
+    "panelTitle": "Axis",
+    "panes": [
+      {
+        "title": "Axes setup",
+        "id": "general",
+        "options": [
+          {
+            "fullname": "chart.inverted"
+          }
+        ]
+      },
+      {
+        "title": "X axis",
+        "id": "xAxis",
+        "options": [
+          {
+            "fullname": "xAxis.title.text"
+          },
+          {
+            "fullname": "xAxis.type"
+          },
+          {
+            "fullname": "xAxis.min"
+          },
+          {
+            "fullname": "xAxis.max"
+          },
+          {
+            "fullname": "xAxis.opposite"
+          },
+          {
+            "fullname": "xAxis.reversed"
+          },
+          {
+            "fullname": "xAxis.tickWidth"
+          },
+          {
+            "fullname": "xAxis.tickInterval"
+          },
+          {
+            "fullname": "xAxis.labels.enabled",
+            "title": "labels"
+          },
+          {
+            "fullname": "xAxis.labels.format"
+          },
+          {
+            "fullname": "xAxis.labels.rotation"
+          },
+          {
+            "fullname": "xAxis.labels.align"
+          },
+          {
+            "fullname": "xAxis.plotBands",
+            "options":[
+              {
+                "fullname": "xAxis.plotbands.color"
+              },
+              {
+                "fullname": "xAxis.plotbands.from"
+              },
+              {
+                "fullname": "xAxis.plotbands.to"
+              },
+              {
+                "fullname": "xAxis.plotBands.label.text"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Value axis",
+        "id": "yAxis",
+        "options": [
+          {
+            "fullname": "yAxis.title.text"
+          },
+          {
+            "fullname": "yAxis.title.style.color"
+          },
+          {
+            "fullname": "yAxis.type"
+          },
+          {
+            "fullname": "yAxis.min"
+          },
+          {
+            "fullname": "yAxis.max"
+          },
+          {
+            "fullname": "yAxis.opposite"
+          },
+          {
+            "fullname": "yAxis.reversed"
+          },
+          {
+            "fullname": "yAxis.labels.enabled",
+            "title": "labels"
+          },
+          {
+            "fullname": "yAxis.labels.format"
+          },
+          {
+            "fullname": "yAxis.labels.rotation"
+          },
+          {
+            "fullname": "yAxis.labels.style.format"
+          },
+          {
+            "fullname": "yAxis.labels.style.color"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "series",
+    "panelTitle": "Series",
+    "panes": [
+      {
+        "title": "Series configuration",
+        "options": [
+          {
+            "fullname": "series.name"
+          },
+          {
+            "fullname": "series.type"
+          },
+          {
+            "fullname": "series.index"
+          },
+          {
+            "fullname": "series.stack"
+          }
+        ],
+        "panes":[
+          {
+            "title": "axis",
+            "options": [
+              {
+                "fullname": "series.xaxis"
+              },
+              {
+                "fullname": "series.yaxis"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "valueLabels",
+    "panelTitle": "Value labels",
+    "panes": [
+      {
+        "title": "Value labels",
+        "options": [
+          {
+            "fullname": "plotOptions.series.dataLabels.enabled",
+            "title": "enable value labels for all series"
+          },
+          {
+            "fullname": "plotOptions.series.dataLabels.format",
+            "title": "data label format"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "legend",
+    "panelTitle": "Legend",
+    "panes": [
+      {
+        "title": "General",
+        "options": [
+          {
+            "fullname": "legend.enabled"
+          },
+          {
+            "fullname": "legend.layout"
+          }
+        ]
+      },
+      {
+        "title": "Placement",
+        "options": [
+          {
+            "fullname": "legend.align"
+          },
+          {
+            "fullname": "legend.verticalAlign"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tooltip",
+    "panelTitle": "Tooltip",
+    "panes": [
+      {
+        "title": "General",
+        "options": [
+          {
+            "fullname": "tooltip.headerFormat"
+          },
+          {
+            "fullname": "tooltip.pointFormat"
+          },
+          {
+            "fullname": "tooltip.valuePrefix"
+          },
+          {
+            "fullname": "tooltip.valueSuffix"
+          }
+        ]
+      },
+      {
+        "title": "Color and border",
+        "options": [
+          {
+            "fullname":"tooltip.backgroundColor"
+          },
+          {
+            "fullname":"tooltip.borderWidth"
+          },
+          {
+            "fullname":"tooltip.borderRadius"
+          },
+          {
+            "fullname":"tooltip.borderColor"
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "exporting",
+    "panelTitle": "Exporting",
+    "panes": [
+      {
+        "title": "Exporting",
+        "options": [
+          {
+            "fullname": "exporting.enabled"
+          },
+          {
+            "fullname": "exporting.sourceWidth",
+            "title": "exported width"
+          },
+          {
+            "fullname": "exporting.sourceHeight",
+            "title": "exported height"
+          },
+          {
+            "fullname": "exporting.scale",
+            "title": "scaling factor"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "credits",
+    "panelTitle": "Credits",
+    "panes": [
+      {
+        "title": "Credits",
+        "options": [
+          {
+            "fullname": "credits.enabled",
+            "title": "enable credits"
+          },
+          {
+            "fullname": "credits.text",
+            "title": "credits text"
+          },
+          {
+            "fullname": "credits.href",
+            "title": "link"
+          }
+        ]
+      }
+    ]
+  }
+]
