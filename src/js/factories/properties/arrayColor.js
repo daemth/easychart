@@ -23,7 +23,7 @@
                 background: 'white',
                 width: 200
             });
-            var test = 'notest';
+
             list.push(h('div.form-item', [
                 h('div.form-item__label', h('label', {
                     title: property.description,
