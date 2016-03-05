@@ -6,7 +6,8 @@
             cloneDeep: require('lodash.clonedeep'),
             forEach: require('lodash.foreach'),
             merge: require('lodash.merge'),
-            isEmpty: require('lodash.isempty')
+            isEmpty: require('lodash.isempty'),
+            map: require('lodash.map')
         };
         var series = require('../factories/series.js');
         var that = {};
@@ -38,7 +39,10 @@
         };
 
         that.set = function (_config_) {
-            delete _config_.series;
+            _config_.series = _.map(_config_.series, function(serie){
+                delete serie.data;
+                return serie;
+            });
             config = _.cloneDeep(_config_);
             if(!config.xAxis){
                 config.xAxis = [{}];
@@ -46,7 +50,6 @@
             if(!config.yAxis){
                 config.yAxis = [{}];
             }
-            console.log(_config_);
         };
 
         that.setValue = function (path, value) {
@@ -162,6 +165,7 @@
 
         function configUpdate(){
             mediator.trigger('configUpdate', that.get());
+            mediator.trigger('configUpdateRaw', that.getRaw());
         }
 
         mediator.on('dataUpdate', function(data){
