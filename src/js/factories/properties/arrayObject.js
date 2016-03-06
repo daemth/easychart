@@ -22,22 +22,23 @@
 
     function removeButton(name){
       return h('button.btn.btn--small', {
-        'ev-click': function () {
+        'ev-click': function (e) {
           configService.removeValue(name);
+          e.preventDefault();
         }
       }, 'remove')
     }
 
     function addButton(type, typeConfig, label) {
       return h('button.btn.btn--small', {
-        'ev-click': function () {
+        'ev-click': function (e) {
           if(typeof typeConfig == 'undefined'){
             configService.setValue(type, []);
             configService.setValue(type + '.' + 0, {});
           } else {
             configService.setValue(type + '.' + typeConfig.length, {});
           }
-
+          e.preventDefault();
         }
       }, 'add ' + label)
     }
