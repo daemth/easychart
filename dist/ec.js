@@ -20093,7 +20093,7 @@ function getElementProperties(el) {
         , styleProp
       if ('undefined' !== typeof el.style.length) {
         for(var j=0; j<el.style.length; j++) {
-          styleProp = el.style[i]
+          styleProp = el.style[j]
           css[styleProp] = el.style.getPropertyValue(styleProp) // XXX: add support for "!important" via getPropertyPriority()!
         }
       } else { // IE8
@@ -23214,8 +23214,9 @@ module.exports = constructor;
                 var item = h('a',
                     {
                         className: "templatelist__item",
-                        'ev-click': function () {
+                        'ev-click': function (e) {
                             config.loadTemplate(template.definition);
+                            e.preventDefault();
                         }
                     }, [
                         svg,
@@ -26712,22 +26713,23 @@ return self})();
 
     function removeButton(name){
       return h('button.btn.btn--small', {
-        'ev-click': function () {
+        'ev-click': function (e) {
           configService.removeValue(name);
+          e.preventDefault();
         }
       }, 'remove')
     }
 
     function addButton(type, typeConfig, label) {
       return h('button.btn.btn--small', {
-        'ev-click': function () {
+        'ev-click': function (e) {
           if(typeof typeConfig == 'undefined'){
             configService.setValue(type, []);
             configService.setValue(type + '.' + 0, {});
           } else {
             configService.setValue(type + '.' + typeConfig.length, {});
           }
-
+          e.preventDefault();
         }
       }, 'add ' + label)
     }
