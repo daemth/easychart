@@ -40,7 +40,6 @@
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){
-                delete serie.data;
                 delete serie.x;
                 delete serie.y;
                 delete serie.z;
