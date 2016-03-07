@@ -14045,7 +14045,6 @@ function extend() {
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){
-                delete serie.data;
                 return serie;
             });
             config = _.cloneDeep(_config_);

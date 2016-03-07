@@ -20093,7 +20093,7 @@ function getElementProperties(el) {
         , styleProp
       if ('undefined' !== typeof el.style.length) {
         for(var j=0; j<el.style.length; j++) {
-          styleProp = el.style[j]
+          styleProp = el.style[i]
           css[styleProp] = el.style.getPropertyValue(styleProp) // XXX: add support for "!important" via getPropertyPriority()!
         }
       } else { // IE8
@@ -27230,7 +27230,6 @@ return self})();
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){
-                delete serie.data;
                 return serie;
             });
             config = _.cloneDeep(_config_);
