@@ -23214,8 +23214,9 @@ module.exports = constructor;
                 var item = h('a',
                     {
                         className: "templatelist__item",
-                        'ev-click': function () {
+                        'ev-click': function (e) {
                             config.loadTemplate(template.definition);
+                            e.preventDefault();
                         }
                     }, [
                         svg,
