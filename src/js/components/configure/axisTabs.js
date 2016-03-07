@@ -88,6 +88,7 @@ function constructor(services) {
     }
 
     function generalOptions(panes) {
+        console.log(panes);
         return _.find(panes, function (pane) {
             return pane.id == "general";
         })
@@ -133,6 +134,7 @@ function constructor(services) {
             ), generateAxisContentPane({panes:[pane]}, index, type)]);
         }
     }
+
     function generateAxisContentPane(panel, index, type){
         var list = [];
         _.forEach(panel.panes, function (pane) {

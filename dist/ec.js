@@ -22344,6 +22344,7 @@ function constructor(services) {
     }
 
     function generalOptions(panes) {
+        console.log(panes);
         return _.find(panes, function (pane) {
             return pane.id == "general";
         })
@@ -22389,6 +22390,7 @@ function constructor(services) {
             ), generateAxisContentPane({panes:[pane]}, index, type)]);
         }
     }
+
     function generateAxisContentPane(panel, index, type){
         var list = [];
         _.forEach(panel.panes, function (pane) {
@@ -27230,6 +27232,16 @@ return self})();
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){
+                delete serie.data;
+                delete serie.x;
+                delete serie.y;
+                delete serie.z;
+                delete serie.value;
+                delete serie.low;
+                delete serie.q1;
+                delete serie.median;
+                delete serie.q3;
+                delete serie.high;
                 return serie;
             });
             config = _.cloneDeep(_config_);
