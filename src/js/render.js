@@ -45,6 +45,9 @@
             services.config.set(config);
         }
 
+        function getConfig(){
+            return services.config.get();
+        }
         function setPresets(presets){
             services.config.setPresets(presets);
         }
@@ -53,6 +56,7 @@
             setData:setData,
             setDataUrl:setDataUrl,
             setConfig:setConfig,
+            getConfig:getConfig,
             setPresets: setPresets
         }
     }

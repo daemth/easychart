@@ -13987,6 +13987,9 @@ function extend() {
             services.config.set(config);
         }
 
+        function getConfig(){
+            return services.config.get();
+        }
         function setPresets(presets){
             services.config.setPresets(presets);
         }
@@ -13995,6 +13998,7 @@ function extend() {
             setData:setData,
             setDataUrl:setDataUrl,
             setConfig:setConfig,
+            getConfig:getConfig,
             setPresets: setPresets
         }
     }
