@@ -6,7 +6,8 @@ var _ = {
     cloneDeep: require('lodash.clonedeep'),
     remove: require('lodash.remove'),
     forEach: require('lodash.foreach'),
-    first: require('lodash.first')
+    first: require('lodash.first'),
+    trim: require('lodash.trim')
 };
 var h = require('virtual-dom/h');
 
@@ -31,7 +32,7 @@ function constructor(services) {
                 }
                 if (config.xAxis) {
                     _.forEach(config.xAxis, function (axis, index) {
-                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) ? axis.title.text : 'X axis ' + (index + 1);
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) > 0 ? axis.title.text : 'X axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -47,7 +48,7 @@ function constructor(services) {
 
                 if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
-                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) ? axis.title.text : 'Y axis ' + (index + 1);
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) ? axis.title.text : 'Y axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -149,7 +150,7 @@ function constructor(services) {
                     h('div.field-group__items', inputs),
                     h('div', subPanes)
                 ]
-            ))
+            ));
         });
         return list;
     }

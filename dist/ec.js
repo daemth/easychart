@@ -22262,7 +22262,8 @@ var _ = {
     cloneDeep: require('lodash.clonedeep'),
     remove: require('lodash.remove'),
     forEach: require('lodash.foreach'),
-    first: require('lodash.first')
+    first: require('lodash.first'),
+    trim: require('lodash.trim')
 };
 var h = require('virtual-dom/h');
 
@@ -22287,7 +22288,7 @@ function constructor(services) {
                 }
                 if (config.xAxis) {
                     _.forEach(config.xAxis, function (axis, index) {
-                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) ? axis.title.text : 'X axis ' + (index + 1);
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) > 0 ? axis.title.text : 'X axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -22303,7 +22304,7 @@ function constructor(services) {
 
                 if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
-                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) ? axis.title.text : 'Y axis ' + (index + 1);
+                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) ? axis.title.text : 'Y axis ' + (index + 1);
                         links.push(
                             h('li.hover', {
                                 'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
@@ -22405,7 +22406,7 @@ function constructor(services) {
                     h('div.field-group__items', inputs),
                     h('div', subPanes)
                 ]
-            ))
+            ));
         });
         return list;
     }
@@ -22447,7 +22448,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":156,"lodash.clonedeep":54,"lodash.find":56,"lodash.first":57,"lodash.foreach":58,"lodash.isundefined":71,"lodash.map":75,"lodash.remove":77,"virtual-dom/h":105}],141:[function(require,module,exports){
+},{"../../factories/properties":156,"lodash.clonedeep":54,"lodash.find":56,"lodash.first":57,"lodash.foreach":58,"lodash.isundefined":71,"lodash.map":75,"lodash.remove":77,"lodash.trim":84,"virtual-dom/h":105}],141:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),

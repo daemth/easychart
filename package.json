@@ -4,7 +4,8 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
-    "highcharts": "^4.2.2"
+    "highcharts": "^4.2.2",
+    "lodash.trim": "^4.2.0"
   },
   "devDependencies": {
     "connect": "^3.4.1",
