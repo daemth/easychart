@@ -54,7 +54,6 @@
                 });
                 return serie;
             });
-
             config = _.cloneDeep(_config_);
 
             if(!config.xAxis){

@@ -69,15 +69,11 @@
                 object.type = defaultType;
             }
             object.animation = animation ? animation : false;
-            if(typeof object.data  == 'undefined'){
-                object.data = [];
-            }
-
+            object.data = [];
             size = size - getValuesPerPoint(object.type).points;
             array.push(object);
             index++;
         }
-
         return array;
     }
 
@@ -89,6 +85,9 @@
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
             _.forEach(data, function (row, rowIndex) {
                 var cell = {};
+                if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data) && !_.isUndefined(configClone.series[index].data[rowIndex])) {
+                    cell = configClone.series[index].data[rowIndex];
+                }
                 var points = parseDataFloat(_.slice(row, 0, vpp.points));
                 // check for turboThreshold
                 if(data.length >= 1000){
@@ -101,9 +100,7 @@
                             cell[label] = null;
                         }
                     });
-                    if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data)) {
-                        cell = _.merge(configClone.series[index].data[rowIndex], cell);
-                    }
+
                 }
                 item.data.push(cell);
                 data[rowIndex] = _.drop(data[rowIndex], vpp.points);

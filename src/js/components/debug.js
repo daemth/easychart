@@ -9,15 +9,13 @@
         var configService = services.config;
         var that = {};
         var config = JSON.stringify(configService.get(),null,4);
-        services.mediator.on('configUpdate', function (_config_) {
-            config = _config_;
-        });
         var Hook = function(){};
         Hook.prototype.hook = function(node){
             setTimeout(function(){
                 hljs.highlightBlock(node);
             });
         };
+
         that.template = function () {
             return h('pre', h('code', {'afterRender': new Hook()}, config));
         };

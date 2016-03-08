@@ -88,7 +88,6 @@ function constructor(services) {
     }
 
     function generalOptions(panes) {
-        console.log(panes);
         return _.find(panes, function (pane) {
             return pane.id == "general";
         })

@@ -22344,7 +22344,6 @@ function constructor(services) {
     }
 
     function generalOptions(panes) {
-        console.log(panes);
         return _.find(panes, function (pane) {
             return pane.id == "general";
         })
@@ -22633,15 +22632,13 @@ module.exports = constructor;
         var configService = services.config;
         var that = {};
         var config = JSON.stringify(configService.get(),null,4);
-        services.mediator.on('configUpdate', function (_config_) {
-            config = _config_;
-        });
         var Hook = function(){};
         Hook.prototype.hook = function(node){
             setTimeout(function(){
                 hljs.highlightBlock(node);
             });
         };
+
         that.template = function () {
             return h('pre', h('code', {'afterRender': new Hook()}, config));
         };
@@ -25801,27 +25798,27 @@ var templates = [
 
                     series: [{
                         borderColor: Highcharts.getOptions().colors[0],
-                        data: {
+                        data: [{
                             color: Highcharts.getOptions().colors[0],
                             radius: '100%',
                             innerRadius: '100%'
 
-                        }
+                        }]
                     }, {
 
                         borderColor: Highcharts.getOptions().colors[1],
-                        data: {
+                        data: [{
                             color: Highcharts.getOptions().colors[1],
                             radius: '75%',
                             innerRadius: '75%'
-                        }
+                        }]
                     }, {
                         borderColor: Highcharts.getOptions().colors[2],
-                        data: {
+                        data: [{
                             color: Highcharts.getOptions().colors[2],
                             radius: '50%',
                             innerRadius: '50%'
-                        }
+                        }]
                     }]
 
                 }
@@ -25943,27 +25940,27 @@ var templates = [
 
                     series: [{
                         borderColor: Highcharts.getOptions().colors[0],
-                        data: {
+                        data: [{
                             color: Highcharts.getOptions().colors[0],
                             radius: '100%',
                             innerRadius: '100%'
 
-                        }
+                        }]
                     }, {
 
                         borderColor: Highcharts.getOptions().colors[1],
-                        data: {
+                        data: [{
                             color: Highcharts.getOptions().colors[1],
                             radius: '75%',
                             innerRadius: '75%'
-                        }
+                        }]
                     }, {
                         borderColor: Highcharts.getOptions().colors[2],
-                        data: {
+                        data: [{
                             color: Highcharts.getOptions().colors[2],
                             radius: '50%',
                             innerRadius: '50%'
-                        }
+                        }]
                     }]
 
                 }
@@ -26981,15 +26978,11 @@ return self})();
                 object.type = defaultType;
             }
             object.animation = animation ? animation : false;
-            if(typeof object.data  == 'undefined'){
-                object.data = [];
-            }
-
+            object.data = [];
             size = size - getValuesPerPoint(object.type).points;
             array.push(object);
             index++;
         }
-
         return array;
     }
 
@@ -27001,6 +26994,9 @@ return self})();
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
             _.forEach(data, function (row, rowIndex) {
                 var cell = {};
+                if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data) && !_.isUndefined(configClone.series[index].data[rowIndex])) {
+                    cell = configClone.series[index].data[rowIndex];
+                }
                 var points = parseDataFloat(_.slice(row, 0, vpp.points));
                 // check for turboThreshold
                 if(data.length >= 1000){
@@ -27013,9 +27009,7 @@ return self})();
                             cell[label] = null;
                         }
                     });
-                    if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data)) {
-                        cell = _.merge(configClone.series[index].data[rowIndex], cell);
-                    }
+
                 }
                 item.data.push(cell);
                 data[rowIndex] = _.drop(data[rowIndex], vpp.points);
@@ -27247,7 +27241,6 @@ return self})();
                 });
                 return serie;
             });
-
             config = _.cloneDeep(_config_);
 
             if(!config.xAxis){
