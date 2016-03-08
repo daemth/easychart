@@ -27232,7 +27232,7 @@ return self})();
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){
-                return _.map(serie.data, function(data){
+                serie.data = _.map(serie.data, function(data){
                     delete data.x;
                     delete data.y;
                     delete data.z;
@@ -27244,6 +27244,7 @@ return self})();
                     delete data.high;
                     return data;
                 });
+                return series;
             });
             config = _.cloneDeep(_config_);
             if(!config.xAxis){
