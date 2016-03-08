@@ -13818,7 +13818,10 @@ function extend() {
                 object.type = defaultType;
             }
             object.animation = animation ? animation : false;
-            object.data = [];
+            if(typeof object.data  == 'undefined'){
+                object.data = [];
+            }
+
             size = size - getValuesPerPoint(object.type).points;
             array.push(object);
             index++;
@@ -13840,7 +13843,6 @@ function extend() {
                 if(data.length >= 1000){
                     cell = points;
                 } else {
-
                     _.forEach(vpp.definition, function(label, pointIndex){
                         if( points[pointIndex] !== 'null'){
                             cell[label] = points[pointIndex];
@@ -13849,7 +13851,7 @@ function extend() {
                         }
                     });
                     if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data)) {
-                        cell = _.merge(configClone.series[index].data, cell);
+                        cell = _.merge(configClone.series[index].data[rowIndex], cell);
                     }
                 }
                 item.data.push(cell);
@@ -13858,7 +13860,6 @@ function extend() {
             return item;
         });
     }
-
 
     function getValuesPerPoint(type) {
         var vpp;
@@ -14063,7 +14064,9 @@ function extend() {
                 });
                 return serie;
             });
+
             config = _.cloneDeep(_config_);
+
             if(!config.xAxis){
                 config.xAxis = [{}];
             }
