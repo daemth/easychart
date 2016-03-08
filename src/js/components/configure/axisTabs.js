@@ -36,8 +36,8 @@ function constructor(services) {
                             h('li.hover', {
                                 'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
                                 'ev-click': function (e) {
-                                    e.preventDefault();
                                     setActive(options.id, 'xAxis' + index);
+                                    e.preventDefault();
                                 }
                             }, titleText)
                         )
@@ -52,8 +52,8 @@ function constructor(services) {
                             h('li.hover', {
                                 'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
                                 'ev-click': function (e) {
-                                    e.preventDefault();
                                     setActive(options.id, 'yAxis' + index);
+                                    e.preventDefault();
                                 }
                             }, titleText)
                         )
@@ -65,8 +65,8 @@ function constructor(services) {
                         h('a', {
                             'href': '#data-series',
                             'ev-click': function (e) {
-                                e.preventDefault();
                                 setActive(options.id, 'general');
+                                e.preventDefault();
                             }
                         }, axesTabTitle),
                         h('ul', links)
@@ -78,8 +78,8 @@ function constructor(services) {
                         h('a', {
                             'href': '#data-series',
                             'ev-click': function (e) {
-                                e.preventDefault();
                                 setActive(options.id, 'general');
+                                e.preventDefault();
                             }
                         }, axesTabTitle)
                     ])
@@ -157,9 +157,10 @@ function constructor(services) {
     function removeButton(type, index, title, typeConfig, setActive) {
         if (typeConfig.length > 1) {
             return h('button.btn.btn--small', {
-                'ev-click': function () {
+                'ev-click': function (e) {
                     configService.removeValue(type + '.' + index, {});
                     setActive('axis', 'general');
+                    e.preventDefault();
                 }
             }, 'remove axis');
         }
@@ -168,9 +169,10 @@ function constructor(services) {
 
     function addButton(type, typeConfig, setActive) {
         return h('button.btn.btn--small', {
-            'ev-click': function () {
+            'ev-click': function (e) {
                 configService.setValue(type + '.' + typeConfig.length, {})
                 setActive('axis', type + typeConfig.length);
+                e.preventDefault();
             }
         }, 'add ' + type)
     }
