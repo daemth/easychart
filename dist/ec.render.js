@@ -14061,7 +14061,7 @@ function extend() {
                     delete data.high;
                     return data;
                 });
-                return series;
+                return serie;
             });
             config = _.cloneDeep(_config_);
             if(!config.xAxis){
