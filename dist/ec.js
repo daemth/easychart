@@ -27232,16 +27232,18 @@ return self})();
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){
-                delete serie.x;
-                delete serie.y;
-                delete serie.z;
-                delete serie.value;
-                delete serie.low;
-                delete serie.q1;
-                delete serie.median;
-                delete serie.q3;
-                delete serie.high;
-                return serie;
+                return _.map(serie.data, function(data){
+                    delete data.x;
+                    delete data.y;
+                    delete data.z;
+                    delete data.value;
+                    delete data.low;
+                    delete data.q1;
+                    delete data.median;
+                    delete data.q3;
+                    delete data.high;
+                    return data;
+                });
             });
             config = _.cloneDeep(_config_);
             if(!config.xAxis){
