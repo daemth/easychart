@@ -7,7 +7,10 @@
         forEach: require('lodash.foreach'),
         isEqual: require('lodash.isequal'),
         merge: require('lodash.merge'),
-        cloneDeep: require('lodash.clonedeep')
+        cloneDeep: require('lodash.clonedeep'),
+        trim: require('lodash.trim'),
+        toLower: require('lodash.tolower'),
+        map: require('lodash.map')
     };
 
     function constructor(property, configService, configValue, disabled) {
@@ -17,7 +20,11 @@
 
         };
         var list = [];
+        property.defaults = _.map(property.defaults, function(value){
+            return _.trim(value);
+        });
         var values = _.merge(_.cloneDeep(property.defaults), configValue, []);
+
         _.forEach(property.defaults, function (value, index) {
             var colorPicker = new ColorPicker({
                 background: 'white',
@@ -37,14 +44,26 @@
                     'type': 'text',
                     'hook': new Hook(),
                     'disabled': disabled,
-                    'placeholder': property.defaults[index],
-                    'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) && configValue[index] !== property.defaults[index] ? configValue[index] : '',
+                    'placeholder': _.trim(property.defaults[index]),
+                    'value': !_.isUndefined(configValue) && !_.isUndefined(configValue[index]) && _.trim(configValue[index]) !== _.trim(property.defaults[index]) ? configValue[index] : '',
+                    'ev-change': function(e){
+                        var _color = _.trim(e.target.value);
+
+                        values[index] = _color === "" ? _.trim(property.defaults[index]) : _color;
+
+                        if (_.isEqual(property.defaults, values)) {
+                            configService.removeValue(property.fullname);
+                        } else {
+                            configService.setValue(property.fullname, values);
+                        }
+                    },
                     'ev-focus': function (e) {
-                        colorPicker.setColor(e.target.value? e.target.value : property.defaults[index]);
+                        colorPicker.setColor(e.target.value ? e.target.value : property.defaults[index]);
                         colorPicker.appendTo(e.target.parentNode);
                         colorPicker.onChange(function () {
                             e.target.value = colorPicker.getHexString();
-                            values[index] = colorPicker.getHexString();
+                            values[index] = _.toLower(colorPicker.getHexString());
+
                             if (_.isEqual(property.defaults, values)) {
                                 configService.removeValue(property.fullname);
                             } else {
@@ -64,6 +83,5 @@
             h('div', list)
         ]);
     }
-
     module.exports = constructor;
 })();

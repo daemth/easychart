@@ -4,19 +4,14 @@
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
   "main": "dist/easychart.js",
   "dependencies": {
-    "highcharts": "^4.2.2",
-    "lodash.trim": "^4.2.0"
+    "highcharts": "^4.2.2"
   },
   "devDependencies": {
-    "connect": "^3.4.1",
-    "lodash.filter": "^4.2.0",
-    "lodash.tonumber": "^4.0.1",
-    "serve-static": "^1.10.2",
-    "xhr": "^2.2.0",
-    "browserify": "^13.0.0",
     "bourbon-neat": "^1.7.2",
+    "browserify": "^13.0.0",
     "browserify-css": "^0.9.0",
     "browserify-data": "^0.2.0",
+    "connect": "^3.4.1",
     "dom-delegator": "^13.1.0",
     "drag-drop": "^2.3.1",
     "folderify": "^1.1.0",
@@ -32,6 +27,7 @@
     "lodash.clonedeep": "^4.3.0",
     "lodash.drop": "^4.0.1",
     "lodash.fill": "^3.2.2",
+    "lodash.filter": "^4.2.0",
     "lodash.find": "^4.2.0",
     "lodash.first": "^3.0.0",
     "lodash.foreach": "^4.1.0",
@@ -47,6 +43,8 @@
     "lodash.remove": "^4.2.0",
     "lodash.size": "^4.0.3",
     "lodash.slice": "^4.0.2",
+    "lodash.tolower": "^4.1.1",
+    "lodash.tonumber": "^4.0.1",
     "lodash.trim": "^4.2.0",
     "lodash.union": "^4.2.0",
     "main-loop": "^3.2.0",
@@ -54,6 +52,7 @@
     "node-neat": "^1.7.2",
     "node-sass": "latest",
     "papaparse": "^4.1.2",
+    "serve-static": "^1.10.2",
     "simple-color-picker": "0.0.9",
     "strictify": "latest",
     "svg-browserify": "0.0.2",
@@ -62,7 +61,8 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "virtual-dom": "^2.1.1",
-    "watchify": "3.3.0"
+    "watchify": "3.3.0",
+    "xhr": "^2.2.0"
   },
   "scripts": {
     "genOptions": "node buildCustomise"
