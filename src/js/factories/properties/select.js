@@ -1,7 +1,8 @@
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
-    forEach: require('lodash.foreach')
+    forEach: require('lodash.foreach'),
+    isUndefined: require('lodash.isundefined')
   };
 
   function constructor(property, configService, configValue, disabled) {
@@ -14,7 +15,7 @@
       }
 
     _.forEach(values, function (value) {
-      var selected = value == configValue;
+      var selected = !_.isUndefined(configValue) ? value === configValue : value === property.defaults;
 
       var item = h('option', {
         value   : value,
