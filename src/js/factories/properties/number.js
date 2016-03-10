@@ -18,7 +18,7 @@
                 'value': typeof configValue !== 'undefined' ? configValue : "",
                 'ev-blur': function (e) {
                     if (e.target.value !== '') {
-                        configService.setValue(property.fullname, parseInt(e.target.value));
+                        configService.setValue(property.fullname, parseFloat(e.target.value));
                     } else {
                         configService.removeValue(property.fullname);
                     }
