@@ -22177,7 +22177,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
     window.ec = constructor;
 })();
 
-},{"../css/style.css":137,"./components/configure.js":140,"./components/debug.js":144,"./components/import.js":146,"./components/templateSelection.js":153,"./services/api":166,"./services/config":167,"./services/data":168,"./services/initializer":169,"./services/options":170,"./services/revision":171,"./services/router.js":172,"./services/templates":173,"dom-delegator":12,"mediatorjs":88,"virtual-dom/h":106}],139:[function(require,module,exports){
+},{"../css/style.css":137,"./components/configure.js":140,"./components/debug.js":144,"./components/import.js":146,"./components/templateSelection.js":153,"./services/api":167,"./services/config":168,"./services/data":169,"./services/initializer":170,"./services/options":171,"./services/revision":172,"./services/router.js":173,"./services/templates":174,"dom-delegator":12,"mediatorjs":88,"virtual-dom/h":106}],139:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -26594,6 +26594,10 @@ return self})();
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
 
+                case returnType.toLowerCase() == 'color':
+                    element = require('./properties/color')(property, configService, configValue, disabled);
+                    break;
+
                 default:
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
@@ -26604,7 +26608,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":158,"./properties/arrayColor":159,"./properties/arrayObject":160,"./properties/boolean":161,"./properties/number":162,"./properties/select":163,"./properties/string":164,"lodash.clonedeep":54,"lodash.first":57,"lodash.foreach":58,"lodash.isarray":63,"lodash.isstring":70,"lodash.isundefined":71}],158:[function(require,module,exports){
+},{"./properties/array":158,"./properties/arrayColor":159,"./properties/arrayObject":160,"./properties/boolean":161,"./properties/color":162,"./properties/number":163,"./properties/select":164,"./properties/string":165,"lodash.clonedeep":54,"lodash.first":57,"lodash.foreach":58,"lodash.isarray":63,"lodash.isstring":70,"lodash.isundefined":71}],158:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -26727,7 +26731,6 @@ return self})();
                             } else {
                                 configService.setValue(property.fullname, values);
                             }
-
                         });
                         e.target.onblur = function () {
                             colorPicker.remove();
@@ -26742,10 +26745,8 @@ return self})();
             h('div', list)
         ]);
     }
-
     module.exports = constructor;
 })();
-
 },{"../../../../node_modules/simple-color-picker/simple-color-picker.css":97,"lodash.clonedeep":54,"lodash.foreach":58,"lodash.isequal":65,"lodash.isundefined":71,"lodash.map":75,"lodash.merge":76,"lodash.tolower":83,"lodash.trim":85,"simple-color-picker":96,"virtual-dom/h":106}],160:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
@@ -26852,6 +26853,75 @@ return self})();
 
 },{"lodash.isstring":70,"lodash.isundefined":71,"virtual-dom/h":106}],162:[function(require,module,exports){
 (function () {
+    var ColorPicker = require('simple-color-picker');
+    var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
+    var h = require('virtual-dom/h');
+    var _ = {
+        trim: require('lodash.trim'),
+        toLower: require('lodash.tolower')
+    };
+
+    function constructor(property, configService, configValue, disabled, defaultValue) {
+        var colorPicker = new ColorPicker({
+            background: 'white',
+            width: 200
+        })
+        var value;
+        var Hook = function () {
+        };
+        Hook.prototype.hook = function (node) {
+        };
+
+        return h('div.form-item', [
+            h('div.form-item__label', h('label', {
+                title: property.description,
+                'ev-click': function (e) {
+                    if (!disabled) {
+                        e.target.parentNode.parentNode.querySelector('input').focus();
+                    }
+                }
+            }, [property.title])),
+            h('div.form-item__input', h('input', {
+                disabled: disabled,
+                'type': 'text',
+                'placeholder': property.defaults,
+                'value': configValue ? configValue : '',
+                'ev-input': function (e) {
+                    var _val = _.trim(e.target.value);
+                    if (_val !== '') {
+                        configService.setValue(property.fullname, _val);
+                    } else {
+                        configService.removeValue(property.fullname);
+                    }
+                },
+                'ev-focus': function (e) {
+                    colorPicker.setColor(e.target.value ? e.target.value : property.defaults);
+                    colorPicker.appendTo(e.target.parentNode);
+                    colorPicker.onChange(function () {
+                        e.target.value = colorPicker.getHexString();
+                        value = _.toLower(colorPicker.getHexString());
+
+                        if (property.defaults === value) {
+                            configService.removeValue(property.fullname);
+                        } else {
+                            configService.setValue(property.fullname, value);
+                        }
+                    });
+                    e.target.onblur = function () {
+                        colorPicker.remove();
+                        e.target.onblur = undefined;
+                    }
+                }
+
+            }))
+        ]);
+    }
+
+    module.exports = constructor;
+})();
+
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":97,"lodash.tolower":83,"lodash.trim":85,"simple-color-picker":96,"virtual-dom/h":106}],163:[function(require,module,exports){
+(function () {
     var h = require('virtual-dom/h');
 
     function constructor(property, configService, configValue, disabled) {
@@ -26882,7 +26952,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"virtual-dom/h":106}],163:[function(require,module,exports){
+},{"virtual-dom/h":106}],164:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -26932,7 +27002,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"lodash.foreach":58,"virtual-dom/h":106}],164:[function(require,module,exports){
+},{"lodash.foreach":58,"virtual-dom/h":106}],165:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -26965,7 +27035,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":106}],165:[function(require,module,exports){
+},{"virtual-dom/h":106}],166:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -27156,7 +27226,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":54,"lodash.drop":55,"lodash.find":56,"lodash.first":57,"lodash.foreach":58,"lodash.isarray":63,"lodash.isempty":64,"lodash.isundefined":71,"lodash.map":75,"lodash.merge":76,"lodash.remove":77,"lodash.size":80,"lodash.slice":82,"lodash.union":86}],166:[function(require,module,exports){
+},{"lodash.clonedeep":54,"lodash.drop":55,"lodash.find":56,"lodash.first":57,"lodash.foreach":58,"lodash.isarray":63,"lodash.isempty":64,"lodash.isundefined":71,"lodash.map":75,"lodash.merge":76,"lodash.remove":77,"lodash.size":80,"lodash.slice":82,"lodash.union":86}],167:[function(require,module,exports){
 
 (function () {
     function constructor(services){
@@ -27243,7 +27313,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],167:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -27436,7 +27506,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../factories/series.js":165,"lodash.clonedeep":54,"lodash.find":56,"lodash.foreach":58,"lodash.isempty":64,"lodash.isundefined":71,"lodash.map":75,"lodash.merge":76}],168:[function(require,module,exports){
+},{"../factories/series.js":166,"lodash.clonedeep":54,"lodash.find":56,"lodash.foreach":58,"lodash.isempty":64,"lodash.isundefined":71,"lodash.map":75,"lodash.merge":76}],169:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -27561,7 +27631,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":54,"lodash.find":56,"lodash.first":57,"lodash.foreach":58,"lodash.isequal":65,"lodash.isnan":68,"lodash.isundefined":71,"lodash.map":75,"lodash.slice":82,"papaparse":89,"xhr":133}],169:[function(require,module,exports){
+},{"lodash.clonedeep":54,"lodash.find":56,"lodash.first":57,"lodash.foreach":58,"lodash.isequal":65,"lodash.isnan":68,"lodash.isundefined":71,"lodash.map":75,"lodash.slice":82,"papaparse":89,"xhr":133}],170:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -27603,7 +27673,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":58}],170:[function(require,module,exports){
+},{"lodash.foreach":58}],171:[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -27651,7 +27721,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":154,"lodash.clonedeep":54,"xhr":133}],171:[function(require,module,exports){
+},{"../config/options.json":154,"lodash.clonedeep":54,"xhr":133}],172:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -27693,7 +27763,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":54}],172:[function(require,module,exports){
+},{"lodash.clonedeep":54}],173:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -27778,7 +27848,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":139,"./../components/revision":151,"./../templates/logo":174,"lodash.keys":72,"main-loop":87,"virtual-dom/create-element":104,"virtual-dom/diff":105,"virtual-dom/h":106,"virtual-dom/patch":107}],173:[function(require,module,exports){
+},{"./../components/chart.js":139,"./../components/revision":151,"./../templates/logo":175,"lodash.keys":72,"main-loop":87,"virtual-dom/create-element":104,"virtual-dom/diff":105,"virtual-dom/h":106,"virtual-dom/patch":107}],174:[function(require,module,exports){
 (function () {
     function constructor(){
         var templates = require('../config/templates');
@@ -27799,7 +27869,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates":155,"lodash.clonedeep":54}],174:[function(require,module,exports){
+},{"../config/templates":155,"lodash.clonedeep":54}],175:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
