@@ -219,6 +219,12 @@
             "fullname": "yAxis.reversed"
           },
           {
+            "fullname": "yAxis.tickWidth"
+          },
+          {
+            "fullname": "yAxis.tickInterval"
+          },
+          {
             "fullname": "yAxis.labels.enabled",
             "title": "labels"
           },

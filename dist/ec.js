@@ -23899,6 +23899,29 @@ module.exports=module.exports = [
                         "deprecated": false
                     },
                     {
+                        "name": "yAxis--tickWidth",
+                        "fullname": "yAxis.tickWidth",
+                        "title": "tickWidth",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "defaults": "0",
+                        "description": "The pixel width of the major tick marks.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/tickwidth/\" target=\"_blank\">10 px width</a>"
+                    },
+                    {
+                        "name": "yAxis--tickInterval",
+                        "fullname": "yAxis.tickInterval",
+                        "title": "tickInterval",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Number",
+                        "description": "<p>The interval of the tick marks in axis units. When <code>null</code>, the tick interval\r\n is computed to approximately follow the <a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a> on linear and datetime axes.\r\n On categorized axes, a <code>null</code> tickInterval will default to 1, one category. \r\n Note that datetime axes are based on milliseconds, so for \r\n example an interval of one day is expressed as <code>24 * 3600 * 1000</code>.</p>\r\n <p>On logarithmic axes, the tickInterval is based on powers, so a tickInterval of 1 means\r\n \tone tick on each of 0.1, 1, 10, 100 etc. A tickInterval of 2 means a tick of 0.1, 10, 1000 etc.\r\n \tA tickInterval of 0.2 puts a tick on 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 4, 6, 8, 10, 20, 40 etc.</p>\r\n<p>If the tickInterval is too dense for labels to be drawn, Highcharts may remove ticks.</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/tickinterval-5/\" target=\"_blank\">Tick interval of 5 on a linear axis</a>",
+                        "seeAlso": "<a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a>, <a href=\"#xAxis.tickPositions\">tickPositions</a>, <a href=\"#xAxis.tickPositioner\">tickPositioner</a>",
+                        "deprecated": false
+                    },
+                    {
                         "name": "yAxis-labels--enabled",
                         "fullname": "yAxis.labels.enabled",
                         "title": "labels",
@@ -26941,7 +26964,7 @@ return self})();
                 'value': typeof configValue !== 'undefined' ? configValue : "",
                 'ev-blur': function (e) {
                     if (e.target.value !== '') {
-                        configService.setValue(property.fullname, parseInt(e.target.value));
+                        configService.setValue(property.fullname, parseFloat(e.target.value));
                     } else {
                         configService.removeValue(property.fullname);
                     }
@@ -26956,7 +26979,8 @@ return self})();
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
-    forEach: require('lodash.foreach')
+    forEach: require('lodash.foreach'),
+    isUndefined: require('lodash.isundefined')
   };
 
   function constructor(property, configService, configValue, disabled) {
@@ -26969,7 +26993,7 @@ return self})();
       }
 
     _.forEach(values, function (value) {
-      var selected = value == configValue;
+      var selected = !_.isUndefined(configValue) ? value === configValue : value === property.defaults;
 
       var item = h('option', {
         value   : value,
@@ -27002,7 +27026,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"lodash.foreach":58,"virtual-dom/h":106}],165:[function(require,module,exports){
+},{"lodash.foreach":58,"lodash.isundefined":71,"virtual-dom/h":106}],165:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
