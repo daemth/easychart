@@ -54,9 +54,9 @@
                 }, h('a', {
                     'href': '#' + type.type,
                     'ev-click': function (e) {
-                        e.preventDefault();
                         activeId = type.id;
                         mediator.trigger('treeUpdate');
+                        e.preventDefault();
                     }
                 }, type.type));
 
@@ -67,7 +67,6 @@
 
         return that;
     };
-
 
     module.exports = constructor;
 })();

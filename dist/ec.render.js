@@ -14003,7 +14003,6 @@ function extend() {
 
     window.ec = constructor;
 })();
-
 },{"./components/chart.js":48,"./services/config":51,"./services/data":52,"mediatorjs":41}],51:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {

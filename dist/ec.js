@@ -22176,7 +22176,6 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
 
     window.ec = constructor;
 })();
-
 },{"../css/style.css":137,"./components/configure.js":140,"./components/debug.js":144,"./components/import.js":146,"./components/templateSelection.js":153,"./services/api":167,"./services/config":168,"./services/data":169,"./services/initializer":170,"./services/options":171,"./services/revision":172,"./services/router.js":173,"./services/templates":174,"dom-delegator":12,"mediatorjs":88,"virtual-dom/h":106}],139:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
@@ -22287,7 +22286,6 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
     };
 
     module.exports = constructor;
-
 })();
 },{"./configure/axisTabs":141,"./configure/genericTabs":142,"./configure/seriesTabs":143,"lodash.clonedeep":54,"lodash.find":56,"lodash.first":57,"lodash.foreach":58,"lodash.isundefined":71,"lodash.map":75,"lodash.remove":77,"virtual-dom/h":106}],141:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
@@ -22868,8 +22866,9 @@ module.exports = constructor;
                             'className': className
                         }, h('a', {
                             'href': '#' + tabOptions[id].label,
-                            'ev-click': function () {
+                            'ev-click': function (e) {
                                 load(id);
+                                e.preventDefault();
                             }
                         }, tabOptions[id].label)
                     )
@@ -22912,13 +22911,8 @@ module.exports = constructor;
         };
     };
 
-
     module.exports = constructor;
 })();
-
-
-
-
 },{"./hot":145,"./import/dragAndDrop":147,"./import/paste":148,"./import/upload":149,"./import/url":150,"./table":152,"virtual-dom/h":106}],147:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
@@ -22939,15 +22933,18 @@ module.exports = constructor;
                     reader.addEventListener('loadstart', function (e) {
                         console.log('start');
                         node.innerHTML = '<div class="loader"></div>'
+                        e.preventDefault();
                     });
                     reader.addEventListener('load', function (e) {
                         saveData(reader.result);
                         node.innerHTML = 'Drop your files here';
                         mediator.trigger('goToTable');
+                        e.preventDefault();
                     });
 
                     reader.addEventListener('error', function (err) {
-                        console.error('FileReader error' + err)
+                        console.error('FileReader error' + err);
+                        err.preventDefault();
                     });
                     reader.readAsText(file);
                 })
@@ -23015,9 +23012,10 @@ module.exports = constructor;
             uploadElement =
                 h('input.soft--ends', {
                     type: 'file',
-                    "size": 50,
+                    'size': 50,
                     onchange: function(e){
                         loadFile(e);
+                        e.preventDefault();
                     }
                 }, 'upload');
         }
@@ -23025,12 +23023,14 @@ module.exports = constructor;
         function loadFile(e) {
             var file = e.target.files[0];
             var reader  = new FileReader();
-            reader.onloadend = function () {
-                saveData(reader.result)
+            reader.onloadend = function (e) {
+                saveData(reader.result);
+                e.preventDefault();
             };
             if (file) {
                 reader.readAsText(file);
             }
+            e.preventDefault();
         }
 
         function saveData(value) {
@@ -23276,9 +23276,9 @@ module.exports = constructor;
                 }, h('a', {
                     'href': '#' + type.type,
                     'ev-click': function (e) {
-                        e.preventDefault();
                         activeId = type.id;
                         mediator.trigger('treeUpdate');
+                        e.preventDefault();
                     }
                 }, type.type));
 
@@ -23289,7 +23289,6 @@ module.exports = constructor;
 
         return that;
     };
-
 
     module.exports = constructor;
 })();
@@ -27055,7 +27054,6 @@ return self})();
       }))
     ]);
   }
-
   module.exports = constructor;
 })();
 

@@ -60,8 +60,9 @@
                             'className': className
                         }, h('a', {
                             'href': '#' + tabOptions[id].label,
-                            'ev-click': function () {
+                            'ev-click': function (e) {
                                 load(id);
+                                e.preventDefault();
                             }
                         }, tabOptions[id].label)
                     )
@@ -104,9 +105,5 @@
         };
     };
 
-
     module.exports = constructor;
 })();
-
-
-

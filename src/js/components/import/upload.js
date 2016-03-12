@@ -10,9 +10,10 @@
             uploadElement =
                 h('input.soft--ends', {
                     type: 'file',
-                    "size": 50,
+                    'size': 50,
                     onchange: function(e){
                         loadFile(e);
+                        e.preventDefault();
                     }
                 }, 'upload');
         }
@@ -20,12 +21,14 @@
         function loadFile(e) {
             var file = e.target.files[0];
             var reader  = new FileReader();
-            reader.onloadend = function () {
-                saveData(reader.result)
+            reader.onloadend = function (e) {
+                saveData(reader.result);
+                e.preventDefault();
             };
             if (file) {
                 reader.readAsText(file);
             }
+            e.preventDefault();
         }
 
         function saveData(value) {
