@@ -316,7 +316,6 @@
         "panes": [
             {
                 "title": "Axes setup",
-                "id": "general",
                 "options": [
                     {
                         "name": "chart--inverted",
@@ -336,7 +335,6 @@
             },
             {
                 "title": "X axis",
-                "id": "xAxis",
                 "options": [
                     {
                         "name": "xAxis-title--text",
@@ -531,7 +529,6 @@
             },
             {
                 "title": "Value axis",
-                "id": "yAxis",
                 "options": [
                     {
                         "name": "yAxis-title--text",

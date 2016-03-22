@@ -30,6 +30,7 @@ function constructor(services) {
                         }, 'general')
                     )
                 }
+
                 if (config.xAxis) {
                     _.forEach(config.xAxis, function (axis, index) {
                         var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) > 0 ? axis.title.text : 'X axis ' + (index + 1);
@@ -44,7 +45,6 @@ function constructor(services) {
                         )
                     });
                 }
-
 
                 if (config.yAxis) {
                     _.forEach(config.yAxis, function (axis, index) {
@@ -66,7 +66,12 @@ function constructor(services) {
                         h('a', {
                             'href': '#data-series',
                             'ev-click': function (e) {
-                                setActive(options.id, 'general');
+                                if(generalOptions){
+                                    setActive(options.id, 'general');
+                                } else {
+                                    setActive(options.id, 'xAxis0');
+                                }
+
                                 e.preventDefault();
                             }
                         }, axesTabTitle),
@@ -79,18 +84,25 @@ function constructor(services) {
                         h('a', {
                             'href': '#data-series',
                             'ev-click': function (e) {
-                                setActive(options.id, 'general');
+                                if(generalOptions){
+                                    setActive(options.id, 'general');
+                                } else {
+                                    setActive(options.id, 'xAxis0');
+                                }
                                 e.preventDefault();
                             }
                         }, axesTabTitle)
                     ])
             }
+
         }
     }
 
     function generalOptions(panes) {
         return _.find(panes, function (pane) {
-            return pane.id == "general";
+            // make the assumption tha the general options will be the one without axis specific options.
+            var firstOption = pane.options[0];
+            return firstOption.fullname.indexOf('xAxis') == -1 || firstOption.fullname.indexOf('yAxis') == -1 ;
         })
     }
 
@@ -123,8 +135,10 @@ function constructor(services) {
         var type = child.substring(0, 5);
         var index = child.substring(5, 6);
         var pane = _.find(panes, function (pane) {
-            return pane.id == type;
+            var firstOption = pane.options[0];
+            return firstOption.fullname.indexOf(type) > -1;
         });
+
         if (pane) {
             return h('div.vertical-tab-content', [h('div.titleBar',
                 [
