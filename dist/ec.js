@@ -1392,15 +1392,12 @@ var flatten = require('flatten')
 var parallel = require('run-parallel')
 
 function dragDrop (elem, listeners) {
-  if (typeof elem === 'string') {
-    elem = window.document.querySelector(elem)
-  }
+  if (typeof elem === 'string') elem = window.document.querySelector(elem)
+  if (typeof listeners === 'function') listeners = { onDrop: listeners }
 
-  if (typeof listeners === 'function') {
-    listeners = { onDrop: listeners }
-  }
-
-  var timeout
+  var onDragOver = makeOnDragOver(elem, listeners.onDragOver)
+  var onDragLeave = makeOnDragLeave(elem, listeners.onDragLeave)
+  var onDrop = makeOnDrop(elem, listeners.onDrop, listeners.onDragLeave)
 
   elem.addEventListener('dragenter', stopEvent, false)
   elem.addEventListener('dragover', onDragOver, false)
@@ -1409,14 +1406,22 @@ function dragDrop (elem, listeners) {
 
   // Function to remove drag-drop listeners
   return function remove () {
-    removeDragClass()
+    if (elem instanceof window.Element) elem.classList.remove('drag')
     elem.removeEventListener('dragenter', stopEvent, false)
     elem.removeEventListener('dragover', onDragOver, false)
     elem.removeEventListener('dragleave', onDragLeave, false)
     elem.removeEventListener('drop', onDrop, false)
   }
+}
 
-  function onDragOver (e) {
+function stopEvent (e) {
+  e.stopPropagation()
+  e.preventDefault()
+  return false
+}
+
+function makeOnDragOver (elem, ondragover) {
+  return function (e) {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer.items) {
@@ -1427,93 +1432,58 @@ function dragDrop (elem, listeners) {
       if (items.length === 0) return
     }
 
-    elem.classList.add('drag')
-    clearTimeout(timeout)
-
-    if (listeners.onDragOver) {
-      listeners.onDragOver(e)
-    }
-
+    if (elem instanceof window.Element) elem.classList.add('drag')
     e.dataTransfer.dropEffect = 'copy'
+    if (ondragover) ondragover(e)
     return false
   }
+}
 
-  function onDragLeave (e) {
+function makeOnDragLeave (elem, ondragleave) {
+  return function (e) {
+    if (e.target !== elem) return
     e.stopPropagation()
     e.preventDefault()
-
-    if (listeners.onDragLeave) {
-      listeners.onDragLeave(e)
-    }
-
-    clearTimeout(timeout)
-    timeout = setTimeout(removeDragClass, 50)
-
+    if (ondragleave) ondragleave(e)
+    if (elem instanceof window.Element) elem.classList.remove('drag')
     return false
   }
+}
 
-  function onDrop (e) {
+function makeOnDrop (elem, ondrop, ondragleave) {
+  return function (e) {
     e.stopPropagation()
     e.preventDefault()
-
-    if (listeners.onDragLeave) {
-      listeners.onDragLeave(e)
-    }
-
-    clearTimeout(timeout)
-    removeDragClass()
-
-    var pos = {
-      x: e.clientX,
-      y: e.clientY
-    }
-
+    if (ondragleave) ondragleave(e)
+    if (elem instanceof window.Element) elem.classList.remove('drag')
+    var pos = { x: e.clientX, y: e.clientY }
     if (e.dataTransfer.items) {
       // Handle directories in Chrome using the proprietary FileSystem API
       var items = toArray(e.dataTransfer.items).filter(function (item) {
         return item.kind === 'file'
       })
-
       if (items.length === 0) return
-
       parallel(items.map(function (item) {
         return function (cb) {
           processEntry(item.webkitGetAsEntry(), cb)
         }
       }), function (err, results) {
-        // This catches permission errors with file:// in Chrome. This should never
-        // throw in production code, so the user does not need to use try-catch.
+        // There should never be an error in production code. This catches permission
+        // errors with file:// in Chrome.
         if (err) throw err
-        if (listeners.onDrop) {
-          listeners.onDrop(flatten(results), pos)
-        }
+        ondrop(flatten(results), pos)
       })
     } else {
       var files = toArray(e.dataTransfer.files)
-
       if (files.length === 0) return
-
       files.forEach(function (file) {
         file.fullPath = '/' + file.name
       })
-
-      if (listeners.onDrop) {
-        listeners.onDrop(files, pos)
-      }
+      ondrop(files, pos)
     }
 
     return false
   }
-
-  function removeDragClass () {
-    elem.classList.remove('drag')
-  }
-}
-
-function stopEvent (e) {
-  e.stopPropagation()
-  e.preventDefault()
-  return false
 }
 
 function processEntry (entry, cb) {
@@ -23995,6 +23965,77 @@ module.exports=module.exports = [
                         "defaults": "0",
                         "description": "Rotation of the labels in degrees.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-rotation/\" target=\"_blank\">X axis labels rotated 90°</a>"
+                    },
+                    {
+                        "name": "yAxis-plotLines",
+                        "fullname": "yAxis.plotLines",
+                        "title": "plotLines",
+                        "parent": "yAxis",
+                        "isParent": true,
+                        "returnType": "Array<Object>",
+                        "description": "An array of objects representing plot lines on the X axis",
+                        "deprecated": false,
+                        "options": [
+                            {
+                                "name": "yAxis-plotLines--color",
+                                "fullname": "yAxis.plotLines.color",
+                                "title": "color",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Color",
+                                "description": "The color of the line.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">A red line from X axis</a>"
+                            },
+                            {
+                                "name": "yAxis-plotLines--dashStyle",
+                                "fullname": "yAxis.plotLines.dashStyle",
+                                "title": "dashStyle",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "String",
+                                "defaults": "Solid",
+                                "values": "[\"Solid\", \"ShortDash\", \"ShortDot\", \"ShortDashDot\", \"ShortDashDotDot\", \"Dot\", \"Dash\" ,\"LongDash\", \"DashDot\", \"LongDashDot\", \"LongDashDotDot\"]",
+                                "since": "1.2",
+                                "description": "The dashing or dot style for the plot line. For possible values see <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.1/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-dashstyle-all/\">this overview</a>.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-dashstyle/\" target=\"_blank\">Dash and dot pattern</a>",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "yAxis-plotLines-label--text",
+                                "fullname": "yAxis.plotLines.label.text",
+                                "title": "text",
+                                "parent": "yAxis-plotLines-label",
+                                "isParent": false,
+                                "returnType": "String",
+                                "defaults": "",
+                                "values": "",
+                                "since": "2.1",
+                                "description": "The text itself. A subset of HTML is supported.",
+                                "demo": "",
+                                "seeAlso": "",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "yAxis-plotLines--value",
+                                "fullname": "yAxis.plotLines.value",
+                                "title": "value",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The position of the line in axis units.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">Between two categories on X axis</a>"
+                            },
+                            {
+                                "name": "yAxis-plotLines--width",
+                                "fullname": "yAxis.plotLines.width",
+                                "title": "width",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The width or thickness of the plot line.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">2px wide line from X axis</a>"
+                            }
+                        ]
                     }
                 ]
             }

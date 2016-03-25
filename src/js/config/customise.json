@@ -236,6 +236,26 @@
           },
           {
             "fullname": "yAxis.labels.style.color"
+          },
+          {
+            "fullname": "yAxis.plotLines",
+            "options":[
+              {
+                "fullname": "yAxis.plotLines.color"
+              },
+              {
+                "fullname": "yAxis.plotLines.dashStyle"
+              },
+              {
+                "fullname": "yAxis.plotLines.label.text"
+              },
+              {
+                "fullname": "yAxis.plotLines.value"
+              },
+              {
+                "fullname": "yAxis.plotLines.width"
+              }
+            ]
           }
         ]
       }

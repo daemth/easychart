@@ -656,6 +656,77 @@
                         "defaults": "0",
                         "description": "Rotation of the labels in degrees.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-rotation/\" target=\"_blank\">X axis labels rotated 90°</a>"
+                    },
+                    {
+                        "name": "yAxis-plotLines",
+                        "fullname": "yAxis.plotLines",
+                        "title": "plotLines",
+                        "parent": "yAxis",
+                        "isParent": true,
+                        "returnType": "Array<Object>",
+                        "description": "An array of objects representing plot lines on the X axis",
+                        "deprecated": false,
+                        "options": [
+                            {
+                                "name": "yAxis-plotLines--color",
+                                "fullname": "yAxis.plotLines.color",
+                                "title": "color",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Color",
+                                "description": "The color of the line.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">A red line from X axis</a>"
+                            },
+                            {
+                                "name": "yAxis-plotLines--dashStyle",
+                                "fullname": "yAxis.plotLines.dashStyle",
+                                "title": "dashStyle",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "String",
+                                "defaults": "Solid",
+                                "values": "[\"Solid\", \"ShortDash\", \"ShortDot\", \"ShortDashDot\", \"ShortDashDotDot\", \"Dot\", \"Dash\" ,\"LongDash\", \"DashDot\", \"LongDashDot\", \"LongDashDotDot\"]",
+                                "since": "1.2",
+                                "description": "The dashing or dot style for the plot line. For possible values see <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.1/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-dashstyle-all/\">this overview</a>.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-dashstyle/\" target=\"_blank\">Dash and dot pattern</a>",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "yAxis-plotLines-label--text",
+                                "fullname": "yAxis.plotLines.label.text",
+                                "title": "text",
+                                "parent": "yAxis-plotLines-label",
+                                "isParent": false,
+                                "returnType": "String",
+                                "defaults": "",
+                                "values": "",
+                                "since": "2.1",
+                                "description": "The text itself. A subset of HTML is supported.",
+                                "demo": "",
+                                "seeAlso": "",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "yAxis-plotLines--value",
+                                "fullname": "yAxis.plotLines.value",
+                                "title": "value",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The position of the line in axis units.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">Between two categories on X axis</a>"
+                            },
+                            {
+                                "name": "yAxis-plotLines--width",
+                                "fullname": "yAxis.plotLines.width",
+                                "title": "width",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The width or thickness of the plot line.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">2px wide line from X axis</a>"
+                            }
+                        ]
                     }
                 ]
             }
