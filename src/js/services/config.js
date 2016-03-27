@@ -10,6 +10,7 @@
             map: require('lodash.map')
         };
         var series = require('../factories/series.js');
+        var jsonfn = require('json-fn');
         var that = {};
         var presets = {
             chart:{
@@ -37,6 +38,11 @@
         that.getRaw = function () {
             return _.cloneDeep(config);
         };
+
+        that.getStringified = function(){
+            return stringify(config);
+        };
+
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){
@@ -87,6 +93,11 @@
             _.forEach(array, function (row) {
                 that.setValue(row[0], row[1]);
             });
+            configUpdate();
+        };
+
+        that.setStringified = function(string){
+            that.set(jsonfn.parse(string));
             configUpdate();
         };
 
@@ -184,6 +195,25 @@
             configUpdate();
         });
 
+        String.prototype.replaceAll = function(str1, str2, ignore)
+        {
+            return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+        }
+        function stringify (obj) {
+            return JSON.stringify(obj, function (key, value) {
+                if (value instanceof Function || typeof value == 'function') {
+                    return value.toString().replaceAll('"', '\\"');
+                }
+                if(typeof value == 'string'){
+                    return value.replaceAll('"', '\\"');
+                }
+                if (value instanceof RegExp) {
+                    return '_PxEgEr_' + value;
+                }
+
+                return value;
+            });
+        }
         return that;
 
     }

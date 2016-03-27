@@ -1,83 +1,106 @@
-
 (function () {
-    function constructor(services){
+    function constructor(services) {
         // data
-        function setData (data){
+        function setData(data) {
             services.data.set(data);
         }
-        function getData (){
+
+        function getData() {
             return services.data.get();
         }
+
         // data csv
-        function setDataCSV(csv){
+        function setDataCSV(csv) {
             services.data.setCSV(csv);
         }
+
         // data url
-        function setDataUrl(url){
+        function setDataUrl(url) {
             services.data.setUrl(url);
         }
-        function getDataUrl(){
+
+        function getDataUrl() {
             return services.data.getUrl();
         }
+
         // options
-        function setOptions(options){
+        function setOptions(options) {
             services.options.set(options);
         }
-        function getOptions(){
+
+        function getOptions() {
             return services.options.get();
         }
-        function setOptionsUrl(url){
+
+        function setOptionsUrl(url) {
             services.options.setUrl(url);
         }
-        function getOptionsUrl(){
+
+        function getOptionsUrl() {
             return services.options.getUrl();
         }
+
         // templates
-        function setTemplates(templates){
+        function setTemplates(templates) {
             services.templates.set(templates);
         }
-        function getTemplates(){
+
+        function getTemplates() {
             return services.templates.get();
         }
+
         // config
-        function setConfig(config){
+        function setConfig(config) {
             services.config.set(config);
         }
-        function getConfig(config){
+
+        function setConfigStringified(string) {
+            services.config.setStringified(string);
+        }
+
+        function getConfig(config) {
             return services.config.getRaw(config);
         }
 
+        function getConfigStringified() {
+            return services.config.getStringified();
+        }
+
         // presets
-        function setPresets(presets){
+        function setPresets(presets) {
             services.config.setPresets(presets);
         }
-        function getPresets(presets){
+
+        function getPresets(presets) {
             services.config.getPresets(presets);
         }
+
         // events
-        function on(event, callback){
+        function on(event, callback) {
             services.mediator.on(event, function (data) {
                 callback(data);
             });
         }
 
         return {
-            setData:setData,
-            getData:getData,
-            setDataUrl:setDataUrl,
-            getDataUrl:getDataUrl,
+            setData: setData,
+            getData: getData,
+            setDataUrl: setDataUrl,
+            getDataUrl: getDataUrl,
             setDataCSV: setDataCSV,
-            setOptions:setOptions,
+            setOptions: setOptions,
             getOptions: getOptions,
-            setTemplates:setTemplates,
-            getTemplates:getTemplates,
-            setConfig:setConfig,
-            getConfig:getConfig,
-            setOptionsUrl:setOptionsUrl,
-            getOptionsUrl:getOptionsUrl,
-            setPresets:setPresets,
-            getPresets:getPresets,
-            on:on
+            setTemplates: setTemplates,
+            getTemplates: getTemplates,
+            setConfig: setConfig,
+            setConfigStringified: setConfigStringified,
+            getConfig: getConfig,
+            getConfigStringified: getConfigStringified,
+            setOptionsUrl: setOptionsUrl,
+            getOptionsUrl: getOptionsUrl,
+            setPresets: setPresets,
+            getPresets: getPresets,
+            on: on
         }
     }
 
