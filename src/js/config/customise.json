@@ -173,19 +173,39 @@
             "fullname": "xAxis.labels.align"
           },
           {
+            "fullname": "xAxis.plotLines",
+            "options":[
+              {
+                "fullname": "xAxis.plotLines.color"
+              },
+              {
+                "fullname": "xAxis.plotLines.dashStyle"
+              },
+              {
+                "fullname": "xAxis.plotLines.label.text"
+              },
+              {
+                "fullname": "xAxis.plotLines.value"
+              },
+              {
+                "fullname": "xAxis.plotLines.width"
+              }
+            ]
+          },
+          {
             "fullname": "xAxis.plotBands",
             "options":[
               {
-                "fullname": "xAxis.plotbands.color"
-              },
-              {
-                "fullname": "xAxis.plotbands.from"
-              },
-              {
-                "fullname": "xAxis.plotbands.to"
+                "fullname": "xAxis.plotBands.color"
               },
               {
                 "fullname": "xAxis.plotBands.label.text"
+              },
+              {
+                "fullname": "xAxis.plotBands.from"
+              },
+              {
+                "fullname": "xAxis.plotBands.to"
               }
             ]
           }
@@ -198,9 +218,6 @@
             "fullname": "yAxis.title.text"
           },
           {
-            "fullname": "yAxis.stops"
-          },
-          {
             "fullname": "yAxis.title.style.color"
           },
           {
@@ -211,6 +228,12 @@
           },
           {
             "fullname": "yAxis.max"
+          },
+          {
+            "fullname": "yAxis.minColor"
+          },
+          {
+            "fullname": "yAxis.maxColor"
           },
           {
             "fullname": "yAxis.opposite"
@@ -259,6 +282,27 @@
                 "fullname": "yAxis.plotLines.width"
               }
             ]
+          },
+          {
+            "fullname": "yAxis.plotBands",
+            "options":[
+              {
+                "fullname": "yAxis.plotBands.color"
+              },
+              {
+                "fullname": "yAxis.plotBands.label.text"
+              },
+              {
+                "fullname": "yAxis.plotBands.from"
+              },
+              {
+                "fullname": "yAxis.plotBands.to"
+              }
+            ]
+          },
+          {
+            "fullname": "yAxis.stops",
+            "title": "Color stops (for solid gauge only)"
           }
         ]
       }

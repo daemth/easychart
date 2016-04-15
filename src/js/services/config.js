@@ -7,7 +7,8 @@
             forEach: require('lodash.foreach'),
             merge: require('lodash.merge'),
             isEmpty: require('lodash.isempty'),
-            map: require('lodash.map')
+            map: require('lodash.map'),
+            isArray: require('lodash.isarray')
         };
         var series = require('../factories/series.js');
         var jsonfn = require('json-fn');
@@ -135,10 +136,20 @@
             var temp = config;
             path = path.split('.');
             while (step = path.shift()) {
-                console.log(step);
+
                 if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
                         temp = temp[step];
+                        console.log(temp);
+
+                        // todo
+                        if(_.isArray(temp) && temp.length === 0){
+                            console.log('empty ARRAY');
+                            delete temp;
+
+                            console.log(config);
+                        }
+
                     } else {
                         if(Object.prototype.toString.call( temp ) === '[object Array]'){
                             temp.splice(step, 1);
@@ -146,8 +157,6 @@
                             delete temp[step];
                         }
                     }
-                } else {
-                    console.log("BOEM");
                 }
             }
             configUpdate();

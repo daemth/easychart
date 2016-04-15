@@ -42,12 +42,10 @@
                             }
                             , value: _.join(value, ",")
                         }
-                    )
-                ]),
-                removeButton(property.fullname + '.' + index)
+                    ),
+                    removeButton(property.fullname + '.' + index)
+                ])
             ]));
-
-
         });
 
         function removeButton(name) {

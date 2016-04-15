@@ -14111,7 +14111,8 @@ function extend() {
             forEach: require('lodash.foreach'),
             merge: require('lodash.merge'),
             isEmpty: require('lodash.isempty'),
-            map: require('lodash.map')
+            map: require('lodash.map'),
+            isArray: require('lodash.isarray')
         };
         var series = require('../factories/series.js');
         var jsonfn = require('json-fn');
@@ -14239,10 +14240,20 @@ function extend() {
             var temp = config;
             path = path.split('.');
             while (step = path.shift()) {
-                console.log(step);
+
                 if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
                         temp = temp[step];
+                        console.log(temp);
+
+
+                        if(_.isArray(temp) && temp.length === 0){
+                            console.log('ARRAY');
+                            delete temp;
+
+                            console.log(config);
+                        }
+
                     } else {
                         if(Object.prototype.toString.call( temp ) === '[object Array]'){
                             temp.splice(step, 1);
@@ -14250,8 +14261,6 @@ function extend() {
                             delete temp[step];
                         }
                     }
-                } else {
-                    console.log("BOEM");
                 }
             }
             configUpdate();
@@ -14327,7 +14336,7 @@ function extend() {
 
     module.exports = constructor;
 })();
-},{"../factories/series.js":50,"json-fn":6,"lodash.clonedeep":20,"lodash.find":22,"lodash.foreach":24,"lodash.isempty":26,"lodash.isundefined":31,"lodash.map":33,"lodash.merge":34}],53:[function(require,module,exports){
+},{"../factories/series.js":50,"json-fn":6,"lodash.clonedeep":20,"lodash.find":22,"lodash.foreach":24,"lodash.isarray":25,"lodash.isempty":26,"lodash.isundefined":31,"lodash.map":33,"lodash.merge":34}],53:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
