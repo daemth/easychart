@@ -543,6 +543,19 @@
                         "deprecated": false
                     },
                     {
+                        "name": "yAxis--stops",
+                        "fullname": "yAxis.stops",
+                        "title": "stops",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Array<Array>",
+                        "since": "4.0",
+                        "description": "<p>Solid gauge series only. Color stops for the solid gauge. Use this in cases where a linear gradient between a <code>minColor</code> and <code>maxColor</code> is not sufficient. The stops is an array of tuples, where the first item is a float between 0 and 1 assigning the relative position in the gradient, and the second item is the color.</p>\r\n\r\n<p>For solid gauges, the Y axis also inherits the concept of <a href=\"http://api.highcharts.com/highmaps#colorAxis.dataClasses\">data classes</a> from the Highmaps color axis.</p>\r\n",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/demo/gauge-solid/\" target=\"_blank\">True by default</a>",
+                        "seeAlso": "<a href=\"#yAxis.minColor\">minColor</a>, <a href=\"#yAxis.maxColor\">maxColor</a>.",
+                        "deprecated": false
+                    },
+                    {
                         "name": "yAxis--type",
                         "fullname": "yAxis.type",
                         "title": "type",

@@ -1665,16 +1665,15 @@
             "minorTickInterval": null,
             "tickPixelInterval": 400,
             "tickWidth": 0,
-            "title": {
-              "y": -70
-            },
+
             "labels": {
               "y": 16
             },
             "min": 0,
             "max": 200,
             "title": {
-              "text": 'Speed'
+              "text": 'Speed',
+              "y": -70
             }
           }],
 

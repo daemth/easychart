@@ -994,7 +994,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":10,"./proxy-event.js":13,"./remove-event.js":14,"ev-store":20,"global/document":25,"weakmap-shim/create-store":131}],12:[function(require,module,exports){
+},{"./add-event.js":10,"./proxy-event.js":13,"./remove-event.js":14,"ev-store":20,"global/document":25,"weakmap-shim/create-store":133}],12:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1245,7 +1245,7 @@ function numToString(value) {
   return value;
 }
 
-},{"./lib/properties":17,"prefix":93,"trim":102}],16:[function(require,module,exports){
+},{"./lib/properties":17,"prefix":95,"trim":104}],16:[function(require,module,exports){
 'use strict';
 
 exports = module.exports = compose;
@@ -1385,7 +1385,7 @@ function defaultUnit(unit) {
   };
 }
 
-},{"./compose":16,"trim":102}],18:[function(require,module,exports){
+},{"./compose":16,"trim":104}],18:[function(require,module,exports){
 module.exports = dragDrop
 
 var flatten = require('flatten')
@@ -1525,7 +1525,7 @@ function toArray (list) {
   return Array.prototype.slice.call(list || [], 0)
 }
 
-},{"flatten":23,"run-parallel":96}],19:[function(require,module,exports){
+},{"flatten":23,"run-parallel":98}],19:[function(require,module,exports){
 var camelize = require("camelize")
 var template = require("string-template")
 var extend = require("xtend/mutable")
@@ -1575,7 +1575,7 @@ function TypedError(args) {
 }
 
 
-},{"camelize":7,"string-template":100,"xtend/mutable":137}],20:[function(require,module,exports){
+},{"camelize":7,"string-template":102,"xtend/mutable":139}],20:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -7584,7 +7584,7 @@ function get(object, path, defaultValue) {
 
 module.exports = basePullAt;
 
-},{"lodash._baseslice":44,"lodash.tostring":85}],44:[function(require,module,exports){
+},{"lodash._baseslice":44,"lodash.tostring":87}],44:[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -10297,7 +10297,7 @@ var bindAll = restParam(function(object, methodNames) {
 
 module.exports = bindAll;
 
-},{"lodash._baseflatten":53,"lodash._createwrapper":47,"lodash.functions":60,"lodash.restparam":80}],53:[function(require,module,exports){
+},{"lodash._baseflatten":53,"lodash._createwrapper":47,"lodash.functions":60,"lodash.restparam":81}],53:[function(require,module,exports){
 /**
  * lodash 3.1.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -13499,6 +13499,42 @@ module.exports = isUndefined;
 
 },{}],73:[function(require,module,exports){
 /**
+ * lodash 4.0.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ * Available under MIT license <https://lodash.com/license>
+ */
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeJoin = arrayProto.join;
+
+/**
+ * Converts all elements in `array` into a string separated by `separator`.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to convert.
+ * @param {string} [separator=','] The element separator.
+ * @returns {string} Returns the joined string.
+ * @example
+ *
+ * _.join(['a', 'b', 'c'], '~');
+ * // => 'a~b~c'
+ */
+function join(array, separator) {
+  return array ? nativeJoin.call(array, separator) : '';
+}
+
+module.exports = join;
+
+},{}],74:[function(require,module,exports){
+/**
  * lodash 3.1.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
@@ -13735,9 +13771,9 @@ function keysIn(object) {
 
 module.exports = keys;
 
-},{"lodash._getnative":48,"lodash.isarguments":63,"lodash.isarray":74}],74:[function(require,module,exports){
+},{"lodash._getnative":48,"lodash.isarguments":63,"lodash.isarray":75}],75:[function(require,module,exports){
 arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],75:[function(require,module,exports){
+},{"dup":54}],76:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.3 (Custom Build) <https://lodash.com/>
@@ -14233,7 +14269,7 @@ function keysIn(object) {
 module.exports = keysIn;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 /**
  * lodash 4.2.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14506,7 +14542,7 @@ function isObject(value) {
 
 module.exports = map;
 
-},{"lodash._baseeach":37,"lodash._baseiteratee":42}],77:[function(require,module,exports){
+},{"lodash._baseeach":37,"lodash._baseiteratee":42}],78:[function(require,module,exports){
 /**
  * lodash 4.3.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15231,7 +15267,7 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"lodash._baseclone":36,"lodash._stack":51,"lodash.isplainobject":70,"lodash.keysin":75,"lodash.rest":79}],78:[function(require,module,exports){
+},{"lodash._baseclone":36,"lodash._stack":51,"lodash.isplainobject":70,"lodash.keysin":76,"lodash.rest":80}],79:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15292,7 +15328,7 @@ function remove(array, predicate) {
 
 module.exports = remove;
 
-},{"lodash._baseiteratee":42,"lodash._basepullat":43}],79:[function(require,module,exports){
+},{"lodash._baseiteratee":42,"lodash._basepullat":43}],80:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15541,7 +15577,7 @@ function toNumber(value) {
 
 module.exports = rest;
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -15610,7 +15646,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 /**
  * lodash 4.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -15925,9 +15961,9 @@ function isString(value) {
 
 module.exports = size;
 
-},{"lodash.keys":82}],82:[function(require,module,exports){
+},{"lodash.keys":83}],83:[function(require,module,exports){
 arguments[4][67][0].apply(exports,arguments)
-},{"dup":67}],83:[function(require,module,exports){
+},{"dup":67}],84:[function(require,module,exports){
 /**
  * lodash 4.0.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16285,7 +16321,383 @@ function toNumber(value) {
 
 module.exports = slice;
 
-},{"lodash._baseslice":44}],84:[function(require,module,exports){
+},{"lodash._baseslice":44}],85:[function(require,module,exports){
+/**
+ * lodash 4.2.1 (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+var baseSlice = require('lodash._baseslice'),
+    toString = require('lodash.tostring');
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used as references for the maximum length and index of an array. */
+var MAX_ARRAY_LENGTH = 4294967295;
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    regexpTag = '[object RegExp]';
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/** Used to compose unicode character classes. */
+var rsAstralRange = '\\ud800-\\udfff',
+    rsComboMarksRange = '\\u0300-\\u036f\\ufe20-\\ufe23',
+    rsComboSymbolsRange = '\\u20d0-\\u20f0',
+    rsVarRange = '\\ufe0e\\ufe0f';
+
+/** Used to compose unicode capture groups. */
+var rsAstral = '[' + rsAstralRange + ']',
+    rsCombo = '[' + rsComboMarksRange + rsComboSymbolsRange + ']',
+    rsFitz = '\\ud83c[\\udffb-\\udfff]',
+    rsModifier = '(?:' + rsCombo + '|' + rsFitz + ')',
+    rsNonAstral = '[^' + rsAstralRange + ']',
+    rsRegional = '(?:\\ud83c[\\udde6-\\uddff]){2}',
+    rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]',
+    rsZWJ = '\\u200d';
+
+/** Used to compose unicode regexes. */
+var reOptMod = rsModifier + '?',
+    rsOptVar = '[' + rsVarRange + ']?',
+    rsOptJoin = '(?:' + rsZWJ + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + rsOptVar + reOptMod + ')*',
+    rsSeq = rsOptVar + reOptMod + rsOptJoin,
+    rsSymbol = '(?:' + [rsNonAstral + rsCombo + '?', rsCombo, rsRegional, rsSurrPair, rsAstral].join('|') + ')';
+
+/** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
+var reComplexSymbol = RegExp(rsFitz + '(?=' + rsFitz + ')|' + rsSymbol + rsSeq, 'g');
+
+/** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+var reHasComplexSymbol = RegExp('[' + rsZWJ + rsAstralRange  + rsComboMarksRange + rsComboSymbolsRange + rsVarRange + ']');
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+/**
+ * Converts `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function stringToArray(string) {
+  return string.match(reComplexSymbol);
+}
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype,
+    stringProto = String.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeSplit = stringProto.split;
+
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+/**
+ * Casts `array` to a slice if it's needed.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {number} start The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the cast slice.
+ */
+function castSlice(array, start, end) {
+  var length = array.length;
+  end = end === undefined ? length : end;
+  return (!start && end >= length) ? array : baseSlice(array, start, end);
+}
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a
+ * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
+ * Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+/**
+ * Checks if the given arguments are from an iteratee call.
+ *
+ * @private
+ * @param {*} value The potential iteratee value argument.
+ * @param {*} index The potential iteratee index or key argument.
+ * @param {*} object The potential iteratee object argument.
+ * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+ *  else `false`.
+ */
+function isIterateeCall(value, index, object) {
+  if (!isObject(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number'
+        ? (isArrayLike(object) && isIndex(index, object.length))
+        : (type == 'string' && index in object)
+      ) {
+    return eq(object[index], value);
+  }
+  return false;
+}
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ * var other = { 'user': 'fred' };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value)) && !isFunction(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array and weak map constructors,
+  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length,
+ *  else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is classified as a `RegExp` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isRegExp(/abc/);
+ * // => true
+ *
+ * _.isRegExp('/abc/');
+ * // => false
+ */
+function isRegExp(value) {
+  return isObject(value) && objectToString.call(value) == regexpTag;
+}
+
+/**
+ * Splits `string` by `separator`.
+ *
+ * **Note:** This method is based on
+ * [`String#split`](https://mdn.io/String/split).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category String
+ * @param {string} [string=''] The string to split.
+ * @param {RegExp|string} separator The separator pattern to split by.
+ * @param {number} [limit] The length to truncate results to.
+ * @returns {Array} Returns the new array of string segments.
+ * @example
+ *
+ * _.split('a-b-c', '-', 2);
+ * // => ['a', 'b']
+ */
+function split(string, separator, limit) {
+  if (limit && typeof limit != 'number' && isIterateeCall(string, separator, limit)) {
+    separator = limit = undefined;
+  }
+  limit = limit === undefined ? MAX_ARRAY_LENGTH : limit >>> 0;
+  if (!limit) {
+    return [];
+  }
+  string = toString(string);
+  if (string && (
+        typeof separator == 'string' ||
+        (separator != null && !isRegExp(separator))
+      )) {
+    separator += '';
+    if (separator == '' && reHasComplexSymbol.test(string)) {
+      return castSlice(stringToArray(string), 0, limit);
+    }
+  }
+  return nativeSplit.call(string, separator, limit);
+}
+
+module.exports = split;
+
+},{"lodash._baseslice":44,"lodash.tostring":87}],86:[function(require,module,exports){
 /**
  * lodash 4.1.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16321,7 +16733,7 @@ function toLower(value) {
 
 module.exports = toLower;
 
-},{"lodash.tostring":85}],85:[function(require,module,exports){
+},{"lodash.tostring":87}],87:[function(require,module,exports){
 (function (global){
 /**
  * lodash 4.1.2 (Custom Build) <https://lodash.com/>
@@ -16489,7 +16901,7 @@ function toString(value) {
 module.exports = toString;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],86:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16662,7 +17074,7 @@ function trim(string, chars, guard) {
 
 module.exports = trim;
 
-},{"lodash.tostring":85}],87:[function(require,module,exports){
+},{"lodash.tostring":87}],89:[function(require,module,exports){
 /**
  * lodash 4.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -16696,7 +17108,7 @@ var union = rest(function(arrays) {
 
 module.exports = union;
 
-},{"lodash._baseflatten":40,"lodash._baseuniq":45,"lodash.rest":79}],88:[function(require,module,exports){
+},{"lodash._baseflatten":40,"lodash._baseuniq":45,"lodash.rest":80}],90:[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
 
@@ -16777,7 +17189,7 @@ function main(initialState, view, opts) {
     }
 }
 
-},{"error/typed":19,"raf":95}],89:[function(require,module,exports){
+},{"error/typed":19,"raf":97}],91:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -16811,7 +17223,7 @@ function main(initialState, view, opts) {
 
 }).call(this);
 
-},{"backbone-events-standalone":2}],90:[function(require,module,exports){
+},{"backbone-events-standalone":2}],92:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -18216,7 +18628,7 @@ function main(initialState, view, opts) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],91:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -18248,7 +18660,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":24,"trim":102}],92:[function(require,module,exports){
+},{"for-each":24,"trim":104}],94:[function(require,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.6.3
 (function() {
@@ -18288,14 +18700,14 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
-},{"_process":94}],93:[function(require,module,exports){
+},{"_process":96}],95:[function(require,module,exports){
 function identity(x) { return x; }
 
 module.exports = identity;
 module.exports.dash = identity;
 module.exports.dash = identity;
 
-},{}],94:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -18388,7 +18800,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],95:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 var now = require('performance-now')
   , global = typeof window === 'undefined' ? {} : window
   , vendors = ['moz', 'webkit']
@@ -18470,7 +18882,7 @@ module.exports.cancel = function() {
   caf.apply(global, arguments)
 }
 
-},{"performance-now":92}],96:[function(require,module,exports){
+},{"performance-now":94}],98:[function(require,module,exports){
 (function (process){
 module.exports = function (tasks, cb) {
   var results, pending, keys
@@ -18520,7 +18932,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-},{"_process":94}],97:[function(require,module,exports){
+},{"_process":96}],99:[function(require,module,exports){
 'use strict';
 
 var bindAll = require('lodash.bindall');
@@ -18883,15 +19295,15 @@ SimpleColorPicker.prototype._onHueMouseUp = function() {
 
 module.exports = SimpleColorPicker;
 
-},{"./src/utils/maths/clamp":99,"component-emitter":8,"dom-transform":15,"is-number":33,"lodash.bindall":52,"tinycolor2":101}],98:[function(require,module,exports){
+},{"./src/utils/maths/clamp":101,"component-emitter":8,"dom-transform":15,"is-number":33,"lodash.bindall":52,"tinycolor2":103}],100:[function(require,module,exports){
 var css = ".Scp {\n  width: 175px;\n  height: 150px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  position: relative;\n}\n.Scp-saturation {\n  position: relative;\n  width: calc(100% - 25px);\n  height: 100%;\n  background: linear-gradient(to right, #fff 0%, #f00 100%);\n  float: left;\n  margin-right: 5px;\n}\n.Scp-brightness {\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(to top, #000 0%, rgba(255,255,255,0) 100%);\n}\n.Scp-sbSelector {\n  border: 2px solid;\n  border-color: #fff;\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: #fff;\n  border-radius: 10px;\n  top: -7px;\n  left: -7px;\n  box-sizing: border-box;\n  z-index: 10;\n}\n.Scp-hue {\n  width: 20px;\n  height: 100%;\n  position: relative;\n  float: left;\n  background: linear-gradient(to bottom, #f00 0%, #f0f 17%, #00f 34%, #0ff 50%, #0f0 67%, #ff0 84%, #f00 100%);\n}\n.Scp-hSelector {\n  position: absolute;\n  background: #fff;\n  border-bottom: 1px solid #000;\n  right: -3px;\n  width: 10px;\n  height: 2px;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/simple-color-picker/simple-color-picker.css"})); module.exports = css;
-},{"browserify-css":5}],99:[function(require,module,exports){
+},{"browserify-css":5}],101:[function(require,module,exports){
 'use strict';
 
 module.exports = function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 };
-},{}],100:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 var nargs = /\{([0-9a-zA-Z]+)\}/g
 var slice = Array.prototype.slice
 
@@ -18927,7 +19339,7 @@ function template(string) {
     })
 }
 
-},{}],101:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 // TinyColor v1.3.0
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
@@ -20095,7 +20507,7 @@ else {
 
 })();
 
-},{}],102:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -20111,7 +20523,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],103:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -20377,7 +20789,7 @@ var attrBlacklist =
 module.exports.attrBlacklist = {
   'class': 'className'
 }
-},{"./vcomment":104,"virtual-dom/vnode/vnode":126,"virtual-dom/vnode/vtext":128}],104:[function(require,module,exports){
+},{"./vcomment":106,"virtual-dom/vnode/vnode":128,"virtual-dom/vnode/vtext":130}],106:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -20395,27 +20807,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],105:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":110}],106:[function(require,module,exports){
+},{"./vdom/create-element.js":112}],108:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":130}],107:[function(require,module,exports){
+},{"./vtree/diff.js":132}],109:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":117}],108:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":119}],110:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":113}],109:[function(require,module,exports){
+},{"./vdom/patch.js":115}],111:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -20514,7 +20926,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":121,"is-object":34}],110:[function(require,module,exports){
+},{"../vnode/is-vhook.js":123,"is-object":34}],112:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -20562,7 +20974,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":119,"../vnode/is-vnode.js":122,"../vnode/is-vtext.js":123,"../vnode/is-widget.js":124,"./apply-properties":109,"global/document":25}],111:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":121,"../vnode/is-vnode.js":124,"../vnode/is-vtext.js":125,"../vnode/is-widget.js":126,"./apply-properties":111,"global/document":25}],113:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -20649,7 +21061,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],112:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -20802,7 +21214,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":124,"../vnode/vpatch.js":127,"./apply-properties":109,"./update-widget":114}],113:[function(require,module,exports){
+},{"../vnode/is-widget.js":126,"../vnode/vpatch.js":129,"./apply-properties":111,"./update-widget":116}],115:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -20884,7 +21296,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":110,"./dom-index":111,"./patch-op":112,"global/document":25,"x-is-array":133}],114:[function(require,module,exports){
+},{"./create-element":112,"./dom-index":113,"./patch-op":114,"global/document":25,"x-is-array":135}],116:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -20901,7 +21313,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":124}],115:[function(require,module,exports){
+},{"../vnode/is-widget.js":126}],117:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -20930,7 +21342,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":20}],116:[function(require,module,exports){
+},{"ev-store":20}],118:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -20949,7 +21361,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],117:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -21088,7 +21500,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":120,"../vnode/is-vhook":121,"../vnode/is-vnode":122,"../vnode/is-vtext":123,"../vnode/is-widget":124,"../vnode/vnode.js":126,"../vnode/vtext.js":128,"./hooks/ev-hook.js":115,"./hooks/soft-set-hook.js":116,"./parse-tag.js":118,"x-is-array":133}],118:[function(require,module,exports){
+},{"../vnode/is-thunk":122,"../vnode/is-vhook":123,"../vnode/is-vnode":124,"../vnode/is-vtext":125,"../vnode/is-widget":126,"../vnode/vnode.js":128,"../vnode/vtext.js":130,"./hooks/ev-hook.js":117,"./hooks/soft-set-hook.js":118,"./parse-tag.js":120,"x-is-array":135}],120:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -21144,7 +21556,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":4}],119:[function(require,module,exports){
+},{"browser-split":4}],121:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -21186,14 +21598,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":120,"./is-vnode":122,"./is-vtext":123,"./is-widget":124}],120:[function(require,module,exports){
+},{"./is-thunk":122,"./is-vnode":124,"./is-vtext":125,"./is-widget":126}],122:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],121:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -21202,7 +21614,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],122:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -21211,7 +21623,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":125}],123:[function(require,module,exports){
+},{"./version":127}],125:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -21220,17 +21632,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":125}],124:[function(require,module,exports){
+},{"./version":127}],126:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],125:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 module.exports = "2"
 
-},{}],126:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -21304,7 +21716,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":120,"./is-vhook":121,"./is-vnode":122,"./is-widget":124,"./version":125}],127:[function(require,module,exports){
+},{"./is-thunk":122,"./is-vhook":123,"./is-vnode":124,"./is-widget":126,"./version":127}],129:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -21328,7 +21740,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":125}],128:[function(require,module,exports){
+},{"./version":127}],130:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -21340,7 +21752,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":125}],129:[function(require,module,exports){
+},{"./version":127}],131:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -21400,7 +21812,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":121,"is-object":34}],130:[function(require,module,exports){
+},{"../vnode/is-vhook":123,"is-object":34}],132:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -21829,7 +22241,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":119,"../vnode/is-thunk":120,"../vnode/is-vnode":122,"../vnode/is-vtext":123,"../vnode/is-widget":124,"../vnode/vpatch":127,"./diff-props":129,"x-is-array":133}],131:[function(require,module,exports){
+},{"../vnode/handle-thunk":121,"../vnode/is-thunk":122,"../vnode/is-vnode":124,"../vnode/is-vtext":125,"../vnode/is-widget":126,"../vnode/vpatch":129,"./diff-props":131,"x-is-array":135}],133:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -21850,7 +22262,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":132}],132:[function(require,module,exports){
+},{"./hidden-store.js":134}],134:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -21868,7 +22280,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],133:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -21878,7 +22290,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],134:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var once = require("once")
@@ -22099,7 +22511,7 @@ function _createXHR(options) {
 
 function noop() {}
 
-},{"global/window":26,"is-function":32,"once":135,"parse-headers":91,"xtend":136}],135:[function(require,module,exports){
+},{"global/window":26,"is-function":32,"once":137,"parse-headers":93,"xtend":138}],137:[function(require,module,exports){
 module.exports = once
 
 once.proto = once(function () {
@@ -22120,7 +22532,7 @@ function once (fn) {
   }
 }
 
-},{}],136:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -22141,7 +22553,7 @@ function extend() {
     return target
 }
 
-},{}],137:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -22160,9 +22572,9 @@ function extend(target) {
     return target
 }
 
-},{}],138:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  box-sizing: inherit;\n}\n.ec {\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  line-height: 1.5;\n  background: #f5f5f5;\n  float: left;\n  width: 100%;\n  /*!*\n *\n * @csswizardry -- csswizardry.com/beautons\n *\n */\n}\n.ec .table {\n  width: 100%;\n}\n.ec .table [contenteditable=\"true\"]:active,\n.ec .table [contenteditable=\"true\"]:focus {\n  border: none;\n  outline: none;\n  background: #f5f5f5;\n}\n.ec .table th,\n.ec .table td {\n  padding: 0.375em;\n  text-align: left;\n}\n@media screen and (min-width: 480px) {\n  .ec .table th,\n  .ec .table td {\n    padding: 0.75em;\n  }\n}\n.ec [colspan] {\n  text-align: center;\n}\n.ec [colspan=\"1\"] {\n  text-align: left;\n}\n.ec [rowspan] {\n  vertical-align: middle;\n}\n.ec [rowspan=\"1\"] {\n  vertical-align: top;\n}\n.ec .numerical {\n  text-align: right;\n}\n.ec .t5 {\n  width: 5%;\n}\n.ec .t10 {\n  width: 10%;\n}\n.ec .t12 {\n  width: 12.5%;\n}\n.ec .t15 {\n  width: 15%;\n}\n.ec .t20 {\n  width: 20%;\n}\n.ec .t25 {\n  width: 25%;\n}\n.ec .t30 {\n  width: 30%;\n}\n.ec .t33 {\n  width: 33.333%;\n}\n.ec .t35 {\n  width: 35%;\n}\n.ec .t37 {\n  width: 37.5%;\n}\n.ec .t40 {\n  width: 40%;\n}\n.ec .t45 {\n  width: 45%;\n}\n.ec .t50 {\n  width: 50%;\n}\n.ec .t55 {\n  width: 55%;\n}\n.ec .t60 {\n  width: 60%;\n}\n.ec .t62 {\n  width: 62.5%;\n}\n.ec .t65 {\n  width: 65%;\n}\n.ec .t66 {\n  width: 66.666%;\n}\n.ec .t70 {\n  width: 70%;\n}\n.ec .t75 {\n  width: 75%;\n}\n.ec .t80 {\n  width: 80%;\n}\n.ec .t85 {\n  width: 85%;\n}\n.ec .t87 {\n  width: 87.5%;\n}\n.ec .t90 {\n  width: 90%;\n}\n.ec .t95 {\n  width: 95%;\n}\n.ec .table--bordered {\n  border-collapse: collapse;\n}\n.ec .table--bordered tr {\n  border: 1px solid #DDD;\n}\n.ec .table--bordered th,\n.ec .table--bordered td {\n  border-right: 1px solid #DDD;\n}\n.ec .table--bordered thead tr:last-child th {\n  border-bottom-width: 2px;\n}\n.ec .table--bordered tbody tr th:last-of-type {\n  border-right-width: 2px;\n}\n.ec .table--striped tbody tr:nth-of-type(odd) {\n  background-color: #ffc;\n}\n.ec .table--data {\n  font: 12px/1.5 sans-serif;\n}\n.ec .table--disabled {\n  color: #777;\n  border-color: #777;\n}\n.ec fieldset {\n  background-color: #f5f5f5;\n  border: 1px solid #DDD;\n  margin: 0 0 0.75em;\n  padding: 1.5em;\n}\n.ec input,\n.ec label,\n.ec select {\n  display: block;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n}\n.ec label {\n  font-weight: 600;\n}\n.ec label.required::after {\n  content: \"*\";\n}\n.ec label abbr {\n  display: none;\n}\n.ec input[type=\"color\"],\n.ec input[type=\"date\"],\n.ec input[type=\"datetime\"],\n.ec input[type=\"datetime-local\"],\n.ec input[type=\"email\"],\n.ec input[type=\"month\"],\n.ec input[type=\"number\"],\n.ec input[type=\"password\"],\n.ec input[type=\"search\"],\n.ec input[type=\"tel\"],\n.ec input[type=\"text\"],\n.ec input[type=\"time\"],\n.ec input[type=\"url\"],\n.ec input[type=\"week\"],\n.ec textarea,\n.ec select {\n  background-color: #fff;\n  border: 1px solid #bfbfbf;\n  border-radius: 3px;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);\n  box-sizing: border-box;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  padding: 0.375em;\n  transition: border-color 0.2s ease-in;\n  max-width: 100%;\n}\n.ec input[type=\"color\"]:hover,\n.ec input[type=\"date\"]:hover,\n.ec input[type=\"datetime\"]:hover,\n.ec input[type=\"datetime-local\"]:hover,\n.ec input[type=\"email\"]:hover,\n.ec input[type=\"month\"]:hover,\n.ec input[type=\"number\"]:hover,\n.ec input[type=\"password\"]:hover,\n.ec input[type=\"search\"]:hover,\n.ec input[type=\"tel\"]:hover,\n.ec input[type=\"text\"]:hover,\n.ec input[type=\"time\"]:hover,\n.ec input[type=\"url\"]:hover,\n.ec input[type=\"week\"]:hover,\n.ec textarea:hover,\n.ec select:hover {\n  border-color: #b1b1b1;\n}\n.ec input[type=\"color\"]:focus,\n.ec input[type=\"date\"]:focus,\n.ec input[type=\"datetime\"]:focus,\n.ec input[type=\"datetime-local\"]:focus,\n.ec input[type=\"email\"]:focus,\n.ec input[type=\"month\"]:focus,\n.ec input[type=\"number\"]:focus,\n.ec input[type=\"password\"]:focus,\n.ec input[type=\"search\"]:focus,\n.ec input[type=\"tel\"]:focus,\n.ec input[type=\"text\"]:focus,\n.ec input[type=\"time\"]:focus,\n.ec input[type=\"url\"]:focus,\n.ec input[type=\"week\"]:focus,\n.ec textarea:focus,\n.ec select:focus {\n  border-color: #477dca;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06),0 0 5px rgba(55,112,192,0.7);\n  outline: none;\n}\n.ec input[type=\"color\"]:disabled,\n.ec input[type=\"date\"]:disabled,\n.ec input[type=\"datetime\"]:disabled,\n.ec input[type=\"datetime-local\"]:disabled,\n.ec input[type=\"email\"]:disabled,\n.ec input[type=\"month\"]:disabled,\n.ec input[type=\"number\"]:disabled,\n.ec input[type=\"password\"]:disabled,\n.ec input[type=\"search\"]:disabled,\n.ec input[type=\"tel\"]:disabled,\n.ec input[type=\"text\"]:disabled,\n.ec input[type=\"time\"]:disabled,\n.ec input[type=\"url\"]:disabled,\n.ec input[type=\"week\"]:disabled,\n.ec textarea:disabled,\n.ec select:disabled {\n  background-color: #f2f2f2;\n  cursor: not-allowed;\n}\n.ec input[type=\"color\"]:disabled:hover,\n.ec input[type=\"date\"]:disabled:hover,\n.ec input[type=\"datetime\"]:disabled:hover,\n.ec input[type=\"datetime-local\"]:disabled:hover,\n.ec input[type=\"email\"]:disabled:hover,\n.ec input[type=\"month\"]:disabled:hover,\n.ec input[type=\"number\"]:disabled:hover,\n.ec input[type=\"password\"]:disabled:hover,\n.ec input[type=\"search\"]:disabled:hover,\n.ec input[type=\"tel\"]:disabled:hover,\n.ec input[type=\"text\"]:disabled:hover,\n.ec input[type=\"time\"]:disabled:hover,\n.ec input[type=\"url\"]:disabled:hover,\n.ec input[type=\"week\"]:disabled:hover,\n.ec textarea:disabled:hover,\n.ec select:disabled:hover {\n  border: 1px solid #DDD;\n}\n.ec textarea {\n  width: 100%;\n  resize: vertical;\n}\n.ec input[type=\"search\"] {\n  appearance: none;\n}\n.ec input[type=\"checkbox\"],\n.ec input[type=\"radio\"] {\n  display: inline;\n  margin-right: 0.375em;\n}\n.ec input[type=\"checkbox\"]+label,\n.ec input[type=\"radio\"]+label {\n  display: inline-block;\n}\n.ec input[type=\"file\"] {\n  width: 100%;\n}\n.ec select {\n  max-width: 100%;\n  width: auto;\n}\n.ec .form-item {\n  width: 100%;\n  color: #333;\n  margin-bottom: 0.75em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n.ec .form-item__input {\n  width: 100%;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__input {\n    width: 60%;\n  }\n}\n.ec .form-item__label {\n  width: 100%;\n  padding-bottom: 0.75em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__label {\n    padding: 0;\n    width: 40%;\n    text-align: right;\n    margin-right: 1.5em;\n  }\n}\n.ec .field-group {\n  padding: 0.375em 0 0.75em 0;\n}\n.ec .field-group__title {\n  padding-bottom: 0.75em;\n}\n.ec h1 {\n  margin: 0;\n  padding: 0;\n  font-size: 28px;\n}\n.ec h2 {\n  margin: 0;\n  padding: 0;\n  font-size: 24.5px;\n}\n.ec h3 {\n  margin: 0;\n  padding: 0;\n  font-size: 21px;\n}\n.ec h4 {\n  margin: 0;\n  padding: 0;\n  font-size: 17.5px;\n}\n.ec h5 {\n  margin: 0;\n  padding: 0;\n  font-size: 15.75px;\n}\n.ec h6 {\n  margin: 0;\n  padding: 0;\n  font-size: 14px;\n}\n.ec .vertical-tabs-container {\n  margin-bottom: 1.5em;\n  overflow: hidden;\n  display: flex;\n}\n.ec .vertical-tabs-container::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .vertical-tabs-container .vertical-tabs {\n  padding: 0;\n  margin: 0;\n  display: inline;\n  float: left;\n  width: 20%;\n  list-style: none;\n  border-right: 1px solid #DDD;\n}\n.ec .vertical-tabs-container li.active {\n  background-color: white;\n  margin-right: -1px;\n  border: 1px solid #DDD;\n  border-right-color: white;\n}\n.ec .vertical-tabs-container li.active .sub-active {\n  color: #477dca;\n}\n.ec .vertical-tabs-container li.active .sub-non-active {\n  color: #333;\n}\n.ec .vertical-tabs-container li a {\n  padding: 0.75em 0.809em;\n  text-decoration: none;\n  color: inherit;\n  display: block;\n}\n.ec .vertical-tabs-container li ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.ec .vertical-tabs-container li ul li {\n  padding-bottom: 5px;\n  padding-left: 20px;\n}\n.ec .vertical-tabs-container .vertical-tab:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container {\n  border: 1px solid #DDD;\n  border-left: none;\n  display: inline-block;\n  width: 80%;\n  background-color: white;\n  margin: 0 auto;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container a:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content {\n  display: inline-block;\n  background-color: white;\n  padding: 1.5em 0.809em;\n  border: none;\n  width: 100%;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading {\n  border-top: 1px solid #DDD;\n  cursor: pointer;\n  display: block;\n  font-weight: bold;\n  padding: 0.75em 0.809em;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:hover {\n  color: #477dca;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:first-child {\n  border-top: none;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading.active {\n  background: white;\n  border-bottom: none;\n}\n.ec .accordion-tabs-minimal {\n  margin: 0 0.75em;\n  line-height: 1.5;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .accordion-tabs-minimal ul.tab-list {\n  margin: 0;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal li.tab-header-and-content {\n  list-style: none;\n  display: inline;\n}\n.ec .accordion-tabs-minimal .tab-link {\n  border-top: 1px solid #DDD;\n  display: inline-block;\n  border-top: 0;\n}\n.ec .accordion-tabs-minimal .tab-link a {\n  text-decoration: none;\n  display: block;\n  padding: 0.75em 1.618em;\n}\n.ec .accordion-tabs-minimal .tab-link a:hover {\n  color: #2c5999;\n}\n.ec .accordion-tabs-minimal .tab-link a:focus {\n  outline: none;\n}\n.ec .accordion-tabs-minimal .tab-link a.is-active {\n  border: 1px solid #DDD;\n  border-bottom-color: white;\n  background: white;\n  margin-bottom: -1px;\n  color: #477dca;\n}\n.ec .accordion-tabs-minimal .tab-content {\n  border: 1px solid #DDD;\n  padding: 1.5em 1.618em;\n  width: 100%;\n  float: left;\n  background: white;\n  min-height: 250px;\n}\n.ec .btn {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n  font-family: inherit;\n  font-size: 100%;\n  cursor: pointer;\n  border: none;\n  margin: 0;\n  padding-top: 0;\n  padding-bottom: 0;\n  line-height: 3;\n  padding-right: 1em;\n  padding-left: 1em;\n  border-radius: 3px;\n  background: #477dca;\n  color: white;\n}\n.ec .btn,\n.ec .btn:hover {\n  text-decoration: none;\n  background: #2c5999;\n}\n.ec .btn:active,\n.ec .btn:focus {\n  outline: none;\n}\n.ec .btn--small {\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n  line-height: 2;\n}\n.ec .btn--large {\n  padding-right: 1.5em;\n  padding-left: 1.5em;\n  line-height: 4;\n}\n.ec .btn--huge {\n  padding-right: 2em;\n  padding-left: 2em;\n  line-height: 5;\n}\n.ec .btn--full {\n  width: 100%;\n  padding-right: 0;\n  padding-left: 0;\n  text-align: center;\n}\n.ec .btn--alpha {\n  font-size: 3rem;\n}\n.ec .btn--beta {\n  font-size: 2rem;\n}\n.ec .btn--gamma {\n  font-size: 1rem;\n}\n.ec .btn--natural {\n  vertical-align: baseline;\n  font-size: inherit;\n  line-height: inherit;\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n}\n.ec .btn--positive {\n  background-color: #4A993E;\n  color: #fff;\n}\n.ec .btn--negative {\n  background-color: #b33630;\n  color: #fff;\n}\n.ec .btn--inactive,\n.ec .btn--inactive:hover,\n.ec .btn--inactive:active,\n.ec .btn--inactive:focus {\n  background-color: #ddd;\n  color: #777;\n  cursor: text;\n}\n.ec .btn--soft {\n  border-radius: 200px;\n}\n.ec .btn--hard {\n  border-radius: 0;\n}\n@media screen and (min-width: 800px) {\n  .ec .left {\n    width: 49%;\n    margin-right: 2%;\n    float: left;\n  }\n}\n@media screen and (min-width: 800px) {\n  .ec .right {\n    width: 49%;\n    float: left;\n  }\n}\n.ec .navigation {\n  padding: 0;\n  margin: 0;\n  display: block;\n}\n.ec .navigation__item {\n  margin: 20px 10px 20px 10px;\n  padding-bottom: 10px;\n  cursor: pointer;\n  display: inline-block;\n}\n.ec .navigation--steps .ec .navigation__item {\n  border-bottom: 5px solid;\n}\n.ec .float--right {\n  float: right !important;\n}\n.ec .float--left {\n  float: left !important;\n}\n.ec .float--none {\n  float: none !important;\n}\n.ec .text--left {\n  text-align: left  !important;\n}\n.ec .text--center {\n  text-align: center !important;\n}\n.ec .text--right {\n  text-align: right !important;\n}\n.ec .weight--light {\n  font-weight: 300 !important;\n}\n.ec .weight--normal {\n  font-weight: 400 !important;\n}\n.ec .weight--semibold {\n  font-weight: 600 !important;\n}\n.ec .push {\n  margin: 1.5em !important;\n}\n.ec .push--top {\n  margin-top: 1.5em !important;\n}\n.ec .push--right {\n  margin-right: 1.5em !important;\n}\n.ec .push--bottom {\n  margin-bottom: 1.5em !important;\n}\n.ec .push--left {\n  margin-left: 1.5em !important;\n}\n.ec .push--ends {\n  margin-top: 1.5em !important;\n  margin-bottom: 1.5em !important;\n}\n.ec .push--sides {\n  margin-right: 1.5em !important;\n  margin-left: 1.5em !important;\n}\n.ec .push-half {\n  margin: 0.75em !important;\n}\n.ec .push-half--top {\n  margin-top: 0.75em !important;\n}\n.ec .push-half--right {\n  margin-right: 0.75em !important;\n}\n.ec .push-half--bottom {\n  margin-bottom: 0.75em !important;\n}\n.ec .push-half--left {\n  margin-left: 0.75em !important;\n}\n.ec .push-half--ends {\n  margin-top: 0.75em !important;\n  margin-bottom: 0.75em !important;\n}\n.ec .push-half--sides {\n  margin-right: 0.75em !important;\n  margin-left: 0.75em !important;\n}\n.ec .flush {\n  margin: 0 !important;\n}\n.ec .flush--top {\n  margin-top: 0 !important;\n}\n.ec .flush--right {\n  margin-right: 0 !important;\n}\n.ec .flush--bottom {\n  margin-bottom: 0 !important;\n}\n.ec .flush--left {\n  margin-left: 0 !important;\n}\n.ec .flush--ends {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n}\n.ec .flush--sides {\n  margin-right: 0 !important;\n  margin-left: 0 !important;\n}\n.ec .soft {\n  padding: 1.5em !important;\n}\n.ec .soft--top {\n  padding-top: 1.5em !important;\n}\n.ec .soft--right {\n  padding-right: 1.5em !important;\n}\n.ec .soft--bottom {\n  padding-bottom: 1.5em !important;\n}\n.ec .soft--left {\n  padding-left: 1.5em !important;\n}\n.ec .soft--ends {\n  padding-top: 1.5em !important;\n  padding-bottom: 1.5em !important;\n}\n.ec .soft--sides {\n  padding-right: 1.5em !important;\n  padding-left: 1.5em !important;\n}\n.ec .soft-half {\n  padding: 0.75em !important;\n}\n.ec .soft-half--top {\n  padding-top: 0.75em !important;\n}\n.ec .soft-half--right {\n  padding-right: 0.75em !important;\n}\n.ec .soft-half--bottom {\n  padding-bottom: 0.75em !important;\n}\n.ec .soft-half--left {\n  padding-left: 0.75em !important;\n}\n.ec .soft-half--ends {\n  padding-top: 0.75em !important;\n  padding-bottom: 0.75em !important;\n}\n.ec .soft-half--sides {\n  padding-right: 0.75em !important;\n  padding-left: 0.75em !important;\n}\n.ec .hard {\n  padding: 0 !important;\n}\n.ec .hard--top {\n  padding-top: 0 !important;\n}\n.ec .hard--right {\n  padding-right: 0 !important;\n}\n.ec .hard--bottom {\n  padding-bottom: 0 !important;\n}\n.ec .hard--left {\n  padding-left: 0 !important;\n}\n.ec .hard--ends {\n  padding-top: 0 !important;\n  padding-bottom: 0 !important;\n}\n.ec .hard--sides {\n  padding-right: 0 !important;\n  padding-left: 0 !important;\n}\n.ec .full-bleed {\n  margin-right: -1.5em !important;\n  margin-left: -1.5em !important;\n}\n.islet .ec .full-bleed {\n  margin-right: -0.75em !important;\n  margin-left: -0.75em !important;\n}\n.ec .loader,\n.ec .loader:before,\n.ec .loader:after {\n  border-radius: 50%;\n}\n.ec .loader:before,\n.ec .loader:after {\n  position: absolute;\n  content: '';\n}\n.ec .loader:before {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 10.2em 0 0 10.2em;\n  top: -0.1em;\n  left: -0.1em;\n  -webkit-transform-origin: 5.2em 5.1em;\n  transform-origin: 5.2em 5.1em;\n  -webkit-animation: load2 2s infinite ease 1.5s;\n  animation: load2 2s infinite ease 1.5s;\n}\n.ec .loader {\n  font-size: 11px;\n  text-indent: -99999em;\n  margin: 55px auto;\n  position: relative;\n  width: 10em;\n  height: 10em;\n  box-shadow: inset 0 0 0 1em #ffffff;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n}\n.ec .loader:after {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 0 10.2em 10.2em 0;\n  top: -0.1em;\n  left: 5.1em;\n  -webkit-transform-origin: 0px 5.1em;\n  transform-origin: 0px 5.1em;\n  -webkit-animation: load2 2s infinite ease;\n  animation: load2 2s infinite ease;\n}\n@-webkit-keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n.ec .templatelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .templatelist__item {\n  float: left;\n  width: 33%;\n  padding: 0.375em;\n  margin: 2px;\n  width: 110px;\n  font-size: .8em;\n  text-align: center;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in 0.2s,border-color ease-in 0.2s;\n  position: relative;\n  overflow: hidden;\n  color: #333333;\n}\n.ec .templatelist__item svg {\n  max-height: 80px;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item div {\n  transition: bottom ease-in 0.2s;\n  padding-top: 2px;\n  position: absolute;\n  bottom: -40px;\n  left: 0.375em;\n  height: 26px;\n  width: 100px;\n  background: #f5f5f5;\n}\n.ec .templatelist__item:hover {\n  background: #f5f5f5;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item:hover div {\n  bottom: 0.375em;\n}\n.ec a,\n.ec .hover {\n  color: #477dca;\n  cursor: pointer;\n}\n.ec .active {\n  color: #477dca;\n}\n.ec .container {\n  clear: both;\n}\n.ec .Scp {\n  position: absolute;\n  margin-top: 5px;\n  width: 200px;\n  height: 150px;\n  border: 1px solid #DDD;\n  border-radius: 3px;\n}\n.ec .header {\n  margin-bottom: 20px;\n  background-color: #333;\n  width: 100%;\n  display: inline-block;\n}\n.ec .header .logo {\n  float: right;\n  text-align: right;\n  padding: 7px 1em;\n  height: 64px;\n}\n.ec .header .logo svg {\n  height: 50px;\n}\n.ec .header .navigation {\n  margin-left: 20px;\n  margin-top: 22px;\n  float: left;\n}\n.ec .header .navigation .tab-link a {\n  text-decoration: none;\n  color: white;\n}\n.ec .header .navigation .tab-link.is-active {\n  background: #f5f5f5;\n  border: none;\n}\n.ec .header .navigation .tab-link.is-active a {\n  color: #477dca;\n}\n.ec .header:after {\n  clear: both;\n}\n.ec .revisionElement {\n  margin-top: 20px;\n  border: 1px solid #DDD;\n  background: white;\n  padding: 20px;\n  display: block;\n  float: left;\n  width: 100%;\n}\n.ec .objectArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .objectArray .title {\n  width: 100%;\n  float: left;\n  padding: 7.5px 10px;\n  background: #f5f5f5;\n}\n.ec .objectArray .title h4,\n.ec .objectArray .title h5 {\n  float: left;\n}\n.ec .objectArray .title .btn {\n  float: right;\n}\n.ec .objectArray .list {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item .title {\n  border-bottom: 1px solid #DDD;\n  border-top: 1px solid #DDD;\n}\n.ec .objectArray .list .item .options {\n  float: left;\n  width: 100%;\n  padding-top: 20px;\n}\n.ec .readOnlyBox {\n  border: 1px solid #DDD;\n  background: white;\n  padding: 10px 20px;\n  display: block;\n  margin-bottom: 10px;\n}\n.ec .titleBar {\n  display: inline-block;\n  width: 100%;\n  padding-bottom: 20px;\n}\n.ec .titleBar h3 {\n  float: left;\n}\n.ec .titleBar .btn {\n  margin-left: 10px;\n  float: right;\n}\n.ec .file_drop {\n  padding: 50px;\n  background: #DDD;\n}\n"; (require("browserify-css").createStyle(css, { "href": "src/css/style.css"})); module.exports = css;
-},{"browserify-css":5}],139:[function(require,module,exports){
+},{"browserify-css":5}],141:[function(require,module,exports){
 (function () {
     var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
@@ -22262,7 +22674,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
 
     window.ec = constructor;
 })();
-},{"../css/style.css":138,"./components/configure.js":141,"./components/debug.js":145,"./components/import.js":147,"./components/templateSelection.js":154,"./services/api":168,"./services/config":169,"./services/data":170,"./services/initializer":171,"./services/options":172,"./services/revision":173,"./services/router.js":174,"./services/templates":175,"dom-delegator":12,"mediatorjs":89,"virtual-dom/h":107}],140:[function(require,module,exports){
+},{"../css/style.css":140,"./components/configure.js":143,"./components/debug.js":147,"./components/import.js":149,"./components/templateSelection.js":156,"./services/api":171,"./services/config":172,"./services/data":173,"./services/initializer":174,"./services/options":175,"./services/revision":176,"./services/router.js":177,"./services/templates":178,"dom-delegator":12,"mediatorjs":91,"virtual-dom/h":109}],142:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -22283,7 +22695,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
 
     module.exports = that;
 })();
-},{}],141:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var optionsService = services.options;
@@ -22373,7 +22785,7 @@ var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  b
 
     module.exports = constructor;
 })();
-},{"./configure/axisTabs":142,"./configure/genericTabs":143,"./configure/seriesTabs":144,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":107}],142:[function(require,module,exports){
+},{"./configure/axisTabs":144,"./configure/genericTabs":145,"./configure/seriesTabs":146,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":79,"virtual-dom/h":109}],144:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22582,7 +22994,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":158,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"lodash.trim":86,"virtual-dom/h":107}],143:[function(require,module,exports){
+},{"../../factories/properties":160,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":79,"lodash.trim":88,"virtual-dom/h":109}],145:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22658,7 +23070,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":158,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":107}],144:[function(require,module,exports){
+},{"../../factories/properties":160,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":79,"virtual-dom/h":109}],146:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -22757,7 +23169,7 @@ function constructor (services){
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":158,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":76,"lodash.remove":78,"virtual-dom/h":107}],145:[function(require,module,exports){
+},{"../../factories/properties":160,"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isundefined":72,"lodash.map":77,"lodash.remove":79,"virtual-dom/h":109}],147:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -22786,7 +23198,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../../../node_modules/highlight.js/lib/highlight":27,"../../../node_modules/highlight.js/lib/languages/json":28,"../../../node_modules/highlight.js/styles/monokai.css":29,"virtual-dom/h":107}],146:[function(require,module,exports){
+},{"../../../node_modules/highlight.js/lib/highlight":27,"../../../node_modules/highlight.js/lib/languages/json":28,"../../../node_modules/highlight.js/styles/monokai.css":29,"virtual-dom/h":109}],148:[function(require,module,exports){
 (function () {
     //var _ = require('lodash');
 
@@ -22903,7 +23315,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"virtual-dom/create-element":105,"virtual-dom/h":107}],147:[function(require,module,exports){
+},{"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"virtual-dom/create-element":107,"virtual-dom/h":109}],149:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -23013,7 +23425,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./hot":146,"./import/dragAndDrop":148,"./import/paste":149,"./import/upload":150,"./import/url":151,"./table":153,"virtual-dom/h":107}],148:[function(require,module,exports){
+},{"./hot":148,"./import/dragAndDrop":150,"./import/paste":151,"./import/upload":152,"./import/url":153,"./table":155,"virtual-dom/h":109}],150:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -23063,7 +23475,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"drag-drop":18,"virtual-dom/h":107}],149:[function(require,module,exports){
+},{"drag-drop":18,"virtual-dom/h":109}],151:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -23099,7 +23511,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":107}],150:[function(require,module,exports){
+},{"virtual-dom/h":109}],152:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var that = {};
@@ -23143,7 +23555,7 @@ module.exports = constructor;
 
     module.exports = that;
 })();
-},{"virtual-dom/h":107}],151:[function(require,module,exports){
+},{"virtual-dom/h":109}],153:[function(require,module,exports){
 (function () {
     var that = {};
     var h = require('virtual-dom/h');
@@ -23184,7 +23596,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":107}],152:[function(require,module,exports){
+},{"virtual-dom/h":109}],154:[function(require,module,exports){
 var constructor = function (mediator, list) {
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
@@ -23248,7 +23660,7 @@ module.exports = constructor;
 
 
 
-},{"virtual-dom/create-element":105,"virtual-dom/h":107}],153:[function(require,module,exports){
+},{"virtual-dom/create-element":107,"virtual-dom/h":109}],155:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -23319,7 +23731,7 @@ module.exports = constructor;
 
 
 
-},{"lodash.foreach":59,"lodash.isequal":66,"lodash.trim":86,"virtual-dom/h":107}],154:[function(require,module,exports){
+},{"lodash.foreach":59,"lodash.isequal":66,"lodash.trim":88,"virtual-dom/h":109}],156:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -23392,7 +23804,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":157,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"virtual-dom/h":107}],155:[function(require,module,exports){
+},{"../factories/iconLoader":159,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"virtual-dom/h":109}],157:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -23935,6 +24347,19 @@ module.exports=module.exports = [
                         "defaults": "Values",
                         "description": "The actual text of the axis title. Horizontal texts can contain HTML, \r but rotated texts are painted using vector techniques and must be \r clean text. The Y axis title is disabled by setting the <code>text</code>\r option to <code>null</code>.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/title-text/\" target=\"_blank\">Custom HTML</a> title for X axis",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "yAxis--stops",
+                        "fullname": "yAxis.stops",
+                        "title": "stops",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Array<Array>",
+                        "since": "4.0",
+                        "description": "<p>Solid gauge series only. Color stops for the solid gauge. Use this in cases where a linear gradient between a <code>minColor</code> and <code>maxColor</code> is not sufficient. The stops is an array of tuples, where the first item is a float between 0 and 1 assigning the relative position in the gradient, and the second item is the color.</p>\r\n\r\n<p>For solid gauges, the Y axis also inherits the concept of <a href=\"http://api.highcharts.com/highmaps#colorAxis.dataClasses\">data classes</a> from the Highmaps color axis.</p>\r\n",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/demo/gauge-solid/\" target=\"_blank\">True by default</a>",
+                        "seeAlso": "<a href=\"#yAxis.minColor\">minColor</a>, <a href=\"#yAxis.maxColor\">maxColor</a>.",
                         "deprecated": false
                     },
                     {
@@ -24548,7 +24973,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],156:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 module.exports=module.exports = [
   {
     "id": "line",
@@ -26216,16 +26641,15 @@ module.exports=module.exports = [
             "minorTickInterval": null,
             "tickPixelInterval": 400,
             "tickWidth": 0,
-            "title": {
-              "y": -70
-            },
+
             "labels": {
               "y": 16
             },
             "min": 0,
             "max": 200,
             "title": {
-              "text": 'Speed'
+              "text": 'Speed',
+              "y": -70
             }
           }],
 
@@ -26709,7 +27133,7 @@ module.exports=module.exports = [
     ]
   }
 ]
-},{}],157:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -26793,7 +27217,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":72,"vdom-virtualize":103}],158:[function(require,module,exports){
+},{"fs":6,"lodash.isundefined":72,"vdom-virtualize":105}],160:[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -26847,6 +27271,9 @@ return self})();
                 case returnType.toLowerCase() == 'array<object>':
                     element = require('./properties/arrayObject')(property, configService, configValue, that);
                     break;
+                case returnType.toLowerCase() == 'array<array>':
+                    element = require('./properties/arrayArray')(property, configService, configValue, that);
+                    break;
                 // array
                 case (returnType.lastIndexOf('Array', 0) === 0):
                     element = require('./properties/array')(property, configService, configValue, disabled);
@@ -26878,7 +27305,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":159,"./properties/arrayColor":160,"./properties/arrayObject":161,"./properties/boolean":162,"./properties/color":163,"./properties/number":164,"./properties/select":165,"./properties/string":166,"lodash.clonedeep":55,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isstring":71,"lodash.isundefined":72}],159:[function(require,module,exports){
+},{"./properties/array":161,"./properties/arrayArray":162,"./properties/arrayColor":163,"./properties/arrayObject":164,"./properties/boolean":165,"./properties/color":166,"./properties/number":167,"./properties/select":168,"./properties/string":169,"lodash.clonedeep":55,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isstring":71,"lodash.isundefined":72}],161:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -26929,7 +27356,100 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"virtual-dom/h":107}],160:[function(require,module,exports){
+},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":78,"virtual-dom/h":109}],162:[function(require,module,exports){
+(function () {
+    var h = require('virtual-dom/h');
+    var _ = {
+        isUndefined: require('lodash.isundefined'),
+        forEach: require('lodash.foreach'),
+        isEqual: require('lodash.isequal'),
+        merge: require('lodash.merge'),
+        cloneDeep: require('lodash.clonedeep'),
+        split: require('lodash.split'),
+        join: require('lodash.join')
+    };
+
+    function constructor(property, configService, configValue, propertyService) {
+        var list = [];
+
+
+        console.log(property);
+        console.log(configService.get());
+        console.log(configValue);
+
+
+        //var values = _.merge(_.cloneDeep(property.defaults), configValue, []);
+        var values = _.cloneDeep(configValue) || [];
+
+        _.forEach(configValue, function (value, index) {
+            console.log(configValue);
+            var optionsList = [];
+            var title = h('div.title', [h('h4', '' + (index + 1)), removeButton(property.fullname + '.' + index)]);
+            _.forEach(property.options, function (option) {
+                //var fullnamePartial = option.fullname.split(property.title);
+                //optionsList.push(propertyService.get(option, configService, property.fullname)[])
+                // console.log(option);
+                optionsList.push(_.join(option, ","));
+            });
+            list.push(h('div.item', [title,
+                h('input', {
+                        type: 'text',
+                        'ev-input': function (e) {
+                            values[index] = e.target.value != '' ? _.split(e.target.value, ",") : property.defaults[index];
+                            //console.log(values);
+                            /*if (e.target.value !== '') {
+                             //configService.setValue(property.fullname, e.target.value);
+                             } else {
+                             //configService.removeValue(property.fullname);
+                             }
+                             */
+                            configService.setValue(property.fullname, values);
+                        }
+                        , value: _.join(value, ",")
+                    }
+                )]))
+        });
+
+        function removeButton(name) {
+            return h('button.btn.btn--small', {
+                'ev-click': function (e) {
+                    //console.log(name);
+                    configService.removeValue(name);
+                    e.preventDefault();
+                }
+            }, 'remove')
+        }
+
+        function addButton(type, typeConfig, label) {
+            return h('button.btn.btn--small', {
+                'ev-click': function (e) {
+/*
+                     if (typeof typeConfig == 'undefined') {
+                     configService.setValue(type, []);
+                     configService.setValue(type + '.' + 0, []);
+                     } else {
+                     configService.setValue(type + '.' + typeConfig.length, []);
+                     }
+*/console.log(type);
+                    values.push([]);
+                    configService.setValue(type, values);
+                    //console.log(configService.get());
+                    e.preventDefault();
+                }
+            }, 'add ' + label)
+        }
+
+        return h('div.arrayArray', [
+            h('div.title', [h('h4', [property.title]), addButton(property.fullname, configValue, property.title)]),
+            h('div.list', list)
+        ]);
+    }
+
+    module.exports = constructor;
+
+})();
+
+},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.join":73,"lodash.merge":78,"lodash.split":85,"virtual-dom/h":109}],163:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
     var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -27017,7 +27537,7 @@ return self})();
     }
     module.exports = constructor;
 })();
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":98,"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.map":76,"lodash.merge":77,"lodash.tolower":84,"lodash.trim":86,"simple-color-picker":97,"virtual-dom/h":107}],161:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":100,"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.map":77,"lodash.merge":78,"lodash.tolower":86,"lodash.trim":88,"simple-color-picker":99,"virtual-dom/h":109}],164:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -27072,7 +27592,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":77,"virtual-dom/h":107}],162:[function(require,module,exports){
+},{"lodash.clonedeep":55,"lodash.foreach":59,"lodash.isequal":66,"lodash.isundefined":72,"lodash.merge":78,"virtual-dom/h":109}],165:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -27121,7 +27641,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":71,"lodash.isundefined":72,"virtual-dom/h":107}],163:[function(require,module,exports){
+},{"lodash.isstring":71,"lodash.isundefined":72,"virtual-dom/h":109}],166:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
     var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -27190,7 +27710,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":98,"lodash.tolower":84,"lodash.trim":86,"simple-color-picker":97,"virtual-dom/h":107}],164:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":100,"lodash.tolower":86,"lodash.trim":88,"simple-color-picker":99,"virtual-dom/h":109}],167:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -27222,7 +27742,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"virtual-dom/h":107}],165:[function(require,module,exports){
+},{"virtual-dom/h":109}],168:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -27273,7 +27793,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"lodash.foreach":59,"lodash.isundefined":72,"virtual-dom/h":107}],166:[function(require,module,exports){
+},{"lodash.foreach":59,"lodash.isundefined":72,"virtual-dom/h":109}],169:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -27305,7 +27825,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":107}],167:[function(require,module,exports){
+},{"virtual-dom/h":109}],170:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -27496,7 +28016,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":55,"lodash.drop":56,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isempty":65,"lodash.isundefined":72,"lodash.map":76,"lodash.merge":77,"lodash.remove":78,"lodash.size":81,"lodash.slice":83,"lodash.union":87}],168:[function(require,module,exports){
+},{"lodash.clonedeep":55,"lodash.drop":56,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isarray":64,"lodash.isempty":65,"lodash.isundefined":72,"lodash.map":77,"lodash.merge":78,"lodash.remove":79,"lodash.size":82,"lodash.slice":84,"lodash.union":89}],171:[function(require,module,exports){
 (function () {
     function constructor(services) {
         // data
@@ -27605,7 +28125,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{}],169:[function(require,module,exports){
+},{}],172:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -27743,6 +28263,7 @@ return self})();
             var temp = config;
             path = path.split('.');
             while (step = path.shift()) {
+                console.log(step);
                 if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
                         temp = temp[step];
@@ -27753,6 +28274,8 @@ return self})();
                             delete temp[step];
                         }
                     }
+                } else {
+                    console.log("BOEM");
                 }
             }
             configUpdate();
@@ -27828,7 +28351,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"../factories/series.js":167,"json-fn":35,"lodash.clonedeep":55,"lodash.find":57,"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"lodash.map":76,"lodash.merge":77}],170:[function(require,module,exports){
+},{"../factories/series.js":170,"json-fn":35,"lodash.clonedeep":55,"lodash.find":57,"lodash.foreach":59,"lodash.isempty":65,"lodash.isundefined":72,"lodash.map":77,"lodash.merge":78}],173:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -27953,7 +28476,7 @@ return self})();
 ();
 
 
-},{"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isequal":66,"lodash.isnan":69,"lodash.isundefined":72,"lodash.map":76,"lodash.slice":83,"papaparse":90,"xhr":134}],171:[function(require,module,exports){
+},{"lodash.clonedeep":55,"lodash.find":57,"lodash.first":58,"lodash.foreach":59,"lodash.isequal":66,"lodash.isnan":69,"lodash.isundefined":72,"lodash.map":77,"lodash.slice":84,"papaparse":92,"xhr":136}],174:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -27995,7 +28518,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":59}],172:[function(require,module,exports){
+},{"lodash.foreach":59}],175:[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -28043,7 +28566,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":155,"lodash.clonedeep":55,"xhr":134}],173:[function(require,module,exports){
+},{"../config/options.json":157,"lodash.clonedeep":55,"xhr":136}],176:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -28085,7 +28608,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":55}],174:[function(require,module,exports){
+},{"lodash.clonedeep":55}],177:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -28170,7 +28693,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":140,"./../components/revision":152,"./../templates/logo":176,"lodash.keys":73,"main-loop":88,"virtual-dom/create-element":105,"virtual-dom/diff":106,"virtual-dom/h":107,"virtual-dom/patch":108}],175:[function(require,module,exports){
+},{"./../components/chart.js":142,"./../components/revision":154,"./../templates/logo":179,"lodash.keys":74,"main-loop":90,"virtual-dom/create-element":107,"virtual-dom/diff":108,"virtual-dom/h":109,"virtual-dom/patch":110}],178:[function(require,module,exports){
 (function () {
     function constructor(){
         var jsonfn = require('json-fn');
@@ -28194,7 +28717,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates.json":156,"json-fn":35,"lodash.clonedeep":55}],176:[function(require,module,exports){
+},{"../config/templates.json":158,"json-fn":35,"lodash.clonedeep":55}],179:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -28203,4 +28726,4 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":157,"virtual-dom/h":107}]},{},[139]);
+},{"../factories/iconLoader":159,"virtual-dom/h":109}]},{},[141]);

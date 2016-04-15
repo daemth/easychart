@@ -198,6 +198,9 @@
             "fullname": "yAxis.title.text"
           },
           {
+            "fullname": "yAxis.stops"
+          },
+          {
             "fullname": "yAxis.title.style.color"
           },
           {

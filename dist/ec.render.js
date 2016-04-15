@@ -14239,6 +14239,7 @@ function extend() {
             var temp = config;
             path = path.split('.');
             while (step = path.shift()) {
+                console.log(step);
                 if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
                         temp = temp[step];
@@ -14249,6 +14250,8 @@ function extend() {
                             delete temp[step];
                         }
                     }
+                } else {
+                    console.log("BOEM");
                 }
             }
             configUpdate();
