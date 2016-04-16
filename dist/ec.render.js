@@ -14246,9 +14246,9 @@ function extend() {
                         temp = temp[step];
                         console.log(temp);
 
-
+                        // todo
                         if(_.isArray(temp) && temp.length === 0){
-                            console.log('ARRAY');
+                            console.log('empty ARRAY');
                             delete temp;
 
                             console.log(config);

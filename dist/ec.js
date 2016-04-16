@@ -26662,7 +26662,6 @@ module.exports=module.exports = [
               "color": "silver"
             }
           },
-
           "tooltip": {
             "borderWidth": 0,
             "backgroundColor": "none",
@@ -26754,20 +26753,21 @@ module.exports=module.exports = [
         }
       },
       {
-        "id": "solid-gauge",
+        "id": "solid-gauge-arc",
         "title": "Solid Gauge",
         "description": "",
         "definition": {
-
           "chart": {
             "type": "solidgauge"
           },
-
           //"title": null,
 
 
           "pane": {
-            "center": ["50%", "85%"],
+            "center": [
+              "50%",
+              "85%"
+            ],
             "size": "140%",
             "startAngle": -90,
             "endAngle": 90,
@@ -26778,36 +26778,44 @@ module.exports=module.exports = [
               "shape": "arc"
             }
           },
-
           "tooltip": {
             "enabled": false
           },
-
           // the value axis
-          "yAxis": [{
-            "stops": [
-              [0.1, '#55BF3B'], // green
-              [0.5, '#DDDF0D'], // yellow
-              [0.9, '#DF5353'] // red
-            ],
-            "lineWidth": 0,
-            "minorTickInterval": null,
-            "tickPixelInterval": 400,
-            "tickWidth": 0,
-
-            "labels": {
-              "y": 16
-            },
-            "min": 0,
-            "max": 200,
-            "title": {
-              "text": 'Speed',
-              "y": -70
+          "yAxis": [
+            {
+              "stops": [
+                [
+                  0.1,
+                  '#55BF3B'
+                ],
+                // green
+                [
+                  0.5,
+                  '#DDDF0D'
+                ],
+                // yellow
+                [
+                  0.9,
+                  '#DF5353'
+                ]
+                // red
+              ],
+              "lineWidth": 0,
+              "minorTickInterval": null,
+              "tickPixelInterval": 400,
+              "tickWidth": 0,
+              "labels": {
+                "y": 16
+              },
+              "min": 0,
+              "max": 200,
+              "title": {
+                "text": 'Speed',
+                "y": -70
+              }
             }
-          }],
-
-
-
+          ],
           "plotOptions": {
             "solidgauge": {
               "dataLabels": {
@@ -26817,17 +26825,106 @@ module.exports=module.exports = [
               }
             }
           },
-
-          "series": [{
-            "name": "Speed",
-
-            "dataLabels": {
-              "format": '<div style="text-align:center"><span style="font-size:50px;color:black">{y}</span><br/><span style="font-size:12px;color:silver">km/h</span></div>'
-            },
-            "tooltip": {
-              "valueSuffix": ' km/h'
+          "series": [
+            {
+              "name": "Speed",
+              "dataLabels": {
+                "format": '<div style="text-align:center"><span style="font-size:50px;color:black">{y}</span><br/><span style="font-size:12px;color:silver">km/h</span></div>'
+              },
+              "tooltip": {
+                "valueSuffix": ' km/h'
+              }
             }
-          }]
+          ]
+        }
+      },
+      {
+        "id": "solid-gauge",
+        "title": "Solid Gauge",
+        "description": "",
+        "definition": {
+          "chart": {
+            "type": 'solidgauge'
+          },
+          "title": {"text": null},
+          "pane": {
+            "background": {
+              "backgroundColor": "#EEE",
+              "innerRadius": "80%",
+              "outerRadius": "100%",
+              "borderWidth": 0
+            }
+          },
+          "tooltip": {
+            "enabled": false
+          },
+          "legend": {
+            "enabled": false
+          },
+          "credits": {
+            "enabled": false
+          },
+          "yAxis": [
+            {
+              "min": 0,
+              "max": 25000,
+              "title": {
+                "text": "GWh"
+              },
+              "stops": [
+                [
+                  0.1,
+                  "#DF5353"
+                ],
+                [
+                  0.5,
+                  "#DDDF0D"
+                ],
+                [
+                  0.9,
+                  "#55BF3B"
+                ]
+              ],
+              "lineWidth": 0,
+              "minorTickInterval": null,
+              "tickPixelInterval": 400,
+              "tickWidth": 0,
+              "title": {
+                "y": -70
+              },
+              "labels": {
+                "y": 16,
+                "enabled": false
+              }
+            }
+          ],
+          "plotOptions": {
+            "solidgauge": {
+              "dataLabels": {
+                "y": -25,
+                "borderWidth": 0,
+                "useHTML": true
+              }
+            }
+          },
+          "series": [
+            {
+              "name": "hernieuwbare energie",
+              "data": [
+                {
+                  "y": 15262,
+                  "radius": "100%",
+                  "innerRadius": "80%",
+                }
+              ],
+              "dataLabels": {
+                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>"
+              },
+              "tooltip": {
+                "valueSuffix": "GWh"
+              }
+            }
+          ]
         }
       }
     ]
@@ -28413,9 +28510,9 @@ return self})();
                         temp = temp[step];
                         console.log(temp);
 
-
+                        // todo
                         if(_.isArray(temp) && temp.length === 0){
-                            console.log('ARRAY');
+                            console.log('empty ARRAY');
                             delete temp;
 
                             console.log(config);
