@@ -23842,6 +23842,18 @@ module.exports=module.exports = [
                         "deprecated": false
                     },
                     {
+                        "name": "chart--animation",
+                        "fullname": "chart.animation",
+                        "title": "animation",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Boolean|Object",
+                        "defaults": "true",
+                        "description": "<p>Set the overall animation for all chart updating. Animation can be disabled throughout\r\n the chart by setting it to false here. It can be overridden for each individual\r\n API method as a function parameter. The only animation not affected by this option is the \r\n initial series animation, see <a class=\"internal\" href=\"#plotOptions.series.animation\">plotOptions.series.animation</a>.</p>\r\n \r\n <p>The animation can either be set as a boolean or a configuration object. If <code>true</code>,\r\n it will use the 'swing' jQuery easing and a duration of 500 ms. If used as a configuration object,\r\n the following properties are supported: \r\n </p><dl>\r\n \t<dt>duration</dt>\r\n \t<dd>The duration of the animation in milliseconds.</dd>\r\n \t\r\n \t<dt>easing</dt>\r\n \t<dd>A string reference to an easing function set on the <code>Math</code> object. See <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-animation-easing/\">the easing demo</a>.</dd>\r\n </dl>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-none/\" target=\"_blank\">Updating with no animation</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-duration/\" target=\"_blank\">with a longer duration</a>,  \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-easing/\" target=\"_blank\">with a jQuery UI easing</a>.",
+                        "deprecated": false
+                    },
+                    {
                         "name": "chart--zoomType",
                         "fullname": "chart.zoomType",
                         "title": "zooming",
@@ -24790,10 +24802,6 @@ module.exports=module.exports = [
                         "deprecated": false
                     }
                 ]
-            },
-            {
-                "title": "datalabels",
-                "options": []
             }
         ]
     },
@@ -26575,101 +26583,6 @@ module.exports=module.exports = [
         }
       },
       {
-        "id": "appleWatchIsh",
-        "title": "Activity Gauge",
-        "description": "",
-        "definition": {
-          "chart": {
-            "type": "solidgauge",
-            "marginTop": 50
-          },
-          "tooltip": {
-            "borderWidth": 0,
-            "backgroundColor": "none",
-            "shadow": false,
-            "style": {
-              "fontSize": "16px"
-            },
-            "positioner": "function (labelWidth, labelHeight) {return {x: 200 - labelWidth / 2,y: 180};}",
-            "pointFormat": "{series.name}<br><span style=\"font-size:2em; color: {point.color}; font-weight: bold\">{point.y}%</span>"
-          },
-          "pane": {
-            "startAngle": 0,
-            "endAngle": 360,
-            "background": [
-              {
-                "outerRadius": "112%",
-                "innerRadius": "88%",
-                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.3).get()}()",
-                "borderWidth": 0
-              },
-              {
-                "outerRadius": "87%",
-                "innerRadius": "63%",
-                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[1]).setOpacity(0.3).get()}()",
-                "borderWidth": 0
-              },
-              {
-                "outerRadius": "62%",
-                "innerRadius": "38%",
-                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0.3).get()}()",
-                "borderWidth": 0
-              }
-            ]
-          },
-          "yAxis": [
-            {
-              "min": 0,
-              "max": 100,
-              "lineWidth": 0,
-              "tickPositions": []
-            }
-          ],
-          "plotOptions": {
-            "solidgauge": {
-              "borderWidth": "34px",
-              "dataLabels": {
-                "enabled": false
-              },
-              "linecap": "round",
-              "stickyTracking": false
-            }
-          },
-          "series": [
-            {
-              "borderColor": "function(){return Highcharts.getOptions().colors[0]}()",
-              "data": [
-                {
-                  "color": "function(){return Highcharts.getOptions().colors[0]}()",
-                  "radius": "100%",
-                  "innerRadius": "100%"
-                }
-              ]
-            },
-            {
-              "borderColor": "function(){return Highcharts.getOptions().colors[1]}()",
-              "data": [
-                {
-                  "color": "function(){return Highcharts.getOptions().colors[1]}()",
-                  "radius": "75%",
-                  "innerRadius": "75%"
-                }
-              ]
-            },
-            {
-              "borderColor": "function(){return Highcharts.getOptions().colors[2]}()",
-              "data": [
-                {
-                  "color": "function(){return Highcharts.getOptions().colors[2]}()",
-                  "radius": "50%",
-                  "innerRadius": "50%"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
         "id": "appleWatch",
         "title": "Activity Gauge (Apple Watch)",
         "description": "",
@@ -26788,9 +26701,9 @@ module.exports=module.exports = [
           "chart": {
             "type": "solidgauge"
           },
-          //"title": null,
-
-
+          "title": {
+            "text": null
+          },
           "pane": {
             "center": [
               "50%",
@@ -26813,21 +26726,9 @@ module.exports=module.exports = [
           "yAxis": [
             {
               "stops": [
-                [
-                  0.1,
-                  '#55BF3B'
-                ],
-                // green
-                [
-                  0.5,
-                  '#DDDF0D'
-                ],
-                // yellow
-                [
-                  0.9,
-                  '#DF5353'
-                ]
-                // red
+                [0.1, "#55BF3B"],
+                [0.5, "#DDDF0D"],
+                [0.9, "#DF5353"]
               ],
               "lineWidth": 0,
               "minorTickInterval": null,
@@ -26839,13 +26740,13 @@ module.exports=module.exports = [
               "min": 0,
               "max": 200,
               "title": {
-                "text": 'Speed',
+                "text": "Speed",
                 "y": -70
               }
             }
           ],
           "plotOptions": {
-            "solidgauge": {
+            "series": {
               "dataLabels": {
                 "y": 5,
                 "borderWidth": 0,
@@ -26857,10 +26758,10 @@ module.exports=module.exports = [
             {
               "name": "Speed",
               "dataLabels": {
-                "format": '<div style="text-align:center"><span style="font-size:50px;color:black">{y}</span><br/><span style="font-size:12px;color:silver">km/h</span></div>'
+                "format": "<div style='text-align:center'><span style='font-size:50px;color:black'>{y}</span><br/><span style='font-size:12px;color:silver'>km/h</span></div>"
               },
               "tooltip": {
-                "valueSuffix": ' km/h'
+                "valueSuffix": "km/h"
               }
             }
           ]
@@ -26872,7 +26773,7 @@ module.exports=module.exports = [
         "description": "",
         "definition": {
           "chart": {
-            "type": 'solidgauge'
+            "type": "solidgauge"
           },
           "title": {"text": null},
           "pane": {
@@ -26900,18 +26801,9 @@ module.exports=module.exports = [
                 "text": "GWh"
               },
               "stops": [
-                [
-                  0.1,
-                  "#DF5353"
-                ],
-                [
-                  0.5,
-                  "#DDDF0D"
-                ],
-                [
-                  0.9,
-                  "#55BF3B"
-                ]
+                [0.1, "#DF5353"],
+                [0.5, "#DDDF0D"],
+                [0.9, "#55BF3B"]
               ],
               "lineWidth": 0,
               "minorTickInterval": null,
@@ -26929,17 +26821,13 @@ module.exports=module.exports = [
           "plotOptions": {
             "series":{
               "dataLabels": {
-                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>"
-              },
-              "tooltip": {
-                "valueSuffix": "GWh"
-              }
-            },
-            "solidgauge": {
-              "dataLabels": {
+                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>",
                 "y": -25,
                 "borderWidth": 0,
                 "useHTML": true
+              },
+              "tooltip": {
+                "valueSuffix": "GWh"
               }
             }
           },

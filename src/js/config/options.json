@@ -35,6 +35,18 @@
                         "deprecated": false
                     },
                     {
+                        "name": "chart--animation",
+                        "fullname": "chart.animation",
+                        "title": "animation",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Boolean|Object",
+                        "defaults": "true",
+                        "description": "<p>Set the overall animation for all chart updating. Animation can be disabled throughout\r\n the chart by setting it to false here. It can be overridden for each individual\r\n API method as a function parameter. The only animation not affected by this option is the \r\n initial series animation, see <a class=\"internal\" href=\"#plotOptions.series.animation\">plotOptions.series.animation</a>.</p>\r\n \r\n <p>The animation can either be set as a boolean or a configuration object. If <code>true</code>,\r\n it will use the 'swing' jQuery easing and a duration of 500 ms. If used as a configuration object,\r\n the following properties are supported: \r\n </p><dl>\r\n \t<dt>duration</dt>\r\n \t<dd>The duration of the animation in milliseconds.</dd>\r\n \t\r\n \t<dt>easing</dt>\r\n \t<dd>A string reference to an easing function set on the <code>Math</code> object. See <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-animation-easing/\">the easing demo</a>.</dd>\r\n </dl>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-none/\" target=\"_blank\">Updating with no animation</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-duration/\" target=\"_blank\">with a longer duration</a>,  \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-easing/\" target=\"_blank\">with a jQuery UI easing</a>.",
+                        "deprecated": false
+                    },
+                    {
                         "name": "chart--zoomType",
                         "fullname": "chart.zoomType",
                         "title": "zooming",
@@ -983,10 +995,6 @@
                         "deprecated": false
                     }
                 ]
-            },
-            {
-                "title": "datalabels",
-                "options": []
             }
         ]
     },

@@ -13,6 +13,9 @@
             "fullname": "chart.inverted"
           },
           {
+            "fullname": "chart.animation"
+          },
+          {
             "fullname": "chart.zoomType",
             "title": "zooming"
           },
