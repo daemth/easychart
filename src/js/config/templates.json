@@ -1770,6 +1770,14 @@
             }
           ],
           "plotOptions": {
+            "series":{
+              "dataLabels": {
+                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>"
+              },
+              "tooltip": {
+                "valueSuffix": "GWh"
+              }
+            },
             "solidgauge": {
               "dataLabels": {
                 "y": -25,
@@ -1785,15 +1793,9 @@
                 {
                   "y": 15262,
                   "radius": "100%",
-                  "innerRadius": "80%",
+                  "innerRadius": "80%"
                 }
-              ],
-              "dataLabels": {
-                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>"
-              },
-              "tooltip": {
-                "valueSuffix": "GWh"
-              }
+              ]
             }
           ]
         }

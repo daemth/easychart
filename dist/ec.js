@@ -24761,37 +24761,39 @@ module.exports=module.exports = [
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/stack/\" target=\"_blank\">Stacked and grouped columns</a>",
                         "deprecated": false
                     }
-                ],
-                "panes": [
+                ]
+            },
+            {
+                "title": "axis",
+                "options": [
                     {
-                        "title": "axis",
-                        "options": [
-                            {
-                                "name": "series--xAxis",
-                                "fullname": "series.xAxis",
-                                "title": "xAxis",
-                                "parent": "series",
-                                "isParent": false,
-                                "returnType": "Number|String",
-                                "defaults": "0",
-                                "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
-                                "deprecated": false
-                            },
-                            {
-                                "name": "series--yAxis",
-                                "fullname": "series.yAxis",
-                                "title": "yAxis",
-                                "parent": "series",
-                                "isParent": false,
-                                "returnType": "Number|String",
-                                "defaults": "0",
-                                "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
-                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
-                                "deprecated": false
-                            }
-                        ]
+                        "name": "series--xAxis",
+                        "fullname": "series.xAxis",
+                        "title": "xAxis",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number|String",
+                        "defaults": "0",
+                        "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--yAxis",
+                        "fullname": "series.yAxis",
+                        "title": "yAxis",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number|String",
+                        "defaults": "0",
+                        "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
+                        "deprecated": false
                     }
                 ]
+            },
+            {
+                "title": "datalabels",
+                "options": []
             }
         ]
     },
@@ -24905,6 +24907,32 @@ module.exports=module.exports = [
             {
                 "title": "General",
                 "options": [
+                    {
+                        "name": "tooltip--enabled",
+                        "fullname": "tooltip.enabled",
+                        "title": "enabled",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Enable or disable the tooltip.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/enabled/\" target=\"_blank\">Disabled</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-point-events-mouseover/\" target=\"_blank\">disable tooltip and show values on chart instead</a>."
+                    },
+                    {
+                        "name": "tooltip--followPointer",
+                        "fullname": "tooltip.followPointer",
+                        "title": "followPointer",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "false",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "<p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>\r\n<p>For touch moves to behave the same way, <a href=\"#tooltip.followTouchMove\">followTouchMove</a> must be <code>true</code> also.</p>",
+                        "demo": "",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
                     {
                         "name": "tooltip--headerFormat",
                         "fullname": "tooltip.headerFormat",
@@ -26899,6 +26927,14 @@ module.exports=module.exports = [
             }
           ],
           "plotOptions": {
+            "series":{
+              "dataLabels": {
+                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>"
+              },
+              "tooltip": {
+                "valueSuffix": "GWh"
+              }
+            },
             "solidgauge": {
               "dataLabels": {
                 "y": -25,
@@ -26914,15 +26950,9 @@ module.exports=module.exports = [
                 {
                   "y": 15262,
                   "radius": "100%",
-                  "innerRadius": "80%",
+                  "innerRadius": "80%"
                 }
-              ],
-              "dataLabels": {
-                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>"
-              },
-              "tooltip": {
-                "valueSuffix": "GWh"
-              }
+              ]
             }
           ]
         }
