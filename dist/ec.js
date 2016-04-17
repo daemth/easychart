@@ -26581,269 +26581,6 @@ module.exports=module.exports = [
             }
           ]
         }
-      },
-      {
-        "id": "appleWatch",
-        "title": "Activity Gauge (Apple Watch)",
-        "description": "",
-        "definition": {
-          "chart": {
-            "type": "solidgauge",
-            "marginTop": 50,
-            "backgroundColor": "black",
-            "width": 400,
-            "events": {
-              "load": "function() {this.renderer.path([ \"M\", -8, 0, \"L\", 8, 0, \"M\", 0, -8, \"L\", 8, 0, 0, 8]).attr({\"stroke\": \"#303030\",\"stroke-linecap\": \"round\",\"stroke-linejoin\": \"round\",\"stroke-width\": 2,\"zIndex\": 10}).translate(190, 26).add(this.series[2].group);this.renderer.path([\"M\", -8, 0, \"L\", 8, 0, \"M\", 0, -8, \"L\", 8, 0, 0, 8, \"M\", 8, -8, \"L\", 16, 0, 8, 8]).attr({\"stroke\": \"#303030\", \"stroke-linecap\": \"round\", \"stroke-linejoin\": \"round\", \"stroke-width\": 2, \"zIndex\": 10}).translate(190, 61).add(this.series[2].group);this.renderer.path([\"M\", 0, 8, \"L\", 0, -8, \"M\", -8, 0, \"L\", 0, -8, 8, 0]).attr({\"stroke\": \"#303030\",\"stroke-linecap\": \"round\", \"stroke-linejoin\": \"round\", \"stroke-width\": 2, \"zIndex\": 10}).translate(190, 96).add(this.series[2].group);}"
-            }
-          },
-          "title": {
-            "text": "Activity",
-            "style": {
-              "fontSize": "24px",
-              "color": "silver"
-            }
-          },
-          "tooltip": {
-            "borderWidth": 0,
-            "backgroundColor": "none",
-            "shadow": false,
-            "style": {
-              "fontSize": "16px",
-              "color": "silver"
-            },
-            "positioner": "function (labelWidth, labelHeight) {return {x: 200 - labelWidth / 2,y: 180}}",
-            "pointFormat": "{series.name}<br><span style=\"font-size:2em; color: {point.color}; font-weight: bold\">{point.y}%</span>"
-          },
-          "pane": {
-            "startAngle": 0,
-            "endAngle": 360,
-            "background": [
-              {
-                // Track for Move
-                "outerRadius": "112%",
-                "innerRadius": "88%",
-                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.3).get()}()",
-                "borderWidth": 0
-              },
-              {
-                // Track for Exercise
-                "outerRadius": "87%",
-                "innerRadius": "63%",
-                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[1]).setOpacity(0.3).get()}()",
-                "borderWidth": 0
-              },
-              {
-                // Track for Stand
-                "outerRadius": "62%",
-                "innerRadius": "38%",
-                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0.3).get()}()",
-                "borderWidth": 0
-              }
-            ]
-          },
-          "yAxis": [
-            {
-              "min": 0,
-              "max": 100,
-              "lineWidth": 0,
-              "tickPositions": []
-            }
-          ],
-          "plotOptions": {
-            "solidgauge": {
-              "borderWidth": "34px",
-              "dataLabels": {
-                "enabled": false
-              },
-              "linecap": "round",
-              "stickyTracking": false
-            }
-          },
-          "series": [
-            {
-              "borderColor": "function(){return Highcharts.getOptions().colors[0]}()",
-              "data": [
-                {
-                  "color": "function(){return Highcharts.getOptions().colors[0]}()",
-                  "radius": "100%",
-                  "innerRadius": "100%"
-                }
-              ]
-            },
-            {
-              "borderColor": "function(){return Highcharts.getOptions().colors[1]}()",
-              "data": [
-                {
-                  "color": "function(){return Highcharts.getOptions().colors[1]}()",
-                  "radius": "75%",
-                  "innerRadius": "75%"
-                }
-              ]
-            },
-            {
-              "borderColor": "function(){return Highcharts.getOptions().colors[2]}()",
-              "data": [
-                {
-                  "color": "function(){return Highcharts.getOptions().colors[2]}()",
-                  "radius": "50%",
-                  "innerRadius": "50%"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "id": "solid-gauge-arc",
-        "title": "Solid Gauge",
-        "description": "",
-        "definition": {
-          "chart": {
-            "type": "solidgauge"
-          },
-          "title": {
-            "text": null
-          },
-          "pane": {
-            "center": [
-              "50%",
-              "85%"
-            ],
-            "size": "140%",
-            "startAngle": -90,
-            "endAngle": 90,
-            "background": {
-              "backgroundColor": "#EEE",
-              "innerRadius": "60%",
-              "outerRadius": "100%",
-              "shape": "arc"
-            }
-          },
-          "tooltip": {
-            "enabled": false
-          },
-          // the value axis
-          "yAxis": [
-            {
-              "stops": [
-                [0.1, "#55BF3B"],
-                [0.5, "#DDDF0D"],
-                [0.9, "#DF5353"]
-              ],
-              "lineWidth": 0,
-              "minorTickInterval": null,
-              "tickPixelInterval": 400,
-              "tickWidth": 0,
-              "labels": {
-                "y": 16
-              },
-              "min": 0,
-              "max": 200,
-              "title": {
-                "text": "Speed",
-                "y": -70
-              }
-            }
-          ],
-          "plotOptions": {
-            "series": {
-              "dataLabels": {
-                "y": 5,
-                "borderWidth": 0,
-                "useHTML": true
-              }
-            }
-          },
-          "series": [
-            {
-              "name": "Speed",
-              "dataLabels": {
-                "format": "<div style='text-align:center'><span style='font-size:50px;color:black'>{y}</span><br/><span style='font-size:12px;color:silver'>km/h</span></div>"
-              },
-              "tooltip": {
-                "valueSuffix": "km/h"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "id": "solid-gauge",
-        "title": "Solid Gauge",
-        "description": "",
-        "definition": {
-          "chart": {
-            "type": "solidgauge"
-          },
-          "title": {"text": null},
-          "pane": {
-            "background": {
-              "backgroundColor": "#EEE",
-              "innerRadius": "80%",
-              "outerRadius": "100%",
-              "borderWidth": 0
-            }
-          },
-          "tooltip": {
-            "enabled": false
-          },
-          "legend": {
-            "enabled": false
-          },
-          "credits": {
-            "enabled": false
-          },
-          "yAxis": [
-            {
-              "min": 0,
-              "max": 25000,
-              "title": {
-                "text": "GWh"
-              },
-              "stops": [
-                [0.1, "#DF5353"],
-                [0.5, "#DDDF0D"],
-                [0.9, "#55BF3B"]
-              ],
-              "lineWidth": 0,
-              "minorTickInterval": null,
-              "tickPixelInterval": 400,
-              "tickWidth": 0,
-              "title": {
-                "y": -70
-              },
-              "labels": {
-                "y": 16,
-                "enabled": false
-              }
-            }
-          ],
-          "plotOptions": {
-            "series":{
-              "dataLabels": {
-                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>",
-                "y": -25,
-                "borderWidth": 0,
-                "useHTML": true
-              },
-              "tooltip": {
-                "valueSuffix": "GWh"
-              }
-            }
-          },
-          "series": [
-            {
-              "name": "hernieuwbare energie",
-              "data": [
-                {
-                  "y": 15262,
-                  "radius": "100%",
-                  "innerRadius": "80%"
-                }
-              ]
-            }
-          ]
-        }
       }
     ]
   },
@@ -27294,6 +27031,397 @@ module.exports=module.exports = [
           "xAxis": [
             {
               "type": "category"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "dashboard",
+    "type": "Dashboard charts",
+    "icon": "placeholder",
+    "templates": [
+      {
+        "id": "appleWatch",
+        "title": "Activity Gauge (Apple Watch)",
+        "description": "",
+        "definition": {
+          "chart": {
+            "type": "solidgauge",
+            "marginTop": 50,
+            "backgroundColor": "black",
+            "width": 400,
+            "events": {
+              "load": "function() {this.renderer.path([ \"M\", -8, 0, \"L\", 8, 0, \"M\", 0, -8, \"L\", 8, 0, 0, 8]).attr({\"stroke\": \"#303030\",\"stroke-linecap\": \"round\",\"stroke-linejoin\": \"round\",\"stroke-width\": 2,\"zIndex\": 10}).translate(190, 26).add(this.series[2].group);this.renderer.path([\"M\", -8, 0, \"L\", 8, 0, \"M\", 0, -8, \"L\", 8, 0, 0, 8, \"M\", 8, -8, \"L\", 16, 0, 8, 8]).attr({\"stroke\": \"#303030\", \"stroke-linecap\": \"round\", \"stroke-linejoin\": \"round\", \"stroke-width\": 2, \"zIndex\": 10}).translate(190, 61).add(this.series[2].group);this.renderer.path([\"M\", 0, 8, \"L\", 0, -8, \"M\", -8, 0, \"L\", 0, -8, 8, 0]).attr({\"stroke\": \"#303030\",\"stroke-linecap\": \"round\", \"stroke-linejoin\": \"round\", \"stroke-width\": 2, \"zIndex\": 10}).translate(190, 96).add(this.series[2].group);}"
+            }
+          },
+          "title": {
+            "text": "Activity",
+            "style": {
+              "fontSize": "24px",
+              "color": "silver"
+            }
+          },
+          "tooltip": {
+            "borderWidth": 0,
+            "backgroundColor": "none",
+            "shadow": false,
+            "style": {
+              "fontSize": "16px",
+              "color": "silver"
+            },
+            "positioner": "function (labelWidth, labelHeight) {return {x: 200 - labelWidth / 2,y: 180}}",
+            "pointFormat": "{series.name}<br><span style=\"font-size:2em; color: {point.color}; font-weight: bold\">{point.y}%</span>"
+          },
+          "pane": {
+            "startAngle": 0,
+            "endAngle": 360,
+            "background": [
+              {
+                // Track for Move
+                "outerRadius": "112%",
+                "innerRadius": "88%",
+                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.3).get()}()",
+                "borderWidth": 0
+              },
+              {
+                // Track for Exercise
+                "outerRadius": "87%",
+                "innerRadius": "63%",
+                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[1]).setOpacity(0.3).get()}()",
+                "borderWidth": 0
+              },
+              {
+                // Track for Stand
+                "outerRadius": "62%",
+                "innerRadius": "38%",
+                "backgroundColor": "function(){return Highcharts.Color(Highcharts.getOptions().colors[2]).setOpacity(0.3).get()}()",
+                "borderWidth": 0
+              }
+            ]
+          },
+          "yAxis": [
+            {
+              "min": 0,
+              "max": 100,
+              "lineWidth": 0,
+              "tickPositions": []
+            }
+          ],
+          "plotOptions": {
+            "solidgauge": {
+              "borderWidth": "34px",
+              "dataLabels": {
+                "enabled": false
+              },
+              "linecap": "round",
+              "stickyTracking": false
+            }
+          },
+          "series": [
+            {
+              "borderColor": "function(){return Highcharts.getOptions().colors[0]}()",
+              "data": [
+                {
+                  "color": "function(){return Highcharts.getOptions().colors[0]}()",
+                  "radius": "100%",
+                  "innerRadius": "100%"
+                }
+              ]
+            },
+            {
+              "borderColor": "function(){return Highcharts.getOptions().colors[1]}()",
+              "data": [
+                {
+                  "color": "function(){return Highcharts.getOptions().colors[1]}()",
+                  "radius": "75%",
+                  "innerRadius": "75%"
+                }
+              ]
+            },
+            {
+              "borderColor": "function(){return Highcharts.getOptions().colors[2]}()",
+              "data": [
+                {
+                  "color": "function(){return Highcharts.getOptions().colors[2]}()",
+                  "radius": "50%",
+                  "innerRadius": "50%"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "solid-gauge-arc",
+        "title": "Solid Gauge",
+        "description": "",
+        "definition": {
+          "chart": {
+            "type": "solidgauge"
+          },
+          "title": {
+            "text": null
+          },
+          "pane": {
+            "center": [
+              "50%",
+              "85%"
+            ],
+            "size": "120%",
+            "startAngle": -90,
+            "endAngle": 90,
+            "background": {
+              "backgroundColor": "#EEE",
+              "innerRadius": "80%",
+              "outerRadius": "100%",
+              "shape": "arc"
+            }
+          },
+          "tooltip": {
+            "enabled": false
+          },
+          // the value axis
+          "yAxis": [
+            {
+              "stops": [
+                [
+                  0.1,
+                  "#55BF3B"
+                ],
+                [
+                  0.5,
+                  "#DDDF0D"
+                ],
+                [
+                  0.9,
+                  "#DF5353"
+                ]
+              ],
+              "lineWidth": 0,
+              "minorTickInterval": null,
+              "tickPixelInterval": 400,
+              "tickWidth": 0,
+              "labels": {
+                "y": 16
+              },
+              "min": 0,
+              "max": 25000,
+              "title": {
+                "text": "GWh",
+                "y": -70
+              }
+            }
+          ],
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "y": 5,
+                "borderWidth": 0,
+                "useHTML": true
+              }
+            }
+          },
+          "series": [
+            {
+              "name": "GWh",
+              "dataLabels": {
+                "format": "<div style='text-align:center'><span style='font-size:50px;color:black'>{y}</span><br/><span style='font-size:12px;color:silver'>km/h</span></div>"
+              },
+              "tooltip": {
+                "valueSuffix": "GWh"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "solid-gauge",
+        "title": "Solid Gauge",
+        "description": "",
+        "definition": {
+          "chart": {
+            "type": "solidgauge"
+          },
+          "title": {"text": null},
+          "pane": {
+            "background": {
+              "backgroundColor": "#EEE",
+              "innerRadius": "80%",
+              "outerRadius": "100%",
+              "borderWidth": 0
+            }
+          },
+          "tooltip": {
+            "enabled": false
+          },
+          "legend": {
+            "enabled": false
+          },
+          "credits": {
+            "enabled": false
+          },
+          "yAxis": [
+            {
+              "min": 0,
+              "max": 25000,
+              "title": {
+                "text": "GWh"
+              },
+              "stops": [
+                [
+                  0.1,
+                  "#DF5353"
+                ],
+                [
+                  0.5,
+                  "#DDDF0D"
+                ],
+                [
+                  0.9,
+                  "#55BF3B"
+                ]
+              ],
+              "lineWidth": 0,
+              "minorTickInterval": null,
+              "tickPixelInterval": 400,
+              "tickWidth": 0,
+              "title": {
+                "y": -70
+              },
+              "labels": {
+                "y": 16,
+                "enabled": false
+              }
+            }
+          ],
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "format": "<div style='text-align:center;'><span style='font-size:30px;color:black;'>{y}</span><br/><span style='font-size:12px;color:silver;'>GWh</span></div>",
+                "y": -25,
+                "borderWidth": 0,
+                "useHTML": true
+              },
+              "tooltip": {
+                "valueSuffix": "GWh"
+              }
+            }
+          },
+          "series": [
+            {
+              "name": "hernieuwbare energie",
+              "data": [
+                {
+                  "y": 15262,
+                  "radius": "100%",
+                  "innerRadius": "80%"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "gauge",
+        "title": "Gauge",
+        "description": "",
+        "definition": {
+          "plotOptions": {
+            "gauge": {
+              "dial": {
+                "rearLength": 0,
+                "baseWidth": 16,
+                "baseLength": 0,
+                "radius": "80%",
+                "backgroundColor": "silver"
+              },
+              "pivot": {
+                "backgroundColor": "silver",
+                "borderColor": "silver",
+                "borderWidth": 0,
+                "radius": 8
+              }
+            }
+          },
+          "chart": {
+            "type": "gauge",
+            "plotBackgroundColor": null,
+            "plotBackgroundImage": null,
+            "plotBorderWidth": 0,
+            "plotShadow": false
+          },
+          "title": {
+            "text": null
+          },
+          "credits": {
+            "enabled": false
+          },
+          "pane": {
+            "startAngle": -150,
+            "endAngle": 150,
+            "size": "100%",
+            "background": [
+              {
+                "backgroundColor": "#eee",
+                "borderWidth": 0,
+                "outerRadius": "100%",
+                "innerRadius": "70%"
+              }
+            ]
+          },
+          "yAxis": [{
+            "min": 0,
+            "max": 30000,
+            "minorTickInterval": "auto",
+            "minorTickWidth": 1,
+            "minorTickLength": 5,
+            "minorTickPosition": "inside",
+            "minorTickColor": "#fff",
+            "tickWidth": 0,
+            "tickPosition": "inside",
+            "tickLength": 10,
+            "tickColor": "#666",
+            "labels": {
+              "step": 2,
+              "rotation": "auto"
+            },
+            "title": {
+              "text": "GWh"
+            },
+            "plotBands": [
+              {
+                "from": 0,
+                "to": 20000,
+                "color": "#DF5353",
+                "thickness": 5
+              },
+              {
+                "from": 20000,
+                "to": 25000,
+                "color": "#DDDF0D",
+                "thickness": 5
+              },
+              {
+                "from": 25000,
+                "to": 30000,
+                "color": "#55BF3B",
+                "thickness": 5
+              }
+            ]
+          }],
+          "tooltip": {
+            "enabled": false
+          },
+          "series": [
+            {
+              "name": "GWh",
+
+              "dataLabels": {
+                "format": "<div style=\"text-align:center\"><span style=\"font-size:25px;color:black\">{y}<\/span><br/><span style=\"font-size:12px;color:silver;\">GWh<\/span><\/div>",
+                "borderWidth": 0
+              }
             }
           ]
         }
