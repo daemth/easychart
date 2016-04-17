@@ -23230,7 +23230,7 @@ module.exports = constructor;
             data = _.isUndefined(data[0]) ? [[]] : data;
 
             hot = new Handsontable(wrapper, {
-                minRows: 1,
+                minRows: 2,
                 minCols: 2,
                 minSpareRows: 1,
                 //minSpareCols: 1,
