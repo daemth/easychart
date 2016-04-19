@@ -18,8 +18,6 @@
         that.load = function (_element_) {
             element = _element_;
             var wrapper = createElement(h('div'));
-
-
             readOnly = services.data.getUrl() ? true : false;
             if (readOnly){
                 element.appendChild(createElement(h('div.readOnlyBox', h('span', 'A data url was found, the data will be read only'))));
@@ -92,7 +90,7 @@
         that.destroy = function () {
             services.mediator.off(null, null, 'hot');
             var data = removeEmptyRows(hot);
-            if (!_.isEmpty(data)) {
+            if (!_.isEmpty(data) && !readOnly) {
                 services.data.set(removeEmptyRows(hot));
             }
             hot.destroy();

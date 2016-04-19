@@ -82,6 +82,7 @@ gulp.task('watchify:render', function () {
 
 function bundle(file, output) {
     watchify.args.verbose = true;
+    watchify.args.poll = true;
     var bundler = watchify(browserify('./src/js/' + file + '.js'), watchify.args);
     bundler.on('update', rebundle);
     bundler.on('log', gutil.log.bind(gutil));
