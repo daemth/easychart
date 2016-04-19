@@ -23088,7 +23088,7 @@ function constructor (services){
     var seriesTabTitle = 'Data series';
 
     function tabs(options, setActive, activeTab, activeTabChild, config) {
-        if (!_.isUndefined(options) && config.series.length > 1) {
+        if (!_.isUndefined(options) && config.series.length > 0) {
             var links = [];
             if (options.id == activeTab) {
                 _.forEach(config.series, function (serie, index) {
