@@ -1,9 +1,3 @@
-/**
- * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
- * @version v3.0.0
- * @link 
- * @license MIT
- */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * Standalone extraction of Backbone.Events, no external dependency required.
@@ -1392,12 +1386,15 @@ var flatten = require('flatten')
 var parallel = require('run-parallel')
 
 function dragDrop (elem, listeners) {
-  if (typeof elem === 'string') elem = window.document.querySelector(elem)
-  if (typeof listeners === 'function') listeners = { onDrop: listeners }
+  if (typeof elem === 'string') {
+    elem = window.document.querySelector(elem)
+  }
 
-  var onDragOver = makeOnDragOver(elem, listeners.onDragOver)
-  var onDragLeave = makeOnDragLeave(elem, listeners.onDragLeave)
-  var onDrop = makeOnDrop(elem, listeners.onDrop, listeners.onDragLeave)
+  if (typeof listeners === 'function') {
+    listeners = { onDrop: listeners }
+  }
+
+  var timeout
 
   elem.addEventListener('dragenter', stopEvent, false)
   elem.addEventListener('dragover', onDragOver, false)
@@ -1406,22 +1403,14 @@ function dragDrop (elem, listeners) {
 
   // Function to remove drag-drop listeners
   return function remove () {
-    if (elem instanceof window.Element) elem.classList.remove('drag')
+    removeDragClass()
     elem.removeEventListener('dragenter', stopEvent, false)
     elem.removeEventListener('dragover', onDragOver, false)
     elem.removeEventListener('dragleave', onDragLeave, false)
     elem.removeEventListener('drop', onDrop, false)
   }
-}
 
-function stopEvent (e) {
-  e.stopPropagation()
-  e.preventDefault()
-  return false
-}
-
-function makeOnDragOver (elem, ondragover) {
-  return function (e) {
+  function onDragOver (e) {
     e.stopPropagation()
     e.preventDefault()
     if (e.dataTransfer.items) {
@@ -1432,58 +1421,93 @@ function makeOnDragOver (elem, ondragover) {
       if (items.length === 0) return
     }
 
-    if (elem instanceof window.Element) elem.classList.add('drag')
+    elem.classList.add('drag')
+    clearTimeout(timeout)
+
+    if (listeners.onDragOver) {
+      listeners.onDragOver(e)
+    }
+
     e.dataTransfer.dropEffect = 'copy'
-    if (ondragover) ondragover(e)
     return false
   }
-}
 
-function makeOnDragLeave (elem, ondragleave) {
-  return function (e) {
-    if (e.target !== elem) return
+  function onDragLeave (e) {
     e.stopPropagation()
     e.preventDefault()
-    if (ondragleave) ondragleave(e)
-    if (elem instanceof window.Element) elem.classList.remove('drag')
+
+    if (listeners.onDragLeave) {
+      listeners.onDragLeave(e)
+    }
+
+    clearTimeout(timeout)
+    timeout = setTimeout(removeDragClass, 50)
+
     return false
   }
-}
 
-function makeOnDrop (elem, ondrop, ondragleave) {
-  return function (e) {
+  function onDrop (e) {
     e.stopPropagation()
     e.preventDefault()
-    if (ondragleave) ondragleave(e)
-    if (elem instanceof window.Element) elem.classList.remove('drag')
-    var pos = { x: e.clientX, y: e.clientY }
+
+    if (listeners.onDragLeave) {
+      listeners.onDragLeave(e)
+    }
+
+    clearTimeout(timeout)
+    removeDragClass()
+
+    var pos = {
+      x: e.clientX,
+      y: e.clientY
+    }
+
     if (e.dataTransfer.items) {
       // Handle directories in Chrome using the proprietary FileSystem API
       var items = toArray(e.dataTransfer.items).filter(function (item) {
         return item.kind === 'file'
       })
+
       if (items.length === 0) return
+
       parallel(items.map(function (item) {
         return function (cb) {
           processEntry(item.webkitGetAsEntry(), cb)
         }
       }), function (err, results) {
-        // There should never be an error in production code. This catches permission
-        // errors with file:// in Chrome.
+        // This catches permission errors with file:// in Chrome. This should never
+        // throw in production code, so the user does not need to use try-catch.
         if (err) throw err
-        ondrop(flatten(results), pos)
+        if (listeners.onDrop) {
+          listeners.onDrop(flatten(results), pos)
+        }
       })
     } else {
       var files = toArray(e.dataTransfer.files)
+
       if (files.length === 0) return
+
       files.forEach(function (file) {
         file.fullPath = '/' + file.name
       })
-      ondrop(files, pos)
+
+      if (listeners.onDrop) {
+        listeners.onDrop(files, pos)
+      }
     }
 
     return false
   }
+
+  function removeDragClass () {
+    elem.classList.remove('drag')
+  }
+}
+
+function stopEvent (e) {
+  e.stopPropagation()
+  e.preventDefault()
+  return false
 }
 
 function processEntry (entry, cb) {
@@ -28548,25 +28572,21 @@ return self})();
 
         that.removeValue = function (path) {
             var temp = config;
+            var parent;
+            var parentStep;
             path = path.split('.');
             while (step = path.shift()) {
-
                 if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
+                        parent = temp;
+                        parentStep = step;
                         temp = temp[step];
-                        console.log(temp);
-
-                        // todo
-                        if(_.isArray(temp) && temp.length === 0){
-                            console.log('empty ARRAY');
-                            delete temp;
-
-                            console.log(config);
-                        }
-
                     } else {
                         if(Object.prototype.toString.call( temp ) === '[object Array]'){
                             temp.splice(step, 1);
+                            if(temp.length === 0){
+                                delete parent[parentStep];
+                            }
                         } else {
                             delete temp[step];
                         }
@@ -29022,3 +29042,5 @@ module.exports = constructor;
 })();
 
 },{"../factories/iconLoader":159,"virtual-dom/h":109}]},{},[141]);
+
+//# sourceMappingURL=ec.js.map
