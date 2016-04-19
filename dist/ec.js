@@ -22857,13 +22857,19 @@ module.exports = constructor;
                 contextMenu: true,
                 data: data,
                 afterChange: function () {
-                    services.data.set(removeEmptyRows(this));
+                    if(!readOnly){
+                        services.data.set(removeEmptyRows(this));
+                    }
                 },
                 afterRemoveRow:function () {
-                    services.data.set(removeEmptyRows(this));
+                    if(!readOnly){
+                        services.data.set(removeEmptyRows(this));
+                    }
                 },
                 afterRemoveCol:function (test) {
-                    services.data.set(removeEmptyRows(this));
+                    if(!readOnly){
+                        services.data.set(removeEmptyRows(this));
+                    }
                 }
             });
             hot.updateSettings({
