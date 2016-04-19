@@ -7,7 +7,8 @@
             forEach: require('lodash.foreach'),
             merge: require('lodash.merge'),
             isEmpty: require('lodash.isempty'),
-            map: require('lodash.map')
+            map: require('lodash.map'),
+            isArray: require('lodash.isarray')
         };
         var series = require('../factories/series.js');
         var jsonfn = require('json-fn');
@@ -133,14 +134,21 @@
 
         that.removeValue = function (path) {
             var temp = config;
+            var parent;
+            var parentStep;
             path = path.split('.');
             while (step = path.shift()) {
                 if (!_.isUndefined(temp[step])) {
                     if (path.length > 0) {
+                        parent = temp;
+                        parentStep = step;
                         temp = temp[step];
                     } else {
                         if(Object.prototype.toString.call( temp ) === '[object Array]'){
                             temp.splice(step, 1);
+                            if(temp.length === 0){
+                                delete parent[parentStep];
+                            }
                         } else {
                             delete temp[step];
                         }

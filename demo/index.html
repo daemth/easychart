@@ -28,7 +28,17 @@
         window.easychart = new ec({
             element: container,
             customise: true,
-            debugger: true
+            debugger: true,
+            data: [
+                ['','GWh'],
+                [2016,18262]
+            ],
+
+            events: {
+                'configUpdate': function (e) {
+                    //console.log(window.easychart.getConfigStringified());
+                }
+            }
         });
     });
 </script>

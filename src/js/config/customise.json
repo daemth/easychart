@@ -13,6 +13,9 @@
             "fullname": "chart.inverted"
           },
           {
+            "fullname": "chart.animation"
+          },
+          {
             "fullname": "chart.zoomType",
             "title": "zooming"
           },
@@ -81,7 +84,6 @@
             "fullname": "colors",
             "title": "Series colors"
           }
-
         ]
       },
       {
@@ -173,19 +175,39 @@
             "fullname": "xAxis.labels.align"
           },
           {
+            "fullname": "xAxis.plotLines",
+            "options": [
+              {
+                "fullname": "xAxis.plotLines.color"
+              },
+              {
+                "fullname": "xAxis.plotLines.dashStyle"
+              },
+              {
+                "fullname": "xAxis.plotLines.label.text"
+              },
+              {
+                "fullname": "xAxis.plotLines.value"
+              },
+              {
+                "fullname": "xAxis.plotLines.width"
+              }
+            ]
+          },
+          {
             "fullname": "xAxis.plotBands",
-            "options":[
+            "options": [
               {
-                "fullname": "xAxis.plotbands.color"
-              },
-              {
-                "fullname": "xAxis.plotbands.from"
-              },
-              {
-                "fullname": "xAxis.plotbands.to"
+                "fullname": "xAxis.plotBands.color"
               },
               {
                 "fullname": "xAxis.plotBands.label.text"
+              },
+              {
+                "fullname": "xAxis.plotBands.from"
+              },
+              {
+                "fullname": "xAxis.plotBands.to"
               }
             ]
           }
@@ -208,6 +230,12 @@
           },
           {
             "fullname": "yAxis.max"
+          },
+          {
+            "fullname": "yAxis.minColor"
+          },
+          {
+            "fullname": "yAxis.maxColor"
           },
           {
             "fullname": "yAxis.opposite"
@@ -239,7 +267,7 @@
           },
           {
             "fullname": "yAxis.plotLines",
-            "options":[
+            "options": [
               {
                 "fullname": "yAxis.plotLines.color"
               },
@@ -256,6 +284,27 @@
                 "fullname": "yAxis.plotLines.width"
               }
             ]
+          },
+          {
+            "fullname": "yAxis.plotBands",
+            "options": [
+              {
+                "fullname": "yAxis.plotBands.color"
+              },
+              {
+                "fullname": "yAxis.plotBands.label.text"
+              },
+              {
+                "fullname": "yAxis.plotBands.from"
+              },
+              {
+                "fullname": "yAxis.plotBands.to"
+              }
+            ]
+          },
+          {
+            "fullname": "yAxis.stops",
+            "title": "Color stops (for solid gauge only)"
           }
         ]
       }
@@ -280,18 +329,16 @@
           {
             "fullname": "series.stack"
           }
-        ],
-        "panes":[
+        ]
+      },
+      {
+        "title": "axis",
+        "options": [
           {
-            "title": "axis",
-            "options": [
-              {
-                "fullname": "series.xaxis"
-              },
-              {
-                "fullname": "series.yaxis"
-              }
-            ]
+            "fullname": "series.xaxis"
+          },
+          {
+            "fullname": "series.yaxis"
           }
         ]
       }
@@ -352,6 +399,12 @@
         "title": "General",
         "options": [
           {
+            "fullname": "tooltip.enabled"
+          },
+          {
+            "fullname": "tooltip.followPointer"
+          },
+          {
             "fullname": "tooltip.headerFormat"
           },
           {
@@ -369,22 +422,21 @@
         "title": "Color and border",
         "options": [
           {
-            "fullname":"tooltip.backgroundColor"
+            "fullname": "tooltip.backgroundColor"
           },
           {
-            "fullname":"tooltip.borderWidth"
+            "fullname": "tooltip.borderWidth"
           },
           {
-            "fullname":"tooltip.borderRadius"
+            "fullname": "tooltip.borderRadius"
           },
           {
-            "fullname":"tooltip.borderColor"
+            "fullname": "tooltip.borderColor"
           }
         ]
       }
     ]
   },
-
   {
     "id": "exporting",
     "panelTitle": "Exporting",

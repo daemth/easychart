@@ -35,6 +35,18 @@
                         "deprecated": false
                     },
                     {
+                        "name": "chart--animation",
+                        "fullname": "chart.animation",
+                        "title": "animation",
+                        "parent": "chart",
+                        "isParent": false,
+                        "returnType": "Boolean|Object",
+                        "defaults": "true",
+                        "description": "<p>Set the overall animation for all chart updating. Animation can be disabled throughout\r\n the chart by setting it to false here. It can be overridden for each individual\r\n API method as a function parameter. The only animation not affected by this option is the \r\n initial series animation, see <a class=\"internal\" href=\"#plotOptions.series.animation\">plotOptions.series.animation</a>.</p>\r\n \r\n <p>The animation can either be set as a boolean or a configuration object. If <code>true</code>,\r\n it will use the 'swing' jQuery easing and a duration of 500 ms. If used as a configuration object,\r\n the following properties are supported: \r\n </p><dl>\r\n \t<dt>duration</dt>\r\n \t<dd>The duration of the animation in milliseconds.</dd>\r\n \t\r\n \t<dt>easing</dt>\r\n \t<dd>A string reference to an easing function set on the <code>Math</code> object. See <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highcharts/highcharts/tree/master/samples/highcharts/plotoptions/series-animation-easing/\">the easing demo</a>.</dd>\r\n </dl>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-none/\" target=\"_blank\">Updating with no animation</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-duration/\" target=\"_blank\">with a longer duration</a>,  \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/animation-easing/\" target=\"_blank\">with a jQuery UI easing</a>.",
+                        "deprecated": false
+                    },
+                    {
                         "name": "chart--zoomType",
                         "fullname": "chart.zoomType",
                         "title": "zooming",
@@ -474,6 +486,77 @@
                         "deprecated": false
                     },
                     {
+                        "name": "xAxis-plotLines",
+                        "fullname": "xAxis.plotLines",
+                        "title": "plotLines",
+                        "parent": "xAxis",
+                        "isParent": true,
+                        "returnType": "Array<Object>",
+                        "description": "An array of lines stretching across the plot area, marking a specific value on one of the axes.",
+                        "deprecated": false,
+                        "options": [
+                            {
+                                "name": "xAxis-plotLines--color",
+                                "fullname": "xAxis.plotLines.color",
+                                "title": "color",
+                                "parent": "xAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Color",
+                                "description": "The color of the line.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">A red line from X axis</a>"
+                            },
+                            {
+                                "name": "xAxis-plotLines--dashStyle",
+                                "fullname": "xAxis.plotLines.dashStyle",
+                                "title": "dashStyle",
+                                "parent": "xAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "String",
+                                "defaults": "Solid",
+                                "values": "[\"Solid\", \"ShortDash\", \"ShortDot\", \"ShortDashDot\", \"ShortDashDotDot\", \"Dot\", \"Dash\" ,\"LongDash\", \"DashDot\", \"LongDashDot\", \"LongDashDotDot\"]",
+                                "since": "1.2",
+                                "description": "The dashing or dot style for the plot line. For possible values see <a href=\"http://jsfiddle.net/gh/get/jquery/1.7.1/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-dashstyle-all/\">this overview</a>.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-dashstyle/\" target=\"_blank\">Dash and dot pattern</a>",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "xAxis-plotLines-label--text",
+                                "fullname": "xAxis.plotLines.label.text",
+                                "title": "text",
+                                "parent": "xAxis-plotLines-label",
+                                "isParent": false,
+                                "returnType": "String",
+                                "defaults": "",
+                                "values": "",
+                                "since": "2.1",
+                                "description": "The text itself. A subset of HTML is supported.",
+                                "demo": "",
+                                "seeAlso": "",
+                                "deprecated": false
+                            },
+                            {
+                                "name": "xAxis-plotLines--value",
+                                "fullname": "xAxis.plotLines.value",
+                                "title": "value",
+                                "parent": "xAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The position of the line in axis units.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">Between two categories on X axis</a>"
+                            },
+                            {
+                                "name": "xAxis-plotLines--width",
+                                "fullname": "xAxis.plotLines.width",
+                                "title": "width",
+                                "parent": "xAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The width or thickness of the plot line.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">2px wide line from X axis</a>"
+                            }
+                        ]
+                    },
+                    {
                         "name": "xAxis-plotBands",
                         "fullname": "xAxis.plotBands",
                         "title": "plotBands",
@@ -494,6 +577,16 @@
                                 "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Color band</a>"
                             },
                             {
+                                "name": "xAxis-plotBands-label--text",
+                                "fullname": "xAxis.plotBands.label.text",
+                                "title": "text",
+                                "parent": "xAxis-plotBands-label",
+                                "isParent": false,
+                                "returnType": "String",
+                                "since": "2.1",
+                                "description": "The string text itself. A subset of HTML is supported."
+                            },
+                            {
                                 "name": "xAxis-plotBands--from",
                                 "fullname": "xAxis.plotBands.from",
                                 "title": "from",
@@ -512,16 +605,6 @@
                                 "returnType": "Number",
                                 "description": "The end position of the plot band in axis units.",
                                 "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Datetime axis</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-from/\" target=\"_blank\">categorized axis</a>,"
-                            },
-                            {
-                                "name": "xAxis-plotBands-label--text",
-                                "fullname": "xAxis.plotBands.label.text",
-                                "title": "text",
-                                "parent": "xAxis-plotBands-label",
-                                "isParent": false,
-                                "returnType": "String",
-                                "since": "2.1",
-                                "description": "The string text itself. A subset of HTML is supported."
                             }
                         ]
                     }
@@ -575,6 +658,36 @@
                         "returnType": "Number",
                         "description": "The maximum value of the axis. If <code>null</code>, the max value is automatically calculated. If the <code>endOnTick</code> option is true, the <code>max</code> value might be rounded up. The actual maximum value is also influenced by  <a class=\"internal\" href=\"#chart\">chart.alignTicks</a>.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-200/\" target=\"_blank\">Y axis max of 200</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-logarithmic/\" target=\"_blank\">Y axis max on logarithmic axis</a>"
+                    },
+                    {
+                        "name": "yAxis--minColor",
+                        "fullname": "yAxis.minColor",
+                        "title": "minColor",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "#EFEFFF",
+                        "values": "",
+                        "since": "4.0",
+                        "description": "Solid gauge only. Unless <a href=\"#yAxis.stops\">stops</a> are set, the color to represent the minimum value of the Y axis.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/mincolor-maxcolor/\" target=\"_blank\">Min and max color</a>",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "yAxis--maxColor",
+                        "fullname": "yAxis.maxColor",
+                        "title": "maxColor",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Color",
+                        "defaults": "#102D4C",
+                        "values": "",
+                        "since": "4.0",
+                        "description": "Solid gauge only. Unless <a href=\"#yAxis.stops\">stops</a> are set, the color to represent the maximum value of the Y axis.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/mincolor-maxcolor/\" target=\"_blank\">Min and max colors</a>",
+                        "seeAlso": "",
+                        "deprecated": false
                     },
                     {
                         "name": "yAxis--opposite",
@@ -727,6 +840,71 @@
                                 "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">2px wide line from X axis</a>"
                             }
                         ]
+                    },
+                    {
+                        "name": "yAxis-plotBands",
+                        "fullname": "yAxis.plotBands",
+                        "title": "plotBands",
+                        "parent": "yAxis",
+                        "isParent": true,
+                        "returnType": "Array<Object>",
+                        "description": "An array of objects defining plot bands on the Y axis.",
+                        "deprecated": false,
+                        "options": [
+                            {
+                                "name": "yAxis-plotBands--color",
+                                "fullname": "yAxis.plotBands.color",
+                                "title": "color",
+                                "parent": "yAxis-plotBands",
+                                "isParent": false,
+                                "returnType": "Color",
+                                "description": "The color of the plot band.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Color band</a>"
+                            },
+                            {
+                                "name": "yAxis-plotBands-label--text",
+                                "fullname": "yAxis.plotBands.label.text",
+                                "title": "text",
+                                "parent": "yAxis-plotBands-label",
+                                "isParent": false,
+                                "returnType": "String",
+                                "since": "2.1",
+                                "description": "The string text itself. A subset of HTML is supported."
+                            },
+                            {
+                                "name": "yAxis-plotBands--from",
+                                "fullname": "yAxis.plotBands.from",
+                                "title": "from",
+                                "parent": "yAxis-plotBands",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The start position of the plot band in axis units.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Datetime axis</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-from/\" target=\"_blank\">categorized axis</a>,"
+                            },
+                            {
+                                "name": "yAxis-plotBands--to",
+                                "fullname": "yAxis.plotBands.to",
+                                "title": "to",
+                                "parent": "yAxis-plotBands",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "description": "The end position of the plot band in axis units.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-color/\" target=\"_blank\">Datetime axis</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotbands-from/\" target=\"_blank\">categorized axis</a>,"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "yAxis--stops",
+                        "fullname": "yAxis.stops",
+                        "title": "Color stops (for solid gauge only)",
+                        "parent": "yAxis",
+                        "isParent": false,
+                        "returnType": "Array<Array>",
+                        "since": "4.0",
+                        "description": "<p>Solid gauge series only. Color stops for the solid gauge. Use this in cases where a linear gradient between a <code>minColor</code> and <code>maxColor</code> is not sufficient. The stops is an array of tuples, where the first item is a float between 0 and 1 assigning the relative position in the gradient, and the second item is the color.</p>\r\n\r\n<p>For solid gauges, the Y axis also inherits the concept of <a href=\"http://api.highcharts.com/highmaps#colorAxis.dataClasses\">data classes</a> from the Highmaps color axis.</p>\r\n",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/demo/gauge-solid/\" target=\"_blank\">True by default</a>",
+                        "seeAlso": "<a href=\"#yAxis.minColor\">minColor</a>, <a href=\"#yAxis.maxColor\">maxColor</a>.",
+                        "deprecated": false
                     }
                 ]
             }
@@ -788,35 +966,33 @@
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/stack/\" target=\"_blank\">Stacked and grouped columns</a>",
                         "deprecated": false
                     }
-                ],
-                "panes": [
+                ]
+            },
+            {
+                "title": "axis",
+                "options": [
                     {
-                        "title": "axis",
-                        "options": [
-                            {
-                                "name": "series--xAxis",
-                                "fullname": "series.xAxis",
-                                "title": "xAxis",
-                                "parent": "series",
-                                "isParent": false,
-                                "returnType": "Number|String",
-                                "defaults": "0",
-                                "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
-                                "deprecated": false
-                            },
-                            {
-                                "name": "series--yAxis",
-                                "fullname": "series.yAxis",
-                                "title": "yAxis",
-                                "parent": "series",
-                                "isParent": false,
-                                "returnType": "Number|String",
-                                "defaults": "0",
-                                "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
-                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
-                                "deprecated": false
-                            }
-                        ]
+                        "name": "series--xAxis",
+                        "fullname": "series.xAxis",
+                        "title": "xAxis",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number|String",
+                        "defaults": "0",
+                        "description": "When using dual or multiple x axes, this number defines which xAxis the particular series is connected to. It refers to either the <a href=\"#xAxis.id\">axis id</a> or the index of the axis in the xAxis array, with 0 being the first.",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "series--yAxis",
+                        "fullname": "series.yAxis",
+                        "title": "yAxis",
+                        "parent": "series",
+                        "isParent": false,
+                        "returnType": "Number|String",
+                        "defaults": "0",
+                        "description": "When using dual or multiple y axes, this number defines which yAxis the particular series is connected to. It refers to either the <a href=\"#yAxis.id\">axis id</a> or the index of the axis in the yAxis array, with 0 being the first.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/series/yaxis/\" target=\"_blank\">Apply the column series to the secondary Y axis</a>",
+                        "deprecated": false
                     }
                 ]
             }
@@ -932,6 +1108,32 @@
             {
                 "title": "General",
                 "options": [
+                    {
+                        "name": "tooltip--enabled",
+                        "fullname": "tooltip.enabled",
+                        "title": "enabled",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "true",
+                        "description": "Enable or disable the tooltip.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/tooltip/enabled/\" target=\"_blank\">Disabled</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/plotoptions/series-point-events-mouseover/\" target=\"_blank\">disable tooltip and show values on chart instead</a>."
+                    },
+                    {
+                        "name": "tooltip--followPointer",
+                        "fullname": "tooltip.followPointer",
+                        "title": "followPointer",
+                        "parent": "tooltip",
+                        "isParent": false,
+                        "returnType": "Boolean",
+                        "defaults": "false",
+                        "values": "",
+                        "since": "3.0",
+                        "description": "<p>Whether the tooltip should follow the mouse as it moves across columns, pie slices and other point types with an extent. By default it behaves this way for scatter, bubble and pie series by override in the <code>plotOptions</code> for those series types. </p>\r\n<p>For touch moves to behave the same way, <a href=\"#tooltip.followTouchMove\">followTouchMove</a> must be <code>true</code> also.</p>",
+                        "demo": "",
+                        "seeAlso": "",
+                        "deprecated": false
+                    },
                     {
                         "name": "tooltip--headerFormat",
                         "fullname": "tooltip.headerFormat",

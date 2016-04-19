@@ -20,20 +20,20 @@
   @import "components/helpers";
   @import "components/loader";
   @import "components/template-list";
-
+  
   a, .hover {
     color: $base-accent-color;
     cursor: pointer;
   }
-
+  
   .active {
     color: $base-accent-color;
   }
-
+  
   .container {
     clear: both;
   }
-  .Scp{
+  .Scp {
     position: absolute;
     margin-top: 5px;
     width: 200px;
@@ -41,10 +41,10 @@
     border: 1px solid $light-gray;
     border-radius: 3px;
   }
-  .header{
+  .header {
     margin-bottom: 20px;
     background-color: #333;
-    width:100%;
+    width: 100%;
     display: inline-block;
     .logo {
       float: right;
@@ -55,28 +55,28 @@
         height: 50px;
       }
     }
-    .navigation{
+    .navigation {
       margin-left: 20px;
       margin-top: 22px;
       float: left;
-      .tab-link a{
+      .tab-link a {
         text-decoration: none;
         color: white;
       }
-
-      .tab-link.is-active{
+      
+      .tab-link.is-active {
         background: $super-light-gray;
         border: none;
-        a{
+        a {
           color: $base-accent-color;
         }
       }
     }
-    &:after{
+    &:after {
       clear: both;
     }
   }
-  .revisionElement{
+  .revisionElement {
     margin-top: 20px;
     border: 1px solid $light-gray;
     background: white;
@@ -85,33 +85,35 @@
     float: left;
     width: 100%;
   }
-  .objectArray{
+
+  .objectArray {
     border: 1px solid $light-gray;
     display: inline-block;
     width: 100%;
-    .title{
+
+    .title {
+      padding: 7.5px 10px;
       width: 100%;
       float: left;
-      padding: 7.5px 10px;
       background: $super-light-gray;
-      h4, h5{
+      h4, h5 {
         float: left;
       }
-      .btn{
+      .btn {
         float: right;
       }
     }
-    .list{
+    .list {
       width: 100%;
       float: left;
-      .item{
-        .title{
+      .item {
+        .title {
           border-bottom: 1px solid $light-gray;
           border-top: 1px solid $light-gray;
         }
         width: 100%;
         float: left;
-        .options{
+        .options {
           float: left;
           width: 100%;
           padding-top: 20px;
@@ -119,30 +121,53 @@
       }
     }
   }
-  .readOnlyBox{
+
+  .arrayArray {
+    border: 1px solid $light-gray;
+    display: inline-block;
+    width: 100%;
+
+    .title {
+      padding: 7.5px 10px;
+      width: 100%;
+      float: left;
+      background: $super-light-gray;
+      h4, h5 {
+        float: left;
+      }
+      .btn {
+        float: right;
+      }
+    }
+
+    input {
+      display: inline-block;
+    }
+  }
+  
+  .readOnlyBox {
     border: 1px solid $light-gray;
     background: white;
     padding: 10px 20px;
     display: block;
     margin-bottom: 10px;
   }
-  .titleBar{
+  .titleBar {
     display: inline-block;
     width: 100%;
     padding-bottom: 20px;
-    h3{
+    h3 {
       float: left;
     }
-    .btn{
+    .btn {
       margin-left: 10px;
       float: right;
     }
   }
-
-
+  
   .file_drop {
     padding: 50px;
     background: $light-gray;
   }
-
+  
 }

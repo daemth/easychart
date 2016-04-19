@@ -51,6 +51,9 @@
                 case returnType.toLowerCase() == 'array<object>':
                     element = require('./properties/arrayObject')(property, configService, configValue, that);
                     break;
+                case returnType.toLowerCase() == 'array<array>':
+                    element = require('./properties/arrayArray')(property, configService, configValue, that);
+                    break;
                 // array
                 case (returnType.lastIndexOf('Array', 0) === 0):
                     element = require('./properties/array')(property, configService, configValue, disabled);
