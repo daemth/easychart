@@ -1,6 +1,6 @@
 /**
  * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
- * @version v3.0.0
+ * @version v3.1.1
  * @link 
  * @license MIT
  */

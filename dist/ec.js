@@ -1,6 +1,6 @@
 /**
  * easychart - Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library
- * @version v3.0.0
+ * @version v3.1.1
  * @link 
  * @license MIT
  */
@@ -20466,6 +20466,9 @@ var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
     draining = false;
     if (currentQueue.length) {
         queue = currentQueue.concat(queue);
@@ -30116,10 +30119,14 @@ return self})();
             services.config.setStringified(string);
         }
 
-        function getConfig(config) {
-            return services.config.getRaw(config);
+        function getConfig() {
+            return services.config.getRaw();
         }
-
+        
+        function getConfigAndData(){
+            return services.config.get();
+        }
+        
         function getConfigStringified() {
             return services.config.getStringified();
         }
@@ -30153,6 +30160,7 @@ return self})();
             setConfig: setConfig,
             setConfigStringified: setConfigStringified,
             getConfig: getConfig,
+            getConfigAndData: getConfigAndData,
             getConfigStringified: getConfigStringified,
             setOptionsUrl: setOptionsUrl,
             getOptionsUrl: getOptionsUrl,
@@ -30164,6 +30172,7 @@ return self})();
 
     module.exports = constructor;
 })();
+
 },{}],177:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
