@@ -58,10 +58,14 @@
             services.config.setStringified(string);
         }
 
-        function getConfig(config) {
-            return services.config.getRaw(config);
+        function getConfig() {
+            return services.config.getRaw();
         }
-
+        
+        function getConfigAndData(){
+            return services.config.get();
+        }
+        
         function getConfigStringified() {
             return services.config.getStringified();
         }
@@ -95,6 +99,7 @@
             setConfig: setConfig,
             setConfigStringified: setConfigStringified,
             getConfig: getConfig,
+            getConfigAndData: getConfigAndData,
             getConfigStringified: getConfigStringified,
             setOptionsUrl: setOptionsUrl,
             getOptionsUrl: getOptionsUrl,
