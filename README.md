@@ -4,25 +4,25 @@
 ## WHAT IS EASYCHART?
 
 Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library.
- 
-It was born (somewhere in 2013) out of the need to make it possible for website-editors to embed and configure Highcharts in our websites in a more intuitive way than writing javascript code in the backend. So it has evolved from a sneaky textarea to a simple yet customizable user-interface where one can create a "Highcharts Options Object" (and thus a Highchart-chart) by pasting csv-data and clicking around. 
+
+It was born (somewhere in 2013) out of the need to make it possible for website-editors to embed and configure Highcharts in our websites in a more intuitive way than writing javascript code in the backend. So it has evolved from a sneaky textarea to a simple yet customizable user-interface where one can create a "Highcharts Options Object" (and thus a Highchart-chart) by pasting csv-data and clicking around.
 
 ## Integration
-### HighCharts 
+### HighCharts
 
 Easychart is written as a vannila js application, very easy to integrate in your specific project or content management system. In fact, the Easychart-plugin isn't really made for standalone-use, it is made to shine in the backend of content management systems.
- 
+
 We've already built an [**Easychart-module for Drupal**] (https://www.drupal.org/project/easychart) which blends seamlessly with our Easychart-plugin. This module makes it possible to manage your charts in a convenient Drupal-manner. Even more, a chart only needs to be made once and can be reused in other nodes, views, panels... Not enough? It even has *WYSIWYG-integration* so it's possible to add charts through your texteditor.
- 
+
 *The Easychart-plugin and -Drupal-module are free.*
- 
+
 **Attention**
 [Highcharts] (http://www.highcharts.com/) is free for personal, school or non-profit projects under the Creative Commons Attribution - Non Commercial 3.0 License.
-For commercial and governmental websites and projects, you need to buy a license. (But they're absolutely worth every penny.) See [License and Pricing] (http://shop.highsoft.com/highcharts.html). 
+For commercial and governmental websites and projects, you need to buy a license. (But they're absolutely worth every penny.) See [License and Pricing] (http://shop.highsoft.com/highcharts.html).
 
 With Easychart we hope to make the beauty of Highcharts accessible to almost everyone.
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
-### Handsontables 
+### Handsontables
 
 If Handsontables is loaded before easycharts, it will use it automatically as data editor. Otherwise is it will fallback to a simple editable table.
 
@@ -41,18 +41,32 @@ new ec({
     element: containerNode
 });
 ```
-### options.customise
+### options.templateTab
+Toggle on and off the templates tab [default:true]
+```javascript
+new ec({
+    templateTab: true
+});
+```
+### options.dataTab
+Toggle on and off the data tab [default:true]
+```javascript
+new ec({
+    dataTab: true
+});
+```
+### options.customiseTab
 Toggle on and off the customise tab [default:false]
 ```javascript
 new ec({
-    customise: true
+    customiseTab: true
 });
 ```
-### options.debugger
+### options.debuggerTab
 Toggle on and off the debugger tab [default:false]
 ```javascript
 new ec({
-    debugger: true
+    debuggerTab: true
 });
 ```
 ### options.data
@@ -118,7 +132,7 @@ new ec({
 });
 ```
 example [options](src/js/config/options.json)
-disclaimer this file is generated -> [link](#generate-options-file) 
+disclaimer this file is generated -> [link](#generate-options-file)
 ### options.optionsUrl
 Pass an url to a options json file
 ```javascript
@@ -312,7 +326,7 @@ instance.getTemplates();
 Set the current config from code
 ```javascript
 var instance = new ec();
-var config = 
+var config =
     {
         "chart": {
             "type": "column",
@@ -361,7 +375,7 @@ set the presets for the instance
             "#FF0000"
         ]
     }
-    
+
 var instance = new ec();
 instance.setPreset(preset)
 ```
