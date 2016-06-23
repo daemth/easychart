@@ -29,20 +29,6 @@
         var states = {};
 
         // by default show this tab
-        if(opts.templatesTab != false) {
-            states.templates = {
-                title: 'Templates',
-                dependencies: function () {
-                    var that = {};
-                    that.templateSelection = require('./components/templateSelection.js')(services);
-                    return that;
-                },
-                template: function (dependencies) {
-                    return h('div', [dependencies.templateSelection.template()]);
-                }
-          }
-        }
-        // by default show this tab
         if(opts.dataTab != false) {
             states.data = {
               title: 'Data',
@@ -57,6 +43,20 @@
               destroy: function (dependencies) {
                   dependencies.import.destroy()
               }
+          }
+        }
+        // by default show this tab
+        if(opts.templatesTab != false) {
+            states.templates = {
+                title: 'Templates',
+                dependencies: function () {
+                    var that = {};
+                    that.templateSelection = require('./components/templateSelection.js')(services);
+                    return that;
+                },
+                template: function (dependencies) {
+                    return h('div', [dependencies.templateSelection.template()]);
+                }
           }
         }
         if (opts.customiseTab == true) {
