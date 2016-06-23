@@ -237,7 +237,7 @@ instance.setDataCSV(csvString);
 ### instance.setOptions
 Set the options with the customisable attributes for the customise page
 ```javascript
-var opts:[
+var opts = [
     {
         "id": "chart",
         "panelTitle": "Chart settings",
