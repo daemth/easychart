@@ -75,7 +75,7 @@ function constructor(opts) {
             }
         }
     }
-    if (opts.debuggerTab != false) {
+    if (opts.debuggerTab == true) {
         states.debugger = {
             title: 'Debug',
             dependencies: function () {
