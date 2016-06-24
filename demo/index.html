@@ -27,13 +27,11 @@
         var container = document.getElementById('container');
         window.easychart = new ec({
             element: container,
-            customise: true,
             debugger: true,
             data: [
                 ['','GWh'],
                 [2016,18262]
             ],
-            templatesTab: false,
             events: {
                 'configUpdate': function (e) {
                     //console.log(window.easychart.getConfigStringified());

@@ -25170,7 +25170,7 @@ function constructor(opts) {
     var states = {};
 
     // by default show this tab
-    if(!opts.dataTab || opts.dataTab != false) {
+    if(opts.dataTab != false) {
         states.data = {
             title: 'Data',
             dependencies: function () {
