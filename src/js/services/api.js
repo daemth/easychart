@@ -9,6 +9,10 @@
             return services.data.get();
         }
 
+        function triggerUpdate() {
+            services.data.triggerUpdate();
+        }
+
         // data csv
         function setDataCSV(csv) {
             services.data.setCSV(csv);
@@ -61,11 +65,11 @@
         function getConfig() {
             return services.config.getRaw();
         }
-        
+
         function getConfigAndData(){
             return services.config.get();
         }
-        
+
         function getConfigStringified() {
             return services.config.getStringified();
         }
@@ -89,6 +93,7 @@
         return {
             setData: setData,
             getData: getData,
+            triggerUpdate: triggerUpdate,
             setDataUrl: setDataUrl,
             getDataUrl: getDataUrl,
             setDataCSV: setDataCSV,
