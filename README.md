@@ -56,7 +56,7 @@ new ec({
 });
 ```
 ### options.customiseTab
-Toggle on and off the customise tab [default:false]
+Toggle on and off the customise tab [default:true]
 ```javascript
 new ec({
     customiseTab: true
