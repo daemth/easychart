@@ -69,6 +69,7 @@
             if(!config.yAxis){
                 config.yAxis = [{}];
             }
+            configUpdate();
         };
 
         that.setValue = function (path, value) {
