@@ -26,22 +26,28 @@
             revision: revisionService(mInstance)
         };
 
-        var states = {
-            'data': {
-                title: 'Data',
-                dependencies: function () {
-                    var that = {};
-                    that.import = require('./components/import.js')(services);
-                    return that;
-                },
-                template: function (dependencies) {
-                    return h('div', [dependencies.import.template()]);
-                },
-                destroy: function (dependencies) {
-                    dependencies.import.destroy()
-                }
-            },
-            'templates': {
+        var states = {};
+
+        // by default show this tab
+        if(opts.dataTab != false) {
+            states.data = {
+              title: 'Data',
+              dependencies: function () {
+                  var that = {};
+                  that.import = require('./components/import.js')(services);
+                  return that;
+              },
+              template: function (dependencies) {
+                  return h('div', [dependencies.import.template()]);
+              },
+              destroy: function (dependencies) {
+                  dependencies.import.destroy()
+              }
+          }
+        }
+        // by default show this tab
+        if(opts.templatesTab != false) {
+            states.templates = {
                 title: 'Templates',
                 dependencies: function () {
                     var that = {};
@@ -51,9 +57,9 @@
                 template: function (dependencies) {
                     return h('div', [dependencies.templateSelection.template()]);
                 }
-            }
-        };
-        if (opts.customise == true) {
+          }
+        }
+        if (opts.customiseTab == true) {
             states.customise = {
                 title: 'Customise',
                 dependencies: function () {
@@ -69,7 +75,7 @@
                 }
             }
         }
-        if (opts.debugger == true) {
+        if (opts.debuggerTab == true) {
             states.debugger = {
                 title: 'Debug',
                 dependencies: function () {
@@ -88,8 +94,14 @@
         if (typeof opts.element !== 'undefined') {
             opts.element.className += ' ec';
             var mainRouter = new router(opts.element, states, services);
-            mainRouter.goToState('data');
 
+            if(opts.dataTab) {
+              mainRouter.goToState('data');
+            } else if(opts.templateTab) {
+              mainRouter.goToState('templates');
+            } else if(opts.customiseTab) {
+              mainRouter.goToState('customise');
+            }
         }
 
         return new Api(services);
