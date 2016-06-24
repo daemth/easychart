@@ -1,10 +1,14 @@
 {
   "name": "easychart",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library",
-  "main": "src/app.js",
+  "main": "dist/ec.js",
   "dependencies": {
-    "highcharts": "^4.2.3",
+    "highcharts": "^4.2.3"
+  },
+  "devDependencies": {
+    "papaparse": "^4.1.2",
+    "highlight.js": "^9.0.0",
     "json-fn": "^0.60.0",
     "dom-delegator": "^13.1.0",
     "drag-drop": "^2.3.1",
@@ -35,14 +39,10 @@
     "browserify": "^13.0.0",
     "browserify-css": "^0.9.0",
     "browserify-data": "^0.2.0",
-    "highlight.js": "^9.0.0",
-    "papaparse": "^4.1.2",
     "vdom-virtualize": "^1.0.1",
     "simple-color-picker": "0.0.9",
     "virtual-dom": "^2.1.1",
-    "xhr": "^2.2.0"
-  },
-  "devDependencies": {
+    "xhr": "^2.2.0",
     "lodash.assign": "^4.0.3",
     "lodash.clone": "^4.3.0",
     "lodash.fill": "^3.2.2",
@@ -84,9 +84,6 @@
       "browserify-data",
       "svg-browserify",
       "folderify"
-    ],
-    "no-parse": [
-      "lodash"
     ]
   }
 }
