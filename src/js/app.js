@@ -29,7 +29,7 @@
         var states = {};
 
         // by default show this tab
-        if(opts.dataTab != false) {
+        if(!opts.dataTab || opts.dataTab != false) {
             states.data = {
               title: 'Data',
               dependencies: function () {
@@ -45,7 +45,8 @@
               }
           }
         }
-        // by default show this tab
+        // by default show this tab.
+
         if(opts.templatesTab != false) {
             states.templates = {
                 title: 'Templates',
@@ -59,7 +60,7 @@
                 }
           }
         }
-        if (opts.customiseTab == true) {
+        if (opts.customiseTab != false) {
             states.customise = {
                 title: 'Customise',
                 dependencies: function () {
@@ -75,7 +76,7 @@
                 }
             }
         }
-        if (opts.debuggerTab == true) {
+        if (opts.debuggerTab != false) {
             states.debugger = {
                 title: 'Debug',
                 dependencies: function () {
@@ -94,12 +95,11 @@
         if (typeof opts.element !== 'undefined') {
             opts.element.className += ' ec';
             var mainRouter = new router(opts.element, states, services);
-
-            if(opts.dataTab) {
+            if(opts.dataTab != false) {
               mainRouter.goToState('data');
-            } else if(opts.templateTab) {
+            } else if(opts.templateTab != false) {
               mainRouter.goToState('templates');
-            } else if(opts.customiseTab) {
+            } else if(opts.customiseTab != false) {
               mainRouter.goToState('customise');
             }
         }
