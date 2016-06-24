@@ -1,5 +1,4 @@
 (function () {
-    var css = require('../css/style.css');
     var Delegator = require("dom-delegator");
     Delegator();
     function constructor(opts) {
