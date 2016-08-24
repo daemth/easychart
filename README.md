@@ -5,16 +5,13 @@
 
 Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library.
 
-It was born (somewhere in 2013) out of the need to make it possible for website-editors to embed and configure Highcharts in our websites in a more intuitive way than writing javascript code in the backend. So it has evolved from a sneaky textarea to a simple yet customizable user-interface where one can create a "Highcharts Options Object" (and thus a Highchart-chart) by pasting csv-data and clicking around.
-
-
-## Csv data parsing.
+## Csv data parsing/structure.
 ### In order to parse your submitted data correctly it is important to know that:
   - columns contain series, the first cell of a column contains the series-name
   - when using categories, the first column contains the category-names (the first cell of the category-column MUST BE EMPTY)
 
 
-## Integration
+## Easychart integration
 ### Highcharts
 
 Easychart is written as a vannila js application, very easy to integrate in your specific project or content management system. In fact, the Easychart-plugin isn't really made for standalone-use, it is made to shine in the backend of content management systems.
