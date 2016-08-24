@@ -27,9 +27,9 @@ For commercial and governmental websites and projects, you need to buy a license
 
 With Easychart we hope to make the beauty of Highcharts accessible to almost everyone.
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
-### [Handsontable] (https://handsontable.com/)
+### Handsontable
 
-If Handsontable is loaded before Easychart, it will use it automatically as data editor. Otherwise it will fallback to a simple editable table.
+If [Handsontable] (https://handsontable.com/) is loaded before Easychart, it will use it automatically as data editor. Otherwise it will fallback to a simple editable table.
 
 ## options
 You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
@@ -427,7 +427,6 @@ options:
 *   presets
 *   element
 
-
 api:
 * setData
 * setDataUrl
@@ -438,5 +437,4 @@ api:
 Available under the MIT license.
 
 ## Sponsoring
-This plugin is sponsored by The Government of  Flanders: http://overheid.vlaanderen.be
-
+This plugin is sponsored by The Government of Flanders: http://overheid.vlaanderen.be
