@@ -12,10 +12,11 @@
                 }
             }, [property.title])),
             h('div.form-item__input', h('input', {
+                step: '0.01',
                 disabled: disabled,
-                'placeholder': property.defaults,
-                'type': 'number',
-                'value': typeof configValue !== 'undefined' ? configValue : "",
+                placeholder: property.defaults,
+                type: 'number',
+                value: typeof configValue !== 'undefined' ? configValue : "",
                 'ev-blur': function (e) {
                     if (e.target.value !== '') {
                         configService.setValue(property.fullname, parseFloat(e.target.value));
