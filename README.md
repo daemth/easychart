@@ -5,6 +5,7 @@
 
 Easychart is a graphical user interface, built on top of the stunning Highcharts-javascript library.
 
+
 ## Csv data parsing/structure.
 ### In order to parse your submitted data correctly it is important to know that:
   - columns contain series, the first cell of a column contains the series-name
@@ -26,9 +27,9 @@ For commercial and governmental websites and projects, you need to buy a license
 
 With Easychart we hope to make the beauty of Highcharts accessible to almost everyone.
 *The people at [Highsoft] (http://www.highcharts.com/about) are (y)our true heroes, credit where credit is due.*
-### Handsontables
+### [Handsontable] (https://handsontable.com/)
 
-If Handsontables is loaded before easycharts, it will use it automatically as data editor. Otherwise is it will fallback to a simple editable table.
+If Handsontable is loaded before Easychart, it will use it automatically as data editor. Otherwise it will fallback to a simple editable table.
 
 ## options
 You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
