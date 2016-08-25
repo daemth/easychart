@@ -13,7 +13,7 @@
   ],
   "main": "dist/ec.js",
   "dependencies": {
-    "highcharts": "^4.2.3"
+    "highcharts": "^4.2.6"
   },
   "devDependencies": {
     "papaparse": "^4.1.2",
