@@ -32,7 +32,7 @@ gulp.task('sass', function () {
             includePaths: require('node-neat').includePaths
         }))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./src/css'));
+        .pipe(gulp.dest('./src'));
 });
 
 gulp.task('sass:prod', function () {
@@ -42,7 +42,8 @@ gulp.task('sass:prod', function () {
             outputStyle: 'compressed',
             includePaths: require('node-neat').includePaths
         }))
-        .pipe(gulp.dest('./src/css'));
+        .pipe(rename({ basename: 'ec' }))
+        .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('sass:watch', function () {

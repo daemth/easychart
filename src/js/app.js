@@ -1,20 +1,21 @@
-var css = require('../css/style.css');
-var Delegator = require("dom-delegator");
-Delegator();
-function constructor(opts) {
-    var router = require('./services/router.js');
-    var dataService = require('./services/data');
-    var confService = require('./services/config');
-    var optionsService = require('./services/options');
-    var revisionService = require('./services/revision');
-    var templateService = require('./services/templates');
-    var initializer = require('./services/initializer');
-    var Api = require('./services/api');
-    var mediator = require('mediatorjs');
-    var h = require('virtual-dom/h');
-    var mInstance = new mediator.Mediator();
-    var data = new dataService(mInstance);
-    var config = new confService(mInstance, data);
+(function () {
+    var Delegator = require("dom-delegator");
+    Delegator();
+    function constructor(opts) {
+        var router = require('./services/router.js');
+        var dataService = require('./services/data');
+        var confService = require('./services/config');
+        var optionsService = require('./services/options');
+        var revisionService = require('./services/revision');
+        var templateService = require('./services/templates');
+        var initializer = require('./services/initializer');
+        var Api = require('./services/api');
+        var mediator = require('mediatorjs');
+        var h = require('virtual-dom/h');
+        var mInstance = new mediator.Mediator();
+        var data = new dataService(mInstance);
+        var config = new confService(mInstance, data);
+
 
     var services = {
         data: data,
@@ -105,5 +106,6 @@ function constructor(opts) {
 
     return new Api(services);
 }
-module.exports = constructor;
+
 window.ec = constructor;
+})();
