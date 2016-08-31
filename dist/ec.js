@@ -24517,116 +24517,123 @@ function extend(target) {
 
 },{}],142:[function(require,module,exports){
 (function () {
-    var Delegator = require("dom-delegator");
-    Delegator();
-    function constructor(opts) {
-        var router = require('./services/router.js');
-        var dataService = require('./services/data');
-        var confService = require('./services/config');
-        var optionsService = require('./services/options');
-        var revisionService = require('./services/revision');
-        var templateService = require('./services/templates');
-        var initializer = require('./services/initializer');
-        var Api = require('./services/api');
-        var mediator = require('mediatorjs');
-        var h = require('virtual-dom/h');
-        var mInstance = new mediator.Mediator();
-        var data = new dataService(mInstance);
-        var config = new confService(mInstance, data);
+  var Delegator = require('dom-delegator')
+  Delegator()
 
+  function constructor(opts) {
+    var Router = require('./services/router.js')
+    var DataService = require('./services/data')
+    var ConfService = require('./services/config')
+    var optionsService = require('./services/options')
+    var revisionService = require('./services/revision')
+    var templateService = require('./services/templates')
+    var initializer = require('./services/initializer')
+    var Api = require('./services/api')
+    var mediator = require('mediatorjs')
+    var h = require('virtual-dom/h')
+    var mInstance = new mediator.Mediator()
+    var data = new DataService(mInstance)
+    var config = new ConfService(mInstance, data)
 
     var services = {
-        data: data,
-        config: config,
-        mediator: mInstance,
-        options: optionsService(mInstance),
-        templates: templateService(),
-        revision: revisionService(mInstance)
-    };
+      data: data,
+      config: config,
+      mediator: mInstance,
+      options: optionsService(mInstance),
+      templates: templateService(),
+      revision: revisionService(mInstance)
+    }
 
-    var states = {};
+    var states = {}
 
     // by default show this tab
-    if(opts.dataTab != false) {
-        states.data = {
-            title: 'Data',
-            dependencies: function () {
-                var that = {};
-                that.import = require('./components/import.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.import.template()]);
-            },
-            destroy: function (dependencies) {
-                dependencies.import.destroy()
-            }
+    if (opts.dataTab !== false) {
+      states.data = {
+        title: 'Data',
+        dependencies: function () {
+          var that = {}
+          that.import = require('./components/import.js')(services)
+          return that
+        },
+        template: function (dependencies) {
+          return h('div', [dependencies.import.template()])
+        },
+        destroy: function (dependencies) {
+          dependencies.import.destroy()
         }
+      }
     }
-    // by default show this tab.
 
-    if(opts.templatesTab != false) {
-        states.templates = {
-            title: 'Templates',
-            dependencies: function () {
-                var that = {};
-                that.templateSelection = require('./components/templateSelection.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.templateSelection.template()]);
-            }
+    // by default show this tab.
+    if (opts.templatesTab !== false) {
+      states.templates = {
+        title: 'Templates',
+        dependencies: function () {
+          var that = {}
+          that.templateSelection = require('./components/templateSelection.js')(services)
+          return that
+        },
+        template: function (dependencies) {
+          return h('div', [dependencies.templateSelection.template()])
         }
+      }
     }
-    if (opts.customiseTab != false) {
-        states.customise = {
-            title: 'Customise',
-            dependencies: function () {
-                var that = {};
-                that.configurate = require('./components/configure.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.configurate.template()]);
-            },
-            destroy: function (dependencies) {
-                dependencies.configurate.destroy()
-            }
+
+    // by default show this tab.
+    if (opts.customiseTab !== false) {
+      states.customise = {
+        title: 'Customise',
+        dependencies: function () {
+          var that = {}
+          that.configurate = require('./components/configure.js')(services)
+          return that
+        },
+        template: function (dependencies) {
+          return h('div', [dependencies.configurate.template()])
+        },
+        destroy: function (dependencies) {
+          dependencies.configurate.destroy()
         }
+      }
     }
-    if (opts.debuggerTab == true) {
-        states.debugger = {
-            title: 'Debug',
-            dependencies: function () {
-                var that = {};
-                that.debug = require('./components/debug.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.debug.template()]);
-            }
+
+    // DebuggerTab is not shown by default.
+    if (opts.debuggerTab === true) {
+      states.debugger = {
+        title: 'Debug',
+        dependencies: function () {
+          var that = {}
+          that.debug = require('./components/debug.js')(services)
+          return that
+        },
+        template: function (dependencies) {
+          return h('div', [dependencies.debug.template()])
         }
+      }
     }
 
     // initialise the application with given options
-    initializer(opts, services);
+    initializer(opts, services)
     if (typeof opts.element !== 'undefined') {
-        opts.element.className += ' ec';
-        var mainRouter = new router(opts.element, states, services);
-        if(opts.dataTab != false) {
-            mainRouter.goToState('data');
-        } else if(opts.templateTab != false) {
-            mainRouter.goToState('templates');
-        } else if(opts.customiseTab != false) {
-            mainRouter.goToState('customise');
-        }
+      opts.element.className += ' ec'
+
+      var mainRouter = new Router(opts.element, states, services)
+
+      if (opts.dataTab !== false) {
+        mainRouter.goToState('data')
+      } else if (opts.templateTab !== false) {
+        mainRouter.goToState('templates')
+      } else if (opts.customiseTab !== false) {
+        mainRouter.goToState('customise')
+      }
     }
 
-    return new Api(services);
-}
+    return new Api(services)
+  }
 
-window.ec = constructor;
-})();
+  window.ec = constructor
+})()
+
 },{"./components/configure.js":144,"./components/debug.js":148,"./components/import.js":150,"./components/templateSelection.js":157,"./services/api":172,"./services/config":173,"./services/data":174,"./services/initializer":175,"./services/options":176,"./services/revision":177,"./services/router.js":178,"./services/templates":179,"dom-delegator":12,"mediatorjs":93,"virtual-dom/h":111}],143:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
@@ -25153,235 +25160,236 @@ module.exports = constructor;
 
 },{"../../../node_modules/highlight.js/lib/highlight":27,"../../../node_modules/highlight.js/lib/languages/json":28,"../../../node_modules/highlight.js/styles/monokai.css":29,"virtual-dom/h":111}],149:[function(require,module,exports){
 (function () {
-    //var _ = require('lodash');
+  var _ = {
+    forEach: require('lodash.foreach'),
+    isEmpty: require('lodash.isempty'),
+    isUndefined: require('lodash.isundefined')
+  }
 
-    var _ = {
-        forEach: require('lodash.foreach'),
-        isEmpty: require('lodash.isempty'),
-        isUndefined: require('lodash.isundefined')
-    };
+  var h = require('virtual-dom/h')
+  var createElement = require('virtual-dom/create-element')
+  var hot
 
+  function constructor (services) {
+    var that = {}
+    var element
+    var readOnly
+    that.load = function (_element_) {
+      element = _element_
+      var wrapper = createElement(h('div'))
+      readOnly = services.data.getUrl()
+      if (readOnly) {
+        element.appendChild(createElement(h('div.readOnlyBox', h('span', 'A data url was found, the data will be read only'))))
+      }
 
-    var h = require('virtual-dom/h');
-    var createElement = require('virtual-dom/create-element');
-    var hot;
-    function constructor(services) {
-        var that = {};
-        var element;
-        var readOnly;
-        that.load = function (_element_) {
-            element = _element_;
-            var wrapper = createElement(h('div'));
-            readOnly = services.data.getUrl() ? true : false;
-            if (readOnly){
-                element.appendChild(createElement(h('div.readOnlyBox', h('span', 'A data url was found, the data will be read only'))));
-            }
-            element.appendChild(wrapper);
-            var data = services.data.get();
-            data = _.isUndefined(data[0]) ? [[]] : data;
+      element.appendChild(wrapper)
+      var data = services.data.get()
+      data = _.isUndefined(data[0]) ? [
+        []
+      ] : data
 
-            hot = new Handsontable(wrapper, {
-                minRows: 2,
-                minCols: 2,
-                minSpareRows: 1,
-                //minSpareCols: 1,
-                height: 500,
-                stretchH: 'all',
-                rowHeaders: true,
-                colHeaders: true,
-                contextMenu: true,
-                data: data,
-                afterChange: function () {
-                    if(!readOnly){
-                        services.data.set(removeEmptyRows(this));
-                    }
-                },
-                afterRemoveRow:function () {
-                    if(!readOnly){
-                        services.data.set(removeEmptyRows(this));
-                    }
-                },
-                afterRemoveCol:function (test) {
-                    if(!readOnly){
-                        services.data.set(removeEmptyRows(this));
-                    }
-                }
-            });
-            hot.updateSettings({
-                cells: function (row, col, prop) {
-                    var cellProperties = {};
-                    cellProperties.readOnly = readOnly;
-                    return cellProperties;
-                }
-            });
-
-            services.mediator.on('dataUpdate', function (_data_) {
-                readOnly = services.data.getUrl() ? true : false;
-                if(_data_.length > 0){
-                    hot.updateSettings({
-                        data: _data_,
-                        cells: function (row, col, prop) {
-                            var cellProperties = {};
-                            cellProperties.readOnly = readOnly;
-                            return cellProperties;
-                        }
-                    });
-                } else {
-                    hot.clear();
-                }
-
-            }, 'hot');
-        };
-
-        var Hook = function () {};
-        Hook.prototype.hook = function (node) {
-            setTimeout(function () {
-                that.load(node);
-            });
-        };
-
-        that.template = function () {
-            return h('div', {
-                'afterRender': new Hook()
-            });
-        };
-
-
-        that.destroy = function () {
-            services.mediator.off(null, null, 'hot');
-            var data = removeEmptyRows(hot);
-            if (!_.isEmpty(data) && !readOnly) {
-                services.data.set(removeEmptyRows(hot));
-            }
-            hot.destroy();
-            element.innerHTML = '';
-        };
-
-        function removeEmptyRows(hot) {
-            var gridData = hot.getData();
-            var cleanedGridData = [];
-            _.forEach(gridData, function (object, rowKey) {
-                if (!hot.isEmptyRow(rowKey)) cleanedGridData[rowKey] = object;
-            });
-            return cleanedGridData;
+      // TODO linter warning: "Handsontable" is not defined (no-undef)
+      hot = new Handsontable(wrapper, {
+        minRows: 2,
+        minCols: 2,
+        minSpareRows: 1,
+        //  minSpareCols: 1,
+        height: 500,
+        stretchH: 'all',
+        rowHeaders: true,
+        colHeaders: true,
+        contextMenu: true,
+        data: data,
+        afterChange: function () {
+          if (!readOnly) {
+            services.data.set(removeEmptyRows(this))
+          }
+        },
+        afterRemoveRow: function () {
+          if (!readOnly) {
+            services.data.set(removeEmptyRows(this))
+          }
+        },
+        afterRemoveCol: function (test) {
+          if (!readOnly) {
+            services.data.set(removeEmptyRows(this))
+          }
         }
+      })
 
-        return that;
+      hot.updateSettings({
+        cells: function (row, col, prop) {
+          var cellProperties = {}
+          cellProperties.readOnly = readOnly
+          return cellProperties
+        }
+      })
+
+      services.mediator.on('dataUpdate', function (_data_) {
+        readOnly = services.data.getUrl()
+        if (_data_.length > 0) {
+          hot.updateSettings({
+            data: _data_,
+            cells: function (row, col, prop) {
+              var cellProperties = {}
+              cellProperties.readOnly = readOnly
+              return cellProperties
+            }
+          })
+        } else {
+          hot.clear()
+        }
+      }, 'hot')
     }
 
-    module.exports = constructor;
-})();
+    var Hook = function () {}
+    Hook.prototype.hook = function (node) {
+      setTimeout(function () {
+        that.load(node)
+      })
+    }
+
+    that.template = function () {
+      return h('div', {
+        'afterRender': new Hook()
+      })
+    }
+
+    that.destroy = function () {
+      services.mediator.off(null, null, 'hot')
+      var data = removeEmptyRows(hot)
+      if (!_.isEmpty(data) && !readOnly) {
+        services.data.set(removeEmptyRows(hot))
+      }
+      hot.destroy()
+      element.innerHTML = ''
+    }
+
+    function removeEmptyRows (hot) {
+      var gridData = hot.getData()
+      var cleanedGridData = []
+      _.forEach(gridData, function (object, rowKey) {
+        if (!hot.isEmptyRow(rowKey)) cleanedGridData[rowKey] = object
+      })
+      return cleanedGridData
+    }
+
+    return that
+  }
+
+  module.exports = constructor
+})()
 
 },{"lodash.foreach":60,"lodash.isempty":66,"lodash.isundefined":74,"virtual-dom/create-element":109,"virtual-dom/h":111}],150:[function(require,module,exports){
 (function () {
-    var constructor = function (services) {
-        var h = require('virtual-dom/h');
-        var paste = require('./import/paste');
-        var upload = require('./import/upload');
-        var dad = require('./import/dragAndDrop');
-        var url = require('./import/url');
-        var table = require('./table')(services);
-        var hot = require('./hot')(services);
-        var activeTab = services.data.getUrl() ? 'url' : services.data.get().length == 0 ? 'paste' : 'data';
-        var mediator = services.mediator;
-        mediator.on('goToTable', goToTable);
-        var tabOptions = {
-            paste: {
-                label: 'Paste CSV',
-                template: function () {
-                    return paste.template(services);
-                }
-            },
-            upload: {
-                label: 'upload CSV',
-                template: function () {
-                    return h('div', [
-                        upload.template(services),
-                        dad.template(services)
-                    ]);
-                }
-            },
-            url: {
-                label: 'url CSV',
-                template: function () {
-                    return url.template(services);
-                }
-            },
-            data: {
-                label: 'Data table',
-                template: function () {
-                    if (typeof Handsontable !== 'undefined') {
-                        return hot.template(services);
-                    } else {
-                        return table.template(services);
-                    }
+  var constructor = function (services) {
+    var h = require('virtual-dom/h')
+    var paste = require('./import/paste')
+    var upload = require('./import/upload')
+    var dad = require('./import/dragAndDrop')
+    var url = require('./import/url')
+    var table = require('./table')(services)
+    var hot = require('./hot')(services)
+    var activeTab = services.data.getUrl() ? 'url' : services.data.get().length === 0 ? 'paste' : 'data'
+    var mediator = services.mediator
+    mediator.on('goToTable', goToTable)
 
-                },
-                destroy: function () {
-                    if (typeof Handsontable !== 'undefined') {
-                        hot.destroy();
-                    } else {
-                        table.destroy();
-                    }
-                }
-            }
-        };
-
-        function tabLinks() {
-            var links = ['paste', 'upload', 'url', 'data'];
-            return h('ul.vertical-tabs', links.map(function (id) {
-                    var className = activeTab === id ? 'active' : '';
-                    return h('li', {
-                            'className': className
-                        }, h('a', {
-                            'href': '#' + tabOptions[id].label,
-                            'ev-click': function (e) {
-                                load(id);
-                                e.preventDefault();
-                            }
-                        }, tabOptions[id].label)
-                    )
-                })
-            )
+    var tabOptions = {
+      paste: {
+        label: 'Paste CSV data',
+        template: function () {
+          return paste.template(services)
         }
-
-        function load(id) {
-            if (tabOptions[activeTab].destroy) {
-                tabOptions[activeTab].destroy();
-            }
-            activeTab = id;
-            mediator.trigger('treeUpdate');
+      },
+      data: {
+        label: 'Enter CSV Data',
+        template: function () {
+          if (typeof Handsontable !== 'undefined') {
+            // TODO: reference to HOT
+            return hot.template(services)
+          } else {
+            return table.template(services)
+          }
+        },
+        destroy: function () {
+          if (typeof Handsontable !== 'undefined') {
+            hot.destroy()
+          } else {
+            table.destroy()
+          }
         }
-
-        function goToTable() {
-            activeTab = 'data';
-            mediator.trigger('treeUpdate');
+      },
+      upload: {
+        label: 'Upload CSV file',
+        template: function () {
+          return h('div', [
+            upload.template(services),
+            dad.template(services)
+          ])
         }
-
-        function destroy() {
-            mediator.off('goToTable', goToTable);
-            if (tabOptions[activeTab]['destroy']) {
-                tabOptions[activeTab]['destroy']();
-            }
+      },
+      url: {
+        label: 'Url to CSV file',
+        template: function () {
+          return url.template(services)
         }
+      }
+    }
 
-        function template() {
-            return h('div.vertical-tabs-container', [
-                tabLinks(),
-                h('div.vertical-tab-content-container',
-                    h('div.vertical-tab-content', tabOptions[activeTab].template())
-                )
-            ]);
-        }
+    function tabLinks () {
+      var links = ['paste', 'data', 'upload', 'url']
+      return h('ul.vertical-tabs', links.map(function (id) {
+        var className = activeTab === id ? 'active' : ''
+        return h('li', {
+          'className': className
+        }, h('a', {
+          'href': '#' + tabOptions[id].label,
+          'ev-click': function (e) {
+            load(id)
+            e.preventDefault()
+          }
+        }, tabOptions[id].label))
+      }))
+    }
 
-        return {
-            template: template,
-            destroy: destroy
-        };
-    };
+    function load (id) {
+      if (tabOptions[activeTab].destroy) {
+        tabOptions[activeTab].destroy()
+      }
+      activeTab = id
+      mediator.trigger('treeUpdate')
+    }
 
-    module.exports = constructor;
-})();
+    function goToTable () {
+      activeTab = 'data'
+      mediator.trigger('treeUpdate')
+    }
+
+    function destroy () {
+      mediator.off('goToTable', goToTable)
+      if (tabOptions[activeTab]['destroy']) {
+        tabOptions[activeTab]['destroy']()
+      }
+    }
+
+    function template () {
+      return h('div.vertical-tabs-container', [
+        tabLinks(),
+        h('div.vertical-tab-content-container',
+          h('div.vertical-tab-content', tabOptions[activeTab].template())
+        )
+      ])
+    }
+
+    return {
+      template: template,
+      destroy: destroy
+    }
+  }
+
+  module.exports = constructor
+})()
+
 },{"./hot":149,"./import/dragAndDrop":151,"./import/paste":152,"./import/upload":153,"./import/url":154,"./table":156,"virtual-dom/h":111}],151:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
@@ -30951,27 +30959,27 @@ module.exports = constructor;
 })();
 },{"./../components/chart.js":143,"./../components/revision":155,"./../templates/logo":180,"lodash.keys":76,"main-loop":92,"virtual-dom/create-element":109,"virtual-dom/diff":110,"virtual-dom/h":111,"virtual-dom/patch":112}],179:[function(require,module,exports){
 (function () {
-    function constructor(){
-        var jsonfn = require('json-fn');
-        var temp = require('../config/templates.json');
-        var templates = jsonfn.parse(jsonfn.stringify(temp));
-        var that = {};
-        var _ = {
-            cloneDeep: require('lodash.clonedeep')
-        };
-
-        that.get = function(){
-            return _.cloneDeep(templates);
-        };
-
-        that.set = function(_templates_){
-            templates = _templates_;
-        };
-        return that;
+  function constructor () {
+    var jsonfn = require('json-fn')
+    var temp = require('../config/templates.json')
+    var templates = jsonfn.parse(jsonfn.stringify(temp))
+    var that = {}
+    var _ = {
+      cloneDeep: require('lodash.clonedeep')
     }
 
-    module.exports = constructor;
-})();
+    that.get = function () {
+      return _.cloneDeep(templates)
+    }
+
+    that.set = function (_templates_) {
+      templates = _templates_
+    }
+    return that
+  }
+
+  module.exports = constructor
+})()
 
 },{"../config/templates.json":159,"json-fn":35,"lodash.clonedeep":56}],180:[function(require,module,exports){
 (function () {

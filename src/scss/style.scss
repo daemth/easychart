@@ -20,16 +20,16 @@
   @import "components/helpers";
   @import "components/loader";
   @import "components/template-list";
-  
+
   a, .hover {
     color: $base-accent-color;
     cursor: pointer;
   }
-  
+
   .active {
     color: $base-accent-color;
   }
-  
+
   .container {
     clear: both;
   }
@@ -63,7 +63,7 @@
         text-decoration: none;
         color: white;
       }
-      
+
       .tab-link.is-active {
         background: $super-light-gray;
         border: none;
@@ -144,7 +144,7 @@
       display: inline-block;
     }
   }
-  
+
   .readOnlyBox {
     border: 1px solid $light-gray;
     background: white;
@@ -164,10 +164,10 @@
       float: right;
     }
   }
-  
+
   .file_drop {
     padding: 50px;
     background: $light-gray;
   }
-  
+
 }
