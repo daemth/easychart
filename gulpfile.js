@@ -11,14 +11,14 @@ var header = require('gulp-header')
 var pkg = require('./package.json')
 var rename = require('gulp-rename')
 var notify = require('gulp-notify')
+var jade = require('gulp-jade')
+
+const cssDir = './src/css/easychart.css'
+const jadeDir = './src/jade/*.jade'
 
 // in favor of postcss styles task
 var postcss = require('gulp-postcss')
-var easyImport = require('postcss-easy-import')
-var nested = require('postcss-nested')
-var autoprefixer = require('autoprefixer')
-var cssnano = require('cssnano')
-var customProperties = require('postcss-custom-properties')
+var use = require('postcss-use')
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -33,31 +33,30 @@ gulp.task('app:watch', function () {
   gulp.start('sass:watch', 'watchify')
 })
 
-/*
-gulp.task('sass', function () {
-  gulp.src('src/scss/style.scss')
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-      includePaths: require('node-neat').includePaths
+gulp.task('jade', function () {
+  gulp.src([jadeDir])
+    .pipe(jade({
+      pretty: true
     }))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./src'))
+    .pipe(gulp.dest('./dist'))
 })
-*/
 
 gulp.task('css', function () {
-  var processors = [
-    easyImport(),
-    customProperties(),
-    nested(),
-    autoprefixer({browsers: ['last 1 version']}),
-    cssnano()
-  ]
-
-  return gulp.src('./src/css/easychart.css')
+  gulp.src(cssDir)
     .pipe(sourcemaps.init())
-    .pipe(postcss(processors))
-    .pipe(sourcemaps.write('.'))
+    .pipe(
+      postcss([
+        use({
+          modules: ['autoprefixer', 'postcss-import', 'postcss-simple-vars', 'postcss-nested', 'postcss-custom-properties', 'postcss-apply', 'postcss-bem', 'cssnano'],
+          options: {
+            'autoprefixer': {
+              browsers: ['> 1%', 'IE 7']
+            }
+          }
+        })
+      ])
+    )
+    .pipe(sourcemaps.write())
     .pipe(rename({
       dirname: 'css',
       basename: 'easychart',
@@ -65,8 +64,15 @@ gulp.task('css', function () {
       suffix: '.min',
       extname: '.css'
     }))
+    //  .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('./dist'))
-    .pipe(notify({message: 'postcss task complete :-)', onLast: true}))
+    //  .pipe(notify({message: 'postcss task complete :-)', onLast: true}))
+})
+gulp.task('jade:watch', function () {
+  gulp.watch(jadeDir, ['jade'])
+})
+gulp.task('css:watch', function () {
+  gulp.watch(cssDir, ['css'])
 })
 
 gulp.task('sass', function () {

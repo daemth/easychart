@@ -1,1 +1,130 @@
-/* postcss-file */
+/* postcss-modules */
+
+@use postcss-import;
+@use postcss-simple-vars;
+@use autoprefixer;
+@use postcss-custom-properties;
+@use postcss-apply;
+@use postcss-nested;
+@use cssnano;
+
+@import 'https://fonts.googleapis.com/css?family=Raleway:200|Roboto';
+
+/* TODO partial reset --> postcss autoreset */
+
+
+/* imports */
+
+
+/* variabels */
+
+$lime: #01FF70;
+$black: #111111;
+
+/* custom properties */
+
+:root {
+    --lime-on-black: {
+        color: $lime;
+        background-color: $black;
+    }
+    --black-on-lime: {
+        color: $black;
+        background-color: $lime;
+    }
+    --teal-on-navy {
+      color: #39CCCC;
+      background-color: #001F3F;
+    }
+}
+.ec > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.ec {
+  font-size: 10pt;
+  font-family: 'Raleway', sans-serif;
+  background: #ccc;
+
+  display: flex;
+  flex-flow: row wrap;
+
+  .ec__header {
+      font-family: 'Roboto';
+      @apply --teal-on-navy;
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      align-content: space-between;
+
+      .ec__header__title {
+        flex: 1 auto;
+      }
+      .ec__header__togglefs {
+
+      }
+  }
+
+  .ec__conf{
+    flex: 1 auto;
+    background: lightblue;
+    padding:0;
+
+    .ec__conf__tabs {
+      display: flex;
+      flex-direction: row;
+      justify-content:flex-start;
+
+      a.ec__tab {
+        text-transform: uppercase;
+        flex-grow:1;
+        padding: .5rem;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color .2s;
+        @apply --lime-on-black;
+
+        &:hover {
+          @apply --black-on-lime;
+        }
+      }
+      a.ec__tab--active {
+        @apply --teal-on-navy;
+      }
+    }
+    .ec__conf__pane {
+
+    }
+  }
+
+  .ec__chart{
+    flex: 3 auto;
+    color: #111111;
+    background:#dddddd;
+  }
+
+  .ec__footer{
+    @apply --lime-on-black;
+  }
+}
+
+
+/* breakpoints */
+/* TODO switch logic --> mobile first */
+
+@media all and (max-width: 800px) {
+  .ec {
+    flex-flow: column wrap;
+  }
+}
+@media all and (max-width: 600px) {
+  .ec {
+    flex-flow: column wrap;
+    .ec__conf {
+      .ec__conf__tabs {
+        flex-direction: column;
+      }
+    }
+  }
+}

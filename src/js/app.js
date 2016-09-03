@@ -2,7 +2,7 @@
   var Delegator = require('dom-delegator')
   Delegator()
 
-  function constructor(opts) {
+  function constructor (opts) {
     var Router = require('./services/router.js')
     var DataService = require('./services/data')
     var ConfService = require('./services/config')

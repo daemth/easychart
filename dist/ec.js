@@ -24746,389 +24746,378 @@ function extend(target) {
     module.exports = constructor;
 })();
 },{"./configure/axisTabs":145,"./configure/genericTabs":146,"./configure/seriesTabs":147,"lodash.clonedeep":56,"lodash.find":58,"lodash.first":59,"lodash.foreach":60,"lodash.isundefined":74,"lodash.map":79,"lodash.remove":81,"virtual-dom/h":111}],145:[function(require,module,exports){
-var propertyServices = require('../../factories/properties');
+var propertyServices = require('../../factories/properties')
 var _ = {
-    isUndefined: require('lodash.isundefined'),
-    find: require('lodash.find'),
-    map: require('lodash.map'),
-    cloneDeep: require('lodash.clonedeep'),
-    remove: require('lodash.remove'),
-    forEach: require('lodash.foreach'),
-    first: require('lodash.first'),
-    trim: require('lodash.trim')
-};
-var h = require('virtual-dom/h');
+  isUndefined: require('lodash.isundefined'),
+  find: require('lodash.find'),
+  map: require('lodash.map'),
+  cloneDeep: require('lodash.clonedeep'),
+  remove: require('lodash.remove'),
+  forEach: require('lodash.foreach'),
+  first: require('lodash.first'),
+  trim: require('lodash.trim')
+}
+var h = require('virtual-dom/h')
 
-function constructor(services) {
-    var configService = services.config;
-    var axesTabTitle = 'Axes';
+function constructor (services) {
+  var configService = services.config
+  var axesTabTitle = 'Axes'
 
-    function tabs(options, setActive, activeTab, activeTabChild, config) {
-        if (!_.isUndefined(options)) {
-            var links = [];
-            if (options.id == activeTab) {
-                if (generalOptions(options.panes)) {
-                    links.push(
-                        h('li.hover', {
-                            'className': activeTabChild === 'general' ? 'sub-active' : 'sub-non-active',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id, 'general');
-                            }
-                        }, 'general')
-                    )
-                }
-
-                if (config.xAxis) {
-                    _.forEach(config.xAxis, function (axis, index) {
-                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) > 0 ? axis.title.text : 'X axis ' + (index + 1);
-                        links.push(
-                            h('li.hover', {
-                                'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
-                                'ev-click': function (e) {
-                                    setActive(options.id, 'xAxis' + index);
-                                    e.preventDefault();
-                                }
-                            }, titleText)
-                        )
-                    });
-                }
-
-                if (config.yAxis) {
-                    _.forEach(config.yAxis, function (axis, index) {
-                        var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) ? axis.title.text : 'Y axis ' + (index + 1);
-                        links.push(
-                            h('li.hover', {
-                                'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
-                                'ev-click': function (e) {
-                                    setActive(options.id, 'yAxis' + index);
-                                    e.preventDefault();
-                                }
-                            }, titleText)
-                        )
-                    });
-                }
-
-                return h('li.active',
-                    [
-                        h('a', {
-                            'href': '#data-series',
-                            'ev-click': function (e) {
-                                if(generalOptions){
-                                    setActive(options.id, 'general');
-                                } else {
-                                    setActive(options.id, 'xAxis0');
-                                }
-
-                                e.preventDefault();
-                            }
-                        }, axesTabTitle),
-                        h('ul', links)
-                    ])
-            }
-            else {
-                return h('li',
-                    [
-                        h('a', {
-                            'href': '#data-series',
-                            'ev-click': function (e) {
-                                if(generalOptions){
-                                    setActive(options.id, 'general');
-                                } else {
-                                    setActive(options.id, 'xAxis0');
-                                }
-                                e.preventDefault();
-                            }
-                        }, axesTabTitle)
-                    ])
-            }
-
+  function tabs (options, setActive, activeTab, activeTabChild, config) {
+    if (!_.isUndefined(options)) {
+      var links = []
+      if (options.id === activeTab) {
+        if (generalOptions(options.panes)) {
+          links.push(
+            h('li.hover', {
+              'className': activeTabChild === 'general' ? 'sub-active' : 'sub-non-active',
+              'ev-click': function (e) {
+                e.preventDefault()
+                setActive(options.id, 'general')
+              }
+            }, 'general')
+          )
         }
-    }
 
-    function generalOptions(panes) {
-        return _.find(panes, function (pane) {
-            // make the assumption tha the general options will be the one without axis specific options.
-            var firstOption = pane.options[0];
-            return firstOption.fullname.indexOf('xAxis') == -1 || firstOption.fullname.indexOf('yAxis') == -1 ;
-        })
-    }
-
-    function generalContent(pane) {
-        return h('div.vertical-tab-content', [generateContent({panes:[pane]})]);
-    }
-
-    function generateContent(panel) {
-        var list = [];
-        _.forEach(panel.panes, function (pane) {
-            var inputs = [];
-            _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option, configService));
-            });
-            var subPanes = pane.panes ? generateContent(pane) : '';
-            var item = h('h3', pane.title);
-            list.push(h('div.field-group',
-                [
-                    h('div.field-group__title', [item]),
-                    h('div.field-group__items', inputs),
-                    h('div', subPanes)
-                ]
-            ))
-        });
-        return list;
-    }
-
-
-    function axisContent(panes, child, config, setActive) {
-        var type = child.substring(0, 5);
-        var index = child.substring(5, 6);
-        var pane = _.find(panes, function (pane) {
-            var firstOption = pane.options[0];
-            return firstOption.fullname.indexOf(type) > -1;
-        });
-
-        if (pane) {
-            return h('div.vertical-tab-content', [h('div.titleBar',
-                [
-                    removeButton(type, index, pane.title, config[type], setActive),
-                    addButton(type, config[type], setActive)
-                ]
-            ), generateAxisContentPane({panes:[pane]}, index, type)]);
-        }
-    }
-
-    function generateAxisContentPane(panel, index, type){
-        var list = [];
-        _.forEach(panel.panes, function (pane) {
-            var inputs = [];
-            _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', "")));
-            });
-            var subPanes = pane.panes ? generateAxisContentPane(pane, index) : '';
-            var item = h('h3', pane.title);
-            list.push(h('div.field-group',
-                [
-                    h('div.field-group__title', [item]),
-                    h('div.field-group__items', inputs),
-                    h('div', subPanes)
-                ]
-            ));
-        });
-        return list;
-    }
-
-    function removeButton(type, index, title, typeConfig, setActive) {
-        if (typeConfig.length > 1) {
-            return h('button.btn.btn--small', {
+        if (config.xAxis) {
+          _.forEach(config.xAxis, function (axis, index) {
+            var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) > 0 ? axis.title.text : 'X axis ' + (index + 1)
+            links.push(
+              h('li.hover', {
+                'className': activeTabChild === 'xAxis' + index ? 'sub-active' : 'sub-non-active',
                 'ev-click': function (e) {
-                    configService.removeValue(type + '.' + index, {});
-                    setActive('axis', 'general');
-                    e.preventDefault();
+                  setActive(options.id, 'xAxis' + index)
+                  e.preventDefault()
                 }
-            }, 'remove axis');
+              }, titleText)
+            )
+          })
         }
 
-    }
+        if (config.yAxis) {
+          _.forEach(config.yAxis, function (axis, index) {
+            var titleText = !_.isUndefined(axis) && !_.isUndefined(axis.title) && !_.isUndefined(axis.title.text) && _.trim(axis.title.text) ? axis.title.text : 'Y axis ' + (index + 1)
+            links.push(
+              h('li.hover', {
+                'className': activeTabChild === 'yAxis' + index ? 'sub-active' : 'sub-non-active',
+                'ev-click': function (e) {
+                  setActive(options.id, 'yAxis' + index)
+                  e.preventDefault()
+                }
+              }, titleText)
+            )
+          })
+        }
 
-    function addButton(type, typeConfig, setActive) {
-        return h('button.btn.btn--small', {
+        return h('li.active', [
+          h('a', {
+            'href': '#data-series',
             'ev-click': function (e) {
-                configService.setValue(type + '.' + typeConfig.length, {})
-                setActive('axis', type + typeConfig.length);
-                e.preventDefault();
+              if (generalOptions) {
+                setActive(options.id, 'general')
+              } else {
+                setActive(options.id, 'xAxis0')
+              }
+
+              e.preventDefault()
             }
-        }, 'add ' + type)
+          }, axesTabTitle),
+          h('ul', links)
+        ])
+      } else {
+        return h('li', [
+          h('a', {
+            'href': '#data-series',
+            'ev-click': function (e) {
+              if (generalOptions) {
+                setActive(options.id, 'general')
+              } else {
+                setActive(options.id, 'xAxis0')
+              }
+              e.preventDefault()
+            }
+          }, axesTabTitle)
+        ])
+      }
     }
+  }
 
-    function content(panel, child, config, setActive) {
-        if (child == 'general') {
-            return generalContent(generalOptions(panel.panes));
-        } else {
-            return axisContent(panel.panes, child, config, setActive);
+  function generalOptions (panes) {
+    return _.find(panes, function (pane) {
+      // make the assumption tha the general options will be the one without axis specific options.
+      var firstOption = pane.options[0]
+      return firstOption.fullname.indexOf('xAxis') === -1 || firstOption.fullname.indexOf('yAxis') === -1
+    })
+  }
+
+  function generalContent (pane) {
+    return h('div.vertical-tab-content', [generateContent({
+      panes: [pane]
+    })])
+  }
+
+  function generateContent (panel) {
+    var list = []
+    _.forEach(panel.panes, function (pane) {
+      var inputs = []
+      _.forEach(pane.options, function (option) {
+        inputs.push(propertyServices.get(option, configService))
+      })
+      var subPanes = pane.panes ? generateContent(pane) : ''
+      var item = h('h3', pane.title)
+      list.push(h('div.field-group', [
+        h('div.field-group__title', [item]),
+        h('div.field-group__items', inputs),
+        h('div', subPanes)
+      ]))
+    })
+    return list
+  }
+
+  function axisContent (panes, child, config, setActive) {
+    var type = child.substring(0, 5)
+    var index = child.substring(5, 6)
+    var pane = _.find(panes, function (pane) {
+      var firstOption = pane.options[0]
+      return firstOption.fullname.indexOf(type) > -1
+    })
+
+    if (pane) {
+      return h('div.vertical-tab-content', [h('div.titleBar', [
+        removeButton(type, index, pane.title, config[type], setActive),
+        addButton(type, config[type], setActive)
+      ]), generateAxisContentPane({
+        panes: [pane]
+      }, index, type)])
+    }
+  }
+
+  function generateAxisContentPane (panel, index, type) {
+    var list = []
+    _.forEach(panel.panes, function (pane) {
+      var inputs = []
+      _.forEach(pane.options, function (option) {
+        inputs.push(propertyServices.get(option, configService, type + '.' + index + '.' + option.fullname.replace(type + '.', '')))
+      })
+
+      var subPanes = pane.panes ? generateAxisContentPane(pane, index) : ''
+      var item = h('h3', pane.title)
+      list.push(h('div.field-group', [
+        h('div.field-group__title', [item]),
+        h('div.field-group__items', inputs),
+        h('div', subPanes)
+      ]))
+    })
+    return list
+  }
+
+  function removeButton (type, index, title, typeConfig, setActive) {
+    if (typeConfig.length > 1) {
+      return h('button.btn.btn--small', {
+        'ev-click': function (e) {
+          configService.removeValue(type + '.' + index, {})
+          setActive('axis', 'general')
+          e.preventDefault()
         }
+      }, 'remove axis')
     }
+  }
 
-    return {
-        tabs: tabs,
-        content: content
+  function addButton (type, typeConfig, setActive) {
+    return h('button.btn.btn--small', {
+      'ev-click': function (e) {
+        configService.setValue(type + '.' + typeConfig.length, {})
+        setActive('axis', type + typeConfig.length)
+        e.preventDefault()
+      }
+    }, 'add ' + type)
+  }
+
+  function content (panel, child, config, setActive) {
+    if (child === 'general') {
+      return generalContent(generalOptions(panel.panes))
+    } else {
+      return axisContent(panel.panes, child, config, setActive)
     }
+  }
+
+  return {
+    tabs: tabs,
+    content: content
+  }
 }
-module.exports = constructor;
+
+module.exports = constructor
+
 },{"../../factories/properties":161,"lodash.clonedeep":56,"lodash.find":58,"lodash.first":59,"lodash.foreach":60,"lodash.isundefined":74,"lodash.map":79,"lodash.remove":81,"lodash.trim":90,"virtual-dom/h":111}],146:[function(require,module,exports){
-var propertyServices = require('../../factories/properties');
+var propertyServices = require('../../factories/properties')
 var _ = {
-    isUndefined: require('lodash.isundefined'),
-    find: require('lodash.find'),
-    map: require('lodash.map'),
-    cloneDeep: require('lodash.clonedeep'),
-    remove: require('lodash.remove'),
-    forEach: require('lodash.foreach'),
-    first: require('lodash.first')
-};
-var h = require('virtual-dom/h');
-
-function constructor(services) {
-    var configService = services.config;
-
-    function genericConfig(options) {
-        var newOptions = _.cloneDeep(options);
-        return _.remove(newOptions, function (panel) {
-            return panel.id !== "series" && panel.id !== "axis";
-        })
-    }
-
-    function tabs(options, setActive, activeTab) {
-        var links = [];
-        var panes = genericConfig(options);
-        _.forEach(panes, function (pane, index) {
-            var children = [];
-            var className = pane.id === activeTab ? 'active' : '';
-            var link = h('li', {className: className},
-                h('a', {
-                        'href': '#' + pane.panelTitle,
-                        'ev-click': function (e) {
-                            e.preventDefault();
-                            setActive(pane.id);
-                        }
-                    }, [pane.panelTitle, children]
-                )
-            );
-
-            links.push(link);
-        });
-        return links;
-    }
-
-
-    function content(panel) {
-        return h('div.vertical-tab-content', [generateContent(panel)]);
-    }
-
-    function generateContent(panel) {
-        var list = [];
-        _.forEach(panel.panes, function (pane) {
-            var inputs = [];
-            _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option, configService));
-            });
-            var subPanes = pane.panes ? generateContent(pane) : '';
-            var item = h('h3', pane.title);
-            list.push(h('div.field-group',
-                [
-                    h('div.field-group__title', [item]),
-                    h('div.field-group__items', inputs),
-                    h('div', subPanes)
-                ]
-            ))
-        });
-        return list;
-    }
-
-    return {
-        tabs: tabs,
-        content: content
-    }
+  isUndefined: require('lodash.isundefined'),
+  find: require('lodash.find'),
+  map: require('lodash.map'),
+  cloneDeep: require('lodash.clonedeep'),
+  remove: require('lodash.remove'),
+  forEach: require('lodash.foreach'),
+  first: require('lodash.first')
 }
-module.exports = constructor;
+var h = require('virtual-dom/h')
+
+function constructor (services) {
+  var configService = services.config
+
+  function genericConfig (options) {
+    var newOptions = _.cloneDeep(options)
+    return _.remove(newOptions, function (panel) {
+      return panel.id !== 'series' && panel.id !== 'axis'
+    })
+  }
+
+  function tabs (options, setActive, activeTab) {
+    var links = []
+    var panes = genericConfig(options)
+    _.forEach(panes, function (pane, index) {
+      var children = []
+      var className = pane.id === activeTab ? 'active' : ''
+      var link = h('li',
+        {
+          className: className
+        },
+        h('a', {
+          'href': '#' + pane.panelTitle,
+          'ev-click': function (e) {
+            e.preventDefault()
+            setActive(pane.id)
+          }
+        }, [pane.panelTitle, children])
+      )
+      links.push(link)
+    })
+    return links
+  }
+
+  function content (panel) {
+    return h('div.vertical-tab-content', [generateContent(panel)])
+  }
+
+  function generateContent (panel) {
+    var list = []
+    _.forEach(panel.panes, function (pane) {
+      var inputs = []
+      _.forEach(pane.options, function (option) {
+        inputs.push(propertyServices.get(option, configService))
+      })
+      var subPanes = pane.panes ? generateContent(pane) : ''
+      var item = h('h3', pane.title)
+      list.push(h('div.field-group', [
+        h('div.field-group__title', [item]),
+        h('div.field-group__items', inputs),
+        h('div', subPanes)
+      ]))
+    })
+    return list
+  }
+
+  return {
+    tabs: tabs,
+    content: content
+  }
+}
+module.exports = constructor
+
 },{"../../factories/properties":161,"lodash.clonedeep":56,"lodash.find":58,"lodash.first":59,"lodash.foreach":60,"lodash.isundefined":74,"lodash.map":79,"lodash.remove":81,"virtual-dom/h":111}],147:[function(require,module,exports){
-var propertyServices = require('../../factories/properties');
+var propertyServices = require('../../factories/properties')
 var _ = {
-    isUndefined: require('lodash.isundefined'),
-    find: require('lodash.find'),
-    map: require('lodash.map'),
-    cloneDeep: require('lodash.clonedeep'),
-    remove: require('lodash.remove'),
-    forEach: require('lodash.foreach'),
-    first: require('lodash.first')
-};
-var h = require('virtual-dom/h');
-
-function constructor (services){
-    var configService = services.config;
-    var seriesTabTitle = 'Data series';
-
-    function tabs(options, setActive, activeTab, activeTabChild, config) {
-        if (!_.isUndefined(options) && config.series.length > 0) {
-            var links = [];
-            if (options.id == activeTab) {
-                _.forEach(config.series, function (serie, index) {
-                    links.push(
-                        h('li.hover', {
-                            'className': activeTabChild === index ? 'sub-active' : 'sub-non-active',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id, index);
-                            }
-                        }, serie.name ? serie.name : 'serie ' + index)
-                    )
-                });
-                return h('li.active',
-                    [
-                        h('a', {
-                            'href': '#data-series',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id);
-                            }
-                        }, seriesTabTitle),
-                        h('ul', links)
-                    ])
-            }
-            else {
-                return h('li',
-                    [
-                        h('a', {
-                            'href': '#data-series',
-                            'ev-click': function (e) {
-                                e.preventDefault();
-                                setActive(options.id);
-                            }
-                        }, seriesTabTitle),
-                        h('ul', links)
-                    ])
-            }
-        }
-
-    }
-    function panelContent(panel, series, index) {
-        return h('div.vertical-tab-content', [generatePanelContent(panel, index)]);
-    }
-
-    function generatePanelContent(panel, index) {
-        var list = [];
-        _.forEach(panel.panes, function (pane) {
-            var inputs = [];
-            _.forEach(pane.options, function (option) {
-                inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace("series", "")));
-            });
-            var subPanes = pane.panes ? generatePanelContent(pane, index) : '';
-            var item = h('h3', pane.title);
-            list.push(h('div.field-group',
-                [
-                    h('div.field-group__title', [item]),
-                    h('div.field-group__items', inputs),
-                    h('div', subPanes)
-                ]
-            ))
-        });
-        return list;
-    }
-
-
-    function content(panel, child, config) {
-        if (!_.isUndefined(child)) {
-            return panelContent(panel, config.series[child], child, config);
-        } else {
-            return panelContent(panel, config.series[0], 0, config);
-        }
-    }
-
-    return{
-        tabs: tabs,
-        content: content
-    }
+  isUndefined: require('lodash.isundefined'),
+  find: require('lodash.find'),
+  map: require('lodash.map'),
+  cloneDeep: require('lodash.clonedeep'),
+  remove: require('lodash.remove'),
+  forEach: require('lodash.foreach'),
+  first: require('lodash.first')
 }
-module.exports = constructor;
+var h = require('virtual-dom/h')
+
+function constructor (services) {
+  var configService = services.config
+  var seriesTabTitle = 'Data series'
+
+  function tabs (options, setActive, activeTab, activeTabChild, config) {
+    if (!_.isUndefined(options) && config.series.length > 0) {
+      var links = []
+      if (options.id === activeTab) {
+        _.forEach(config.series, function (serie, index) {
+          links.push(
+            h('li.hover', {
+              'className': activeTabChild === index ? 'sub-active' : 'sub-non-active',
+              'ev-click': function (e) {
+                e.preventDefault()
+                setActive(options.id, index)
+              }
+            }, serie.name ? serie.name : 'series ' + index)
+          )
+        })
+        return h('li.active', [
+          h('a', {
+            'href': '#data-series',
+            'ev-click': function (e) {
+              e.preventDefault()
+              setActive(options.id)
+            }
+          }, seriesTabTitle),
+          h('ul', links)
+        ])
+      } else {
+        return h('li', [
+          h('a', {
+            'href': '#data-series',
+            'ev-click': function (e) {
+              e.preventDefault()
+              setActive(options.id)
+            }
+          }, seriesTabTitle),
+          h('ul', links)
+        ])
+      }
+    }
+  }
+
+  function panelContent (panel, series, index) {
+    return h('div.vertical-tab-content', [generatePanelContent(panel, index)])
+  }
+
+  function generatePanelContent (panel, index) {
+    var list = []
+    _.forEach(panel.panes, function (pane) {
+      var inputs = []
+      _.forEach(pane.options, function (option) {
+        inputs.push(propertyServices.get(option, configService, 'series.' + index + option.fullname.replace('series', '')))
+      })
+      var subPanes = pane.panes ? generatePanelContent(pane, index) : ''
+      var item = h('h3', pane.title)
+      list.push(h('div.field-group', [
+        h('div.field-group__title', [item]),
+        h('div.field-group__items', inputs),
+        h('div', subPanes)
+      ]))
+    })
+    return list
+  }
+
+  function content (panel, child, config) {
+    if (!_.isUndefined(child)) {
+      return panelContent(panel, config.series[child], child, config)
+    } else {
+      return panelContent(panel, config.series[0], 0, config)
+    }
+  }
+
+  return {
+    tabs: tabs,
+    content: content
+  }
+}
+module.exports = constructor
+
 },{"../../factories/properties":161,"lodash.clonedeep":56,"lodash.find":58,"lodash.first":59,"lodash.foreach":60,"lodash.isundefined":74,"lodash.map":79,"lodash.remove":81,"virtual-dom/h":111}],148:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
@@ -25392,174 +25381,177 @@ module.exports = constructor;
 
 },{"./hot":149,"./import/dragAndDrop":151,"./import/paste":152,"./import/upload":153,"./import/url":154,"./table":156,"virtual-dom/h":111}],151:[function(require,module,exports){
 (function () {
-    var dragDrop = require('drag-drop');
-    var dataService;
-    var h = require('virtual-dom/h');
-    var that = {};
-    that.template = function (services) {
-        dataService = services.data;
-        var mediator = services.mediator;
-        var Hook = function () {};
-        var content = 'Drop your CSV file here';
-        Hook.prototype.hook = function (node) {
-            dragDrop(node, function (files) {
-                // `files` is an Array!
-                files.forEach(function (file) {
-                    // convert the file to a Buffer that we can use!
-                    var reader = new FileReader();
-                    reader.addEventListener('loadstart', function (e) {
-                        console.log('start');
-                        node.innerHTML = '<div class="loader"></div>'
-                        e.preventDefault();
-                    });
-                    reader.addEventListener('load', function (e) {
-                        saveData(reader.result);
-                        node.innerHTML = 'Drop your files here';
-                        mediator.trigger('goToTable');
-                        e.preventDefault();
-                    });
+  var dragDrop = require('drag-drop')
+  var dataService
+  var h = require('virtual-dom/h')
+  var that = {}
+  that.template = function (services) {
+    dataService = services.data
+    var mediator = services.mediator
+    var Hook = function () {}
+    var content = 'Drop your CSV file here'
+    Hook.prototype.hook = function (node) {
+      dragDrop(node, function (files) {
+        //  `files` is an Array!
+        files.forEach(function (file) {
+          //  convert the file to a Buffer that we can use!
+          var reader = new FileReader()
+          reader.addEventListener('loadstart', function (e) {
+            console.log('start')
+            node.innerHTML = '<div class="loader"></div>'
+            e.preventDefault()
+          })
 
-                    reader.addEventListener('error', function (err) {
-                        console.error('FileReader error' + err);
-                        err.preventDefault();
-                    });
-                    reader.readAsText(file);
-                })
-            });
-        };
+          reader.addEventListener('load', function (e) {
+            saveData(reader.result)
+            node.innerHTML = 'Drop your files here'
+            mediator.trigger('goToTable')
+            e.preventDefault()
+          })
 
-        return h('div.file_drop', {
-            'hook': new Hook()
-        }, content);
-    };
-
-    function saveData(value) {
-        dataService.setCSV(value);
+          reader.addEventListener('error', function (err) {
+            console.error('FileReader error' + err)
+            err.preventDefault()
+          })
+          reader.readAsText(file)
+        })
+      })
     }
 
-    module.exports = that;
-})();
+    return h('div.file_drop', {
+      'hook': new Hook()
+    }, content)
+  }
+
+  function saveData (value) {
+    dataService.setCSV(value)
+  }
+
+  module.exports = that
+})()
 
 },{"drag-drop":18,"virtual-dom/h":111}],152:[function(require,module,exports){
 (function () {
-    var h = require('virtual-dom/h');
+  var h = require('virtual-dom/h')
 
-    var that = {};
-    that.template = function (services) {
-        var dataService = services.data;
-        var mediator = services.mediator;
-        var inputNode;
-        var Hook = function(){};
-        Hook.prototype.hook = function(node) {
-            inputNode = node;
-        };
+  var that = {}
+  that.template = function (services) {
+    var dataService = services.data
+    var mediator = services.mediator
+    var inputNode
+    var Hook = function () {}
+    Hook.prototype.hook = function (node) {
+      inputNode = node
+    }
 
-        var input = h('textArea', {
-            'style': {'height': '200px'},
-            "hook": new Hook()
-        });
+    var input = h('textArea', {
+      'style': {
+        'height': '200px'
+      },
+      'hook': new Hook()
+    })
 
-        var importElement = h('button.btn.btn--small', {
-            'ev-click': function(e){
-                e.preventDefault();
-                saveData(inputNode.value);
-            }
-        }, 'import');
+    var importElement = h('button.btn.btn--small', {
+      'ev-click': function (e) {
+        e.preventDefault()
+        saveData(inputNode.value)
+      }
+    }, 'import')
 
-        function saveData(value) {
-            dataService.setCSV(value);
-            mediator.trigger('goToTable');
-        }
+    function saveData (value) {
+      dataService.setCSV(value)
+      mediator.trigger('goToTable')
+    }
 
-        return h('div', [input, importElement])
-    };
-    module.exports = that;
-})();
+    return h('div', [input, importElement])
+  }
+  module.exports = that
+})()
 
 },{"virtual-dom/h":111}],153:[function(require,module,exports){
 (function () {
-    var h = require('virtual-dom/h');
-    var that = {};
-    that.template = function (services) {
-        var dataService = services.data;
-        var mediator = services.mediator;
-        var uploadElement;
-        // Check for the various File API support.
-        if (window.FileReader) {
-            uploadElement =
-                h('input.soft--ends', {
-                    type: 'file',
-                    'size': 50,
-                    onchange: function(e){
-                        loadFile(e);
-                        e.preventDefault();
-                    }
-                }, 'upload');
-        }
+  var h = require('virtual-dom/h')
+  var that = {}
+  that.template = function (services) {
+    var dataService = services.data
+    var mediator = services.mediator
+    var uploadElement
+    // Check for the various File API support.
+    if (window.FileReader) {
+      uploadElement =
+        h('input.soft--ends', {
+          type: 'file',
+          'size': 50,
+          onchange: function (e) {
+            loadFile(e)
+            e.preventDefault()
+          }
+        }, 'upload')
+    }
 
-        function loadFile(e) {
-            var file = e.target.files[0];
-            var reader  = new FileReader();
-            reader.onloadend = function (e) {
-                saveData(reader.result);
-                e.preventDefault();
-            };
-            if (file) {
-                reader.readAsText(file);
-            }
-            e.preventDefault();
-        }
+    function loadFile (e) {
+      var file = e.target.files[0]
+      var reader = new FileReader()
+      reader.onloadend = function (e) {
+        saveData(reader.result)
+        e.preventDefault()
+      }
+      if (file) {
+        reader.readAsText(file)
+      }
+      e.preventDefault()
+    }
 
-        function saveData(value) {
-            dataService.setCSV(value);
-            mediator.trigger('goToTable');
-        }
+    function saveData (value) {
+      dataService.setCSV(value)
+      mediator.trigger('goToTable')
+    }
 
-        return uploadElement;
-    };
+    return uploadElement
+  }
 
-    module.exports = that;
-})();
+  module.exports = that
+})()
+
 },{"virtual-dom/h":111}],154:[function(require,module,exports){
 (function () {
-    var that = {};
-    var h = require('virtual-dom/h');
-    that.template = function (services) {
-        var dataService = services.data;
-        var mediator = services.mediator;
-        var inputNode;
+  var that = {}
+  var h = require('virtual-dom/h')
+  that.template = function (services) {
+    var dataService = services.data
+    var mediator = services.mediator
+    var inputNode
 
-        var Hook = function(){};
+    var Hook = function () {}
 
-        Hook.prototype.hook = function(node) {
-            inputNode = node;
-        };
-        var input = h('input.push-half', {
-            "size": 50,
-            "type": "text",
-            "style" : {
-                display: "inline"
-            },
-            value: services.data.getUrl(),
-            "hook": new Hook()
-        });
+    Hook.prototype.hook = function (node) {
+      inputNode = node
+    }
+    var input = h('input.push-half', {
+      'size': 50,
+      'type': 'text',
+      'style': {
+        display: 'inline'
+      },
+      value: services.data.getUrl(),
+      'hook': new Hook()
+    })
 
+    var importElement = h('button.btn.btn--small.push-half', {
+      'style': {
+        display: 'inline'
+      },
+      'ev-click': function (e) {
+        e.preventDefault()
+        dataService.setUrl(inputNode.value)
+        mediator.trigger('goToTable')
+      }
+    }, 'save')
 
-        var importElement = h('button.btn.btn--small.push-half', {
-            "style" : {
-                display: "inline"
-            },
-            'ev-click': function (e) {
-                e.preventDefault();
-                dataService.setUrl(inputNode.value);
-                mediator.trigger('goToTable');
-            }
-        }, 'save');
-
-        return h('div', [input, importElement])
-    };
-    module.exports = that;
-})();
+    return h('div', [input, importElement])
+  }
+  module.exports = that
+})()
 
 },{"virtual-dom/h":111}],155:[function(require,module,exports){
 var constructor = function (mediator, list) {
