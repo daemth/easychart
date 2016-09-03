@@ -36,6 +36,10 @@ $black: #111111;
       color: #39CCCC;
       background-color: #001F3F;
     }
+    --navy-on-teal {
+      color: #001F3F;
+      background-color: #39CCCC;
+    }
 }
 .ec > * {
   padding: 10px;
@@ -60,6 +64,8 @@ $black: #111111;
 
       .ec__header__title {
         flex: 1 auto;
+        font-size:1.2rem;
+        padding:0;margin:0;
       }
       .ec__header__togglefs {
 
@@ -83,12 +89,13 @@ $black: #111111;
         text-align: center;
         text-decoration: none;
         transition: background-color .2s;
-        @apply --lime-on-black;
+        @apply --navy-on-teal;
 
         &:hover {
           @apply --black-on-lime;
         }
       }
+
       a.ec__tab--active {
         @apply --teal-on-navy;
       }
