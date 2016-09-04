@@ -11,10 +11,10 @@ var header = require('gulp-header')
 var pkg = require('./package.json')
 var rename = require('gulp-rename')
 var notify = require('gulp-notify')
-var jade = require('gulp-jade')
+var pug = require('gulp-pug')
 
 const cssDir = './src/css/easychart.css'
-const jadeDir = './src/jade/*.jade'
+const pugDir = './src/pug/*.pug'
 
 // in favor of postcss styles task
 var postcss = require('gulp-postcss')
@@ -33,9 +33,9 @@ gulp.task('app:watch', function () {
   gulp.start('sass:watch', 'watchify')
 })
 
-gulp.task('jade', function () {
-  gulp.src([jadeDir])
-    .pipe(jade({
+gulp.task('pug', function () {
+  gulp.src([pugDir])
+    .pipe(pug({
       pretty: true
     }))
     .pipe(gulp.dest('./dist'))
@@ -47,7 +47,7 @@ gulp.task('css', function () {
     .pipe(
       postcss([
         use({
-          modules: ['autoprefixer', 'postcss-import', 'postcss-simple-vars', 'postcss-nested', 'postcss-custom-properties', 'postcss-apply', 'postcss-bem', 'cssnano'],
+          modules: ['autoprefixer', 'postcss-import', 'postcss-simple-vars', 'postcss-nested', 'postcss-custom-properties', 'postcss-apply', 'cssnano'],
           options: {
             'autoprefixer': {
               browsers: ['> 1%', 'IE 7']
@@ -68,8 +68,8 @@ gulp.task('css', function () {
     .pipe(gulp.dest('./dist'))
     //  .pipe(notify({message: 'postcss task complete :-)', onLast: true}))
 })
-gulp.task('jade:watch', function () {
-  gulp.watch(jadeDir, ['jade'])
+gulp.task('pug:watch', function () {
+  gulp.watch(pugDir, ['pug'])
 })
 gulp.task('css:watch', function () {
   gulp.watch(cssDir, ['css'])

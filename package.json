@@ -31,6 +31,7 @@
     "gulp-jade": "^1.1.0",
     "gulp-notify": "^2.2.0",
     "gulp-postcss": "^6.1.1",
+    "gulp-pug": "^3.0.4",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.1.0",
     "gulp-sourcemaps": "^1.6.0",
@@ -72,7 +73,6 @@
     "postcss": "^5.1.2",
     "postcss-apply": "^0.3.0",
     "postcss-autoreset": "^1.1.5",
-    
     "postcss-cssnext": "^2.7.0",
     "postcss-custom-properties": "^5.0.1",
     "postcss-easy-import": "^1.0.1",

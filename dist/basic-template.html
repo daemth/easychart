@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html lang="en"></html>
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title>Easychart basic template</title>
-  <link rel="stylesheet" href="css/easychart.min.css"/>
-</head>
-<body>
-  <div class="ec">
-    <header class="ec__header">
-      <h1 class="ec__header__title">
-        Easychart
-        3.2.0
-      </h1>
-      <button class="ec__header__togglefs">toggle fullscreen</button>
-    </header>
-    <section class="ec__conf">
-      <nav class="ec__conf__tabs"><a href="#" class="ec__tab">Data</a><a href="#" class="ec__tab">Templates</a><a href="#" class="ec__tab ec__tab--active">Customise</a></nav>
-      <div class="ec__conf__pane">
-        <ul class="tabs">
-          <li>chart settings</li>
-          <li>titles</li>
-          <li>colors and borders</li>
-          <li>value labels</li>
-          <li>legend</li>
-          <li>tooltip</li>
-          <li>exporting</li>
-          <li>credits</li>
-          <li>axes</li>
-        </ul>
-      </div>
-    </section>
-    <section class="ec__chart">chart</section>
-    <footer class="ec__footer">Easychart 3.2.0 - MIT Lisence</footer>
-  </div>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Easychart basic template</title>
+    <link rel="stylesheet" href="css/easychart.min.css"/>
+  </head>
+  <body>
+    <div class="ec">
+      <header class="ec__header">
+        <h1 class="ec__header__title">
+          Easychart3.2.0</h1>
+        <button class="ec__header__togglefs">toggle fullscreen</button>
+      </header>
+      <section class="ec__conf">
+        <nav class="ec__conf__tabs"><a class="ec__tab" href="#">Data</a><a class="ec__tab" href="#">Templates</a><a class="ec__tab ec__tab--active" href="#">Customize</a>
+          <!--  a.ec__tab(href="#") Debug -> TODO move to console?-->
+        </nav>
+        <div class="ec__conf__pane">
+          <ul class="tabs">
+            <li><a href="#">chart settings</a></li>
+            <li>titles</li>
+            <li>colors and borders</li>
+            <li>value labels</li>
+            <li>legend</li>
+            <li>tooltip</li>
+            <li>exporting</li>
+            <li>credits</li>
+            <li>axes</li>
+          </ul>
+        </div>
+      </section>
+      <section class="ec__chart">chart</section>
+      <footer class="ec__footer">Easychart 3.2.0 - MIT license</footer>
+    </div>
+  </body>
+</html>
