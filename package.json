@@ -18,6 +18,7 @@
   "devDependencies": {
     "autoprefixer": "^6.4.0",
     "bourbon-neat": "^1.7.2",
+    "browser-sync": "^2.14.3",
     "browserify": "^13.0.0",
     "browserify-css": "^0.9.0",
     "browserify-data": "^0.2.0",

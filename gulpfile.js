@@ -12,6 +12,7 @@ var pkg = require('./package.json')
 var rename = require('gulp-rename')
 var notify = require('gulp-notify')
 var pug = require('gulp-pug')
+var browserSync = require('browser-sync').create()
 
 const cssDir = './src/css/easychart.css'
 const pugDir = './src/pug/*.pug'
@@ -34,7 +35,7 @@ gulp.task('app:watch', function () {
 })
 
 gulp.task('pug', function () {
-  gulp.src([pugDir])
+  gulp.src(pugDir)
     .pipe(pug({
       pretty: true
     }))
@@ -66,26 +67,33 @@ gulp.task('css', function () {
     }))
     //  .pipe(header(banner, {pkg: pkg}))
     .pipe(gulp.dest('./dist'))
+    .pipe(browserSync.stream())
     //  .pipe(notify({message: 'postcss task complete :-)', onLast: true}))
 })
-gulp.task('pug:watch', function () {
-  gulp.watch(pugDir, ['pug'])
-})
-gulp.task('css:watch', function () {
-  gulp.watch(cssDir, ['css'])
+
+gulp.task('pug:watch', ['pug'], function (done) {
+  browserSync.reload()
+  done()
 })
 
-gulp.task('sass', function () {
-  gulp.src('src/scss/style.scss')
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-      outputStyle: 'compressed',
-      includePaths: require('node-neat').includePaths
-    }))
-    .pipe(rename({
-      basename: 'easychart'
-    }))
-    .pipe(gulp.dest('./dist'))
+gulp.task('css:watch', ['css'], function (done) {
+  browserSync.reload()
+  done()
+})
+
+gulp.task('serve', ['css', 'pug'], function () {
+  // Serve files from the root of this project
+  browserSync.init({
+    server: {
+      baseDir: './dist',
+      directory: true
+    },
+    injectChanges: true
+  })
+  // add browserSync.reload to the tasks array to make
+  // all browsers reload after tasks are complete.
+  gulp.watch(cssDir, ['css:watch'])
+  gulp.watch(pugDir, ['pug:watch'])
 })
 
 gulp.task('sass:watch', function () {
