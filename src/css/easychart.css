@@ -119,7 +119,7 @@ $black: #111111;
   }
 
   .ec__footer{
-    @apply --lime-on-black;
+    @apply --teal-on-navy;
   }
 }
 

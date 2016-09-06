@@ -15,7 +15,7 @@ var pug = require('gulp-pug')
 var browserSync = require('browser-sync').create()
 
 const cssDir = './src/css/easychart.css'
-const pugDir = './src/pug/*.pug'
+const pugDir = './src/pug/**/*.pug'
 
 // in favor of postcss styles task
 var postcss = require('gulp-postcss')
@@ -40,6 +40,11 @@ gulp.task('pug', function () {
       pretty: true
     }))
     .pipe(gulp.dest('./dist'))
+    .pipe(browserSync.stream())
+
+    //  {match: '**/*.css'}
+    //  https://www.browsersync.io/docs/api#api-stream
+    //  http://stackoverflow.com/questions/31163754/browser-sync-does-not-refresh-page-after-changes-with-gulp
 })
 
 gulp.task('css', function () {
@@ -92,8 +97,9 @@ gulp.task('serve', ['css', 'pug'], function () {
   })
   // add browserSync.reload to the tasks array to make
   // all browsers reload after tasks are complete.
-  gulp.watch(cssDir, ['css:watch'])
   gulp.watch(pugDir, ['pug:watch'])
+  gulp.watch(cssDir, ['css:watch'])
+
 })
 
 gulp.task('sass:watch', function () {
