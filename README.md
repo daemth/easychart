@@ -46,11 +46,11 @@ new ec({
     element: containerNode
 });
 ```
-### options.templateTab
+### options.templatesTab
 Toggle on and off the templates tab [default:true]
 ```javascript
 new ec({
-    templateTab: true
+    templatesTab: true
 });
 ```
 ### options.dataTab
