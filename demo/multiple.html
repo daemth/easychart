@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts-3d.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts-more.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/data.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/funnel.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/heatmap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/solid-gauge.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/treemap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/boost.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script type="text/javascript" src="../dist/ec.min.js" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.css">
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            var charts = document.getElementsByClassName("chart");
+            var ecContainer = document.getElementById("easychart-container");
+            var easychart = new ec({
+                element: ecContainer,
+                templatesTab: false
+            });
+
+            var _url = ['data/line.csv', 'data/pie.csv'];
+            var _type = ['line', 'pie'];
+
+            var chartOptions = {};
+
+            var hc = [];
+
+            for (var i = 0, len = charts.length; i < len; i++) {
+                (function(i) {
+
+                    var _c = charts[i].querySelector(".highcharts"),
+                        editBtn = charts[i].querySelector(".edit"),
+                        saveBtn = charts[i].querySelector(".save"),
+                        _id = 'container_' + i,
+
+                        xhr = new XMLHttpRequest();
+
+                    _c.setAttribute('id', _id);
+
+                    xhr.open('GET', _url[i], false);
+
+                    xhr.addEventListener('load', function(e) {
+                        var binStr = e.target.responseText;
+                        hc[i] = new Highcharts.chart(_id, {
+                            data: {
+                                csv: binStr
+                            },
+                            chart: {
+                                type: _type[i]
+                            },
+                            title: {
+                                text: 'CHART ' + i,
+
+                            },
+
+                        });
+                    })
+                    xhr.send();
+
+                    editBtn.addEventListener('click', function(e) {
+                        easychart.setDataUrl(_url[i]);
+                        easychart.setConfig(hc[i].options);
+                    });
+
+                    saveBtn.addEventListener('click', function(e) {
+                        hc[i] = new Highcharts.chart(_id, easychart.getConfig());
+                        // TODO here you need to update your database with the new data
+
+                    });
+
+                })(i);
+            }
+
+
+        });
+    </script>
+    <title>EasychartJS plugin | DEMO</title>
+</head>
+
+<body>
+
+    <div id="easychart-container"></div>
+
+    <hr>
+
+    <div class="chart">
+        <div class="highcharts"></div>
+        <button class="edit">edit chart</button>
+        <button class="save">save chart</button>
+    </div>
+
+    <hr>
+
+    <div class="chart">
+        <div class="highcharts"></div>
+        <button class="edit">edit chart</button>
+        <button class="save">save chart</button>
+    </div>
+
+
+</body>
+</html>
