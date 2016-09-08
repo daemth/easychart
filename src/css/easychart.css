@@ -1,7 +1,5 @@
 /* imports */
-
 @import 'https://fonts.googleapis.com/css?family=Raleway:200|Roboto';
-
 @import './partials/variables';
 @import './partials/media-queries';
 @import './partials/custom-properties';
@@ -9,18 +7,11 @@
 @import './partials/conf-pane';
 @import './partials/specialleke';
 
+/* temp; what TODO with this? */
 body, h1, h2, h3, h4, h5, h6 {
     font-size: 10pt;
     line-height: 1.6;
 }
-
-
-/*
-.b-easychart-container > * {
-  padding: 10px;
-  flex: 1 100%;
-}
-*/
 
 .b-easychart-container {
     font-family: 'Raleway', sans-serif;
@@ -28,144 +19,18 @@ body, h1, h2, h3, h4, h5, h6 {
     background: #ccc;
 }
 
-
-/*
-  display: flex;
-  flex-flow: row wrap;
-*/
-
-
-/*
-  .b-ec__header {
-      font-family: 'Roboto';
-      @apply --teal-on-navy;
-      display: flex;
-      flex-direction: row;
-      align-items: baseline;
-      align-content: space-between;
-
-      .e-ec__header__title {
-        flex: 1 auto;
-        font-size:1.2rem;
-        padding:0;margin:0;
-      }
-      .e-ec__header__togglefs {
-
-      }
-  }
-
-  .ec__conf{
-    flex: 1 auto;
-    background: lightblue;
-    padding:0;
-
-
-    .ec__conf__tabs {
-      display: flex;
-
-
-      a.ec__tab {
-        text-transform: uppercase;
-        flex-grow:1;
-        padding: .5rem;
-        text-align: center;
-        text-decoration: none;
-        transition: background-color .2s;
-        @apply --navy-on-teal;
-
-        &:hover {
-          @apply --black-on-lime;
+@media (--medium-and-up-screen) {
+    .b-easychart-container {
+        display: flex;
+        flex-flow: row wrap;
+        >* {
+            flex: 1 100%;
         }
-      }
-
-      a.ec__tab--active {
-        @apply --teal-on-navy;
-      }
-    }
-    /*
-    .ec__conf__pane {
-      padding: 10px;
-      display: flex;
-
-
-      .tabs {
-        list-style:none;
-        padding:0;
-        margin:0;
-
-        flex: 1 auto;
-
-        li {
-          background:#eee;
-
-          a {
-            display: block;
-            padding: .5rem;
-            padding-left:20px;
-            text-decoration: none;
-
-            &:hover{
-              @apply --navy-on-teal;
-              border-left:5px solid $navy;
-
-              padding-left:15px
-            }
-          }
-
+        .ec__conf {
+            flex: 1 auto;
         }
-        li.active{
-          a {
-            border-left:5px solid $teal;
-            padding-left:15px;
-            &:hover{background:none;cursor:default}
-          }
+        .ec__chart {
+            flex: 2 auto;
         }
-      }
-
-      .pane {
-        background: #ccc;
-        flex: 10 auto;
-        padding:10px;
-      }
-
     }
-    */
-
-
-/*
-  }
-
-  .ec__chart{
-    flex: 2 auto;
-    color: #111111;
-    background:#dddddd;
-  }
-
-  .ec__footer{
-    @apply --teal-on-navy;
-  }
 }
-*/
-
-
-/* breakpoints */
-
-
-/* TODO switch logic --> mobile first
-
-@media all and (max-width: 800px) {
-  .ec {
-    flex-flow: column wrap;
-  }
-}
-@media all and (max-width: 600px) {
-  .ec {
-    flex-flow: column wrap;
-    .ec__conf {
-      .ec__conf__tabs {
-        flex-direction: column;
-      }
-    }
-  }
-}
-*/
