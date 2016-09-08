@@ -1,0 +1,2 @@
+@custom-media --only-medium-screen (width >=500px) and (width <=1200px);
+@custom-media --medium-and-up-screen (width >=650px);

@@ -1,8 +1,9 @@
 /* imports */
-/*
+
 @import 'https://fonts.googleapis.com/css?family=Raleway:200|Roboto';
-*/
+
 @import './partials/variables';
+@import './partials/media-queries';
 @import './partials/custom-properties';
 @import './partials/header';
 @import './partials/conf-pane';

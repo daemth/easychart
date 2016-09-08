@@ -45,8 +45,6 @@ gulp.task('pug', function () {
     //  http://stackoverflow.com/questions/31163754/browser-sync-does-not-refresh-page-after-changes-with-gulp
 })
 
-
-//  TODO use cssnext too?
 gulp.task('css', function () {
   gulp.src('./src/css/easychart.css')
     .pipe(sourcemaps.init())
@@ -54,9 +52,8 @@ gulp.task('css', function () {
       require('postcss-easy-import')({prefix: '_'}),
       require('postcss-apply')(),
       require('precss')(),
-      require('postcss-cssnext')({ browsers: ['last 2 versions'] }),
+      require('postcss-cssnext')({ browsers: ['last 3 versions'] }),
       require('cssnano')()
-
     ]))
     .pipe(sourcemaps.write())
     .pipe(rename({
