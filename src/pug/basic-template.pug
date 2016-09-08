@@ -7,30 +7,51 @@ html(lang="en")
     title Easychart basic template
     link(rel="stylesheet", href="css/easychart.min.css")
   body
-    .ec
-      header.ec__header
-        h1.ec__header__title Easychart 3.2.0
-        button.ec__header__togglefs toggle fullscreen
+    .b-easychart-container
+
+      header.b-ec__header
+        h1.e-ec__header__title Easychart
+
+        nav.e-ec__conf__tabs
+          a.e-ec__tab.ec__tab--active.line(href="#") Data
+          a.e-ec__tab.line(href="#") Templates
+          a.e-ec__tab.line(href="#") Customize
+          div.e-ec__tab
+            button toggle fullscreen
 
       section.ec__conf
-        nav.ec__conf__tabs
-          a.ec__tab(href="#") Data
-          a.ec__tab(href="#") Templates
-          a.ec__tab.ec__tab--active(href="#") Customize
-          //  a.ec__tab(href="#") Debug -> TODO move to console?
-
-        .ec__conf__pane
-          ul.tabs
-            li
+        .b-ec-configuration-panel
+          ul.b-ec-tabs
+            li.e-ec-tab--active
               a(href="#") chart settings
-            li titles
-            li colors and borders
-            li value labels
-            li legend
-            li tooltip
-            li exporting
-            li creditnpms
-            li axes
+            li
+              a(href="#") titles
+            li
+              a(href="#") colors and borders
+            li
+              a(href="#") value labels
+            li
+              a(href="#") legend
+            li
+              a(href="#") tooltip
+            li
+              a(href="#") exporting
+            li
+              a(href="#") credits
+            li
+              a(href="#") axes
+
+          div.pane
+            header
+              h1 Chart type and interaction
+            main
+              label type
+                input
+
+            header
+              h1 Size and margins
+            main
+              label width
 
       section.ec__chart chart
 

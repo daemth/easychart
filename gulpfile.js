@@ -1,5 +1,4 @@
 var gulp = require('gulp')
-var sass = require('gulp-sass')
 var watchify = require('watchify')
 var browserify = require('browserify')
 var source = require('vinyl-source-stream')
@@ -14,12 +13,11 @@ var notify = require('gulp-notify')
 var pug = require('gulp-pug')
 var browserSync = require('browser-sync').create()
 
-const cssDir = './src/css/easychart.css'
+const cssDir = './src/css/**/*.css'
 const pugDir = './src/pug/**/*.pug'
 
 // in favor of postcss styles task
 var postcss = require('gulp-postcss')
-var use = require('postcss-use')
 
 var banner = ['/**',
   ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -40,28 +38,26 @@ gulp.task('pug', function () {
       pretty: true
     }))
     .pipe(gulp.dest('./dist'))
-    .pipe(browserSync.stream())
+    .pipe(browserSync.stream({match: '**/*.html'})) // TODO checken
 
     //  {match: '**/*.css'}
     //  https://www.browsersync.io/docs/api#api-stream
     //  http://stackoverflow.com/questions/31163754/browser-sync-does-not-refresh-page-after-changes-with-gulp
 })
 
+
+//  TODO use cssnext too?
 gulp.task('css', function () {
-  gulp.src(cssDir)
+  gulp.src('./src/css/easychart.css')
     .pipe(sourcemaps.init())
-    .pipe(
-      postcss([
-        use({
-          modules: ['autoprefixer', 'postcss-import', 'postcss-simple-vars', 'postcss-nested', 'postcss-custom-properties', 'postcss-apply', 'cssnano'],
-          options: {
-            'autoprefixer': {
-              browsers: ['> 1%', 'IE 7']
-            }
-          }
-        })
-      ])
-    )
+    .pipe(postcss([
+      require('postcss-easy-import')({prefix: '_'}),
+      require('postcss-apply')(),
+      require('precss')(),
+      require('postcss-cssnext')({ browsers: ['last 2 versions'] }),
+      require('cssnano')()
+
+    ]))
     .pipe(sourcemaps.write())
     .pipe(rename({
       dirname: 'css',
@@ -99,7 +95,6 @@ gulp.task('serve', ['css', 'pug'], function () {
   // all browsers reload after tasks are complete.
   gulp.watch(pugDir, ['pug:watch'])
   gulp.watch(cssDir, ['css:watch'])
-
 })
 
 gulp.task('sass:watch', function () {

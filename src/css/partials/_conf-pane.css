@@ -1,0 +1,41 @@
+.b-ec-configuration-panel {
+  padding: 10px;
+  margin: 0;
+  display: flex;
+
+  /* vertical-tabs */
+  .b-ec-tabs {
+    @apply --reset-list;
+
+    flex: 1 auto;
+
+    li {
+      background:#eee;
+
+      a {
+        display: block;
+        padding: .5rem;
+        padding-left:20px;
+        text-decoration: none;
+
+        &:hover{
+          @apply --navy-on-teal;
+          border-left:5px solid $navy;
+          padding-left:15px;
+        }
+      }
+    }
+    .e-ec-tab--active {
+      a {
+        border-left:5px solid $teal;
+        padding-left:15px;
+        &:hover{background:none;cursor:default}
+      }
+    }
+  }
+  .pane {
+    background: #ccc;
+    flex: 10 auto;
+    padding:10px;
+  }
+}

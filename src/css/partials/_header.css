@@ -1,0 +1,30 @@
+.b-ec__header {
+    display: flex;
+    align-items: baseline;
+    flex-direction: row;
+    @apply --teal-on-navy;
+
+    .e-ec__header__title {
+        flex-basis: content;
+        padding: 5px 20px;
+        margin: 0;
+        font-size: 2em;
+    }
+    .e-ec__conf__tabs {
+        flex: auto;
+        display: flex;
+        justify-content: flex-start;
+
+        .e-ec__tab {
+            display: inline-block;
+            flex: 1;
+            text-align: center;
+            text-transform: uppercase;
+            color:inherit;
+            &:last-child {
+                flex: 8;
+                text-align: right;
+            }
+        }
+    }
+}

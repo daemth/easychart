@@ -1,0 +1,53 @@
+/* http://codepen.io/jstn/pen/zuDst */
+
+.line {
+    text-decoration: none;
+    padding: 10px;
+    position: relative;
+}
+
+.line:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+    color: inherit;
+}
+
+.line:hover:after {
+    width: 100%;
+    left: 0;
+}
+
+
+/* http://codepen.io/mattgrosswork/pen/rqosb */
+
+.hd {
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.hd span {
+
+    /*  shadows render better in certain browsers than text, first rule is for older browser support  */
+    text-shadow: 0 0 #333, .08em 0 0 #000, 0 0, -.08em 0 0 #000;
+    /*  gradient background allows us to use css only & re-position it  */
+    background: -webkit-linear-gradient(#fff, #fff) center 1.09em no-repeat;
+    background: linear-gradient(#fff, #fff) center 1.09em no-repeat;
+    /*  can precisely control size in relation to the text  */
+    background-size: 65% 3px;
+    /*  now the underline supports transitions  */
+    -webkit-transition: .2s ease;
+    transition: .2s ease;
+}
+
+.hd:hover span {
+    /*  backgrounds won't size larger than 100%  */
+    background-size: 95% 3px;
+}

@@ -1,60 +1,41 @@
-/* postcss-modules */
-
-@use postcss-import;
-@use postcss-simple-vars;
-@use autoprefixer;
-@use postcss-custom-properties;
-@use postcss-apply;
-@use postcss-nested;
-@use cssnano;
-
-@import 'https://fonts.googleapis.com/css?family=Raleway:200|Roboto';
-
-/* TODO partial reset --> postcss autoreset */
-
-
 /* imports */
+/*
+@import 'https://fonts.googleapis.com/css?family=Raleway:200|Roboto';
+*/
+@import './partials/variables';
+@import './partials/custom-properties';
+@import './partials/header';
+@import './partials/conf-pane';
+@import './partials/specialleke';
 
-
-/* variabels */
-
-$lime: #01FF70;
-$black: #111111;
-
-/* custom properties */
-
-:root {
-    --lime-on-black: {
-        color: $lime;
-        background-color: $black;
-    }
-    --black-on-lime: {
-        color: $black;
-        background-color: $lime;
-    }
-    --teal-on-navy {
-      color: #39CCCC;
-      background-color: #001F3F;
-    }
-    --navy-on-teal {
-      color: #001F3F;
-      background-color: #39CCCC;
-    }
+body, h1, h2, h3, h4, h5, h6 {
+    font-size: 10pt;
+    line-height: 1.6;
 }
-.ec > * {
+
+
+/*
+.b-easychart-container > * {
   padding: 10px;
   flex: 1 100%;
 }
+*/
 
-.ec {
-  font-size: 10pt;
-  font-family: 'Raleway', sans-serif;
-  background: #ccc;
+.b-easychart-container {
+    font-family: 'Raleway', sans-serif;
+    font-size: 10pt;
+    background: #ccc;
+}
 
+
+/*
   display: flex;
   flex-flow: row wrap;
+*/
 
-  .ec__header {
+
+/*
+  .b-ec__header {
       font-family: 'Roboto';
       @apply --teal-on-navy;
       display: flex;
@@ -62,12 +43,12 @@ $black: #111111;
       align-items: baseline;
       align-content: space-between;
 
-      .ec__header__title {
+      .e-ec__header__title {
         flex: 1 auto;
         font-size:1.2rem;
         padding:0;margin:0;
       }
-      .ec__header__togglefs {
+      .e-ec__header__togglefs {
 
       }
   }
@@ -80,8 +61,7 @@ $black: #111111;
 
     .ec__conf__tabs {
       display: flex;
-      flex-direction: row;
-      justify-content:flex-start;
+
 
       a.ec__tab {
         text-transform: uppercase;
@@ -101,15 +81,57 @@ $black: #111111;
         @apply --teal-on-navy;
       }
     }
+    /*
     .ec__conf__pane {
       padding: 10px;
+      display: flex;
+
 
       .tabs {
         list-style:none;
         padding:0;
+        margin:0;
+
+        flex: 1 auto;
+
+        li {
+          background:#eee;
+
+          a {
+            display: block;
+            padding: .5rem;
+            padding-left:20px;
+            text-decoration: none;
+
+            &:hover{
+              @apply --navy-on-teal;
+              border-left:5px solid $navy;
+
+              padding-left:15px
+            }
+          }
+
+        }
+        li.active{
+          a {
+            border-left:5px solid $teal;
+            padding-left:15px;
+            &:hover{background:none;cursor:default}
+          }
+        }
+      }
+
+      .pane {
+        background: #ccc;
+        flex: 10 auto;
+        padding:10px;
       }
 
     }
+    */
+
+
+/*
   }
 
   .ec__chart{
@@ -122,10 +144,13 @@ $black: #111111;
     @apply --teal-on-navy;
   }
 }
+*/
 
 
 /* breakpoints */
-/* TODO switch logic --> mobile first */
+
+
+/* TODO switch logic --> mobile first
 
 @media all and (max-width: 800px) {
   .ec {
@@ -142,3 +167,4 @@ $black: #111111;
     }
   }
 }
+*/
