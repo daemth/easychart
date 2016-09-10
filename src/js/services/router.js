@@ -10,7 +10,7 @@
         keys: require('lodash.keys')
     };
 
-    function constructor(element, states, services) {
+    function constructor(element, states, services, showLogo) {
         var initState = {
             links: _.keys(states)
         };
@@ -40,7 +40,7 @@
             if (state.dependencies && state.template) {
                 return h('div', [
                     h('div.header', [
-                        logo,
+                        showLogo? logo : null,
                         h('div.navigation.accordion-tabs-minimal',[
                             h('ul.tab-list', state.links.map(function (id) {
                                 var className = state.title === states[id].title ? 'is-active' : '';
@@ -59,7 +59,7 @@
                     h('div.left', state.template(state.dependencies))
                 ])
             } else {
-                return h('div', logo)
+                return h('div', showLogo? logo : null)
             }
         }
 

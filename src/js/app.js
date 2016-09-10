@@ -93,7 +93,7 @@ function constructor(opts) {
     initializer(opts, services);
     if (typeof opts.element !== 'undefined') {
         opts.element.className += ' ec';
-        var mainRouter = new router(opts.element, states, services);
+        var mainRouter = new router(opts.element, states, services, opts.showLogo != false);
         if(opts.dataTab != false) {
             mainRouter.goToState('data');
         } else if(opts.templateTab != false) {

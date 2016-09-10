@@ -216,6 +216,14 @@ new ec({
     }
 });
 ```
+### options.showLogo
+Toggle on and off the logo [default:true]
+```javascript
+new ec({
+    showLogo: false
+});
+```
+
 ## api
 ### instance.setData
 Set the current data object.
