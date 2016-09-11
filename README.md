@@ -1,3 +1,5 @@
+[![Support](https://supporterhq.com/api/b/457908od976fe6w5ijy7a91kn/Easychart)](https://supporterhq.com/support/457908od976fe6w5ijy7a91kn/Easychart)
+
 # Easychart
 **A visual editor for the world's best web charting tool: [Highcharts] (http://www.highcharts.com/)**
 
@@ -445,4 +447,4 @@ api:
 Available under the MIT license.
 
 ## Sponsoring
-This plugin is sponsored by The Government of Flanders: http://overheid.vlaanderen.be
+This plugin was initially developed for and partially sponsored by The Government of Flanders: http://overheid.vlaanderen.be. 
