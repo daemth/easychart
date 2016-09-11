@@ -40,7 +40,7 @@
             if (state.dependencies && state.template) {
                 return h('div', [
                     h('div.header', [
-                        showLogo? logo : null,
+                        showLogo ? h('h1.logo', 'EASYCHART') : null,
                         h('div.navigation.accordion-tabs-minimal',[
                             h('ul.tab-list', state.links.map(function (id) {
                                 var className = state.title === states[id].title ? 'is-active' : '';
@@ -59,7 +59,7 @@
                     h('div.left', state.template(state.dependencies))
                 ])
             } else {
-                return h('div', showLogo? logo : null)
+                return h('div', showLogo ? h('h1.logo', 'EASYCHART') : null)
             }
         }
 

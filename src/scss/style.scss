@@ -46,18 +46,19 @@
     background-color: #333;
     width: 100%;
     display: inline-block;
+    position: relative;
     .logo {
-      float: right;
       text-align: right;
-      padding: 7px 1em;
-      height: 64px;
-      svg {
-        height: 50px;
-      }
+      color: white;
+      font-weight: 100;
+      font-size: 1.5em;
+      position: absolute;
+      bottom: 4px;
+      right: 15px;
     }
     .navigation {
-      margin-left: 20px;
-      margin-top: 22px;
+      margin-left: 10px;
+      margin-top: 10px;
       float: left;
       .tab-link a {
         text-decoration: none;
