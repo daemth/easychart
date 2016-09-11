@@ -24,14 +24,11 @@
 <div id="container" class="container"></div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var container = document.getElementById('container');
+
         window.easychart = new ec({
-            element: container,
+            element: document.getElementById('container'),
+            dataUrl: 'data/line.csv',
             debuggerTab: true,
-            data: [
-                ['','GWh'],
-                [2016,18262]
-            ],
             events: {
                 'configUpdate': function (e) {
                     //console.log(window.easychart.getConfigStringified());
