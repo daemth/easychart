@@ -175,6 +175,9 @@
             "fullname": "xAxis.labels.align"
           },
           {
+            "fullname": "xAxis.dateTimeLabelFormats"
+          },
+          {
             "fullname": "xAxis.plotLines",
             "options": [
               {
