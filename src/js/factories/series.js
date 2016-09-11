@@ -18,6 +18,9 @@
     };
 
     that.get = function (data, config, labels, categories, series) {
+
+        console.log(config.xAxis[0].type);
+        console.log(_.cloneDeep(data));
         var object = generateDataSeries(config, data);
         if (labels.categories) {
             object = setCategories(object, categories);
@@ -27,11 +30,23 @@
         }
         return object;
     };
-
+/*
+ var _temp = _.first(row);console.log(_temp);
+ _temp = _temp.split('-');console.log(_temp);
+ _temp = Date.UTC(parseInt(_temp[0]),parseInt(_temp[1]),parseInt(_temp[2]));console.log(_temp);
+ */
 
     function setCategories(series, categorieLabels) {
+        var re = /^[1-9]\d*$/;
+
+
+
         _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
+                if (re.test(categorieLabels[dataIndex])) {
+                    categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
+                }
+                
                 // depending on the notation we add it to the array or set its as property
                 if(series[index]['data'][dataIndex].isArray){
                     series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);

@@ -28,11 +28,17 @@
 
         var config = _.cloneDeep(presets);
         var configCache;
+
         that.get = function () {
             var labels = hasLabels(data.get());
-            var object = _.merge(_.cloneDeep(config), _.cloneDeep(presets));
-            object.series = series.get(data.getData(labels.series, labels.categories), object, labels, data.getCategories(), data.getSeries());
-            configCache = _.cloneDeep(object);
+            var _configObject = _.merge(_.cloneDeep(config), _.cloneDeep(presets));
+            var _data = data.getData(labels.series, labels.categories);
+
+            // TODO FIX: getCategories() only when there are cats
+
+            // add series to _configObject
+            _configObject.series = series.get(_data, _configObject, labels, data.getCategories(), data.getSeries(labels.categories));
+            configCache = _.cloneDeep(_configObject);
             return configCache;
         };
 
@@ -186,10 +192,10 @@
             };
             if (data[0]) {
                 // if the first cell is empty, make the assumption that the first column are labels.
-                if (_.isEmpty(data[0][0]) || data[0][0] == 'cat' || data[0][0] == 'categories') {
+                if (_.isEmpty(data[0][0]) || data[0][0] === 'cat' || data[0][0] === 'categories') {
                     labels.categories = true;
-                } else {
-                    labels.categories = false;
+
+                    console.log('has CATS');
                 }
             }
             return labels;
