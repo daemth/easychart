@@ -28570,7 +28570,7 @@ function constructor(opts) {
 }
 module.exports = constructor;
 window.ec = constructor;
-},{"../css/style.css":121,"./components/configure.js":124,"./components/debug.js":128,"./components/import.js":130,"./components/templateSelection.js":137,"./services/api":152,"./services/config":153,"./services/data":154,"./services/initializer":155,"./services/options":156,"./services/revision":157,"./services/router.js":158,"./services/templates":159,"dom-delegator":11,"mediatorjs":71,"virtual-dom/h":91}],123:[function(require,module,exports){
+},{"../css/style.css":121,"./components/configure.js":124,"./components/debug.js":128,"./components/import.js":130,"./components/templateSelection.js":137,"./services/api":153,"./services/config":154,"./services/data":155,"./services/initializer":156,"./services/options":157,"./services/revision":158,"./services/router.js":159,"./services/templates":160,"dom-delegator":11,"mediatorjs":71,"virtual-dom/h":91}],123:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -29343,7 +29343,6 @@ module.exports = constructor;
                     // convert the file to a Buffer that we can use!
                     var reader = new FileReader();
                     reader.addEventListener('loadstart', function (e) {
-                        console.log('start');
                         node.innerHTML = '<div class="loader"></div>'
                         e.preventDefault();
                     });
@@ -29735,10 +29734,8 @@ module.exports=module.exports = [
                         "isParent": false,
                         "returnType": "Boolean",
                         "defaults": "false",
-                        "since": "",
-                        "description": "Whether to invert the axes so that the x axis is vertical and y axis is horizontal.\r When true, the x axis is reversed by default. If a bar series is present in the chart,\r it will be inverted automatically.",
+                        "description": "<p>Whether to invert the axes so that the x axis is vertical and y axis is horizontal. When true, the x axis is <a href=\"#xAxis.reversed\">reversed</a> by default. If a bar series is present in the chart, it will be inverted automatically.</p>\r\n\r\n<p>Inverting the chart doesn't have an effect if there are no cartesian series in the chart, or if the chart is <a href=\"#chart.polar\">polar</a>.</p>",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/inverted/\" target=\"_blank\">Inverted line</a>",
-                        "seeAlso": "",
                         "deprecated": false
                     },
                     {
@@ -29805,8 +29802,10 @@ module.exports=module.exports = [
                         "parent": "chart",
                         "isParent": false,
                         "returnType": "Number",
-                        "description": "An explicit width for the chart. By default the width is calculated from the offset width of the containing element.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/width/\" target=\"_blank\">800px wide</a>"
+                        "defaults": "null",
+                        "description": "An explicit width for the chart. By default (when <code>null</code>) the width is calculated from the offset width of the containing element.",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/width/\" target=\"_blank\">800px wide</a>",
+                        "deprecated": false
                     },
                     {
                         "name": "chart--height",
@@ -29815,7 +29814,8 @@ module.exports=module.exports = [
                         "parent": "chart",
                         "isParent": false,
                         "returnType": "Number",
-                        "description": "An explicit height for the chart. By default the height is calculated from the offset height of the containing element, or 400 pixels if the containing element's height is 0.",
+                        "defaults": "null",
+                        "description": "An explicit height for the chart. By default (when <code>null</code>) the height is calculated from the offset height of the containing element, or 400 pixels if the containing element's height is 0.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/height/\" target=\"_blank\">500px height</a>",
                         "deprecated": false
                     },
@@ -30044,10 +30044,8 @@ module.exports=module.exports = [
                         "isParent": false,
                         "returnType": "Boolean",
                         "defaults": "false",
-                        "since": "",
-                        "description": "Whether to invert the axes so that the x axis is vertical and y axis is horizontal.\r When true, the x axis is reversed by default. If a bar series is present in the chart,\r it will be inverted automatically.",
+                        "description": "<p>Whether to invert the axes so that the x axis is vertical and y axis is horizontal. When true, the x axis is <a href=\"#xAxis.reversed\">reversed</a> by default. If a bar series is present in the chart, it will be inverted automatically.</p>\r\n\r\n<p>Inverting the chart doesn't have an effect if there are no cartesian series in the chart, or if the chart is <a href=\"#chart.polar\">polar</a>.</p>",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/inverted/\" target=\"_blank\">Inverted line</a>",
-                        "seeAlso": "",
                         "deprecated": false
                     }
                 ]
@@ -30074,7 +30072,7 @@ module.exports=module.exports = [
                         "returnType": "String",
                         "defaults": "linear",
                         "values": "[\"linear\", \"logarithmic\", \"datetime\", \"category\"]",
-                        "description": "The type of axis. Can be one of <code>\"linear\"</code>, <code>\"logarithmic\"</code>, <code>\"datetime\"</code> or <code>\"category\"</code>. In a datetime axis, the numbers are given in milliseconds, and tick marks are placed \t\ton appropriate values like full hours or days. In a category axis, the <a href=\"#series.data\">point names</a> of the chart's series are used for categories, if not a <a href=\"#xAxis.categories\">categories</a> array is defined.",
+                        "description": "The type of axis. Can be one of <code>linear</code>, <code>logarithmic</code>, <code>datetime</code> or <code>category</code>. In a datetime axis, the numbers are given in milliseconds, and tick marks are placed \t\ton appropriate values like full hours or days. In a category axis, the <a href=\"#series<line>.data.name\">point names</a> of the chart's series are used for categories, if not a <a href=\"#xAxis.categories\">categories</a> array is defined.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-linear/\" target=\"_blank\">\"linear\"</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-datetime/\" target=\"_blank\">\"datetime\" with regular intervals</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-datetime-irregular/\" target=\"_blank\">\"datetime\" with irregular intervals</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/type-log/\" target=\"_blank\">\"logarithmic\"</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/type-log-minorgrid/\" target=\"_blank\">\"logarithmic\" with minor grid lines</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-log-both/\" target=\"_blank\">\"logarithmic\" on two axes</a>.",
                         "deprecated": false
                     },
@@ -30095,8 +30093,9 @@ module.exports=module.exports = [
                         "parent": "xAxis",
                         "isParent": false,
                         "returnType": "Number",
-                        "description": "The maximum value of the axis. If <code>null</code>, the max value is automatically calculated. If the <code>endOnTick</code> option is true, the <code>max</code> value might be rounded up. The actual maximum value is also influenced by  <a class=\"internal\" href=\"#chart\">chart.alignTicks</a>.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-200/\" target=\"_blank\">Y axis max of 200</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-logarithmic/\" target=\"_blank\">Y axis max on logarithmic axis</a>"
+                        "description": "<p>The maximum value of the axis. If <code>null</code>, the max value is automatically calculated. If the <code>endOnTick</code> option is true, the <code>max</code> value might be rounded up.</p>\r\n\r\n<p>If a <a href=\"#yAxis.tickAmount\">tickAmount</a> is set, the axis may be extended beyond the set max in order to reach the given number of ticks. The same may happen in a chart with multiple axes, determined by  <a class=\"internal\" href=\"#chart\">chart.alignTicks</a>, where a <code>tickAmount</code> is applied internally.</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-200/\" target=\"_blank\">Y axis max of 200</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-logarithmic/\" target=\"_blank\">Y axis max on logarithmic axis</a>",
+                        "deprecated": false
                     },
                     {
                         "name": "xAxis--opposite",
@@ -30139,7 +30138,7 @@ module.exports=module.exports = [
                         "parent": "xAxis",
                         "isParent": false,
                         "returnType": "Number",
-                        "description": "<p>The interval of the tick marks in axis units. When <code>null</code>, the tick interval\r\n is computed to approximately follow the <a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a> on linear and datetime axes.\r\n On categorized axes, a <code>null</code> tickInterval will default to 1, one category. \r\n Note that datetime axes are based on milliseconds, so for \r\n example an interval of one day is expressed as <code>24 * 3600 * 1000</code>.</p>\r\n <p>On logarithmic axes, the tickInterval is based on powers, so a tickInterval of 1 means\r\n \tone tick on each of 0.1, 1, 10, 100 etc. A tickInterval of 2 means a tick of 0.1, 10, 1000 etc.\r\n \tA tickInterval of 0.2 puts a tick on 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 4, 6, 8, 10, 20, 40 etc.</p>\r\n<p>If the tickInterval is too dense for labels to be drawn, Highcharts may remove ticks.</p>",
+                        "description": "<p>The interval of the tick marks in axis units. When <code>null</code>, the tick interval\r\n is computed to approximately follow the <a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a> on linear and datetime axes.\r\n On categorized axes, a <code>null</code> tickInterval will default to 1, one category. \r\n Note that datetime axes are based on milliseconds, so for \r\n example an interval of one day is expressed as <code>24 * 3600 * 1000</code>.</p>\r\n <p>On logarithmic axes, the tickInterval is based on powers, so a tickInterval of 1 means\r\n \tone tick on each of 0.1, 1, 10, 100 etc. A tickInterval of 2 means a tick of 0.1, 10, 1000 etc.\r\n \tA tickInterval of 0.2 puts a tick on 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 4, 6, 8, 10, 20, 40 etc.</p>\r\n\r\n<p>If the tickInterval is too dense for labels to be drawn, Highcharts may remove ticks.</p>\r\n\r\n<p>If the chart has multiple axes, the <a href=\"#chart.alignTicks\">alignTicks</a> option may interfere with the <code>tickInterval</code> setting.</p>",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/tickinterval-5/\" target=\"_blank\">Tick interval of 5 on a linear axis</a>",
                         "seeAlso": "<a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a>, <a href=\"#xAxis.tickPositions\">tickPositions</a>, <a href=\"#xAxis.tickPositioner\">tickPositioner</a>",
                         "deprecated": false
@@ -30190,6 +30189,17 @@ module.exports=module.exports = [
                         "values": "[\"left\", \"center\", \"right\"]",
                         "description": "What part of the string the given position is anchored to. Can be one of <code>\"left\"</code>, <code>\"center\"</code> or <code>\"right\"</code>. Defaults to an intelligent guess based on which side of the chart the axis is on and the rotation of the label.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-left/\" target=\"_blank\">\"left\"</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-right/\" target=\"_blank\">\"right\"</a> on X axis",
+                        "deprecated": false
+                    },
+                    {
+                        "name": "xAxis--dateTimeLabelFormats",
+                        "fullname": "xAxis.dateTimeLabelFormats",
+                        "title": "dateTimeLabelFormats",
+                        "parent": "xAxis",
+                        "isParent": false,
+                        "returnType": "Object",
+                        "description": "For a datetime axis, the scale will automatically adjust to the appropriate unit.  This member gives the default string representations used for each unit. For intermediate values, different units may be used, for example the <code>day</code> unit can be used on midnight and <code>hour</code> unit be used for intermediate values on the same axis. For an overview of the replacement codes, see <a href=\"#Highcharts.dateFormat\">dateFormat</a>.\r\n\r\nDefaults to:\r\n<pre>{\r\n\tmillisecond: '%H:%M:%S.%L',\r\n\tsecond: '%H:%M:%S',\r\n\tminute: '%H:%M',\r\n\thour: '%H:%M',\r\n\tday: '%e. %b',\r\n\tweek: '%e. %b',\r\n\tmonth: '%b \\'%y',\r\n\tyear: '%Y'\r\n}</pre>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/datetimelabelformats/\" target=\"_blank\">Different day format on X axis</a>",
                         "deprecated": false
                     },
                     {
@@ -30341,7 +30351,7 @@ module.exports=module.exports = [
                         "returnType": "String",
                         "defaults": "linear",
                         "values": "[\"linear\", \"logarithmic\", \"datetime\", \"category\"]",
-                        "description": "The type of axis. Can be one of <code>\"linear\"</code>, <code>\"logarithmic\"</code>, <code>\"datetime\"</code> or <code>\"category\"</code>. In a datetime axis, the numbers are given in milliseconds, and tick marks are placed \t\ton appropriate values like full hours or days. In a category axis, the <a href=\"#series.data\">point names</a> of the chart's series are used for categories, if not a <a href=\"#xAxis.categories\">categories</a> array is defined.",
+                        "description": "The type of axis. Can be one of <code>linear</code>, <code>logarithmic</code>, <code>datetime</code> or <code>category</code>. In a datetime axis, the numbers are given in milliseconds, and tick marks are placed \t\ton appropriate values like full hours or days. In a category axis, the <a href=\"#series<line>.data.name\">point names</a> of the chart's series are used for categories, if not a <a href=\"#xAxis.categories\">categories</a> array is defined.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-linear/\" target=\"_blank\">\"linear\"</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-datetime/\" target=\"_blank\">\"datetime\" with regular intervals</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-datetime-irregular/\" target=\"_blank\">\"datetime\" with irregular intervals</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/type-log/\" target=\"_blank\">\"logarithmic\"</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/type-log-minorgrid/\" target=\"_blank\">\"logarithmic\" with minor grid lines</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/type-log-both/\" target=\"_blank\">\"logarithmic\" on two axes</a>.",
                         "deprecated": false
                     },
@@ -30363,8 +30373,9 @@ module.exports=module.exports = [
                         "parent": "yAxis",
                         "isParent": false,
                         "returnType": "Number",
-                        "description": "The maximum value of the axis. If <code>null</code>, the max value is automatically calculated. If the <code>endOnTick</code> option is true, the <code>max</code> value might be rounded up. The actual maximum value is also influenced by  <a class=\"internal\" href=\"#chart\">chart.alignTicks</a>.",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-200/\" target=\"_blank\">Y axis max of 200</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-logarithmic/\" target=\"_blank\">Y axis max on logarithmic axis</a>"
+                        "description": "<p>The maximum value of the axis. If <code>null</code>, the max value is automatically calculated. If the <code>endOnTick</code> option is true, the <code>max</code> value might be rounded up.</p>\r\n\r\n<p>If a <a href=\"#yAxis.tickAmount\">tickAmount</a> is set, the axis may be extended beyond the set max in order to reach the given number of ticks. The same may happen in a chart with multiple axes, determined by  <a class=\"internal\" href=\"#chart\">chart.alignTicks</a>, where a <code>tickAmount</code> is applied internally.</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-200/\" target=\"_blank\">Y axis max of 200</a>,\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/yaxis/max-logarithmic/\" target=\"_blank\">Y axis max on logarithmic axis</a>",
+                        "deprecated": false
                     },
                     {
                         "name": "yAxis--minColor",
@@ -30437,7 +30448,7 @@ module.exports=module.exports = [
                         "parent": "yAxis",
                         "isParent": false,
                         "returnType": "Number",
-                        "description": "<p>The interval of the tick marks in axis units. When <code>null</code>, the tick interval\r\n is computed to approximately follow the <a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a> on linear and datetime axes.\r\n On categorized axes, a <code>null</code> tickInterval will default to 1, one category. \r\n Note that datetime axes are based on milliseconds, so for \r\n example an interval of one day is expressed as <code>24 * 3600 * 1000</code>.</p>\r\n <p>On logarithmic axes, the tickInterval is based on powers, so a tickInterval of 1 means\r\n \tone tick on each of 0.1, 1, 10, 100 etc. A tickInterval of 2 means a tick of 0.1, 10, 1000 etc.\r\n \tA tickInterval of 0.2 puts a tick on 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 4, 6, 8, 10, 20, 40 etc.</p>\r\n<p>If the tickInterval is too dense for labels to be drawn, Highcharts may remove ticks.</p>",
+                        "description": "<p>The interval of the tick marks in axis units. When <code>null</code>, the tick interval\r\n is computed to approximately follow the <a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a> on linear and datetime axes.\r\n On categorized axes, a <code>null</code> tickInterval will default to 1, one category. \r\n Note that datetime axes are based on milliseconds, so for \r\n example an interval of one day is expressed as <code>24 * 3600 * 1000</code>.</p>\r\n <p>On logarithmic axes, the tickInterval is based on powers, so a tickInterval of 1 means\r\n \tone tick on each of 0.1, 1, 10, 100 etc. A tickInterval of 2 means a tick of 0.1, 10, 1000 etc.\r\n \tA tickInterval of 0.2 puts a tick on 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 4, 6, 8, 10, 20, 40 etc.</p>\r\n\r\n<p>If the tickInterval is too dense for labels to be drawn, Highcharts may remove ticks.</p>\r\n\r\n<p>If the chart has multiple axes, the <a href=\"#chart.alignTicks\">alignTicks</a> option may interfere with the <code>tickInterval</code> setting.</p>",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/tickinterval-5/\" target=\"_blank\">Tick interval of 5 on a linear axis</a>",
                         "seeAlso": "<a href=\"#xAxis.tickPixelInterval\">tickPixelInterval</a>, <a href=\"#xAxis.tickPositions\">tickPositions</a>, <a href=\"#xAxis.tickPositioner\">tickPositioner</a>",
                         "deprecated": false
@@ -31277,6 +31288,25 @@ module.exports=module.exports = [
             },
             {
               "type": "errorbar"
+            }
+          ]
+        }
+      },
+      {
+        "id": "datetime",
+
+        "title": "Datetime",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for the series Y values and two columns for the error bar series maximum and minimum.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": [
+            {
+              "type": "datetime",
+              "dateTimeLabelFormats": {
+                "day": "%e of %b"
+              }
             }
           ]
         }
@@ -33460,7 +33490,6 @@ return self})();
         }
         else {
             switch (true) {
-                // Color array
                 case returnType.toLowerCase() == 'array<color>':
                     element = require('./properties/arrayColor')(property, configService, configValue, disabled);
                     break;
@@ -33470,27 +33499,24 @@ return self})();
                 case returnType.toLowerCase() == 'array<array>':
                     element = require('./properties/arrayArray')(property, configService, configValue, that);
                     break;
-                // array
                 case (returnType.lastIndexOf('Array', 0) === 0):
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
-                // number
                 case returnType.toLowerCase().indexOf('number') > -1:
                     element = require('./properties/number')(property, configService, configValue, disabled);
                     break;
-                // boolean
                 case returnType.toLowerCase() == 'boolean':
                     element = require('./properties/boolean')(property, configService, configValue, disabled);
                     break;
-
                 case returnType.toLowerCase() == 'string':
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
-
                 case returnType.toLowerCase() == 'color':
                     element = require('./properties/color')(property, configService, configValue, disabled);
                     break;
-
+                case returnType.toLowerCase() == 'object':
+                    element = require('./properties/object')(property, configService, configValue, disabled);
+                    break;
                 default:
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
@@ -33501,7 +33527,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":142,"./properties/arrayArray":143,"./properties/arrayColor":144,"./properties/arrayObject":145,"./properties/boolean":146,"./properties/color":147,"./properties/number":148,"./properties/select":149,"./properties/string":150,"lodash.clonedeep":41,"lodash.first":44,"lodash.foreach":45,"lodash.isarray":48,"lodash.isstring":53,"lodash.isundefined":54}],142:[function(require,module,exports){
+},{"./properties/array":142,"./properties/arrayArray":143,"./properties/arrayColor":144,"./properties/arrayObject":145,"./properties/boolean":146,"./properties/color":147,"./properties/number":148,"./properties/object":149,"./properties/select":150,"./properties/string":151,"lodash.clonedeep":41,"lodash.first":44,"lodash.foreach":45,"lodash.isarray":48,"lodash.isstring":53,"lodash.isundefined":54}],142:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -33570,7 +33596,6 @@ return self})();
         var values = _.cloneDeep(configValue) || [];
 
         _.forEach(configValue, function (value, index) {
-            console.log(configValue);
             var optionsList = [];
             var title = h('div.title', [h('h4', '' + (index + 1)), removeButton(property.fullname + '.' + index)]);
 
@@ -33932,6 +33957,44 @@ return self})();
 },{"virtual-dom/h":91}],149:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
+
+  function constructor(property, configService, configValue, disabled, defaultValue) {
+    console.log('configVal', configValue);
+
+
+    return h('div.form-item', [
+      h('div.form-item__label', h('label', {
+        title: property.description,
+        'ev-click': function (e) {
+          if(!disabled) {
+            e.target.parentNode.parentNode.querySelector('input').focus();
+          }
+        }
+      }, [property.title])),
+      h('div.form-item__input', h('input', {
+        disabled  : disabled,
+        'type'    : 'text',
+        'placeholder' : property.defaults,
+        // stringify object
+        'value': configValue ? JSON.stringify(configValue) : '',
+        'ev-blur': function (e) {
+          if (e.target.value !== '') {
+            console.log('e.tar.val', e.target.value);
+            // parse object before storing it
+            configService.setValue(property.fullname, JSON.parse(e.target.value));
+          } else {
+            configService.removeValue(property.fullname);
+          }
+        }
+      }))
+    ]);
+  }
+  module.exports = constructor;
+})();
+
+},{"virtual-dom/h":91}],150:[function(require,module,exports){
+(function () {
+  var h = require('virtual-dom/h');
   var _ = {
     forEach: require('lodash.foreach'),
     isUndefined: require('lodash.isundefined')
@@ -33980,7 +34043,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"lodash.foreach":45,"lodash.isundefined":54,"virtual-dom/h":91}],150:[function(require,module,exports){
+},{"lodash.foreach":45,"lodash.isundefined":54,"virtual-dom/h":91}],151:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -34012,7 +34075,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":91}],151:[function(require,module,exports){
+},{"virtual-dom/h":91}],152:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -34033,9 +34096,6 @@ return self})();
     };
 
     that.get = function (data, config, labels, categories, series) {
-
-        console.log(config.xAxis[0].type);
-        console.log(_.cloneDeep(data));
         var object = generateDataSeries(config, data);
         if (labels.categories) {
             object = setCategories(object, categories);
@@ -34054,10 +34114,9 @@ return self})();
     function setCategories(series, categorieLabels) {
         var re = /^[1-9]\d*$/;
 
-
-
         _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
+                // if categorielabels contain timestamps, parse as integer
                 if (re.test(categorieLabels[dataIndex])) {
                     categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
                 }
@@ -34218,7 +34277,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":41,"lodash.drop":42,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":54,"lodash.map":60,"lodash.merge":61,"lodash.remove":62,"lodash.size":64,"lodash.slice":65,"lodash.union":69}],152:[function(require,module,exports){
+},{"lodash.clonedeep":41,"lodash.drop":42,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":54,"lodash.map":60,"lodash.merge":61,"lodash.remove":62,"lodash.size":64,"lodash.slice":65,"lodash.union":69}],153:[function(require,module,exports){
 (function () {
     function constructor(services) {
         // data
@@ -34333,7 +34392,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],153:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -34415,6 +34474,8 @@ return self})();
         };
 
         that.setValue = function (path, value) {
+            console.log(path,value);
+            console.log(config);
             var ids = path.split('.');
             var step;
             var object = config;
@@ -34530,8 +34591,6 @@ return self})();
                 // if the first cell is empty, make the assumption that the first column are labels.
                 if (_.isEmpty(data[0][0]) || data[0][0] === 'cat' || data[0][0] === 'categories') {
                     labels.categories = true;
-
-                    console.log('has CATS');
                 }
             }
             return labels;
@@ -34572,7 +34631,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../factories/series.js":151,"json-fn":33,"lodash.clonedeep":41,"lodash.find":43,"lodash.foreach":45,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":54,"lodash.map":60,"lodash.merge":61}],154:[function(require,module,exports){
+},{"../factories/series.js":152,"json-fn":33,"lodash.clonedeep":41,"lodash.find":43,"lodash.foreach":45,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":54,"lodash.map":60,"lodash.merge":61}],155:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -34701,7 +34760,7 @@ return self})();
 })
 ();
 
-},{"lodash.clonedeep":41,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isequal":50,"lodash.isnan":52,"lodash.isundefined":54,"lodash.map":60,"lodash.slice":65,"papaparse":72,"xhr":118}],155:[function(require,module,exports){
+},{"lodash.clonedeep":41,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isequal":50,"lodash.isnan":52,"lodash.isundefined":54,"lodash.map":60,"lodash.slice":65,"papaparse":72,"xhr":118}],156:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -34743,7 +34802,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":45}],156:[function(require,module,exports){
+},{"lodash.foreach":45}],157:[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -34791,7 +34850,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":138,"lodash.clonedeep":41,"xhr":118}],157:[function(require,module,exports){
+},{"../config/options.json":138,"lodash.clonedeep":41,"xhr":118}],158:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -34833,7 +34892,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":41}],158:[function(require,module,exports){
+},{"lodash.clonedeep":41}],159:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -34918,7 +34977,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":123,"./../components/revision":135,"./../templates/logo":160,"lodash.keys":56,"main-loop":70,"virtual-dom/create-element":89,"virtual-dom/diff":90,"virtual-dom/h":91,"virtual-dom/patch":92}],159:[function(require,module,exports){
+},{"./../components/chart.js":123,"./../components/revision":135,"./../templates/logo":161,"lodash.keys":56,"main-loop":70,"virtual-dom/create-element":89,"virtual-dom/diff":90,"virtual-dom/h":91,"virtual-dom/patch":92}],160:[function(require,module,exports){
 (function () {
     function constructor(){
         var jsonfn = require('json-fn');
@@ -34942,7 +35001,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates.json":139,"json-fn":33,"lodash.clonedeep":41}],160:[function(require,module,exports){
+},{"../config/templates.json":139,"json-fn":33,"lodash.clonedeep":41}],161:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');

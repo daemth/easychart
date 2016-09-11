@@ -18933,9 +18933,6 @@ function extend() {
     };
 
     that.get = function (data, config, labels, categories, series) {
-
-        console.log(config.xAxis[0].type);
-        console.log(_.cloneDeep(data));
         var object = generateDataSeries(config, data);
         if (labels.categories) {
             object = setCategories(object, categories);
@@ -18954,10 +18951,9 @@ function extend() {
     function setCategories(series, categorieLabels) {
         var re = /^[1-9]\d*$/;
 
-
-
         _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
+                // if categorielabels contain timestamps, parse as integer
                 if (re.test(categorieLabels[dataIndex])) {
                     categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
                 }
@@ -19278,6 +19274,8 @@ function extend() {
         };
 
         that.setValue = function (path, value) {
+            console.log(path,value);
+            console.log(config);
             var ids = path.split('.');
             var step;
             var object = config;
@@ -19393,8 +19391,6 @@ function extend() {
                 // if the first cell is empty, make the assumption that the first column are labels.
                 if (_.isEmpty(data[0][0]) || data[0][0] === 'cat' || data[0][0] === 'categories') {
                     labels.categories = true;
-
-                    console.log('has CATS');
                 }
             }
             return labels;
