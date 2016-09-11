@@ -75,6 +75,10 @@
                     element = require('./properties/color')(property, configService, configValue, disabled);
                     break;
 
+                case returnType.toLowerCase() == 'object':
+                    element = require('./properties/object')(property, configService, configValue, disabled);
+                    break;
+
                 default:
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
