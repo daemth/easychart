@@ -79,6 +79,8 @@
         };
 
         that.setValue = function (path, value) {
+            console.log(path,value);
+            console.log(config);
             var ids = path.split('.');
             var step;
             var object = config;
@@ -194,8 +196,6 @@
                 // if the first cell is empty, make the assumption that the first column are labels.
                 if (_.isEmpty(data[0][0]) || data[0][0] === 'cat' || data[0][0] === 'categories') {
                     labels.categories = true;
-
-                    console.log('has CATS');
                 }
             }
             return labels;

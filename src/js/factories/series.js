@@ -18,9 +18,6 @@
     };
 
     that.get = function (data, config, labels, categories, series) {
-
-        console.log(config.xAxis[0].type);
-        console.log(_.cloneDeep(data));
         var object = generateDataSeries(config, data);
         if (labels.categories) {
             object = setCategories(object, categories);
@@ -39,10 +36,9 @@
     function setCategories(series, categorieLabels) {
         var re = /^[1-9]\d*$/;
 
-
-
         _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
+                // if categorielabels contain timestamps, parse as integer
                 if (re.test(categorieLabels[dataIndex])) {
                     categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
                 }

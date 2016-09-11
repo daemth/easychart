@@ -15,7 +15,6 @@
                     // convert the file to a Buffer that we can use!
                     var reader = new FileReader();
                     reader.addEventListener('loadstart', function (e) {
-                        console.log('start');
                         node.innerHTML = '<div class="loader"></div>'
                         e.preventDefault();
                     });
