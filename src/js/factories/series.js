@@ -93,6 +93,8 @@
         var configClone = _.cloneDeep(config);
         var emptySeries = generateEmptySeries(configClone.series, configClone.chart.type, _.size(_.first(data)), configClone.chart.animation);
         return _.map(emptySeries, function (item, index) {
+
+            // TODO axisType ook meegeven aan onderstaane functie??
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
             _.forEach(data, function (row, rowIndex) {
                 var cell = {};
@@ -119,6 +121,12 @@
             return item;
         });
     }
+
+    // TODO definition of series possibly depends on the axistype, eg: when wategories are datetime they are in fact the x-value, NOT THE NAME
+    // als OPTIONELE parameter dan (op lijn 84 heeft het geen meerwaarde
+    // om de definition te bepalen is het wel van tel
+
+
 
     function getValuesPerPoint(type) {
         var vpp;
