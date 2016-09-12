@@ -50,6 +50,11 @@
                 case returnType.toLowerCase() == 'array<object>':
                     element = require('./properties/arrayObject')(property, configService, configValue, that);
                     break;
+
+                case returnType.toLowerCase() == 'array<string>': // eg xAxis.categories
+                    element = require('./properties/arrayString')(property, configService, configValue, disabled);
+                    break;
+
                 case returnType.toLowerCase() == 'array<array>':
                     element = require('./properties/arrayArray')(property, configService, configValue, that);
                     break;

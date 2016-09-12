@@ -113,7 +113,6 @@
                             cell[label] = null;
                         }
                     });
-
                 }
                 item.data.push(cell);
                 data[rowIndex] = _.drop(data[rowIndex], vpp.points);
