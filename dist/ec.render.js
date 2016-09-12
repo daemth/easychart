@@ -18962,7 +18962,7 @@ function extend() {
                 }
                 
                 // depending on the notation we add it to the array or set it as a property
-                if(series[index]['data'][dataIndex].isArray){
+                if(series[index]['data'][dataIndex].isArray){ // TODO - NOTE TO SELF when are they arrays?
                     series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
                 } else {
                     // is the label is a string -> assign to name-property

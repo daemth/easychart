@@ -169,16 +169,14 @@
             "title": "labels"
           },
           {
-            "fullname": "xAxis.labels.format"
+            "fullname": "xAxis.labels.format",
+            "title": "label format"
           },
           {
             "fullname": "xAxis.labels.rotation"
           },
           {
             "fullname": "xAxis.labels.align"
-          },
-          {
-            "fullname": "xAxis.dateTimeLabelFormats"
           },
           {
             "fullname": "xAxis.plotLines",

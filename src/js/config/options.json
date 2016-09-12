@@ -462,7 +462,7 @@
                     {
                         "name": "xAxis-labels--format",
                         "fullname": "xAxis.labels.format",
-                        "title": "format",
+                        "title": "label format",
                         "parent": "xAxis-labels",
                         "isParent": false,
                         "returnType": "String",
@@ -494,17 +494,6 @@
                         "values": "[\"left\", \"center\", \"right\"]",
                         "description": "What part of the string the given position is anchored to. Can be one of <code>\"left\"</code>, <code>\"center\"</code> or <code>\"right\"</code>. Defaults to an intelligent guess based on which side of the chart the axis is on and the rotation of the label.",
                         "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-left/\" target=\"_blank\">\"left\"</a>, \r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/labels-align-right/\" target=\"_blank\">\"right\"</a> on X axis",
-                        "deprecated": false
-                    },
-                    {
-                        "name": "xAxis--dateTimeLabelFormats",
-                        "fullname": "xAxis.dateTimeLabelFormats",
-                        "title": "dateTimeLabelFormats",
-                        "parent": "xAxis",
-                        "isParent": false,
-                        "returnType": "Object",
-                        "description": "For a datetime axis, the scale will automatically adjust to the appropriate unit.  This member gives the default string representations used for each unit. For intermediate values, different units may be used, for example the <code>day</code> unit can be used on midnight and <code>hour</code> unit be used for intermediate values on the same axis. For an overview of the replacement codes, see <a href=\"#Highcharts.dateFormat\">dateFormat</a>.\r\n\r\nDefaults to:\r\n<pre>{\r\n\tmillisecond: '%H:%M:%S.%L',\r\n\tsecond: '%H:%M:%S',\r\n\tminute: '%H:%M',\r\n\thour: '%H:%M',\r\n\tday: '%e. %b',\r\n\tweek: '%e. %b',\r\n\tmonth: '%b \\'%y',\r\n\tyear: '%Y'\r\n}</pre>",
-                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/datetimelabelformats/\" target=\"_blank\">Different day format on X axis</a>",
                         "deprecated": false
                     },
                     {
