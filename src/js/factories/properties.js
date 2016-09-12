@@ -54,6 +54,7 @@
                     element = require('./properties/arrayArray')(property, configService, configValue, that);
                     break;
                 case (returnType.lastIndexOf('Array', 0) === 0):
+                    console.log(property);
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
                 case returnType.toLowerCase().indexOf('number') > -1:
@@ -62,14 +63,14 @@
                 case returnType.toLowerCase() == 'boolean':
                     element = require('./properties/boolean')(property, configService, configValue, disabled);
                     break;
-                case returnType.toLowerCase() == 'string':
-                    element = require('./properties/string')(property, configService, configValue, disabled);
-                    break;
                 case returnType.toLowerCase() == 'color':
                     element = require('./properties/color')(property, configService, configValue, disabled);
                     break;
                 case returnType.toLowerCase() == 'object':
                     element = require('./properties/object')(property, configService, configValue, disabled);
+                    break;
+                case returnType.toLowerCase() == 'string':
+                    element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
                 default:
                     element = require('./properties/string')(property, configService, configValue, disabled);

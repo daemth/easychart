@@ -144,6 +144,9 @@
             "fullname": "xAxis.type"
           },
           {
+            "fullname": "xAxis.categories"
+          },
+          {
             "fullname": "xAxis.min"
           },
           {

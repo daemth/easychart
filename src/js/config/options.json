@@ -371,6 +371,17 @@
                         "deprecated": false
                     },
                     {
+                        "name": "xAxis--categories",
+                        "fullname": "xAxis.categories",
+                        "title": "categories",
+                        "parent": "xAxis",
+                        "isParent": false,
+                        "returnType": "Array<String>",
+                        "description": "<p>If categories are present for the xAxis, names are used instead of numbers for that axis. Since Highcharts 3.0, categories can also be extracted by giving each point a <a href=\"#series.data\">name</a> and setting axis <a href=\"#xAxis.type\">type</a> to <code>category</code>. However, if you have multiple series, best practice remains defining the <code>categories</code> array.</p>\r\n\r\n<p>Example:\r\n<pre>categories: ['Apples', 'Bananas', 'Oranges']</pre>\r\n\t\t Defaults to <code>null</code>\r\n</p>",
+                        "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/chart/reflow-true/\" target=\"_blank\">With</a> and\r\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/categories/\" target=\"_blank\">without</a> categories",
+                        "deprecated": false
+                    },
+                    {
                         "name": "xAxis--min",
                         "fullname": "xAxis.min",
                         "title": "min",
