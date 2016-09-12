@@ -33501,10 +33501,12 @@ return self})();
             element = require('./properties/select')(property, configService, configValue, disabled);
         }
         else {
+            // TODO sort out all the different types of returnTypes
             switch (true) {
                 case returnType.toLowerCase() == 'array<color>':
                     element = require('./properties/arrayColor')(property, configService, configValue, disabled);
                     break;
+
                 case returnType.toLowerCase() == 'array<object>':
                     element = require('./properties/arrayObject')(property, configService, configValue, that);
                     break;
@@ -33516,25 +33518,32 @@ return self})();
                 case returnType.toLowerCase() == 'array<array>':
                     element = require('./properties/arrayArray')(property, configService, configValue, that);
                     break;
+
                 case (returnType.lastIndexOf('Array', 0) === 0):
                     console.log(property);
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
+
                 case returnType.toLowerCase().indexOf('number') > -1:
                     element = require('./properties/number')(property, configService, configValue, disabled);
                     break;
+
                 case returnType.toLowerCase() == 'boolean':
                     element = require('./properties/boolean')(property, configService, configValue, disabled);
                     break;
+
                 case returnType.toLowerCase() == 'color':
                     element = require('./properties/color')(property, configService, configValue, disabled);
                     break;
+
                 case returnType.toLowerCase() == 'object':
                     element = require('./properties/object')(property, configService, configValue, disabled);
                     break;
+
                 case returnType.toLowerCase() == 'string':
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
+
                 default:
                     element = require('./properties/string')(property, configService, configValue, disabled);
                     break;
@@ -33835,14 +33844,17 @@ return self})();
           }
         }
       }, [property.title])),
+      // TODO: add styling for textarea
       h('div.form-item__input', h('textarea', {
         disabled  : disabled,
-        'type'    : 'text',
-        'placeholder' : property.defaults,
+        'placeholder' : property.defaults ? property.defaults : 'comma-separated list\nno quotes',
         'value': configValue ? configValue.join() : '',
-        'ev-input': function (e) {
-          if (e.target.value !== '') {
-            configService.setValue(property.fullname, e.target.value.split(','));
+        'ev-blur': function (e) {
+          var _value = e.target.value;
+          if (_value !== '') {
+            // remove unnecessary spaces before/after commas, replace newlines with a comma and convert to an array
+            _value = _value.replace(/\s*(\,|\n+)\s*/g, ',').split(',');
+            configService.setValue(property.fullname, _value);
           } else {
             configService.removeValue(property.fullname);
           }

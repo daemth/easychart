@@ -11,14 +11,17 @@
           }
         }
       }, [property.title])),
+      // TODO: add styling for textarea
       h('div.form-item__input', h('textarea', {
         disabled  : disabled,
-        'type'    : 'text',
-        'placeholder' : property.defaults,
+        'placeholder' : property.defaults ? property.defaults : 'comma-separated list\nno quotes',
         'value': configValue ? configValue.join() : '',
-        'ev-input': function (e) {
-          if (e.target.value !== '') {
-            configService.setValue(property.fullname, e.target.value.split(','));
+        'ev-blur': function (e) {
+          var _value = e.target.value;
+          if (_value !== '') {
+            // remove unnecessary spaces before/after commas, replace newlines with a comma and convert to an array
+            _value = _value.replace(/\s*(\,|\n+)\s*/g, ',').split(',');
+            configService.setValue(property.fullname, _value);
           } else {
             configService.removeValue(property.fullname);
           }
