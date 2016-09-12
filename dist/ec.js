@@ -33501,7 +33501,7 @@ return self})();
             element = require('./properties/select')(property, configService, configValue, disabled);
         }
         else {
-            // TODO sort out all the different types of returnTypes
+            // TODO sort out all the different kind of returnTypes
             switch (true) {
                 case returnType.toLowerCase() == 'array<color>':
                     element = require('./properties/arrayColor')(property, configService, configValue, disabled);
@@ -34174,20 +34174,28 @@ return self})();
  */
 
     function setCategories(series, categorieLabels) {
-        var re = /^[1-9]\d*$/;
 
         _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
-                // if categorielabels contain timestamps, parse as integer
+
+                // category-label handling
+                // if they are timestamps -> parse as integer
+                var re = /^[1-9]\d*$/;
+
                 if (re.test(categorieLabels[dataIndex])) {
                     categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
                 }
                 
-                // depending on the notation we add it to the array or set its as property
+                // depending on the notation we add it to the array or set it as a property
                 if(series[index]['data'][dataIndex].isArray){
                     series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
                 } else {
-                    series[index]['data'][dataIndex].name = categorieLabels[dataIndex];
+                    // is the label is a string -> assign to name-property
+                    if(typeof categorieLabels[dataIndex] === 'string'){
+                        series[index]['data'][dataIndex].name = categorieLabels[dataIndex];
+                    } else { // assign numeric labels to the x-property
+                        series[index]['data'][dataIndex].x = categorieLabels[dataIndex];
+                    }
                 }
             });
         });
@@ -34234,7 +34242,7 @@ return self})();
         var emptySeries = generateEmptySeries(configClone.series, configClone.chart.type, _.size(_.first(data)), configClone.chart.animation);
         return _.map(emptySeries, function (item, index) {
 
-            // TODO axisType ook meegeven aan onderstaane functie??
+            // TODO axisType ook meegeven aan onderstaane functie?? -> no, on axisType-change, the name-prop should be renamed to x
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
             _.forEach(data, function (row, rowIndex) {
                 var cell = {};

@@ -43,7 +43,7 @@
             element = require('./properties/select')(property, configService, configValue, disabled);
         }
         else {
-            // TODO sort out all the different types of returnTypes
+            // TODO sort out all the different kind of returnTypes
             switch (true) {
                 case returnType.toLowerCase() == 'array<color>':
                     element = require('./properties/arrayColor')(property, configService, configValue, disabled);
