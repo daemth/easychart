@@ -27,11 +27,6 @@
         }
         return object;
     };
-/*
- var _temp = _.first(row);console.log(_temp);
- _temp = _temp.split('-');console.log(_temp);
- _temp = Date.UTC(parseInt(_temp[0]),parseInt(_temp[1]),parseInt(_temp[2]));console.log(_temp);
- */
 
     function setCategories(series, categorieLabels) {
 
@@ -40,10 +35,21 @@
 
                 // category-label handling
                 // if they are timestamps -> parse as integer
+                // TODO: add support for eg MM-DD-YYYY and DD-MMM-YY
                 var re = /^[1-9]\d*$/;
 
                 if (re.test(categorieLabels[dataIndex])) {
                     categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
+                }
+
+                // ISO 8601 date format support
+                var re = /(\d{4})(\-(\d{2})){2}/;
+                
+                if (re.test(categorieLabels[dataIndex])) {
+                    var array = categorieLabels[dataIndex].split('-'),
+                        y = array[0], m = array[1], d = array[2];
+                    //var [y, m, d] = categorieLabels[dataIndex].split('-');
+                    categorieLabels[dataIndex] = Date.UTC(y,m-1,d); // month correction
                 }
                 
                 // depending on the notation we add it to the array or set it as a property
@@ -102,7 +108,6 @@
         var emptySeries = generateEmptySeries(configClone.series, configClone.chart.type, _.size(_.first(data)), configClone.chart.animation);
         return _.map(emptySeries, function (item, index) {
 
-            // TODO axisType ook meegeven aan onderstaane functie?? -> no, on axisType-change, the name-prop should be renamed to x
             var vpp = getValuesPerPoint(_.isUndefined(item.type) || item.type === null ? config.chart.type : item.type);
             _.forEach(data, function (row, rowIndex) {
                 var cell = {};
@@ -128,11 +133,6 @@
             return item;
         });
     }
-
-    // TODO definition of series possibly depends on the axistype, eg: when wategories are datetime they are in fact the x-value, NOT THE NAME
-    // als OPTIONELE parameter dan (op lijn 84 heeft het geen meerwaarde
-    // om de definition te bepalen is het wel van tel
-
 
 
     function getValuesPerPoint(type) {
