@@ -79,8 +79,6 @@
         };
 
         that.setValue = function (path, value) {
-            console.log(path,value);
-            console.log(config);
             var ids = path.split('.');
             var step;
             var object = config;

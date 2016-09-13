@@ -62,7 +62,6 @@
                     break;
 
                 case (returnType.lastIndexOf('Array', 0) === 0):
-                    console.log(property);
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
 

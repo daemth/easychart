@@ -28700,7 +28700,6 @@ function constructor(services) {
     var axesTabTitle = 'Axes';
 
     function tabs(options, setActive, activeTab, activeTabChild, config) {
-        console.log(options);
         if (!_.isUndefined(options)) {
             var links = [];
             if (options.id == activeTab) {
@@ -33509,7 +33508,6 @@ return self})();
                     break;
 
                 case (returnType.lastIndexOf('Array', 0) === 0):
-                    console.log(property);
                     element = require('./properties/array')(property, configService, configValue, disabled);
                     break;
 
@@ -34010,8 +34008,6 @@ return self})();
   var h = require('virtual-dom/h');
 
   function constructor(property, configService, configValue, disabled, defaultValue) {
-    console.log('configVal', configValue);
-
 
     return h('div.form-item', [
       h('div.form-item__label', h('label', {
@@ -34030,7 +34026,6 @@ return self})();
         'value': configValue ? JSON.stringify(configValue) : '',
         'ev-blur': function (e) {
           if (e.target.value !== '') {
-            console.log('e.tar.val', e.target.value);
             // parse object before storing it
             configService.setValue(property.fullname, JSON.parse(e.target.value));
           } else {
@@ -34544,8 +34539,6 @@ return self})();
         };
 
         that.setValue = function (path, value) {
-            console.log(path,value);
-            console.log(config);
             var ids = path.split('.');
             var step;
             var object = config;

@@ -2,8 +2,6 @@
   var h = require('virtual-dom/h');
 
   function constructor(property, configService, configValue, disabled, defaultValue) {
-    console.log('configVal', configValue);
-
 
     return h('div.form-item', [
       h('div.form-item__label', h('label', {
@@ -22,7 +20,6 @@
         'value': configValue ? JSON.stringify(configValue) : '',
         'ev-blur': function (e) {
           if (e.target.value !== '') {
-            console.log('e.tar.val', e.target.value);
             // parse object before storing it
             configService.setValue(property.fullname, JSON.parse(e.target.value));
           } else {

@@ -16,7 +16,6 @@ function constructor(services) {
     var axesTabTitle = 'Axes';
 
     function tabs(options, setActive, activeTab, activeTabChild, config) {
-        console.log(options);
         if (!_.isUndefined(options)) {
             var links = [];
             if (options.id == activeTab) {
