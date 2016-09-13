@@ -215,6 +215,25 @@
             }
           ]
         }
+      },
+      {
+        "id": "datetime",
+
+        "title": "Datetime",
+        "desc": "Requires one data column for X values or categories, subsequently one data column for the series Y values and two columns for the error bar series maximum and minimum.",
+        "definition": {
+          "chart": {
+            "type": "line"
+          },
+          "xAxis": [
+            {
+              "type": "datetime",
+              "dateTimeLabelFormats": {
+                "day": "%e of %b"
+              }
+            }
+          ]
+        }
       }
     ]
   },

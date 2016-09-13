@@ -15,7 +15,6 @@
         var values = _.cloneDeep(configValue) || [];
 
         _.forEach(configValue, function (value, index) {
-            console.log(configValue);
             var optionsList = [];
             var title = h('div.title', [h('h4', '' + (index + 1)), removeButton(property.fullname + '.' + index)]);
 

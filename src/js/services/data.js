@@ -18,8 +18,12 @@
         var dataSet = [];
         var dataUrl;
 
-        that.getSeries = function () {
+        that.getSeries = function (dataContainsCategories) {
+          if(dataContainsCategories){
+            return _.cloneDeep(_.slice(_.first(dataSet),1));
+          } else {
             return _.cloneDeep(_.first(dataSet));
+          }
         };
 
         that.getCategories = function () {
@@ -120,4 +124,3 @@
     module.exports = constructor;
 })
 ();
-
