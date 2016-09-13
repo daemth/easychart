@@ -29,28 +29,13 @@
     };
 
     function setCategories(series, categorieLabels) {
-
         _.forEach(series, function (item, index) {
             _.forEach(item.data, function (row, dataIndex) {
 
-                // category-label handling
-                // timestamp -> parse as integer
-                var re = /^[1-9]\d*$/;
-                if (re.test(categorieLabels[dataIndex])) {
-                    categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
-                }
-
-                // ISO 8601 date format -> convert to timestamp
-                var re = /(\d{4})(\-(\d{2})){2}/;
-                if (re.test(categorieLabels[dataIndex])) {
-                    var array = categorieLabels[dataIndex].split('-'),
-                        y = array[0], m = array[1] - 1, d = array[2]; // month correction
-                    //var [y, m, d] = categorieLabels[dataIndex].split('-'); // ES6 destructuring assignment
-                    categorieLabels[dataIndex] = Date.UTC(y, m, d);
-                }
+                categorieLabels[dataIndex] = parseCategoryLabel(categorieLabels[dataIndex]);
                 
                 // depending on the notation (turbothreshold, infra) we add the categorylabel to the array or set it as a property
-                if(series[index]['data'][dataIndex].isArray){
+                if(series[index]['data'][dataIndex].isArray) {
                     series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
                 } else {
                     // is the label is a string -> assign to name-property
@@ -63,6 +48,24 @@
             });
         });
         return series;
+    }
+
+    function parseCategoryLabel(label){
+        // timestamp -> parse as integer
+        var regexTimestamp = /^[1-9]\d*$/;
+        if (regexTimestamp.test(label)) {
+            label = parseFloat(label);
+        }
+
+        // ISO 8601 date format -> convert to timestamp
+        var regexIsoDate = /(\d{4})(\-(\d{2})){2}/;
+        if (regexIsoDate.test(label)) {
+            var array = label.split('-'),
+                y = array[0], m = array[1] - 1, d = array[2]; // month correction
+            //var [y, m, d] = label.split('-'); // ES6 destructuring assignment
+            label = Date.UTC(y, m, d);
+        }
+        return label;
     }
 
     function setSeries(series, seriesLabels) {
