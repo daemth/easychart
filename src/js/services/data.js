@@ -24,7 +24,6 @@
           } else {
             return _.cloneDeep(_.first(dataSet));
           }
-
         };
 
         that.getCategories = function () {

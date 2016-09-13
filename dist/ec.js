@@ -34163,27 +34163,23 @@ return self})();
             _.forEach(item.data, function (row, dataIndex) {
 
                 // category-label handling
-                // if they are timestamps -> parse as integer
-                // TODO: add support for eg MM-DD-YYYY and DD-MMM-YY
+                // timestamp -> parse as integer
                 var re = /^[1-9]\d*$/;
-
                 if (re.test(categorieLabels[dataIndex])) {
                     categorieLabels[dataIndex] = parseFloat(categorieLabels[dataIndex]);
                 }
 
-                // ISO 8601 date format support
+                // ISO 8601 date format -> convert to timestamp
                 var re = /(\d{4})(\-(\d{2})){2}/;
-                
-
                 if (re.test(categorieLabels[dataIndex])) {
                     var array = categorieLabels[dataIndex].split('-'),
-                        y = array[0], m = array[1], d = array[2];
-                    //var [y, m, d] = categorieLabels[dataIndex].split('-');
-                    categorieLabels[dataIndex] = Date.UTC(y,m-1,d);
+                        y = array[0], m = array[1] - 1, d = array[2]; // month correction
+                    //var [y, m, d] = categorieLabels[dataIndex].split('-'); // ES6 destructuring assignment
+                    categorieLabels[dataIndex] = Date.UTC(y, m, d);
                 }
                 
-                // depending on the notation we add it to the array or set it as a property
-                if(series[index]['data'][dataIndex].isArray){ // TODO - NOTE TO SELF when are they arrays?
+                // depending on the notation (turbothreshold, infra) we add the categorylabel to the array or set it as a property
+                if(series[index]['data'][dataIndex].isArray){
                     series[index]['data'][dataIndex] = _.union([categorieLabels[dataIndex]], row);
                 } else {
                     // is the label is a string -> assign to name-property
@@ -34244,11 +34240,15 @@ return self})();
                 if (!_.isUndefined(configClone.series) && !_.isUndefined(configClone.series[index]) && !_.isUndefined(configClone.series[index].data) && !_.isUndefined(configClone.series[index].data[rowIndex])) {
                     cell = configClone.series[index].data[rowIndex];
                 }
+
                 var points = parseDataFloat(_.slice(row, 0, vpp.points));
+
                 // check for turboThreshold
                 if(data.length >= 1000){
+                    // unnamed points (array) if more than 1000 datapoints
                     cell = points;
                 } else {
+                    // named points if less than 1000 datapoints
                     _.forEach(vpp.definition, function(label, pointIndex){
                         if( points[pointIndex] !== 'null'){
                             cell[label] = points[pointIndex];
@@ -34725,7 +34725,6 @@ return self})();
           } else {
             return _.cloneDeep(_.first(dataSet));
           }
-
         };
 
         that.getCategories = function () {
