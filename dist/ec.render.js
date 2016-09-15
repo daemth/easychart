@@ -19134,83 +19134,82 @@ function extend() {
     module.exports = that;
 })();
 },{"lodash.clonedeep":7,"lodash.drop":8,"lodash.find":9,"lodash.first":10,"lodash.foreach":11,"lodash.isarray":12,"lodash.isempty":13,"lodash.isundefined":16,"lodash.map":17,"lodash.merge":18,"lodash.remove":19,"lodash.size":20,"lodash.slice":21,"lodash.union":22}],31:[function(require,module,exports){
-(function () {
-    function constructor(opts) {
-        var dataService = require('./services/data');
-        var confService = require('./services/config');
-        var mediator = require('mediatorjs');
-        var mInstance = new mediator.Mediator();
-        var data = new dataService(mInstance);
-        var config = new confService(mInstance, data);
-        var services = {
-            data: data,
-            config: new confService(mInstance, data),
-            mediator: mInstance
-        };
+function constructor(opts) {
+    var dataService = require('./services/data');
+    var confService = require('./services/config');
+    var mediator = require('mediatorjs');
+    var mInstance = new mediator.Mediator();
+    var data = new dataService(mInstance);
+    var config = new confService(mInstance, data);
+    var services = {
+        data: data,
+        config: new confService(mInstance, data),
+        mediator: mInstance
+    };
 
-        if (typeof opts.data !== 'undefined') {
-            services.data.set(opts.data);
-        }
-
-        if (typeof opts.dataUrl !== 'undefined') {
-            services.data.setUrl(opts.dataUrl);
-        }
-
-        if (typeof opts.config !== 'undefined') {
-            services.config.set(opts.config);
-        }
-        if (typeof opts.presets !== 'undefined') {
-            services.config.setPresets(opts.presets);
-        }
-
-        if (typeof opts.element !== 'undefined') {
-            opts.element.className += ' ec';
-            var chart = require('./components/chart.js');
-            chart.load(opts.element, services);
-        }
-
-        function setData(data) {
-            services.data.set(data);
-        }
-
-        function setDataUrl() {
-            services.data.setUrl(url);
-        }
-
-        // config
-        function setConfig(config) {
-            services.config.set(config);
-        }
-
-        function setConfigStringified(string) {
-            services.config.setStringified(string);
-        }
-
-        function getConfig(config) {
-            return services.config.getRaw(config);
-        }
-
-        function getConfigStringified() {
-            return services.config.getStringified();
-        }
-
-        function setPresets(presets) {
-            services.config.setPresets(presets);
-        }
-
-        return {
-            setData: setData,
-            setDataUrl: setDataUrl,
-            setConfig: setConfig,
-            setConfigStringified: setConfigStringified,
-            getConfig: getConfig,
-            getConfigStringified: getConfigStringified,
-            setPresets: setPresets
-        }
+    if (typeof opts.data !== 'undefined') {
+        services.data.set(opts.data);
     }
 
-    window.ec = constructor;
-})();
+    if (typeof opts.dataUrl !== 'undefined') {
+        services.data.setUrl(opts.dataUrl);
+    }
+
+    if (typeof opts.config !== 'undefined') {
+        services.config.set(opts.config);
+    }
+    if (typeof opts.presets !== 'undefined') {
+        services.config.setPresets(opts.presets);
+    }
+
+    if (typeof opts.element !== 'undefined') {
+        opts.element.className += ' ec';
+        var chart = require('./components/chart.js');
+        chart.load(opts.element, services);
+    }
+
+    function setData(data) {
+        services.data.set(data);
+    }
+
+    function setDataUrl() {
+        services.data.setUrl(url);
+    }
+
+    // config
+    function setConfig(config) {
+        services.config.set(config);
+    }
+
+    function setConfigStringified(string) {
+        services.config.setStringified(string);
+    }
+
+    function getConfig(config) {
+        return services.config.getRaw(config);
+    }
+
+    function getConfigStringified() {
+        return services.config.getStringified();
+    }
+
+    function setPresets(presets) {
+        services.config.setPresets(presets);
+    }
+
+    return {
+        setData: setData,
+        setDataUrl: setDataUrl,
+        setConfig: setConfig,
+        setConfigStringified: setConfigStringified,
+        getConfig: getConfig,
+        getConfigStringified: getConfigStringified,
+        setPresets: setPresets
+    }
+}
+
+window.ec = constructor;
+
 },{"./components/chart.js":29,"./services/config":32,"./services/data":33,"mediatorjs":23}],32:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {

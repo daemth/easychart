@@ -856,7 +856,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":9,"./proxy-event.js":12,"./remove-event.js":13,"ev-store":19,"global/document":24,"weakmap-shim/create-store":115}],11:[function(require,module,exports){
+},{"./add-event.js":9,"./proxy-event.js":12,"./remove-event.js":13,"ev-store":19,"global/document":24,"weakmap-shim/create-store":113}],11:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1107,7 +1107,7 @@ function numToString(value) {
   return value;
 }
 
-},{"./lib/properties":16,"prefix":75,"trim":86}],15:[function(require,module,exports){
+},{"./lib/properties":16,"prefix":73,"trim":84}],15:[function(require,module,exports){
 'use strict';
 
 exports = module.exports = compose;
@@ -1247,7 +1247,7 @@ function defaultUnit(unit) {
   };
 }
 
-},{"./compose":15,"trim":86}],17:[function(require,module,exports){
+},{"./compose":15,"trim":84}],17:[function(require,module,exports){
 module.exports = dragDrop
 
 var flatten = require('flatten')
@@ -1428,7 +1428,7 @@ function toArray (list) {
   return Array.prototype.slice.call(list || [], 0)
 }
 
-},{"flatten":22,"run-parallel":78}],18:[function(require,module,exports){
+},{"flatten":22,"run-parallel":76}],18:[function(require,module,exports){
 var camelize = require("camelize")
 var template = require("string-template")
 var extend = require("xtend/mutable")
@@ -1478,7 +1478,7 @@ function TypedError(args) {
 }
 
 
-},{"camelize":7,"string-template":84,"xtend/mutable":120}],19:[function(require,module,exports){
+},{"camelize":7,"string-template":82,"xtend/mutable":118}],19:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -2801,7 +2801,7 @@ function isLength(value) {
 
 module.exports = baseFlatten;
 
-},{"lodash.isarguments":47,"lodash.isarray":35}],35:[function(require,module,exports){
+},{"lodash.isarguments":46,"lodash.isarray":35}],35:[function(require,module,exports){
 /**
  * lodash 3.0.4 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3020,7 +3020,7 @@ function baseFunctions(object, props) {
 
 module.exports = baseFunctions;
 
-},{"lodash.isfunction":51}],37:[function(require,module,exports){
+},{"lodash.isfunction":50}],37:[function(require,module,exports){
 /**
  * lodash 3.2.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -3697,146 +3697,7 @@ function toNumber(value) {
 
 module.exports = createWrapper;
 
-},{"lodash._root":39}],38:[function(require,module,exports){
-/**
- * lodash 3.9.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]';
-
-/** Used to detect host constructors (Safari > 5). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var fnToString = Function.prototype.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = object == null ? undefined : object[key];
-  return isNative(value) ? value : undefined;
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in older versions of Chrome and Safari which return 'function' for regexes
-  // and Safari 8 equivalents which return 'object' for typed array constructors.
-  return isObject(value) && objToString.call(value) == funcTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is a native function.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
- * @example
- *
- * _.isNative(Array.prototype.push);
- * // => true
- *
- * _.isNative(_);
- * // => false
- */
-function isNative(value) {
-  if (value == null) {
-    return false;
-  }
-  if (isFunction(value)) {
-    return reIsNative.test(fnToString.call(value));
-  }
-  return isObjectLike(value) && reIsHostCtor.test(value);
-}
-
-module.exports = getNative;
-
-},{}],39:[function(require,module,exports){
+},{"lodash._root":38}],38:[function(require,module,exports){
 (function (global){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
@@ -3899,7 +3760,7 @@ function checkGlobal(value) {
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],40:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -3959,7 +3820,7 @@ var bindAll = restParam(function(object, methodNames) {
 
 module.exports = bindAll;
 
-},{"lodash._baseflatten":34,"lodash._createwrapper":37,"lodash.functions":46,"lodash.restparam":63}],41:[function(require,module,exports){
+},{"lodash._baseflatten":34,"lodash._createwrapper":37,"lodash.functions":45,"lodash.restparam":61}],40:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -5711,7 +5572,7 @@ function stubFalse() {
 module.exports = cloneDeep;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],42:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -6012,7 +5873,7 @@ function toNumber(value) {
 
 module.exports = drop;
 
-},{}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -8469,7 +8330,7 @@ function property(path) {
 module.exports = find;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],44:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -8502,7 +8363,7 @@ function first(array) {
 
 module.exports = first;
 
-},{}],45:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -9069,7 +8930,7 @@ function identity(value) {
 
 module.exports = forEach;
 
-},{}],46:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -9102,7 +8963,7 @@ function functions(object) {
 
 module.exports = functions;
 
-},{"lodash._basefunctions":36,"lodash.keysin":58}],47:[function(require,module,exports){
+},{"lodash._basefunctions":36,"lodash.keysin":56}],46:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -9333,7 +9194,7 @@ function isObjectLike(value) {
 
 module.exports = isArguments;
 
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -9370,7 +9231,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -9956,7 +9817,7 @@ function stubFalse() {
 module.exports = isEmpty;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],50:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -11609,7 +11470,7 @@ function keys(object) {
 module.exports = isEqual;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],51:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 /**
  * lodash 3.0.8 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11686,7 +11547,7 @@ function isObject(value) {
 
 module.exports = isFunction;
 
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11798,7 +11659,7 @@ function isNumber(value) {
 
 module.exports = isNaN;
 
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11895,7 +11756,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{}],54:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -11927,7 +11788,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11963,71 +11824,124 @@ function join(array, separator) {
 
 module.exports = join;
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /**
- * lodash 3.1.2 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
-var getNative = require('lodash._getnative'),
-    isArguments = require('lodash.isarguments'),
-    isArray = require('lodash.isarray');
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
 
 /** Used to detect unsigned integer values. */
-var reIsUint = /^\d+$/;
+var reIsUint = /^(?:0|[1-9]\d*)$/;
 
-/** Used for native method references. */
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/** Used for built-in method references. */
 var objectProto = Object.prototype;
 
 /** Used to check objects for own properties. */
 var hasOwnProperty = objectProto.hasOwnProperty;
 
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeKeys = getNative(Object, 'keys');
-
 /**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
  */
-var MAX_SAFE_INTEGER = 9007199254740991;
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = overArg(Object.keys, Object);
 
 /**
- * The base implementation of `_.property` without support for deep paths.
+ * Creates an array of the enumerable property names of the array-like `value`.
  *
  * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
  */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
+function arrayLikeKeys(value, inherited) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  // Safari 9 makes `arguments.length` enumerable in strict mode.
+  var result = (isArray(value) || isArguments(value))
+    ? baseTimes(value.length, String)
+    : [];
+
+  var length = result.length,
+      skipIndexes = !!length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty.call(value, key)) &&
+        !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
+      result.push(key);
+    }
+  }
+  return result;
 }
 
 /**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
  *
  * @private
  * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
+ * @returns {Array} Returns the array of property names.
  */
-var getLength = baseProperty('length');
-
-/**
- * Checks if `value` is array-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value));
+function baseKeys(object) {
+  if (!isPrototype(object)) {
+    return nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
 }
 
 /**
@@ -12039,58 +11953,196 @@ function isArrayLike(value) {
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
   length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
+  return !!length &&
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
 }
 
 /**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * A fallback implementation of `Object.keys` which creates an array of the
- * own enumerable property names of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function shimKeys(object) {
-  var props = keysIn(object),
-      propsLength = props.length,
-      length = propsLength && object.length;
-
-  var allowIndexes = !!length && isLength(length) &&
-    (isArray(object) || isArguments(object));
-
-  var index = -1,
-      result = [];
-
-  while (++index < propsLength) {
-    var key = props[index];
-    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is an object, else `false`.
@@ -12102,24 +12154,54 @@ function shimKeys(object) {
  * _.isObject([1, 2, 3]);
  * // => true
  *
- * _.isObject(1);
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
  * // => false
  */
 function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
   var type = typeof value;
   return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
 }
 
 /**
  * Creates an array of the own enumerable property names of `object`.
  *
  * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
  * for more details.
  *
  * @static
+ * @since 0.1.0
  * @memberOf _
  * @category Object
  * @param {Object} object The object to query.
@@ -12139,71 +12221,13 @@ function isObject(value) {
  * _.keys('hi');
  * // => ['0', '1']
  */
-var keys = !nativeKeys ? shimKeys : function(object) {
-  var Ctor = object == null ? undefined : object.constructor;
-  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
-      (typeof object != 'function' && isArrayLike(object))) {
-    return shimKeys(object);
-  }
-  return isObject(object) ? nativeKeys(object) : [];
-};
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  if (object == null) {
-    return [];
-  }
-  if (!isObject(object)) {
-    object = Object(object);
-  }
-  var length = object.length;
-  length = (length && isLength(length) &&
-    (isArray(object) || isArguments(object)) && length) || 0;
-
-  var Ctor = object.constructor,
-      index = -1,
-      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-      result = Array(length),
-      skipIndexes = length > 0;
-
-  while (++index < length) {
-    result[index] = (index + '');
-  }
-  for (var key in object) {
-    if (!(skipIndexes && isIndex(key, length)) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
+function keys(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
 }
 
 module.exports = keys;
 
-},{"lodash._getnative":38,"lodash.isarguments":47,"lodash.isarray":57}],57:[function(require,module,exports){
-arguments[4][35][0].apply(exports,arguments)
-},{"dup":35}],58:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /**
  * lodash 3.0.8 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -12337,9 +12361,9 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"lodash.isarguments":47,"lodash.isarray":59}],59:[function(require,module,exports){
+},{"lodash.isarguments":46,"lodash.isarray":57}],57:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
-},{"dup":35}],60:[function(require,module,exports){
+},{"dup":35}],58:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -14709,7 +14733,7 @@ function property(path) {
 module.exports = map;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],61:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -16920,7 +16944,7 @@ function stubFalse() {
 module.exports = merge;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],62:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -19264,7 +19288,7 @@ function property(path) {
 module.exports = remove;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],63:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 /**
  * lodash 3.6.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -19333,7 +19357,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],64:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -19926,7 +19950,7 @@ function isString(value) {
 module.exports = size;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],65:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -20390,7 +20414,7 @@ function toNumber(value) {
 
 module.exports = slice;
 
-},{}],66:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -20955,7 +20979,7 @@ function split(string, separator, limit) {
 module.exports = split;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],67:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -21121,7 +21145,7 @@ function toLower(value) {
 module.exports = toLower;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],68:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -21514,7 +21538,7 @@ function trim(string, chars, guard) {
 module.exports = trim;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],69:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -22699,7 +22723,7 @@ function noop() {
 module.exports = union;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],70:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
 
@@ -22781,7 +22805,7 @@ function main(initialState, view, opts) {
     }
 }
 
-},{"error/typed":18,"raf":77}],71:[function(require,module,exports){
+},{"error/typed":18,"raf":75}],69:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -22815,7 +22839,7 @@ function main(initialState, view, opts) {
 
 }).call(this);
 
-},{"backbone-events-standalone":2}],72:[function(require,module,exports){
+},{"backbone-events-standalone":2}],70:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -24220,7 +24244,7 @@ function main(initialState, view, opts) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],73:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -24252,7 +24276,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":23,"trim":86}],74:[function(require,module,exports){
+},{"for-each":23,"trim":84}],72:[function(require,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.6.3
 (function() {
@@ -24292,14 +24316,14 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
-},{"_process":76}],75:[function(require,module,exports){
+},{"_process":74}],73:[function(require,module,exports){
 function identity(x) { return x; }
 
 module.exports = identity;
 module.exports.dash = identity;
 module.exports.dash = identity;
 
-},{}],76:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -24481,7 +24505,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],77:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 var now = require('performance-now')
   , global = typeof window === 'undefined' ? {} : window
   , vendors = ['moz', 'webkit']
@@ -24563,7 +24587,7 @@ module.exports.cancel = function() {
   caf.apply(global, arguments)
 }
 
-},{"performance-now":74}],78:[function(require,module,exports){
+},{"performance-now":72}],76:[function(require,module,exports){
 (function (process){
 module.exports = function (tasks, cb) {
   var results, pending, keys
@@ -24613,7 +24637,7 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-},{"_process":76}],79:[function(require,module,exports){
+},{"_process":74}],77:[function(require,module,exports){
 'use strict';
 
 var bindAll = require('lodash.bindall');
@@ -24976,7 +25000,7 @@ SimpleColorPicker.prototype._onHueMouseUp = function() {
 
 module.exports = SimpleColorPicker;
 
-},{"./src/utils/maths/clamp":83,"component-emitter":80,"dom-transform":14,"is-number":81,"lodash.bindall":40,"tinycolor2":85}],80:[function(require,module,exports){
+},{"./src/utils/maths/clamp":81,"component-emitter":78,"dom-transform":14,"is-number":79,"lodash.bindall":39,"tinycolor2":83}],78:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -25141,7 +25165,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],81:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 /*!
  * is-number <https://github.com/jonschlinkert/is-number>
  *
@@ -25157,15 +25181,15 @@ module.exports = function isNumber(n) {
     || n === 0;
 };
 
-},{}],82:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 var css = ".Scp {\n  width: 175px;\n  height: 150px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  position: relative;\n}\n.Scp-saturation {\n  position: relative;\n  width: calc(100% - 25px);\n  height: 100%;\n  background: linear-gradient(to right, #fff 0%, #f00 100%);\n  float: left;\n  margin-right: 5px;\n}\n.Scp-brightness {\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(to top, #000 0%, rgba(255,255,255,0) 100%);\n}\n.Scp-sbSelector {\n  border: 2px solid;\n  border-color: #fff;\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: #fff;\n  border-radius: 10px;\n  top: -7px;\n  left: -7px;\n  box-sizing: border-box;\n  z-index: 10;\n}\n.Scp-hue {\n  width: 20px;\n  height: 100%;\n  position: relative;\n  float: left;\n  background: linear-gradient(to bottom, #f00 0%, #f0f 17%, #00f 34%, #0ff 50%, #0f0 67%, #ff0 84%, #f00 100%);\n}\n.Scp-hSelector {\n  position: absolute;\n  background: #fff;\n  border-bottom: 1px solid #000;\n  right: -3px;\n  width: 10px;\n  height: 2px;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/simple-color-picker/simple-color-picker.css" }, { "insertAt": "bottom" })); module.exports = css;
-},{"browserify-css":5}],83:[function(require,module,exports){
+},{"browserify-css":5}],81:[function(require,module,exports){
 'use strict';
 
 module.exports = function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 };
-},{}],84:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var nargs = /\{([0-9a-zA-Z]+)\}/g
 var slice = Array.prototype.slice
 
@@ -25201,7 +25225,7 @@ function template(string) {
     })
 }
 
-},{}],85:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 // TinyColor v1.4.1
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
@@ -26398,7 +26422,7 @@ else {
 
 })(Math);
 
-},{}],86:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -26414,7 +26438,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],87:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -26680,7 +26704,7 @@ var attrBlacklist =
 module.exports.attrBlacklist = {
   'class': 'className'
 }
-},{"./vcomment":88,"virtual-dom/vnode/vnode":110,"virtual-dom/vnode/vtext":112}],88:[function(require,module,exports){
+},{"./vcomment":86,"virtual-dom/vnode/vnode":108,"virtual-dom/vnode/vtext":110}],86:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -26698,27 +26722,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],89:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":94}],90:[function(require,module,exports){
+},{"./vdom/create-element.js":92}],88:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":114}],91:[function(require,module,exports){
+},{"./vtree/diff.js":112}],89:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":101}],92:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":99}],90:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":97}],93:[function(require,module,exports){
+},{"./vdom/patch.js":95}],91:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -26817,7 +26841,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":105,"is-object":32}],94:[function(require,module,exports){
+},{"../vnode/is-vhook.js":103,"is-object":32}],92:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -26865,7 +26889,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":103,"../vnode/is-vnode.js":106,"../vnode/is-vtext.js":107,"../vnode/is-widget.js":108,"./apply-properties":93,"global/document":24}],95:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":101,"../vnode/is-vnode.js":104,"../vnode/is-vtext.js":105,"../vnode/is-widget.js":106,"./apply-properties":91,"global/document":24}],93:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -26952,7 +26976,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],96:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -27105,7 +27129,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":108,"../vnode/vpatch.js":111,"./apply-properties":93,"./update-widget":98}],97:[function(require,module,exports){
+},{"../vnode/is-widget.js":106,"../vnode/vpatch.js":109,"./apply-properties":91,"./update-widget":96}],95:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -27187,7 +27211,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":94,"./dom-index":95,"./patch-op":96,"global/document":24,"x-is-array":117}],98:[function(require,module,exports){
+},{"./create-element":92,"./dom-index":93,"./patch-op":94,"global/document":24,"x-is-array":115}],96:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -27204,7 +27228,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":108}],99:[function(require,module,exports){
+},{"../vnode/is-widget.js":106}],97:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -27233,7 +27257,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":19}],100:[function(require,module,exports){
+},{"ev-store":19}],98:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -27252,7 +27276,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],101:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -27391,7 +27415,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":104,"../vnode/is-vhook":105,"../vnode/is-vnode":106,"../vnode/is-vtext":107,"../vnode/is-widget":108,"../vnode/vnode.js":110,"../vnode/vtext.js":112,"./hooks/ev-hook.js":99,"./hooks/soft-set-hook.js":100,"./parse-tag.js":102,"x-is-array":117}],102:[function(require,module,exports){
+},{"../vnode/is-thunk":102,"../vnode/is-vhook":103,"../vnode/is-vnode":104,"../vnode/is-vtext":105,"../vnode/is-widget":106,"../vnode/vnode.js":108,"../vnode/vtext.js":110,"./hooks/ev-hook.js":97,"./hooks/soft-set-hook.js":98,"./parse-tag.js":100,"x-is-array":115}],100:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -27447,7 +27471,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":4}],103:[function(require,module,exports){
+},{"browser-split":4}],101:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -27489,14 +27513,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":104,"./is-vnode":106,"./is-vtext":107,"./is-widget":108}],104:[function(require,module,exports){
+},{"./is-thunk":102,"./is-vnode":104,"./is-vtext":105,"./is-widget":106}],102:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],105:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -27505,7 +27529,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],106:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -27514,7 +27538,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":109}],107:[function(require,module,exports){
+},{"./version":107}],105:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -27523,17 +27547,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":109}],108:[function(require,module,exports){
+},{"./version":107}],106:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],109:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 module.exports = "2"
 
-},{}],110:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -27607,7 +27631,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":104,"./is-vhook":105,"./is-vnode":106,"./is-widget":108,"./version":109}],111:[function(require,module,exports){
+},{"./is-thunk":102,"./is-vhook":103,"./is-vnode":104,"./is-widget":106,"./version":107}],109:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -27631,7 +27655,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":109}],112:[function(require,module,exports){
+},{"./version":107}],110:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -27643,7 +27667,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":109}],113:[function(require,module,exports){
+},{"./version":107}],111:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -27703,7 +27727,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":105,"is-object":32}],114:[function(require,module,exports){
+},{"../vnode/is-vhook":103,"is-object":32}],112:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -28132,7 +28156,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":103,"../vnode/is-thunk":104,"../vnode/is-vnode":106,"../vnode/is-vtext":107,"../vnode/is-widget":108,"../vnode/vpatch":111,"./diff-props":113,"x-is-array":117}],115:[function(require,module,exports){
+},{"../vnode/handle-thunk":101,"../vnode/is-thunk":102,"../vnode/is-vnode":104,"../vnode/is-vtext":105,"../vnode/is-widget":106,"../vnode/vpatch":109,"./diff-props":111,"x-is-array":115}],113:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -28153,7 +28177,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":116}],116:[function(require,module,exports){
+},{"./hidden-store.js":114}],114:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -28171,7 +28195,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],117:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -28181,7 +28205,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],118:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var isFunction = require("is-function")
@@ -28418,7 +28442,7 @@ function getXml(xhr) {
 
 function noop() {}
 
-},{"global/window":25,"is-function":31,"parse-headers":73,"xtend":119}],119:[function(require,module,exports){
+},{"global/window":25,"is-function":31,"parse-headers":71,"xtend":117}],117:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -28439,7 +28463,7 @@ function extend() {
     return target
 }
 
-},{}],120:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -28458,119 +28482,199 @@ function extend(target) {
     return target
 }
 
-},{}],121:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 var css = "html {\n  box-sizing: border-box;\n}\n*,\n*::after,\n*::before {\n  box-sizing: inherit;\n}\n.ec {\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  line-height: 1.5;\n  background: #f5f5f5;\n  float: left;\n  width: 100%;\n  /*!*\n *\n * @csswizardry -- csswizardry.com/beautons\n *\n */\n}\n.ec .table {\n  width: 100%;\n}\n.ec .table [contenteditable=\"true\"]:active,\n.ec .table [contenteditable=\"true\"]:focus {\n  border: none;\n  outline: none;\n  background: #f5f5f5;\n}\n.ec .table th,\n.ec .table td {\n  padding: .3em;\n  text-align: left;\n}\n@media screen and (min-width: 480px) {\n  .ec .table th,\n  .ec .table td {\n    padding: .6em;\n  }\n}\n.ec [colspan] {\n  text-align: center;\n}\n.ec [colspan=\"1\"] {\n  text-align: left;\n}\n.ec [rowspan] {\n  vertical-align: middle;\n}\n.ec [rowspan=\"1\"] {\n  vertical-align: top;\n}\n.ec .numerical {\n  text-align: right;\n}\n.ec .t5 {\n  width: 5%;\n}\n.ec .t10 {\n  width: 10%;\n}\n.ec .t12 {\n  width: 12.5%;\n}\n.ec .t15 {\n  width: 15%;\n}\n.ec .t20 {\n  width: 20%;\n}\n.ec .t25 {\n  width: 25%;\n}\n.ec .t30 {\n  width: 30%;\n}\n.ec .t33 {\n  width: 33.333%;\n}\n.ec .t35 {\n  width: 35%;\n}\n.ec .t37 {\n  width: 37.5%;\n}\n.ec .t40 {\n  width: 40%;\n}\n.ec .t45 {\n  width: 45%;\n}\n.ec .t50 {\n  width: 50%;\n}\n.ec .t55 {\n  width: 55%;\n}\n.ec .t60 {\n  width: 60%;\n}\n.ec .t62 {\n  width: 62.5%;\n}\n.ec .t65 {\n  width: 65%;\n}\n.ec .t66 {\n  width: 66.666%;\n}\n.ec .t70 {\n  width: 70%;\n}\n.ec .t75 {\n  width: 75%;\n}\n.ec .t80 {\n  width: 80%;\n}\n.ec .t85 {\n  width: 85%;\n}\n.ec .t87 {\n  width: 87.5%;\n}\n.ec .t90 {\n  width: 90%;\n}\n.ec .t95 {\n  width: 95%;\n}\n.ec .table--bordered {\n  border-collapse: collapse;\n}\n.ec .table--bordered tr {\n  border: 1px solid #DDD;\n}\n.ec .table--bordered th,\n.ec .table--bordered td {\n  border-right: 1px solid #DDD;\n}\n.ec .table--bordered thead tr:last-child th {\n  border-bottom-width: 2px;\n}\n.ec .table--bordered tbody tr th:last-of-type {\n  border-right-width: 2px;\n}\n.ec .table--striped tbody tr:nth-of-type(odd) {\n  background-color: #ffc;\n}\n.ec .table--data {\n  font: 12px/1.5 sans-serif;\n}\n.ec .table--disabled {\n  color: #777;\n  border-color: #777;\n}\n.ec fieldset {\n  background-color: #f5f5f5;\n  border: 1px solid #DDD;\n  margin: 0 0 .6em;\n  padding: 1.2em;\n}\n.ec input,\n.ec label,\n.ec select {\n  display: block;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n}\n.ec label {\n  font-weight: 600;\n}\n.ec label.required::after {\n  content: \"*\";\n}\n.ec label abbr {\n  display: none;\n}\n.ec input[type=\"color\"],\n.ec input[type=\"date\"],\n.ec input[type=\"datetime\"],\n.ec input[type=\"datetime-local\"],\n.ec input[type=\"email\"],\n.ec input[type=\"month\"],\n.ec input[type=\"number\"],\n.ec input[type=\"password\"],\n.ec input[type=\"search\"],\n.ec input[type=\"tel\"],\n.ec input[type=\"text\"],\n.ec input[type=\"time\"],\n.ec input[type=\"url\"],\n.ec input[type=\"week\"],\n.ec input:not([type]),\n.ec textarea,\n.ec select {\n  background-color: #fff;\n  border: 1px solid #bfbfbf;\n  border-radius: 3px;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);\n  box-sizing: border-box;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  padding: .3em;\n  transition: border-color .2s ease-in;\n  max-width: 100%;\n}\n.ec input[type=\"color\"]:hover,\n.ec input[type=\"date\"]:hover,\n.ec input[type=\"datetime\"]:hover,\n.ec input[type=\"datetime-local\"]:hover,\n.ec input[type=\"email\"]:hover,\n.ec input[type=\"month\"]:hover,\n.ec input[type=\"number\"]:hover,\n.ec input[type=\"password\"]:hover,\n.ec input[type=\"search\"]:hover,\n.ec input[type=\"tel\"]:hover,\n.ec input[type=\"text\"]:hover,\n.ec input[type=\"time\"]:hover,\n.ec input[type=\"url\"]:hover,\n.ec input[type=\"week\"]:hover,\n.ec input:not([type]):hover,\n.ec textarea:hover,\n.ec select:hover {\n  border-color: #b1b1b1;\n}\n.ec input[type=\"color\"]:focus,\n.ec input[type=\"date\"]:focus,\n.ec input[type=\"datetime\"]:focus,\n.ec input[type=\"datetime-local\"]:focus,\n.ec input[type=\"email\"]:focus,\n.ec input[type=\"month\"]:focus,\n.ec input[type=\"number\"]:focus,\n.ec input[type=\"password\"]:focus,\n.ec input[type=\"search\"]:focus,\n.ec input[type=\"tel\"]:focus,\n.ec input[type=\"text\"]:focus,\n.ec input[type=\"time\"]:focus,\n.ec input[type=\"url\"]:focus,\n.ec input[type=\"week\"]:focus,\n.ec input:not([type]):focus,\n.ec textarea:focus,\n.ec select:focus {\n  border-color: #477dca;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06),0 0 5px rgba(55,112,192,0.7);\n  outline: none;\n}\n.ec input[type=\"color\"]:disabled,\n.ec input[type=\"date\"]:disabled,\n.ec input[type=\"datetime\"]:disabled,\n.ec input[type=\"datetime-local\"]:disabled,\n.ec input[type=\"email\"]:disabled,\n.ec input[type=\"month\"]:disabled,\n.ec input[type=\"number\"]:disabled,\n.ec input[type=\"password\"]:disabled,\n.ec input[type=\"search\"]:disabled,\n.ec input[type=\"tel\"]:disabled,\n.ec input[type=\"text\"]:disabled,\n.ec input[type=\"time\"]:disabled,\n.ec input[type=\"url\"]:disabled,\n.ec input[type=\"week\"]:disabled,\n.ec input:not([type]):disabled,\n.ec textarea:disabled,\n.ec select:disabled {\n  background-color: #f2f2f2;\n  cursor: not-allowed;\n}\n.ec input[type=\"color\"]:disabled:hover,\n.ec input[type=\"date\"]:disabled:hover,\n.ec input[type=\"datetime\"]:disabled:hover,\n.ec input[type=\"datetime-local\"]:disabled:hover,\n.ec input[type=\"email\"]:disabled:hover,\n.ec input[type=\"month\"]:disabled:hover,\n.ec input[type=\"number\"]:disabled:hover,\n.ec input[type=\"password\"]:disabled:hover,\n.ec input[type=\"search\"]:disabled:hover,\n.ec input[type=\"tel\"]:disabled:hover,\n.ec input[type=\"text\"]:disabled:hover,\n.ec input[type=\"time\"]:disabled:hover,\n.ec input[type=\"url\"]:disabled:hover,\n.ec input[type=\"week\"]:disabled:hover,\n.ec input:not([type]):disabled:hover,\n.ec textarea:disabled:hover,\n.ec select:disabled:hover {\n  border: 1px solid #DDD;\n}\n.ec textarea {\n  width: 100%;\n  resize: vertical;\n}\n.ec input[type=\"search\"] {\n  appearance: none;\n}\n.ec input[type=\"checkbox\"],\n.ec input[type=\"radio\"] {\n  display: inline;\n  margin-right: .3em;\n}\n.ec input[type=\"checkbox\"]+label,\n.ec input[type=\"radio\"]+label {\n  display: inline-block;\n}\n.ec input[type=\"file\"] {\n  width: 100%;\n}\n.ec select {\n  max-width: 100%;\n  width: auto;\n}\n.ec .form-item {\n  width: 100%;\n  color: #333;\n  margin-bottom: .6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n.ec .form-item__input {\n  width: 100%;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__input {\n    width: 60%;\n  }\n}\n.ec .form-item__label {\n  width: 100%;\n  padding-bottom: .6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__label {\n    padding: 0;\n    width: 40%;\n    text-align: right;\n    margin-right: 1.2em;\n  }\n}\n.ec .field-group {\n  padding: .3em 0 .6em 0;\n}\n.ec .field-group__title {\n  padding-bottom: .6em;\n}\n.ec h1 {\n  margin: 0;\n  padding: 0;\n  font-size: 28px;\n}\n.ec h2 {\n  margin: 0;\n  padding: 0;\n  font-size: 24.5px;\n}\n.ec h3 {\n  margin: 0;\n  padding: 0;\n  font-size: 21px;\n}\n.ec h4 {\n  margin: 0;\n  padding: 0;\n  font-size: 17.5px;\n}\n.ec h5 {\n  margin: 0;\n  padding: 0;\n  font-size: 15.75px;\n}\n.ec h6 {\n  margin: 0;\n  padding: 0;\n  font-size: 14px;\n}\n.ec .vertical-tabs-container {\n  margin-bottom: 1.2em;\n  overflow: hidden;\n  display: flex;\n}\n.ec .vertical-tabs-container::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .vertical-tabs-container .vertical-tabs {\n  padding: 0;\n  margin: 0;\n  display: inline;\n  float: left;\n  width: 20%;\n  list-style: none;\n  border-right: 1px solid #DDD;\n}\n.ec .vertical-tabs-container li.active {\n  background-color: white;\n  margin-right: -1px;\n  border: 1px solid #DDD;\n  border-right-color: white;\n}\n.ec .vertical-tabs-container li.active .sub-active {\n  color: #477dca;\n}\n.ec .vertical-tabs-container li.active .sub-non-active {\n  color: #333;\n}\n.ec .vertical-tabs-container li a {\n  padding: .6em .809em;\n  text-decoration: none;\n  color: inherit;\n  display: block;\n}\n.ec .vertical-tabs-container li ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.ec .vertical-tabs-container li ul li {\n  padding-bottom: 5px;\n  padding-left: 20px;\n}\n.ec .vertical-tabs-container .vertical-tab:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container {\n  border: 1px solid #DDD;\n  border-left: none;\n  display: inline-block;\n  width: 80%;\n  background-color: white;\n  margin: 0 auto;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container a:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content {\n  display: inline-block;\n  background-color: white;\n  padding: 1.2em .809em;\n  border: none;\n  width: 100%;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading {\n  border-top: 1px solid #DDD;\n  cursor: pointer;\n  display: block;\n  font-weight: bold;\n  padding: .6em .809em;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:hover {\n  color: #477dca;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:first-child {\n  border-top: none;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading.active {\n  background: white;\n  border-bottom: none;\n}\n.ec .accordion-tabs-minimal {\n  margin: 0 .6em;\n  line-height: 1.5;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal::after {\n  clear: both;\n  content: \"\";\n  display: table;\n}\n.ec .accordion-tabs-minimal ul.tab-list {\n  margin: 0;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal li.tab-header-and-content {\n  list-style: none;\n  display: inline;\n}\n.ec .accordion-tabs-minimal .tab-link {\n  border-top: 1px solid #DDD;\n  display: inline-block;\n  border-top: 0;\n}\n.ec .accordion-tabs-minimal .tab-link a {\n  text-decoration: none;\n  display: block;\n  padding: .6em 1.618em;\n}\n.ec .accordion-tabs-minimal .tab-link a:hover {\n  color: #2c5999;\n}\n.ec .accordion-tabs-minimal .tab-link a:focus {\n  outline: none;\n}\n.ec .accordion-tabs-minimal .tab-link a.is-active {\n  border: 1px solid #DDD;\n  border-bottom-color: white;\n  background: white;\n  margin-bottom: -1px;\n  color: #477dca;\n}\n.ec .accordion-tabs-minimal .tab-content {\n  border: 1px solid #DDD;\n  padding: 1.2em 1.618em;\n  width: 100%;\n  float: left;\n  background: white;\n  min-height: 250px;\n}\n.ec .btn {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n  font-family: inherit;\n  font-size: 100%;\n  cursor: pointer;\n  border: none;\n  margin: 0;\n  padding-top: 0;\n  padding-bottom: 0;\n  line-height: 3;\n  padding-right: 1em;\n  padding-left: 1em;\n  border-radius: 3px;\n  background: #477dca;\n  color: white;\n}\n.ec .btn,\n.ec .btn:hover {\n  text-decoration: none;\n  background: #2c5999;\n}\n.ec .btn:active,\n.ec .btn:focus {\n  outline: none;\n}\n.ec .btn--small {\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n  line-height: 2;\n}\n.ec .btn--large {\n  padding-right: 1.5em;\n  padding-left: 1.5em;\n  line-height: 4;\n}\n.ec .btn--huge {\n  padding-right: 2em;\n  padding-left: 2em;\n  line-height: 5;\n}\n.ec .btn--full {\n  width: 100%;\n  padding-right: 0;\n  padding-left: 0;\n  text-align: center;\n}\n.ec .btn--alpha {\n  font-size: 3rem;\n}\n.ec .btn--beta {\n  font-size: 2rem;\n}\n.ec .btn--gamma {\n  font-size: 1rem;\n}\n.ec .btn--natural {\n  vertical-align: baseline;\n  font-size: inherit;\n  line-height: inherit;\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n}\n.ec .btn--positive {\n  background-color: #4A993E;\n  color: #fff;\n}\n.ec .btn--negative {\n  background-color: #b33630;\n  color: #fff;\n}\n.ec .btn--inactive,\n.ec .btn--inactive:hover,\n.ec .btn--inactive:active,\n.ec .btn--inactive:focus {\n  background-color: #ddd;\n  color: #777;\n  cursor: text;\n}\n.ec .btn--soft {\n  border-radius: 200px;\n}\n.ec .btn--hard {\n  border-radius: 0;\n}\n@media screen and (min-width: 800px) {\n  .ec .left {\n    width: 49%;\n    margin-right: 2%;\n    float: left;\n  }\n}\n@media screen and (min-width: 800px) {\n  .ec .right {\n    width: 49%;\n    float: left;\n  }\n}\n.ec .navigation {\n  padding: 0;\n  margin: 0;\n  display: block;\n}\n.ec .navigation__item {\n  margin: 20px 10px 20px 10px;\n  padding-bottom: 10px;\n  cursor: pointer;\n  display: inline-block;\n}\n.ec .navigation--steps .ec .navigation__item {\n  border-bottom: 5px solid;\n}\n.ec .float--right {\n  float: right !important;\n}\n.ec .float--left {\n  float: left !important;\n}\n.ec .float--none {\n  float: none !important;\n}\n.ec .text--left {\n  text-align: left  !important;\n}\n.ec .text--center {\n  text-align: center !important;\n}\n.ec .text--right {\n  text-align: right !important;\n}\n.ec .weight--light {\n  font-weight: 300 !important;\n}\n.ec .weight--normal {\n  font-weight: 400 !important;\n}\n.ec .weight--semibold {\n  font-weight: 600 !important;\n}\n.ec .push {\n  margin: 1.2em !important;\n}\n.ec .push--top {\n  margin-top: 1.2em !important;\n}\n.ec .push--right {\n  margin-right: 1.2em !important;\n}\n.ec .push--bottom {\n  margin-bottom: 1.2em !important;\n}\n.ec .push--left {\n  margin-left: 1.2em !important;\n}\n.ec .push--ends {\n  margin-top: 1.2em !important;\n  margin-bottom: 1.2em !important;\n}\n.ec .push--sides {\n  margin-right: 1.2em !important;\n  margin-left: 1.2em !important;\n}\n.ec .push-half {\n  margin: .6em !important;\n}\n.ec .push-half--top {\n  margin-top: .6em !important;\n}\n.ec .push-half--right {\n  margin-right: .6em !important;\n}\n.ec .push-half--bottom {\n  margin-bottom: .6em !important;\n}\n.ec .push-half--left {\n  margin-left: .6em !important;\n}\n.ec .push-half--ends {\n  margin-top: .6em !important;\n  margin-bottom: .6em !important;\n}\n.ec .push-half--sides {\n  margin-right: .6em !important;\n  margin-left: .6em !important;\n}\n.ec .flush {\n  margin: 0 !important;\n}\n.ec .flush--top {\n  margin-top: 0 !important;\n}\n.ec .flush--right {\n  margin-right: 0 !important;\n}\n.ec .flush--bottom {\n  margin-bottom: 0 !important;\n}\n.ec .flush--left {\n  margin-left: 0 !important;\n}\n.ec .flush--ends {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n}\n.ec .flush--sides {\n  margin-right: 0 !important;\n  margin-left: 0 !important;\n}\n.ec .soft {\n  padding: 1.2em !important;\n}\n.ec .soft--top {\n  padding-top: 1.2em !important;\n}\n.ec .soft--right {\n  padding-right: 1.2em !important;\n}\n.ec .soft--bottom {\n  padding-bottom: 1.2em !important;\n}\n.ec .soft--left {\n  padding-left: 1.2em !important;\n}\n.ec .soft--ends {\n  padding-top: 1.2em !important;\n  padding-bottom: 1.2em !important;\n}\n.ec .soft--sides {\n  padding-right: 1.2em !important;\n  padding-left: 1.2em !important;\n}\n.ec .soft-half {\n  padding: .6em !important;\n}\n.ec .soft-half--top {\n  padding-top: .6em !important;\n}\n.ec .soft-half--right {\n  padding-right: .6em !important;\n}\n.ec .soft-half--bottom {\n  padding-bottom: .6em !important;\n}\n.ec .soft-half--left {\n  padding-left: .6em !important;\n}\n.ec .soft-half--ends {\n  padding-top: .6em !important;\n  padding-bottom: .6em !important;\n}\n.ec .soft-half--sides {\n  padding-right: .6em !important;\n  padding-left: .6em !important;\n}\n.ec .hard {\n  padding: 0 !important;\n}\n.ec .hard--top {\n  padding-top: 0 !important;\n}\n.ec .hard--right {\n  padding-right: 0 !important;\n}\n.ec .hard--bottom {\n  padding-bottom: 0 !important;\n}\n.ec .hard--left {\n  padding-left: 0 !important;\n}\n.ec .hard--ends {\n  padding-top: 0 !important;\n  padding-bottom: 0 !important;\n}\n.ec .hard--sides {\n  padding-right: 0 !important;\n  padding-left: 0 !important;\n}\n.ec .full-bleed {\n  margin-right: -1.2em !important;\n  margin-left: -1.2em !important;\n}\n.islet .ec .full-bleed {\n  margin-right: -.6em !important;\n  margin-left: -.6em !important;\n}\n.ec .loader,\n.ec .loader:before,\n.ec .loader:after {\n  border-radius: 50%;\n}\n.ec .loader:before,\n.ec .loader:after {\n  position: absolute;\n  content: '';\n}\n.ec .loader:before {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 10.2em 0 0 10.2em;\n  top: -0.1em;\n  left: -0.1em;\n  -webkit-transform-origin: 5.2em 5.1em;\n  transform-origin: 5.2em 5.1em;\n  -webkit-animation: load2 2s infinite ease 1.5s;\n  animation: load2 2s infinite ease 1.5s;\n}\n.ec .loader {\n  font-size: 11px;\n  text-indent: -99999em;\n  margin: 55px auto;\n  position: relative;\n  width: 10em;\n  height: 10em;\n  box-shadow: inset 0 0 0 1em #ffffff;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n}\n.ec .loader:after {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 0 10.2em 10.2em 0;\n  top: -0.1em;\n  left: 5.1em;\n  -webkit-transform-origin: 0px 5.1em;\n  transform-origin: 0px 5.1em;\n  -webkit-animation: load2 2s infinite ease;\n  animation: load2 2s infinite ease;\n}\n@-webkit-keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n.ec .templatelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .templatelist__item {\n  float: left;\n  width: 33%;\n  padding: .3em;\n  margin: 2px;\n  width: 110px;\n  font-size: .8em;\n  text-align: center;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in .2s,border-color ease-in .2s;\n  position: relative;\n  overflow: hidden;\n  color: #333333;\n}\n.ec .templatelist__item svg {\n  max-height: 80px;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item div {\n  transition: bottom ease-in .2s;\n  padding-top: 2px;\n  position: absolute;\n  bottom: -40px;\n  left: .3em;\n  height: 26px;\n  width: 100px;\n  background: #f5f5f5;\n}\n.ec .templatelist__item:hover {\n  background: #f5f5f5;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item:hover div {\n  bottom: .3em;\n}\n.ec a,\n.ec .hover {\n  color: #477dca;\n  cursor: pointer;\n}\n.ec .active {\n  color: #477dca;\n}\n.ec .container {\n  clear: both;\n}\n.ec .Scp {\n  position: absolute;\n  margin-top: 5px;\n  width: 200px;\n  height: 150px;\n  border: 1px solid #DDD;\n  border-radius: 3px;\n}\n.ec .header {\n  margin-bottom: 20px;\n  background-color: #333;\n  width: 100%;\n  display: inline-block;\n  position: relative;\n}\n.ec .header .logo {\n  text-align: right;\n  color: white;\n  font-weight: 100;\n  font-size: 1.5em;\n  position: absolute;\n  bottom: 4px;\n  right: 15px;\n}\n.ec .header .navigation {\n  margin-left: 10px;\n  margin-top: 10px;\n  float: left;\n}\n.ec .header .navigation .tab-link a {\n  text-decoration: none;\n  color: white;\n}\n.ec .header .navigation .tab-link.is-active {\n  background: #f5f5f5;\n  border: none;\n}\n.ec .header .navigation .tab-link.is-active a {\n  color: #477dca;\n}\n.ec .header:after {\n  clear: both;\n}\n.ec .revisionElement {\n  margin-top: 20px;\n  border: 1px solid #DDD;\n  background: white;\n  padding: 20px;\n  display: block;\n  float: left;\n  width: 100%;\n}\n.ec .objectArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .objectArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #f5f5f5;\n}\n.ec .objectArray .title h4,\n.ec .objectArray .title h5 {\n  float: left;\n}\n.ec .objectArray .title .btn {\n  float: right;\n}\n.ec .objectArray .list {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item .title {\n  border-bottom: 1px solid #DDD;\n  border-top: 1px solid #DDD;\n}\n.ec .objectArray .list .item .options {\n  float: left;\n  width: 100%;\n  padding-top: 20px;\n}\n.ec .arrayArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .arrayArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #f5f5f5;\n}\n.ec .arrayArray .title h4,\n.ec .arrayArray .title h5 {\n  float: left;\n}\n.ec .arrayArray .title .btn {\n  float: right;\n}\n.ec .arrayArray input {\n  display: inline-block;\n}\n.ec .readOnlyBox {\n  border: 1px solid #DDD;\n  background: white;\n  padding: 10px 20px;\n  display: block;\n  margin-bottom: 10px;\n}\n.ec .titleBar {\n  display: inline-block;\n  width: 100%;\n  padding-bottom: 20px;\n}\n.ec .titleBar h3 {\n  float: left;\n}\n.ec .titleBar .btn {\n  margin-left: 10px;\n  float: right;\n}\n.ec .file_drop {\n  padding: 50px;\n  background: #DDD;\n}\n"; (require("browserify-css").createStyle(css, { "href": "src/css/style.css" }, { "insertAt": "bottom" })); module.exports = css;
-},{"browserify-css":5}],122:[function(require,module,exports){
+},{"browserify-css":5}],120:[function(require,module,exports){
 var css = require('../css/style.css');
 var Delegator = require("dom-delegator");
 Delegator();
+
 function constructor(opts) {
-    var router = require('./services/router.js');
-    var dataService = require('./services/data');
-    var confService = require('./services/config');
-    var optionsService = require('./services/options');
-    var revisionService = require('./services/revision');
-    var templateService = require('./services/templates');
-    var initializer = require('./services/initializer');
-    var Api = require('./services/api');
-    var mediator = require('mediatorjs');
-    var h = require('virtual-dom/h');
-    var mInstance = new mediator.Mediator();
-    var data = new dataService(mInstance);
-    var config = new confService(mInstance, data);
+    switch (opts.UIMode) {
+        case 'render':
+            var dataService = require('./services/data');
+            var confService = require('./services/config');
+            var mediator = require('mediatorjs');
+            var mInstance = new mediator.Mediator();
+            var data = new dataService(mInstance);
+            var config = new confService(mInstance, data);
+            var services = {
+                data: data,
+                config: new confService(mInstance, data),
+                mediator: mInstance
+            };
 
-    var services = {
-        data: data,
-        config: config,
-        mediator: mInstance,
-        options: optionsService(mInstance),
-        templates: templateService(),
-        revision: revisionService(mInstance)
-    };
-
-    var states = {};
-
-    // by default show this tab
-    if(opts.dataTab != false) {
-        states.data = {
-            title: 'Data',
-            dependencies: function () {
-                var that = {};
-                that.import = require('./components/import.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.import.template()]);
-            },
-            destroy: function (dependencies) {
-                dependencies.import.destroy()
+            if (typeof opts.data !== 'undefined') {
+                services.data.set(opts.data);
             }
-        }
-    }
-    // by default show this tab.
 
-    if(opts.templatesTab != false) {
-        states.templates = {
-            title: 'Templates',
-            dependencies: function () {
-                var that = {};
-                that.templateSelection = require('./components/templateSelection.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.templateSelection.template()]);
+            if (typeof opts.dataUrl !== 'undefined') {
+                services.data.setUrl(opts.dataUrl);
             }
-        }
-    }
-    if (opts.customiseTab != false) {
-        states.customise = {
-            title: 'Customise',
-            dependencies: function () {
-                var that = {};
-                that.configurate = require('./components/configure.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.configurate.template()]);
-            },
-            destroy: function (dependencies) {
-                dependencies.configurate.destroy()
-            }
-        }
-    }
-    if (opts.debuggerTab == true) {
-        states.debugger = {
-            title: 'Debug',
-            dependencies: function () {
-                var that = {};
-                that.debug = require('./components/debug.js')(services);
-                return that;
-            },
-            template: function (dependencies) {
-                return h('div', [dependencies.debug.template()]);
-            }
-        }
-    }
 
-    // initialise the application with given options
-    initializer(opts, services);
-    if (typeof opts.element !== 'undefined') {
-        opts.element.className += ' ec';
-        var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-        if(opts.dataTab != false) {
-            mainRouter.goToState('data');
-        } else if(opts.templateTab != false) {
-            mainRouter.goToState('templates');
-        } else if(opts.customiseTab != false) {
-            mainRouter.goToState('customise');
-        }
-    }
+            if (typeof opts.config !== 'undefined') {
+                services.config.set(opts.config);
+            }
+            if (typeof opts.presets !== 'undefined') {
+                services.config.setPresets(opts.presets);
+            }
 
-    return new Api(services);
+            if (typeof opts.element !== 'undefined') {
+                opts.element.className += ' ec';
+                var chart = require('./components/chart.js');
+                chart.load(opts.element, services);
+            }
+
+        function setData(data) {
+            services.data.set(data);
+        }
+
+        function setDataUrl() {
+            services.data.setUrl(url);
+        }
+
+            // config
+        function setConfig(config) {
+            services.config.set(config);
+        }
+
+        function setConfigStringified(string) {
+            services.config.setStringified(string);
+        }
+
+        function getConfig(config) {
+            return services.config.getRaw(config);
+        }
+
+        function getConfigStringified() {
+            return services.config.getStringified();
+        }
+
+        function setPresets(presets) {
+            services.config.setPresets(presets);
+        }
+
+            return {
+                setData: setData,
+                setDataUrl: setDataUrl,
+                setConfig: setConfig,
+                setConfigStringified: setConfigStringified,
+                getConfig: getConfig,
+                getConfigStringified: getConfigStringified,
+                setPresets: setPresets
+            };
+
+
+        default:
+
+            var router = require('./services/router.js');
+            var dataService = require('./services/data');
+            var confService = require('./services/config');
+            var optionsService = require('./services/options');
+            var revisionService = require('./services/revision');
+            var templateService = require('./services/templates');
+            var initializer = require('./services/initializer');
+            var Api = require('./services/api');
+            var mediator = require('mediatorjs');
+            var h = require('virtual-dom/h');
+            var mInstance = new mediator.Mediator();
+            var data = new dataService(mInstance);
+            var config = new confService(mInstance, data);
+
+            var services = {
+                data: data,
+                config: config,
+                mediator: mInstance,
+                options: optionsService(mInstance),
+                templates: templateService(),
+                revision: revisionService(mInstance)
+            };
+
+            var states = {};
+
+            // by default show this tab
+            if (opts.dataTab != false) {
+                states.data = {
+                    title: 'Data',
+                    dependencies: function () {
+                        var that = {};
+                        that.import = require('./components/import.js')(services);
+                        return that;
+                    },
+                    template: function (dependencies) {
+                        return h('div', [dependencies.import.template()]);
+                    },
+                    destroy: function (dependencies) {
+                        dependencies.import.destroy()
+                    }
+                }
+            }
+            // by default show this tab.
+
+            if (opts.templatesTab != false) {
+                states.templates = {
+                    title: 'Templates',
+                    dependencies: function () {
+                        var that = {};
+                        that.templateSelection = require('./components/templateSelection.js')(services);
+                        return that;
+                    },
+                    template: function (dependencies) {
+                        return h('div', [dependencies.templateSelection.template()]);
+                    }
+                }
+            }
+            if (opts.customiseTab != false) {
+                states.customise = {
+                    title: 'Customise',
+                    dependencies: function () {
+                        var that = {};
+                        that.configurate = require('./components/configure.js')(services);
+                        return that;
+                    },
+                    template: function (dependencies) {
+                        return h('div', [dependencies.configurate.template()]);
+                    },
+                    destroy: function (dependencies) {
+                        dependencies.configurate.destroy()
+                    }
+                }
+            }
+            if (opts.debuggerTab == true) {
+                states.debugger = {
+                    title: 'Debug',
+                    dependencies: function () {
+                        var that = {};
+                        that.debug = require('./components/debug.js')(services);
+                        return that;
+                    },
+                    template: function (dependencies) {
+                        return h('div', [dependencies.debug.template()]);
+                    }
+                }
+            }
+
+            // initialise the application with given options
+            initializer(opts, services);
+            if (typeof opts.element !== 'undefined') {
+                opts.element.className += ' ec';
+                var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
+                if (opts.dataTab != false) {
+                    mainRouter.goToState('data');
+                } else if (opts.templateTab != false) {
+                    mainRouter.goToState('templates');
+                } else if (opts.customiseTab != false) {
+                    mainRouter.goToState('customise');
+                }
+            }
+            return new Api(services);
+    }
 }
+
+
 module.exports = constructor;
 window.ec = constructor;
-},{"../css/style.css":121,"./components/configure.js":124,"./components/debug.js":128,"./components/import.js":130,"./components/templateSelection.js":137,"./services/api":154,"./services/config":155,"./services/data":156,"./services/initializer":157,"./services/options":158,"./services/revision":159,"./services/router.js":160,"./services/templates":161,"dom-delegator":11,"mediatorjs":71,"virtual-dom/h":91}],123:[function(require,module,exports){
+},{"../css/style.css":119,"./components/chart.js":121,"./components/configure.js":122,"./components/debug.js":126,"./components/import.js":128,"./components/templateSelection.js":135,"./services/api":152,"./services/config":153,"./services/data":154,"./services/initializer":155,"./services/options":156,"./services/revision":157,"./services/router.js":158,"./services/templates":159,"dom-delegator":11,"mediatorjs":69,"virtual-dom/h":89}],121:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -28591,7 +28695,7 @@ window.ec = constructor;
 
     module.exports = that;
 })();
-},{}],124:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var optionsService = services.options;
@@ -28681,7 +28785,7 @@ window.ec = constructor;
 
     module.exports = constructor;
 })();
-},{"./configure/axisTabs":125,"./configure/genericTabs":126,"./configure/seriesTabs":127,"lodash.clonedeep":41,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isundefined":54,"lodash.map":60,"lodash.remove":62,"virtual-dom/h":91}],125:[function(require,module,exports){
+},{"./configure/axisTabs":123,"./configure/genericTabs":124,"./configure/seriesTabs":125,"lodash.clonedeep":40,"lodash.find":42,"lodash.first":43,"lodash.foreach":44,"lodash.isundefined":53,"lodash.map":58,"lodash.remove":60,"virtual-dom/h":89}],123:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -28890,7 +28994,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":141,"lodash.clonedeep":41,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isundefined":54,"lodash.map":60,"lodash.remove":62,"lodash.trim":68,"virtual-dom/h":91}],126:[function(require,module,exports){
+},{"../../factories/properties":139,"lodash.clonedeep":40,"lodash.find":42,"lodash.first":43,"lodash.foreach":44,"lodash.isundefined":53,"lodash.map":58,"lodash.remove":60,"lodash.trim":66,"virtual-dom/h":89}],124:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -28966,7 +29070,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":141,"lodash.clonedeep":41,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isundefined":54,"lodash.map":60,"lodash.remove":62,"virtual-dom/h":91}],127:[function(require,module,exports){
+},{"../../factories/properties":139,"lodash.clonedeep":40,"lodash.find":42,"lodash.first":43,"lodash.foreach":44,"lodash.isundefined":53,"lodash.map":58,"lodash.remove":60,"virtual-dom/h":89}],125:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -29065,7 +29169,7 @@ function constructor (services){
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":141,"lodash.clonedeep":41,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isundefined":54,"lodash.map":60,"lodash.remove":62,"virtual-dom/h":91}],128:[function(require,module,exports){
+},{"../../factories/properties":139,"lodash.clonedeep":40,"lodash.find":42,"lodash.first":43,"lodash.foreach":44,"lodash.isundefined":53,"lodash.map":58,"lodash.remove":60,"virtual-dom/h":89}],126:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -29094,7 +29198,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../../../node_modules/highlight.js/lib/highlight":26,"../../../node_modules/highlight.js/lib/languages/json":27,"../../../node_modules/highlight.js/styles/monokai.css":28,"virtual-dom/h":91}],129:[function(require,module,exports){
+},{"../../../node_modules/highlight.js/lib/highlight":26,"../../../node_modules/highlight.js/lib/languages/json":27,"../../../node_modules/highlight.js/styles/monokai.css":28,"virtual-dom/h":89}],127:[function(require,module,exports){
 (function () {
     //var _ = require('lodash');
 
@@ -29215,7 +29319,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"lodash.foreach":45,"lodash.isempty":49,"lodash.isundefined":54,"virtual-dom/create-element":89,"virtual-dom/h":91}],130:[function(require,module,exports){
+},{"lodash.foreach":44,"lodash.isempty":48,"lodash.isundefined":53,"virtual-dom/create-element":87,"virtual-dom/h":89}],128:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -29325,7 +29429,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./hot":129,"./import/dragAndDrop":131,"./import/paste":132,"./import/upload":133,"./import/url":134,"./table":136,"virtual-dom/h":91}],131:[function(require,module,exports){
+},{"./hot":127,"./import/dragAndDrop":129,"./import/paste":130,"./import/upload":131,"./import/url":132,"./table":134,"virtual-dom/h":89}],129:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -29374,7 +29478,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"drag-drop":17,"virtual-dom/h":91}],132:[function(require,module,exports){
+},{"drag-drop":17,"virtual-dom/h":89}],130:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -29410,7 +29514,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":91}],133:[function(require,module,exports){
+},{"virtual-dom/h":89}],131:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var that = {};
@@ -29454,7 +29558,7 @@ module.exports = constructor;
 
     module.exports = that;
 })();
-},{"virtual-dom/h":91}],134:[function(require,module,exports){
+},{"virtual-dom/h":89}],132:[function(require,module,exports){
 (function () {
     var that = {};
     var h = require('virtual-dom/h');
@@ -29495,7 +29599,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":91}],135:[function(require,module,exports){
+},{"virtual-dom/h":89}],133:[function(require,module,exports){
 var constructor = function (mediator, list) {
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
@@ -29559,7 +29663,7 @@ module.exports = constructor;
 
 
 
-},{"virtual-dom/create-element":89,"virtual-dom/h":91}],136:[function(require,module,exports){
+},{"virtual-dom/create-element":87,"virtual-dom/h":89}],134:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -29630,7 +29734,7 @@ module.exports = constructor;
 
 
 
-},{"lodash.foreach":45,"lodash.isequal":50,"lodash.trim":68,"virtual-dom/h":91}],137:[function(require,module,exports){
+},{"lodash.foreach":44,"lodash.isequal":49,"lodash.trim":66,"virtual-dom/h":89}],135:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -29703,7 +29807,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":140,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"virtual-dom/h":91}],138:[function(require,module,exports){
+},{"../factories/iconLoader":138,"lodash.find":42,"lodash.first":43,"lodash.foreach":44,"virtual-dom/h":89}],136:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -31073,7 +31177,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],139:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 module.exports=module.exports = [
   {
     "id": "line",
@@ -33359,7 +33463,7 @@ module.exports=module.exports = [
     ]
   }
 ]
-},{}],140:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -33443,7 +33547,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":54,"vdom-virtualize":87}],141:[function(require,module,exports){
+},{"fs":6,"lodash.isundefined":53,"vdom-virtualize":85}],139:[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -33541,7 +33645,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":142,"./properties/arrayArray":143,"./properties/arrayColor":144,"./properties/arrayObject":145,"./properties/arrayString":146,"./properties/boolean":147,"./properties/color":148,"./properties/number":149,"./properties/object":150,"./properties/select":151,"./properties/string":152,"lodash.clonedeep":41,"lodash.first":44,"lodash.foreach":45,"lodash.isarray":48,"lodash.isstring":53,"lodash.isundefined":54}],142:[function(require,module,exports){
+},{"./properties/array":140,"./properties/arrayArray":141,"./properties/arrayColor":142,"./properties/arrayObject":143,"./properties/arrayString":144,"./properties/boolean":145,"./properties/color":146,"./properties/number":147,"./properties/object":148,"./properties/select":149,"./properties/string":150,"lodash.clonedeep":40,"lodash.first":43,"lodash.foreach":44,"lodash.isarray":47,"lodash.isstring":52,"lodash.isundefined":53}],140:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -33592,7 +33696,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":41,"lodash.foreach":45,"lodash.isequal":50,"lodash.isundefined":54,"lodash.merge":61,"virtual-dom/h":91}],143:[function(require,module,exports){
+},{"lodash.clonedeep":40,"lodash.foreach":44,"lodash.isequal":49,"lodash.isundefined":53,"lodash.merge":59,"virtual-dom/h":89}],141:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var _ = {
@@ -33674,7 +33778,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":41,"lodash.foreach":45,"lodash.isequal":50,"lodash.isundefined":54,"lodash.join":55,"lodash.merge":61,"lodash.split":66,"virtual-dom/h":91}],144:[function(require,module,exports){
+},{"lodash.clonedeep":40,"lodash.foreach":44,"lodash.isequal":49,"lodash.isundefined":53,"lodash.join":54,"lodash.merge":59,"lodash.split":64,"virtual-dom/h":89}],142:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
     var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -33762,7 +33866,7 @@ return self})();
     }
     module.exports = constructor;
 })();
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":82,"lodash.clonedeep":41,"lodash.foreach":45,"lodash.isequal":50,"lodash.isundefined":54,"lodash.map":60,"lodash.merge":61,"lodash.tolower":67,"lodash.trim":68,"simple-color-picker":79,"virtual-dom/h":91}],145:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":80,"lodash.clonedeep":40,"lodash.foreach":44,"lodash.isequal":49,"lodash.isundefined":53,"lodash.map":58,"lodash.merge":59,"lodash.tolower":65,"lodash.trim":66,"simple-color-picker":77,"virtual-dom/h":89}],143:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -33817,7 +33921,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":41,"lodash.foreach":45,"lodash.isequal":50,"lodash.isundefined":54,"lodash.merge":61,"virtual-dom/h":91}],146:[function(require,module,exports){
+},{"lodash.clonedeep":40,"lodash.foreach":44,"lodash.isequal":49,"lodash.isundefined":53,"lodash.merge":59,"virtual-dom/h":89}],144:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -33852,7 +33956,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":91}],147:[function(require,module,exports){
+},{"virtual-dom/h":89}],145:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -33901,7 +34005,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":53,"lodash.isundefined":54,"virtual-dom/h":91}],148:[function(require,module,exports){
+},{"lodash.isstring":52,"lodash.isundefined":53,"virtual-dom/h":89}],146:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
     var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
@@ -33970,7 +34074,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":82,"lodash.tolower":67,"lodash.trim":68,"simple-color-picker":79,"virtual-dom/h":91}],149:[function(require,module,exports){
+},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":80,"lodash.tolower":65,"lodash.trim":66,"simple-color-picker":77,"virtual-dom/h":89}],147:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -34003,7 +34107,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"virtual-dom/h":91}],150:[function(require,module,exports){
+},{"virtual-dom/h":89}],148:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -34038,7 +34142,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":91}],151:[function(require,module,exports){
+},{"virtual-dom/h":89}],149:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -34089,7 +34193,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"lodash.foreach":45,"lodash.isundefined":54,"virtual-dom/h":91}],152:[function(require,module,exports){
+},{"lodash.foreach":44,"lodash.isundefined":53,"virtual-dom/h":89}],150:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -34121,7 +34225,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":91}],153:[function(require,module,exports){
+},{"virtual-dom/h":89}],151:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -34342,7 +34446,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":41,"lodash.drop":42,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":54,"lodash.map":60,"lodash.merge":61,"lodash.remove":62,"lodash.size":64,"lodash.slice":65,"lodash.union":69}],154:[function(require,module,exports){
+},{"lodash.clonedeep":40,"lodash.drop":41,"lodash.find":42,"lodash.first":43,"lodash.foreach":44,"lodash.isarray":47,"lodash.isempty":48,"lodash.isundefined":53,"lodash.map":58,"lodash.merge":59,"lodash.remove":60,"lodash.size":62,"lodash.slice":63,"lodash.union":67}],152:[function(require,module,exports){
 (function () {
     function constructor(services) {
         // data
@@ -34457,7 +34561,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],155:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -34694,7 +34798,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../factories/series.js":153,"json-fn":33,"lodash.clonedeep":41,"lodash.find":43,"lodash.foreach":45,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":54,"lodash.map":60,"lodash.merge":61}],156:[function(require,module,exports){
+},{"../factories/series.js":151,"json-fn":33,"lodash.clonedeep":40,"lodash.find":42,"lodash.foreach":44,"lodash.isarray":47,"lodash.isempty":48,"lodash.isundefined":53,"lodash.map":58,"lodash.merge":59}],154:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -34822,7 +34926,7 @@ return self})();
 })
 ();
 
-},{"lodash.clonedeep":41,"lodash.find":43,"lodash.first":44,"lodash.foreach":45,"lodash.isequal":50,"lodash.isnan":52,"lodash.isundefined":54,"lodash.map":60,"lodash.slice":65,"papaparse":72,"xhr":118}],157:[function(require,module,exports){
+},{"lodash.clonedeep":40,"lodash.find":42,"lodash.first":43,"lodash.foreach":44,"lodash.isequal":49,"lodash.isnan":51,"lodash.isundefined":53,"lodash.map":58,"lodash.slice":63,"papaparse":70,"xhr":116}],155:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -34864,7 +34968,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":45}],158:[function(require,module,exports){
+},{"lodash.foreach":44}],156:[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -34912,7 +35016,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":138,"lodash.clonedeep":41,"xhr":118}],159:[function(require,module,exports){
+},{"../config/options.json":136,"lodash.clonedeep":40,"xhr":116}],157:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -34954,7 +35058,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":41}],160:[function(require,module,exports){
+},{"lodash.clonedeep":40}],158:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -35039,7 +35143,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":123,"./../components/revision":135,"./../templates/logo":162,"lodash.keys":56,"main-loop":70,"virtual-dom/create-element":89,"virtual-dom/diff":90,"virtual-dom/h":91,"virtual-dom/patch":92}],161:[function(require,module,exports){
+},{"./../components/chart.js":121,"./../components/revision":133,"./../templates/logo":160,"lodash.keys":55,"main-loop":68,"virtual-dom/create-element":87,"virtual-dom/diff":88,"virtual-dom/h":89,"virtual-dom/patch":90}],159:[function(require,module,exports){
 (function () {
     function constructor(){
         var jsonfn = require('json-fn');
@@ -35063,7 +35167,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates.json":139,"json-fn":33,"lodash.clonedeep":41}],162:[function(require,module,exports){
+},{"../config/templates.json":137,"json-fn":33,"lodash.clonedeep":40}],160:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -35071,4 +35175,4 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":140,"virtual-dom/h":91}]},{},[122]);
+},{"../factories/iconLoader":138,"virtual-dom/h":89}]},{},[120]);

@@ -21,13 +21,25 @@
 </head>
 <body>
 
-<div id="container" class="container"></div>
+<div id="container-1"></div>
+<div id="container-2"></div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
         window.easychart = new ec({
-            element: document.getElementById('container'),
+            element: document.getElementById('container-1'),
             dataUrl: 'data/time-series.csv',
+            UIMode: 'render',
+            events: {
+                'configUpdate': function (e) {
+                    //console.log(window.easychart.getConfigStringified());
+                }
+            }
+        });
+
+        window.easychart = new ec({
+            element: document.getElementById('container-2'),
+            dataUrl: 'data/line.csv',
             debuggerTab: true,
             events: {
                 'configUpdate': function (e) {
