@@ -17,39 +17,45 @@
     <script type="text/javascript" src="../dist/ec.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css"
           href="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.css">
+
+    <script type="text/javascript">
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var chart = new ec({
+                element: document.getElementById('container-1'),
+                dataUrl: 'data/time-series.csv',
+                config: {"xAxis" : [{"type" : "datetime"}]},
+                UIMode: 'render',
+                events: {
+                    'configUpdate': function (e) {
+                        console.log('configUpdate-event for render-build');
+                    }
+                }
+            });
+
+            var anotherChart = new ec({
+                element: document.getElementById('container-2'),
+                dataUrl: 'data/line.csv',
+                config: {"xAxis" : [{"type" : "category"}]},
+                debuggerTab: true,
+                events: {
+                    'configUpdate': function (e) {
+
+                    }
+                }
+            });
+
+        });
+    </script>
+
     <title>EasychartJS plugin | DEMO</title>
+
 </head>
 <body>
 
 <div id="container-1"></div>
 <div id="container-2"></div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
 
-        window.easychart = new ec({
-            element: document.getElementById('container-1'),
-            dataUrl: 'data/time-series.csv',
-            config: {"xAxis" : [{"type" : "datetime"}]},
-            UIMode: 'render',
-            events: {
-                'configUpdate': function (e) {
-                    //console.log(window.easychart.getConfigStringified());
-                }
-            }
-        });
-
-        window.easychart = new ec({
-            element: document.getElementById('container-2'),
-            dataUrl: 'data/line.csv',
-            config: {"xAxis" : [{"type" : "category"}]},
-            debuggerTab: true,
-            events: {
-                'configUpdate': function (e) {
-                    //console.log(window.easychart.getConfigStringified());
-                }
-            }
-        });
-    });
-</script>
 </body>
 </html>
