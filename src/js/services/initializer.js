@@ -4,7 +4,7 @@ var _ = {
 
 function constructor(opts, services) {
     // only for app-build
-    if(typeof opts.UIMode === 'undefined' || opts.UIMode === 'app'){
+    if(typeof opts.UIMode === 'undefined' || opts.UIMode === 'editor'){
 
         if(typeof opts.data !== 'undefined'){
             services.data.set(opts.data, true);
