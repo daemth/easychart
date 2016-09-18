@@ -14,7 +14,7 @@ function constructor(opts) {
 
 
     switch (opts.UIMode) {
-        case 'render':
+        case 'viewer':
             var services = {
                 data: data,
                 config: new confService(mInstance, data),

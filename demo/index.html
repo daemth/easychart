@@ -26,7 +26,7 @@
                 element: document.getElementById('container-1'),
                 dataUrl: 'data/time-series.csv',
                 config: {"xAxis" : [{"type" : "datetime"}]},
-                UIMode: 'render',
+                UIMode: 'viewer',
                 events: {
                     'configUpdate': function (e) {
                         console.log('configUpdate-event for render-build');
@@ -54,8 +54,8 @@
 </head>
 <body>
 
-<div id="container-1"></div>
-<div id="container-2"></div>
+    <div id="container-1"></div>
+    <div id="container-2"></div>
 
 </body>
 </html>
