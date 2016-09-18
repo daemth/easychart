@@ -25,15 +25,17 @@
         element.appendChild(loop.target);
 
         function goToState(state) {
-            var newState = loop.state;
-            if (loop.state.destroy && newState.dependencies) {
-                loop.state.destroy(newState.dependencies);
+            if(states[state]) {
+                var newState = loop.state;
+                if (loop.state.destroy && newState.dependencies) {
+                    loop.state.destroy(newState.dependencies);
+                }
+                newState.dependencies = states[state].dependencies();
+                newState.template = states[state].template;
+                newState.title = states[state].title;
+                newState.destroy = states[state].destroy;
+                loop.update(newState);
             }
-            newState.dependencies = states[state].dependencies();
-            newState.template = states[state].template;
-            newState.title = states[state].title;
-            newState.destroy = states[state].destroy;
-            loop.update(newState);
         }
 
         function render(state) {
