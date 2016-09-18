@@ -46,7 +46,7 @@ function constructor(opts) {
                 services.data.set(data);
             }
 
-            function setDataUrl() {
+            function setDataUrl(url) {
                 services.data.setUrl(url);
             }
 
