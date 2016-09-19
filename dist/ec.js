@@ -23926,6 +23926,7 @@ function constructor(opts) {
             var Api = require('./services/api');
             var h = require('virtual-dom/h');
 
+
             var services = {
                 data: data,
                 config: config,
@@ -23999,18 +24000,19 @@ function constructor(opts) {
                 }
             }
 
-            // initialize the application with given options
+            // initialise the application with given options
             initializer(opts, services);
-            
             if (typeof opts.element !== 'undefined') {
                 opts.element.className += ' ec';
                 var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-                if (opts.dataTab != false) {
+                if(opts.dataTab != false) {
                     mainRouter.goToState('data');
-                } else if (opts.templateTab != false) {
+                } else if(opts.templatesTab != false) {
                     mainRouter.goToState('templates');
-                } else if (opts.customiseTab != false) {
+                } else if(opts.customiseTab != false) {
                     mainRouter.goToState('customise');
+                } else if(opts.debuggerTab == true) {
+                    mainRouter.goToState('debugger');
                 }
             }
             return new Api(services);
