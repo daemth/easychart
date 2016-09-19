@@ -100,6 +100,8 @@ function constructor(opts) {
             mainRouter.goToState('templates');
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');
+        } else if(opts.debuggerTab == true) {
+            mainRouter.goToState('debugger');
         }
     }
 

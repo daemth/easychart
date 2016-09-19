@@ -23923,10 +23923,12 @@ function constructor(opts) {
         var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
         if(opts.dataTab != false) {
             mainRouter.goToState('data');
-        } else if(opts.templateTab != false) {
+        } else if(opts.templatesTab != false) {
             mainRouter.goToState('templates');
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');
+        } else if(opts.debuggerTab == true) {
+            mainRouter.goToState('debugger');
         }
     }
 
