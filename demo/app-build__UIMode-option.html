@@ -24,10 +24,30 @@
 
             var chart = new ec({
                 element: document.getElementById('container-1'),
-                dataUrl: 'data/time-series.csv',
-                config: {"xAxis" : [{"type" : "datetime"}]},
+                dataUrl: 'data/line.csv',
+                config: {"xAxis" : [{"type" : "category"}]},
+                UIMode: 'viewer',
+                events: {
+                    'configUpdate': function (e) {
+                        //console.log('configUpdate-event for render-build');
+                    }
+                }
             });
 
+            var anotherChart = new ec({
+                element: document.getElementById('container-2'),
+                dataUrl: 'data/line.csv',
+                config: {"xAxis" : [{"type" : "category"}]},
+                debuggerTab: false,
+                dataTab: false,
+                templatesTab: false,
+                customiseTab: true,
+                events: {
+                    'configUpdate': function (e) {
+
+                    }
+                }
+            });
 
         });
     </script>
@@ -38,6 +58,7 @@
 <body>
 
     <div id="container-1"></div>
+    <div id="container-2"></div>
 
 </body>
 </html>
