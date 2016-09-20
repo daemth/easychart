@@ -61,7 +61,7 @@
                     h('div.left', state.template(state.dependencies))
                 ])
             } else {
-                return h('div', showLogo ? h('h1.logo', 'EASYCHART') : null)
+                return h('div.header', showLogo ? h('h1.logo', 'EASYCHART') : null)
             }
         }
 
