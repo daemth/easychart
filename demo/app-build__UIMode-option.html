@@ -4,51 +4,60 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.js"
             charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/highcharts-3d.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/highcharts-more.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/modules/funnel.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/modules/heatmap.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/modules/solid-gauge.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/modules/treemap.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/modules/boost.js" charset="utf-8"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
-    <script type="text/javascript" src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/highcharts.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/highcharts-3d.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/highcharts-more.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/modules/funnel.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/modules/heatmap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/modules/solid-gauge.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/modules/treemap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/modules/boost.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/modules/exporting.js"></script>
+    <script type="text/javascript" src="../node_modules/highcharts/modules/no-data-to-display.js"></script>
     <script type="text/javascript" src="../dist/ec.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css"
           href="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.css">
 
     <script type="text/javascript">
+        var charts = [
+            {
+                "dataUrl": "data/line.csv",
+                "config": {"xAxis" : [{"type" : "category"}]}
+            },
+            {
+                "dataUrl": "data/pie.csv",
+                "config": {"chart": {"type": "pie"},"xAxis" : [{"type" : "category"}]}
+            }
+        ];
 
         document.addEventListener("DOMContentLoaded", function () {
-
-            var chart = new ec({
-                element: document.getElementById('container-1'),
-                dataUrl: 'data/line.csv',
-                config: {"xAxis" : [{"type" : "category"}]},
-                UIMode: 'viewer',
-                events: {
-                    'configUpdate': function (e) {
-                        //console.log('configUpdate-event for render-build');
+            // iterate over the charts-array
+            for(var i = 0, len = charts.length; i < len; i++){
+                var chartContainer = document.createElement('div');
+                var easychartInstance = new ec({
+                    element: chartContainer,
+                    dataUrl: charts[i].dataUrl,
+                    config: charts[i].config,
+                    UIMode: 'viewer',
+                    events: {
+                        'configUpdate': function (e) {
+                            //console.log('configUpdate-event for render-build');
+                        }
                     }
-                }
-            });
-
+                });
+                document.getElementById('charts-container').appendChild(chartContainer);
+            }
             var anotherChart = new ec({
-                element: document.getElementById('container-2'),
-                dataUrl: 'data/line.csv',
-                config: {"xAxis" : [{"type" : "category"}]},
-                debuggerTab: false,
-                dataTab: false,
-                templatesTab: false,
-                customiseTab: true,
+                element: document.getElementById('editor'),
+                dataUrl: 'data/time-series.csv',
+                config: {"xAxis" : [{"type" : "datetime"}]},
+                dataTab: false, // when you don't want people to change the datasource of your chart
                 events: {
                     'configUpdate': function (e) {
 
                     }
                 }
             });
-
         });
     </script>
 
@@ -57,8 +66,10 @@
 </head>
 <body>
 
-    <div id="container-1"></div>
-    <div id="container-2"></div>
+
+    <div id="charts-container"></div>
+
+    <div id="editor"></div>
 
 </body>
 </html>
