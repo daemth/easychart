@@ -6,7 +6,6 @@ function constructor(opts) {
     var mediator = require('mediatorjs');
     var mInstance = new mediator.Mediator();
     var initializer = require('./services/initializer');
-
     var dataService = require('./services/data');
     var confService = require('./services/config');
     var data = new dataService(mInstance);
@@ -89,16 +88,14 @@ function constructor(opts) {
                 on: on
             };
 
-        // app-build
+        // UIMode === editor (default)
         default:
             var router = require('./services/router.js');
             var optionsService = require('./services/options');
             var revisionService = require('./services/revision');
             var templateService = require('./services/templates');
-            //var initializer = require('./services/initializer');
             var Api = require('./services/api');
             var h = require('virtual-dom/h');
-
 
             var services = {
                 data: data,
@@ -178,13 +175,13 @@ function constructor(opts) {
             if (typeof opts.element !== 'undefined') {
                 opts.element.className += ' ec';
                 var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-                if(opts.dataTab != false) {
+                if(opts.dataTab !== false) {
                     mainRouter.goToState('data');
-                } else if(opts.templatesTab != false) {
+                } else if(opts.templatesTab !== false) {
                     mainRouter.goToState('templates');
-                } else if(opts.customiseTab != false) {
+                } else if(opts.customiseTab !== false) {
                     mainRouter.goToState('customise');
-                } else if(opts.debuggerTab == true) {
+                } else if(opts.debuggerTab === true) {
                     mainRouter.goToState('debugger');
                 }
             }
