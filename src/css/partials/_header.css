@@ -1,22 +1,25 @@
 .b-ec__header {
     @apply --teal-on-navy;
     .e-ec__header__title {
-        padding: 10px 30px 0;
         margin: 0;
         font-size: 1.5em;
         text-transform: uppercase;
         text-align: center;
+        display: none;
     }
     .e-ec__conf__tabs {
         .e-ec__tab {
             display: block;
             text-align: center;
             text-transform: uppercase;
-            padding: 0 20px;
+            padding: 10px 20px;
             color: inherit;
             text-decoration: none;
             &:last-child {
                 display: none;
+            }
+            &:hover {
+              color: white; /* temp */
             }
         }
     }
@@ -29,8 +32,10 @@
         flex-direction: row;
         flex-wrap: wrap;
         .e-ec__header__title {
+            display: block;
             flex-basis: content;
             text-align: left;
+            padding: 0 28px 0 18px;
         }
         .e-ec__conf__tabs {
             display: flex;
@@ -39,6 +44,7 @@
             flex: 1;
             .e-ec__tab {
                 flex-basis: content;
+                padding: 20px 15px 8px;
                 &:last-child {
                     flex: auto;
                     text-align: right;
