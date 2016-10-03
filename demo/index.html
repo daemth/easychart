@@ -17,25 +17,27 @@
     <script type="text/javascript" src="../dist/ec.js" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css"
           href="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.css">
+
+    <script type="text/javascript">
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var chart = new ec({
+                element: document.getElementById('container-1'),
+                dataUrl: 'data/time-series.csv',
+                config: {"xAxis" : [{"type" : "datetime"}]},
+            });
+
+
+        });
+    </script>
+
     <title>EasychartJS plugin | DEMO</title>
+
 </head>
 <body>
 
-<div id="container" class="container"></div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
+    <div id="container-1"></div>
 
-        window.easychart = new ec({
-            element: document.getElementById('container'),
-            dataUrl: 'data/time-series.csv',
-            debuggerTab: true,
-            events: {
-                'configUpdate': function (e) {
-                    //console.log(window.easychart.getConfigStringified());
-                }
-            }
-        });
-    });
-</script>
 </body>
 </html>

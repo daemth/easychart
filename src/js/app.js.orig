@@ -6,12 +6,14 @@ function constructor(opts) {
     var mediator = require('mediatorjs');
     var mInstance = new mediator.Mediator();
     var initializer = require('./services/initializer');
+
     var dataService = require('./services/data');
     var confService = require('./services/config');
     var data = new dataService(mInstance);
     var config = new confService(mInstance, data);
 
 
+<<<<<<< HEAD
     switch (opts.UIMode) {
         case 'viewer':
             var services = {
@@ -88,14 +90,32 @@ function constructor(opts) {
                 on: on
             };
 
-        // UIMode === editor (default)
+        // app-build
         default:
             var router = require('./services/router.js');
             var optionsService = require('./services/options');
             var revisionService = require('./services/revision');
             var templateService = require('./services/templates');
+            //var initializer = require('./services/initializer');
             var Api = require('./services/api');
             var h = require('virtual-dom/h');
+=======
+    // initialise the application with given options
+    initializer(opts, services);
+    if (typeof opts.element !== 'undefined') {
+        opts.element.className += ' ec';
+        var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
+        if(opts.dataTab != false) {
+            mainRouter.goToState('data');
+        } else if(opts.templatesTab != false) {
+            mainRouter.goToState('templates');
+        } else if(opts.customiseTab != false) {
+            mainRouter.goToState('customise');
+        } else if(opts.debuggerTab == true) {
+            mainRouter.goToState('debugger');
+        }
+    }
+>>>>>>> master
 
             var services = {
                 data: data,
@@ -170,19 +190,18 @@ function constructor(opts) {
                 }
             }
 
-            // initialise the application with given options
+            // initialize the application with given options
             initializer(opts, services);
+            
             if (typeof opts.element !== 'undefined') {
                 opts.element.className += ' ec';
                 var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-                if(opts.dataTab !== false) {
+                if (opts.dataTab != false) {
                     mainRouter.goToState('data');
-                } else if(opts.templatesTab !== false) {
+                } else if (opts.templateTab != false) {
                     mainRouter.goToState('templates');
-                } else if(opts.customiseTab !== false) {
+                } else if (opts.customiseTab != false) {
                     mainRouter.goToState('customise');
-                } else if(opts.debuggerTab === true) {
-                    mainRouter.goToState('debugger');
                 }
             }
             return new Api(services);
