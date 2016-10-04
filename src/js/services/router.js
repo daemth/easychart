@@ -47,11 +47,8 @@
                     chartElement.className = "right";
                 }
                 window.dispatchEvent(new Event('resize'));
-                return h('div',{
-                    style:{
-                        position:'relative'
-                    }
-                } ,[
+                return h('div',
+                    [
                     state.title != 'Graph' ? h('div.header', [
                         showLogo ? h('h1.logo', 'EASYCHART') : null,
                         h('div.navigation.accordion-tabs-minimal', [
@@ -93,7 +90,7 @@
         var chartElement;
         var chart = require('./../components/chart.js');
 
-        chartElement = createElement(h('div.right', {id: 'chartContainer'}));
+        chartElement = createElement(h('div.right'));
         element.appendChild(chartElement);
         chart.load(chartElement, services);
         element.appendChild(revisionElement.template());
