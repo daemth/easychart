@@ -26,7 +26,19 @@ function constructor(opts) {
     };
 
     var states = {};
-
+    // by default show this tab.
+    if(opts.viewer != false){
+        states.viewer = {
+            title: 'Graph',
+            dependencies: function () {
+                var that = {};
+                return that;
+            },
+            template: function (dependencies) {
+                return '';
+            }
+        }
+    }
     // by default show this tab
     if(opts.dataTab != false) {
         states.data = {
@@ -44,8 +56,6 @@ function constructor(opts) {
             }
         }
     }
-    // by default show this tab.
-
     if(opts.templatesTab != false) {
         states.templates = {
             title: 'Templates',
