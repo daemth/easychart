@@ -75,6 +75,8 @@
     "watchify": "^3.7.0"
   },
   "scripts": {
+    "test":"",
+    "build": "gulp build",
     "genOptions": "node buildCustomise"
   },
   "repository": {
