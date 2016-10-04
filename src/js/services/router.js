@@ -25,7 +25,7 @@
         element.appendChild(loop.target);
 
         function goToState(state) {
-            if(states[state]) {
+            if (states[state]) {
                 var newState = loop.state;
                 if (loop.state.destroy && newState.dependencies) {
                     loop.state.destroy(newState.dependencies);
@@ -39,11 +39,22 @@
         }
 
         function render(state) {
+
             if (state.dependencies && state.template) {
-                return h('div', [
-                    h('div.header', [
+                if (state.title == 'Graph'){
+                    chartElement.className = "";
+                } else {
+                    chartElement.className = "right";
+                }
+                window.dispatchEvent(new Event('resize'));
+                return h('div',{
+                    style:{
+                        position:'relative'
+                    }
+                } ,[
+                    state.title != 'Graph' ? h('div.header', [
                         showLogo ? h('h1.logo', 'EASYCHART') : null,
-                        h('div.navigation.accordion-tabs-minimal',[
+                        h('div.navigation.accordion-tabs-minimal', [
                             h('ul.tab-list', state.links.map(function (id) {
                                 var className = state.title === states[id].title ? 'is-active' : '';
                                 return h('li.tab-link', {
@@ -57,8 +68,17 @@
                                 }, states[id].title))
                             }))
                         ])
-                    ]),
-                    h('div.left', state.template(state.dependencies))
+                    ]) : h('div.btn.btn--small',{
+                        style:{
+                            position:'absolute',
+                            'z-index': '10'
+                        },
+                        'ev-click': function (e) {
+                            e.preventDefault();
+                            goToState('data');
+                        }
+                    },'Edit'),
+                    state.title != 'Graph' ? h('div.left', state.template(state.dependencies)) : null
                 ])
             } else {
                 return h('div.header', showLogo ? h('h1.logo', 'EASYCHART') : null)
