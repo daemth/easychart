@@ -28,9 +28,6 @@ gulp.task('app:watch', function () {
 gulp.task('sass', function () {
     gulp.src('src/scss/style.scss')
         .pipe(sourcemaps.init())
-        .pipe(sass({
-            includePaths: require('node-neat').includePaths
-        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./src/css'));
 });
@@ -38,10 +35,6 @@ gulp.task('sass', function () {
 gulp.task('sass:prod', function () {
     gulp.src('src/scss/style.scss')
         .pipe(sourcemaps.init())
-        .pipe(sass({
-            outputStyle: 'compressed',
-            includePaths: require('node-neat').includePaths
-        }))
         .pipe(gulp.dest('./src/css'));
 });
 

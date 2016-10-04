@@ -11,10 +11,11 @@
         Hook.prototype.hook = function(node) {
             inputNode = node;
         };
-        var input = h('input.push-half', {
+        var input = h('input', {
             "size": 50,
             "type": "text",
             "style" : {
+                margin: '10px',
                 display: "inline"
             },
             value: services.data.getUrl(),
@@ -22,8 +23,9 @@
         });
 
 
-        var importElement = h('button.btn.btn--small.push-half', {
+        var importElement = h('button.btn.btn--small', {
             "style" : {
+                margin: "10px",
                 display: "inline"
             },
             'ev-click': function (e) {

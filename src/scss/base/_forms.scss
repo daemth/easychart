@@ -1,10 +1,32 @@
+$text-inputs-list: 'input[type="color"]',
+'input[type="date"]',
+'input[type="datetime"]',
+'input[type="datetime-local"]',
+'input[type="email"]',
+'input[type="month"]',
+'input[type="number"]',
+'input[type="password"]',
+'input[type="search"]',
+'input[type="tel"]',
+'input[type="text"]',
+'input[type="time"]',
+'input[type="url"]',
+'input[type="week"]',
+'input:not([type])',
+'textarea';
+
+$all-text-inputs:        assign-inputs($text-inputs-list);
+$all-text-inputs-active: assign-inputs($text-inputs-list, active);
+$all-text-inputs-focus:  assign-inputs($text-inputs-list, focus);
+$all-text-inputs-hover:  assign-inputs($text-inputs-list, hover);
 
 fieldset {
   background-color: $secondary-background-color;
-  border: $base-border;
+  border: 1px;
   margin: 0 0 $small-spacing;
   padding: $base-spacing;
 }
+
 
 input,
 label,

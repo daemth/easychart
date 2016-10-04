@@ -8,7 +8,10 @@
         // Check for the various File API support.
         if (window.FileReader) {
             uploadElement =
-                h('input.soft--ends', {
+                h('input', {
+                    style: {
+                        padding: "20px 0px"
+                    },
                     type: 'file',
                     'size': 50,
                     onchange: function(e){
