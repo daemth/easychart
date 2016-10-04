@@ -29,7 +29,7 @@ function constructor(opts) {
     // by default show this tab.
     if(opts.viewer != false){
         states.viewer = {
-            title: 'Graph',
+            title: 'Full preview',
             dependencies: function () {
                 var that = {};
                 return that;
