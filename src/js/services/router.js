@@ -8,7 +8,9 @@
     var mainLoop = require("main-loop");
     var _ = {
         keys: require('lodash.keys'),
-        size: require('lodash.size')
+        size: require('lodash.size'),
+        findKey: require('lodash.findkey')
+
     };
 
     function constructor(element, states, services, showLogo) {
@@ -26,7 +28,12 @@
 
         element.appendChild(loop.target);
 
-        function goToState(state) {
+        function goToState (state) {
+            // find available state if no state is passed as argument
+            if(state === undefined) {
+                state = _.findKey(states, function(o) { return o.title !== 'Dashboard preview'; })
+            }
+
             if (states[state]) {
                 var newState = loop.state;
                 if (loop.state.destroy && newState.dependencies) {
@@ -78,7 +85,7 @@
                                 },
                                 'ev-click': function (e) {
                                     e.preventDefault();
-                                    goToState('data');
+                                    goToState();
                                 }
                             },'Edit')
                         : null,
