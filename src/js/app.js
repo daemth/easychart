@@ -26,10 +26,10 @@ function constructor(opts) {
     };
 
     var states = {};
-    // by default show this tab.
-    if(opts.viewer != false){
-        states.viewer = {
-            title: 'Full preview',
+
+    if(opts.dashboardMode == true){
+        states.dashboardMode = {
+            title: 'Dashboard preview',
             dependencies: function () {
                 var that = {};
                 return that;

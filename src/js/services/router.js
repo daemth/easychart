@@ -41,7 +41,7 @@
         function render(state) {
 
             if (state.dependencies && state.template) {
-                if (state.title == 'Full preview'){
+                if (state.title == 'Dashboard preview'){
                     chartElement.className = "";
                 } else {
                     chartElement.className = "right";
@@ -49,7 +49,7 @@
                 window.dispatchEvent(new Event('resize'));
                 return h('div',
                     [
-                    state.title != 'Full preview' ? h('div.header', [
+                    state.title != 'Dashboard preview' ? h('div.header', [
                         showLogo ? h('h1.logo', 'EASYCHART') : null,
                         h('div.navigation.accordion-tabs-minimal', [
                             h('ul.tab-list', state.links.map(function (id) {
@@ -75,7 +75,7 @@
                             goToState('data');
                         }
                     },'Edit'),
-                    state.title != 'Full preview' ? h('div.left', state.template(state.dependencies)) : null
+                    state.title != 'Dashboard preview' ? h('div.left', state.template(state.dependencies)) : null
                 ])
             } else {
                 return h('div.header', showLogo ? h('h1.logo', 'EASYCHART') : null)
@@ -86,6 +86,8 @@
             loop.update(loop.state);
         });
 
+        
+        
         // chart stuff
         var chartElement;
         var chart = require('./../components/chart.js');
