@@ -7,13 +7,15 @@
 
     var mainLoop = require("main-loop");
     var _ = {
-        keys: require('lodash.keys')
+        keys: require('lodash.keys'),
+        size: require('lodash.size')
     };
 
     function constructor(element, states, services, showLogo) {
         var initState = {
             links: _.keys(states)
         };
+        var numberOfStates = _.size(states);
 
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
@@ -39,7 +41,6 @@
         }
 
         function render(state) {
-
             if (state.dependencies && state.template) {
                 if (state.title == 'Dashboard preview'){
                     chartElement.className = "";
@@ -65,16 +66,23 @@
                                 }, states[id].title))
                             }))
                         ])
-                    ]) : h('div.btn.btn--small',{
-                        style:{
-                            position:'absolute',
-                            'z-index': '10'
-                        },
-                        'ev-click': function (e) {
-                            e.preventDefault();
-                            goToState('data');
-                        }
-                    },'Edit'),
+                    ])
+                        :
+                        // only show edit button when there are multiple states
+                        numberOfStates > 1 ?
+                            // todo: don't show if no other states are available
+                            h('div.btn.btn--small',{
+                                style:{
+                                    position:'absolute',
+                                    'z-index': '10'
+                                },
+                                'ev-click': function (e) {
+                                    e.preventDefault();
+                                    goToState('data');
+                                }
+                            },'Edit')
+                        : null,
+
                     state.title != 'Dashboard preview' ? h('div.left', state.template(state.dependencies)) : null
                 ])
             } else {
