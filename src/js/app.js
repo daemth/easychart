@@ -104,7 +104,9 @@ function constructor(opts) {
     if (typeof opts.element !== 'undefined') {
         opts.element.className += ' ec';
         var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-        if(opts.dataTab != false) {
+        if (opts.dashboardMode == true) {
+            mainRouter.goToState('dashboardMode');
+        } else if(opts.dataTab != false) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
             mainRouter.goToState('templates');
