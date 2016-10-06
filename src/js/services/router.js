@@ -76,7 +76,6 @@
                     ]) :
                         // only show edit button when there are multiple states
                         numberOfEditStates > 0 ?
-                            // todo: don't show if no other states are available
                             h('div.btn.btn--small',{
                                 style:{
                                     position:'absolute',
