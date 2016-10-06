@@ -28,7 +28,7 @@ function constructor(opts) {
     var states = {};
 
     if(opts.dashboardMode == true){
-        states.dashboardMode = {
+        states.dashboard = {
             title: 'Dashboard preview',
             dependencies: function () {
                 var that = {};
@@ -86,7 +86,7 @@ function constructor(opts) {
         }
     }
     if (opts.debuggerTab == true) {
-        states.debugger = {
+        states.debug = {
             title: 'Debug',
             dependencies: function () {
                 var that = {};
@@ -105,7 +105,7 @@ function constructor(opts) {
         opts.element.className += ' ec';
         var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
         if (opts.dashboardMode == true) {
-            mainRouter.goToState('dashboardMode');
+            mainRouter.goToState('dashboard');
         } else if(opts.dataTab != false) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
@@ -113,7 +113,7 @@ function constructor(opts) {
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');
         } else if(opts.debuggerTab == true) {
-            mainRouter.goToState('debugger');
+            mainRouter.goToState('debug');
         }
     }
 

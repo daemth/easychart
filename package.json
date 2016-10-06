@@ -60,6 +60,7 @@
     "lodash.tonumber": "^4.0.1",
     "lodash.trim": "^4.2.0",
     "lodash.union": "^4.2.0",
+    "lodash.without": "^4.4.0",
     "main-loop": "^3.2.0",
     "mediatorjs": "^0.1.4",
     "node-sass": "latest",
