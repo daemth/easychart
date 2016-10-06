@@ -9,16 +9,16 @@
     var _ = {
         keys: require('lodash.keys'),
         size: require('lodash.size'),
-        findKey: require('lodash.findkey')
-
+        without: require('lodash.without'),
+        slice: require('lodash.slice')
     };
 
     function constructor(element, states, services, showLogo) {
         var initState = {
             links: _.keys(states)
         };
-        var numberOfStates = _.size(states);
-
+        var editStateNames = _.without(_.keys(states), 'dashboard', 'debug'); // names of states meant for editing the chart
+        var numberOfEditStates = editStateNames.length; // number of states available without the debug and dashboard state
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
             diff: require("virtual-dom/diff"),
@@ -31,7 +31,7 @@
         function goToState (state) {
             // find available state if no state is passed as argument
             if(state === undefined) {
-                state = _.findKey(states, function(o) { return o.title !== 'Dashboard preview'; })
+                state = _.slice(editStateNames, 0, 1);
             }
 
             if (states[state]) {
@@ -49,7 +49,7 @@
 
         function render(state) {
             if (state.dependencies && state.template) {
-                if (state.title == 'Dashboard preview'){
+                if (state.title == 'Dashboard preview'){ // todo: use an id instead?
                     chartElement.className = "";
                 } else {
                     chartElement.className = "right";
@@ -76,7 +76,7 @@
                     ])
                         :
                         // only show edit button when there are multiple states
-                        numberOfStates > 1 ?
+                        numberOfEditStates > 0 ?
                             // todo: don't show if no other states are available
                             h('div.btn.btn--small',{
                                 style:{
