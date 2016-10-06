@@ -18,23 +18,19 @@
     <link rel="stylesheet" type="text/css"
           href="http://cdnjs.cloudflare.com/ajax/libs/handsontable/0.23.0/handsontable.full.css">
     <title>EasychartJS plugin | DEMO</title>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var chart = new ec({
+                element: document.getElementById('container'),
+                dataUrl: 'data/line.csv'
+            });
+        });
+    </script>
 </head>
 <body>
 
-<div id="container" class="container"></div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
+    <div id="container"></div>
 
-        var chart = new ec({
-            element     : document.getElementById('container'),
-            dataUrl     : 'data/scatter.csv',
-            config      : {"chart": {"type": "scatter"}},
-            // weird thing to hide all tabs when using the app-build, but from now on -at last- it's possible :-D
-            dataTab     : false,
-            templatesTab: false,
-            customiseTab: false
-        });
-    });
-</script>
 </body>
 </html>
