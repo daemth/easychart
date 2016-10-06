@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "stable"
+
+cache:
+  directories:
+  - node_modules
+
+before_script:
+  - "artifacts -v || curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash"
+  - npm install
+  - npm run build
+script:
+  - npm run test
+after_script:
+  - ./build/travis-upload-artifacts.sh

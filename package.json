@@ -77,6 +77,8 @@
     "xhr": "^2.2.0"
   },
   "scripts": {
+    "test":"",
+    "build": "gulp build",
     "genOptions": "node buildCustomise"
   },
   "repository": {
