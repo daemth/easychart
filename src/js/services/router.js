@@ -17,7 +17,7 @@
         var initState = {
             links: _.keys(states)
         };
-        var editStateNames = _.without(_.keys(states), 'dashboard', 'debug'); // names of states meant for editing the chart
+        var editStateNames = _.without(_.keys(states), 'chart', 'debug'); // names of states meant for editing the chart
         var numberOfEditStates = editStateNames.length; // number of states available without the debug and dashboard state
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
@@ -57,7 +57,7 @@
                 window.dispatchEvent(new Event('resize'));
                 return h('div',
                     [
-                    state.title != 'Dashboard preview' ? h('div.header', [
+                    state.title != 'Chart preview' ? h('div.header', [
                         showLogo ? h('h1.logo', 'EASYCHART') : null,
                         h('div.navigation.accordion-tabs-minimal', [
                             h('ul.tab-list', state.links.map(function (id) {
@@ -73,8 +73,7 @@
                                 }, states[id].title))
                             }))
                         ])
-                    ])
-                        :
+                    ]) :
                         // only show edit button when there are multiple states
                         numberOfEditStates > 0 ?
                             // todo: don't show if no other states are available
@@ -89,7 +88,6 @@
                                 }
                             },'Edit')
                         : null,
-
                     state.title != 'Chart preview' ? h('div.left', state.template(state.dependencies)) : null
                 ])
             } else {

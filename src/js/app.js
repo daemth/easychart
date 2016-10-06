@@ -39,6 +39,7 @@ function constructor(opts) {
             }
         }
     }
+
     // by default show this tab
     if(opts.dataTab != false) {
         states.data = {
@@ -56,6 +57,7 @@ function constructor(opts) {
             }
         }
     }
+
     if(opts.templatesTab != false) {
         states.templates = {
             title: 'Templates',
@@ -69,6 +71,7 @@ function constructor(opts) {
             }
         }
     }
+
     if (opts.customiseTab != false) {
         states.customise = {
             title: 'Customise',
