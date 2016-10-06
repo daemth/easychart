@@ -20,6 +20,7 @@
     "browserify-css": "^0.9.0",
     "browserify-data": "^0.2.0",
     "connect": "^3.4.1",
+    "serve-static": "^1.11.1",
     "dom-delegator": "^13.1.0",
     "drag-drop": "^2.3.1",
     "folderify": "^1.1.0",
@@ -65,7 +66,6 @@
     "mediatorjs": "^0.1.4",
     "node-sass": "latest",
     "papaparse": "^4.1.2",
-    "serve-static": "^1.10.2",
     "simple-color-picker": "0.1.1",
     "svg-browserify": "0.0.2",
     "uglify-js": "latest",
@@ -78,6 +78,8 @@
   },
   "scripts": {
     "test":"",
+    "watch": "gulp watch:app",
+    "server": "node server.js",
     "build": "gulp build",
     "genOptions": "node buildCustomise"
   },

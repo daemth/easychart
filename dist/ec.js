@@ -280,8 +280,124 @@
 module.exports = require('./backbone-events-standalone');
 
 },{"./backbone-events-standalone":1}],3:[function(require,module,exports){
+'use strict'
+
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
+}
+
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function placeHoldersCount (b64) {
+  var len = b64.length
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+}
+
+function byteLength (b64) {
+  // base64 is 4/3 + up to two characters of the original data
+  return b64.length * 3 / 4 - placeHoldersCount(b64)
+}
+
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
+
+  arr = new Arr(len * 3 / 4 - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
 
 },{}],4:[function(require,module,exports){
+
+},{}],5:[function(require,module,exports){
 /*!
  * Cross-Browser Split 1.1.1
  * Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
@@ -389,7 +505,7 @@ module.exports = (function split(undef) {
   return self;
 })();
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 // For more information about browser field, check out the browser field at https://github.com/substack/browserify-handbook#browser-field.
 
@@ -466,9 +582,1802 @@ module.exports = {
     }
 };
 
-},{}],6:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],8:[function(require,module,exports){
+(function (global){
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+/* eslint-disable no-proto */
+
+'use strict'
+
+var base64 = require('base64-js')
+var ieee754 = require('ieee754')
+var isArray = require('isarray')
+
+exports.Buffer = Buffer
+exports.SlowBuffer = SlowBuffer
+exports.INSPECT_MAX_BYTES = 50
+
+/**
+ * If `Buffer.TYPED_ARRAY_SUPPORT`:
+ *   === true    Use Uint8Array implementation (fastest)
+ *   === false   Use Object implementation (most compatible, even IE6)
+ *
+ * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
+ * Opera 11.6+, iOS 4.2+.
+ *
+ * Due to various browser bugs, sometimes the Object implementation will be used even
+ * when the browser supports typed arrays.
+ *
+ * Note:
+ *
+ *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
+ *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
+ *
+ *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
+ *
+ *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
+ *     incorrect length in some situations.
+
+ * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
+ * get the Object implementation, which is slower but behaves correctly.
+ */
+Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
+  ? global.TYPED_ARRAY_SUPPORT
+  : typedArraySupport()
+
+/*
+ * Export kMaxLength after typed array support is determined.
+ */
+exports.kMaxLength = kMaxLength()
+
+function typedArraySupport () {
+  try {
+    var arr = new Uint8Array(1)
+    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
+    return arr.foo() === 42 && // typed array instances can be augmented
+        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
+  } catch (e) {
+    return false
+  }
+}
+
+function kMaxLength () {
+  return Buffer.TYPED_ARRAY_SUPPORT
+    ? 0x7fffffff
+    : 0x3fffffff
+}
+
+function createBuffer (that, length) {
+  if (kMaxLength() < length) {
+    throw new RangeError('Invalid typed array length')
+  }
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = new Uint8Array(length)
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    if (that === null) {
+      that = new Buffer(length)
+    }
+    that.length = length
+  }
+
+  return that
+}
+
+/**
+ * The Buffer constructor returns instances of `Uint8Array` that have their
+ * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+ * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
+ * and the `Uint8Array` methods. Square bracket notation works as expected -- it
+ * returns a single octet.
+ *
+ * The `Uint8Array` prototype remains unmodified.
+ */
+
+function Buffer (arg, encodingOrOffset, length) {
+  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
+    return new Buffer(arg, encodingOrOffset, length)
+  }
+
+  // Common case.
+  if (typeof arg === 'number') {
+    if (typeof encodingOrOffset === 'string') {
+      throw new Error(
+        'If encoding is specified then the first argument must be a string'
+      )
+    }
+    return allocUnsafe(this, arg)
+  }
+  return from(this, arg, encodingOrOffset, length)
+}
+
+Buffer.poolSize = 8192 // not used by this implementation
+
+// TODO: Legacy, not needed anymore. Remove in next major version.
+Buffer._augment = function (arr) {
+  arr.__proto__ = Buffer.prototype
+  return arr
+}
+
+function from (that, value, encodingOrOffset, length) {
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number')
+  }
+
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    return fromArrayBuffer(that, value, encodingOrOffset, length)
+  }
+
+  if (typeof value === 'string') {
+    return fromString(that, value, encodingOrOffset)
+  }
+
+  return fromObject(that, value)
+}
+
+/**
+ * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
+ * if value is a number.
+ * Buffer.from(str[, encoding])
+ * Buffer.from(array)
+ * Buffer.from(buffer)
+ * Buffer.from(arrayBuffer[, byteOffset[, length]])
+ **/
+Buffer.from = function (value, encodingOrOffset, length) {
+  return from(null, value, encodingOrOffset, length)
+}
+
+if (Buffer.TYPED_ARRAY_SUPPORT) {
+  Buffer.prototype.__proto__ = Uint8Array.prototype
+  Buffer.__proto__ = Uint8Array
+  if (typeof Symbol !== 'undefined' && Symbol.species &&
+      Buffer[Symbol.species] === Buffer) {
+    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
+    Object.defineProperty(Buffer, Symbol.species, {
+      value: null,
+      configurable: true
+    })
+  }
+}
+
+function assertSize (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('"size" argument must be a number')
+  } else if (size < 0) {
+    throw new RangeError('"size" argument must not be negative')
+  }
+}
+
+function alloc (that, size, fill, encoding) {
+  assertSize(size)
+  if (size <= 0) {
+    return createBuffer(that, size)
+  }
+  if (fill !== undefined) {
+    // Only pay attention to encoding if it's a string. This
+    // prevents accidentally sending in a number that would
+    // be interpretted as a start offset.
+    return typeof encoding === 'string'
+      ? createBuffer(that, size).fill(fill, encoding)
+      : createBuffer(that, size).fill(fill)
+  }
+  return createBuffer(that, size)
+}
+
+/**
+ * Creates a new filled Buffer instance.
+ * alloc(size[, fill[, encoding]])
+ **/
+Buffer.alloc = function (size, fill, encoding) {
+  return alloc(null, size, fill, encoding)
+}
+
+function allocUnsafe (that, size) {
+  assertSize(size)
+  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+    for (var i = 0; i < size; ++i) {
+      that[i] = 0
+    }
+  }
+  return that
+}
+
+/**
+ * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
+ * */
+Buffer.allocUnsafe = function (size) {
+  return allocUnsafe(null, size)
+}
+/**
+ * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
+ */
+Buffer.allocUnsafeSlow = function (size) {
+  return allocUnsafe(null, size)
+}
+
+function fromString (that, string, encoding) {
+  if (typeof encoding !== 'string' || encoding === '') {
+    encoding = 'utf8'
+  }
+
+  if (!Buffer.isEncoding(encoding)) {
+    throw new TypeError('"encoding" must be a valid string encoding')
+  }
+
+  var length = byteLength(string, encoding) | 0
+  that = createBuffer(that, length)
+
+  var actual = that.write(string, encoding)
+
+  if (actual !== length) {
+    // Writing a hex string, for example, that contains invalid characters will
+    // cause everything after the first invalid character to be ignored. (e.g.
+    // 'abxxcd' will be treated as 'ab')
+    that = that.slice(0, actual)
+  }
+
+  return that
+}
+
+function fromArrayLike (that, array) {
+  var length = array.length < 0 ? 0 : checked(array.length) | 0
+  that = createBuffer(that, length)
+  for (var i = 0; i < length; i += 1) {
+    that[i] = array[i] & 255
+  }
+  return that
+}
+
+function fromArrayBuffer (that, array, byteOffset, length) {
+  array.byteLength // this throws if `array` is not a valid ArrayBuffer
+
+  if (byteOffset < 0 || array.byteLength < byteOffset) {
+    throw new RangeError('\'offset\' is out of bounds')
+  }
+
+  if (array.byteLength < byteOffset + (length || 0)) {
+    throw new RangeError('\'length\' is out of bounds')
+  }
+
+  if (byteOffset === undefined && length === undefined) {
+    array = new Uint8Array(array)
+  } else if (length === undefined) {
+    array = new Uint8Array(array, byteOffset)
+  } else {
+    array = new Uint8Array(array, byteOffset, length)
+  }
+
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = array
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    that = fromArrayLike(that, array)
+  }
+  return that
+}
+
+function fromObject (that, obj) {
+  if (Buffer.isBuffer(obj)) {
+    var len = checked(obj.length) | 0
+    that = createBuffer(that, len)
+
+    if (that.length === 0) {
+      return that
+    }
+
+    obj.copy(that, 0, 0, len)
+    return that
+  }
+
+  if (obj) {
+    if ((typeof ArrayBuffer !== 'undefined' &&
+        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
+      if (typeof obj.length !== 'number' || isnan(obj.length)) {
+        return createBuffer(that, 0)
+      }
+      return fromArrayLike(that, obj)
+    }
+
+    if (obj.type === 'Buffer' && isArray(obj.data)) {
+      return fromArrayLike(that, obj.data)
+    }
+  }
+
+  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
+}
+
+function checked (length) {
+  // Note: cannot use `length < kMaxLength()` here because that fails when
+  // length is NaN (which is otherwise coerced to zero.)
+  if (length >= kMaxLength()) {
+    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
+  }
+  return length | 0
+}
+
+function SlowBuffer (length) {
+  if (+length != length) { // eslint-disable-line eqeqeq
+    length = 0
+  }
+  return Buffer.alloc(+length)
+}
+
+Buffer.isBuffer = function isBuffer (b) {
+  return !!(b != null && b._isBuffer)
+}
+
+Buffer.compare = function compare (a, b) {
+  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+    throw new TypeError('Arguments must be Buffers')
+  }
+
+  if (a === b) return 0
+
+  var x = a.length
+  var y = b.length
+
+  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+    if (a[i] !== b[i]) {
+      x = a[i]
+      y = b[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+Buffer.isEncoding = function isEncoding (encoding) {
+  switch (String(encoding).toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'latin1':
+    case 'binary':
+    case 'base64':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      return true
+    default:
+      return false
+  }
+}
+
+Buffer.concat = function concat (list, length) {
+  if (!isArray(list)) {
+    throw new TypeError('"list" argument must be an Array of Buffers')
+  }
+
+  if (list.length === 0) {
+    return Buffer.alloc(0)
+  }
+
+  var i
+  if (length === undefined) {
+    length = 0
+    for (i = 0; i < list.length; ++i) {
+      length += list[i].length
+    }
+  }
+
+  var buffer = Buffer.allocUnsafe(length)
+  var pos = 0
+  for (i = 0; i < list.length; ++i) {
+    var buf = list[i]
+    if (!Buffer.isBuffer(buf)) {
+      throw new TypeError('"list" argument must be an Array of Buffers')
+    }
+    buf.copy(buffer, pos)
+    pos += buf.length
+  }
+  return buffer
+}
+
+function byteLength (string, encoding) {
+  if (Buffer.isBuffer(string)) {
+    return string.length
+  }
+  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
+      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
+    return string.byteLength
+  }
+  if (typeof string !== 'string') {
+    string = '' + string
+  }
+
+  var len = string.length
+  if (len === 0) return 0
+
+  // Use a for loop to avoid recursion
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'ascii':
+      case 'latin1':
+      case 'binary':
+        return len
+      case 'utf8':
+      case 'utf-8':
+      case undefined:
+        return utf8ToBytes(string).length
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return len * 2
+      case 'hex':
+        return len >>> 1
+      case 'base64':
+        return base64ToBytes(string).length
+      default:
+        if (loweredCase) return utf8ToBytes(string).length // assume utf8
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+Buffer.byteLength = byteLength
+
+function slowToString (encoding, start, end) {
+  var loweredCase = false
+
+  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  // property of a typed array.
+
+  // This behaves neither like String nor Uint8Array in that we set start/end
+  // to their upper/lower bounds if the value passed is out of range.
+  // undefined is handled specially as per ECMA-262 6th Edition,
+  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
+  if (start === undefined || start < 0) {
+    start = 0
+  }
+  // Return early if start > this.length. Done here to prevent potential uint32
+  // coercion fail below.
+  if (start > this.length) {
+    return ''
+  }
+
+  if (end === undefined || end > this.length) {
+    end = this.length
+  }
+
+  if (end <= 0) {
+    return ''
+  }
+
+  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
+  end >>>= 0
+  start >>>= 0
+
+  if (end <= start) {
+    return ''
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  while (true) {
+    switch (encoding) {
+      case 'hex':
+        return hexSlice(this, start, end)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Slice(this, start, end)
+
+      case 'ascii':
+        return asciiSlice(this, start, end)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Slice(this, start, end)
+
+      case 'base64':
+        return base64Slice(this, start, end)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return utf16leSlice(this, start, end)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = (encoding + '').toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
+// Buffer instances.
+Buffer.prototype._isBuffer = true
+
+function swap (b, n, m) {
+  var i = b[n]
+  b[n] = b[m]
+  b[m] = i
+}
+
+Buffer.prototype.swap16 = function swap16 () {
+  var len = this.length
+  if (len % 2 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 16-bits')
+  }
+  for (var i = 0; i < len; i += 2) {
+    swap(this, i, i + 1)
+  }
+  return this
+}
+
+Buffer.prototype.swap32 = function swap32 () {
+  var len = this.length
+  if (len % 4 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 32-bits')
+  }
+  for (var i = 0; i < len; i += 4) {
+    swap(this, i, i + 3)
+    swap(this, i + 1, i + 2)
+  }
+  return this
+}
+
+Buffer.prototype.swap64 = function swap64 () {
+  var len = this.length
+  if (len % 8 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 64-bits')
+  }
+  for (var i = 0; i < len; i += 8) {
+    swap(this, i, i + 7)
+    swap(this, i + 1, i + 6)
+    swap(this, i + 2, i + 5)
+    swap(this, i + 3, i + 4)
+  }
+  return this
+}
+
+Buffer.prototype.toString = function toString () {
+  var length = this.length | 0
+  if (length === 0) return ''
+  if (arguments.length === 0) return utf8Slice(this, 0, length)
+  return slowToString.apply(this, arguments)
+}
+
+Buffer.prototype.equals = function equals (b) {
+  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
+  if (this === b) return true
+  return Buffer.compare(this, b) === 0
+}
+
+Buffer.prototype.inspect = function inspect () {
+  var str = ''
+  var max = exports.INSPECT_MAX_BYTES
+  if (this.length > 0) {
+    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
+    if (this.length > max) str += ' ... '
+  }
+  return '<Buffer ' + str + '>'
+}
+
+Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
+  if (!Buffer.isBuffer(target)) {
+    throw new TypeError('Argument must be a Buffer')
+  }
+
+  if (start === undefined) {
+    start = 0
+  }
+  if (end === undefined) {
+    end = target ? target.length : 0
+  }
+  if (thisStart === undefined) {
+    thisStart = 0
+  }
+  if (thisEnd === undefined) {
+    thisEnd = this.length
+  }
+
+  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+    throw new RangeError('out of range index')
+  }
+
+  if (thisStart >= thisEnd && start >= end) {
+    return 0
+  }
+  if (thisStart >= thisEnd) {
+    return -1
+  }
+  if (start >= end) {
+    return 1
+  }
+
+  start >>>= 0
+  end >>>= 0
+  thisStart >>>= 0
+  thisEnd >>>= 0
+
+  if (this === target) return 0
+
+  var x = thisEnd - thisStart
+  var y = end - start
+  var len = Math.min(x, y)
+
+  var thisCopy = this.slice(thisStart, thisEnd)
+  var targetCopy = target.slice(start, end)
+
+  for (var i = 0; i < len; ++i) {
+    if (thisCopy[i] !== targetCopy[i]) {
+      x = thisCopy[i]
+      y = targetCopy[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
+// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
+//
+// Arguments:
+// - buffer - a Buffer to search
+// - val - a string, Buffer, or number
+// - byteOffset - an index into `buffer`; will be clamped to an int32
+// - encoding - an optional encoding, relevant is val is a string
+// - dir - true for indexOf, false for lastIndexOf
+function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
+  // Empty buffer means no match
+  if (buffer.length === 0) return -1
+
+  // Normalize byteOffset
+  if (typeof byteOffset === 'string') {
+    encoding = byteOffset
+    byteOffset = 0
+  } else if (byteOffset > 0x7fffffff) {
+    byteOffset = 0x7fffffff
+  } else if (byteOffset < -0x80000000) {
+    byteOffset = -0x80000000
+  }
+  byteOffset = +byteOffset  // Coerce to Number.
+  if (isNaN(byteOffset)) {
+    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+    byteOffset = dir ? 0 : (buffer.length - 1)
+  }
+
+  // Normalize byteOffset: negative offsets start from the end of the buffer
+  if (byteOffset < 0) byteOffset = buffer.length + byteOffset
+  if (byteOffset >= buffer.length) {
+    if (dir) return -1
+    else byteOffset = buffer.length - 1
+  } else if (byteOffset < 0) {
+    if (dir) byteOffset = 0
+    else return -1
+  }
+
+  // Normalize val
+  if (typeof val === 'string') {
+    val = Buffer.from(val, encoding)
+  }
+
+  // Finally, search either indexOf (if dir is true) or lastIndexOf
+  if (Buffer.isBuffer(val)) {
+    // Special case: looking for empty string/buffer always fails
+    if (val.length === 0) {
+      return -1
+    }
+    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
+  } else if (typeof val === 'number') {
+    val = val & 0xFF // Search for a byte value [0-255]
+    if (Buffer.TYPED_ARRAY_SUPPORT &&
+        typeof Uint8Array.prototype.indexOf === 'function') {
+      if (dir) {
+        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
+      } else {
+        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
+      }
+    }
+    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
+  }
+
+  throw new TypeError('val must be string, number or Buffer')
+}
+
+function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
+  var indexSize = 1
+  var arrLength = arr.length
+  var valLength = val.length
+
+  if (encoding !== undefined) {
+    encoding = String(encoding).toLowerCase()
+    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
+        encoding === 'utf16le' || encoding === 'utf-16le') {
+      if (arr.length < 2 || val.length < 2) {
+        return -1
+      }
+      indexSize = 2
+      arrLength /= 2
+      valLength /= 2
+      byteOffset /= 2
+    }
+  }
+
+  function read (buf, i) {
+    if (indexSize === 1) {
+      return buf[i]
+    } else {
+      return buf.readUInt16BE(i * indexSize)
+    }
+  }
+
+  var i
+  if (dir) {
+    var foundIndex = -1
+    for (i = byteOffset; i < arrLength; i++) {
+      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+        if (foundIndex === -1) foundIndex = i
+        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
+      } else {
+        if (foundIndex !== -1) i -= i - foundIndex
+        foundIndex = -1
+      }
+    }
+  } else {
+    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength
+    for (i = byteOffset; i >= 0; i--) {
+      var found = true
+      for (var j = 0; j < valLength; j++) {
+        if (read(arr, i + j) !== read(val, j)) {
+          found = false
+          break
+        }
+      }
+      if (found) return i
+    }
+  }
+
+  return -1
+}
+
+Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1
+}
+
+Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
+}
+
+Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
+}
+
+function hexWrite (buf, string, offset, length) {
+  offset = Number(offset) || 0
+  var remaining = buf.length - offset
+  if (!length) {
+    length = remaining
+  } else {
+    length = Number(length)
+    if (length > remaining) {
+      length = remaining
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length
+  if (strLen % 2 !== 0) throw new TypeError('Invalid hex string')
+
+  if (length > strLen / 2) {
+    length = strLen / 2
+  }
+  for (var i = 0; i < length; ++i) {
+    var parsed = parseInt(string.substr(i * 2, 2), 16)
+    if (isNaN(parsed)) return i
+    buf[offset + i] = parsed
+  }
+  return i
+}
+
+function utf8Write (buf, string, offset, length) {
+  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+function asciiWrite (buf, string, offset, length) {
+  return blitBuffer(asciiToBytes(string), buf, offset, length)
+}
+
+function latin1Write (buf, string, offset, length) {
+  return asciiWrite(buf, string, offset, length)
+}
+
+function base64Write (buf, string, offset, length) {
+  return blitBuffer(base64ToBytes(string), buf, offset, length)
+}
+
+function ucs2Write (buf, string, offset, length) {
+  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+Buffer.prototype.write = function write (string, offset, length, encoding) {
+  // Buffer#write(string)
+  if (offset === undefined) {
+    encoding = 'utf8'
+    length = this.length
+    offset = 0
+  // Buffer#write(string, encoding)
+  } else if (length === undefined && typeof offset === 'string') {
+    encoding = offset
+    length = this.length
+    offset = 0
+  // Buffer#write(string, offset[, length][, encoding])
+  } else if (isFinite(offset)) {
+    offset = offset | 0
+    if (isFinite(length)) {
+      length = length | 0
+      if (encoding === undefined) encoding = 'utf8'
+    } else {
+      encoding = length
+      length = undefined
+    }
+  // legacy write(string, encoding, offset, length) - remove in v0.13
+  } else {
+    throw new Error(
+      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
+    )
+  }
+
+  var remaining = this.length - offset
+  if (length === undefined || length > remaining) length = remaining
+
+  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
+    throw new RangeError('Attempt to write outside buffer bounds')
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'hex':
+        return hexWrite(this, string, offset, length)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Write(this, string, offset, length)
+
+      case 'ascii':
+        return asciiWrite(this, string, offset, length)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Write(this, string, offset, length)
+
+      case 'base64':
+        // Warning: maxLength not taken into account in base64Write
+        return base64Write(this, string, offset, length)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return ucs2Write(this, string, offset, length)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+Buffer.prototype.toJSON = function toJSON () {
+  return {
+    type: 'Buffer',
+    data: Array.prototype.slice.call(this._arr || this, 0)
+  }
+}
+
+function base64Slice (buf, start, end) {
+  if (start === 0 && end === buf.length) {
+    return base64.fromByteArray(buf)
+  } else {
+    return base64.fromByteArray(buf.slice(start, end))
+  }
+}
+
+function utf8Slice (buf, start, end) {
+  end = Math.min(buf.length, end)
+  var res = []
+
+  var i = start
+  while (i < end) {
+    var firstByte = buf[i]
+    var codePoint = null
+    var bytesPerSequence = (firstByte > 0xEF) ? 4
+      : (firstByte > 0xDF) ? 3
+      : (firstByte > 0xBF) ? 2
+      : 1
+
+    if (i + bytesPerSequence <= end) {
+      var secondByte, thirdByte, fourthByte, tempCodePoint
+
+      switch (bytesPerSequence) {
+        case 1:
+          if (firstByte < 0x80) {
+            codePoint = firstByte
+          }
+          break
+        case 2:
+          secondByte = buf[i + 1]
+          if ((secondByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
+            if (tempCodePoint > 0x7F) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 3:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
+            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 4:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          fourthByte = buf[i + 3]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
+            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
+              codePoint = tempCodePoint
+            }
+          }
+      }
+    }
+
+    if (codePoint === null) {
+      // we did not generate a valid codePoint so insert a
+      // replacement char (U+FFFD) and advance only 1 byte
+      codePoint = 0xFFFD
+      bytesPerSequence = 1
+    } else if (codePoint > 0xFFFF) {
+      // encode to utf16 (surrogate pair dance)
+      codePoint -= 0x10000
+      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
+      codePoint = 0xDC00 | codePoint & 0x3FF
+    }
+
+    res.push(codePoint)
+    i += bytesPerSequence
+  }
+
+  return decodeCodePointsArray(res)
+}
+
+// Based on http://stackoverflow.com/a/22747272/680742, the browser with
+// the lowest limit is Chrome, with 0x10000 args.
+// We go 1 magnitude less, for safety
+var MAX_ARGUMENTS_LENGTH = 0x1000
+
+function decodeCodePointsArray (codePoints) {
+  var len = codePoints.length
+  if (len <= MAX_ARGUMENTS_LENGTH) {
+    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
+  }
+
+  // Decode in chunks to avoid "call stack size exceeded".
+  var res = ''
+  var i = 0
+  while (i < len) {
+    res += String.fromCharCode.apply(
+      String,
+      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+    )
+  }
+  return res
+}
+
+function asciiSlice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i] & 0x7F)
+  }
+  return ret
+}
+
+function latin1Slice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i])
+  }
+  return ret
+}
+
+function hexSlice (buf, start, end) {
+  var len = buf.length
+
+  if (!start || start < 0) start = 0
+  if (!end || end < 0 || end > len) end = len
+
+  var out = ''
+  for (var i = start; i < end; ++i) {
+    out += toHex(buf[i])
+  }
+  return out
+}
+
+function utf16leSlice (buf, start, end) {
+  var bytes = buf.slice(start, end)
+  var res = ''
+  for (var i = 0; i < bytes.length; i += 2) {
+    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
+  }
+  return res
+}
+
+Buffer.prototype.slice = function slice (start, end) {
+  var len = this.length
+  start = ~~start
+  end = end === undefined ? len : ~~end
+
+  if (start < 0) {
+    start += len
+    if (start < 0) start = 0
+  } else if (start > len) {
+    start = len
+  }
+
+  if (end < 0) {
+    end += len
+    if (end < 0) end = 0
+  } else if (end > len) {
+    end = len
+  }
+
+  if (end < start) end = start
+
+  var newBuf
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    newBuf = this.subarray(start, end)
+    newBuf.__proto__ = Buffer.prototype
+  } else {
+    var sliceLen = end - start
+    newBuf = new Buffer(sliceLen, undefined)
+    for (var i = 0; i < sliceLen; ++i) {
+      newBuf[i] = this[i + start]
+    }
+  }
+
+  return newBuf
+}
+
+/*
+ * Need to make sure that buffer isn't trying to write out of bounds.
+ */
+function checkOffset (offset, ext, length) {
+  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
+  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
+}
+
+Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    checkOffset(offset, byteLength, this.length)
+  }
+
+  var val = this[offset + --byteLength]
+  var mul = 1
+  while (byteLength > 0 && (mul *= 0x100)) {
+    val += this[offset + --byteLength] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  return this[offset]
+}
+
+Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return this[offset] | (this[offset + 1] << 8)
+}
+
+Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return (this[offset] << 8) | this[offset + 1]
+}
+
+Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return ((this[offset]) |
+      (this[offset + 1] << 8) |
+      (this[offset + 2] << 16)) +
+      (this[offset + 3] * 0x1000000)
+}
+
+Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] * 0x1000000) +
+    ((this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    this[offset + 3])
+}
+
+Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var i = byteLength
+  var mul = 1
+  var val = this[offset + --i]
+  while (i > 0 && (mul *= 0x100)) {
+    val += this[offset + --i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  if (!(this[offset] & 0x80)) return (this[offset])
+  return ((0xff - this[offset] + 1) * -1)
+}
+
+Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset] | (this[offset + 1] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset + 1] | (this[offset] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset]) |
+    (this[offset + 1] << 8) |
+    (this[offset + 2] << 16) |
+    (this[offset + 3] << 24)
+}
+
+Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] << 24) |
+    (this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    (this[offset + 3])
+}
+
+Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, true, 23, 4)
+}
+
+Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, false, 23, 4)
+}
+
+Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, true, 52, 8)
+}
+
+Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, false, 52, 8)
+}
+
+function checkInt (buf, value, offset, ext, max, min) {
+  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
+  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+}
+
+Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var mul = 1
+  var i = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+function objectWriteUInt16 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; ++i) {
+    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
+      (littleEndian ? i : 1 - i) * 8
+  }
+}
+
+Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+function objectWriteUInt32 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffffffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; ++i) {
+    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset + 3] = (value >>> 24)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 1] = (value >>> 8)
+    this[offset] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = 0
+  var mul = 1
+  var sub = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  var sub = 0
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  if (value < 0) value = 0xff + value + 1
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 3] = (value >>> 24)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (value < 0) value = 0xffffffff + value + 1
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+function checkIEEE754 (buf, value, offset, ext, max, min) {
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+  if (offset < 0) throw new RangeError('Index out of range')
+}
+
+function writeFloat (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 23, 4)
+  return offset + 4
+}
+
+Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, false, noAssert)
+}
+
+function writeDouble (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 52, 8)
+  return offset + 8
+}
+
+Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, false, noAssert)
+}
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function copy (target, targetStart, start, end) {
+  if (!start) start = 0
+  if (!end && end !== 0) end = this.length
+  if (targetStart >= target.length) targetStart = target.length
+  if (!targetStart) targetStart = 0
+  if (end > 0 && end < start) end = start
+
+  // Copy 0 bytes; we're done
+  if (end === start) return 0
+  if (target.length === 0 || this.length === 0) return 0
+
+  // Fatal error conditions
+  if (targetStart < 0) {
+    throw new RangeError('targetStart out of bounds')
+  }
+  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
+  if (end < 0) throw new RangeError('sourceEnd out of bounds')
+
+  // Are we oob?
+  if (end > this.length) end = this.length
+  if (target.length - targetStart < end - start) {
+    end = target.length - targetStart + start
+  }
+
+  var len = end - start
+  var i
+
+  if (this === target && start < targetStart && targetStart < end) {
+    // descending copy from end
+    for (i = len - 1; i >= 0; --i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
+    // ascending copy from start
+    for (i = 0; i < len; ++i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else {
+    Uint8Array.prototype.set.call(
+      target,
+      this.subarray(start, start + len),
+      targetStart
+    )
+  }
+
+  return len
+}
+
+// Usage:
+//    buffer.fill(number[, offset[, end]])
+//    buffer.fill(buffer[, offset[, end]])
+//    buffer.fill(string[, offset[, end]][, encoding])
+Buffer.prototype.fill = function fill (val, start, end, encoding) {
+  // Handle string cases:
+  if (typeof val === 'string') {
+    if (typeof start === 'string') {
+      encoding = start
+      start = 0
+      end = this.length
+    } else if (typeof end === 'string') {
+      encoding = end
+      end = this.length
+    }
+    if (val.length === 1) {
+      var code = val.charCodeAt(0)
+      if (code < 256) {
+        val = code
+      }
+    }
+    if (encoding !== undefined && typeof encoding !== 'string') {
+      throw new TypeError('encoding must be a string')
+    }
+    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
+      throw new TypeError('Unknown encoding: ' + encoding)
+    }
+  } else if (typeof val === 'number') {
+    val = val & 255
+  }
+
+  // Invalid ranges are not set to a default, so can range check early.
+  if (start < 0 || this.length < start || this.length < end) {
+    throw new RangeError('Out of range index')
+  }
+
+  if (end <= start) {
+    return this
+  }
+
+  start = start >>> 0
+  end = end === undefined ? this.length : end >>> 0
+
+  if (!val) val = 0
+
+  var i
+  if (typeof val === 'number') {
+    for (i = start; i < end; ++i) {
+      this[i] = val
+    }
+  } else {
+    var bytes = Buffer.isBuffer(val)
+      ? val
+      : utf8ToBytes(new Buffer(val, encoding).toString())
+    var len = bytes.length
+    for (i = 0; i < end - start; ++i) {
+      this[i + start] = bytes[i % len]
+    }
+  }
+
+  return this
+}
+
+// HELPER FUNCTIONS
+// ================
+
+var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
+
+function base64clean (str) {
+  // Node strips out invalid characters like \n and \t from the string, base64-js does not
+  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
+  // Node converts strings with length < 2 to ''
+  if (str.length < 2) return ''
+  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
+  while (str.length % 4 !== 0) {
+    str = str + '='
+  }
+  return str
+}
+
+function stringtrim (str) {
+  if (str.trim) return str.trim()
+  return str.replace(/^\s+|\s+$/g, '')
+}
+
+function toHex (n) {
+  if (n < 16) return '0' + n.toString(16)
+  return n.toString(16)
+}
+
+function utf8ToBytes (string, units) {
+  units = units || Infinity
+  var codePoint
+  var length = string.length
+  var leadSurrogate = null
+  var bytes = []
+
+  for (var i = 0; i < length; ++i) {
+    codePoint = string.charCodeAt(i)
+
+    // is surrogate component
+    if (codePoint > 0xD7FF && codePoint < 0xE000) {
+      // last char was a lead
+      if (!leadSurrogate) {
+        // no lead yet
+        if (codePoint > 0xDBFF) {
+          // unexpected trail
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        } else if (i + 1 === length) {
+          // unpaired lead
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        }
+
+        // valid lead
+        leadSurrogate = codePoint
+
+        continue
+      }
+
+      // 2 leads in a row
+      if (codePoint < 0xDC00) {
+        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+        leadSurrogate = codePoint
+        continue
+      }
+
+      // valid surrogate pair
+      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
+    } else if (leadSurrogate) {
+      // valid bmp char, but last char was a lead
+      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+    }
+
+    leadSurrogate = null
+
+    // encode utf8
+    if (codePoint < 0x80) {
+      if ((units -= 1) < 0) break
+      bytes.push(codePoint)
+    } else if (codePoint < 0x800) {
+      if ((units -= 2) < 0) break
+      bytes.push(
+        codePoint >> 0x6 | 0xC0,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x10000) {
+      if ((units -= 3) < 0) break
+      bytes.push(
+        codePoint >> 0xC | 0xE0,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x110000) {
+      if ((units -= 4) < 0) break
+      bytes.push(
+        codePoint >> 0x12 | 0xF0,
+        codePoint >> 0xC & 0x3F | 0x80,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else {
+      throw new Error('Invalid code point')
+    }
+  }
+
+  return bytes
+}
+
+function asciiToBytes (str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push(str.charCodeAt(i) & 0xFF)
+  }
+  return byteArray
+}
+
+function utf16leToBytes (str, units) {
+  var c, hi, lo
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    if ((units -= 2) < 0) break
+
+    c = str.charCodeAt(i)
+    hi = c >> 8
+    lo = c % 256
+    byteArray.push(lo)
+    byteArray.push(hi)
+  }
+
+  return byteArray
+}
+
+function base64ToBytes (str) {
+  return base64.toByteArray(base64clean(str))
+}
+
+function blitBuffer (src, dst, offset, length) {
+  for (var i = 0; i < length; ++i) {
+    if ((i + offset >= dst.length) || (i >= src.length)) break
+    dst[i + offset] = src[i]
+  }
+  return i
+}
+
+function isnan (val) {
+  return val !== val // eslint-disable-line no-self-compare
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"base64-js":3,"ieee754":32,"isarray":40}],9:[function(require,module,exports){
 module.exports = function(obj) {
     if (typeof obj === 'string') return camelCase(obj);
     return walk(obj);
@@ -529,7 +2438,7 @@ function reduce (xs, f, acc) {
     return acc;
 }
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -694,7 +2603,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * cuid.js
  * Collision-resistant UID generator for browsers and node.
@@ -806,7 +2715,7 @@ Emitter.prototype.hasListeners = function(event){
 
 }(this.applitude || this));
 
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = addEvent
@@ -826,7 +2735,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":20}],11:[function(require,module,exports){
+},{"ev-store":22}],13:[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -1015,7 +2924,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":10,"./proxy-event.js":13,"./remove-event.js":14,"ev-store":20,"global/document":25,"weakmap-shim/create-store":113}],12:[function(require,module,exports){
+},{"./add-event.js":12,"./proxy-event.js":15,"./remove-event.js":16,"ev-store":22,"global/document":27,"weakmap-shim/create-store":107}],14:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -1077,7 +2986,7 @@ function Delegator(opts) {
 Delegator.allocateHandle = DOMDelegator.allocateHandle;
 Delegator.transformHandle = DOMDelegator.transformHandle;
 
-},{"./dom-delegator.js":11,"cuid":9,"global/document":25,"individual":30}],13:[function(require,module,exports){
+},{"./dom-delegator.js":13,"cuid":11,"global/document":27,"individual":33}],15:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -1157,7 +3066,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":31}],14:[function(require,module,exports){
+},{"inherits":34}],16:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -1178,235 +3087,210 @@ function removeEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":20}],15:[function(require,module,exports){
+},{"ev-store":22}],17:[function(require,module,exports){
 'use strict';
 
-var trim = require('trim');
 var prefix = require('prefix');
-var prop = prefix('transform');
-var propTransOrigin = prefix('transformOrigin');
-var fns = require('./lib/properties');
+var isArray = require('is-array');
+var properties = require('./lib/properties');
+var applyDefaultUnit = require('./lib/default-unit');
 
 var _has = Object.prototype.hasOwnProperty;
-
-var shortcuts = {
+var transformProp = prefix('transform');
+var propNameAliases = {
   x: 'translateX',
   y: 'translateY',
-  z: 'translateZ'
+  z: 'translateZ',
+  origin: 'transformOrigin'
 };
 
-
 exports = module.exports = transform;
-
-function transform(target, properties) {
-  var output = [];
-  var i;
-  var name;
+function transform(target, opts) {
+  var transformOutput = [];
+  var propName;
   var propValue;
+  var propData;
 
-  for (i in properties) {
-    propValue = properties[i];
+  replaceAliases(opts);
 
-    // replace shortcut with its transform value.
-    name = _has.call(shortcuts, i)
-      ? name = shortcuts[i]
-      : name = i;
+  for (propName in opts) {
+    if (!_has.call(opts, propName)) continue;
 
-    if (_has.call(fns, name)) {
-      output.push(fns[name](numToString(propValue)));
+    propValue = opts[propName];
+
+    // If it's a transform property.
+    if (_has.call(properties.transform, propName)) {
+      propData = properties.transform[propName];
+
+      if (isArray(propValue)) {
+        propValue = propValue.join(propData.separator);
+      }
+
+      transformOutput.push(
+        propName + '(' + applyDefaultUnit(
+          propValue,
+          propData.defaultUnit,
+          propData.separator
+        ) + ')'
+      );
+
       continue;
     }
 
-    if (name === 'origin') {
-      target.style[propTransOrigin] = propValue;
+    // For other properties like transform-origin.
+    if (_has.call(properties, propName)) {
+      propData = properties[propName];
+
+      if (isArray(propValue)) {
+        propValue = propValue.join(propData.separator);
+      }
+
+      target.style[prefix(propName)] = applyDefaultUnit(
+        propValue,
+        propData.defaultUnit,
+        propData.separator
+      );
+
       continue;
     }
 
-    console.warn(name, 'is not a valid property');
+    console.warn(
+      'dom-transform: this property (`' + propName + '`) is not supported.'
+    );
   }
 
-  target.style[prop] = output.join(' ');
+  // Apply transform property values.
+  target.style[transformProp] = transformOutput.join(' ');
 }
-
 
 exports.get = get;
+function get(target, props) {
+  var s = target.style;
 
-function get(target) {
-  return style(target);
-}
+  if (typeof props === 'string') {
+    if (_has.call(properties.transform, props)) {
+      return s[transformProp];
+    }
 
-
-exports.none = none;
-
-function none(target) {
-  target.style[prop] = '';
-  target.style[propTransOrigin] = '';
-}
-
-
-exports.isSupported = isSupported;
-
-function isSupported() {
-  return prop.length > 0;
-}
-
-
-function style(target) {
-  return target.style[prop];
-}
-
-
-function numToString(value) {
-  if (typeof value === 'number') {
-    value += '';
-  } else {
-    value = trim(value);
+    return s[prefix(props)];
   }
 
-  return value;
+  if (!props) {
+    props = getPropertiesName();
+  }
+
+  var values = {};
+  props.forEach(function(propName) {
+    values[propName] = s[prefix(propName)];
+  });
+
+  return values;
 }
 
-},{"./lib/properties":17,"prefix":75,"trim":84}],16:[function(require,module,exports){
-'use strict';
+exports.reset = reset;
+function reset(target, props) {
+  var s = target.style;
 
-exports = module.exports = compose;
+  if (typeof props === 'string') {
+    s[prefix(props)] = null;
+    return;
+  }
 
-function compose() {
-  var funcs = arguments;
+  if (!props) {
+    props = getPropertiesName();
+  }
 
-  return function() {
-    var args = arguments;
-    for (var i = funcs.length-1; i >= 0; i--) {
-      args = [funcs[i].apply(this, args)];
+  props.forEach(function(propName) {
+    s[prefix(propName)] = null;
+  });
+}
+
+exports.isSupported = isSupported;
+function isSupported() {
+  return transformProp.length > 0;
+}
+
+function replaceAliases(obj) {
+  var propName;
+  for (propName in obj) {
+    if (_has.call(propNameAliases, propName)) {
+      obj[propNameAliases[propName]] = obj[propName];
+      delete obj[propName];
     }
-    return args[0];
-  };
+  }
 }
 
-},{}],17:[function(require,module,exports){
+function getPropertiesName() {
+  return Object.keys(properties).map(function(propName) {
+    return propName;
+  });
+}
+
+},{"./lib/default-unit":18,"./lib/properties":19,"is-array":35,"prefix":71}],18:[function(require,module,exports){
 'use strict';
 
 var trim = require('trim');
-var compose = require('./compose');
-
 var NUMBER_REGEX = /^-?\d+(\.\d+)?$/;
 
-module.exports = {
-  translate: compose(function(value) {
-    return 'translate(' + value + ')';
-  }, defaultUnit('px'), comma),
+module.exports = function(value, unit, separator) {
+  separator = separator || ',';
 
-  translate3d: compose(function(value) {
-    return 'translate3d(' + value + ')';
-  }, defaultUnit('px'), comma),
-
-  translateX: compose(function(x) {
-    return 'translateX(' + x + ')';
-  }, defaultUnit('px')),
-
-  translateY: compose(function(y) {
-    return 'translateY(' + y + ')';
-  }, defaultUnit('px')),
-
-  translateZ: compose(function(z) {
-    return 'translateZ(' + z + ')';
-  }, defaultUnit('px')),
-
-
-  scale: compose(function(value) {
-    return 'scale(' + value + ')';
-  }, comma),
-
-  scale3d: compose(function(value) {
-    return 'scale3d(' + value + ')';
-  }, comma),
-
-  scaleX: function(value) {
-    return 'scaleX(' + value + ')';
-  },
-
-  scaleY: function(value) {
-    return 'scaleY(' + value + ')';
-  },
-
-  scaleZ: function(value) {
-    return 'scaleZ(' + value + ')';
-  },
-
-
-  rotate: compose(function(value) {
-    return 'rotate(' + value + ')';
-  }, defaultUnit('deg'), comma),
-
-  rotate3d: compose(function(value) {
-    return 'rotate3d(' + value + ')';
-  }, comma),
-
-  rotateX: compose(function(value) {
-    return 'rotateX(' + value + ')';
-  }, defaultUnit('deg')),
-
-  rotateY: compose(function(value) {
-    return 'rotateY(' + value + ')';
-  }, defaultUnit('deg')),
-
-  rotateZ: compose(function(value) {
-    return 'rotateZ(' + value + ')';
-  }, defaultUnit('deg')),
-
-
-  skew: compose(function(value) {
-    return 'skew(' + value + ')';
-  }, defaultUnit('deg'), comma),
-
-  skewX: compose(function(value) {
-    return 'skewX(' + value + ')';
-  }, defaultUnit('deg')),
-
-  skewY: compose(function(value) {
-    return 'skewY(' + value + ')';
-  }, defaultUnit('deg')),
-
-
-  matrix: compose(function(value) {
-    return 'matrix(' + value + ')';
-  }, comma),
-
-  matrix3d: compose(function(value) {
-    return 'matrix3d(' + value + ')';
-  }, comma),
-
-
-  perspective: compose(function(value) {
-    return 'perspective(' + value + ')';
-  }, defaultUnit('px')),
-};
-
-
-function comma(value) {
-  if (!/,/.test(value)) {
-    value = value.split(' ').join(',');
+  if (typeof value === 'number') {
+    return '' + value + unit;
   }
 
-  return value;
-}
+  // Allow to use either the defined separator or space
+  // to delimitate the values.
+  // Ex: '10 10' or '10, 10'.
+  var separatorRegExp = new RegExp(separator, 'g');
+  var values = value.split(separatorRegExp.test(value) ? separator : ' ');
 
+  return values.map(function(v) {
+    v = trim(v);
 
-function defaultUnit(unit) {
-  return function(value) {
-    return value.split(',').map(function(v) {
-      v = trim(v);
+    if (NUMBER_REGEX.test(v)) {
+      v += unit;
+    }
 
-      if (NUMBER_REGEX.test(v)) {
-        v += unit;
-      }
+    return v;
+  }).join(separator);
+};
 
-      return v;
-    }).join(',');
-  };
-}
+},{"trim":78}],19:[function(require,module,exports){
+'use strict';
 
-},{"./compose":16,"trim":84}],18:[function(require,module,exports){
+module.exports = {
+  transform: {
+    translate: {defaultUnit: 'px'},
+    translate3d: {defaultUnit: 'px'},
+    translateX: {defaultUnit: 'px'},
+    translateY: {defaultUnit: 'px'},
+    translateZ: {defaultUnit: 'px'},
+    scale: {defaultUnit: ''},
+    scale3d: {defaultUnit: ''},
+    scaleX: {defaultUnit: ''},
+    scaleY: {defaultUnit: ''},
+    scaleZ: {defaultUnit: ''},
+    rotate: {defaultUnit: 'deg'},
+    rotate3d: {defaultUnit: ''},
+    rotateX: {defaultUnit: 'deg'},
+    rotateY: {defaultUnit: 'deg'},
+    rotateZ: {defaultUnit: 'deg'},
+    skew: {defaultUnit: 'deg'},
+    skewX: {defaultUnit: 'deg'},
+    skewY: {defaultUnit: 'deg'},
+    perspective: {defaultUnit: 'px'},
+    matrix: {defaultUnit: ''},
+    matrix3d: {defaultUnit: ''}
+  },
+
+  transformOrigin: {
+    defaultUnit: 'px',
+    separator: ' '
+  }
+};
+
+},{}],20:[function(require,module,exports){
 module.exports = dragDrop
 
 var flatten = require('flatten')
@@ -1587,7 +3471,7 @@ function toArray (list) {
   return Array.prototype.slice.call(list || [], 0)
 }
 
-},{"flatten":23,"run-parallel":78}],19:[function(require,module,exports){
+},{"flatten":25,"run-parallel":74}],21:[function(require,module,exports){
 var camelize = require("camelize")
 var template = require("string-template")
 var extend = require("xtend/mutable")
@@ -1637,7 +3521,7 @@ function TypedError(args) {
 }
 
 
-},{"camelize":7,"string-template":82,"xtend/mutable":118}],20:[function(require,module,exports){
+},{"camelize":9,"string-template":76,"xtend/mutable":112}],22:[function(require,module,exports){
 'use strict';
 
 var OneVersionConstraint = require('individual/one-version');
@@ -1659,7 +3543,7 @@ function EvStore(elem) {
     return hash;
 }
 
-},{"individual/one-version":22}],21:[function(require,module,exports){
+},{"individual/one-version":24}],23:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1682,7 +3566,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var Individual = require('./index.js');
@@ -1706,7 +3590,7 @@ function OneVersion(moduleName, version, defaultValue) {
     return Individual(key, defaultValue);
 }
 
-},{"./index.js":21}],23:[function(require,module,exports){
+},{"./index.js":23}],25:[function(require,module,exports){
 module.exports = function flatten(list, depth) {
   depth = (typeof depth == 'number') ? depth : Infinity;
 
@@ -1731,7 +3615,7 @@ module.exports = function flatten(list, depth) {
   }
 };
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var isFunction = require('is-function')
 
 module.exports = forEach
@@ -1779,7 +3663,7 @@ function forEachObject(object, iterator, context) {
     }
 }
 
-},{"is-function":32}],25:[function(require,module,exports){
+},{"is-function":37}],27:[function(require,module,exports){
 (function (global){
 var topLevel = typeof global !== 'undefined' ? global :
     typeof window !== 'undefined' ? window : {}
@@ -1798,7 +3682,7 @@ if (typeof document !== 'undefined') {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":3}],26:[function(require,module,exports){
+},{"min-document":4}],28:[function(require,module,exports){
 (function (global){
 if (typeof window !== "undefined") {
     module.exports = window;
@@ -1811,7 +3695,7 @@ if (typeof window !== "undefined") {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
 https://highlightjs.org/
@@ -2631,7 +4515,7 @@ https://highlightjs.org/
   return hljs;
 }));
 
-},{}],28:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 module.exports = function(hljs) {
   var LITERALS = {literal: 'true false null'};
   var TYPES = [
@@ -2668,9 +4552,95 @@ module.exports = function(hljs) {
     illegal: '\\S'
   };
 };
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var css = "/*\nMonokai style - ported by Luigi Maselli - http://grigio.org\n*/\n.hljs {\n  display: block;\n  overflow-x: auto;\n  padding: 0.5em;\n  background: #272822;\n  color: #ddd;\n}\n.hljs-tag,\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-literal,\n.hljs-strong,\n.hljs-name {\n  color: #f92672;\n}\n.hljs-code {\n  color: #66d9ef;\n}\n.hljs-class .hljs-title {\n  color: white;\n}\n.hljs-attribute,\n.hljs-symbol,\n.hljs-regexp,\n.hljs-link {\n  color: #bf79db;\n}\n.hljs-string,\n.hljs-bullet,\n.hljs-subst,\n.hljs-title,\n.hljs-section,\n.hljs-emphasis,\n.hljs-type,\n.hljs-built_in,\n.hljs-builtin-name,\n.hljs-selector-attr,\n.hljs-selector-pseudo,\n.hljs-addition,\n.hljs-variable,\n.hljs-template-tag,\n.hljs-template-variable {\n  color: #a6e22e;\n}\n.hljs-comment,\n.hljs-quote,\n.hljs-deletion,\n.hljs-meta {\n  color: #75715e;\n}\n.hljs-keyword,\n.hljs-selector-tag,\n.hljs-literal,\n.hljs-doctag,\n.hljs-title,\n.hljs-section,\n.hljs-type,\n.hljs-selector-id {\n  font-weight: bold;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/highlight.js/styles/monokai.css" }, { "insertAt": "bottom" })); module.exports = css;
-},{"browserify-css":5}],30:[function(require,module,exports){
+},{"browserify-css":6}],32:[function(require,module,exports){
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+},{}],33:[function(require,module,exports){
 (function (global){
 var root = typeof window !== 'undefined' ?
     window : typeof global !== 'undefined' ?
@@ -2692,7 +4662,7 @@ function Individual(key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -2717,7 +4687,65 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],32:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
+
+/**
+ * isArray
+ */
+
+var isArray = Array.isArray;
+
+/**
+ * toString
+ */
+
+var str = Object.prototype.toString;
+
+/**
+ * Whether or not the given `val`
+ * is an array.
+ *
+ * example:
+ *
+ *        isArray([]);
+ *        // > true
+ *        isArray(arguments);
+ *        // > false
+ *        isArray('');
+ *        // > false
+ *
+ * @param {mixed} val
+ * @return {bool}
+ */
+
+module.exports = isArray || function (val) {
+  return !! val && '[object Array]' == str.call(val);
+};
+
+},{}],36:[function(require,module,exports){
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
+},{}],37:[function(require,module,exports){
 module.exports = isFunction
 
 var toString = Object.prototype.toString
@@ -2734,7 +4762,7 @@ function isFunction (fn) {
       fn === window.prompt))
 };
 
-},{}],33:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /*!
  * is-number <https://github.com/jonschlinkert/is-number>
  *
@@ -2744,29 +4772,41 @@ function isFunction (fn) {
 
 'use strict';
 
-module.exports = function isNumber(n) {
-  return (!!(+n) && !Array.isArray(n)) && isFinite(n)
-    || n === '0'
-    || n === 0;
+var typeOf = require('kind-of');
+
+module.exports = function isNumber(num) {
+  var type = typeOf(num);
+  if (type !== 'number' && type !== 'string') {
+    return false;
+  }
+  var n = +num;
+  return (n - n + 1) >= 0 && num !== '';
 };
 
-},{}],34:[function(require,module,exports){
+},{"kind-of":42}],39:[function(require,module,exports){
 "use strict";
 
 module.exports = function isObject(x) {
 	return typeof x === "object" && x !== null;
 };
 
-},{}],35:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],41:[function(require,module,exports){
 /**
-* JSONfn - javascript (both node.js and browser) plugin to stringify, 
+* JSONfn - javascript (both node.js and browser) plugin to stringify,
 *          parse and clone objects with Functions, Regexp and Date.
-*  
-* Version - 0.60.00
-* Copyright (c) 2012 - 2014 Vadim Kiryukhin
+*
+* Version - 1.1.0
+* Copyright (c) Vadim Kiryukhin
 * vkiryukhin @ gmail.com
 * http://www.eslinstructor.net/jsonfn/
-* 
+*
 * Licensed under the MIT license ( http://www.opensource.org/licenses/mit-license.php )
 *
 *   USAGE:
@@ -2783,20 +4823,27 @@ module.exports = function isObject(x) {
 *
 *
 *     @obj      -  Object;
-*     @str      -  String, which is returned by JSONfn.stringify() function; 
+*     @str      -  String, which is returned by JSONfn.stringify() function;
 *     @date2obj - Boolean (optional); if true, date string in ISO8061 format
 *                 is converted into a Date object; otherwise, it is left as a String.
 */
 
-"use strict";
-
 (function (exports) {
+"use strict";
 
   exports.stringify = function (obj) {
 
     return JSON.stringify(obj, function (key, value) {
+      var fnBody;
       if (value instanceof Function || typeof value == 'function') {
-        return value.toString();
+
+
+        fnBody = value.toString();
+
+        if (fnBody.length < 8 || fnBody.substring(0, 8) !== 'function') { //this is ES6 Arrow Function
+          return '_NuFrRa_' + fnBody;
+        }
+        return fnBody;
       }
       if (value instanceof RegExp) {
         return '_PxEgEr_' + value;
@@ -2830,6 +4877,9 @@ module.exports = function isObject(x) {
       if (prefix === '_PxEgEr_') {
         return eval(value.slice(8));
       }
+      if (prefix === '_NuFrRa_') {
+        return eval(value.slice(8));
+      }
 
       return value;
     });
@@ -2843,1159 +4893,124 @@ module.exports = function isObject(x) {
 
 
 
-},{}],36:[function(require,module,exports){
-/**
- * lodash 3.0.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var isFunction = require('lodash.isfunction');
-
-/**
- * The base implementation of `_.functions` which creates an array of
- * `object` function property names filtered from those provided.
- *
- * @private
- * @param {Object} object The object to inspect.
- * @param {Array} props The property names to filter.
- * @returns {Array} Returns the new array of filtered property names.
- */
-function baseFunctions(object, props) {
-  var index = -1,
-      length = props.length,
-      resIndex = -1,
-      result = [];
-
-  while (++index < length) {
-    var key = props[index];
-    if (isFunction(object[key])) {
-      result[++resIndex] = key;
-    }
-  }
-  return result;
-}
-
-module.exports = baseFunctions;
-
-},{"lodash.isfunction":54}],37:[function(require,module,exports){
-/**
- * lodash 3.2.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var root = require('lodash._root');
-
-/** Used to compose bitmasks for wrapper metadata. */
-var BIND_FLAG = 1,
-    BIND_KEY_FLAG = 2,
-    CURRY_BOUND_FLAG = 4,
-    CURRY_FLAG = 8,
-    CURRY_RIGHT_FLAG = 16,
-    PARTIAL_FLAG = 32,
-    PARTIAL_RIGHT_FLAG = 64,
-    ARY_FLAG = 128,
-    FLIP_FLAG = 512;
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0,
-    MAX_SAFE_INTEGER = 9007199254740991,
-    MAX_INTEGER = 1.7976931348623157e+308,
-    NAN = 0 / 0;
-
-/** Used as the internal argument placeholder. */
-var PLACEHOLDER = '__lodash_placeholder__';
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
- *
- * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {...*} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
- */
-function apply(func, thisArg, args) {
-  var length = args.length;
-  switch (length) {
-    case 0: return func.call(thisArg);
-    case 1: return func.call(thisArg, args[0]);
-    case 2: return func.call(thisArg, args[0], args[1]);
-    case 3: return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-/**
- * Replaces all `placeholder` elements in `array` with an internal placeholder
- * and returns an array of their indexes.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {*} placeholder The placeholder to replace.
- * @returns {Array} Returns the new array of placeholder indexes.
- */
-function replaceHolders(array, placeholder) {
-  var index = -1,
-      length = array.length,
-      resIndex = -1,
-      result = [];
-
-  while (++index < length) {
-    if (array[index] === placeholder) {
-      array[index] = PLACEHOLDER;
-      result[++resIndex] = index;
-    }
-  }
-  return result;
-}
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * The base implementation of `_.create` without support for assigning
- * properties to the created object.
- *
- * @private
- * @param {Object} prototype The object to inherit from.
- * @returns {Object} Returns the new object.
- */
-var baseCreate = (function() {
-  function object() {}
-  return function(prototype) {
-    if (isObject(prototype)) {
-      object.prototype = prototype;
-      var result = new object;
-      object.prototype = undefined;
-    }
-    return result || {};
-  };
-}());
-
-/**
- * Creates an array that is the composition of partially applied arguments,
- * placeholders, and provided arguments into a single array of arguments.
- *
- * @private
- * @param {Array|Object} args The provided arguments.
- * @param {Array} partials The arguments to prepend to those provided.
- * @param {Array} holders The `partials` placeholder indexes.
- * @returns {Array} Returns the new array of composed arguments.
- */
-function composeArgs(args, partials, holders) {
-  var holdersLength = holders.length,
-      argsIndex = -1,
-      argsLength = nativeMax(args.length - holdersLength, 0),
-      leftIndex = -1,
-      leftLength = partials.length,
-      result = Array(leftLength + argsLength);
-
-  while (++leftIndex < leftLength) {
-    result[leftIndex] = partials[leftIndex];
-  }
-  while (++argsIndex < holdersLength) {
-    result[holders[argsIndex]] = args[argsIndex];
-  }
-  while (argsLength--) {
-    result[leftIndex++] = args[argsIndex++];
-  }
-  return result;
-}
-
-/**
- * This function is like `composeArgs` except that the arguments composition
- * is tailored for `_.partialRight`.
- *
- * @private
- * @param {Array|Object} args The provided arguments.
- * @param {Array} partials The arguments to append to those provided.
- * @param {Array} holders The `partials` placeholder indexes.
- * @returns {Array} Returns the new array of composed arguments.
- */
-function composeArgsRight(args, partials, holders) {
-  var holdersIndex = -1,
-      holdersLength = holders.length,
-      argsIndex = -1,
-      argsLength = nativeMax(args.length - holdersLength, 0),
-      rightIndex = -1,
-      rightLength = partials.length,
-      result = Array(argsLength + rightLength);
-
-  while (++argsIndex < argsLength) {
-    result[argsIndex] = args[argsIndex];
-  }
-  var offset = argsIndex;
-  while (++rightIndex < rightLength) {
-    result[offset + rightIndex] = partials[rightIndex];
-  }
-  while (++holdersIndex < holdersLength) {
-    result[offset + holders[holdersIndex]] = args[argsIndex++];
-  }
-  return result;
-}
-
-/**
- * Copies the values of `source` to `array`.
- *
- * @private
- * @param {Array} source The array to copy values from.
- * @param {Array} [array=[]] The array to copy values to.
- * @returns {Array} Returns `array`.
- */
-function copyArray(source, array) {
-  var index = -1,
-      length = source.length;
-
-  array || (array = Array(length));
-  while (++index < length) {
-    array[index] = source[index];
-  }
-  return array;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with the optional `this`
- * binding of `thisArg`.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createBaseWrapper(func, bitmask, thisArg) {
-  var isBind = bitmask & BIND_FLAG,
-      Ctor = createCtorWrapper(func);
-
-  function wrapper() {
-    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-    return fn.apply(isBind ? thisArg : this, arguments);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that produces an instance of `Ctor` regardless of
- * whether it was invoked as part of a `new` expression or by `call` or `apply`.
- *
- * @private
- * @param {Function} Ctor The constructor to wrap.
- * @returns {Function} Returns the new wrapped function.
- */
-function createCtorWrapper(Ctor) {
-  return function() {
-    // Use a `switch` statement to work with class constructors.
-    // See http://ecma-international.org/ecma-262/6.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
-    // for more details.
-    var args = arguments;
-    switch (args.length) {
-      case 0: return new Ctor;
-      case 1: return new Ctor(args[0]);
-      case 2: return new Ctor(args[0], args[1]);
-      case 3: return new Ctor(args[0], args[1], args[2]);
-      case 4: return new Ctor(args[0], args[1], args[2], args[3]);
-      case 5: return new Ctor(args[0], args[1], args[2], args[3], args[4]);
-      case 6: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
-      case 7: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
-    }
-    var thisBinding = baseCreate(Ctor.prototype),
-        result = Ctor.apply(thisBinding, args);
-
-    // Mimic the constructor's `return` behavior.
-    // See https://es5.github.io/#x13.2.2 for more details.
-    return isObject(result) ? result : thisBinding;
-  };
-}
-
-/**
- * Creates a function that wraps `func` to enable currying.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
- * @param {number} arity The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createCurryWrapper(func, bitmask, arity) {
-  var Ctor = createCtorWrapper(func);
-
-  function wrapper() {
-    var length = arguments.length,
-        index = length,
-        args = Array(length),
-        fn = (this && this !== root && this instanceof wrapper) ? Ctor : func,
-        placeholder = wrapper.placeholder;
-
-    while (index--) {
-      args[index] = arguments[index];
-    }
-    var holders = (length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder)
-      ? []
-      : replaceHolders(args, placeholder);
-
-    length -= holders.length;
-    return length < arity
-      ? createRecurryWrapper(func, bitmask, createHybridWrapper, placeholder, undefined, args, holders, undefined, undefined, arity - length)
-      : apply(fn, this, args);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with optional `this`
- * binding of `thisArg`, partial application, and currying.
- *
- * @private
- * @param {Function|string} func The function or method name to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {Array} [partials] The arguments to prepend to those provided to the new function.
- * @param {Array} [holders] The `partials` placeholder indexes.
- * @param {Array} [partialsRight] The arguments to append to those provided to the new function.
- * @param {Array} [holdersRight] The `partialsRight` placeholder indexes.
- * @param {Array} [argPos] The argument positions of the new function.
- * @param {number} [ary] The arity cap of `func`.
- * @param {number} [arity] The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createHybridWrapper(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
-  var isAry = bitmask & ARY_FLAG,
-      isBind = bitmask & BIND_FLAG,
-      isBindKey = bitmask & BIND_KEY_FLAG,
-      isCurry = bitmask & CURRY_FLAG,
-      isCurryRight = bitmask & CURRY_RIGHT_FLAG,
-      isFlip = bitmask & FLIP_FLAG,
-      Ctor = isBindKey ? undefined : createCtorWrapper(func);
-
-  function wrapper() {
-    var length = arguments.length,
-        index = length,
-        args = Array(length);
-
-    while (index--) {
-      args[index] = arguments[index];
-    }
-    if (partials) {
-      args = composeArgs(args, partials, holders);
-    }
-    if (partialsRight) {
-      args = composeArgsRight(args, partialsRight, holdersRight);
-    }
-    if (isCurry || isCurryRight) {
-      var placeholder = wrapper.placeholder,
-          argsHolders = replaceHolders(args, placeholder);
-
-      length -= argsHolders.length;
-      if (length < arity) {
-        return createRecurryWrapper(func, bitmask, createHybridWrapper, placeholder, thisArg, args, argsHolders, argPos, ary, arity - length);
-      }
-    }
-    var thisBinding = isBind ? thisArg : this,
-        fn = isBindKey ? thisBinding[func] : func;
-
-    if (argPos) {
-      args = reorder(args, argPos);
-    } else if (isFlip && args.length > 1) {
-      args.reverse();
-    }
-    if (isAry && ary < args.length) {
-      args.length = ary;
-    }
-    if (this && this !== root && this instanceof wrapper) {
-      fn = Ctor || createCtorWrapper(fn);
-    }
-    return fn.apply(thisBinding, args);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with the optional `this`
- * binding of `thisArg` and the `partials` prepended to those provided to
- * the wrapper.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {Array} partials The arguments to prepend to those provided to the new function.
- * @returns {Function} Returns the new wrapped function.
- */
-function createPartialWrapper(func, bitmask, thisArg, partials) {
-  var isBind = bitmask & BIND_FLAG,
-      Ctor = createCtorWrapper(func);
-
-  function wrapper() {
-    var argsIndex = -1,
-        argsLength = arguments.length,
-        leftIndex = -1,
-        leftLength = partials.length,
-        args = Array(leftLength + argsLength),
-        fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-
-    while (++leftIndex < leftLength) {
-      args[leftIndex] = partials[leftIndex];
-    }
-    while (argsLength--) {
-      args[leftIndex++] = arguments[++argsIndex];
-    }
-    return apply(fn, isBind ? thisArg : this, args);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to continue currying.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask of wrapper flags. See `createWrapper` for more details.
- * @param {Function} wrapFunc The function to create the `func` wrapper.
- * @param {*} placeholder The placeholder to replace.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {Array} [partials] The arguments to prepend to those provided to the new function.
- * @param {Array} [holders] The `partials` placeholder indexes.
- * @param {Array} [argPos] The argument positions of the new function.
- * @param {number} [ary] The arity cap of `func`.
- * @param {number} [arity] The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createRecurryWrapper(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
-  var isCurry = bitmask & CURRY_FLAG,
-      newArgPos = argPos ? copyArray(argPos) : undefined,
-      newsHolders = isCurry ? holders : undefined,
-      newHoldersRight = isCurry ? undefined : holders,
-      newPartials = isCurry ? partials : undefined,
-      newPartialsRight = isCurry ? undefined : partials;
-
-  bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
-  bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
-
-  if (!(bitmask & CURRY_BOUND_FLAG)) {
-    bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
-  }
-  var result = wrapFunc(func, bitmask, thisArg, newPartials, newsHolders, newPartialsRight, newHoldersRight, newArgPos, ary, arity);
-
-  result.placeholder = placeholder;
-  return result;
-}
-
-/**
- * Creates a function that either curries or invokes `func` with optional
- * `this` binding and partially applied arguments.
- *
- * @private
- * @param {Function|string} func The function or method name to wrap.
- * @param {number} bitmask The bitmask of wrapper flags.
- *  The bitmask may be composed of the following flags:
- *     1 - `_.bind`
- *     2 - `_.bindKey`
- *     4 - `_.curry` or `_.curryRight` of a bound function
- *     8 - `_.curry`
- *    16 - `_.curryRight`
- *    32 - `_.partial`
- *    64 - `_.partialRight`
- *   128 - `_.rearg`
- *   256 - `_.ary`
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {Array} [partials] The arguments to be partially applied.
- * @param {Array} [holders] The `partials` placeholder indexes.
- * @param {Array} [argPos] The argument positions of the new function.
- * @param {number} [ary] The arity cap of `func`.
- * @param {number} [arity] The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createWrapper(func, bitmask, thisArg, partials, holders, argPos, ary, arity) {
-  var isBindKey = bitmask & BIND_KEY_FLAG;
-  if (!isBindKey && typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  var length = partials ? partials.length : 0;
-  if (!length) {
-    bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
-    partials = holders = undefined;
-  }
-  ary = ary === undefined ? ary : nativeMax(toInteger(ary), 0);
-  arity = arity === undefined ? arity : toInteger(arity);
-  length -= holders ? holders.length : 0;
-
-  if (bitmask & PARTIAL_RIGHT_FLAG) {
-    var partialsRight = partials,
-        holdersRight = holders;
-
-    partials = holders = undefined;
-  }
-  var newData = [func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity];
-
-  func = newData[0];
-  bitmask = newData[1];
-  thisArg = newData[2];
-  partials = newData[3];
-  holders = newData[4];
-  arity = newData[9] = newData[9] == null
-    ? (isBindKey ? 0 : func.length)
-    : nativeMax(newData[9] - length, 0);
-
-  if (!arity && bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG)) {
-    bitmask &= ~(CURRY_FLAG | CURRY_RIGHT_FLAG);
-  }
-  if (!bitmask || bitmask == BIND_FLAG) {
-    var result = createBaseWrapper(func, bitmask, thisArg);
-  } else if (bitmask == CURRY_FLAG || bitmask == CURRY_RIGHT_FLAG) {
-    result = createCurryWrapper(func, bitmask, arity);
-  } else if ((bitmask == PARTIAL_FLAG || bitmask == (BIND_FLAG | PARTIAL_FLAG)) && !holders.length) {
-    result = createPartialWrapper(func, bitmask, thisArg, partials);
-  } else {
-    result = createHybridWrapper.apply(undefined, newData);
-  }
-  return result;
-}
-
-/**
- * Reorder `array` according to the specified indexes where the element at
- * the first index is assigned as the first element, the element at
- * the second index is assigned as the second element, and so on.
- *
- * @private
- * @param {Array} array The array to reorder.
- * @param {Array} indexes The arranged array indexes.
- * @returns {Array} Returns `array`.
- */
-function reorder(array, indexes) {
-  var arrLength = array.length,
-      length = nativeMin(indexes.length, arrLength),
-      oldArray = copyArray(array);
-
-  while (length--) {
-    var index = indexes[length];
-    array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
-  }
-  return array;
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Converts `value` to an integer.
- *
- * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted integer.
- * @example
- *
- * _.toInteger(3);
- * // => 3
- *
- * _.toInteger(Number.MIN_VALUE);
- * // => 0
- *
- * _.toInteger(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toInteger('3');
- * // => 3
- */
-function toInteger(value) {
-  if (!value) {
-    return value === 0 ? value : 0;
-  }
-  value = toNumber(value);
-  if (value === INFINITY || value === -INFINITY) {
-    var sign = (value < 0 ? -1 : 1);
-    return sign * MAX_INTEGER;
-  }
-  var remainder = value % 1;
-  return value === value ? (remainder ? value - remainder : value) : 0;
-}
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3);
- * // => 3
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3');
- * // => 3
- */
-function toNumber(value) {
-  if (isObject(value)) {
-    var other = isFunction(value.valueOf) ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = createWrapper;
-
-},{"lodash._root":38}],38:[function(require,module,exports){
-(function (global){
-/**
- * lodash 3.0.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** Used to determine if values are of the language type `Object`. */
-var objectTypes = {
-  'function': true,
-  'object': true
-};
-
-/** Detect free variable `exports`. */
-var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-  ? exports
-  : undefined;
-
-/** Detect free variable `module`. */
-var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-  ? module
-  : undefined;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-/** Detect free variable `self`. */
-var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-/** Detect free variable `window`. */
-var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-/** Detect `this` as the global object. */
-var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-/**
- * Used as a reference to the global object.
- *
- * The `this` value is used if it's the global object to avoid Greasemonkey's
- * restricted `window` object, otherwise the `window` object is used.
- */
-var root = freeGlobal ||
-  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-    freeSelf || thisGlobal || Function('return this')();
-
-/**
- * Checks if `value` is a global object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {null|Object} Returns `value` if it's a global object, else `null`.
- */
-function checkGlobal(value) {
-  return (value && value.Object === Object) ? value : null;
-}
-
-module.exports = root;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],39:[function(require,module,exports){
-/**
- * lodash 3.1.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.2 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var baseFlatten = require('lodash._baseflatten'),
-    createWrapper = require('lodash._createwrapper'),
-    functions = require('lodash.functions'),
-    restParam = require('lodash.restparam');
-
-/** Used to compose bitmasks for wrapper metadata. */
-var BIND_FLAG = 1;
-
-/**
- * Binds methods of an object to the object itself, overwriting the existing
- * method. Method names may be specified as individual arguments or as arrays
- * of method names. If no method names are provided all enumerable function
- * properties, own and inherited, of `object` are bound.
- *
- * **Note:** This method does not set the `length` property of bound functions.
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Object} object The object to bind and assign the bound methods to.
- * @param {...(string|string[])} [methodNames] The object method names to bind,
- *  specified as individual method names or arrays of method names.
- * @returns {Object} Returns `object`.
- * @example
- *
- * var view = {
- *   'label': 'docs',
- *   'onClick': function() {
- *     console.log('clicked ' + this.label);
- *   }
- * };
- *
- * _.bindAll(view);
- * jQuery('#docs').on('click', view.onClick);
- * // => logs 'clicked docs' when the element is clicked
- */
-var bindAll = restParam(function(object, methodNames) {
-  methodNames = methodNames.length ? baseFlatten(methodNames) : functions(object);
-
-  var index = -1,
-      length = methodNames.length;
-
-  while (++index < length) {
-    var key = methodNames[index];
-    object[key] = createWrapper(object[key], BIND_FLAG, object);
-  }
-  return object;
-});
-
-module.exports = bindAll;
-
-},{"lodash._baseflatten":40,"lodash._createwrapper":37,"lodash.functions":47,"lodash.restparam":63}],40:[function(require,module,exports){
-/**
- * lodash 3.1.4 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var isArguments = require('lodash.isarguments'),
-    isArray = require('lodash.isarray');
-
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush(array, values) {
-  var index = -1,
-      length = values.length,
-      offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-}
-
-/**
- * The base implementation of `_.flatten` with added support for restricting
- * flattening and specifying the start index.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {boolean} [isDeep] Specify a deep flatten.
- * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten(array, isDeep, isStrict, result) {
-  result || (result = []);
-
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    var value = array[index];
-    if (isObjectLike(value) && isArrayLike(value) &&
-        (isStrict || isArray(value) || isArguments(value))) {
-      if (isDeep) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, isDeep, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-/**
- * Checks if `value` is array-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value));
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-module.exports = baseFlatten;
-
-},{"lodash.isarguments":50,"lodash.isarray":41}],41:[function(require,module,exports){
-/**
- * lodash 3.0.4 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** `Object#toString` result references. */
-var arrayTag = '[object Array]',
-    funcTag = '[object Function]';
-
-/** Used to detect host constructors (Safari > 5). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/**
- * Checks if `value` is object-like.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var fnToString = Function.prototype.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objToString = objectProto.toString;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeIsArray = getNative(Array, 'isArray');
-
-/**
- * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = object == null ? undefined : object[key];
-  return isNative(value) ? value : undefined;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(function() { return arguments; }());
- * // => false
- */
-var isArray = nativeIsArray || function(value) {
-  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
-};
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in older versions of Chrome and Safari which return 'function' for regexes
-  // and Safari 8 equivalents which return 'object' for typed array constructors.
-  return isObject(value) && objToString.call(value) == funcTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is a native function.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
- * @example
- *
- * _.isNative(Array.prototype.push);
- * // => true
- *
- * _.isNative(_);
- * // => false
- */
-function isNative(value) {
-  if (value == null) {
-    return false;
-  }
-  if (isFunction(value)) {
-    return reIsNative.test(fnToString.call(value));
-  }
-  return isObjectLike(value) && reIsHostCtor.test(value);
-}
-
-module.exports = isArray;
-
 },{}],42:[function(require,module,exports){
+(function (Buffer){
+var isBuffer = require('is-buffer');
+var toString = Object.prototype.toString;
+
+/**
+ * Get the native `typeof` a value.
+ *
+ * @param  {*} `val`
+ * @return {*} Native javascript type
+ */
+
+module.exports = function kindOf(val) {
+  // primitivies
+  if (typeof val === 'undefined') {
+    return 'undefined';
+  }
+  if (val === null) {
+    return 'null';
+  }
+  if (val === true || val === false || val instanceof Boolean) {
+    return 'boolean';
+  }
+  if (typeof val === 'string' || val instanceof String) {
+    return 'string';
+  }
+  if (typeof val === 'number' || val instanceof Number) {
+    return 'number';
+  }
+
+  // functions
+  if (typeof val === 'function' || val instanceof Function) {
+    return 'function';
+  }
+
+  // array
+  if (typeof Array.isArray !== 'undefined' && Array.isArray(val)) {
+    return 'array';
+  }
+
+  // check for instances of RegExp and Date before calling `toString`
+  if (val instanceof RegExp) {
+    return 'regexp';
+  }
+  if (val instanceof Date) {
+    return 'date';
+  }
+
+  // other objects
+  var type = toString.call(val);
+
+  if (type === '[object RegExp]') {
+    return 'regexp';
+  }
+  if (type === '[object Date]') {
+    return 'date';
+  }
+  if (type === '[object Arguments]') {
+    return 'arguments';
+  }
+
+  // buffer
+  if (typeof Buffer !== 'undefined' && isBuffer(val)) {
+    return 'buffer';
+  }
+
+  // es6: Map, WeakMap, Set, WeakSet
+  if (type === '[object Set]') {
+    return 'set';
+  }
+  if (type === '[object WeakSet]') {
+    return 'weakset';
+  }
+  if (type === '[object Map]') {
+    return 'map';
+  }
+  if (type === '[object WeakMap]') {
+    return 'weakmap';
+  }
+  if (type === '[object Symbol]') {
+    return 'symbol';
+  }
+
+  // typed arrays
+  if (type === '[object Int8Array]') {
+    return 'int8array';
+  }
+  if (type === '[object Uint8Array]') {
+    return 'uint8array';
+  }
+  if (type === '[object Uint8ClampedArray]') {
+    return 'uint8clampedarray';
+  }
+  if (type === '[object Int16Array]') {
+    return 'int16array';
+  }
+  if (type === '[object Uint16Array]') {
+    return 'uint16array';
+  }
+  if (type === '[object Int32Array]') {
+    return 'int32array';
+  }
+  if (type === '[object Uint32Array]') {
+    return 'uint32array';
+  }
+  if (type === '[object Float32Array]') {
+    return 'float32array';
+  }
+  if (type === '[object Float64Array]') {
+    return 'float64array';
+  }
+
+  // must be a plain object
+  return 'object';
+};
+
+}).call(this,require("buffer").Buffer)
+},{"buffer":8,"is-buffer":36}],43:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -5747,7 +6762,7 @@ function stubFalse() {
 module.exports = cloneDeep;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -6048,7 +7063,7 @@ function toNumber(value) {
 
 module.exports = drop;
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -8505,7 +9520,7 @@ function property(path) {
 module.exports = find;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -8538,7 +9553,7 @@ function first(array) {
 
 module.exports = first;
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -9105,421 +10120,7 @@ function identity(value) {
 
 module.exports = forEach;
 
-},{}],47:[function(require,module,exports){
-/**
- * lodash 3.0.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.7.0 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var baseFunctions = require('lodash._basefunctions'),
-    keysIn = require('lodash.keysin');
-
-/**
- * Creates an array of function property names from all enumerable properties,
- * own and inherited, of `object`.
- *
- * @static
- * @memberOf _
- * @alias methods
- * @category Object
- * @param {Object} object The object to inspect.
- * @returns {Array} Returns the new array of property names.
- * @example
- *
- * _.functions(_);
- * // => ['all', 'any', 'bind', ...]
- */
-function functions(object) {
-  return baseFunctions(object, keysIn(object));
-}
-
-module.exports = functions;
-
-},{"lodash._basefunctions":36,"lodash.keysin":49}],48:[function(require,module,exports){
-arguments[4][41][0].apply(exports,arguments)
-},{"dup":41}],49:[function(require,module,exports){
-/**
- * lodash 3.0.8 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-var isArguments = require('lodash.isarguments'),
-    isArray = require('lodash.isarray');
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^\d+$/;
-
-/** Used for native method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
- * of an array-like value.
- */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- */
-function isLength(value) {
-  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(1);
- * // => false
- */
-function isObject(value) {
-  // Avoid a V8 JIT bug in Chrome 19-20.
-  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  if (object == null) {
-    return [];
-  }
-  if (!isObject(object)) {
-    object = Object(object);
-  }
-  var length = object.length;
-  length = (length && isLength(length) &&
-    (isArray(object) || isArguments(object)) && length) || 0;
-
-  var Ctor = object.constructor,
-      index = -1,
-      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-      result = Array(length),
-      skipIndexes = length > 0;
-
-  while (++index < length) {
-    result[index] = (index + '');
-  }
-  for (var key in object) {
-    if (!(skipIndexes && isIndex(key, length)) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keysIn;
-
-},{"lodash.isarguments":50,"lodash.isarray":48}],50:[function(require,module,exports){
-/**
- * lodash 3.0.8 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value)) && !isFunction(value);
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array and weak map constructors,
-  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-module.exports = isArguments;
-
-},{}],51:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -9556,7 +10157,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],52:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -10142,7 +10743,7 @@ function stubFalse() {
 module.exports = isEmpty;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],53:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -11795,84 +12396,7 @@ function keys(object) {
 module.exports = isEqual;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],54:[function(require,module,exports){
-/**
- * lodash 3.0.8 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = isFunction;
-
-},{}],55:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11984,7 +12508,7 @@ function isNumber(value) {
 
 module.exports = isNaN;
 
-},{}],56:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -12081,7 +12605,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{}],57:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -12113,7 +12637,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],58:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -12149,7 +12673,7 @@ function join(array, separator) {
 
 module.exports = join;
 
-},{}],59:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -12552,7 +13076,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{}],60:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -14922,7 +15446,7 @@ function property(path) {
 module.exports = map;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],61:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -17133,7 +17657,7 @@ function stubFalse() {
 module.exports = merge;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],62:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -19477,76 +20001,7 @@ function property(path) {
 module.exports = remove;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],63:[function(require,module,exports){
-/**
- * lodash 3.6.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern modularize exports="npm" -o ./`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Native method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Creates a function that invokes `func` with the `this` binding of the
- * created function and arguments from `start` and beyond provided as an array.
- *
- * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters).
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var say = _.restParam(function(what, names) {
- *   return what + ' ' + _.initial(names).join(', ') +
- *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
- * });
- *
- * say('hello', 'fred', 'barney', 'pebbles');
- * // => 'hello fred, barney, & pebbles'
- */
-function restParam(func, start) {
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax(args.length - start, 0),
-        rest = Array(length);
-
-    while (++index < length) {
-      rest[index] = args[start + index];
-    }
-    switch (start) {
-      case 0: return func.call(this, rest);
-      case 1: return func.call(this, args[0], rest);
-      case 2: return func.call(this, args[0], args[1], rest);
-    }
-    var otherArgs = Array(start + 1);
-    index = -1;
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = rest;
-    return func.apply(this, otherArgs);
-  };
-}
-
-module.exports = restParam;
-
-},{}],64:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -20139,7 +20594,7 @@ function isString(value) {
 module.exports = size;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],65:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -20603,7 +21058,7 @@ function toNumber(value) {
 
 module.exports = slice;
 
-},{}],66:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -21168,7 +21623,7 @@ function split(string, separator, limit) {
 module.exports = split;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],67:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -21334,7 +21789,7 @@ function toLower(value) {
 module.exports = toLower;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],68:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -21727,7 +22182,7 @@ function trim(string, chars, guard) {
 module.exports = trim;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],69:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -22912,7 +23367,1062 @@ function noop() {
 module.exports = union;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],70:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
+(function (global){
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/**
+ * A faster alternative to `Function#apply`, this function invokes `func`
+ * with the `this` binding of `thisArg` and the arguments of `args`.
+ *
+ * @private
+ * @param {Function} func The function to invoke.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {Array} args The arguments to invoke `func` with.
+ * @returns {*} Returns the result of `func`.
+ */
+function apply(func, thisArg, args) {
+  switch (args.length) {
+    case 0: return func.call(thisArg);
+    case 1: return func.call(thisArg, args[0]);
+    case 2: return func.call(thisArg, args[0], args[1]);
+    case 3: return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+
+/**
+ * A specialized version of `_.includes` for arrays without support for
+ * specifying an index to search from.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludes(array, value) {
+  var length = array ? array.length : 0;
+  return !!length && baseIndexOf(array, value, 0) > -1;
+}
+
+/**
+ * This function is like `arrayIncludes` except that it accepts a comparator.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @param {Function} comparator The comparator invoked per element.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludesWith(array, value, comparator) {
+  var index = -1,
+      length = array ? array.length : 0;
+
+  while (++index < length) {
+    if (comparator(value, array[index])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * A specialized version of `_.map` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array ? array.length : 0,
+      result = Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  if (value !== value) {
+    return baseFindIndex(array, baseIsNaN, fromIndex);
+  }
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.isNaN` without support for number objects.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ */
+function baseIsNaN(value) {
+  return value !== value;
+}
+
+/**
+ * The base implementation of `_.unary` without support for storing metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+/**
+ * Checks if a cache value for `key` exists.
+ *
+ * @private
+ * @param {Object} cache The cache to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype,
+    funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/* Built-in method references that are verified to be native. */
+var Map = getNative(root, 'Map'),
+    nativeCreate = getNative(Object, 'create');
+
+/**
+ * Creates a hash object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Hash(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+function hashClear() {
+  this.__data__ = nativeCreate ? nativeCreate(null) : {};
+}
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(key) {
+  return this.has(key) && delete this.__data__[key];
+}
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Hash
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(key) {
+  var data = this.__data__;
+  if (nativeCreate) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(data, key) ? data[key] : undefined;
+}
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Hash
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(key) {
+  var data = this.__data__;
+  return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
+}
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+function hashSet(key, value) {
+  var data = this.__data__;
+  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  return this;
+}
+
+// Add methods to `Hash`.
+Hash.prototype.clear = hashClear;
+Hash.prototype['delete'] = hashDelete;
+Hash.prototype.get = hashGet;
+Hash.prototype.has = hashHas;
+Hash.prototype.set = hashSet;
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+}
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  return true;
+}
+
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  return index < 0 ? undefined : data[index][1];
+}
+
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function listCacheHas(key) {
+  return assocIndexOf(this.__data__, key) > -1;
+}
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function MapCache(entries) {
+  var index = -1,
+      length = entries ? entries.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapCacheClear() {
+  this.__data__ = {
+    'hash': new Hash,
+    'map': new (Map || ListCache),
+    'string': new Hash
+  };
+}
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapCacheDelete(key) {
+  return getMapData(this, key)['delete'](key);
+}
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapCacheGet(key) {
+  return getMapData(this, key).get(key);
+}
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapCacheHas(key) {
+  return getMapData(this, key).has(key);
+}
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapCacheSet(key, value) {
+  getMapData(this, key).set(key, value);
+  return this;
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapCacheClear;
+MapCache.prototype['delete'] = mapCacheDelete;
+MapCache.prototype.get = mapCacheGet;
+MapCache.prototype.has = mapCacheHas;
+MapCache.prototype.set = mapCacheSet;
+
+/**
+ *
+ * Creates an array cache object to store unique values.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function SetCache(values) {
+  var index = -1,
+      length = values ? values.length : 0;
+
+  this.__data__ = new MapCache;
+  while (++index < length) {
+    this.add(values[index]);
+  }
+}
+
+/**
+ * Adds `value` to the array cache.
+ *
+ * @private
+ * @name add
+ * @memberOf SetCache
+ * @alias push
+ * @param {*} value The value to cache.
+ * @returns {Object} Returns the cache instance.
+ */
+function setCacheAdd(value) {
+  this.__data__.set(value, HASH_UNDEFINED);
+  return this;
+}
+
+/**
+ * Checks if `value` is in the array cache.
+ *
+ * @private
+ * @name has
+ * @memberOf SetCache
+ * @param {*} value The value to search for.
+ * @returns {number} Returns `true` if `value` is found, else `false`.
+ */
+function setCacheHas(value) {
+  return this.__data__.has(value);
+}
+
+// Add methods to `SetCache`.
+SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+SetCache.prototype.has = setCacheHas;
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of methods like `_.difference` without support
+ * for excluding multiple arrays or iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Array} values The values to exclude.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @param {Function} [comparator] The comparator invoked per element.
+ * @returns {Array} Returns the new array of filtered values.
+ */
+function baseDifference(array, values, iteratee, comparator) {
+  var index = -1,
+      includes = arrayIncludes,
+      isCommon = true,
+      length = array.length,
+      result = [],
+      valuesLength = values.length;
+
+  if (!length) {
+    return result;
+  }
+  if (iteratee) {
+    values = arrayMap(values, baseUnary(iteratee));
+  }
+  if (comparator) {
+    includes = arrayIncludesWith;
+    isCommon = false;
+  }
+  else if (values.length >= LARGE_ARRAY_SIZE) {
+    includes = cacheHas;
+    isCommon = false;
+    values = new SetCache(values);
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee ? iteratee(value) : value;
+
+    value = (comparator || value !== 0) ? value : 0;
+    if (isCommon && computed === computed) {
+      var valuesIndex = valuesLength;
+      while (valuesIndex--) {
+        if (values[valuesIndex] === computed) {
+          continue outer;
+        }
+      }
+      result.push(value);
+    }
+    else if (!includes(values, computed, comparator)) {
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ */
+function baseRest(func, start) {
+  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    index = -1;
+    var otherArgs = Array(start + 1);
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = array;
+    return apply(func, this, otherArgs);
+  };
+}
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+    ? (value !== '__proto__')
+    : (value === null);
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to process.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Creates an array excluding all given values using
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons.
+ *
+ * **Note:** Unlike `_.pull`, this method returns a new array.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @param {...*} [values] The values to exclude.
+ * @returns {Array} Returns the new array of filtered values.
+ * @see _.difference, _.xor
+ * @example
+ *
+ * _.without([2, 1, 2, 3], 1, 2);
+ * // => [3]
+ */
+var without = baseRest(function(array, values) {
+  return isArrayLikeObject(array)
+    ? baseDifference(array, values)
+    : [];
+});
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = without;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],66:[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
 
@@ -22994,7 +24504,7 @@ function main(initialState, view, opts) {
     }
 }
 
-},{"error/typed":19,"raf":77}],71:[function(require,module,exports){
+},{"error/typed":21,"raf":73}],67:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -23028,7 +24538,7 @@ function main(initialState, view, opts) {
 
 }).call(this);
 
-},{"backbone-events-standalone":2}],72:[function(require,module,exports){
+},{"backbone-events-standalone":2}],68:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -24433,7 +25943,7 @@ function main(initialState, view, opts) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],73:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 var trim = require('trim')
   , forEach = require('for-each')
   , isArray = function(arg) {
@@ -24465,7 +25975,7 @@ module.exports = function (headers) {
 
   return result
 }
-},{"for-each":24,"trim":84}],74:[function(require,module,exports){
+},{"for-each":26,"trim":78}],70:[function(require,module,exports){
 (function (process){
 // Generated by CoffeeScript 1.6.3
 (function() {
@@ -24505,14 +26015,78 @@ module.exports = function (headers) {
 */
 
 }).call(this,require('_process'))
-},{"_process":76}],75:[function(require,module,exports){
-function identity(x) { return x; }
+},{"_process":72}],71:[function(require,module,exports){
+// check document first so it doesn't error in node.js
+var style = typeof document != 'undefined'
+  ? document.createElement('p').style
+  : {}
 
-module.exports = identity;
-module.exports.dash = identity;
-module.exports.dash = identity;
+var prefixes = ['O', 'ms', 'Moz', 'Webkit']
+var upper = /([A-Z])/g
+var memo = {}
 
-},{}],76:[function(require,module,exports){
+/**
+ * prefix `key`
+ *
+ *   prefix('transform') // => WebkitTransform
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+function prefix(key){
+  // Camel case
+  key = key.replace(/-([a-z])/g, function(_, char){
+    return char.toUpperCase()
+  })
+
+  // Without prefix
+  if (style[key] !== undefined) return key
+
+  // With prefix
+  var Key = key.charAt(0).toUpperCase() + key.slice(1)
+  var i = prefixes.length
+  while (i--) {
+    var name = prefixes[i] + Key
+    if (style[name] !== undefined) return name
+  }
+
+  return key
+}
+
+/**
+ * Memoized version of `prefix`
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+function prefixMemozied(key){
+  return key in memo
+    ? memo[key]
+    : memo[key] = prefix(key)
+}
+
+/**
+ * Create a dashed prefix
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+function prefixDashed(key){
+  key = prefix(key)
+  if (upper.test(key)) {
+    key = '-' + key.replace(upper, '-$1')
+    upper.lastIndex = 0
+  }
+  return key.toLowerCase()
+}
+
+module.exports = prefixMemozied
+module.exports.dash = prefixDashed
+
+},{}],72:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -24694,7 +26268,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],77:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 var now = require('performance-now')
   , global = typeof window === 'undefined' ? {} : window
   , vendors = ['moz', 'webkit']
@@ -24776,7 +26350,7 @@ module.exports.cancel = function() {
   caf.apply(global, arguments)
 }
 
-},{"performance-now":74}],78:[function(require,module,exports){
+},{"performance-now":70}],74:[function(require,module,exports){
 (function (process){
 module.exports = function (tasks, cb) {
   var results, pending, keys
@@ -24826,45 +26400,53 @@ module.exports = function (tasks, cb) {
 }
 
 }).call(this,require('_process'))
-},{"_process":76}],79:[function(require,module,exports){
+},{"_process":72}],75:[function(require,module,exports){
 'use strict';
 
-var bindAll = require('lodash.bindall');
-var transform = require('dom-transform');
-var tinycolor = require('tinycolor2');
+(function() {
+
 var Emitter = require('component-emitter');
 var isNumber = require('is-number');
-var clamp = require('./src/utils/maths/clamp');
+var tinycolor = require('tinycolor2');
+var transform = require('dom-transform');
 
 /**
- * Creates a new Colorpicker
+ * Creates a new SimpleColorPicker
  * @param {Object} options
- * @param {String|Number|Object} options.color The default color that the colorpicker will display. Default is #FFFFFF. It can be a hexadecimal number or an hex String.
- * @param {String|Number|Object} options.background The background color of the colorpicker. Default is transparent. It can be a hexadecimal number or an hex String.
- * @param {DomElement} options.el A dom node to add the colorpicker to. You can also use `colorPicker.appendTo(domNode)` afterwards if you prefer.
+ * @param {String|Number|Object} options.color The default color that the picker will display. Default is #FFFFFF. It can be a hexadecimal number or an hex String.
+ * @param {String|Number|Object} options.background The background color of the picker. Default is transparent. It can be a hexadecimal number or an hex String.
+ * @param {HTMLElement} options.el A dom node to add the picker to. You can also use `colorPicker.appendTo(domNode)` afterwards if you prefer.
  * @param {Number} options.width Desired width of the color picker. Default is 175.
  * @param {Number} options.height Desired height of the color picker. Default is 150.
  */
 function SimpleColorPicker(options) {
-  // options
+  // Options
   options = options || {};
 
-  // properties
+  // Properties
   this.color = null;
   this.width = 0;
+  this.widthUnits = 'px';
   this.height = 0;
+  this.heightUnits = 'px';
   this.hue = 0;
   this.choosing = false;
   this.position = {x: 0, y: 0};
   this.huePosition = 0;
   this.saturationWidth = 0;
+  this.hueHeight = 0;
   this.maxHue = 0;
   this.inputIsNumber = false;
 
-  // bind methods to scope (only if needed)
-  bindAll(this, '_onSaturationMouseMove', '_onSaturationMouseDown', '_onSaturationMouseUp', '_onHueMouseDown', '_onHueMouseUp', '_onHueMouseMove');
+  // Bind methods to scope (if needed)
+  this._onSaturationMouseDown = this._onSaturationMouseDown.bind(this);
+  this._onSaturationMouseMove = this._onSaturationMouseMove.bind(this);
+  this._onSaturationMouseUp = this._onSaturationMouseUp.bind(this);
+  this._onHueMouseDown = this._onHueMouseDown.bind(this);
+  this._onHueMouseMove = this._onHueMouseMove.bind(this);
+  this._onHueMouseUp = this._onHueMouseUp.bind(this);
 
-  // create dom
+  // Create DOM
   this.$el = document.createElement('div');
   this.$el.className = 'Scp';
   this.$el.innerHTML = [
@@ -24875,26 +26457,32 @@ function SimpleColorPicker(options) {
     '<div class="Scp-hue">',
       '<div class="Scp-hSelector"></div>',
     '</div>'
-  ].join('\n');
+  ].join('');
 
-  // dom accessors
+  // DOM accessors
   this.$saturation = this.$el.querySelector('.Scp-saturation');
   this.$hue = this.$el.querySelector('.Scp-hue');
   this.$sbSelector = this.$el.querySelector('.Scp-sbSelector');
   this.$hSelector = this.$el.querySelector('.Scp-hSelector');
 
-  // event listeners
+  // Event listeners
   this.$saturation.addEventListener('mousedown', this._onSaturationMouseDown);
   this.$saturation.addEventListener('touchstart', this._onSaturationMouseDown);
   this.$hue.addEventListener('mousedown', this._onHueMouseDown);
   this.$hue.addEventListener('touchstart', this._onHueMouseDown);
 
-  // some styling and DOMing from options
+  // Some styling and DOMing from options
   if (options.el) {
     this.appendTo(options.el);
   }
   if (options.background) {
     this.setBackgroundColor(options.background);
+  }
+  if (options.widthUnits) {
+    this.widthUnits = options.widthUnits;
+  }
+  if (options.heightUnits) {
+    this.heightUnits = options.heightUnits;
   }
   this.setSize(options.width || 175, options.height || 150);
   this.setColor(options.color);
@@ -24908,44 +26496,47 @@ Emitter(SimpleColorPicker.prototype);
   Public API
 ============================================================================= */
 /**
- * Add the colorPicker instance to a domElement.
- * @param  {domElement} domElement
- * @return {colorPicker} returns itself for chaining purpose
+ * Add the SimpleColorPicker instance to a DOM element.
+ * @param  {HTMLElement} el
+ * @return {SimpleColorPicker} Returns itself for chaining purpose
  */
-SimpleColorPicker.prototype.appendTo = function(domElement) {
-  domElement.appendChild(this.$el);
+SimpleColorPicker.prototype.appendTo = function(el) {
+  el.appendChild(this.$el);
   return this;
 };
 
 /**
- * Removes colorpicker from is parent and kill all listeners.
+ * Removes picker from its parent and kill all listeners.
  * Call this method for proper destroy.
  */
 SimpleColorPicker.prototype.remove = function() {
+  this._onSaturationMouseUp();
+  this._onHueMouseUp();
+
   this.$saturation.removeEventListener('mousedown', this._onSaturationMouseDown);
   this.$saturation.removeEventListener('touchstart', this._onSaturationMouseDown);
   this.$hue.removeEventListener('mousedown', this._onHueMouseDown);
   this.$hue.removeEventListener('touchstart', this._onHueMouseDown);
-  this._onSaturationMouseUp();
-  this._onHueMouseUp();
+
   this.off();
+
   if (this.$el.parentNode) {
     this.$el.parentNode.removeChild(this.$el);
   }
 };
 
 /**
- * Manually set the current color of the colorpicker. This is the method
+ * Manually set the current color of the picker. This is the method
  * used on instantiation to convert `color` option to actual color for
- * the colorpicker. Param can be a hexadecimal number or an hex String.
+ * the picker. Param can be a hexadecimal number or an hex String.
  * @param {String|Number} color hex color desired
+ * @return {SimpleColorPicker} Returns itself for chaining purpose
  */
 SimpleColorPicker.prototype.setColor = function(color) {
   if(isNumber(color)) {
     this.inputIsNumber = true;
-    color = '#' + ('00000' + (color | 0).toString(16)).substr(-6);
-  }
-  else {
+    color = numberToHex(color);
+  } else {
     this.inputIsNumber = false;
   }
   this.color = tinycolor(color);
@@ -24956,8 +26547,8 @@ SimpleColorPicker.prototype.setColor = function(color) {
     this.hue = hsvColor.h;
   }
 
-  this._moveSelectorTo(this.saturationWidth * hsvColor.s, (1 - hsvColor.v) * this.height);
-  this._moveHueTo((1 - (this.hue / 360)) * this.height);
+  this._moveSelectorTo(this.saturationWidth * hsvColor.s, (1 - hsvColor.v) * this.hueHeight);
+  this._moveHueTo((1 - (this.hue / 360)) * this.hueHeight);
 
   this._updateHue();
   return this;
@@ -24969,32 +26560,36 @@ SimpleColorPicker.prototype.setColor = function(color) {
  * of the constructor.
  * @param {Number} width
  * @param {Number} height
+ * @return {SimpleColorPicker} Returns itself for chaining purpose
  */
 SimpleColorPicker.prototype.setSize = function(width, height) {
   this.width = width;
   this.height = height;
-  this.$el.style.width = this.width + 'px';
-  this.$el.style.height = this.height + 'px';
-  this.saturationWidth = this.width - 25;
-  this.maxHue = this.height - 2;
+  this.$el.style.width = this.width + this.widthUnits;
+  this.$el.style.height = this.height + this.heightUnits;
+  this.saturationWidth = this.$saturation.clientWidth;
+  this.hueHeight = this.$hue.clientHeight;
+  this.maxHue = this.hueHeight - 2;
   return this;
 };
 
 /**
- * Set the background color of the colorpicker. It also adds a 5px padding
+ * Set the background color of the picker. It also adds a 5px padding
  * for design purpose.
  * @param {String|Number} color hex color desired for background
+ * @return {SimpleColorPicker} Returns itself for chaining purpose
  */
 SimpleColorPicker.prototype.setBackgroundColor = function(color) {
   if(isNumber(color)) {
-    color = '#' + ('00000' + (color | 0).toString(16)).substr(-6);
+    color = numberToHex(color);
   }
   this.$el.style.padding = '5px';
   this.$el.style.background = tinycolor(color).toHexString();
+  return this;
 };
 
 /**
- * Removes background of the colorpicker if previously set. It's no use
+ * Removes background of the picker if previously set. It's no use
  * calling this method if you didn't set the background option on start
  * or if you didn't call setBackgroundColor previously.
  */
@@ -25004,11 +26599,11 @@ SimpleColorPicker.prototype.setNoBackground = function() {
 };
 
 /**
- * Registers callback to the update event of the colorpicker.
- * ColorPicker inherits from [component/emitter](https://github.com/component/emitter)
+ * Registers callback to the update event of the picker.
+ * picker inherits from [component/emitter](https://github.com/component/emitter)
  * so you could do the same thing by calling `colorPicker.on('update');`
  * @param  {Function} callback
- * @return {colorPicker} returns itself for chaining purpose
+ * @return {SimpleColorPicker} Returns itself for chaining purpose
  */
 SimpleColorPicker.prototype.onChange = function(callback) {
   this.on('update', callback);
@@ -25080,21 +26675,20 @@ SimpleColorPicker.prototype.isLight = function() {
 };
 
 /* =============================================================================
-  "Private" Methods LOL silly javascript
+  "Private" methods
 ============================================================================= */
 SimpleColorPicker.prototype._moveSelectorTo = function(x, y) {
   this.position.x = clamp(x, 0, this.saturationWidth);
-  this.position.y = clamp(y, 0, this.height);
+  this.position.y = clamp(y, 0, this.hueHeight);
 
   transform(this.$sbSelector, {
     x: this.position.x,
     y: this.position.y
   });
-
 };
 
 SimpleColorPicker.prototype._updateColorFromPosition = function() {
-  this.color = tinycolor({h: this.hue, s: this.position.x / this.saturationWidth, v: 1 - (this.position.y / this.height)});
+  this.color = tinycolor({h: this.hue, s: this.position.x / this.saturationWidth, v: 1 - (this.position.y / this.hueHeight)});
   this._updateColor();
 };
 
@@ -25104,7 +26698,6 @@ SimpleColorPicker.prototype._moveHueTo = function(y) {
   transform(this.$hSelector, {
     y: this.huePosition
   });
-
 };
 
 SimpleColorPicker.prototype._updateHueFromPosition = function() {
@@ -25116,13 +26709,13 @@ SimpleColorPicker.prototype._updateHueFromPosition = function() {
 
 SimpleColorPicker.prototype._updateHue = function() {
   var hueColor = tinycolor({h: this.hue, s: 1, v: 1});
-  this.$saturation.style.background = 'linear-gradient(to right, #fff 0%, ' + hueColor.toHexString() + ' 100%)';
+  this.$saturation.style.background = 'linear-gradient(to right, #fff, ' + hueColor.toHexString() + ')';
   this._updateColor();
 };
 
 SimpleColorPicker.prototype._updateColor = function() {
   this.$sbSelector.style.background = this.color.toHexString();
-  this.$sbSelector.style.borderColor = this.color.isDark() ? '#FFF' : '#000';
+  this.$sbSelector.style.borderColor = this.color.isDark() ? '#fff' : '#000';
   this.emit('update', this.color.toHexString());
 };
 
@@ -25132,8 +26725,8 @@ SimpleColorPicker.prototype._updateColor = function() {
 SimpleColorPicker.prototype._onSaturationMouseDown = function(e) {
   this.choosing = true;
   var sbOffset = this.$saturation.getBoundingClientRect();
-  var xPos = (e.type.indexOf('touch') === 0) ? e.touches[0].clientX : e.clientX;
-  var yPos = (e.type.indexOf('touch') === 0) ? e.touches[0].clientY : e.clientY;
+  var xPos = getMousePosition(e).x;
+  var yPos = getMousePosition(e).y;
   this._moveSelectorTo(xPos - sbOffset.left, yPos - sbOffset.top);
   this._updateColorFromPosition();
   window.addEventListener('mouseup', this._onSaturationMouseUp);
@@ -25145,8 +26738,8 @@ SimpleColorPicker.prototype._onSaturationMouseDown = function(e) {
 
 SimpleColorPicker.prototype._onSaturationMouseMove = function(e) {
   var sbOffset = this.$saturation.getBoundingClientRect();
-  var xPos = (e.type.indexOf('touch') === 0) ? e.touches[0].clientX : e.clientX;
-  var yPos = (e.type.indexOf('touch') === 0) ? e.touches[0].clientY : e.clientY;
+  var xPos = getMousePosition(e).x;
+  var yPos = getMousePosition(e).y;
   this._moveSelectorTo(xPos - sbOffset.left, yPos - sbOffset.top);
   this._updateColorFromPosition();
 };
@@ -25162,7 +26755,7 @@ SimpleColorPicker.prototype._onSaturationMouseUp = function() {
 SimpleColorPicker.prototype._onHueMouseDown = function(e) {
   this.choosing = true;
   var hOffset = this.$hue.getBoundingClientRect();
-  var yPos = (e.type.indexOf('touch') === 0) ? e.touches[0].clientY : e.clientY;
+  var yPos = getMousePosition(e).y;
   this._moveHueTo(yPos - hOffset.top);
   this._updateHueFromPosition();
   window.addEventListener('mouseup', this._onHueMouseUp);
@@ -25174,7 +26767,7 @@ SimpleColorPicker.prototype._onHueMouseDown = function(e) {
 
 SimpleColorPicker.prototype._onHueMouseMove = function(e) {
   var hOffset = this.$hue.getBoundingClientRect();
-  var yPos = (e.type.indexOf('touch') === 0) ? e.touches[0].clientY : e.clientY;
+  var yPos = getMousePosition(e).y;
   this._moveHueTo(yPos - hOffset.top);
   this._updateHueFromPosition();
 };
@@ -25187,17 +26780,32 @@ SimpleColorPicker.prototype._onHueMouseUp = function() {
   window.removeEventListener('touchmove', this._onHueMouseMove);
 };
 
-module.exports = SimpleColorPicker;
-
-},{"./src/utils/maths/clamp":81,"component-emitter":8,"dom-transform":15,"is-number":33,"lodash.bindall":39,"tinycolor2":83}],80:[function(require,module,exports){
-var css = ".Scp {\n  width: 175px;\n  height: 150px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  position: relative;\n}\n.Scp-saturation {\n  position: relative;\n  width: calc(100% - 25px);\n  height: 100%;\n  background: linear-gradient(to right, #fff 0%, #f00 100%);\n  float: left;\n  margin-right: 5px;\n}\n.Scp-brightness {\n  width: 100%;\n  height: 100%;\n  background: linear-gradient(to top, #000 0%, rgba(255,255,255,0) 100%);\n}\n.Scp-sbSelector {\n  border: 2px solid;\n  border-color: #fff;\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: #fff;\n  border-radius: 10px;\n  top: -7px;\n  left: -7px;\n  box-sizing: border-box;\n  z-index: 10;\n}\n.Scp-hue {\n  width: 20px;\n  height: 100%;\n  position: relative;\n  float: left;\n  background: linear-gradient(to bottom, #f00 0%, #f0f 17%, #00f 34%, #0ff 50%, #0f0 67%, #ff0 84%, #f00 100%);\n}\n.Scp-hSelector {\n  position: absolute;\n  background: #fff;\n  border-bottom: 1px solid #000;\n  right: -3px;\n  width: 10px;\n  height: 2px;\n}\n"; (require("browserify-css").createStyle(css, { "href": "node_modules/simple-color-picker/simple-color-picker.css" }, { "insertAt": "bottom" })); module.exports = css;
-},{"browserify-css":5}],81:[function(require,module,exports){
-'use strict';
-
-module.exports = function clamp(value, min, max) {
+/* =============================================================================
+  Helper functions
+============================================================================= */
+function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
-};
-},{}],82:[function(require,module,exports){
+}
+
+function getMousePosition(e) {
+  e = (e.type.indexOf('touch') === 0) ? e.touches[0] : e;
+  return {
+    x: e.clientX,
+    y: e.clientY
+  };
+}
+
+function numberToHex(color) {
+  return color = '#' + ('00000' + (color | 0).toString(16)).substr(-6);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = SimpleColorPicker;
+}
+
+})();
+
+},{"component-emitter":10,"dom-transform":17,"is-number":38,"tinycolor2":77}],76:[function(require,module,exports){
 var nargs = /\{([0-9a-zA-Z]+)\}/g
 var slice = Array.prototype.slice
 
@@ -25233,21 +26841,20 @@ function template(string) {
     })
 }
 
-},{}],83:[function(require,module,exports){
-// TinyColor v1.3.0
+},{}],77:[function(require,module,exports){
+// TinyColor v1.4.1
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
-(function() {
+(function(Math) {
 
 var trimLeft = /^\s+/,
     trimRight = /\s+$/,
     tinyCounter = 0,
-    math = Math,
-    mathRound = math.round,
-    mathMin = math.min,
-    mathMax = math.max,
-    mathRandom = math.random;
+    mathRound = Math.round,
+    mathMin = Math.min,
+    mathMax = Math.max,
+    mathRandom = Math.random;
 
 function tinycolor (color, opts) {
 
@@ -25355,11 +26962,11 @@ tinycolor.prototype = {
     toHexString: function(allow3Char) {
         return '#' + this.toHex(allow3Char);
     },
-    toHex8: function() {
-        return rgbaToHex(this._r, this._g, this._b, this._a);
+    toHex8: function(allow4Char) {
+        return rgbaToHex(this._r, this._g, this._b, this._a, allow4Char);
     },
-    toHex8String: function() {
-        return '#' + this.toHex8();
+    toHex8String: function(allow4Char) {
+        return '#' + this.toHex8(allow4Char);
     },
     toRgb: function() {
         return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
@@ -25389,13 +26996,13 @@ tinycolor.prototype = {
         return hexNames[rgbToHex(this._r, this._g, this._b, true)] || false;
     },
     toFilter: function(secondColor) {
-        var hex8String = '#' + rgbaToHex(this._r, this._g, this._b, this._a);
+        var hex8String = '#' + rgbaToArgbHex(this._r, this._g, this._b, this._a);
         var secondHex8String = hex8String;
         var gradientType = this._gradientType ? "GradientType = 1, " : "";
 
         if (secondColor) {
             var s = tinycolor(secondColor);
-            secondHex8String = s.toHex8String();
+            secondHex8String = '#' + rgbaToArgbHex(s._r, s._g, s._b, s._a);
         }
 
         return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
@@ -25406,7 +27013,7 @@ tinycolor.prototype = {
 
         var formattedString = false;
         var hasAlpha = this._a < 1 && this._a >= 0;
-        var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
+        var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "hex4" || format === "hex8" || format === "name");
 
         if (needsAlphaFormat) {
             // Special case for "transparent", all other non-alpha formats
@@ -25427,6 +27034,9 @@ tinycolor.prototype = {
         }
         if (format === "hex3") {
             formattedString = this.toHexString(true);
+        }
+        if (format === "hex4") {
+            formattedString = this.toHex8String(true);
         }
         if (format === "hex8") {
             formattedString = this.toHex8String();
@@ -25540,6 +27150,9 @@ function inputToRGB(color) {
 
     var rgb = { r: 0, g: 0, b: 0 };
     var a = 1;
+    var s = null;
+    var v = null;
+    var l = null;
     var ok = false;
     var format = false;
 
@@ -25548,22 +27161,22 @@ function inputToRGB(color) {
     }
 
     if (typeof color == "object") {
-        if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
+        if (isValidCSSUnit(color.r) && isValidCSSUnit(color.g) && isValidCSSUnit(color.b)) {
             rgb = rgbToRgb(color.r, color.g, color.b);
             ok = true;
             format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
         }
-        else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
-            color.s = convertToPercentage(color.s);
-            color.v = convertToPercentage(color.v);
-            rgb = hsvToRgb(color.h, color.s, color.v);
+        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.v)) {
+            s = convertToPercentage(color.s);
+            v = convertToPercentage(color.v);
+            rgb = hsvToRgb(color.h, s, v);
             ok = true;
             format = "hsv";
         }
-        else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
-            color.s = convertToPercentage(color.s);
-            color.l = convertToPercentage(color.l);
-            rgb = hslToRgb(color.h, color.s, color.l);
+        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l)) {
+            s = convertToPercentage(color.s);
+            l = convertToPercentage(color.l);
+            rgb = hslToRgb(color.h, s, l);
             ok = true;
             format = "hsl";
         }
@@ -25710,7 +27323,7 @@ function rgbToHsv(r, g, b) {
     s = bound01(s, 100);
     v = bound01(v, 100);
 
-    var i = math.floor(h),
+    var i = Math.floor(h),
         f = h - i,
         p = v * (1 - s),
         q = v * (1 - f * s),
@@ -25745,9 +27358,29 @@ function rgbToHex(r, g, b, allow3Char) {
 
 // `rgbaToHex`
 // Converts an RGBA color plus alpha transparency to hex
-// Assumes r, g, b and a are contained in the set [0, 255]
-// Returns an 8 character hex
-function rgbaToHex(r, g, b, a) {
+// Assumes r, g, b are contained in the set [0, 255] and
+// a in [0, 1]. Returns a 4 or 8 character rgba hex
+function rgbaToHex(r, g, b, a, allow4Char) {
+
+    var hex = [
+        pad2(mathRound(r).toString(16)),
+        pad2(mathRound(g).toString(16)),
+        pad2(mathRound(b).toString(16)),
+        pad2(convertDecimalToHex(a))
+    ];
+
+    // Return a 4 character hex if possible
+    if (allow4Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1) && hex[3].charAt(0) == hex[3].charAt(1)) {
+        return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0);
+    }
+
+    return hex.join("");
+}
+
+// `rgbaToArgbHex`
+// Converts an RGBA color to an ARGB Hex8 string
+// Rarely used, but required for "toFilter()"
+function rgbaToArgbHex(r, g, b, a) {
 
     var hex = [
         pad2(convertDecimalToHex(a)),
@@ -25829,7 +27462,7 @@ function darken (color, amount) {
 // Values outside of this range will be wrapped into this range.
 function spin(color, amount) {
     var hsl = tinycolor(color).toHsl();
-    var hue = (mathRound(hsl.h) + amount) % 360;
+    var hue = (hsl.h + amount) % 360;
     hsl.h = hue < 0 ? 360 + hue : hue;
     return tinycolor(hsl);
 }
@@ -25916,26 +27549,12 @@ tinycolor.mix = function(color1, color2, amount) {
     var rgb2 = tinycolor(color2).toRgb();
 
     var p = amount / 100;
-    var w = p * 2 - 1;
-    var a = rgb2.a - rgb1.a;
-
-    var w1;
-
-    if (w * a == -1) {
-        w1 = w;
-    } else {
-        w1 = (w + a) / (1 + w * a);
-    }
-
-    w1 = (w1 + 1) / 2;
-
-    var w2 = 1 - w1;
 
     var rgba = {
-        r: rgb2.r * w1 + rgb1.r * w2,
-        g: rgb2.g * w1 + rgb1.g * w2,
-        b: rgb2.b * w1 + rgb1.b * w2,
-        a: rgb2.a * p  + rgb1.a * (1 - p)
+        r: ((rgb2.r - rgb1.r) * p) + rgb1.r,
+        g: ((rgb2.g - rgb1.g) * p) + rgb1.g,
+        b: ((rgb2.b - rgb1.b) * p) + rgb1.b,
+        a: ((rgb2.a - rgb1.a) * p) + rgb1.a
     };
 
     return tinycolor(rgba);
@@ -26221,7 +27840,7 @@ function bound01(n, max) {
     }
 
     // Handle floating point rounding errors
-    if ((math.abs(n - max) < 0.000001)) {
+    if ((Math.abs(n - max) < 0.000001)) {
         return 1;
     }
 
@@ -26291,6 +27910,7 @@ var matchers = (function() {
     var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
 
     return {
+        CSS_UNIT: new RegExp(CSS_UNIT),
         rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
         rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
         hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
@@ -26299,9 +27919,17 @@ var matchers = (function() {
         hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
         hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
         hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
+        hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
         hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
     };
 })();
+
+// `isValidCSSUnit`
+// Take in a single string / number and check to see if it looks like a CSS unit
+// (see `matchers` above for definition).
+function isValidCSSUnit(color) {
+    return !!matchers.CSS_UNIT.exec(color);
+}
 
 // `stringInputToObject`
 // Permissive string parsing.  Take in a number of formats, and output an object
@@ -26343,10 +27971,10 @@ function stringInputToObject(color) {
     }
     if ((match = matchers.hex8.exec(color))) {
         return {
-            a: convertHexToDecimal(match[1]),
-            r: parseIntFromHex(match[2]),
-            g: parseIntFromHex(match[3]),
-            b: parseIntFromHex(match[4]),
+            r: parseIntFromHex(match[1]),
+            g: parseIntFromHex(match[2]),
+            b: parseIntFromHex(match[3]),
+            a: convertHexToDecimal(match[4]),
             format: named ? "name" : "hex8"
         };
     }
@@ -26356,6 +27984,15 @@ function stringInputToObject(color) {
             g: parseIntFromHex(match[2]),
             b: parseIntFromHex(match[3]),
             format: named ? "name" : "hex"
+        };
+    }
+    if ((match = matchers.hex4.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1] + '' + match[1]),
+            g: parseIntFromHex(match[2] + '' + match[2]),
+            b: parseIntFromHex(match[3] + '' + match[3]),
+            a: convertHexToDecimal(match[4] + '' + match[4]),
+            format: named ? "name" : "hex8"
         };
     }
     if ((match = matchers.hex3.exec(color))) {
@@ -26399,9 +28036,9 @@ else {
     window.tinycolor = tinycolor;
 }
 
-})();
+})(Math);
 
-},{}],84:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 
 exports = module.exports = trim;
 
@@ -26417,7 +28054,7 @@ exports.right = function(str){
   return str.replace(/\s*$/, '');
 };
 
-},{}],85:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -26455,29 +28092,6 @@ function createVNode(domNode, key) {
   if(domNode.nodeType == 8) return createFromCommentNode(domNode, key)
   return
 }
-
-createVNode.fromHTML = function(html, key) {
-  var rootNode = null;
-
-  try {
-    // Everything except iOS 7 Safari, IE 8/9, Andriod Browser 4.1/4.3
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(html, 'text/html');
-    rootNode = doc.documentElement;
-  } catch(e) {
-    // Old browsers
-    var ifr = document.createElement('iframe');
-    ifr.setAttribute('data-content', html);
-    ifr.src = 'javascript: window.frameElement.getAttribute("data-content");';
-    document.head.appendChild(ifr);
-    rootNode = ifr.contentDocument.documentElement;
-    setTimeout(function() {
-      ifr.remove(); // Garbage collection
-    }, 0);
-  }
-
-  return createVNode(rootNode, key);
-};
 
 function createFromTextNode(tNode) {
   return new VText(tNode.nodeValue)
@@ -26683,7 +28297,8 @@ var attrBlacklist =
 module.exports.attrBlacklist = {
   'class': 'className'
 }
-},{"./vcomment":86,"virtual-dom/vnode/vnode":108,"virtual-dom/vnode/vtext":110}],86:[function(require,module,exports){
+
+},{"./vcomment":80,"virtual-dom/vnode/vnode":102,"virtual-dom/vnode/vtext":104}],80:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -26701,27 +28316,27 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],87:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":92}],88:[function(require,module,exports){
+},{"./vdom/create-element.js":86}],82:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":112}],89:[function(require,module,exports){
+},{"./vtree/diff.js":106}],83:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":99}],90:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":93}],84:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":95}],91:[function(require,module,exports){
+},{"./vdom/patch.js":89}],85:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -26820,7 +28435,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":103,"is-object":34}],92:[function(require,module,exports){
+},{"../vnode/is-vhook.js":97,"is-object":39}],86:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -26868,7 +28483,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":101,"../vnode/is-vnode.js":104,"../vnode/is-vtext.js":105,"../vnode/is-widget.js":106,"./apply-properties":91,"global/document":25}],93:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":95,"../vnode/is-vnode.js":98,"../vnode/is-vtext.js":99,"../vnode/is-widget.js":100,"./apply-properties":85,"global/document":27}],87:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -26955,7 +28570,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],94:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -27108,7 +28723,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":106,"../vnode/vpatch.js":109,"./apply-properties":91,"./update-widget":96}],95:[function(require,module,exports){
+},{"../vnode/is-widget.js":100,"../vnode/vpatch.js":103,"./apply-properties":85,"./update-widget":90}],89:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -27190,7 +28805,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":92,"./dom-index":93,"./patch-op":94,"global/document":25,"x-is-array":115}],96:[function(require,module,exports){
+},{"./create-element":86,"./dom-index":87,"./patch-op":88,"global/document":27,"x-is-array":109}],90:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -27207,7 +28822,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":106}],97:[function(require,module,exports){
+},{"../vnode/is-widget.js":100}],91:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -27236,7 +28851,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":20}],98:[function(require,module,exports){
+},{"ev-store":22}],92:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -27255,7 +28870,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],99:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -27394,7 +29009,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":102,"../vnode/is-vhook":103,"../vnode/is-vnode":104,"../vnode/is-vtext":105,"../vnode/is-widget":106,"../vnode/vnode.js":108,"../vnode/vtext.js":110,"./hooks/ev-hook.js":97,"./hooks/soft-set-hook.js":98,"./parse-tag.js":100,"x-is-array":115}],100:[function(require,module,exports){
+},{"../vnode/is-thunk":96,"../vnode/is-vhook":97,"../vnode/is-vnode":98,"../vnode/is-vtext":99,"../vnode/is-widget":100,"../vnode/vnode.js":102,"../vnode/vtext.js":104,"./hooks/ev-hook.js":91,"./hooks/soft-set-hook.js":92,"./parse-tag.js":94,"x-is-array":109}],94:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -27450,7 +29065,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":4}],101:[function(require,module,exports){
+},{"browser-split":5}],95:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -27492,14 +29107,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":102,"./is-vnode":104,"./is-vtext":105,"./is-widget":106}],102:[function(require,module,exports){
+},{"./is-thunk":96,"./is-vnode":98,"./is-vtext":99,"./is-widget":100}],96:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],103:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -27508,7 +29123,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],104:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -27517,7 +29132,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":107}],105:[function(require,module,exports){
+},{"./version":101}],99:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -27526,17 +29141,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":107}],106:[function(require,module,exports){
+},{"./version":101}],100:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],107:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 module.exports = "2"
 
-},{}],108:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -27610,7 +29225,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":102,"./is-vhook":103,"./is-vnode":104,"./is-widget":106,"./version":107}],109:[function(require,module,exports){
+},{"./is-thunk":96,"./is-vhook":97,"./is-vnode":98,"./is-widget":100,"./version":101}],103:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -27634,7 +29249,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":107}],110:[function(require,module,exports){
+},{"./version":101}],104:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -27646,7 +29261,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":107}],111:[function(require,module,exports){
+},{"./version":101}],105:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -27706,7 +29321,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":103,"is-object":34}],112:[function(require,module,exports){
+},{"../vnode/is-vhook":97,"is-object":39}],106:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -28135,7 +29750,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":101,"../vnode/is-thunk":102,"../vnode/is-vnode":104,"../vnode/is-vtext":105,"../vnode/is-widget":106,"../vnode/vpatch":109,"./diff-props":111,"x-is-array":115}],113:[function(require,module,exports){
+},{"../vnode/handle-thunk":95,"../vnode/is-thunk":96,"../vnode/is-vnode":98,"../vnode/is-vtext":99,"../vnode/is-widget":100,"../vnode/vpatch":103,"./diff-props":105,"x-is-array":109}],107:[function(require,module,exports){
 var hiddenStore = require('./hidden-store.js');
 
 module.exports = createStore;
@@ -28156,7 +29771,7 @@ function createStore() {
     };
 }
 
-},{"./hidden-store.js":114}],114:[function(require,module,exports){
+},{"./hidden-store.js":108}],108:[function(require,module,exports){
 module.exports = hiddenStore;
 
 function hiddenStore(obj, key) {
@@ -28174,7 +29789,7 @@ function hiddenStore(obj, key) {
     return store;
 }
 
-},{}],115:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 var nativeIsArray = Array.isArray
 var toString = Object.prototype.toString
 
@@ -28184,7 +29799,7 @@ function isArray(obj) {
     return toString.call(obj) === "[object Array]"
 }
 
-},{}],116:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var isFunction = require("is-function")
@@ -28421,7 +30036,7 @@ function getXml(xhr) {
 
 function noop() {}
 
-},{"global/window":26,"is-function":32,"parse-headers":73,"xtend":117}],117:[function(require,module,exports){
+},{"global/window":28,"is-function":37,"parse-headers":69,"xtend":111}],111:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -28442,7 +30057,7 @@ function extend() {
     return target
 }
 
-},{}],118:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -28461,9 +30076,9 @@ function extend(target) {
     return target
 }
 
-},{}],119:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 var css = "@charset \"UTF-8\";\n.ec {\n  font-family: sans-serif, Arial, Verdana, \"Trebuchet MS\";\n  font-size: 14px;\n  line-height: 1.5;\n  background: #F5F5F5;\n  float: left;\n  width: 100%;\n  /*------------------------------------*    $TABLES\n\\*------------------------------------*/\n  /**\n * We have a lot at our disposal for making very complex table constructs, e.g.:\n *\n   <table class=\"table--bordered  table--striped  table--data\">\n       <colgroup>\n           <col class=t10>\n           <col class=t10>\n           <col class=t10>\n           <col>\n       </colgroup>\n       <thead>\n           <tr>\n               <th colspan=3>Foo</th>\n               <th>Bar</th>\n           </tr>\n           <tr>\n               <th>Lorem</th>\n               <th>Ipsum</th>\n               <th class=numerical>Dolor</th>\n               <th>Sit</th>\n           </tr>\n       </thead>\n       <tbody>\n           <tr>\n               <th rowspan=3>Sit</th>\n               <td>Dolor</td>\n               <td class=numerical>03.788</td>\n               <td>Lorem</td>\n           </tr>\n           <tr>\n               <td>Dolor</td>\n               <td class=numerical>32.210</td>\n               <td>Lorem</td>\n           </tr>\n           <tr>\n               <td>Dolor</td>\n               <td class=numerical>47.797</td>\n               <td>Lorem</td>\n           </tr>\n           <tr>\n               <th rowspan=2>Sit</th>\n               <td>Dolor</td>\n               <td class=numerical>09.640</td>\n               <td>Lorem</td>\n           </tr>\n           <tr>\n               <td>Dolor</td>\n               <td class=numerical>12.117</td>\n               <td>Lorem</td>\n           </tr>\n       </tbody>\n   </table>\n *\n */\n  /**\n * Cell alignments\n */\n  /**\n * In the HTML above we see several `col` elements with classes whose numbers\n * represent a percentage width for that column. We leave one column free of a\n * class so that column can soak up the effects of any accidental breakage in\n * the table.\n */\n  /* 1/8 */\n  /* 1/4 */\n  /* 1/3 */\n  /* 3/8 */\n  /* 1/2 */\n  /* 5/8 */\n  /* 2/3 */\n  /* 3/4*/\n  /* 7/8 */\n  /**\n * Bordered tables\n */\n  /**\n * Striped tables\n */\n  /**\n * Data table\n */\n  /*------------------------------------*    $BEAUTONS.CSS\n\\*------------------------------------*/\n  /**\n * beautons is a beautifully simple button toolkit.\n *\n * LICENSE\n *\n * Copyright 2013 Harry Roberts\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n */\n  /*!*\n *\n * @csswizardry -- csswizardry.com/beautons\n *\n */\n  /*------------------------------------*    $BASE\n\\*------------------------------------*/\n  /**\n * Base button styles.\n *\n * 1. Allow us to better style box model properties.\n * 2. Line different sized buttons up a little nicer.\n * 3. Stop buttons wrapping and looking broken.\n * 4. Make buttons inherit font styles.\n * 5. Force all elements using beautons to appear clickable.\n * 6. Normalise box model styles.\n * 7. If the button’s text is 1em, and the button is (3 * font-size) tall, then\n *    there is 1em of space above and below that text. We therefore apply 1em\n *    of space to the left and right, as padding, to keep consistent spacing.\n * 8. Basic cosmetics for default buttons. Change or override at will.\n * 9. Don’t allow buttons to have underlines; it kinda ruins the illusion.\n */\n  /*------------------------------------*    $SIZES\n\\*------------------------------------*/\n  /**\n * Button size modifiers.\n *\n * These all follow the same sizing rules as above; text is 1em, space around it\n * remains uniform.\n */\n  /**\n * These buttons will fill the entirety of their container.\n *\n * 1. Remove padding so that widths and paddings don’t conflict.\n */\n  /*------------------------------------*    $FONT-SIZES\n\\*------------------------------------*/\n  /**\n * Button font-size modifiers.\n */\n  /**\n * Make the button inherit sizing from its parent.\n */\n  /*------------------------------------*    $FUNCTIONS\n\\*------------------------------------*/\n  /**\n * Button function modifiers.\n */\n  /**\n * Positive actions; e.g. sign in, purchase, submit, etc.\n */\n  /**\n * Negative actions; e.g. close account, delete photo, remove friend, etc.\n */\n  /**\n * Inactive, disabled buttons.\n *\n * 1. Make the button look like normal text when hovered.\n */\n  /*------------------------------------*    $STYLES\n\\*------------------------------------*/\n  /**\n * Button style modifiers.\n *\n * 1. Use an overly-large number to ensure completely rounded, pill-like ends.\n */\n  /*------------------------------------*    $HELPER\n\\*------------------------------------*/\n  /**\n * A series of helper classes to use arbitrarily. Only use a helper class if an\n * element/component doesn’t already have a class to which you could apply this\n * styling, e.g. if you need to float `.main-nav` left then add `float:left;` to\n * that ruleset as opposed to adding the `.float--left` class to the markup.\n *\n * A lot of these classes carry `!important` as you will always want them to win\n * out over other selectors.\n */\n  /**\n * Add/remove floats\n */\n  /**\n * Text alignment\n */\n  /**\n * Font weights\n */\n  /**\n * Add/remove margins\n */\n  /**\n * Add/remove paddings\n */\n  /**\n * Pull items full width of `.island` parents.\n */\n}\n.ec .table {\n  width: 100%;\n}\n.ec .table [contenteditable=\"true\"]:active,\n.ec .table [contenteditable=\"true\"]:focus {\n  border: none;\n  outline: none;\n  background: #F5F5F5;\n}\n.ec .table th,\n.ec .table td {\n  padding: 0.3em;\n  text-align: left;\n}\n@media screen and (min-width: 480px) {\n  .ec .table th,\n  .ec .table td {\n    padding: 0.6em;\n  }\n}\n.ec [colspan] {\n  text-align: center;\n}\n.ec [colspan=\"1\"] {\n  text-align: left;\n}\n.ec [rowspan] {\n  vertical-align: middle;\n}\n.ec [rowspan=\"1\"] {\n  vertical-align: top;\n}\n.ec .numerical {\n  text-align: right;\n}\n.ec .t5 {\n  width: 5%;\n}\n.ec .t10 {\n  width: 10%;\n}\n.ec .t12 {\n  width: 12.5%;\n}\n.ec .t15 {\n  width: 15%;\n}\n.ec .t20 {\n  width: 20%;\n}\n.ec .t25 {\n  width: 25%;\n}\n.ec .t30 {\n  width: 30%;\n}\n.ec .t33 {\n  width: 33.333%;\n}\n.ec .t35 {\n  width: 35%;\n}\n.ec .t37 {\n  width: 37.5%;\n}\n.ec .t40 {\n  width: 40%;\n}\n.ec .t45 {\n  width: 45%;\n}\n.ec .t50 {\n  width: 50%;\n}\n.ec .t55 {\n  width: 55%;\n}\n.ec .t60 {\n  width: 60%;\n}\n.ec .t62 {\n  width: 62.5%;\n}\n.ec .t65 {\n  width: 65%;\n}\n.ec .t66 {\n  width: 66.666%;\n}\n.ec .t70 {\n  width: 70%;\n}\n.ec .t75 {\n  width: 75%;\n}\n.ec .t80 {\n  width: 80%;\n}\n.ec .t85 {\n  width: 85%;\n}\n.ec .t87 {\n  width: 87.5%;\n}\n.ec .t90 {\n  width: 90%;\n}\n.ec .t95 {\n  width: 95%;\n}\n.ec .table--bordered {\n  border-collapse: collapse;\n}\n.ec .table--bordered tr {\n  border: 1px solid #DDD;\n}\n.ec .table--bordered th,\n.ec .table--bordered td {\n  border-right: 1px solid #DDD;\n}\n.ec .table--bordered thead tr:last-child th {\n  border-bottom-width: 2px;\n}\n.ec .table--bordered tbody tr th:last-of-type {\n  border-right-width: 2px;\n}\n.ec .table--striped tbody tr:nth-of-type(odd) {\n  background-color: #ffc;\n  /* Override this color in your theme stylesheet */\n}\n.ec .table--data {\n  font: 12px/1.5 sans-serif;\n}\n.ec .table--disabled {\n  color: #777;\n  border-color: #777;\n}\n.ec fieldset {\n  background-color: #F5F5F5;\n  border: 1px;\n  margin: 0 0 0.6em;\n  padding: 1.2em;\n}\n.ec input,\n.ec label,\n.ec select {\n  display: block;\n  font-family: sans-serif, Arial, Verdana, \"Trebuchet MS\";\n  font-size: 14px;\n}\n.ec label {\n  font-weight: 600;\n}\n.ec label.required::after {\n  content: \"*\";\n}\n.ec label abbr {\n  display: none;\n}\n.ec assign-inputs('input[type=\"color\"]',\n'input[type=\"date\"]',\n'input[type=\"datetime\"]',\n'input[type=\"datetime-local\"]',\n'input[type=\"email\"]',\n'input[type=\"month\"]',\n'input[type=\"number\"]',\n'input[type=\"password\"]',\n'input[type=\"search\"]',\n'input[type=\"tel\"]',\n'input[type=\"text\"]',\n'input[type=\"time\"]',\n'input[type=\"url\"]',\n'input[type=\"week\"]',\n\"input:not([type])\",\n\"textarea\"),\n.ec select {\n  background-color: white;\n  border: 1px solid #bfbfbf;\n  border-radius: 3px;\n  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);\n  box-sizing: border-box;\n  font-family: sans-serif, Arial, Verdana, \"Trebuchet MS\";\n  font-size: 14px;\n  padding: 0.3em;\n  transition: border-color 0.2s ease-in;\n  max-width: 100%;\n}\n.ec assign-inputs('input[type=\"color\"]',\n'input[type=\"date\"]',\n'input[type=\"datetime\"]',\n'input[type=\"datetime-local\"]',\n'input[type=\"email\"]',\n'input[type=\"month\"]',\n'input[type=\"number\"]',\n'input[type=\"password\"]',\n'input[type=\"search\"]',\n'input[type=\"tel\"]',\n'input[type=\"text\"]',\n'input[type=\"time\"]',\n'input[type=\"url\"]',\n'input[type=\"week\"]',\n\"input:not([type])\",\n\"textarea\"):hover,\n.ec select:hover {\n  border-color: shade(#DDD, 20%);\n}\n.ec assign-inputs('input[type=\"color\"]',\n'input[type=\"date\"]',\n'input[type=\"datetime\"]',\n'input[type=\"datetime-local\"]',\n'input[type=\"email\"]',\n'input[type=\"month\"]',\n'input[type=\"number\"]',\n'input[type=\"password\"]',\n'input[type=\"search\"]',\n'input[type=\"tel\"]',\n'input[type=\"text\"]',\n'input[type=\"time\"]',\n'input[type=\"url\"]',\n'input[type=\"week\"]',\n\"input:not([type])\",\n\"textarea\"):focus,\n.ec select:focus {\n  border-color: #477dca;\n  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 5px rgba(55, 112, 192, 0.7);\n  outline: none;\n}\n.ec assign-inputs('input[type=\"color\"]',\n'input[type=\"date\"]',\n'input[type=\"datetime\"]',\n'input[type=\"datetime-local\"]',\n'input[type=\"email\"]',\n'input[type=\"month\"]',\n'input[type=\"number\"]',\n'input[type=\"password\"]',\n'input[type=\"search\"]',\n'input[type=\"tel\"]',\n'input[type=\"text\"]',\n'input[type=\"time\"]',\n'input[type=\"url\"]',\n'input[type=\"week\"]',\n\"input:not([type])\",\n\"textarea\"):disabled,\n.ec select:disabled {\n  background-color: shade(white, 5%);\n  cursor: not-allowed;\n}\n.ec assign-inputs('input[type=\"color\"]',\n'input[type=\"date\"]',\n'input[type=\"datetime\"]',\n'input[type=\"datetime-local\"]',\n'input[type=\"email\"]',\n'input[type=\"month\"]',\n'input[type=\"number\"]',\n'input[type=\"password\"]',\n'input[type=\"search\"]',\n'input[type=\"tel\"]',\n'input[type=\"text\"]',\n'input[type=\"time\"]',\n'input[type=\"url\"]',\n'input[type=\"week\"]',\n\"input:not([type])\",\n\"textarea\"):disabled:hover,\n.ec select:disabled:hover {\n  border: 1px solid #DDD;\n}\n.ec textarea {\n  width: 100%;\n  resize: vertical;\n}\n.ec input[type=\"search\"] {\n  appearance: none;\n}\n.ec input[type=\"checkbox\"],\n.ec input[type=\"radio\"] {\n  display: inline;\n  margin-right: 0.3em;\n}\n.ec input[type=\"checkbox\"] + label,\n.ec input[type=\"radio\"] + label {\n  display: inline-block;\n}\n.ec input[type=\"file\"] {\n  width: 100%;\n}\n.ec select {\n  max-width: 100%;\n  width: auto;\n}\n.ec .form-item {\n  width: 100%;\n  color: #333;\n  margin-bottom: 0.6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n.ec .form-item__input {\n  width: 100%;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__input {\n    width: 60%;\n  }\n}\n.ec .form-item__label {\n  width: 100%;\n  padding-bottom: 0.6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__label {\n    padding: 0;\n    width: 40%;\n    text-align: right;\n    margin-right: 1.2em;\n  }\n}\n.ec .field-group {\n  padding: 0.3em 0 0.6em 0;\n}\n.ec .field-group__title {\n  padding-bottom: 0.6em;\n}\n.ec h1 {\n  margin: 0;\n  padding: 0;\n  font-size: 28px;\n}\n.ec h2 {\n  margin: 0;\n  padding: 0;\n  font-size: 24.5px;\n}\n.ec h3 {\n  margin: 0;\n  padding: 0;\n  font-size: 21px;\n}\n.ec h4 {\n  margin: 0;\n  padding: 0;\n  font-size: 17.5px;\n}\n.ec h5 {\n  margin: 0;\n  padding: 0;\n  font-size: 15.75px;\n}\n.ec h6 {\n  margin: 0;\n  padding: 0;\n  font-size: 14px;\n}\n.ec .vertical-tabs-container {\n  margin-bottom: 1.2em;\n  overflow: hidden;\n  display: flex;\n}\n.ec .vertical-tabs-container::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n.ec .vertical-tabs-container .vertical-tabs {\n  padding: 0;\n  margin: 0;\n  display: inline;\n  float: left;\n  width: 20%;\n  list-style: none;\n  border-right: 1px solid #DDD;\n}\n.ec .vertical-tabs-container li.active {\n  background-color: white;\n  margin-right: -1px;\n  border: 1px solid #DDD;\n  border-right-color: white;\n}\n.ec .vertical-tabs-container li.active .sub-active {\n  color: #477dca;\n}\n.ec .vertical-tabs-container li.active .sub-non-active {\n  color: #333;\n}\n.ec .vertical-tabs-container li a {\n  padding: 0.6em 15px;\n  text-decoration: none;\n  color: inherit;\n  display: block;\n}\n.ec .vertical-tabs-container li ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.ec .vertical-tabs-container li ul li {\n  padding-bottom: 5px;\n  padding-left: 20px;\n}\n.ec .vertical-tabs-container .vertical-tab:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container {\n  border: 1px solid #DDD;\n  border-left: none;\n  display: inline-block;\n  width: 80%;\n  background-color: white;\n  margin: 0 auto;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container a:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content {\n  display: inline-block;\n  background-color: white;\n  padding: 1.2em 15px;\n  border: none;\n  width: 100%;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading {\n  border-top: 1px solid #DDD;\n  cursor: pointer;\n  display: block;\n  font-weight: bold;\n  padding: 0.6em 15px;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:hover {\n  color: #477dca;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:first-child {\n  border-top: none;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading.active {\n  background: white;\n  border-bottom: none;\n}\n.ec .accordion-tabs-minimal {\n  margin: 0 0.6em;\n  line-height: 1.5;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n.ec .accordion-tabs-minimal ul.tab-list {\n  margin: 0;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal li.tab-header-and-content {\n  list-style: none;\n  display: inline;\n}\n.ec .accordion-tabs-minimal .tab-link {\n  border-top: 1px solid #DDD;\n  display: inline-block;\n  border-top: 0;\n}\n.ec .accordion-tabs-minimal .tab-link a {\n  text-decoration: none;\n  display: block;\n  padding: 0.6em 30px;\n}\n.ec .accordion-tabs-minimal .tab-link a:hover {\n  color: #2c5999;\n}\n.ec .accordion-tabs-minimal .tab-link a:focus {\n  outline: none;\n}\n.ec .accordion-tabs-minimal .tab-link a.is-active {\n  border: 1px solid #DDD;\n  border-bottom-color: white;\n  background: white;\n  margin-bottom: -1px;\n  color: #477dca;\n}\n.ec .accordion-tabs-minimal .tab-content {\n  border: 1px solid #DDD;\n  padding: 1.2em 30px;\n  width: 100%;\n  float: left;\n  background: white;\n  min-height: 250px;\n}\n.ec .btn {\n  display: inline-block;\n  /* [1] */\n  vertical-align: middle;\n  /* [2] */\n  white-space: nowrap;\n  /* [3] */\n  font-family: inherit;\n  /* [4] */\n  font-size: 100%;\n  /* [4] */\n  cursor: pointer;\n  /* [5] */\n  border: none;\n  /* [6] */\n  margin: 0;\n  /* [6] */\n  padding-top: 0;\n  /* [6] */\n  padding-bottom: 0;\n  /* [6] */\n  line-height: 3;\n  /* [7] */\n  padding-right: 1em;\n  /* [7] */\n  padding-left: 1em;\n  /* [7] */\n  border-radius: 3px;\n  /* [8] */\n  background: #477dca;\n  color: white;\n}\n.ec .btn,\n.ec .btn:hover {\n  text-decoration: none;\n  /* [9] */\n  background: #2c5999;\n}\n.ec .btn:active,\n.ec .btn:focus {\n  outline: none;\n}\n.ec .btn--small {\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n  line-height: 2;\n}\n.ec .btn--large {\n  padding-right: 1.5em;\n  padding-left: 1.5em;\n  line-height: 4;\n}\n.ec .btn--huge {\n  padding-right: 2em;\n  padding-left: 2em;\n  line-height: 5;\n}\n.ec .btn--full {\n  width: 100%;\n  padding-right: 0;\n  /* [1] */\n  padding-left: 0;\n  /* [1] */\n  text-align: center;\n}\n.ec .btn--alpha {\n  font-size: 3rem;\n}\n.ec .btn--beta {\n  font-size: 2rem;\n}\n.ec .btn--gamma {\n  font-size: 1rem;\n}\n.ec .btn--natural {\n  vertical-align: baseline;\n  font-size: inherit;\n  line-height: inherit;\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n}\n.ec .btn--positive {\n  background-color: #4A993E;\n  color: #fff;\n}\n.ec .btn--negative {\n  background-color: #b33630;\n  color: #fff;\n}\n.ec .btn--inactive,\n.ec .btn--inactive:hover,\n.ec .btn--inactive:active,\n.ec .btn--inactive:focus {\n  background-color: #ddd;\n  color: #777;\n  cursor: text;\n  /* [1] */\n}\n.ec .btn--soft {\n  border-radius: 200px;\n  /* [1] */\n}\n.ec .btn--hard {\n  border-radius: 0;\n}\n@media screen and (min-width: 800px) {\n  .ec .left {\n    width: 49%;\n    margin-right: 2%;\n    float: left;\n  }\n}\n@media screen and (min-width: 800px) {\n  .ec .right {\n    width: 49%;\n    float: left;\n  }\n}\n.ec .navigation {\n  padding: 0;\n  margin: 0;\n  display: block;\n}\n.ec .navigation__item {\n  margin: 20px 10px 20px 10px;\n  padding-bottom: 10px;\n  cursor: pointer;\n  display: inline-block;\n}\n.ec .navigation--steps .ec .navigation__item {\n  border-bottom: 5px solid;\n}\n.ec .float--right {\n  float: right !important;\n}\n.ec .float--left {\n  float: left !important;\n}\n.ec .float--none {\n  float: none !important;\n}\n.ec .text--left {\n  text-align: left  !important;\n}\n.ec .text--center {\n  text-align: center !important;\n}\n.ec .text--right {\n  text-align: right !important;\n}\n.ec .weight--light {\n  font-weight: 300 !important;\n}\n.ec .weight--normal {\n  font-weight: 400 !important;\n}\n.ec .weight--semibold {\n  font-weight: 600 !important;\n}\n.ec .push {\n  margin: 1.2em !important;\n}\n.ec .push--top {\n  margin-top: 1.2em !important;\n}\n.ec .push--right {\n  margin-right: 1.2em !important;\n}\n.ec .push--bottom {\n  margin-bottom: 1.2em !important;\n}\n.ec .push--left {\n  margin-left: 1.2em !important;\n}\n.ec .push--ends {\n  margin-top: 1.2em !important;\n  margin-bottom: 1.2em !important;\n}\n.ec .push--sides {\n  margin-right: 1.2em !important;\n  margin-left: 1.2em !important;\n}\n.ec .push-half {\n  margin: 0.6em !important;\n}\n.ec .push-half--top {\n  margin-top: 0.6em !important;\n}\n.ec .push-half--right {\n  margin-right: 0.6em !important;\n}\n.ec .push-half--bottom {\n  margin-bottom: 0.6em !important;\n}\n.ec .push-half--left {\n  margin-left: 0.6em !important;\n}\n.ec .push-half--ends {\n  margin-top: 0.6em !important;\n  margin-bottom: 0.6em !important;\n}\n.ec .push-half--sides {\n  margin-right: 0.6em !important;\n  margin-left: 0.6em !important;\n}\n.ec .flush {\n  margin: 0 !important;\n}\n.ec .flush--top {\n  margin-top: 0 !important;\n}\n.ec .flush--right {\n  margin-right: 0 !important;\n}\n.ec .flush--bottom {\n  margin-bottom: 0 !important;\n}\n.ec .flush--left {\n  margin-left: 0 !important;\n}\n.ec .flush--ends {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n}\n.ec .flush--sides {\n  margin-right: 0 !important;\n  margin-left: 0 !important;\n}\n.ec .soft {\n  padding: 1.2em !important;\n}\n.ec .soft--top {\n  padding-top: 1.2em !important;\n}\n.ec .soft--right {\n  padding-right: 1.2em !important;\n}\n.ec .soft--bottom {\n  padding-bottom: 1.2em !important;\n}\n.ec .soft--left {\n  padding-left: 1.2em !important;\n}\n.ec .soft--ends {\n  padding-top: 1.2em !important;\n  padding-bottom: 1.2em !important;\n}\n.ec .soft--sides {\n  padding-right: 1.2em !important;\n  padding-left: 1.2em !important;\n}\n.ec .soft-half {\n  padding: 0.6em !important;\n}\n.ec .soft-half--top {\n  padding-top: 0.6em !important;\n}\n.ec .soft-half--right {\n  padding-right: 0.6em !important;\n}\n.ec .soft-half--bottom {\n  padding-bottom: 0.6em !important;\n}\n.ec .soft-half--left {\n  padding-left: 0.6em !important;\n}\n.ec .soft-half--ends {\n  padding-top: 0.6em !important;\n  padding-bottom: 0.6em !important;\n}\n.ec .soft-half--sides {\n  padding-right: 0.6em !important;\n  padding-left: 0.6em !important;\n}\n.ec .hard {\n  padding: 0 !important;\n}\n.ec .hard--top {\n  padding-top: 0 !important;\n}\n.ec .hard--right {\n  padding-right: 0 !important;\n}\n.ec .hard--bottom {\n  padding-bottom: 0 !important;\n}\n.ec .hard--left {\n  padding-left: 0 !important;\n}\n.ec .hard--ends {\n  padding-top: 0 !important;\n  padding-bottom: 0 !important;\n}\n.ec .hard--sides {\n  padding-right: 0 !important;\n  padding-left: 0 !important;\n}\n.ec .full-bleed {\n  margin-right: -1.2em !important;\n  margin-left: -1.2em !important;\n}\n.islet .ec .full-bleed {\n  margin-right: -0.6em !important;\n  margin-left: -0.6em !important;\n}\n.ec .loader,\n.ec .loader:before,\n.ec .loader:after {\n  border-radius: 50%;\n}\n.ec .loader:before,\n.ec .loader:after {\n  position: absolute;\n  content: '';\n}\n.ec .loader:before {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 10.2em 0 0 10.2em;\n  top: -0.1em;\n  left: -0.1em;\n  -webkit-transform-origin: 5.2em 5.1em;\n  transform-origin: 5.2em 5.1em;\n  -webkit-animation: load2 2s infinite ease 1.5s;\n  animation: load2 2s infinite ease 1.5s;\n}\n.ec .loader {\n  font-size: 11px;\n  text-indent: -99999em;\n  margin: 55px auto;\n  position: relative;\n  width: 10em;\n  height: 10em;\n  box-shadow: inset 0 0 0 1em #ffffff;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n}\n.ec .loader:after {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 0 10.2em 10.2em 0;\n  top: -0.1em;\n  left: 5.1em;\n  -webkit-transform-origin: 0px 5.1em;\n  transform-origin: 0px 5.1em;\n  -webkit-animation: load2 2s infinite ease;\n  animation: load2 2s infinite ease;\n}\n@-webkit-keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n.ec .templatelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .templatelist__item {\n  float: left;\n  width: 33%;\n  padding: 0.3em;\n  margin: 2px;\n  width: 110px;\n  font-size: .8em;\n  text-align: center;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in 0.2s, border-color ease-in 0.2s;\n  position: relative;\n  overflow: hidden;\n  color: #333333;\n}\n.ec .templatelist__item svg {\n  max-height: 80px;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item div {\n  transition: bottom ease-in 0.2s;\n  padding-top: 2px;\n  position: absolute;\n  bottom: -40px;\n  left: 0.3em;\n  height: 26px;\n  width: 100px;\n  background: #F5F5F5;\n}\n.ec .templatelist__item:hover {\n  background: #F5F5F5;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item:hover div {\n  bottom: 0.3em;\n}\n.ec a,\n.ec .hover {\n  color: #477dca;\n  cursor: pointer;\n}\n.ec .active {\n  color: #477dca;\n}\n.ec .container {\n  clear: both;\n}\n.ec .Scp {\n  position: absolute;\n  margin-top: 5px;\n  width: 200px;\n  height: 150px;\n  border: 1px solid #DDD;\n  border-radius: 3px;\n}\n.ec .header {\n  margin-bottom: 20px;\n  background-color: #333;\n  width: 100%;\n  display: inline-block;\n  position: relative;\n  min-height: 48px;\n}\n.ec .header .logo {\n  text-align: right;\n  color: white;\n  font-weight: 100;\n  font-size: 1.5em;\n  position: absolute;\n  bottom: 4px;\n  right: 15px;\n}\n.ec .header .navigation {\n  margin-left: 10px;\n  margin-top: 10px;\n  float: left;\n}\n.ec .header .navigation .tab-link a {\n  text-decoration: none;\n  color: white;\n}\n.ec .header .navigation .tab-link.is-active {\n  background: #F5F5F5;\n  border: none;\n}\n.ec .header .navigation .tab-link.is-active a {\n  color: #477dca;\n}\n.ec .header:after {\n  clear: both;\n}\n.ec .revisionElement {\n  margin-top: 20px;\n  border: 1px solid #DDD;\n  background: white;\n  padding: 20px;\n  display: block;\n  float: left;\n  width: 100%;\n}\n.ec .objectArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .objectArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #F5F5F5;\n}\n.ec .objectArray .title h4,\n.ec .objectArray .title h5 {\n  float: left;\n}\n.ec .objectArray .title .btn {\n  float: right;\n}\n.ec .objectArray .list {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item .title {\n  border-bottom: 1px solid #DDD;\n  border-top: 1px solid #DDD;\n}\n.ec .objectArray .list .item .options {\n  float: left;\n  width: 100%;\n  padding-top: 20px;\n}\n.ec .arrayArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .arrayArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #F5F5F5;\n}\n.ec .arrayArray .title h4,\n.ec .arrayArray .title h5 {\n  float: left;\n}\n.ec .arrayArray .title .btn {\n  float: right;\n}\n.ec .arrayArray input {\n  display: inline-block;\n}\n.ec .readOnlyBox {\n  border: 1px solid #DDD;\n  background: white;\n  padding: 10px 20px;\n  display: block;\n  margin-bottom: 10px;\n}\n.ec .titleBar {\n  display: inline-block;\n  width: 100%;\n  padding-bottom: 20px;\n}\n.ec .titleBar h3 {\n  float: left;\n}\n.ec .titleBar .btn {\n  margin-left: 10px;\n  float: right;\n}\n.ec .file_drop {\n  padding: 50px;\n  background: #DDD;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3R5bGUuY3NzIiwic291cmNlcyI6WyJzdHlsZS5zY3NzIiwiYmFzZS9fdmFyaWFibGVzLnNjc3MiLCJiYXNlL19mdW5jdGlvbnMuc2NzcyIsImJhc2UvX3RhYmxlcy5zY3NzIiwiYmFzZS9fZm9ybXMuc2NzcyIsImJhc2UvX3R5cGdyYXBoeS5zY3NzIiwiY29tcG9uZW50cy9fdmVydGljYWwtdGFicy5zY3NzIiwiY29tcG9uZW50cy9faG9yaXpvbnRhbC10YWJzLnNjc3MiLCJjb21wb25lbnRzL19idXR0b25zLnNjc3MiLCJjb21wb25lbnRzL19zdHJ1Y3R1cmUuc2NzcyIsImNvbXBvbmVudHMvX25hdmlnYXRpb24uc2NzcyIsImNvbXBvbmVudHMvX2hlbHBlcnMuc2NzcyIsImNvbXBvbmVudHMvX2xvYWRlci5zY3NzIiwiY29tcG9uZW50cy9fdGVtcGxhdGUtbGlzdC5zY3NzIl0sInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgXCJiYXNlL3ZhcmlhYmxlc1wiO1xuXG4uZWMge1xuICBmb250LWZhbWlseTogJGJhc2UtZm9udC1mYW1pbHk7XG4gIGZvbnQtc2l6ZTogJGJhc2UtZm9udC1zaXplO1xuICBsaW5lLWhlaWdodDogJGJhc2UtbGluZS1oZWlnaHQ7XG4gIGJhY2tncm91bmQ6ICRzdXBlci1saWdodC1ncmF5O1xuICBmbG9hdDogbGVmdDtcbiAgd2lkdGg6IDEwMCU7XG4gIEBpbXBvcnQgXCJiYXNlL2Z1bmN0aW9uc1wiO1xuICBAaW1wb3J0IFwiYmFzZS90YWJsZXNcIjtcbiAgQGltcG9ydCBcImJhc2UvZm9ybXNcIjtcbiAgQGltcG9ydCBcImJhc2UvdHlwZ3JhcGh5XCI7XG4gIEBpbXBvcnQgXCJjb21wb25lbnRzL3ZlcnRpY2FsLXRhYnNcIjtcbiAgQGltcG9ydCBcImNvbXBvbmVudHMvaG9yaXpvbnRhbC10YWJzXCI7XG4gIEBpbXBvcnQgXCJjb21wb25lbnRzL2J1dHRvbnNcIjtcbiAgQGltcG9ydCBcImNvbXBvbmVudHMvc3RydWN0dXJlXCI7XG4gIEBpbXBvcnQgXCJjb21wb25lbnRzL25hdmlnYXRpb25cIjtcbiAgQGltcG9ydCBcImNvbXBvbmVudHMvaGVscGVyc1wiO1xuICBAaW1wb3J0IFwiY29tcG9uZW50cy9sb2FkZXJcIjtcbiAgQGltcG9ydCBcImNvbXBvbmVudHMvdGVtcGxhdGUtbGlzdFwiO1xuICBcbiAgYSwgLmhvdmVyIHtcbiAgICBjb2xvcjogJGJhc2UtYWNjZW50LWNvbG9yO1xuICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgfVxuICBcbiAgLmFjdGl2ZSB7XG4gICAgY29sb3I6ICRiYXNlLWFjY2VudC1jb2xvcjtcbiAgfVxuICBcbiAgLmNvbnRhaW5lciB7XG4gICAgY2xlYXI6IGJvdGg7XG4gIH1cbiAgLlNjcCB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIG1hcmdpbi10b3A6IDVweDtcbiAgICB3aWR0aDogMjAwcHg7XG4gICAgaGVpZ2h0OiAxNTBweDtcbiAgICBib3JkZXI6IDFweCBzb2xpZCAkbGlnaHQtZ3JheTtcbiAgICBib3JkZXItcmFkaXVzOiAzcHg7XG4gIH1cbiAgLmhlYWRlciB7XG4gICAgbWFyZ2luLWJvdHRvbTogMjBweDtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMzMzO1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgbWluLWhlaWdodDogNDhweDtcbiAgICAubG9nbyB7XG4gICAgICB0ZXh0LWFsaWduOiByaWdodDtcbiAgICAgIGNvbG9yOiB3aGl0ZTtcbiAgICAgIGZvbnQtd2VpZ2h0OiAxMDA7XG4gICAgICBmb250LXNpemU6IDEuNWVtO1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiA0cHg7XG4gICAgICByaWdodDogMTVweDtcbiAgICB9XG4gICAgLm5hdmlnYXRpb24ge1xuICAgICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG4gICAgICBtYXJnaW4tdG9wOiAxMHB4O1xuICAgICAgZmxvYXQ6IGxlZnQ7XG4gICAgICAudGFiLWxpbmsgYSB7XG4gICAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICAgICAgY29sb3I6IHdoaXRlO1xuICAgICAgfVxuICAgICAgXG4gICAgICAudGFiLWxpbmsuaXMtYWN0aXZlIHtcbiAgICAgICAgYmFja2dyb3VuZDogJHN1cGVyLWxpZ2h0LWdyYXk7XG4gICAgICAgIGJvcmRlcjogbm9uZTtcbiAgICAgICAgYSB7XG4gICAgICAgICAgY29sb3I6ICRiYXNlLWFjY2VudC1jb2xvcjtcbiAgICAgICAgfVxuICAgICAgfVxuICAgIH1cbiAgICAmOmFmdGVyIHtcbiAgICAgIGNsZWFyOiBib3RoO1xuICAgIH1cbiAgfVxuICAucmV2aXNpb25FbGVtZW50IHtcbiAgICBtYXJnaW4tdG9wOiAyMHB4O1xuICAgIGJvcmRlcjogMXB4IHNvbGlkICRsaWdodC1ncmF5O1xuICAgIGJhY2tncm91bmQ6IHdoaXRlO1xuICAgIHBhZGRpbmc6IDIwcHg7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgd2lkdGg6IDEwMCU7XG4gIH1cblxuICAub2JqZWN0QXJyYXkge1xuICAgIGJvcmRlcjogMXB4IHNvbGlkICRsaWdodC1ncmF5O1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgICB3aWR0aDogMTAwJTtcblxuICAgIC50aXRsZSB7XG4gICAgICBwYWRkaW5nOiA3LjVweCAxMHB4O1xuICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICBmbG9hdDogbGVmdDtcbiAgICAgIGJhY2tncm91bmQ6ICRzdXBlci1saWdodC1ncmF5O1xuICAgICAgaDQsIGg1IHtcbiAgICAgICAgZmxvYXQ6IGxlZnQ7XG4gICAgICB9XG4gICAgICAuYnRuIHtcbiAgICAgICAgZmxvYXQ6IHJpZ2h0O1xuICAgICAgfVxuICAgIH1cbiAgICAubGlzdCB7XG4gICAgICB3aWR0aDogMTAwJTtcbiAgICAgIGZsb2F0OiBsZWZ0O1xuICAgICAgLml0ZW0ge1xuICAgICAgICAudGl0bGUge1xuICAgICAgICAgIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCAkbGlnaHQtZ3JheTtcbiAgICAgICAgICBib3JkZXItdG9wOiAxcHggc29saWQgJGxpZ2h0LWdyYXk7XG4gICAgICAgIH1cbiAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgIGZsb2F0OiBsZWZ0O1xuICAgICAgICAub3B0aW9ucyB7XG4gICAgICAgICAgZmxvYXQ6IGxlZnQ7XG4gICAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICAgICAgcGFkZGluZy10b3A6IDIwcHg7XG4gICAgICAgIH1cbiAgICAgIH1cbiAgICB9XG4gIH1cblxuICAuYXJyYXlBcnJheSB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgJGxpZ2h0LWdyYXk7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICAgIHdpZHRoOiAxMDAlO1xuXG4gICAgLnRpdGxlIHtcbiAgICAgIHBhZGRpbmc6IDcuNXB4IDEwcHg7XG4gICAgICB3aWR0aDogMTAwJTtcbiAgICAgIGZsb2F0OiBsZWZ0O1xuICAgICAgYmFja2dyb3VuZDogJHN1cGVyLWxpZ2h0LWdyYXk7XG4gICAgICBoNCwgaDUge1xuICAgICAgICBmbG9hdDogbGVmdDtcbiAgICAgIH1cbiAgICAgIC5idG4ge1xuICAgICAgICBmbG9hdDogcmlnaHQ7XG4gICAgICB9XG4gICAgfVxuXG4gICAgaW5wdXQge1xuICAgICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICAgIH1cbiAgfVxuICBcbiAgLnJlYWRPbmx5Qm94IHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCAkbGlnaHQtZ3JheTtcbiAgICBiYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgICBwYWRkaW5nOiAxMHB4IDIwcHg7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgbWFyZ2luLWJvdHRvbTogMTBweDtcbiAgfVxuICAudGl0bGVCYXIge1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgICB3aWR0aDogMTAwJTtcbiAgICBwYWRkaW5nLWJvdHRvbTogMjBweDtcbiAgICBoMyB7XG4gICAgICBmbG9hdDogbGVmdDtcbiAgICB9XG4gICAgLmJ0biB7XG4gICAgICBtYXJnaW4tbGVmdDogMTBweDtcbiAgICAgIGZsb2F0OiByaWdodDtcbiAgICB9XG4gIH1cbiAgXG4gIC5maWxlX2Ryb3Age1xuICAgIHBhZGRpbmc6IDUwcHg7XG4gICAgYmFja2dyb3VuZDogJGxpZ2h0LWdyYXk7XG4gIH1cbiAgXG59XG4iLCIvLyBHcmlkIFNldHRpbmdzXG4kY29sdW1uOiA5MHB4O1xuJGd1dHRlcjogMzBweDtcbiRncmlkLWNvbHVtbnM6IDEyO1xuJG1heC13aWR0aDogMTIwMHB4O1xuXG4kYnJlYWtwb2ludF8xIDogJzYwMHB4JztcbiRicmVha3BvaW50XzIgOiAnODAwcHgnO1xuXG4vLyBGb250IFNpemVzXG4kYmFzZS1mb250LXNpemU6IDE0cHg7XG4kYmFzZS1mb250LWZhbWlseTogc2Fucy1zZXJpZiwgQXJpYWwsIFZlcmRhbmEsICdUcmVidWNoZXQgTVMnO1xuJGgxLWZvbnQtc2l6ZTogJGJhc2UtZm9udC1zaXplICogMjtcbiRoMi1mb250LXNpemU6ICRiYXNlLWZvbnQtc2l6ZSAqIDEuNzU7XG4kaDMtZm9udC1zaXplOiAkYmFzZS1mb250LXNpemUgKiAxLjU7XG4kaDQtZm9udC1zaXplOiAkYmFzZS1mb250LXNpemUgKiAxLjI1O1xuJGg1LWZvbnQtc2l6ZTogJGJhc2UtZm9udC1zaXplICogMS4xMjU7XG4kaDYtZm9udC1zaXplOiAkYmFzZS1mb250LXNpemU7XG5cbi8vIExpbmUgaGVpZ2h0XG4kYmFzZS1saW5lLWhlaWdodDogMS41O1xuJGhlYWRlci1saW5lLWhlaWdodDogMS4yNTtcblxuLy8gT3RoZXIgU2l6ZXNcbiRiYXNlLWJvcmRlci1yYWRpdXM6IDNweDtcbiRiYXNlLXNwYWNpbmc6ICRiYXNlLWxpbmUtaGVpZ2h0ICogLjhlbTtcbiRiYXNlLXotaW5kZXg6IDA7XG4kc21hbGwtc3BhY2luZzogJGJhc2Utc3BhY2luZy8yO1xuXG4vLyBDb2xvcnNcbiRibHVlOiAjNDc3ZGNhO1xuJGRhcmstZ3JheTogIzMzMztcbiRtZWRpdW0tZ3JheTogIzk5OTtcbiRzdXBlci1saWdodC1ncmF5OiBcdCNGNUY1RjU7XG4kbGlnaHQtZ3JheTogI0RERDtcbiRsaWdodC1yZWQ6ICNGQkUzRTQ7XG4kbGlnaHQteWVsbG93OiAjRkZGNkJGO1xuJGxpZ2h0LWdyZWVuOiAjRTZFRkMyO1xuXG4vLyBCYWNrZ3JvdW5kIENvbG9yXG4kYmFzZS1iYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiRzZWNvbmRhcnktYmFja2dyb3VuZC1jb2xvcjogJHN1cGVyLWxpZ2h0LWdyYXk7XG4vLyBGb250IENvbG9yc1xuJGJhc2UtZm9udC1jb2xvcjogJGRhcmstZ3JheTtcbiRiYXNlLWFjY2VudC1jb2xvcjogJGJsdWU7XG5cblxuLy8gTGluayBDb2xvcnNcbiRiYXNlLWxpbmstY29sb3I6ICRiYXNlLWFjY2VudC1jb2xvcjtcbiRob3Zlci1saW5rLWNvbG9yOiBkYXJrZW4oJGJhc2UtYWNjZW50LWNvbG9yLCAxNSk7XG4kYmFzZS1idXR0b24tY29sb3I6ICRiYXNlLWxpbmstY29sb3I7XG4kaG92ZXItYnV0dG9uLWNvbG9yOiAkaG92ZXItbGluay1jb2xvcjtcblxuLy8gRmxhc2ggQ29sb3JzXG4kYWxlcnQtY29sb3I6ICRsaWdodC15ZWxsb3c7XG4kZXJyb3ItY29sb3I6ICRsaWdodC1yZWQ7XG4kbm90aWNlLWNvbG9yOiBsaWdodGVuKCRiYXNlLWFjY2VudC1jb2xvciwgNDApO1xuJHN1Y2Nlc3MtY29sb3I6ICRsaWdodC1ncmVlbjtcblxuLy8gQm9yZGVyIGNvbG9yXG4kYmFzZS1ib3JkZXItY29sb3I6ICRsaWdodC1ncmF5O1xuJGJhc2UtYm9yZGVyOiAxcHggc29saWQgJGJhc2UtYm9yZGVyLWNvbG9yO1xuXG4vLyBGb3Jtc1xuJGZvcm0tYm9yZGVyLWNvbG9yOiAkYmFzZS1ib3JkZXItY29sb3I7XG4kZm9ybS1ib3JkZXItY29sb3ItaG92ZXI6IGRhcmtlbigkYmFzZS1ib3JkZXItY29sb3IsIDEwKTtcbiRmb3JtLWJvcmRlci1jb2xvci1mb2N1czogJGJhc2UtYWNjZW50LWNvbG9yO1xuJGZvcm0tYm9yZGVyLXJhZGl1czogJGJhc2UtYm9yZGVyLXJhZGl1cztcbiRmb3JtLWJveC1zaGFkb3c6IGluc2V0IDAgMXB4IDNweCByZ2JhKGJsYWNrLDAuMDYpO1xuJGZvcm0tYm94LXNoYWRvdy1mb2N1czogJGZvcm0tYm94LXNoYWRvdywgMCAwIDVweCByZ2JhKGRhcmtlbigkZm9ybS1ib3JkZXItY29sb3ItZm9jdXMsIDUpLCAwLjcpO1xuJGZvcm0tZm9udC1zaXplOiAkYmFzZS1mb250LXNpemU7XG5cbi8vIEFuaW1hdGlvblxuXG4kYmFzZS1kdXJhdGlvbjogMC4ycztcbiRiYXNlLXRpbWluZzogZWFzZS1pbjtcbiIsIiRkZWZhdWx0LWZlYXR1cmU6IG1pbi13aWR0aDtcbkBtaXhpbiBjbGVhcmZpeCB7XG4gICY6OmFmdGVyIHtcbiAgICBjbGVhcjogYm90aDtcbiAgICBjb250ZW50OiBcIlwiO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICB9XG59XG5cbkBtaXhpbiBtZWRpYSgkcXVlcnk6ICRmZWF0dXJlICR2YWx1ZSAkY29sdW1ucywgJHRvdGFsLWNvbHVtbnM6ICRncmlkLWNvbHVtbnMpIHtcbiAgQGlmIGxlbmd0aCgkcXVlcnkpID09IDEge1xuICAgIEBtZWRpYSBzY3JlZW4gYW5kICgkZGVmYXVsdC1mZWF0dXJlOiBudGgoJHF1ZXJ5LCAxKSkge1xuICAgICAgJGRlZmF1bHQtZ3JpZC1jb2x1bW5zOiAkZ3JpZC1jb2x1bW5zO1xuICAgICAgJGdyaWQtY29sdW1uczogJHRvdGFsLWNvbHVtbnMgIWdsb2JhbDtcbiAgICAgIEBjb250ZW50O1xuICAgICAgJGdyaWQtY29sdW1uczogJGRlZmF1bHQtZ3JpZC1jb2x1bW5zICFnbG9iYWw7XG4gICAgfVxuICB9IEBlbHNlIHtcbiAgICAkbG9vcC10bzogbGVuZ3RoKCRxdWVyeSk7XG4gICAgJG1lZGlhLXF1ZXJ5OiBcInNjcmVlbiBhbmQgXCI7XG4gICAgJGRlZmF1bHQtZ3JpZC1jb2x1bW5zOiAkZ3JpZC1jb2x1bW5zO1xuICAgICRncmlkLWNvbHVtbnM6ICR0b3RhbC1jb2x1bW5zICFnbG9iYWw7XG5cbiAgICBAaWYgaXMtbm90KGlzLWV2ZW4obGVuZ3RoKCRxdWVyeSkpKSB7XG4gICAgICAkZ3JpZC1jb2x1bW5zOiBudGgoJHF1ZXJ5LCAkbG9vcC10bykgIWdsb2JhbDtcbiAgICAgICRsb29wLXRvOiAkbG9vcC10byAtIDE7XG4gICAgfVxuXG4gICAgJGk6IDE7XG4gICAgQHdoaWxlICRpIDw9ICRsb29wLXRvIHtcbiAgICAgICRtZWRpYS1xdWVyeTogJG1lZGlhLXF1ZXJ5ICsgXCIoXCIgKyBudGgoJHF1ZXJ5LCAkaSkgKyBcIjogXCIgKyBudGgoJHF1ZXJ5LCAkaSArIDEpICsgXCIpIFwiO1xuXG4gICAgICBAaWYgKCRpICsgMSkgIT0gJGxvb3AtdG8ge1xuICAgICAgICAkbWVkaWEtcXVlcnk6ICRtZWRpYS1xdWVyeSArIFwiYW5kIFwiO1xuICAgICAgfVxuXG4gICAgICAkaTogJGkgKyAyO1xuICAgIH1cblxuICAgIEBtZWRpYSAjeyRtZWRpYS1xdWVyeX0ge1xuICAgICAgQGNvbnRlbnQ7XG4gICAgICAkZ3JpZC1jb2x1bW5zOiAkZGVmYXVsdC1ncmlkLWNvbHVtbnMgIWdsb2JhbDtcbiAgICB9XG4gIH1cbn1cbiIsIi8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKlxcXG4gICAgJFRBQkxFU1xuXFwqLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cbi8qKlxuICogV2UgaGF2ZSBhIGxvdCBhdCBvdXIgZGlzcG9zYWwgZm9yIG1ha2luZyB2ZXJ5IGNvbXBsZXggdGFibGUgY29uc3RydWN0cywgZS5nLjpcbiAqXG4gICA8dGFibGUgY2xhc3M9XCJ0YWJsZS0tYm9yZGVyZWQgIHRhYmxlLS1zdHJpcGVkICB0YWJsZS0tZGF0YVwiPlxuICAgICAgIDxjb2xncm91cD5cbiAgICAgICAgICAgPGNvbCBjbGFzcz10MTA+XG4gICAgICAgICAgIDxjb2wgY2xhc3M9dDEwPlxuICAgICAgICAgICA8Y29sIGNsYXNzPXQxMD5cbiAgICAgICAgICAgPGNvbD5cbiAgICAgICA8L2NvbGdyb3VwPlxuICAgICAgIDx0aGVhZD5cbiAgICAgICAgICAgPHRyPlxuICAgICAgICAgICAgICAgPHRoIGNvbHNwYW49Mz5Gb288L3RoPlxuICAgICAgICAgICAgICAgPHRoPkJhcjwvdGg+XG4gICAgICAgICAgIDwvdHI+XG4gICAgICAgICAgIDx0cj5cbiAgICAgICAgICAgICAgIDx0aD5Mb3JlbTwvdGg+XG4gICAgICAgICAgICAgICA8dGg+SXBzdW08L3RoPlxuICAgICAgICAgICAgICAgPHRoIGNsYXNzPW51bWVyaWNhbD5Eb2xvcjwvdGg+XG4gICAgICAgICAgICAgICA8dGg+U2l0PC90aD5cbiAgICAgICAgICAgPC90cj5cbiAgICAgICA8L3RoZWFkPlxuICAgICAgIDx0Ym9keT5cbiAgICAgICAgICAgPHRyPlxuICAgICAgICAgICAgICAgPHRoIHJvd3NwYW49Mz5TaXQ8L3RoPlxuICAgICAgICAgICAgICAgPHRkPkRvbG9yPC90ZD5cbiAgICAgICAgICAgICAgIDx0ZCBjbGFzcz1udW1lcmljYWw+MDMuNzg4PC90ZD5cbiAgICAgICAgICAgICAgIDx0ZD5Mb3JlbTwvdGQ+XG4gICAgICAgICAgIDwvdHI+XG4gICAgICAgICAgIDx0cj5cbiAgICAgICAgICAgICAgIDx0ZD5Eb2xvcjwvdGQ+XG4gICAgICAgICAgICAgICA8dGQgY2xhc3M9bnVtZXJpY2FsPjMyLjIxMDwvdGQ+XG4gICAgICAgICAgICAgICA8dGQ+TG9yZW08L3RkPlxuICAgICAgICAgICA8L3RyPlxuICAgICAgICAgICA8dHI+XG4gICAgICAgICAgICAgICA8dGQ+RG9sb3I8L3RkPlxuICAgICAgICAgICAgICAgPHRkIGNsYXNzPW51bWVyaWNhbD40Ny43OTc8L3RkPlxuICAgICAgICAgICAgICAgPHRkPkxvcmVtPC90ZD5cbiAgICAgICAgICAgPC90cj5cbiAgICAgICAgICAgPHRyPlxuICAgICAgICAgICAgICAgPHRoIHJvd3NwYW49Mj5TaXQ8L3RoPlxuICAgICAgICAgICAgICAgPHRkPkRvbG9yPC90ZD5cbiAgICAgICAgICAgICAgIDx0ZCBjbGFzcz1udW1lcmljYWw+MDkuNjQwPC90ZD5cbiAgICAgICAgICAgICAgIDx0ZD5Mb3JlbTwvdGQ+XG4gICAgICAgICAgIDwvdHI+XG4gICAgICAgICAgIDx0cj5cbiAgICAgICAgICAgICAgIDx0ZD5Eb2xvcjwvdGQ+XG4gICAgICAgICAgICAgICA8dGQgY2xhc3M9bnVtZXJpY2FsPjEyLjExNzwvdGQ+XG4gICAgICAgICAgICAgICA8dGQ+TG9yZW08L3RkPlxuICAgICAgICAgICA8L3RyPlxuICAgICAgIDwvdGJvZHk+XG4gICA8L3RhYmxlPlxuICpcbiAqL1xuLnRhYmxle1xuICB3aWR0aDoxMDAlO1xuICBbY29udGVudGVkaXRhYmxlPVwidHJ1ZVwiXTphY3RpdmUsXG4gIFtjb250ZW50ZWRpdGFibGU9XCJ0cnVlXCJdOmZvY3Vze1xuICAgIGJvcmRlcjpub25lO1xuICAgIG91dGxpbmU6bm9uZTtcbiAgICBiYWNrZ3JvdW5kOiAkc3VwZXItbGlnaHQtZ3JheTtcbiAgfVxufVxuLnRhYmxle1xuICB0aCxcbiAgdGR7XG4gICAgcGFkZGluZzokYmFzZS1zcGFjaW5nIC8gNDtcbiAgICBAbWVkaWEgc2NyZWVuIGFuZCAobWluLXdpZHRoOjQ4MHB4KXtcbiAgICAgIHBhZGRpbmc6JGJhc2Utc3BhY2luZy8yO1xuICAgIH1cbiAgICB0ZXh0LWFsaWduOmxlZnQ7XG4gIH1cbn1cblxuLyoqXG4gKiBDZWxsIGFsaWdubWVudHNcbiAqL1xuW2NvbHNwYW5de1xuICB0ZXh0LWFsaWduOmNlbnRlcjtcbn1cbltjb2xzcGFuPVwiMVwiXXtcbiAgdGV4dC1hbGlnbjpsZWZ0O1xufVxuW3Jvd3NwYW5de1xuICB2ZXJ0aWNhbC1hbGlnbjptaWRkbGU7XG59XG5bcm93c3Bhbj1cIjFcIl17XG4gIHZlcnRpY2FsLWFsaWduOnRvcDtcbn1cbi5udW1lcmljYWx7XG4gIHRleHQtYWxpZ246cmlnaHQ7XG59XG5cbi8qKlxuICogSW4gdGhlIEhUTUwgYWJvdmUgd2Ugc2VlIHNldmVyYWwgYGNvbGAgZWxlbWVudHMgd2l0aCBjbGFzc2VzIHdob3NlIG51bWJlcnNcbiAqIHJlcHJlc2VudCBhIHBlcmNlbnRhZ2Ugd2lkdGggZm9yIHRoYXQgY29sdW1uLiBXZSBsZWF2ZSBvbmUgY29sdW1uIGZyZWUgb2YgYVxuICogY2xhc3Mgc28gdGhhdCBjb2x1bW4gY2FuIHNvYWsgdXAgdGhlIGVmZmVjdHMgb2YgYW55IGFjY2lkZW50YWwgYnJlYWthZ2UgaW5cbiAqIHRoZSB0YWJsZS5cbiAqL1xuLnQ1ICAgICB7IHdpZHRoOiA1JSB9XG4udDEwICAgIHsgd2lkdGg6MTAlIH1cbi50MTIgICAgeyB3aWR0aDoxMi41JSB9ICAgICAvKiAxLzggKi9cbi50MTUgICAgeyB3aWR0aDoxNSUgfVxuLnQyMCAgICB7IHdpZHRoOjIwJSB9XG4udDI1ICAgIHsgd2lkdGg6MjUlIH0gICAgICAgLyogMS80ICovXG4udDMwICAgIHsgd2lkdGg6MzAlIH1cbi50MzMgICAgeyB3aWR0aDozMy4zMzMlIH0gICAvKiAxLzMgKi9cbi50MzUgICAgeyB3aWR0aDozNSUgfVxuLnQzNyAgICB7IHdpZHRoOjM3LjUlIH0gICAgIC8qIDMvOCAqL1xuLnQ0MCAgICB7IHdpZHRoOjQwJSB9XG4udDQ1ICAgIHsgd2lkdGg6NDUlIH1cbi50NTAgICAgeyB3aWR0aDo1MCUgfSAgICAgICAvKiAxLzIgKi9cbi50NTUgICAgeyB3aWR0aDo1NSUgfVxuLnQ2MCAgICB7IHdpZHRoOjYwJSB9XG4udDYyICAgIHsgd2lkdGg6NjIuNSUgfSAgICAgLyogNS84ICovXG4udDY1ICAgIHsgd2lkdGg6NjUlIH1cbi50NjYgICAgeyB3aWR0aDo2Ni42NjYlIH0gICAvKiAyLzMgKi9cbi50NzAgICAgeyB3aWR0aDo3MCUgfVxuLnQ3NSAgICB7IHdpZHRoOjc1JSB9ICAgICAgIC8qIDMvNCovXG4udDgwICAgIHsgd2lkdGg6ODAlIH1cbi50ODUgICAgeyB3aWR0aDo4NSUgfVxuLnQ4NyAgICB7IHdpZHRoOjg3LjUlIH0gICAgIC8qIDcvOCAqL1xuLnQ5MCAgICB7IHdpZHRoOjkwJSB9XG4udDk1ICAgIHsgd2lkdGg6OTUlIH1cblxuXG4vKipcbiAqIEJvcmRlcmVkIHRhYmxlc1xuICovXG4udGFibGUtLWJvcmRlcmVke1xuICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlO1xuXG4gIHRye1xuICAgIGJvcmRlcjoxcHggc29saWQgJGJhc2UtYm9yZGVyLWNvbG9yO1xuICB9XG4gIHRoLFxuICB0ZHtcbiAgICBib3JkZXItcmlnaHQ6IDFweCBzb2xpZCAkYmFzZS1ib3JkZXItY29sb3I7XG4gIH1cblxuICB0aGVhZCB0cjpsYXN0LWNoaWxkIHRoe1xuICAgIGJvcmRlci1ib3R0b20td2lkdGg6MnB4O1xuICB9XG5cbiAgdGJvZHkgdHIgdGg6bGFzdC1vZi10eXBle1xuICAgIGJvcmRlci1yaWdodC13aWR0aDoycHg7XG4gIH1cbn1cblxuXG4vKipcbiAqIFN0cmlwZWQgdGFibGVzXG4gKi9cbi50YWJsZS0tc3RyaXBlZHtcbiAgdGJvZHkgdHI6bnRoLW9mLXR5cGUob2RkKXtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiNmZmM7IC8qIE92ZXJyaWRlIHRoaXMgY29sb3IgaW4geW91ciB0aGVtZSBzdHlsZXNoZWV0ICovXG4gIH1cbn1cblxuXG4vKipcbiAqIERhdGEgdGFibGVcbiAqL1xuLnRhYmxlLS1kYXRhe1xuICBmb250OjEycHgvMS41IHNhbnMtc2VyaWY7XG59XG4udGFibGUtLWRpc2FibGVke1xuICBjb2xvcjogIzc3NztcbiAgYm9yZGVyLWNvbG9yOiM3Nzc7XG59IiwiJHRleHQtaW5wdXRzLWxpc3Q6ICdpbnB1dFt0eXBlPVwiY29sb3JcIl0nLFxuJ2lucHV0W3R5cGU9XCJkYXRlXCJdJyxcbidpbnB1dFt0eXBlPVwiZGF0ZXRpbWVcIl0nLFxuJ2lucHV0W3R5cGU9XCJkYXRldGltZS1sb2NhbFwiXScsXG4naW5wdXRbdHlwZT1cImVtYWlsXCJdJyxcbidpbnB1dFt0eXBlPVwibW9udGhcIl0nLFxuJ2lucHV0W3R5cGU9XCJudW1iZXJcIl0nLFxuJ2lucHV0W3R5cGU9XCJwYXNzd29yZFwiXScsXG4naW5wdXRbdHlwZT1cInNlYXJjaFwiXScsXG4naW5wdXRbdHlwZT1cInRlbFwiXScsXG4naW5wdXRbdHlwZT1cInRleHRcIl0nLFxuJ2lucHV0W3R5cGU9XCJ0aW1lXCJdJyxcbidpbnB1dFt0eXBlPVwidXJsXCJdJyxcbidpbnB1dFt0eXBlPVwid2Vla1wiXScsXG4naW5wdXQ6bm90KFt0eXBlXSknLFxuJ3RleHRhcmVhJztcblxuJGFsbC10ZXh0LWlucHV0czogICAgICAgIGFzc2lnbi1pbnB1dHMoJHRleHQtaW5wdXRzLWxpc3QpO1xuJGFsbC10ZXh0LWlucHV0cy1hY3RpdmU6IGFzc2lnbi1pbnB1dHMoJHRleHQtaW5wdXRzLWxpc3QsIGFjdGl2ZSk7XG4kYWxsLXRleHQtaW5wdXRzLWZvY3VzOiAgYXNzaWduLWlucHV0cygkdGV4dC1pbnB1dHMtbGlzdCwgZm9jdXMpO1xuJGFsbC10ZXh0LWlucHV0cy1ob3ZlcjogIGFzc2lnbi1pbnB1dHMoJHRleHQtaW5wdXRzLWxpc3QsIGhvdmVyKTtcblxuZmllbGRzZXQge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAkc2Vjb25kYXJ5LWJhY2tncm91bmQtY29sb3I7XG4gIGJvcmRlcjogMXB4O1xuICBtYXJnaW46IDAgMCAkc21hbGwtc3BhY2luZztcbiAgcGFkZGluZzogJGJhc2Utc3BhY2luZztcbn1cblxuXG5pbnB1dCxcbmxhYmVsLFxuc2VsZWN0IHtcbiAgZGlzcGxheTogYmxvY2s7XG4gIGZvbnQtZmFtaWx5OiAkYmFzZS1mb250LWZhbWlseTtcbiAgZm9udC1zaXplOiAkYmFzZS1mb250LXNpemU7XG59XG5cbmxhYmVsIHtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgJi5yZXF1aXJlZDo6YWZ0ZXIge1xuICAgIGNvbnRlbnQ6IFwiKlwiO1xuICB9XG5cbiAgYWJiciB7XG4gICAgZGlzcGxheTogbm9uZTtcbiAgfVxufVxuXG4jeyRhbGwtdGV4dC1pbnB1dHN9LFxuc2VsZWN0IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogJGJhc2UtYmFja2dyb3VuZC1jb2xvcjtcbiAgYm9yZGVyOiAxcHggc29saWQgI2JmYmZiZjtcbiAgYm9yZGVyLXJhZGl1czogJGJhc2UtYm9yZGVyLXJhZGl1cztcbiAgYm94LXNoYWRvdzogJGZvcm0tYm94LXNoYWRvdztcbiAgYm94LXNpemluZzogYm9yZGVyLWJveDtcbiAgZm9udC1mYW1pbHk6ICRiYXNlLWZvbnQtZmFtaWx5O1xuICBmb250LXNpemU6ICRiYXNlLWZvbnQtc2l6ZTtcbiAgcGFkZGluZzogJGJhc2Utc3BhY2luZyAvIDQ7XG4gIHRyYW5zaXRpb246IGJvcmRlci1jb2xvciAkYmFzZS1kdXJhdGlvbiAkYmFzZS10aW1pbmc7XG4gIG1heC13aWR0aDogMTAwJTtcbiAgJjpob3ZlciB7XG4gICAgYm9yZGVyLWNvbG9yOiBzaGFkZSgkYmFzZS1ib3JkZXItY29sb3IsIDIwJSk7XG4gIH1cblxuICAmOmZvY3VzIHtcbiAgICBib3JkZXItY29sb3I6ICRiYXNlLWFjY2VudC1jb2xvcjtcbiAgICBib3gtc2hhZG93OiAkZm9ybS1ib3gtc2hhZG93LWZvY3VzO1xuICAgIG91dGxpbmU6IG5vbmU7XG4gIH1cblxuICAmOmRpc2FibGVkIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBzaGFkZSgkYmFzZS1iYWNrZ3JvdW5kLWNvbG9yLCA1JSk7XG4gICAgY3Vyc29yOiBub3QtYWxsb3dlZDtcblxuICAgICY6aG92ZXIge1xuICAgICAgYm9yZGVyOiAkYmFzZS1ib3JkZXI7XG4gICAgfVxuICB9XG59XG5cbnRleHRhcmVhIHtcbiAgd2lkdGg6IDEwMCU7XG4gIHJlc2l6ZTogdmVydGljYWw7XG59XG5cbmlucHV0W3R5cGU9XCJzZWFyY2hcIl0ge1xuICBhcHBlYXJhbmNlOiBub25lO1xufVxuXG5pbnB1dFt0eXBlPVwiY2hlY2tib3hcIl0sXG5pbnB1dFt0eXBlPVwicmFkaW9cIl0ge1xuICBkaXNwbGF5OiBpbmxpbmU7XG4gIG1hcmdpbi1yaWdodDogJHNtYWxsLXNwYWNpbmcgLyAyO1xuXG4gICsgbGFiZWwge1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgfVxufVxuXG5pbnB1dFt0eXBlPVwiZmlsZVwiXSB7XG4gIHdpZHRoOiAxMDAlO1xufVxuXG5zZWxlY3Qge1xuICBtYXgtd2lkdGg6IDEwMCU7XG4gIHdpZHRoOiBhdXRvO1xufVxuXG4uZm9ybS1pdGVte1xuICB3aWR0aDogMTAwJTtcbiAgY29sb3I6ICMzMzM7XG4gIEBpbmNsdWRlIG1lZGlhKCRicmVha3BvaW50XzEpIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIH1cbiAgbWFyZ2luLWJvdHRvbTogJGJhc2Utc3BhY2luZy8yO1xuICAmX19pbnB1dHtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBAaW5jbHVkZSBtZWRpYSgkYnJlYWtwb2ludF8xKSB7XG4gICAgICB3aWR0aDogNjAlO1xuICAgIH1cbiAgfVxuXG4gICZfX2xhYmVse1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIHBhZGRpbmctYm90dG9tOiAkYmFzZS1zcGFjaW5nLzI7XG5cbiAgICBAaW5jbHVkZSBtZWRpYSgkYnJlYWtwb2ludF8xKSB7XG4gICAgICBwYWRkaW5nOiAwO1xuICAgICAgd2lkdGg6IDQwJTtcbiAgICAgIHRleHQtYWxpZ246IHJpZ2h0O1xuICAgICAgbWFyZ2luLXJpZ2h0OiAkYmFzZS1zcGFjaW5nO1xuICAgIH1cbiAgfVxufVxuXG4uZmllbGQtZ3JvdXB7XG4gICZfX3RpdGxle1xuICAgIHBhZGRpbmctYm90dG9tOiAkYmFzZS1zcGFjaW5nLzI7XG4gIH1cbiAgJl9faXRlbXN7XG5cbiAgfVxuICBwYWRkaW5nOiAkYmFzZS1zcGFjaW5nLzQgMCAkYmFzZS1zcGFjaW5nLzIgMDtcbn0iLCJcbmgxIHtcbiAgbWFyZ2luOiAwO1xuICBwYWRkaW5nOiAwO1xuICBmb250LXNpemU6ICRoMS1mb250LXNpemU7XG59XG5cbmgyIHtcbiAgbWFyZ2luOiAwO1xuICBwYWRkaW5nOiAwO1xuICBmb250LXNpemU6ICRoMi1mb250LXNpemU7XG59XG5cbmgzIHtcbiAgbWFyZ2luOiAwO1xuICBwYWRkaW5nOiAwO1xuICBmb250LXNpemU6ICRoMy1mb250LXNpemU7XG59XG5cbmg0IHtcbiAgbWFyZ2luOiAwO1xuICBwYWRkaW5nOiAwO1xuICBmb250LXNpemU6ICRoNC1mb250LXNpemU7XG59XG5cbmg1IHtcbiAgbWFyZ2luOiAwO1xuICBwYWRkaW5nOiAwO1xuICBmb250LXNpemU6ICRoNS1mb250LXNpemU7XG59XG5cbmg2IHtcbiAgbWFyZ2luOiAwO1xuICBwYWRkaW5nOiAwO1xuICBmb250LXNpemU6ICRoNi1mb250LXNpemU7XG59IiwiLnZlcnRpY2FsLXRhYnMtY29udGFpbmVyIHtcbiAgQGluY2x1ZGUgY2xlYXJmaXg7XG4gIG1hcmdpbi1ib3R0b206ICRiYXNlLXNwYWNpbmc7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIGRpc3BsYXk6IGZsZXg7XG4gIC52ZXJ0aWNhbC10YWJzIHtcbiAgICBwYWRkaW5nOiAwO1xuICAgIG1hcmdpbjogMDtcbiAgICBkaXNwbGF5OiBpbmxpbmU7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgd2lkdGg6IDIwJTtcbiAgICBsaXN0LXN0eWxlOiBub25lO1xuICAgIGJvcmRlci1yaWdodDogMXB4IHNvbGlkICRiYXNlLWJvcmRlci1jb2xvcjtcbiAgfVxuXG4gIGxpIHtcbiAgICAmLmFjdGl2ZSB7XG4gICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgICAgIG1hcmdpbi1yaWdodDogLTFweDtcbiAgICAgIGJvcmRlcjogMXB4IHNvbGlkICRiYXNlLWJvcmRlci1jb2xvcjtcbiAgICAgIGJvcmRlci1yaWdodC1jb2xvcjogd2hpdGU7XG4gICAgICAuc3ViLWFjdGl2ZXtcbiAgICAgICAgY29sb3I6ICRiYXNlLWxpbmstY29sb3I7XG4gICAgICB9XG4gICAgICAuc3ViLW5vbi1hY3RpdmV7XG4gICAgICAgIGNvbG9yOiAkYmFzZS1mb250LWNvbG9yO1xuICAgICAgfVxuICAgIH1cblxuICAgIGEge1xuICAgICAgcGFkZGluZzogJGJhc2Utc3BhY2luZy8yICRndXR0ZXIvMjtcbiAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICAgIGNvbG9yOiBpbmhlcml0O1xuICAgICAgZGlzcGxheTogYmxvY2s7XG4gICAgfVxuICAgIHVse1xuICAgICAgbGlzdC1zdHlsZTogbm9uZTtcbiAgICAgIHBhZGRpbmc6IDA7XG4gICAgICBtYXJnaW46IDA7XG4gICAgICBsaXtcbiAgICAgICAgcGFkZGluZy1ib3R0b206IDVweDtcbiAgICAgICAgcGFkZGluZy1sZWZ0OiAyMHB4O1xuICAgICAgfVxuICAgIH1cbiAgfVxuXG4gIC52ZXJ0aWNhbC10YWI6Zm9jdXMge1xuICAgIG91dGxpbmU6IG5vbmU7XG5cbiAgfVxuXG4gIC52ZXJ0aWNhbC10YWItY29udGVudC1jb250YWluZXIge1xuICAgIGJvcmRlcjogMXB4IHNvbGlkICRiYXNlLWJvcmRlci1jb2xvcjtcbiAgICBib3JkZXItbGVmdDogbm9uZTtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgICBtYXJnaW46IDAgYXV0bztcblxuICAgICYgYTpmb2N1cyB7XG4gICAgICBvdXRsaW5lOiBub25lO1xuICAgIH1cbiAgfVxuXG4gIC52ZXJ0aWNhbC10YWItY29udGVudCB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xuICAgIHBhZGRpbmc6ICRiYXNlLXNwYWNpbmcgJGd1dHRlci8yO1xuICAgIGJvcmRlcjogbm9uZTtcbiAgICB3aWR0aDogMTAwJTtcbiAgfVxuXG4gIC52ZXJ0aWNhbC10YWItYWNjb3JkaW9uLWhlYWRpbmcge1xuICAgIGJvcmRlci10b3A6IDFweCBzb2xpZCAkYmFzZS1ib3JkZXItY29sb3I7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xuICAgIHBhZGRpbmc6ICRiYXNlLXNwYWNpbmcvMiAkZ3V0dGVyLzI7XG5cbiAgICAmOmhvdmVyIHtcbiAgICAgIGNvbG9yOiAkYmFzZS1hY2NlbnQtY29sb3I7XG4gICAgfVxuXG4gICAgJjpmaXJzdC1jaGlsZCB7XG4gICAgICBib3JkZXItdG9wOiBub25lO1xuICAgIH1cblxuICAgICYuYWN0aXZlIHtcbiAgICAgIGJhY2tncm91bmQ6IHdoaXRlO1xuICAgICAgYm9yZGVyLWJvdHRvbTogbm9uZTtcbiAgICB9XG5cbiAgfVxufSIsIi5hY2NvcmRpb24tdGFicy1taW5pbWFsIHtcbiAgbWFyZ2luOiAwICRiYXNlLXNwYWNpbmcvMjtcbiAgQGluY2x1ZGUgY2xlYXJmaXg7XG4gIGxpbmUtaGVpZ2h0OiAxLjU7XG4gIHBhZGRpbmc6IDA7XG4gIHVsLnRhYi1saXN0IHtcbiAgICBtYXJnaW46IDA7XG4gICAgcGFkZGluZzogMDtcbiAgfVxuICBsaS50YWItaGVhZGVyLWFuZC1jb250ZW50IHtcbiAgICBsaXN0LXN0eWxlOiBub25lO1xuICAgIGRpc3BsYXk6IGlubGluZTtcbiAgfVxuXG4gIC50YWItbGluayB7XG4gICAgYm9yZGVyLXRvcDogMXB4IHNvbGlkICRiYXNlLWJvcmRlci1jb2xvcjtcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG4gICAgYm9yZGVyLXRvcDogMDtcbiAgICBhIHtcbiAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTtcbiAgICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgICAgcGFkZGluZzogKCRiYXNlLXNwYWNpbmcgLyAyKSAkZ3V0dGVyO1xuXG4gICAgICAmOmhvdmVyIHtcbiAgICAgICAgY29sb3I6ICRob3Zlci1saW5rLWNvbG9yO1xuICAgICAgfVxuICAgICAgJjpmb2N1cyB7XG4gICAgICAgIG91dGxpbmU6IG5vbmU7XG4gICAgICB9XG4gICAgICAmLmlzLWFjdGl2ZSB7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkICRiYXNlLWJvcmRlci1jb2xvcjtcbiAgICAgICAgYm9yZGVyLWJvdHRvbS1jb2xvcjogd2hpdGU7XG4gICAgICAgIGJhY2tncm91bmQ6IHdoaXRlO1xuICAgICAgICBtYXJnaW4tYm90dG9tOiAtMXB4O1xuICAgICAgICBjb2xvcjogJGJhc2UtYWNjZW50LWNvbG9yO1xuICAgICAgfVxuICAgIH1cbiAgfVxuXG4gIC50YWItY29udGVudCB7XG4gICAgYm9yZGVyOiAxcHggc29saWQgJGJhc2UtYm9yZGVyLWNvbG9yO1xuICAgIHBhZGRpbmc6ICRiYXNlLXNwYWNpbmcgJGd1dHRlcjtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBmbG9hdDogbGVmdDtcbiAgICBiYWNrZ3JvdW5kOiB3aGl0ZTtcbiAgICBtaW4taGVpZ2h0OiAyNTBweDtcbiAgfVxufSIsIi8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKlxcXG4gICAgJEJFQVVUT05TLkNTU1xuXFwqLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cbi8qKlxuICogYmVhdXRvbnMgaXMgYSBiZWF1dGlmdWxseSBzaW1wbGUgYnV0dG9uIHRvb2xraXQuXG4gKlxuICogTElDRU5TRVxuICpcbiAqIENvcHlyaWdodCAyMDEzIEhhcnJ5IFJvYmVydHNcbiAqXG4gKiBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgXCJMaWNlbnNlXCIpO1xuICogeW91IG1heSBub3QgdXNlIHRoaXMgZmlsZSBleGNlcHQgaW4gY29tcGxpYW5jZSB3aXRoIHRoZSBMaWNlbnNlLlxuICogWW91IG1heSBvYnRhaW4gYSBjb3B5IG9mIHRoZSBMaWNlbnNlIGF0XG4gKlxuICogaHR0cDovL2FwYWNoZS5vcmcvbGljZW5zZXMvTElDRU5TRS0yLjBcbiAqXG4gKiBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlXG4gKiBkaXN0cmlidXRlZCB1bmRlciB0aGUgTGljZW5zZSBpcyBkaXN0cmlidXRlZCBvbiBhbiBcIkFTIElTXCIgQkFTSVMsXG4gKiBXSVRIT1VUIFdBUlJBTlRJRVMgT1IgQ09ORElUSU9OUyBPRiBBTlkgS0lORCwgZWl0aGVyIGV4cHJlc3Mgb3IgaW1wbGllZC5cbiAqIFNlZSB0aGUgTGljZW5zZSBmb3IgdGhlIHNwZWNpZmljIGxhbmd1YWdlIGdvdmVybmluZyBwZXJtaXNzaW9ucyBhbmRcbiAqIGxpbWl0YXRpb25zIHVuZGVyIHRoZSBMaWNlbnNlLlxuICpcbiAqL1xuXG4vKiEqXG4gKlxuICogQGNzc3dpemFyZHJ5IC0tIGNzc3dpemFyZHJ5LmNvbS9iZWF1dG9uc1xuICpcbiAqL1xuXG4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSpcXFxuICAgICRCQVNFXG5cXCotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0qL1xuLyoqXG4gKiBCYXNlIGJ1dHRvbiBzdHlsZXMuXG4gKlxuICogMS4gQWxsb3cgdXMgdG8gYmV0dGVyIHN0eWxlIGJveCBtb2RlbCBwcm9wZXJ0aWVzLlxuICogMi4gTGluZSBkaWZmZXJlbnQgc2l6ZWQgYnV0dG9ucyB1cCBhIGxpdHRsZSBuaWNlci5cbiAqIDMuIFN0b3AgYnV0dG9ucyB3cmFwcGluZyBhbmQgbG9va2luZyBicm9rZW4uXG4gKiA0LiBNYWtlIGJ1dHRvbnMgaW5oZXJpdCBmb250IHN0eWxlcy5cbiAqIDUuIEZvcmNlIGFsbCBlbGVtZW50cyB1c2luZyBiZWF1dG9ucyB0byBhcHBlYXIgY2xpY2thYmxlLlxuICogNi4gTm9ybWFsaXNlIGJveCBtb2RlbCBzdHlsZXMuXG4gKiA3LiBJZiB0aGUgYnV0dG9u4oCZcyB0ZXh0IGlzIDFlbSwgYW5kIHRoZSBidXR0b24gaXMgKDMgKiBmb250LXNpemUpIHRhbGwsIHRoZW5cbiAqICAgIHRoZXJlIGlzIDFlbSBvZiBzcGFjZSBhYm92ZSBhbmQgYmVsb3cgdGhhdCB0ZXh0LiBXZSB0aGVyZWZvcmUgYXBwbHkgMWVtXG4gKiAgICBvZiBzcGFjZSB0byB0aGUgbGVmdCBhbmQgcmlnaHQsIGFzIHBhZGRpbmcsIHRvIGtlZXAgY29uc2lzdGVudCBzcGFjaW5nLlxuICogOC4gQmFzaWMgY29zbWV0aWNzIGZvciBkZWZhdWx0IGJ1dHRvbnMuIENoYW5nZSBvciBvdmVycmlkZSBhdCB3aWxsLlxuICogOS4gRG9u4oCZdCBhbGxvdyBidXR0b25zIHRvIGhhdmUgdW5kZXJsaW5lczsgaXQga2luZGEgcnVpbnMgdGhlIGlsbHVzaW9uLlxuICovXG4uYnRuIHtcbiAgZGlzcGxheTogaW5saW5lLWJsb2NrOyAvKiBbMV0gKi9cbiAgdmVydGljYWwtYWxpZ246IG1pZGRsZTsgLyogWzJdICovXG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7IC8qIFszXSAqL1xuICBmb250LWZhbWlseTogaW5oZXJpdDsgLyogWzRdICovXG4gIGZvbnQtc2l6ZTogMTAwJTsgLyogWzRdICovXG4gIGN1cnNvcjogcG9pbnRlcjsgLyogWzVdICovXG4gIGJvcmRlcjogbm9uZTsgLyogWzZdICovXG4gIG1hcmdpbjogMDsgLyogWzZdICovXG4gIHBhZGRpbmctdG9wOiAwOyAvKiBbNl0gKi9cbiAgcGFkZGluZy1ib3R0b206IDA7IC8qIFs2XSAqL1xuICBsaW5lLWhlaWdodDogMzsgLyogWzddICovXG4gIHBhZGRpbmctcmlnaHQ6IDFlbTsgLyogWzddICovXG4gIHBhZGRpbmctbGVmdDogMWVtOyAvKiBbN10gKi9cbiAgYm9yZGVyLXJhZGl1czogM3B4OyAvKiBbOF0gKi9cbiAgYmFja2dyb3VuZDogJGJhc2UtYnV0dG9uLWNvbG9yO1xuICBjb2xvcjogd2hpdGU7XG59XG5cbi5idG4ge1xuXG4gICYsXG4gICY6aG92ZXIge1xuICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTsgLyogWzldICovXG4gICAgYmFja2dyb3VuZDogJGhvdmVyLWJ1dHRvbi1jb2xvcjtcbiAgfVxuXG4gICY6YWN0aXZlLFxuICAmOmZvY3VzIHtcbiAgICBvdXRsaW5lOiBub25lO1xuICB9XG59XG5cbi8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKlxcXG4gICAgJFNJWkVTXG5cXCotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0qL1xuLyoqXG4gKiBCdXR0b24gc2l6ZSBtb2RpZmllcnMuXG4gKlxuICogVGhlc2UgYWxsIGZvbGxvdyB0aGUgc2FtZSBzaXppbmcgcnVsZXMgYXMgYWJvdmU7IHRleHQgaXMgMWVtLCBzcGFjZSBhcm91bmQgaXRcbiAqIHJlbWFpbnMgdW5pZm9ybS5cbiAqL1xuLmJ0bi0tc21hbGwge1xuICBwYWRkaW5nLXJpZ2h0OiAwLjVlbTtcbiAgcGFkZGluZy1sZWZ0OiAwLjVlbTtcbiAgbGluZS1oZWlnaHQ6IDI7XG59XG5cbi5idG4tLWxhcmdlIHtcbiAgcGFkZGluZy1yaWdodDogMS41ZW07XG4gIHBhZGRpbmctbGVmdDogMS41ZW07XG4gIGxpbmUtaGVpZ2h0OiA0O1xufVxuXG4uYnRuLS1odWdlIHtcbiAgcGFkZGluZy1yaWdodDogMmVtO1xuICBwYWRkaW5nLWxlZnQ6IDJlbTtcbiAgbGluZS1oZWlnaHQ6IDU7XG59XG5cbi8qKlxuICogVGhlc2UgYnV0dG9ucyB3aWxsIGZpbGwgdGhlIGVudGlyZXR5IG9mIHRoZWlyIGNvbnRhaW5lci5cbiAqXG4gKiAxLiBSZW1vdmUgcGFkZGluZyBzbyB0aGF0IHdpZHRocyBhbmQgcGFkZGluZ3MgZG9u4oCZdCBjb25mbGljdC5cbiAqL1xuLmJ0bi0tZnVsbCB7XG4gIHdpZHRoOiAxMDAlO1xuICBwYWRkaW5nLXJpZ2h0OiAwOyAvKiBbMV0gKi9cbiAgcGFkZGluZy1sZWZ0OiAwOyAvKiBbMV0gKi9cbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSpcXFxuICAgICRGT05ULVNJWkVTXG5cXCotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0qL1xuLyoqXG4gKiBCdXR0b24gZm9udC1zaXplIG1vZGlmaWVycy5cbiAqL1xuLmJ0bi0tYWxwaGEge1xuICBmb250LXNpemU6IDNyZW07XG59XG5cbi5idG4tLWJldGEge1xuICBmb250LXNpemU6IDJyZW07XG59XG5cbi5idG4tLWdhbW1hIHtcbiAgZm9udC1zaXplOiAxcmVtO1xufVxuXG4vKipcbiAqIE1ha2UgdGhlIGJ1dHRvbiBpbmhlcml0IHNpemluZyBmcm9tIGl0cyBwYXJlbnQuXG4gKi9cbi5idG4tLW5hdHVyYWwge1xuICB2ZXJ0aWNhbC1hbGlnbjogYmFzZWxpbmU7XG4gIGZvbnQtc2l6ZTogaW5oZXJpdDtcbiAgbGluZS1oZWlnaHQ6IGluaGVyaXQ7XG4gIHBhZGRpbmctcmlnaHQ6IDAuNWVtO1xuICBwYWRkaW5nLWxlZnQ6IDAuNWVtO1xufVxuXG4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSpcXFxuICAgICRGVU5DVElPTlNcblxcKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovXG4vKipcbiAqIEJ1dHRvbiBmdW5jdGlvbiBtb2RpZmllcnMuXG4gKi9cbi5idG4tLXByaW1hcnkge1xufVxuXG4uYnRuLS1zZWNvbmRhcnkge1xufVxuXG4uYnRuLS10ZXJ0aWFyeSB7XG59XG5cbi8qKlxuICogUG9zaXRpdmUgYWN0aW9uczsgZS5nLiBzaWduIGluLCBwdXJjaGFzZSwgc3VibWl0LCBldGMuXG4gKi9cbi5idG4tLXBvc2l0aXZlIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogIzRBOTkzRTtcbiAgY29sb3I6ICNmZmY7XG59XG5cbi8qKlxuICogTmVnYXRpdmUgYWN0aW9uczsgZS5nLiBjbG9zZSBhY2NvdW50LCBkZWxldGUgcGhvdG8sIHJlbW92ZSBmcmllbmQsIGV0Yy5cbiAqL1xuLmJ0bi0tbmVnYXRpdmUge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjYjMzNjMwO1xuICBjb2xvcjogI2ZmZjtcbn1cblxuLyoqXG4gKiBJbmFjdGl2ZSwgZGlzYWJsZWQgYnV0dG9ucy5cbiAqXG4gKiAxLiBNYWtlIHRoZSBidXR0b24gbG9vayBsaWtlIG5vcm1hbCB0ZXh0IHdoZW4gaG92ZXJlZC5cbiAqL1xuLmJ0bi0taW5hY3RpdmUsXG4uYnRuLS1pbmFjdGl2ZTpob3Zlcixcbi5idG4tLWluYWN0aXZlOmFjdGl2ZSxcbi5idG4tLWluYWN0aXZlOmZvY3VzIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogI2RkZDtcbiAgY29sb3I6ICM3Nzc7XG4gIGN1cnNvcjogdGV4dDsgLyogWzFdICovXG59XG5cbi8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKlxcXG4gICAgJFNUWUxFU1xuXFwqLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cbi8qKlxuICogQnV0dG9uIHN0eWxlIG1vZGlmaWVycy5cbiAqXG4gKiAxLiBVc2UgYW4gb3Zlcmx5LWxhcmdlIG51bWJlciB0byBlbnN1cmUgY29tcGxldGVseSByb3VuZGVkLCBwaWxsLWxpa2UgZW5kcy5cbiAqL1xuLmJ0bi0tc29mdCB7XG4gIGJvcmRlci1yYWRpdXM6IDIwMHB4OyAvKiBbMV0gKi9cbn1cblxuLmJ0bi0taGFyZCB7XG4gIGJvcmRlci1yYWRpdXM6IDA7XG59XG4iLCIubGVmdCB7XG4gIEBpbmNsdWRlIG1lZGlhKCRicmVha3BvaW50XzIpIHtcbiAgICB3aWR0aDogNDklO1xuICAgIG1hcmdpbi1yaWdodDogMiU7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gIH1cbn1cblxuLnJpZ2h0IHtcbiAgQGluY2x1ZGUgbWVkaWEoJGJyZWFrcG9pbnRfMikge1xuICAgIHdpZHRoOiA0OSU7XG4gICAgZmxvYXQ6IGxlZnQ7XG4gIH1cbn0iLCIubmF2aWdhdGlvbntcbiAgcGFkZGluZzogMDtcbiAgbWFyZ2luOiAwO1xuICBkaXNwbGF5OiBibG9jaztcbiAgJl9faXRlbXtcbiAgICBtYXJnaW46IDIwcHggMTBweCAyMHB4IDEwcHg7XG4gICAgcGFkZGluZy1ib3R0b206IDEwcHg7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgfVxuICAmLS1zdGVwc3tcblxuICB9XG4gICYtLXN0ZXBzICZfX2l0ZW17XG4gICAgYm9yZGVyLWJvdHRvbTogNXB4IHNvbGlkO1xuICB9XG59IiwiXG4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSpcXFxuICAgICRIRUxQRVJcblxcKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovXG4vKipcbiAqIEEgc2VyaWVzIG9mIGhlbHBlciBjbGFzc2VzIHRvIHVzZSBhcmJpdHJhcmlseS4gT25seSB1c2UgYSBoZWxwZXIgY2xhc3MgaWYgYW5cbiAqIGVsZW1lbnQvY29tcG9uZW50IGRvZXNu4oCZdCBhbHJlYWR5IGhhdmUgYSBjbGFzcyB0byB3aGljaCB5b3UgY291bGQgYXBwbHkgdGhpc1xuICogc3R5bGluZywgZS5nLiBpZiB5b3UgbmVlZCB0byBmbG9hdCBgLm1haW4tbmF2YCBsZWZ0IHRoZW4gYWRkIGBmbG9hdDpsZWZ0O2AgdG9cbiAqIHRoYXQgcnVsZXNldCBhcyBvcHBvc2VkIHRvIGFkZGluZyB0aGUgYC5mbG9hdC0tbGVmdGAgY2xhc3MgdG8gdGhlIG1hcmt1cC5cbiAqXG4gKiBBIGxvdCBvZiB0aGVzZSBjbGFzc2VzIGNhcnJ5IGAhaW1wb3J0YW50YCBhcyB5b3Ugd2lsbCBhbHdheXMgd2FudCB0aGVtIHRvIHdpblxuICogb3V0IG92ZXIgb3RoZXIgc2VsZWN0b3JzLlxuICovXG5cblxuLyoqXG4gKiBBZGQvcmVtb3ZlIGZsb2F0c1xuICovXG4uZmxvYXQtLXJpZ2h0ICAgeyBmbG9hdDpyaWdodCFpbXBvcnRhbnQ7IH1cbi5mbG9hdC0tbGVmdCAgICB7IGZsb2F0OmxlZnQgIWltcG9ydGFudDsgfVxuLmZsb2F0LS1ub25lICAgIHsgZmxvYXQ6bm9uZSAhaW1wb3J0YW50OyB9XG5cblxuLyoqXG4gKiBUZXh0IGFsaWdubWVudFxuICovXG4udGV4dC0tbGVmdCAgICAgeyB0ZXh0LWFsaWduOmxlZnQgICFpbXBvcnRhbnQ7IH1cbi50ZXh0LS1jZW50ZXIgICB7IHRleHQtYWxpZ246Y2VudGVyIWltcG9ydGFudDsgfVxuLnRleHQtLXJpZ2h0ICAgIHsgdGV4dC1hbGlnbjpyaWdodCAhaW1wb3J0YW50OyB9XG5cblxuLyoqXG4gKiBGb250IHdlaWdodHNcbiAqL1xuLndlaWdodC0tbGlnaHQgICAgICB7IGZvbnQtd2VpZ2h0OjMwMCFpbXBvcnRhbnQ7IH1cbi53ZWlnaHQtLW5vcm1hbCAgICAgeyBmb250LXdlaWdodDo0MDAhaW1wb3J0YW50OyB9XG4ud2VpZ2h0LS1zZW1pYm9sZCAgIHsgZm9udC13ZWlnaHQ6NjAwIWltcG9ydGFudDsgfVxuXG5cbi8qKlxuICogQWRkL3JlbW92ZSBtYXJnaW5zXG4gKi9cbi5wdXNoICAgICAgICAgICB7IG1hcmdpbjogICAgICAgJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLS10b3AgICAgICB7IG1hcmdpbi10b3A6ICAgJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLS1yaWdodCAgICB7IG1hcmdpbi1yaWdodDogJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLS1ib3R0b20gICB7IG1hcmdpbi1ib3R0b206JGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLS1sZWZ0ICAgICB7IG1hcmdpbi1sZWZ0OiAgJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLS1lbmRzICAgICB7IG1hcmdpbi10b3A6ICAgJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IG1hcmdpbi1ib3R0b206JGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLS1zaWRlcyAgICB7IG1hcmdpbi1yaWdodDogJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IG1hcmdpbi1sZWZ0OiAgJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cblxuLnB1c2gtaGFsZiAgICAgICAgICB7IG1hcmdpbjogICAgICAgJHNtYWxsLXNwYWNpbmchaW1wb3J0YW50OyB9XG4ucHVzaC1oYWxmLS10b3AgICAgIHsgbWFyZ2luLXRvcDogICAkc21hbGwtc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLWhhbGYtLXJpZ2h0ICAgeyBtYXJnaW4tcmlnaHQ6ICRzbWFsbC1zcGFjaW5nIWltcG9ydGFudDsgfVxuLnB1c2gtaGFsZi0tYm90dG9tICB7IG1hcmdpbi1ib3R0b206JHNtYWxsLXNwYWNpbmchaW1wb3J0YW50OyB9XG4ucHVzaC1oYWxmLS1sZWZ0ICAgIHsgbWFyZ2luLWxlZnQ6ICAkc21hbGwtc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLWhhbGYtLWVuZHMgICAgeyBtYXJnaW4tdG9wOiAgICRzbWFsbC1zcGFjaW5nIWltcG9ydGFudDsgbWFyZ2luLWJvdHRvbTokc21hbGwtc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5wdXNoLWhhbGYtLXNpZGVzICAgeyBtYXJnaW4tcmlnaHQ6ICRzbWFsbC1zcGFjaW5nIWltcG9ydGFudDsgbWFyZ2luLWxlZnQ6ICAkc21hbGwtc3BhY2luZyFpbXBvcnRhbnQ7IH1cblxuLmZsdXNoICAgICAgICAgIHsgbWFyZ2luOiAgICAgICAwIWltcG9ydGFudDsgfVxuLmZsdXNoLS10b3AgICAgIHsgbWFyZ2luLXRvcDogICAwIWltcG9ydGFudDsgfVxuLmZsdXNoLS1yaWdodCAgIHsgbWFyZ2luLXJpZ2h0OiAwIWltcG9ydGFudDsgfVxuLmZsdXNoLS1ib3R0b20gIHsgbWFyZ2luLWJvdHRvbTowIWltcG9ydGFudDsgfVxuLmZsdXNoLS1sZWZ0ICAgIHsgbWFyZ2luLWxlZnQ6ICAwIWltcG9ydGFudDsgfVxuLmZsdXNoLS1lbmRzICAgIHsgbWFyZ2luLXRvcDogICAwIWltcG9ydGFudDsgbWFyZ2luLWJvdHRvbTowIWltcG9ydGFudDsgfVxuLmZsdXNoLS1zaWRlcyAgIHsgbWFyZ2luLXJpZ2h0OiAwIWltcG9ydGFudDsgbWFyZ2luLWxlZnQ6ICAwIWltcG9ydGFudDsgfVxuXG5cbi8qKlxuICogQWRkL3JlbW92ZSBwYWRkaW5nc1xuICovXG4uc29mdCAgICAgICAgICAgeyBwYWRkaW5nOiAgICAgICAkYmFzZS1zcGFjaW5nIWltcG9ydGFudDsgfVxuLnNvZnQtLXRvcCAgICAgIHsgcGFkZGluZy10b3A6ICAgJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5zb2Z0LS1yaWdodCAgICB7IHBhZGRpbmctcmlnaHQ6ICRiYXNlLXNwYWNpbmchaW1wb3J0YW50OyB9XG4uc29mdC0tYm90dG9tICAgeyBwYWRkaW5nLWJvdHRvbTokYmFzZS1zcGFjaW5nIWltcG9ydGFudDsgfVxuLnNvZnQtLWxlZnQgICAgIHsgcGFkZGluZy1sZWZ0OiAgJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5zb2Z0LS1lbmRzICAgICB7IHBhZGRpbmctdG9wOiAgICRiYXNlLXNwYWNpbmchaW1wb3J0YW50OyBwYWRkaW5nLWJvdHRvbTokYmFzZS1zcGFjaW5nIWltcG9ydGFudDsgfVxuLnNvZnQtLXNpZGVzICAgIHsgcGFkZGluZy1yaWdodDogJGJhc2Utc3BhY2luZyFpbXBvcnRhbnQ7IHBhZGRpbmctbGVmdDogICRiYXNlLXNwYWNpbmchaW1wb3J0YW50OyB9XG5cbi5zb2Z0LWhhbGYgICAgICAgICAgIHsgcGFkZGluZzogICAgICAgJHNtYWxsLXNwYWNpbmchaW1wb3J0YW50OyB9XG4uc29mdC1oYWxmLS10b3AgICAgICB7IHBhZGRpbmctdG9wOiAgICRzbWFsbC1zcGFjaW5nIWltcG9ydGFudDsgfVxuLnNvZnQtaGFsZi0tcmlnaHQgICAgeyBwYWRkaW5nLXJpZ2h0OiAkc21hbGwtc3BhY2luZyFpbXBvcnRhbnQ7IH1cbi5zb2Z0LWhhbGYtLWJvdHRvbSAgIHsgcGFkZGluZy1ib3R0b206JHNtYWxsLXNwYWNpbmchaW1wb3J0YW50OyB9XG4uc29mdC1oYWxmLS1sZWZ0ICAgICB7IHBhZGRpbmctbGVmdDogICRzbWFsbC1zcGFjaW5nIWltcG9ydGFudDsgfVxuLnNvZnQtaGFsZi0tZW5kcyAgICAgeyBwYWRkaW5nLXRvcDogICAkc21hbGwtc3BhY2luZyFpbXBvcnRhbnQ7IHBhZGRpbmctYm90dG9tOiRzbWFsbC1zcGFjaW5nIWltcG9ydGFudDsgfVxuLnNvZnQtaGFsZi0tc2lkZXMgICAgeyBwYWRkaW5nLXJpZ2h0OiAkc21hbGwtc3BhY2luZyFpbXBvcnRhbnQ7IHBhZGRpbmctbGVmdDogICRzbWFsbC1zcGFjaW5nIWltcG9ydGFudDsgfVxuXG4uaGFyZCAgICAgICAgICAgeyBwYWRkaW5nOiAgICAgICAwIWltcG9ydGFudDsgfVxuLmhhcmQtLXRvcCAgICAgIHsgcGFkZGluZy10b3A6ICAgMCFpbXBvcnRhbnQ7IH1cbi5oYXJkLS1yaWdodCAgICB7IHBhZGRpbmctcmlnaHQ6IDAhaW1wb3J0YW50OyB9XG4uaGFyZC0tYm90dG9tICAgeyBwYWRkaW5nLWJvdHRvbTowIWltcG9ydGFudDsgfVxuLmhhcmQtLWxlZnQgICAgIHsgcGFkZGluZy1sZWZ0OiAgMCFpbXBvcnRhbnQ7IH1cbi5oYXJkLS1lbmRzICAgICB7IHBhZGRpbmctdG9wOiAgIDAhaW1wb3J0YW50OyBwYWRkaW5nLWJvdHRvbTowIWltcG9ydGFudDsgfVxuLmhhcmQtLXNpZGVzICAgIHsgcGFkZGluZy1yaWdodDogMCFpbXBvcnRhbnQ7IHBhZGRpbmctbGVmdDogIDAhaW1wb3J0YW50OyB9XG5cblxuLyoqXG4gKiBQdWxsIGl0ZW1zIGZ1bGwgd2lkdGggb2YgYC5pc2xhbmRgIHBhcmVudHMuXG4gKi9cbi5mdWxsLWJsZWVke1xuICBtYXJnaW4tcmlnaHQ6LSRiYXNlLXNwYWNpbmchaW1wb3J0YW50O1xuICBtYXJnaW4tbGVmdDogLSRiYXNlLXNwYWNpbmchaW1wb3J0YW50O1xuXG4gIC5pc2xldCAme1xuICAgIG1hcmdpbi1yaWdodDotKCRzbWFsbC1zcGFjaW5nKSFpbXBvcnRhbnQ7XG4gICAgbWFyZ2luLWxlZnQ6IC0oJHNtYWxsLXNwYWNpbmcpIWltcG9ydGFudDtcbiAgfVxufVxuIiwiLmxvYWRlcixcbi5sb2FkZXI6YmVmb3JlLFxuLmxvYWRlcjphZnRlciB7XG4gIGJvcmRlci1yYWRpdXM6IDUwJTtcbn1cbi5sb2FkZXI6YmVmb3JlLFxuLmxvYWRlcjphZnRlciB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgY29udGVudDogJyc7XG59XG4ubG9hZGVyOmJlZm9yZSB7XG4gIHdpZHRoOiA1LjJlbTtcbiAgaGVpZ2h0OiAxMC4yZW07XG4gIGJhY2tncm91bmQ6ICRsaWdodC1ncmF5O1xuICBib3JkZXItcmFkaXVzOiAxMC4yZW0gMCAwIDEwLjJlbTtcbiAgdG9wOiAtMC4xZW07XG4gIGxlZnQ6IC0wLjFlbTtcbiAgLXdlYmtpdC10cmFuc2Zvcm0tb3JpZ2luOiA1LjJlbSA1LjFlbTtcbiAgdHJhbnNmb3JtLW9yaWdpbjogNS4yZW0gNS4xZW07XG4gIC13ZWJraXQtYW5pbWF0aW9uOiBsb2FkMiAycyBpbmZpbml0ZSBlYXNlIDEuNXM7XG4gIGFuaW1hdGlvbjogbG9hZDIgMnMgaW5maW5pdGUgZWFzZSAxLjVzO1xufVxuXG4ubG9hZGVyIHtcbiAgZm9udC1zaXplOiAxMXB4O1xuICB0ZXh0LWluZGVudDogLTk5OTk5ZW07XG4gIG1hcmdpbjogNTVweCBhdXRvO1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHdpZHRoOiAxMGVtO1xuICBoZWlnaHQ6IDEwZW07XG4gIGJveC1zaGFkb3c6IGluc2V0IDAgMCAwIDFlbSAjZmZmZmZmO1xuICAtd2Via2l0LXRyYW5zZm9ybTogdHJhbnNsYXRlWigwKTtcbiAgLW1zLXRyYW5zZm9ybTogdHJhbnNsYXRlWigwKTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVaKDApO1xufVxuLmxvYWRlcjphZnRlciB7XG4gIHdpZHRoOiA1LjJlbTtcbiAgaGVpZ2h0OiAxMC4yZW07XG4gIGJhY2tncm91bmQ6ICRsaWdodC1ncmF5O1xuICBib3JkZXItcmFkaXVzOiAwIDEwLjJlbSAxMC4yZW0gMDtcbiAgdG9wOiAtMC4xZW07XG4gIGxlZnQ6IDUuMWVtO1xuICAtd2Via2l0LXRyYW5zZm9ybS1vcmlnaW46IDBweCA1LjFlbTtcbiAgdHJhbnNmb3JtLW9yaWdpbjogMHB4IDUuMWVtO1xuICAtd2Via2l0LWFuaW1hdGlvbjogbG9hZDIgMnMgaW5maW5pdGUgZWFzZTtcbiAgYW5pbWF0aW9uOiBsb2FkMiAycyBpbmZpbml0ZSBlYXNlO1xufVxuQC13ZWJraXQta2V5ZnJhbWVzIGxvYWQyIHtcbiAgMCUge1xuICAgIC13ZWJraXQtdHJhbnNmb3JtOiByb3RhdGUoMGRlZyk7XG4gICAgdHJhbnNmb3JtOiByb3RhdGUoMGRlZyk7XG4gIH1cbiAgMTAwJSB7XG4gICAgLXdlYmtpdC10cmFuc2Zvcm06IHJvdGF0ZSgzNjBkZWcpO1xuICAgIHRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7XG4gIH1cbn1cbkBrZXlmcmFtZXMgbG9hZDIge1xuICAwJSB7XG4gICAgLXdlYmtpdC10cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTtcbiAgICB0cmFuc2Zvcm06IHJvdGF0ZSgwZGVnKTtcbiAgfVxuICAxMDAlIHtcbiAgICAtd2Via2l0LXRyYW5zZm9ybTogcm90YXRlKDM2MGRlZyk7XG4gICAgdHJhbnNmb3JtOiByb3RhdGUoMzYwZGVnKTtcbiAgfVxufVxuIiwiLnRlbXBsYXRlbGlzdCB7XG5cbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC13cmFwOiB3cmFwO1xuICAmX19pdGVtIHtcbiAgICBmbG9hdDogbGVmdDtcbiAgICB3aWR0aDogMzMlO1xuICAgIHBhZGRpbmc6ICRiYXNlLXNwYWNpbmcvNDtcbiAgICBtYXJnaW46IDJweDtcbiAgICB3aWR0aDogMTEwcHg7XG4gICAgZm9udC1zaXplOiAuOGVtO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyOiAxcHggc29saWQgd2hpdGU7XG4gICAgYmFja2dyb3VuZDogd2hpdGU7XG4gICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZC1jb2xvciAkYmFzZS10aW1pbmcgJGJhc2UtZHVyYXRpb24sIGJvcmRlci1jb2xvciAkYmFzZS10aW1pbmcgJGJhc2UtZHVyYXRpb247XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG4gICAgY29sb3I6IzMzMzMzMztcbiAgICBzdmcge1xuICAgICAgbWF4LWhlaWdodDogODBweDtcbiAgICAgIGJvcmRlcjoxcHggc29saWQgJGxpZ2h0LWdyYXk7XG4gICAgfVxuICAgIGRpdiB7XG4gICAgICB0cmFuc2l0aW9uOiBib3R0b20gJGJhc2UtdGltaW5nICRiYXNlLWR1cmF0aW9uO1xuICAgICAgcGFkZGluZy10b3A6MnB4O1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAtNDBweDtcbiAgICAgIGxlZnQ6ICRiYXNlLXNwYWNpbmcvNDtcbiAgICAgIGhlaWdodDogMjZweDtcbiAgICAgIHdpZHRoOiAxMDBweDtcbiAgICAgIGJhY2tncm91bmQ6ICRzdXBlci1saWdodC1ncmF5O1xuICAgIH1cbiAgICAmOmhvdmVyIHtcbiAgICAgIGJhY2tncm91bmQ6ICRzdXBlci1saWdodC1ncmF5O1xuICAgICAgYm9yZGVyOiAxcHggc29saWQgJGxpZ2h0LWdyYXk7XG4gICAgICBkaXYge1xuICAgICAgICBib3R0b206ICRiYXNlLXNwYWNpbmcvNDtcbiAgICAgIH1cbiAgICB9XG4gIH1cbn0iXSwibWFwcGluZ3MiOiI7QUFFQSxBQUFBLEdBQUcsQ0FBQztFQUNGLFdBQVcsRUNRTSxVQUFVLEVBQUUsS0FBSyxFQUFFLE9BQU8sRUFBRSxjQUFjO0VEUDNELFNBQVMsRUNNTSxJQUFJO0VETG5CLFdBQVcsRUNlTSxHQUFHO0VEZHBCLFVBQVUsRUMyQlEs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dkIsQUd3R0EsR0h4R0csQ0d3R0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSHhHdkIsQUd5R0EsR0h6R0csQ0d5R0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSHpHdkIsQUcwR0EsR0gxR0csQ0cwR0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSDFHdkIsQUcyR0EsR0gzR0csQ0cyR0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLE9BQVMsR0FBRTtFSDNHM0IsQUc0R0EsR0g1R0csQ0c0R0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSDVHdkIsQUc2R0EsR0g3R0csQ0c2R0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEtBQU8sR0FBRTtFSDdHekIsQUc4R0EsR0g5R0csQ0c4R0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSDlHdkIsQUcrR0EsR0gvR0csQ0crR0gsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSC9HdkIsQUdnSEEsR0hoSEcsQ0dnSEgsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSGhIdkIsQUdpSEEsR0hqSEcsQ0dpSEgsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSGpIdkIsQUdrSEEsR0hsSEcsQ0drSEgsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSGxIdkIsQUdtSEEsR0huSEcsQ0dtSEgsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEtBQU8sR0FBRTtFSG5IekIsQUdvSEEsR0hwSEcsQ0dvSEgsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSHBIdkIsQUdxSEEsR0hySEcsQ0dxSEgsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLE9BQVMsR0FBRTtFSHJIM0IsQUdzSEEsR0h0SEcsQ0dzSEgsSUFBSSxDQUFJO0lBQUUsS0FBSyxFQUFDLEdBQUssR0FBRTtFSHRI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 */\n"; (require("browserify-css").createStyle(css, { "href": "src/css/style.css" }, { "insertAt": "bottom" })); module.exports = css;
-},{"browserify-css":5}],120:[function(require,module,exports){
+},{"browserify-css":6}],114:[function(require,module,exports){
 var css = require('../css/style.css');
 var Delegator = require("dom-delegator");
 Delegator();
@@ -28492,10 +30107,10 @@ function constructor(opts) {
     };
 
     var states = {};
-    // by default show this tab.
-    if(opts.viewer != false){
-        states.viewer = {
-            title: 'Graph',
+
+    if(opts.chartTab == true){
+        states.chart = {
+            title: 'Chart preview',
             dependencies: function () {
                 var that = {};
                 return that;
@@ -28552,7 +30167,7 @@ function constructor(opts) {
         }
     }
     if (opts.debuggerTab == true) {
-        states.debugger = {
+        states.debug = {
             title: 'Debug',
             dependencies: function () {
                 var that = {};
@@ -28569,23 +30184,27 @@ function constructor(opts) {
     initializer(opts, services);
     if (typeof opts.element !== 'undefined') {
         opts.element.className += ' ec';
+
         var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-        if(opts.dataTab != false) {
+        if (opts.chartTab == true) {
+            mainRouter.goToState('chart');
+        } else if(opts.dataTab != false) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
             mainRouter.goToState('templates');
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');
         } else if(opts.debuggerTab == true) {
-            mainRouter.goToState('debugger');
+            mainRouter.goToState('debug');
         }
     }
 
     return new Api(services);
 }
+
 module.exports = constructor;
 window.ec = constructor;
-},{"../css/style.css":119,"./components/configure.js":122,"./components/debug.js":126,"./components/import.js":128,"./components/templateSelection.js":135,"./services/api":152,"./services/config":153,"./services/data":154,"./services/initializer":155,"./services/options":156,"./services/revision":157,"./services/router.js":158,"./services/templates":159,"dom-delegator":12,"mediatorjs":71,"virtual-dom/h":89}],121:[function(require,module,exports){
+},{"../css/style.css":113,"./components/configure.js":116,"./components/debug.js":120,"./components/import.js":122,"./components/templateSelection.js":129,"./services/api":146,"./services/config":147,"./services/data":148,"./services/initializer":149,"./services/options":150,"./services/revision":151,"./services/router.js":152,"./services/templates":153,"dom-delegator":14,"mediatorjs":67,"virtual-dom/h":83}],115:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -28606,7 +30225,7 @@ window.ec = constructor;
 
     module.exports = that;
 })();
-},{}],122:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var optionsService = services.options;
@@ -28696,7 +30315,7 @@ window.ec = constructor;
 
     module.exports = constructor;
 })();
-},{"./configure/axisTabs":123,"./configure/genericTabs":124,"./configure/seriesTabs":125,"lodash.clonedeep":42,"lodash.find":44,"lodash.first":45,"lodash.foreach":46,"lodash.isundefined":57,"lodash.map":60,"lodash.remove":62,"virtual-dom/h":89}],123:[function(require,module,exports){
+},{"./configure/axisTabs":117,"./configure/genericTabs":118,"./configure/seriesTabs":119,"lodash.clonedeep":43,"lodash.find":45,"lodash.first":46,"lodash.foreach":47,"lodash.isundefined":53,"lodash.map":56,"lodash.remove":58,"virtual-dom/h":83}],117:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -28905,7 +30524,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":139,"lodash.clonedeep":42,"lodash.find":44,"lodash.first":45,"lodash.foreach":46,"lodash.isundefined":57,"lodash.map":60,"lodash.remove":62,"lodash.trim":68,"virtual-dom/h":89}],124:[function(require,module,exports){
+},{"../../factories/properties":133,"lodash.clonedeep":43,"lodash.find":45,"lodash.first":46,"lodash.foreach":47,"lodash.isundefined":53,"lodash.map":56,"lodash.remove":58,"lodash.trim":63,"virtual-dom/h":83}],118:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -28981,7 +30600,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":139,"lodash.clonedeep":42,"lodash.find":44,"lodash.first":45,"lodash.foreach":46,"lodash.isundefined":57,"lodash.map":60,"lodash.remove":62,"virtual-dom/h":89}],125:[function(require,module,exports){
+},{"../../factories/properties":133,"lodash.clonedeep":43,"lodash.find":45,"lodash.first":46,"lodash.foreach":47,"lodash.isundefined":53,"lodash.map":56,"lodash.remove":58,"virtual-dom/h":83}],119:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -29080,7 +30699,7 @@ function constructor (services){
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":139,"lodash.clonedeep":42,"lodash.find":44,"lodash.first":45,"lodash.foreach":46,"lodash.isundefined":57,"lodash.map":60,"lodash.remove":62,"virtual-dom/h":89}],126:[function(require,module,exports){
+},{"../../factories/properties":133,"lodash.clonedeep":43,"lodash.find":45,"lodash.first":46,"lodash.foreach":47,"lodash.isundefined":53,"lodash.map":56,"lodash.remove":58,"virtual-dom/h":83}],120:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -29109,7 +30728,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../../../node_modules/highlight.js/lib/highlight":27,"../../../node_modules/highlight.js/lib/languages/json":28,"../../../node_modules/highlight.js/styles/monokai.css":29,"virtual-dom/h":89}],127:[function(require,module,exports){
+},{"../../../node_modules/highlight.js/lib/highlight":29,"../../../node_modules/highlight.js/lib/languages/json":30,"../../../node_modules/highlight.js/styles/monokai.css":31,"virtual-dom/h":83}],121:[function(require,module,exports){
 (function () {
     //var _ = require('lodash');
 
@@ -29230,7 +30849,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"lodash.foreach":46,"lodash.isempty":52,"lodash.isundefined":57,"virtual-dom/create-element":87,"virtual-dom/h":89}],128:[function(require,module,exports){
+},{"lodash.foreach":47,"lodash.isempty":49,"lodash.isundefined":53,"virtual-dom/create-element":81,"virtual-dom/h":83}],122:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -29340,7 +30959,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./hot":127,"./import/dragAndDrop":129,"./import/paste":130,"./import/upload":131,"./import/url":132,"./table":134,"virtual-dom/h":89}],129:[function(require,module,exports){
+},{"./hot":121,"./import/dragAndDrop":123,"./import/paste":124,"./import/upload":125,"./import/url":126,"./table":128,"virtual-dom/h":83}],123:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -29389,7 +31008,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"drag-drop":18,"virtual-dom/h":89}],130:[function(require,module,exports){
+},{"drag-drop":20,"virtual-dom/h":83}],124:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -29425,7 +31044,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":89}],131:[function(require,module,exports){
+},{"virtual-dom/h":83}],125:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var that = {};
@@ -29472,7 +31091,7 @@ module.exports = constructor;
 
     module.exports = that;
 })();
-},{"virtual-dom/h":89}],132:[function(require,module,exports){
+},{"virtual-dom/h":83}],126:[function(require,module,exports){
 (function () {
     var that = {};
     var h = require('virtual-dom/h');
@@ -29515,7 +31134,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":89}],133:[function(require,module,exports){
+},{"virtual-dom/h":83}],127:[function(require,module,exports){
 var constructor = function (mediator, list) {
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
@@ -29579,7 +31198,7 @@ module.exports = constructor;
 
 
 
-},{"virtual-dom/create-element":87,"virtual-dom/h":89}],134:[function(require,module,exports){
+},{"virtual-dom/create-element":81,"virtual-dom/h":83}],128:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -29650,7 +31269,7 @@ module.exports = constructor;
 
 
 
-},{"lodash.foreach":46,"lodash.isequal":53,"lodash.trim":68,"virtual-dom/h":89}],135:[function(require,module,exports){
+},{"lodash.foreach":47,"lodash.isequal":50,"lodash.trim":63,"virtual-dom/h":83}],129:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -29723,7 +31342,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":138,"lodash.find":44,"lodash.first":45,"lodash.foreach":46,"virtual-dom/h":89}],136:[function(require,module,exports){
+},{"../factories/iconLoader":132,"lodash.find":45,"lodash.first":46,"lodash.foreach":47,"virtual-dom/h":83}],130:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -31093,7 +32712,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],137:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 module.exports=module.exports = [
   {
     "id": "line",
@@ -33379,7 +34998,7 @@ module.exports=module.exports = [
     ]
   }
 ]
-},{}],138:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -33463,7 +35082,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":6,"lodash.isundefined":57,"vdom-virtualize":85}],139:[function(require,module,exports){
+},{"fs":7,"lodash.isundefined":53,"vdom-virtualize":79}],133:[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -33561,7 +35180,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":140,"./properties/arrayArray":141,"./properties/arrayColor":142,"./properties/arrayObject":143,"./properties/arrayString":144,"./properties/boolean":145,"./properties/color":146,"./properties/number":147,"./properties/object":148,"./properties/select":149,"./properties/string":150,"lodash.clonedeep":42,"lodash.first":45,"lodash.foreach":46,"lodash.isarray":51,"lodash.isstring":56,"lodash.isundefined":57}],140:[function(require,module,exports){
+},{"./properties/array":134,"./properties/arrayArray":135,"./properties/arrayColor":136,"./properties/arrayObject":137,"./properties/arrayString":138,"./properties/boolean":139,"./properties/color":140,"./properties/number":141,"./properties/object":142,"./properties/select":143,"./properties/string":144,"lodash.clonedeep":43,"lodash.first":46,"lodash.foreach":47,"lodash.isarray":48,"lodash.isstring":52,"lodash.isundefined":53}],134:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -33612,7 +35231,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":42,"lodash.foreach":46,"lodash.isequal":53,"lodash.isundefined":57,"lodash.merge":61,"virtual-dom/h":89}],141:[function(require,module,exports){
+},{"lodash.clonedeep":43,"lodash.foreach":47,"lodash.isequal":50,"lodash.isundefined":53,"lodash.merge":57,"virtual-dom/h":83}],135:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var _ = {
@@ -33694,10 +35313,9 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":42,"lodash.foreach":46,"lodash.isequal":53,"lodash.isundefined":57,"lodash.join":58,"lodash.merge":61,"lodash.split":66,"virtual-dom/h":89}],142:[function(require,module,exports){
+},{"lodash.clonedeep":43,"lodash.foreach":47,"lodash.isequal":50,"lodash.isundefined":53,"lodash.join":54,"lodash.merge":57,"lodash.split":61,"virtual-dom/h":83}],136:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
-    var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
     var h = require('virtual-dom/h');
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -33782,7 +35400,7 @@ return self})();
     }
     module.exports = constructor;
 })();
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":80,"lodash.clonedeep":42,"lodash.foreach":46,"lodash.isequal":53,"lodash.isundefined":57,"lodash.map":60,"lodash.merge":61,"lodash.tolower":67,"lodash.trim":68,"simple-color-picker":79,"virtual-dom/h":89}],143:[function(require,module,exports){
+},{"lodash.clonedeep":43,"lodash.foreach":47,"lodash.isequal":50,"lodash.isundefined":53,"lodash.map":56,"lodash.merge":57,"lodash.tolower":62,"lodash.trim":63,"simple-color-picker":75,"virtual-dom/h":83}],137:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -33837,7 +35455,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":42,"lodash.foreach":46,"lodash.isequal":53,"lodash.isundefined":57,"lodash.merge":61,"virtual-dom/h":89}],144:[function(require,module,exports){
+},{"lodash.clonedeep":43,"lodash.foreach":47,"lodash.isequal":50,"lodash.isundefined":53,"lodash.merge":57,"virtual-dom/h":83}],138:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -33872,7 +35490,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":89}],145:[function(require,module,exports){
+},{"virtual-dom/h":83}],139:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -33921,10 +35539,9 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":56,"lodash.isundefined":57,"virtual-dom/h":89}],146:[function(require,module,exports){
+},{"lodash.isstring":52,"lodash.isundefined":53,"virtual-dom/h":83}],140:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
-    var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
     var h = require('virtual-dom/h');
     var _ = {
         trim: require('lodash.trim'),
@@ -33990,7 +35607,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../../../../node_modules/simple-color-picker/simple-color-picker.css":80,"lodash.tolower":67,"lodash.trim":68,"simple-color-picker":79,"virtual-dom/h":89}],147:[function(require,module,exports){
+},{"lodash.tolower":62,"lodash.trim":63,"simple-color-picker":75,"virtual-dom/h":83}],141:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -34023,7 +35640,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"virtual-dom/h":89}],148:[function(require,module,exports){
+},{"virtual-dom/h":83}],142:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -34058,7 +35675,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":89}],149:[function(require,module,exports){
+},{"virtual-dom/h":83}],143:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -34109,7 +35726,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"lodash.foreach":46,"lodash.isundefined":57,"virtual-dom/h":89}],150:[function(require,module,exports){
+},{"lodash.foreach":47,"lodash.isundefined":53,"virtual-dom/h":83}],144:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -34141,7 +35758,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":89}],151:[function(require,module,exports){
+},{"virtual-dom/h":83}],145:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -34362,7 +35979,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":42,"lodash.drop":43,"lodash.find":44,"lodash.first":45,"lodash.foreach":46,"lodash.isarray":51,"lodash.isempty":52,"lodash.isundefined":57,"lodash.map":60,"lodash.merge":61,"lodash.remove":62,"lodash.size":64,"lodash.slice":65,"lodash.union":69}],152:[function(require,module,exports){
+},{"lodash.clonedeep":43,"lodash.drop":44,"lodash.find":45,"lodash.first":46,"lodash.foreach":47,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":53,"lodash.map":56,"lodash.merge":57,"lodash.remove":58,"lodash.size":59,"lodash.slice":60,"lodash.union":64}],146:[function(require,module,exports){
 (function () {
     function constructor(services) {
         // data
@@ -34477,7 +36094,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],153:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -34714,7 +36331,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../factories/series.js":151,"json-fn":35,"lodash.clonedeep":42,"lodash.find":44,"lodash.foreach":46,"lodash.isarray":51,"lodash.isempty":52,"lodash.isundefined":57,"lodash.map":60,"lodash.merge":61}],154:[function(require,module,exports){
+},{"../factories/series.js":145,"json-fn":41,"lodash.clonedeep":43,"lodash.find":45,"lodash.foreach":47,"lodash.isarray":48,"lodash.isempty":49,"lodash.isundefined":53,"lodash.map":56,"lodash.merge":57}],148:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -34842,7 +36459,7 @@ return self})();
 })
 ();
 
-},{"lodash.clonedeep":42,"lodash.find":44,"lodash.first":45,"lodash.foreach":46,"lodash.isequal":53,"lodash.isnan":55,"lodash.isundefined":57,"lodash.map":60,"lodash.slice":65,"papaparse":72,"xhr":116}],155:[function(require,module,exports){
+},{"lodash.clonedeep":43,"lodash.find":45,"lodash.first":46,"lodash.foreach":47,"lodash.isequal":50,"lodash.isnan":51,"lodash.isundefined":53,"lodash.map":56,"lodash.slice":60,"papaparse":68,"xhr":110}],149:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -34884,7 +36501,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":46}],156:[function(require,module,exports){
+},{"lodash.foreach":47}],150:[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -34932,7 +36549,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":136,"lodash.clonedeep":42,"xhr":116}],157:[function(require,module,exports){
+},{"../config/options.json":130,"lodash.clonedeep":43,"xhr":110}],151:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -34974,7 +36591,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":42}],158:[function(require,module,exports){
+},{"lodash.clonedeep":43}],152:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -34984,14 +36601,18 @@ module.exports = constructor;
 
     var mainLoop = require("main-loop");
     var _ = {
-        keys: require('lodash.keys')
+        keys: require('lodash.keys'),
+        size: require('lodash.size'),
+        without: require('lodash.without'),
+        slice: require('lodash.slice')
     };
 
     function constructor(element, states, services, showLogo) {
         var initState = {
             links: _.keys(states)
         };
-
+        var editStateNames = _.without(_.keys(states), 'dashboard', 'debug'); // names of states meant for editing the chart
+        var numberOfEditStates = editStateNames.length; // number of states available without the debug and dashboard state
         var loop = mainLoop(initState, render, {
             create: require("virtual-dom/create-element"),
             diff: require("virtual-dom/diff"),
@@ -35001,7 +36622,12 @@ module.exports = constructor;
 
         element.appendChild(loop.target);
 
-        function goToState(state) {
+        function goToState (state) {
+            // find available state if no state is passed as argument
+            if(state === undefined) {
+                state = _.slice(editStateNames, 0, 1);
+            }
+
             if (states[state]) {
                 var newState = loop.state;
                 if (loop.state.destroy && newState.dependencies) {
@@ -35016,20 +36642,16 @@ module.exports = constructor;
         }
 
         function render(state) {
-
             if (state.dependencies && state.template) {
-                if (state.title == 'Graph'){
+                if (state.title == 'Chart preview'){ // todo: use an id instead?
                     chartElement.className = "";
                 } else {
                     chartElement.className = "right";
                 }
                 window.dispatchEvent(new Event('resize'));
-                return h('div',{
-                    style:{
-                        position:'relative'
-                    }
-                } ,[
-                    state.title != 'Graph' ? h('div.header', [
+                return h('div',
+                    [
+                    state.title != 'Dashboard preview' ? h('div.header', [
                         showLogo ? h('h1.logo', 'EASYCHART') : null,
                         h('div.navigation.accordion-tabs-minimal', [
                             h('ul.tab-list', state.links.map(function (id) {
@@ -35045,17 +36667,24 @@ module.exports = constructor;
                                 }, states[id].title))
                             }))
                         ])
-                    ]) : h('div.btn.btn--small',{
-                        style:{
-                            position:'absolute',
-                            'z-index': '10'
-                        },
-                        'ev-click': function (e) {
-                            e.preventDefault();
-                            goToState('data');
-                        }
-                    },'Edit'),
-                    state.title != 'Graph' ? h('div.left', state.template(state.dependencies)) : null
+                    ])
+                        :
+                        // only show edit button when there are multiple states
+                        numberOfEditStates > 0 ?
+                            // todo: don't show if no other states are available
+                            h('div.btn.btn--small',{
+                                style:{
+                                    position:'absolute',
+                                    'z-index': '10'
+                                },
+                                'ev-click': function (e) {
+                                    e.preventDefault();
+                                    goToState();
+                                }
+                            },'Edit')
+                        : null,
+
+                    state.title != 'Chart preview' ? h('div.left', state.template(state.dependencies)) : null
                 ])
             } else {
                 return h('div.header', showLogo ? h('h1.logo', 'EASYCHART') : null)
@@ -35066,11 +36695,13 @@ module.exports = constructor;
             loop.update(loop.state);
         });
 
+        
+        
         // chart stuff
         var chartElement;
         var chart = require('./../components/chart.js');
 
-        chartElement = createElement(h('div.right', {id: 'chartContainer'}));
+        chartElement = createElement(h('div.right'));
         element.appendChild(chartElement);
         chart.load(chartElement, services);
         element.appendChild(revisionElement.template());
@@ -35081,7 +36712,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":121,"./../components/revision":133,"./../templates/logo":160,"lodash.keys":59,"main-loop":70,"virtual-dom/create-element":87,"virtual-dom/diff":88,"virtual-dom/h":89,"virtual-dom/patch":90}],159:[function(require,module,exports){
+},{"./../components/chart.js":115,"./../components/revision":127,"./../templates/logo":154,"lodash.keys":55,"lodash.size":59,"lodash.slice":60,"lodash.without":65,"main-loop":66,"virtual-dom/create-element":81,"virtual-dom/diff":82,"virtual-dom/h":83,"virtual-dom/patch":84}],153:[function(require,module,exports){
 (function () {
     function constructor(){
         var jsonfn = require('json-fn');
@@ -35105,7 +36736,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates.json":137,"json-fn":35,"lodash.clonedeep":42}],160:[function(require,module,exports){
+},{"../config/templates.json":131,"json-fn":41,"lodash.clonedeep":43}],154:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -35113,6 +36744,6 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":138,"virtual-dom/h":89}]},{},[120]);
+},{"../factories/iconLoader":132,"virtual-dom/h":83}]},{},[114]);
 
 //# sourceMappingURL=ec.js.map

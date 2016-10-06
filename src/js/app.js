@@ -27,9 +27,9 @@ function constructor(opts) {
 
     var states = {};
 
-    if(opts.dashboardMode == true){
-        states.dashboard = {
-            title: 'Dashboard preview',
+    if(opts.chartTab == true){
+        states.chart = {
+            title: 'Chart preview',
             dependencies: function () {
                 var that = {};
                 return that;
@@ -103,9 +103,10 @@ function constructor(opts) {
     initializer(opts, services);
     if (typeof opts.element !== 'undefined') {
         opts.element.className += ' ec';
+
         var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-        if (opts.dashboardMode == true) {
-            mainRouter.goToState('dashboard');
+        if (opts.chartTab == true) {
+            mainRouter.goToState('chart');
         } else if(opts.dataTab != false) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
@@ -119,5 +120,6 @@ function constructor(opts) {
 
     return new Api(services);
 }
+
 module.exports = constructor;
 window.ec = constructor;

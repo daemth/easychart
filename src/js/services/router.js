@@ -49,7 +49,7 @@
 
         function render(state) {
             if (state.dependencies && state.template) {
-                if (state.title == 'Dashboard preview'){ // todo: use an id instead?
+                if (state.title == 'Chart preview'){ // todo: use an id instead?
                     chartElement.className = "";
                 } else {
                     chartElement.className = "right";
@@ -90,7 +90,7 @@
                             },'Edit')
                         : null,
 
-                    state.title != 'Dashboard preview' ? h('div.left', state.template(state.dependencies)) : null
+                    state.title != 'Chart preview' ? h('div.left', state.template(state.dependencies)) : null
                 ])
             } else {
                 return h('div.header', showLogo ? h('h1.logo', 'EASYCHART') : null)
