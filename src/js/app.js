@@ -1,3 +1,4 @@
+var css = require('../../dist/ec.css');
 var Delegator = require("dom-delegator");
 Delegator();
 function constructor(opts) {
