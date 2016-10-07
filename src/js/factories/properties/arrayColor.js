@@ -26,8 +26,7 @@
 
         _.forEach(property.defaults, function (value, index) {
             var colorPicker = new ColorPicker({
-                background: '#333333',
-                width: 200
+                background: '#333333'
             });
 
             list.push(h('div.form-item', [

@@ -8,8 +8,7 @@
 
     function constructor(property, configService, configValue, disabled, defaultValue) {
         var colorPicker = new ColorPicker({
-            background: '#333333',
-            width: 200
+            background: '#333333'
         });
         var value;
         var Hook = function () {};

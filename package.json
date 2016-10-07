@@ -66,7 +66,7 @@
     "mediatorjs": "^0.1.4",
     "node-sass": "latest",
     "papaparse": "^4.1.2",
-    "simple-color-picker": "0.1.1",
+    "simple-color-picker": "0.1.0",
     "svg-browserify": "0.0.2",
     "uglify-js": "latest",
     "vdom-virtualize": "^2.0.0",
