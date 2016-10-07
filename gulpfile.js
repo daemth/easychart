@@ -26,15 +26,20 @@ gulp.task('app:watch', function () {
 });
 
 gulp.task('sass', function () {
-    gulp.src('src/scss/style.scss')
+    return gulp.src('src/scss/style.scss')
         .pipe(sourcemaps.init())
-        .pipe(sourcemaps.write())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('./src/css'));
 });
 
 gulp.task('sass:prod', function () {
-    gulp.src('src/scss/style.scss')
+    return gulp.src('src/scss/style.scss')
         .pipe(sourcemaps.init())
+        .pipe(sass({
+            outputStyle: 'compressed'
+        }).on('error', sass.logError))
+        .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('./src/css'));
 });
 
