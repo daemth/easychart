@@ -1,22 +1,20 @@
 (function () {
     var ColorPicker = require('simple-color-picker');
-    var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
+
     var h = require('virtual-dom/h');
     var _ = {
         trim: require('lodash.trim'),
         toLower: require('lodash.tolower')
     };
 
+
     function constructor(property, configService, configValue, disabled, defaultValue) {
         var colorPicker = new ColorPicker({
-            background: 'white',
-            width: 200
-        })
+            background: '#333333'
+        });
         var value;
-        var Hook = function () {
-        };
-        Hook.prototype.hook = function (node) {
-        };
+        var Hook = function () {};
+        Hook.prototype.hook = function (node) {};
 
         return h('div.form-item', [
             h('div.form-item__label', h('label', {

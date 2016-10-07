@@ -2,7 +2,6 @@
     var constructor = function (services) {
         var h = require('virtual-dom/h');
         var hljs = require('../../../node_modules/highlight.js/lib/highlight');
-        var css = require('../../../node_modules/highlight.js/styles/monokai.css');
         hljs.registerLanguage('json', require('../../../node_modules/highlight.js/lib/languages/json'));
         window.hljs = hljs;
 
