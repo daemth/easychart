@@ -10,6 +10,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var header = require('gulp-header');
 var pkg = require('./package.json');
 var rename = require('gulp-rename');
+var imagemin = require('gulp-imagemin');
+
 
 
 var banner = ['/**',
@@ -37,6 +39,14 @@ gulp.task('sass:prod', function () {
         .pipe(sourcemaps.init())
         .pipe(gulp.dest('./src/css'));
 });
+
+gulp.task('icons', function () {
+    gulp.src('src/assets/*.svg')
+        .pipe(imagemin())
+        .pipe(gulp.dest('./src/icons'));
+});
+
+
 
 gulp.task('sass:watch', function () {
     gulp.watch('./src/scss/**/*.scss', ['sass']);
