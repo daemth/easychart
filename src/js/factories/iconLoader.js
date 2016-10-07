@@ -11,9 +11,15 @@
             var logo = document.createElement('div');
             logo.innerHTML = icons[id];
             return virtualize(logo.firstChild);
-
         } else {
-            console.log('Icon not found');
+            // return not_found.svg if no icon is found
+            if(!_.isUndefined('not_found')) {
+                var logo = document.createElement('div');
+                logo.innerHTML = icons['not_found'];
+                return virtualize(logo.firstChild);
+            } else {
+                console.log('Icon not found.');
+            }
         }
     };
 

@@ -46,7 +46,7 @@
       {
         "id": "spline",
         "icon": "spline_basic",
-        "title": "Spline",
+        "title": "spline",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
         "definition": {
           "chart": {
@@ -84,7 +84,8 @@
       },
       {
         "id": "splineLogarithmic",
-        "title": "Logarithmic",
+        "title": "spline logarithmic",
+        "icon": "spline_basic",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
         "definition": {
           "chart": {
@@ -194,7 +195,7 @@
       },
       {
         "id": "errorBar",
-        "icon": "line_errorbar",
+        "icon": "errorbar",
         "title": "Error bar",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series Y values and two columns for the error bar series maximum and minimum.",
         "definition": {
@@ -218,7 +219,7 @@
       },
       {
         "id": "datetime",
-
+        "icon": "line_datetime",
         "title": "Datetime",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series Y values and two columns for the error bar series maximum and minimum.",
         "definition": {
