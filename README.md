@@ -50,28 +50,35 @@ new ec({
 });
 ```
 ### options.templatesTab
-Toggle on and off the templates tab [default:true]
+Toggles the templates tab [default:true]
 ```javascript
 new ec({
     templatesTab: true
 });
 ```
 ### options.dataTab
-Toggle on and off the data tab [default:true]
+Toggles the data tab [default:true]
 ```javascript
 new ec({
     dataTab: true
 });
 ```
 ### options.customiseTab
-Toggle on and off the customise tab [default:true]
+Toggles the customise tab [default:true]
 ```javascript
 new ec({
     customiseTab: true
 });
 ```
+### options.chartTab
+Toggles the chart tab [default:false]
+```javascript
+new ec({
+    chartTab: true
+});
+```
 ### options.debuggerTab
-Toggle on and off the debugger tab [default:false]
+Toggles the debugger tab [default:false]
 ```javascript
 new ec({
     debuggerTab: true

@@ -13,13 +13,15 @@
   ],
   "main": "dist/ec.js",
   "dependencies": {
-    "highcharts": "^5.0.0"
+    "highcharts": "^5.0.0",
+    "lodash.findindex": "^4.6.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
     "browserify-css": "^0.9.0",
     "browserify-data": "^0.2.0",
     "connect": "^3.4.1",
+    "serve-static": "^1.11.1",
     "dom-delegator": "^13.1.0",
     "drag-drop": "^2.3.1",
     "folderify": "^1.1.0",
@@ -39,6 +41,7 @@
     "lodash.fill": "^3.2.2",
     "lodash.filter": "^4.2.0",
     "lodash.find": "^4.2.0",
+    "lodash.findkey": "^4.6.0",
     "lodash.first": "^3.0.0",
     "lodash.foreach": "^4.1.0",
     "lodash.isarray": "^4.0.0",
@@ -60,12 +63,12 @@
     "lodash.tonumber": "^4.0.1",
     "lodash.trim": "^4.2.0",
     "lodash.union": "^4.2.0",
+    "lodash.without": "^4.4.0",
     "main-loop": "^3.2.0",
     "mediatorjs": "^0.1.4",
     "node-sass": "latest",
     "papaparse": "^4.1.2",
-    "serve-static": "^1.10.2",
-    "simple-color-picker": "0.1.1",
+    "simple-color-picker": "0.1.0",
     "svg-browserify": "0.0.2",
     "uglify-js": "latest",
     "vdom-virtualize": "^2.0.0",
@@ -77,6 +80,8 @@
   },
   "scripts": {
     "test": "",
+    "watch": "gulp watch:app",
+    "server": "node server.js",
     "build": "gulp build",
     "genOptions": "node buildCustomise"
   },

@@ -1,4 +1,4 @@
-var css = require('../css/style.css');
+var css = require('../../dist/ec.css');
 var Delegator = require("dom-delegator");
 Delegator();
 function constructor(opts) {
@@ -27,6 +27,19 @@ function constructor(opts) {
 
     var states = {};
 
+    if(opts.chartTab == true){
+        states.chart = {
+            title: 'Chart preview',
+            dependencies: function () {
+                var that = {};
+                return that;
+            },
+            template: function (dependencies) {
+                return '';
+            }
+        }
+    }
+
     // by default show this tab
     if(opts.dataTab != false) {
         states.data = {
@@ -44,7 +57,6 @@ function constructor(opts) {
             }
         }
     }
-    // by default show this tab.
 
     if(opts.templatesTab != false) {
         states.templates = {
@@ -59,6 +71,7 @@ function constructor(opts) {
             }
         }
     }
+
     if (opts.customiseTab != false) {
         states.customise = {
             title: 'Customise',
@@ -76,7 +89,7 @@ function constructor(opts) {
         }
     }
     if (opts.debuggerTab == true) {
-        states.debugger = {
+        states.debug = {
             title: 'Debug',
             dependencies: function () {
                 var that = {};
@@ -93,19 +106,23 @@ function constructor(opts) {
     initializer(opts, services);
     if (typeof opts.element !== 'undefined') {
         opts.element.className += ' ec';
+
         var mainRouter = new router(opts.element, states, services, opts.showLogo !== false);
-        if(opts.dataTab != false) {
+        if (opts.chartTab == true) {
+            mainRouter.goToState('chart');
+        } else if(opts.dataTab != false) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
             mainRouter.goToState('templates');
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');
         } else if(opts.debuggerTab == true) {
-            mainRouter.goToState('debugger');
+            mainRouter.goToState('debug');
         }
     }
 
     return new Api(services);
 }
+
 module.exports = constructor;
 window.ec = constructor;

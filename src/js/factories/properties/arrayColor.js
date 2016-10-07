@@ -1,6 +1,5 @@
 (function () {
     var ColorPicker = require('simple-color-picker');
-    var css = require('../../../../node_modules/simple-color-picker/simple-color-picker.css');
     var h = require('virtual-dom/h');
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -27,8 +26,7 @@
 
         _.forEach(property.defaults, function (value, index) {
             var colorPicker = new ColorPicker({
-                background: 'white',
-                width: 200
+                background: '#333333'
             });
 
             list.push(h('div.form-item', [
