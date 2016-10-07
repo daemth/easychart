@@ -1,10 +1,12 @@
 (function () {
     var ColorPicker = require('simple-color-picker');
+
     var h = require('virtual-dom/h');
     var _ = {
         trim: require('lodash.trim'),
         toLower: require('lodash.tolower')
     };
+
 
     function constructor(property, configService, configValue, disabled, defaultValue) {
         var colorPicker = new ColorPicker({

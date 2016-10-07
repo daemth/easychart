@@ -26,21 +26,22 @@ gulp.task('app:watch', function () {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('src/scss/style.scss')
+    gulp.src('src/scss/ec.scss')
         .pipe(sourcemaps.init())
-        .pipe(sass().on('error', sass.logError))
-        .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./src/css'));
+        .pipe(sass())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('./dist'));
+
 });
 
+
 gulp.task('sass:prod', function () {
-    return gulp.src('src/scss/style.scss')
+    gulp.src('src/scss/ec.scss')
         .pipe(sourcemaps.init())
         .pipe(sass({
             outputStyle: 'compressed'
-        }).on('error', sass.logError))
-        .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./src/css'));
+        }))
+        .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('sass:watch', function () {
@@ -56,16 +57,16 @@ gulp.task('browserify:render', function () {
 });
 
 function build(file, output) {
-    var bundler = browserify('./src/js/' + file + '.js', {fullPaths:false});
+    var bundler = browserify('./src/js/' + file + '.js', {fullPaths: false});
     return bundler.bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(source(output + '.js'))
         .pipe(buffer())
-        .pipe(header(banner, { pkg : pkg } ))
+        .pipe(header(banner, {pkg: pkg}))
         .pipe(gulp.dest('./dist'))
-        .pipe(rename({ extname: '.min.js' }))
+        .pipe(rename({extname: '.min.js'}))
         .pipe(uglify())
-        .pipe(header(banner, { pkg : pkg } ))
+        .pipe(header(banner, {pkg: pkg}))
         .pipe(gulp.dest('./dist'));
 }
 
@@ -94,6 +95,7 @@ function bundle(file, output) {
             .pipe(sourcemaps.write('./')) // writes .map file
             .pipe(gulp.dest('./dist'));
     }
+
     return rebundle();
 }
 

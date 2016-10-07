@@ -6,7 +6,17 @@ $default-feature: min-width;
     display: block;
   }
 }
+@function assign-inputs($inputs, $pseudo: null) {
+  $list: ();
 
+  @each $input in $inputs {
+    $input: unquote($input);
+    $input: if($pseudo, $input + ":" + $pseudo, $input);
+    $list: append($list, $input, comma);
+  }
+
+  @return $list;
+}
 @mixin media($query: $feature $value $columns, $total-columns: $grid-columns) {
   @if length($query) == 1 {
     @media screen and ($default-feature: nth($query, 1)) {

@@ -13,7 +13,8 @@
   ],
   "main": "dist/ec.js",
   "dependencies": {
-    "highcharts": "^5.0.0"
+    "highcharts": "^5.0.0",
+    "lodash.findindex": "^4.6.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
@@ -77,7 +78,7 @@
     "xhr": "^2.2.0"
   },
   "scripts": {
-    "test":"",
+    "test": "",
     "watch": "gulp watch:app",
     "server": "node server.js",
     "build": "gulp build",
