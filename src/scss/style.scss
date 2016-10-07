@@ -8,6 +8,7 @@
   background: $super-light-gray;
   float: left;
   width: 100%;
+
   @import "base/functions";
   @import "base/tables";
   @import "base/forms";
@@ -17,7 +18,6 @@
   @import "components/buttons";
   @import "components/structure";
   @import "components/navigation";
-  @import "components/helpers";
   @import "components/loader";
   @import "components/template-list";
   
