@@ -26,7 +26,7 @@
 
         _.forEach(property.defaults, function (value, index) {
             var colorPicker = new ColorPicker({
-                background: 'white',
+                background: '#333333',
                 width: 200
             });
 

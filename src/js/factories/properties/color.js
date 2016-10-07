@@ -8,14 +8,12 @@
 
     function constructor(property, configService, configValue, disabled, defaultValue) {
         var colorPicker = new ColorPicker({
-            background: 'white',
+            background: '#333333',
             width: 200
-        })
+        });
         var value;
-        var Hook = function () {
-        };
-        Hook.prototype.hook = function (node) {
-        };
+        var Hook = function () {};
+        Hook.prototype.hook = function (node) {};
 
         return h('div.form-item', [
             h('div.form-item__label', h('label', {
