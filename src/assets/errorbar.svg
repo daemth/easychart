@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.2" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="1513 530.2 100 70" xml:space="preserve">
+<g id="Layer_1">
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" x1="1563" y1="539.2" x2="1563" y2="552.8"/>
+		<g>
+			<rect x="1562.2" y="539.1" width="1.6" height="0.2"/>
+		</g>
+		<g>
+			<rect x="1562.2" y="552.6" width="1.6" height="0.2"/>
+		</g>
+	</g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" x1="1538" y1="547.4" x2="1538" y2="558.1"/>
+		<g>
+			<rect x="1537.2" y="547.2" width="1.6" height="0.2"/>
+		</g>
+		<g>
+			<rect x="1537.2" y="558" width="1.6" height="0.2"/>
+		</g>
+	</g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" x1="1588" y1="559.9" x2="1588" y2="576.1"/>
+		<g>
+			<rect x="1587.2" y="559.7" width="1.6" height="0.2"/>
+		</g>
+		<g>
+			<rect x="1587.2" y="576" width="1.6" height="0.2"/>
+		</g>
+	</g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" x1="1608" y1="553.9" x2="1608" y2="561.1"/>
+		<g>
+			<rect x="1607.2" y="553.7" width="1.6" height="0.2"/>
+		</g>
+		<g>
+			<rect x="1607.2" y="561" width="1.6" height="0.2"/>
+		</g>
+	</g>
+	<g>
+		<line fill="none" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" x1="1518" y1="575.8" x2="1518" y2="586.4"/>
+		<g>
+			<rect x="1517.2" y="575.6" width="1.6" height="0.2"/>
+		</g>
+		<g>
+			<rect x="1517.2" y="586.3" width="1.6" height="0.2"/>
+		</g>
+	</g>
+</g>
+<g id="placeholder">
+</g>
+<g id="line_charts">
+	<g>
+		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1518" y1="533.5" x2="1608" y2="533.5"/>
+		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1518" y1="549.4" x2="1608" y2="549.4"/>
+		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1518" y1="565.2" x2="1608" y2="565.2"/>
+		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1518" y1="581.1" x2="1608" y2="581.1"/>
+		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1518" y1="597" x2="1608" y2="597"/>
+	</g>
+	<polyline fill="none" stroke="#000000" stroke-miterlimit="10" points="1518,580.9 1538,552.7 1563,546 1588,568 1608,557.5 	"/>
+</g>
+</svg>
