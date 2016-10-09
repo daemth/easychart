@@ -784,50 +784,6 @@
         }
       },
       {
-        "id": "barWithNegativeStack",
-        "title": "Bar with negative stack",
-        "description": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
-        "definition": {
-          "chart": {
-            "type": "bar"
-          },
-          "xAxis": [
-            {
-              "reversed": false,
-              "labels": {
-                "step": 1
-              }
-            },
-            {
-              "opposite": true,
-              "reversed": false,
-              "linkedTo": 0,
-              "labels": {
-                "step": 1
-              }
-            }
-          ],
-          "yAxis": [
-            {
-              "title": {
-                "text": null
-              },
-              "labels": {
-                "formatter": "function() {return Math.abs(this.value) + \"%\";}"
-              }
-            }
-          ],
-          "plotOptions": {
-            "series": {
-              "stacking": "normal"
-            }
-          },
-          "tooltip": {
-            "formatter": "function() { return \"<b>\" + this.series.name + \", age \" + this.point.category + \"</b><br/>\" +\"Population: \" + Highcharts.numberFormat(Math.abs(this.point.y), 0);}"
-          }
-        }
-      },
-      {
         "id": "basicWithLabels",
         "title": "Basic with labels",
         "icon": "bar_basic_labels",
@@ -901,7 +857,7 @@
       {
         "id": "stackedPercentage",
         "title": "Stacked percentage bar",
-        "icon": "bar_stacked_percentage",
+        "icon": "bar_stacked_percent",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -923,7 +879,7 @@
       {
         "id": "stackedPercentageWithLabels",
         "title": "Stacked percentage bar with labels",
-        "icon": "bar_stacked_percentage_labels",
+        "icon": "bar_stacked_percent_labels",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -957,7 +913,6 @@
           },
           "plotOptions": {
             "series": {
-              "color": "#0088FF",
               "negativeColor": "#FF4136"
             }
           },
@@ -971,6 +926,7 @@
       {
         "id": "multiColor",
         "title": "Multi color",
+        "icon": "bar_multicolor",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -1009,6 +965,7 @@
       {
         "id": "logarithmic",
         "title": "Logarithmic",
+        "icon": "bar_logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -1073,31 +1030,6 @@
           "xAxis": [
             {
               "type": "category"
-            }
-          ]
-        }
-      },
-      {
-        "id": "errorbar",
-        "title": "Error bar",
-        "icon": "bar_errorbar",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for the series Y values. and two columns for the error bar series maximum and minimum.",
-        "definition": {
-          "chart": {
-            "type": "column",
-            "inverted": true
-          },
-          "xAxis": [
-            {
-              "type": "category"
-            }
-          ],
-          "series": [
-            {
-              "type": null
-            },
-            {
-              "type": "errorbar"
             }
           ]
         }
