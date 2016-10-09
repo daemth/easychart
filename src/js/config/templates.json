@@ -544,78 +544,6 @@
         }
       },
       {
-        "id": "fixedPlacement",
-        "title": "Column with fixed placement",
-        "icon": "column_fixed_placement",
-        "description": "Grouped column chart. Requires one data column for X values or categories, subsequently one data column for each series Y values.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "yAxis": [
-            {
-              "min": 0,
-              "title": {
-                "text": "Employees"
-              }
-            },
-            {
-              "title": {
-                "text": "Profit (millions)"
-              },
-              "opposite": true
-            }
-          ],
-          "xAxis": [
-            {
-              "type": "category"
-            }
-          ],
-          "tooltip": {
-            "shared": true
-          },
-          "plotOptions": {
-            "column": {
-              "grouping": false,
-              "shadow": false,
-              "borderWidth": 0
-            }
-          },
-          "series": [
-            {
-              "color": "rgba(165,170,217,1)",
-              "pointPadding": 0.3,
-              "pointPlacement": -0.2
-            },
-            {
-              "color": "rgba(126,86,134,.9)",
-              "pointPadding": 0.4,
-              "pointPlacement": -0.2
-            },
-            {
-              "color": "rgba(248,161,63,1)",
-              "tooltip": {
-                "valuePrefix": "$",
-                "valueSuffix": " M"
-              },
-              "pointPadding": 0.3,
-              "pointPlacement": 0.2,
-              "yAxis": 1
-            },
-            {
-              "color": "rgba(186,60,61,.9)",
-              "tooltip": {
-                "valuePrefix": "$",
-                "valueSuffix": " M"
-              },
-              "pointPadding": 0.4,
-              "pointPlacement": 0.2,
-              "yAxis": 1
-            }
-          ]
-        }
-      },
-      {
         "id": "stacked",
         "title": "Stacked",
         "icon": "column_stacked",
@@ -663,7 +591,7 @@
       {
         "id": "stackedPercent",
         "title": "Stacked percent",
-        "icon": "column_stacked_percentage",
+        "icon": "column_stacked_percent",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -684,7 +612,7 @@
       {
         "id": "stackedPercentWithLabels",
         "title": "Stacked percent with labels",
-        "icon": "column_stacked_percentage_labels",
+        "icon": "column_stacked_percent_labels",
         "description": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -729,6 +657,7 @@
       {
         "id": "multiColor",
         "title": "Multi color",
+        "icon": "column_multicolor",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -749,6 +678,7 @@
       {
         "id": "logarithmic",
         "title": "Logarithmic",
+        "icon": "column_logarithmic",
         "desc": "Requires one data column for X values or categories, subsequently one data column for each series Y values.",
         "definition": {
           "chart": {
@@ -823,31 +753,6 @@
               "shadow": false
             }
           },
-          "xAxis": [
-            {
-              "type": "category"
-            }
-          ]
-        }
-      },
-      {
-        "id": "errorbar",
-        "title": "Error bar",
-        "icon": "column_errorbar",
-        "desc": "Requires one data column for X values or categories, subsequently one data column for the series Y values. and two columns for the error bar series maximum and minimum.",
-        "definition": {
-          "chart": {
-            "type": "column"
-          },
-          "series": [
-            {
-              "type": null
-            },
-            {
-              "type": "errorbar",
-              "showInLegend": true
-            }
-          ],
           "xAxis": [
             {
               "type": "category"
