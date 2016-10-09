@@ -57,7 +57,7 @@ gulp.task('browserify:render', function () {
 });
 
 function build(file, output) {
-    var bundler = browserify('./src/js/' + file + '.js', {fullPaths: false});
+    var bundler = browserify('./src/vue/' + file + '.js', {fullPaths: false});
     return bundler.bundle()
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(source(output + '.js'))
@@ -82,7 +82,7 @@ gulp.task('watchify:render', function () {
 function bundle(file, output) {
     watchify.args.verbose = true;
     watchify.args.poll = true;
-    var bundler = watchify(browserify('./src/js/' + file + '.js'), watchify.args);
+    var bundler = watchify(browserify('./src/vue/' + file + '.js'), watchify.args);
     bundler.on('update', rebundle);
     bundler.on('log', gutil.log.bind(gutil));
     function rebundle() {

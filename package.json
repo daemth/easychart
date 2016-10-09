@@ -14,12 +14,14 @@
   "main": "dist/ec.js",
   "dependencies": {
     "highcharts": "^5.0.0",
-    "lodash.findindex": "^4.6.0"
+    "stringify": "^5.1.0",
+    "vue": "^2.0.1"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
     "browserify-css": "^0.9.0",
     "browserify-data": "^0.2.0",
+    "aliasify": "^2.0.0",
     "connect": "^3.4.1",
     "serve-static": "^1.11.1",
     "dom-delegator": "^13.1.0",
@@ -95,10 +97,20 @@
   },
   "browserify": {
     "transform": [
-      "browserify-css",
+      "aliasify",
+      "stringify",
       "browserify-data",
       "svg-browserify",
       "folderify"
     ]
+  },
+  "stringify": {
+    "appliesTo": { "includeExtensions": [".html"] },
+    "minify": true
+  },
+  "aliasify": {
+    "aliases": {
+      "vue": "vue/dist/vue.js"
+    }
   }
 }

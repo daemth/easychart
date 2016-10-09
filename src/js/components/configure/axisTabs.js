@@ -185,7 +185,7 @@ function constructor(services) {
     function addButton(type, typeConfig, setActive) {
         return h('button.btn.btn--small', {
             'ev-click': function (e) {
-                configService.setValue(type + '.' + typeConfig.length, {})
+                configService.setValue(type + '.' + typeConfig.length, {});
                 setActive('axis', type + typeConfig.length);
                 e.preventDefault();
             }
