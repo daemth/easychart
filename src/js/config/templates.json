@@ -21,7 +21,7 @@
         }
       },
       {
-        "id": "dataLabels",
+        "id": "lineDataLabels",
         "icon": "line_labels",
         "title": "With data labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values. Data labels by default displays the Y value.",
@@ -111,7 +111,7 @@
         }
       },
       {
-        "id": "step",
+        "id": "lineStep",
         "icon": "line_step",
         "title": "Step line",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -132,7 +132,7 @@
         }
       },
       {
-        "id": "stepWithLabels",
+        "id": "LineStepLabels",
         "icon": "line_step_labels",
         "title": "Step line with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -156,7 +156,7 @@
         }
       },
       {
-        "id": "inverted",
+        "id": "lineInverted",
         "icon": "line_inverted",
         "title": "Inverted",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -173,7 +173,7 @@
         }
       },
       {
-        "id": "negativeColor",
+        "id": "lineNegativeColor",
         "icon": "line_negative_color",
         "title": "Negative color",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -188,7 +188,7 @@
           ],
           "plotOptions": {
             "series": {
-              "negativeColor": "#ff0000"
+              "negativeColor": "#FF4136"
             }
           }
         }
@@ -218,7 +218,7 @@
         }
       },
       {
-        "id": "datetime",
+        "id": "lineDatetime",
         "icon": "line_datetime",
         "title": "Datetime",
         "desc": "Requires one data column for X values or categories, subsequently one data column for the series Y values and two columns for the error bar series maximum and minimum.",
@@ -266,7 +266,7 @@
         }
       },
       {
-        "id": "withLabels",
+        "id": "areaWithLabels",
         "icon": "area_basic_labels",
         "title": "Area with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -292,7 +292,7 @@
         }
       },
       {
-        "id": "stacked",
+        "id": "areaStacked",
         "icon": "area_stacked",
         "title": "Stacked",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -316,7 +316,7 @@
         }
       },
       {
-        "id": "stackedWithLabels",
+        "id": "areaStackedWithLabels",
         "icon": "area_stacked_labels",
         "title": "Stacked with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -343,7 +343,7 @@
         }
       },
       {
-        "id": "stackedPercentage",
+        "id": "areaStackedPercentage",
         "icon": "area_stacked_percentage",
         "title": "Stacked percentage",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -367,7 +367,7 @@
         }
       },
       {
-        "id": "inverted",
+        "id": "areaInverted",
         "icon": "area_inverted",
         "title": "Inverted",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -391,7 +391,7 @@
         }
       },
       {
-        "id": "invertedWithLabels",
+        "id": "areaInvertedWithLabels",
         "icon": "area_inverted_labels",
         "title": "Inverted with labels",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -419,7 +419,7 @@
         }
       },
       {
-        "id": "stepLine",
+        "id": "areaStep",
         "icon": "area_step",
         "title": "Step line",
         "desc": "Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -443,7 +443,7 @@
         }
       },
       {
-        "id": "negativeColor",
+        "id": "areaNegativeColor",
         "icon": "area_negative_color",
         "title": "Negative color",
         "desc": "Displays negative values with an alternative color. Colors can be set in plotOptions.series.negativeColor. Requires one column for X values or categories, subsequently one column for each series Y values.",
@@ -458,7 +458,7 @@
           ],
           "plotOptions": {
             "series": {
-              "negativeColor": "#0088FF",
+              "negativeColor": "#FF4136",
               "marker": {
                 "enabled": false
               }
@@ -478,6 +478,22 @@
           "xAxis": [
             {
               "type": "category"
+            }
+          ]
+        }
+      },
+      {
+        "id": "area_datetime",
+        "title": "Area datetime",
+        "icon": "area_datetime",
+        "desc": "Requires one data column for datetime-categories, subsequently one data column for each arearange series Y values.",
+        "definition": {
+          "chart": {
+            "type": "area"
+          },
+          "xAxis": [
+            {
+              "type": "datetime"
             }
           ]
         }
@@ -700,7 +716,7 @@
           },
           "plotOptions": {
             "series": {
-              "negativeColor": "#FF0000"
+              "negativeColor": "#FF4136"
             }
           },
           "xAxis": [
@@ -1036,8 +1052,8 @@
           },
           "plotOptions": {
             "series": {
-              "negativeColor": "#0088FF",
-              "color": "#FF0000"
+              "color": "#0088FF",
+              "negativeColor": "#FF4136"
             }
           },
           "xAxis": [
