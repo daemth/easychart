@@ -10,17 +10,21 @@
 </g>
 <g id="area_charts">
 	<g>
-		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="725.1" x2="1151" y2="725.1"/>
-		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="741" x2="1151" y2="741"/>
-		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="756.9" x2="1151" y2="756.9"/>
-		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="772.8" x2="1151" y2="772.8"/>
-		<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="788.6" x2="1151" y2="788.6"/>
+		<g>
+			<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="725.1" x2="1151" y2="725.1"/>
+			<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="741" x2="1151" y2="741"/>
+			<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="756.9" x2="1151" y2="756.9"/>
+			<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="772.8" x2="1151" y2="772.8"/>
+			<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1061" y1="788.6" x2="1151" y2="788.6"/>
+		</g>
+		<polygon opacity="0.7" fill="#7CB5EC" points="1061,740.5 1081,763.4 1106,776.9 1131,745.6 1151,749.1 1151,788.6 1061,788.6 		
+			"/>
+		<polyline fill="none" stroke="#7CB5EC" stroke-miterlimit="10" points="1061,740.5 1081,763.4 1106,776.9 1131,745.6 1151,749.1 
+					"/>
+		<polygon opacity="0.75" fill="#434348" points="1061,776.9 1081,753.8 1106,735.6 1131,777.6 1151,768.6 1151,788.6 1061,788.6 		
+			"/>
+		<polyline fill="none" stroke="#434348" stroke-miterlimit="10" points="1061,776.9 1081,753.8 1106,735.6 1131,777.6 1151,768.6 
+					"/>
 	</g>
-	<polygon opacity="0.7" fill="#B10DC9" points="1061,772.5 1081,744.4 1106,756.9 1131,759.6 1151,749.1 1151,788.6 1061,788.6 	"/>
-	<polyline fill="none" stroke="#B10DC9" stroke-miterlimit="10" points="1061,772.5 1081,744.4 1106,756.9 1131,759.6 1151,749.1 	
-		"/>
-	<polygon opacity="0.5" fill="#7FDBFF" points="1061,756.9 1081,764.8 1106,748.6 1131,777.6 1151,737.6 1151,788.6 1061,788.6 	"/>
-	<polyline fill="none" stroke="#7FDBFF" stroke-miterlimit="10" points="1061,756.9 1081,764.8 1106,748.6 1131,777.6 1151,737.6 	
-		"/>
 </g>
 </svg>

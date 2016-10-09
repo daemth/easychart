@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="1192.5 1076.4 100 70" enable-background="new 1192.5 1076.4 100 70" xml:space="preserve">
+<g id="Layer_1">
+</g>
+<g id="not_x5F_found">
+</g>
+<g id="line_charts">
+</g>
+<g id="area_charts">
+	<g>
+		<g>
+			
+				<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1197.5" y1="1079.6" x2="1287.5" y2="1079.6"/>
+			
+				<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1197.5" y1="1095.5" x2="1287.5" y2="1095.5"/>
+			
+				<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1197.5" y1="1111.4" x2="1287.5" y2="1111.4"/>
+			
+				<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1197.5" y1="1127.2" x2="1287.5" y2="1127.2"/>
+			
+				<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="1197.5" y1="1143.1" x2="1287.5" y2="1143.1"/>
+		</g>
+		<g opacity="0.7">
+			<polygon fill="#7CB5EC" points="1238,1111.4 1217.5,1090.2 1207.2,1111.4 			"/>
+			<polygon fill="#7CB5EC" points="1267.5,1102 1250.8,1111.4 1276.4,1111.4 			"/>
+		</g>
+		<g opacity="0.75">
+			<polygon fill="#FF4136" points="1197.5,1111.4 1197.5,1131.4 1207.2,1111.4 			"/>
+			<polygon fill="#FF4136" points="1287.5,1123.1 1287.5,1111.4 1276.4,1111.4 			"/>
+			<polygon fill="#FF4136" points="1250.8,1111.4 1238,1111.4 1242.5,1116 			"/>
+		</g>
+		<g>
+			<line fill="none" stroke="#FF4136" stroke-miterlimit="10" x1="1197.5" y1="1131.4" x2="1207.2" y2="1111.4"/>
+			<polyline fill="none" stroke="#FF4136" stroke-miterlimit="10" points="1238,1111.4 1242.5,1116 1250.8,1111.4 			"/>
+			<line fill="none" stroke="#FF4136" stroke-miterlimit="10" x1="1276.4" y1="1111.4" x2="1287.5" y2="1123.1"/>
+		</g>
+		<g>
+			<polyline fill="none" stroke="#7CB5EC" stroke-miterlimit="10" points="1207.2,1111.4 1217.5,1090.2 1238,1111.4 			"/>
+			<polyline fill="none" stroke="#7CB5EC" stroke-miterlimit="10" points="1250.8,1111.4 1267.5,1102 1276.4,1111.4 			"/>
+		</g>
+	</g>
+</g>
+</svg>
