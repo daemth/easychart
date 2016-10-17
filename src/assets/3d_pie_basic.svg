@@ -1,0 +1,258 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   class="highcharts-root"
+   style="font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;"
+   width="100"
+   viewBox="0 0 100 70"
+   height="70"
+   id="svg3648"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="3d_pie_basic.svg">
+  <metadata
+     id="metadata3739">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     id="namedview3737"
+     showgrid="false"
+     inkscape:zoom="4.1295036"
+     inkscape:cx="43.106337"
+     inkscape:cy="13.096811"
+     inkscape:window-x="1366"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g3711" />
+  <desc
+     id="desc3650">Created with Highcharts 5.0.0</desc>
+  <defs
+     id="defs3652">
+    <clipPath
+       id="highcharts-8">
+      <rect
+         x="0"
+         y="0"
+         width="100"
+         height="70"
+         fill="none"
+         id="rect3655" />
+    </clipPath>
+  </defs>
+  <rect
+     fill="#ffffff"
+     class="highcharts-background"
+     x="0"
+     y="0"
+     width="100"
+     height="70"
+     rx="0"
+     ry="0"
+     id="rect3657" />
+  <rect
+     fill="none"
+     class="highcharts-plot-background"
+     x="0"
+     y="0"
+     width="100"
+     height="70"
+     id="rect3659" />
+  <rect
+     fill="none"
+     class="highcharts-plot-border"
+     x="0"
+     y="0"
+     width="100"
+     height="70"
+     id="rect3661" />
+  <g
+     class="highcharts-series-group"
+     id="g3663">
+    <g
+       class="highcharts-series highcharts-series-1 highcharts-pie-series highcharts-color-undefined "
+       transform="translate(0,0) scale(1 1)"
+       id="g3665" />
+    <g
+       class="highcharts-markers highcharts-series-1 highcharts-pie-series highcharts-color-undefined "
+       transform="translate(0,0) scale(1 1)"
+       id="g3667" />
+    <g
+       class="highcharts-series highcharts-series-0 highcharts-pie-series highcharts-color-undefined "
+       transform="translate(0,0) scale(1 1)"
+       id="g3669">
+      <path
+         fill="rgb(99,156,211)"
+         d="M 49.99515816990269 47.49999976556681 L 49.99515816990269 53.9951902939501 L 50 41.49519052838329 L 50 35 Z"
+         class="highcharts-point highcharts-color-0 highcharts-3d-side"
+         visibility="visible"
+         id="path3671" />
+      <path
+         fill="rgb(119,212,100)"
+         d="M 32.3224928053465 26.16108406840842 L 32.3224928053465 32.65627459679171 L 50 41.49519052838329 L 50 35 Z"
+         class="highcharts-point highcharts-color-2 highcharts-3d-side"
+         visibility="visible"
+         id="path3673" />
+      <path
+         fill="rgb(119,212,100)"
+         d="M 49.99002549064739 22.500000994908405 L 49.99002549064739 28.995191523291695 L 50 41.49519052838329 L 50 35 Z"
+         class="highcharts-point highcharts-color-2 highcharts-3d-side"
+         visibility="visible"
+         id="path3675" />
+      <path
+         fill="rgb(42,42,47)"
+         d="M 49.99490816990762 47.49999974073266 L 49.99490816990762 53.99519026911595 L 50 41.49519052838329 L 50 35 Z"
+         class="highcharts-point highcharts-color-1 highcharts-3d-side"
+         visibility="visible"
+         id="path3677" />
+      <path
+         fill="rgb(119,212,100)"
+         d="M 32.3224928053465 26.16108406840842 C 37.201554362572026 23.721598093868753 43.09005437618994 22.50137747154624 49.99002549064739 22.500000994908405 L 49.99002549064739 28.995191523291695 C 43.09005437618994 28.99656799992953 37.201554362572026 30.216788622252043 32.3224928053465 32.65627459679171 Z"
+         class="highcharts-point highcharts-color-2 highcharts-3d-side"
+         visibility="visible"
+         id="path3679" />
+      <path
+         fill="rgb(119,212,100)"
+         d="M 50 35 C 50 35 50 35 50 35 L 50 41.49519052838329 C 50 41.49519052838329 50 41.49519052838329 50 41.49519052838329 Z"
+         class="highcharts-point highcharts-color-2 highcharts-3d-side"
+         visibility="visible"
+         id="path3681" />
+      <path
+         fill="rgb(42,42,47)"
+         d="M 32.32231602791175 26.161172456386335 L 32.32231602791175 32.65636298476962 L 50 41.49519052838329 L 50 35 Z"
+         class="highcharts-point highcharts-color-1 highcharts-3d-side"
+         visibility="visible"
+         id="path3683" />
+      <path
+         fill="rgb(99,156,211)"
+         d="M 49.99490816990762 22.50000025926734 L 49.99490816990762 28.99519078765063 L 50 41.49519052838329 L 50 35 Z"
+         class="highcharts-point highcharts-color-0 highcharts-3d-side"
+         visibility="visible"
+         id="path3685" />
+      <path
+         fill="rgb(42,42,47)"
+         d="M 49.99490816990762 47.49999974073266 C 36.189579974487714 47.49859385299269 25 41.90266424088078 25 35 L 25 41.49519052838329 C 25 38.043414432552694 27.440771447077395 35.0971392633497 32.32231602791175 32.65636298476962 L 32.32231602791175 26.161172456386335 C 27.440771447077395 28.601948734966413 25 31.548223904169404 25 35 L 25 41.49519052838329 C 25 48.39785476926407 36.189579974487714 53.99378438137598 49.99490816990762 53.99519026911595 Z"
+         class="highcharts-point highcharts-color-1 highcharts-3d-side"
+         visibility="visible"
+         id="path3687" />
+      <path
+         fill="rgb(42,42,47)"
+         d="M 50 35 C 50 35 50 35 50 35 C 50 35 50 35 50 35 L 50 41.49519052838329 C 50 41.49519052838329 50 41.49519052838329 50 41.49519052838329 C 50 41.49519052838329 50 41.49519052838329 50 41.49519052838329 Z"
+         class="highcharts-point highcharts-color-1 highcharts-3d-side"
+         visibility="visible"
+         id="path3689" />
+      <path
+         fill="rgb(99,156,211)"
+         d="M 75 35 C 75 41.90355937288492 63.80711874576984 47.5 50 47.5 C 49.99829763483965 47.5 49.996860535031104 47.49999993041807 49.99515816990269 47.49999976556681 L 49.99515816990269 53.9951902939501 C 63.80227665672478 53.996527328412114 74.9973254622096 48.401170686842995 74.99999953113362 41.49761144343195 C 74.99999986083614 41.49676026086774 75 41.49604171096346 75 41.49519052838329 Z"
+         class="highcharts-point highcharts-color-0 highcharts-3d-side"
+         visibility="visible"
+         id="path3691" />
+      <path
+         fill="rgb(99,156,211)"
+         d="M 50 35 C 50 35 50 35 50 35 C 50 35 50 35 50 35 C 50 35 50 35 50 35 L 50 41.49519052838329 C 50 41.49519052838329 50 41.49519052838329 50 41.49519052838329 C 50 41.49519052838329 50 41.49519052838329 50 41.49519052838329 C 50 41.49519052838329 50 41.49519052838329 50 41.49519052838329 Z"
+         class="highcharts-point highcharts-color-0 highcharts-3d-side"
+         visibility="visible"
+         id="path3693" />
+      <g
+         class="highcharts-point highcharts-color-0"
+         stroke="#7cb5ec"
+         stroke-width="1"
+         stroke-linejoin="round"
+         id="g3695">
+        <path
+           fill="#7cb5ec"
+           d="M 49.99490816990762 22.50000025926734 C 63.80202662929866 22.498594189212962 74.99718734135658 28.093894855258284 74.99999948146532 34.99745408495381 C 75.00281162157407 41.90101331464933 63.812210289483424 47.49859367067828 50.00509183009238 47.49999974073266 C 50.0015992009962 47.50000009641015 49.99865079900581 47.500000103781154 49.99515816990269 47.49999976556681 L 50 35 C 50 35 50 35 50 35 C 50 35 50 35 50 35 C 50 35 50 35 50 35 Z"
+           visibility="visible"
+           id="path3697" />
+      </g>
+      <g
+         class="highcharts-point highcharts-color-1"
+         stroke="#434348"
+         stroke-width="1"
+         stroke-linejoin="round"
+         id="g3699">
+        <path
+           fill="#434348"
+           d="M 49.99490816990762 47.49999974073266 C 36.187789710516576 47.49859367067829 24.997188378425932 41.90101331464934 25.00000051853468 34.997454084953816 C 25.001406222497625 31.546573192703416 27.44203735386353 28.601315780539114 32.32231602791175 26.161172456386335 L 50 35 C 50 35 50 35 50 35 C 50 35 50 35 50 35 Z"
+           visibility="visible"
+           id="path3701" />
+      </g>
+      <g
+         class="highcharts-point highcharts-color-2"
+         stroke="#90ed7d"
+         stroke-width="1"
+         stroke-linejoin="round"
+         id="g3703">
+        <path
+           fill="#90ed7d"
+           d="M 32.3224928053465 26.16108406840842 C 37.201554362572026 23.721598093868753 43.09005437618994 22.50137747154624 49.99002549064739 22.500000994908405 L 50 35 C 50 35 50 35 50 35 Z"
+           visibility="visible"
+           id="path3705" />
+      </g>
+    </g>
+    <g
+       class="highcharts-markers highcharts-series-0 highcharts-pie-series highcharts-color-undefined "
+       transform="translate(0,0) scale(1 1)"
+       id="g3707" />
+  </g>
+  <g
+     class="highcharts-data-labels highcharts-series-1 highcharts-pie-series highcharts-color-undefined "
+     transform="translate(0,0) scale(1 1)"
+     opacity="1"
+     id="g3709" />
+  <g
+     class="highcharts-data-labels highcharts-series-0 highcharts-pie-series highcharts-color-undefined "
+     transform="translate(0,0) scale(1 1)"
+     opacity="1"
+     id="g3711">
+    <path
+       class="highcharts-data-label-connector highcharts-color-0"
+       d="m 82.307839,35 c -1.099696,0 -5.0586,0 -6.378235,0 l -1.319634,0"
+       id="path3713"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#7cb5ec;stroke-width:0.46897668" />
+    <path
+       class="highcharts-data-label-connector highcharts-color-1"
+       d="m 13.255349,58.55222 c 1.995015,0 9.319258,-11.317567 11.531042,-15.09009 l 2.211785,-3.772522"
+       id="path3715"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#434348;stroke-width:0.80967104" />
+    <path
+       class="highcharts-data-label-connector highcharts-color-2"
+       d="m 30.140169,14.063436 c 1.563235,0 9.177133,5.118049 9.895002,7.412668 l 0.717869,2.294619"
+       id="path3717"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#90ed7d;stroke-width:0.35974857" />
+    <g
+       class="highcharts-label highcharts-data-label highcharts-data-label-color-2 "
+       transform="translate(-1.1232877,0.61643839)"
+       id="g3731" />
+    <path
+       style="fill:#cccccc"
+       inkscape:connector-curvature="0"
+       d="m 15.93056,10.725862 11.835943,0 0,4.732167 -11.835943,0 z m 68.330759,20.774847 11.835941,0 0,4.732167 -11.835941,0 z m -83.67364711,24.890576 11.83594211,0 0,4.732168 -11.83594211,0 z"
+       id="path4117"
+       sodipodi:nodetypes="ccccccccccccccc" />
+  </g>
+</svg>
