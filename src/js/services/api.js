@@ -49,6 +49,14 @@
             return services.templates.get();
         }
 
+        // themes
+        function setThemes(themes) {
+            services.themes.set(themes);
+        }
+
+        function getThemes() {
+            return services.themes.get();
+        }
         // config
         function setConfig(config) {
             services.config.set(config);
@@ -96,6 +104,8 @@
             getOptions: getOptions,
             setTemplates: setTemplates,
             getTemplates: getTemplates,
+            setThemes: setThemes,
+            getThemes: getThemes,
             setConfig: setConfig,
             setConfigStringified: setConfigStringified,
             getConfig: getConfig,

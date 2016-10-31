@@ -1,0 +1,460 @@
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   class="highcharts-root"
+   style="font-size:12px"
+   width="100"
+   viewBox="0 0 100 66.666664"
+   height="66.666664"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="chart(3).svg">
+  <metadata
+     id="metadata149">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="733"
+     inkscape:window-height="480"
+     id="namedview147"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.48666667"
+     inkscape:cx="50"
+     inkscape:cy="33.333336"
+     inkscape:window-x="1933"
+     inkscape:window-y="177"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <desc
+     id="desc4">Created with Highcharts 5.0.2</desc>
+  <defs
+     id="defs6">
+    <clipPath
+       id="highcharts-41">
+      <rect
+         x="0"
+         y="0"
+         width="529"
+         height="281"
+         id="rect9"
+         style="fill:none" />
+    </clipPath>
+  </defs>
+  <rect
+     class="highcharts-background"
+     x="0"
+     y="0"
+     width="100"
+     height="66.666664"
+     rx="0"
+     ry="0"
+     id="rect11"
+     style="fill:#ffffff" />
+  <rect
+     class="highcharts-plot-background"
+     x="10.166656"
+     y="7.6666565"
+     width="88.166664"
+     height="46.833332"
+     id="rect13"
+     style="fill:none" />
+  <g
+     class="highcharts-grid highcharts-xaxis-grid "
+     id="g15"
+     transform="matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)">
+    <path
+       class="highcharts-grid-line"
+       d="m 236.5,46 0,281"
+       id="path17"
+       inkscape:connector-curvature="0"
+       style="fill:none" />
+    <path
+       class="highcharts-grid-line"
+       d="m 413.5,46 0,281"
+       id="path19"
+       inkscape:connector-curvature="0"
+       style="fill:none" />
+    <path
+       class="highcharts-grid-line"
+       d="m 589.5,46 0,281"
+       id="path21"
+       inkscape:connector-curvature="0"
+       style="fill:none" />
+    <path
+       class="highcharts-grid-line"
+       d="m 60.5,46 0,281"
+       id="path23"
+       inkscape:connector-curvature="0"
+       style="fill:none" />
+  </g>
+  <g
+     class="highcharts-grid highcharts-yaxis-grid "
+     id="g25"
+     transform="matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)">
+    <path
+       class="highcharts-grid-line"
+       d="m 61,327.5 529,0"
+       id="path27"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#e6e6e6;stroke-width:1" />
+    <path
+       class="highcharts-grid-line"
+       d="m 61,271.5 529,0"
+       id="path29"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#e6e6e6;stroke-width:1" />
+    <path
+       class="highcharts-grid-line"
+       d="m 61,215.5 529,0"
+       id="path31"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#e6e6e6;stroke-width:1" />
+    <path
+       class="highcharts-grid-line"
+       d="m 61,158.5 529,0"
+       id="path33"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#e6e6e6;stroke-width:1" />
+    <path
+       class="highcharts-grid-line"
+       d="m 61,102.5 529,0"
+       id="path35"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#e6e6e6;stroke-width:1" />
+    <path
+       class="highcharts-grid-line"
+       d="m 61,45.5 529,0"
+       id="path37"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#e6e6e6;stroke-width:1" />
+  </g>
+  <rect
+     class="highcharts-plot-border"
+     x="10.166656"
+     y="7.6666565"
+     width="88.166664"
+     height="46.833332"
+     id="rect39"
+     style="fill:none" />
+  <g
+     class="highcharts-axis highcharts-xaxis "
+     id="g41"
+     transform="matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)">
+    <path
+       class="highcharts-tick"
+       d="m 236.5,327 0,10"
+       id="path43"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#ccd6eb;stroke-width:1" />
+    <path
+       class="highcharts-tick"
+       d="m 413.5,327 0,10"
+       id="path45"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#ccd6eb;stroke-width:1" />
+    <path
+       class="highcharts-tick"
+       d="m 590.5,327 0,10"
+       id="path47"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#ccd6eb;stroke-width:1" />
+    <path
+       class="highcharts-tick"
+       d="m 60.5,327 0,10"
+       id="path49"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#ccd6eb;stroke-width:1" />
+    <path
+       class="highcharts-axis-line"
+       d="m 61,327.5 529,0"
+       id="path51"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#ccd6eb;stroke-width:1" />
+  </g>
+  <g
+     class="highcharts-axis highcharts-yaxis "
+     id="g53"
+     transform="matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)">
+    <text
+       x="24"
+       transform="matrix(0,-1,1,0,-162.5,210.5)"
+       class="highcharts-axis-title"
+       style="text-anchor:middle;color:#666666;fill:#666666"
+       y="186.5"
+       id="text55">Values</text>
+    <path
+       class="highcharts-axis-line"
+       d="m 61,46 0,281"
+       id="path57"
+       inkscape:connector-curvature="0"
+       style="fill:none" />
+  </g>
+  <g
+     class="highcharts-series-group"
+     id="g59"
+     transform="matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)">
+    <g
+       class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 "
+       transform="translate(61,46)"
+       width="281"
+       height="529"
+       clip-path="url(#highcharts-41)"
+       id="g61">
+      <rect
+         x="40.5"
+         y="169.5"
+         width="43"
+         height="112"
+         class="highcharts-point highcharts-color-0"
+         id="rect63"
+         style="fill:#5e5e5e;stroke:#ffffff;stroke-width:1" />
+      <rect
+         x="216.5"
+         y="197.5"
+         width="43"
+         height="84"
+         class="highcharts-point highcharts-color-0"
+         id="rect65"
+         style="fill:#5e5e5e;stroke:#ffffff;stroke-width:1" />
+      <rect
+         x="392.5"
+         y="253.5"
+         width="43"
+         height="28"
+         class="highcharts-point highcharts-color-0"
+         id="rect67"
+         style="fill:#5e5e5e;stroke:#ffffff;stroke-width:1" />
+    </g>
+    <g
+       class="highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 "
+       transform="translate(61,46)"
+       width="281"
+       height="529"
+       clip-path="none"
+       id="g69" />
+    <g
+       class="highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 "
+       transform="translate(61,46)"
+       width="281"
+       height="529"
+       clip-path="url(#highcharts-41)"
+       id="g71">
+      <rect
+         x="92.5"
+         y="225.5"
+         width="43"
+         height="56"
+         class="highcharts-point highcharts-color-1"
+         id="rect73"
+         style="fill:#a3a3a3;stroke:#ffffff;stroke-width:1" />
+      <rect
+         x="269.5"
+         y="141.5"
+         width="43"
+         height="140"
+         class="highcharts-point highcharts-color-1"
+         id="rect75"
+         style="fill:#a3a3a3;stroke:#ffffff;stroke-width:1" />
+      <rect
+         x="445.5"
+         y="56.5"
+         width="43"
+         height="225"
+         class="highcharts-point highcharts-color-1"
+         id="rect77"
+         style="fill:#a3a3a3;stroke:#ffffff;stroke-width:1" />
+    </g>
+    <g
+       class="highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 "
+       transform="translate(61,46)"
+       width="281"
+       height="529"
+       clip-path="none"
+       id="g79" />
+  </g>
+  <text
+     x="50"
+     class="highcharts-title"
+     style="font-size:3px;text-anchor:middle;color:#333333;fill:#333333"
+     y="4"
+     id="text81">
+    <tspan
+       id="tspan83">Chart title</tspan>
+  </text>
+  <g
+     class="highcharts-legend"
+     transform="matrix(0.16666667,0,0,0.16666667,36.16667,59.999998)"
+     id="g85">
+    <rect
+       class="highcharts-legend-box"
+       rx="0"
+       ry="0"
+       x="0"
+       y="0"
+       width="167"
+       height="25"
+       visibility="visible"
+       id="rect87"
+       style="fill:none;visibility:visible" />
+    <g
+       id="g89">
+      <g
+         id="g91">
+        <g
+           class="highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0"
+           transform="translate(8,3)"
+           id="g93">
+          <text
+             x="21"
+             style="font-size:12px;font-weight:bold;text-anchor:start;color:#333333;fill:#333333"
+             y="15"
+             id="text95">move</text>
+          <rect
+             x="2"
+             y="4"
+             width="12"
+             height="12"
+             rx="6"
+             ry="6"
+             class="highcharts-point"
+             id="rect97"
+             style="fill:#5e5e5e" />
+        </g>
+        <g
+           class="highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1"
+           transform="translate(81,3)"
+           id="g99">
+          <text
+             x="21"
+             y="15"
+             style="font-size:12px;font-weight:bold;text-anchor:start;color:#333333;fill:#333333"
+             id="text101">excersise</text>
+          <rect
+             x="2"
+             y="4"
+             width="12"
+             height="12"
+             rx="6"
+             ry="6"
+             class="highcharts-point"
+             id="rect103"
+             style="fill:#a3a3a3" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <g
+     class="highcharts-axis-labels highcharts-xaxis-labels "
+     id="g105"
+     transform="matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)">
+    <text
+       x="149.16667"
+       style="font-size:11px;text-anchor:middle;color:#666666;fill:#666666"
+       y="346"
+       id="text107">
+      <tspan
+         id="tspan109">0</tspan>
+    </text>
+    <text
+       x="325.5"
+       style="font-size:11px;text-anchor:middle;color:#666666;fill:#666666"
+       y="346"
+       id="text111">
+      <tspan
+         id="tspan113">1</tspan>
+    </text>
+    <text
+       x="501.83334"
+       style="font-size:11px;text-anchor:middle;color:#666666;fill:#666666"
+       y="346"
+       id="text115">
+      <tspan
+         id="tspan117">2</tspan>
+    </text>
+  </g>
+  <g
+     class="highcharts-axis-labels highcharts-yaxis-labels "
+     id="g119"
+     transform="matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)">
+    <text
+       x="46"
+       style="font-size:11px;text-anchor:end;color:#666666;fill:#666666"
+       y="332"
+       id="text121">
+      <tspan
+         id="tspan123">0</tspan>
+    </text>
+    <text
+       x="46"
+       style="font-size:11px;text-anchor:end;color:#666666;fill:#666666"
+       y="275"
+       id="text125">
+      <tspan
+         id="tspan127">2</tspan>
+    </text>
+    <text
+       x="46"
+       style="font-size:11px;text-anchor:end;color:#666666;fill:#666666"
+       y="219"
+       id="text129">
+      <tspan
+         id="tspan131">4</tspan>
+    </text>
+    <text
+       x="46"
+       style="font-size:11px;text-anchor:end;color:#666666;fill:#666666"
+       y="163"
+       id="text133">
+      <tspan
+         id="tspan135">6</tspan>
+    </text>
+    <text
+       x="46"
+       style="font-size:11px;text-anchor:end;color:#666666;fill:#666666"
+       y="107"
+       id="text137">
+      <tspan
+         id="tspan139">8</tspan>
+    </text>
+    <text
+       x="46"
+       style="font-size:11px;text-anchor:end;color:#666666;fill:#666666"
+       y="51"
+       id="text141">
+      <tspan
+         id="tspan143">10</tspan>
+    </text>
+  </g>
+  <text
+     x="98.333344"
+     class="highcharts-credits"
+     style="font-size:1.5px;text-anchor:end;color:#999999;fill:#999999"
+     y="65.833328"
+     id="text145">Highcharts.com</text>
+</svg>

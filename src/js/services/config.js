@@ -27,11 +27,12 @@
 
 
         var config = _.cloneDeep(presets);
+        var theme = {};
         var configCache;
 
         that.get = function () {
             var labels = hasLabels(data.get());
-            var _configObject = _.merge(_.cloneDeep(config), _.cloneDeep(presets));
+            var _configObject = _.merge(_.cloneDeep(config), _.cloneDeep(theme), _.cloneDeep(presets));
             var _data = data.getData(labels.series, labels.categories);
 
             // TODO FIX: getCategories() only when there are cats
@@ -173,6 +174,11 @@
             if(!config.yAxis){
                 config.yAxis = [{}];
             }
+            configUpdate();
+        };
+
+        that.setTheme = function (_theme_) {
+            theme = _theme_;
             configUpdate();
         };
 

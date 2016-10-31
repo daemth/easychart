@@ -8,6 +8,7 @@ function constructor(opts) {
     var optionsService = require('./services/options');
     var revisionService = require('./services/revision');
     var templateService = require('./services/templates');
+    var themeService = require('./services/themes');
     var initializer = require('./services/initializer');
     var Api = require('./services/api');
     var mediator = require('mediatorjs');
@@ -22,6 +23,7 @@ function constructor(opts) {
         mediator: mInstance,
         options: optionsService(mInstance),
         templates: templateService(),
+        themes: themeService(),
         revision: revisionService(mInstance)
     };
 
@@ -72,6 +74,20 @@ function constructor(opts) {
         }
     }
 
+    if (opts.themesTab != false) {
+        states.themes = {
+            title: 'Themes',
+            dependencies: function () {
+                var that = {};
+                that.themeSelection = require('./components/themeSelection.js')(services);
+                return that;
+            },
+            template: function (dependencies) {
+                return h('div', [dependencies.themeSelection.theme()]);
+            }
+        }
+    }
+
     if (opts.customiseTab != false) {
         states.customise = {
             title: 'Customise',
@@ -114,6 +130,8 @@ function constructor(opts) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
             mainRouter.goToState('templates');
+        } else if(opts.themesTab != false) {
+            mainRouter.goToState('themes');
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');
         } else if(opts.debuggerTab == true) {

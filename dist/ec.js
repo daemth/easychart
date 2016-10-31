@@ -5,515 +5,8 @@
  * @license MIT
  */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var css = ".ec {\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  line-height: 1.5;\n  background: #f5f5f5;\n  float: left;\n  width: 100%;\n  /*!*\n *\n * @csswizardry -- csswizardry.com/beautons\n *\n */\n}\n.ec .table {\n  width: 100%;\n}\n.ec .table [contenteditable=\"true\"]:active,\n.ec .table [contenteditable=\"true\"]:focus {\n  border: none;\n  outline: none;\n  background: #f5f5f5;\n}\n.ec .table th,\n.ec .table td {\n  padding: .3em;\n  text-align: left;\n}\n@media screen and (min-width: 480px) {\n  .ec .table th,\n  .ec .table td {\n    padding: .6em;\n  }\n}\n.ec [colspan] {\n  text-align: center;\n}\n.ec [colspan=\"1\"] {\n  text-align: left;\n}\n.ec [rowspan] {\n  vertical-align: middle;\n}\n.ec [rowspan=\"1\"] {\n  vertical-align: top;\n}\n.ec .numerical {\n  text-align: right;\n}\n.ec .table--bordered {\n  border-collapse: collapse;\n}\n.ec .table--bordered tr {\n  border: 1px solid #DDD;\n}\n.ec .table--bordered th,\n.ec .table--bordered td {\n  border-right: 1px solid #DDD;\n}\n.ec .table--bordered thead tr:last-child th {\n  border-bottom-width: 2px;\n}\n.ec .table--bordered tbody tr th:last-of-type {\n  border-right-width: 2px;\n}\n.ec .table--striped tbody tr:nth-of-type(odd) {\n  background-color: #ffc;\n}\n.ec .table--data {\n  font: 12px/1.5 sans-serif;\n}\n.ec .table--disabled {\n  color: #777;\n  border-color: #777;\n}\n.ec fieldset {\n  background-color: #f5f5f5;\n  border: 1px;\n  margin: 0 0 .6em;\n  padding: 1.2em;\n}\n.ec input,\n.ec label,\n.ec select {\n  display: block;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n}\n.ec label {\n  font-weight: 600;\n}\n.ec label.required::after {\n  content: \"*\";\n}\n.ec label abbr {\n  display: none;\n}\n.ec input[type=\"color\"],\n.ec input[type=\"date\"],\n.ec input[type=\"datetime\"],\n.ec input[type=\"datetime-local\"],\n.ec input[type=\"email\"],\n.ec input[type=\"month\"],\n.ec input[type=\"number\"],\n.ec input[type=\"password\"],\n.ec input[type=\"search\"],\n.ec input[type=\"tel\"],\n.ec input[type=\"text\"],\n.ec input[type=\"time\"],\n.ec input[type=\"url\"],\n.ec input[type=\"week\"],\n.ec input:not([type]),\n.ec textarea,\n.ec select {\n  background-color: #fff;\n  border: 1px solid #bfbfbf;\n  border-radius: 3px;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);\n  box-sizing: border-box;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  padding: .3em;\n  transition: border-color .2s ease-in;\n  max-width: 100%;\n}\n.ec input[type=\"color\"]:hover,\n.ec input[type=\"date\"]:hover,\n.ec input[type=\"datetime\"]:hover,\n.ec input[type=\"datetime-local\"]:hover,\n.ec input[type=\"email\"]:hover,\n.ec input[type=\"month\"]:hover,\n.ec input[type=\"number\"]:hover,\n.ec input[type=\"password\"]:hover,\n.ec input[type=\"search\"]:hover,\n.ec input[type=\"tel\"]:hover,\n.ec input[type=\"text\"]:hover,\n.ec input[type=\"time\"]:hover,\n.ec input[type=\"url\"]:hover,\n.ec input[type=\"week\"]:hover,\n.ec input:not([type]):hover,\n.ec textarea:hover,\n.ec select:hover {\n  border-color: shade(#DDD, 20%);\n}\n.ec input[type=\"color\"]:focus,\n.ec input[type=\"date\"]:focus,\n.ec input[type=\"datetime\"]:focus,\n.ec input[type=\"datetime-local\"]:focus,\n.ec input[type=\"email\"]:focus,\n.ec input[type=\"month\"]:focus,\n.ec input[type=\"number\"]:focus,\n.ec input[type=\"password\"]:focus,\n.ec input[type=\"search\"]:focus,\n.ec input[type=\"tel\"]:focus,\n.ec input[type=\"text\"]:focus,\n.ec input[type=\"time\"]:focus,\n.ec input[type=\"url\"]:focus,\n.ec input[type=\"week\"]:focus,\n.ec input:not([type]):focus,\n.ec textarea:focus,\n.ec select:focus {\n  border-color: #477dca;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06),0 0 5px rgba(55,112,192,0.7);\n  outline: none;\n}\n.ec input[type=\"color\"]:disabled,\n.ec input[type=\"date\"]:disabled,\n.ec input[type=\"datetime\"]:disabled,\n.ec input[type=\"datetime-local\"]:disabled,\n.ec input[type=\"email\"]:disabled,\n.ec input[type=\"month\"]:disabled,\n.ec input[type=\"number\"]:disabled,\n.ec input[type=\"password\"]:disabled,\n.ec input[type=\"search\"]:disabled,\n.ec input[type=\"tel\"]:disabled,\n.ec input[type=\"text\"]:disabled,\n.ec input[type=\"time\"]:disabled,\n.ec input[type=\"url\"]:disabled,\n.ec input[type=\"week\"]:disabled,\n.ec input:not([type]):disabled,\n.ec textarea:disabled,\n.ec select:disabled {\n  background-color: shade(#fff, 5%);\n  cursor: not-allowed;\n}\n.ec input[type=\"color\"]:disabled:hover,\n.ec input[type=\"date\"]:disabled:hover,\n.ec input[type=\"datetime\"]:disabled:hover,\n.ec input[type=\"datetime-local\"]:disabled:hover,\n.ec input[type=\"email\"]:disabled:hover,\n.ec input[type=\"month\"]:disabled:hover,\n.ec input[type=\"number\"]:disabled:hover,\n.ec input[type=\"password\"]:disabled:hover,\n.ec input[type=\"search\"]:disabled:hover,\n.ec input[type=\"tel\"]:disabled:hover,\n.ec input[type=\"text\"]:disabled:hover,\n.ec input[type=\"time\"]:disabled:hover,\n.ec input[type=\"url\"]:disabled:hover,\n.ec input[type=\"week\"]:disabled:hover,\n.ec input:not([type]):disabled:hover,\n.ec textarea:disabled:hover,\n.ec select:disabled:hover {\n  border: 1px solid #DDD;\n}\n.ec textarea {\n  width: 100%;\n  resize: vertical;\n}\n.ec input[type=\"search\"] {\n  appearance: none;\n}\n.ec input[type=\"checkbox\"],\n.ec input[type=\"radio\"] {\n  display: inline;\n  margin-right: .3em;\n}\n.ec input[type=\"checkbox\"]+label,\n.ec input[type=\"radio\"]+label {\n  display: inline-block;\n}\n.ec input[type=\"file\"] {\n  width: 100%;\n}\n.ec select {\n  max-width: 100%;\n  width: auto;\n}\n.ec .form-item {\n  width: 100%;\n  color: #333;\n  margin-bottom: .6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n.ec .form-item__input {\n  width: 100%;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__input {\n    width: 60%;\n  }\n}\n.ec .form-item__label {\n  width: 100%;\n  padding-bottom: .6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__label {\n    padding: 0;\n    width: 40%;\n    text-align: right;\n    margin-right: 1.2em;\n  }\n}\n.ec .field-group {\n  padding: .3em 0 .6em 0;\n}\n.ec .field-group__title {\n  padding-bottom: .6em;\n}\n.ec h1 {\n  margin: 0;\n  padding: 0;\n  font-size: 28px;\n}\n.ec h2 {\n  margin: 0;\n  padding: 0;\n  font-size: 24.5px;\n}\n.ec h3 {\n  margin: 0;\n  padding: 0;\n  font-size: 21px;\n}\n.ec h4 {\n  margin: 0;\n  padding: 0;\n  font-size: 17.5px;\n}\n.ec h5 {\n  margin: 0;\n  padding: 0;\n  font-size: 15.75px;\n}\n.ec h6 {\n  margin: 0;\n  padding: 0;\n  font-size: 14px;\n}\n.ec .vertical-tabs-container {\n  margin-bottom: 1.2em;\n  overflow: hidden;\n  display: flex;\n}\n.ec .vertical-tabs-container::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n.ec .vertical-tabs-container .vertical-tabs {\n  padding: 0;\n  margin: 0;\n  display: inline;\n  float: left;\n  width: 20%;\n  list-style: none;\n  border-right: 1px solid #DDD;\n}\n.ec .vertical-tabs-container li.active {\n  background-color: white;\n  margin-right: -1px;\n  border: 1px solid #DDD;\n  border-right-color: white;\n}\n.ec .vertical-tabs-container li.active .sub-active {\n  color: #477dca;\n}\n.ec .vertical-tabs-container li.active .sub-non-active {\n  color: #333;\n}\n.ec .vertical-tabs-container li a {\n  padding: .6em 15px;\n  text-decoration: none;\n  color: inherit;\n  display: block;\n}\n.ec .vertical-tabs-container li ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.ec .vertical-tabs-container li ul li {\n  padding-bottom: 5px;\n  padding-left: 20px;\n}\n.ec .vertical-tabs-container .vertical-tab:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container {\n  border: 1px solid #DDD;\n  border-left: none;\n  display: inline-block;\n  width: 80%;\n  background-color: white;\n  margin: 0 auto;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container a:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content {\n  display: inline-block;\n  background-color: white;\n  padding: 1.2em 15px;\n  border: none;\n  width: 100%;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading {\n  border-top: 1px solid #DDD;\n  cursor: pointer;\n  display: block;\n  font-weight: bold;\n  padding: .6em 15px;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:hover {\n  color: #477dca;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:first-child {\n  border-top: none;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading.active {\n  background: white;\n  border-bottom: none;\n}\n.ec .accordion-tabs-minimal {\n  margin: 0 .6em;\n  line-height: 1.5;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n.ec .accordion-tabs-minimal ul.tab-list {\n  margin: 0;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal li.tab-header-and-content {\n  list-style: none;\n  display: inline;\n}\n.ec .accordion-tabs-minimal .tab-link {\n  border-top: 1px solid #DDD;\n  display: inline-block;\n  border-top: 0;\n}\n.ec .accordion-tabs-minimal .tab-link a {\n  text-decoration: none;\n  display: block;\n  padding: .6em 30px;\n}\n.ec .accordion-tabs-minimal .tab-link a:hover {\n  color: #2c5999;\n}\n.ec .accordion-tabs-minimal .tab-link a:focus {\n  outline: none;\n}\n.ec .accordion-tabs-minimal .tab-link a.is-active {\n  border: 1px solid #DDD;\n  border-bottom-color: white;\n  background: white;\n  margin-bottom: -1px;\n  color: #477dca;\n}\n.ec .accordion-tabs-minimal .tab-content {\n  border: 1px solid #DDD;\n  padding: 1.2em 30px;\n  width: 100%;\n  float: left;\n  background: white;\n  min-height: 250px;\n}\n.ec .btn {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n  font-family: inherit;\n  font-size: 100%;\n  cursor: pointer;\n  border: none;\n  margin: 0;\n  padding-top: 0;\n  padding-bottom: 0;\n  line-height: 3;\n  padding-right: 1em;\n  padding-left: 1em;\n  border-radius: 3px;\n  background: #477dca;\n  color: white;\n}\n.ec .btn,\n.ec .btn:hover {\n  text-decoration: none;\n  background: #2c5999;\n}\n.ec .btn:active,\n.ec .btn:focus {\n  outline: none;\n}\n.ec .btn--small {\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n  line-height: 2;\n}\n.ec .btn--large {\n  padding-right: 1.5em;\n  padding-left: 1.5em;\n  line-height: 4;\n}\n.ec .btn--huge {\n  padding-right: 2em;\n  padding-left: 2em;\n  line-height: 5;\n}\n.ec .btn--full {\n  width: 100%;\n  padding-right: 0;\n  padding-left: 0;\n  text-align: center;\n}\n.ec .btn--alpha {\n  font-size: 3rem;\n}\n.ec .btn--beta {\n  font-size: 2rem;\n}\n.ec .btn--gamma {\n  font-size: 1rem;\n}\n.ec .btn--natural {\n  vertical-align: baseline;\n  font-size: inherit;\n  line-height: inherit;\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n}\n.ec .btn--positive {\n  background-color: #4A993E;\n  color: #fff;\n}\n.ec .btn--negative {\n  background-color: #b33630;\n  color: #fff;\n}\n.ec .btn--inactive,\n.ec .btn--inactive:hover,\n.ec .btn--inactive:active,\n.ec .btn--inactive:focus {\n  background-color: #ddd;\n  color: #777;\n  cursor: text;\n}\n.ec .btn--soft {\n  border-radius: 200px;\n}\n.ec .btn--hard {\n  border-radius: 0;\n}\n@media screen and (min-width: 800px) {\n  .ec .left {\n    width: 49%;\n    margin-right: 2%;\n    float: left;\n  }\n}\n@media screen and (min-width: 800px) {\n  .ec .right {\n    width: 49%;\n    float: left;\n  }\n}\n.ec .navigation {\n  padding: 0;\n  margin: 0;\n  display: block;\n}\n.ec .navigation__item {\n  margin: 20px 10px 20px 10px;\n  padding-bottom: 10px;\n  cursor: pointer;\n  display: inline-block;\n}\n.ec .navigation--steps .ec .navigation__item {\n  border-bottom: 5px solid;\n}\n.ec .loader,\n.ec .loader:before,\n.ec .loader:after {\n  border-radius: 50%;\n}\n.ec .loader:before,\n.ec .loader:after {\n  position: absolute;\n  content: '';\n}\n.ec .loader:before {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 10.2em 0 0 10.2em;\n  top: -0.1em;\n  left: -0.1em;\n  -webkit-transform-origin: 5.2em 5.1em;\n  transform-origin: 5.2em 5.1em;\n  -webkit-animation: load2 2s infinite ease 1.5s;\n  animation: load2 2s infinite ease 1.5s;\n}\n.ec .loader {\n  font-size: 11px;\n  text-indent: -99999em;\n  margin: 55px auto;\n  position: relative;\n  width: 10em;\n  height: 10em;\n  box-shadow: inset 0 0 0 1em #ffffff;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n}\n.ec .loader:after {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 0 10.2em 10.2em 0;\n  top: -0.1em;\n  left: 5.1em;\n  -webkit-transform-origin: 0px 5.1em;\n  transform-origin: 0px 5.1em;\n  -webkit-animation: load2 2s infinite ease;\n  animation: load2 2s infinite ease;\n}\n@-webkit-keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n.ec .templatelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .templatelist__item {\n  float: left;\n  width: 33%;\n  padding: .3em;\n  margin: 2px;\n  width: 110px;\n  font-size: .8em;\n  text-align: center;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in .2s,border-color ease-in .2s;\n  position: relative;\n  overflow: hidden;\n  color: #333333;\n}\n.ec .templatelist__item svg {\n  max-height: 80px;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item div {\n  transition: bottom ease-in .2s;\n  padding-top: 2px;\n  position: absolute;\n  bottom: -40px;\n  left: .3em;\n  height: 26px;\n  width: 100px;\n  background: #f5f5f5;\n}\n.ec .templatelist__item:hover {\n  background: #f5f5f5;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item:hover div {\n  bottom: .3em;\n}\n.ec .Scp {\n  width: 175px;\n  height: 150px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  position: relative;\n}\n.ec .Scp-saturation {\n  position: relative;\n  width: calc(100% - 25px);\n  height: 100%;\n  background: -webkit-linear-gradient(left, #fff, red);\n  background: linear-gradient(to right, #fff, red);\n  float: left;\n  margin-right: 5px;\n}\n.ec .Scp-brightness {\n  width: 100%;\n  height: 100%;\n  background: -webkit-linear-gradient(rgba(255,255,255,0), #000);\n  background: linear-gradient(rgba(255,255,255,0), #000);\n}\n.ec .Scp-sbSelector {\n  border: 2px solid #fff;\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: #fff;\n  border-radius: 10px;\n  top: -7px;\n  left: -7px;\n  box-sizing: border-box;\n  z-index: 10;\n}\n.ec .Scp-hue {\n  width: 20px;\n  height: 100%;\n  position: relative;\n  float: left;\n  background: -webkit-linear-gradient(red 0%, #f0f 17%, blue 34%, cyan 50%, lime 67%, #ff0 84%, red 100%);\n  background: linear-gradient(red 0%, #f0f 17%, blue 34%, cyan 50%, lime 67%, #ff0 84%, red 100%);\n}\n.ec .Scp-hSelector {\n  position: absolute;\n  background: #fff;\n  border-bottom: 1px solid #000;\n  right: -3px;\n  width: 10px;\n  height: 2px;\n}\n.ec a,\n.ec .hover {\n  color: #477dca;\n  cursor: pointer;\n}\n.ec .active {\n  color: #477dca;\n}\n.ec .container {\n  clear: both;\n}\n.ec .Scp {\n  position: absolute;\n  margin-top: 5px;\n  width: 200px;\n  height: 150px;\n  border: 1px solid #DDD;\n  border-radius: 3px;\n}\n.ec .header {\n  margin-bottom: 20px;\n  background-color: #333;\n  width: 100%;\n  display: inline-block;\n  position: relative;\n  min-height: 48px;\n}\n.ec .header .logo {\n  text-align: right;\n  color: white;\n  font-weight: 100;\n  font-size: 1.5em;\n  position: absolute;\n  bottom: 4px;\n  right: 15px;\n}\n.ec .header .navigation {\n  margin-left: 10px;\n  margin-top: 10px;\n  float: left;\n}\n.ec .header .navigation .tab-link a {\n  text-decoration: none;\n  color: white;\n}\n.ec .header .navigation .tab-link.is-active {\n  background: #f5f5f5;\n  border: none;\n}\n.ec .header .navigation .tab-link.is-active a {\n  color: #477dca;\n}\n.ec .header:after {\n  clear: both;\n}\n.ec .revisionElement {\n  margin-top: 20px;\n  border: 1px solid #DDD;\n  background: white;\n  padding: 20px;\n  display: block;\n  float: left;\n  width: 100%;\n}\n.ec .objectArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .objectArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #f5f5f5;\n}\n.ec .objectArray .title h4,\n.ec .objectArray .title h5 {\n  float: left;\n}\n.ec .objectArray .title .btn {\n  float: right;\n}\n.ec .objectArray .list {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item .title {\n  border-bottom: 1px solid #DDD;\n  border-top: 1px solid #DDD;\n}\n.ec .objectArray .list .item .options {\n  float: left;\n  width: 100%;\n  padding-top: 20px;\n}\n.ec .arrayArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .arrayArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #f5f5f5;\n}\n.ec .arrayArray .title h4,\n.ec .arrayArray .title h5 {\n  float: left;\n}\n.ec .arrayArray .title .btn {\n  float: right;\n}\n.ec .arrayArray input {\n  display: inline-block;\n}\n.ec .readOnlyBox {\n  border: 1px solid #DDD;\n  background: white;\n  padding: 10px 20px;\n  display: block;\n  margin-bottom: 10px;\n}\n.ec .titleBar {\n  display: inline-block;\n  width: 100%;\n  padding-bottom: 20px;\n}\n.ec .titleBar h3 {\n  float: left;\n}\n.ec .titleBar .btn {\n  margin-left: 10px;\n  float: right;\n}\n.ec .file_drop {\n  padding: 50px;\n  background: #DDD;\n}\n"; (require("browserify-css").createStyle(css, { "href": "dist/ec.css" }, { "insertAt": "bottom" })); module.exports = css;
-},{"browserify-css":7}],2:[function(require,module,exports){
-/**
- * Standalone extraction of Backbone.Events, no external dependency required.
- * Degrades nicely when Backone/underscore are already available in the current
- * global context.
- *
- * Note that docs suggest to use underscore's `_.extend()` method to add Events
- * support to some given object. A `mixin()` method has been added to the Events
- * prototype to avoid using underscore for that sole purpose:
- *
- *     var myEventEmitter = BackboneEvents.mixin({});
- *
- * Or for a function constructor:
- *
- *     function MyConstructor(){}
- *     MyConstructor.prototype.foo = function(){}
- *     BackboneEvents.mixin(MyConstructor.prototype);
- *
- * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
- * (c) 2013 Nicolas Perriault
- */
-/* global exports:true, define, module */
-(function() {
-  var root = this,
-      nativeForEach = Array.prototype.forEach,
-      hasOwnProperty = Object.prototype.hasOwnProperty,
-      slice = Array.prototype.slice,
-      idCounter = 0;
-
-  // Returns a partial implementation matching the minimal API subset required
-  // by Backbone.Events
-  function miniscore() {
-    return {
-      keys: Object.keys || function (obj) {
-        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
-          throw new TypeError("keys() called on a non-object");
-        }
-        var key, keys = [];
-        for (key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            keys[keys.length] = key;
-          }
-        }
-        return keys;
-      },
-
-      uniqueId: function(prefix) {
-        var id = ++idCounter + '';
-        return prefix ? prefix + id : id;
-      },
-
-      has: function(obj, key) {
-        return hasOwnProperty.call(obj, key);
-      },
-
-      each: function(obj, iterator, context) {
-        if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) {
-          obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) {
-          for (var i = 0, l = obj.length; i < l; i++) {
-            iterator.call(context, obj[i], i, obj);
-          }
-        } else {
-          for (var key in obj) {
-            if (this.has(obj, key)) {
-              iterator.call(context, obj[key], key, obj);
-            }
-          }
-        }
-      },
-
-      once: function(func) {
-        var ran = false, memo;
-        return function() {
-          if (ran) return memo;
-          ran = true;
-          memo = func.apply(this, arguments);
-          func = null;
-          return memo;
-        };
-      }
-    };
-  }
-
-  var _ = miniscore(), Events;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // custom events. You may bind with `on` or remove with `off` callback
-  // functions to an event; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  Events = {
-
-    // Bind an event to a `callback` function. Passing `"all"` will bind
-    // the callback to all events fired.
-    on: function(name, callback, context) {
-      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
-      this._events || (this._events = {});
-      var events = this._events[name] || (this._events[name] = []);
-      events.push({callback: callback, context: context, ctx: context || this});
-      return this;
-    },
-
-    // Bind an event to only be triggered a single time. After the first time
-    // the callback is invoked, it will be removed.
-    once: function(name, callback, context) {
-      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
-      var self = this;
-      var once = _.once(function() {
-        self.off(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-      return this.on(name, once, context);
-    },
-
-    // Remove one or many callbacks. If `context` is null, removes all
-    // callbacks with that function. If `callback` is null, removes all
-    // callbacks for the event. If `name` is null, removes all bound
-    // callbacks for all events.
-    off: function(name, callback, context) {
-      var retain, ev, events, names, i, l, j, k;
-      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
-      if (!name && !callback && !context) {
-        this._events = {};
-        return this;
-      }
-
-      names = name ? [name] : _.keys(this._events);
-      for (i = 0, l = names.length; i < l; i++) {
-        name = names[i];
-        if (events = this._events[name]) {
-          this._events[name] = retain = [];
-          if (callback || context) {
-            for (j = 0, k = events.length; j < k; j++) {
-              ev = events[j];
-              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) {
-                retain.push(ev);
-              }
-            }
-          }
-          if (!retain.length) delete this._events[name];
-        }
-      }
-
-      return this;
-    },
-
-    // Trigger one or many events, firing all bound callbacks. Callbacks are
-    // passed the same arguments as `trigger` is, apart from the event name
-    // (unless you're listening on `"all"`, which will cause your callback to
-    // receive the true name of the event as the first argument).
-    trigger: function(name) {
-      if (!this._events) return this;
-      var args = slice.call(arguments, 1);
-      if (!eventsApi(this, 'trigger', name, args)) return this;
-      var events = this._events[name];
-      var allEvents = this._events.all;
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, arguments);
-      return this;
-    },
-
-    // Tell this object to stop listening to either specific events ... or
-    // to every object it's currently listening to.
-    stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
-      }
-      return this;
-    }
-
-  };
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // Implement fancy features of the Events API such as multiple event
-  // names `"change blur"` and jQuery-style event maps `{change: action}`
-  // in terms of the existing API.
-  var eventsApi = function(obj, action, name, rest) {
-    if (!name) return true;
-
-    // Handle event maps.
-    if (typeof name === 'object') {
-      for (var key in name) {
-        obj[action].apply(obj, [key, name[key]].concat(rest));
-      }
-      return false;
-    }
-
-    // Handle space separated event names.
-    if (eventSplitter.test(name)) {
-      var names = name.split(eventSplitter);
-      for (var i = 0, l = names.length; i < l; i++) {
-        obj[action].apply(obj, [names[i]].concat(rest));
-      }
-      return false;
-    }
-
-    return true;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
-    }
-  };
-
-  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
-
-  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
-  // listen to an event in another object ... keeping track of what it's
-  // listening to.
-  _.each(listenMethods, function(implementation, method) {
-    Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
-      obj[implementation](name, callback, this);
-      return this;
-    };
-  });
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Mixin utility
-  Events.mixin = function(proto) {
-    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
-                   'listenToOnce', 'bind', 'unbind'];
-    _.each(exports, function(name) {
-      proto[name] = this[name];
-    }, this);
-    return proto;
-  };
-
-  // Export Events as BackboneEvents depending on current context
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = Events;
-    }
-    exports.BackboneEvents = Events;
-  }else if (typeof define === "function"  && typeof define.amd == "object") {
-    define(function() {
-      return Events;
-    });
-  } else {
-    root.BackboneEvents = Events;
-  }
-})(this);
-
-},{}],3:[function(require,module,exports){
-module.exports = require('./backbone-events-standalone');
-
-},{"./backbone-events-standalone":2}],4:[function(require,module,exports){
-'use strict'
-
-exports.byteLength = byteLength
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
-
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
-
-var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-for (var i = 0, len = code.length; i < len; ++i) {
-  lookup[i] = code[i]
-  revLookup[code.charCodeAt(i)] = i
-}
-
-revLookup['-'.charCodeAt(0)] = 62
-revLookup['_'.charCodeAt(0)] = 63
-
-function placeHoldersCount (b64) {
-  var len = b64.length
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
-  }
-
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-}
-
-function byteLength (b64) {
-  // base64 is 4/3 + up to two characters of the original data
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
-}
-
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
-  placeHolders = placeHoldersCount(b64)
-
-  arr = new Arr(len * 3 / 4 - placeHolders)
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
-
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  return arr
-}
-
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
-}
-
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
-}
-
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
-
-  // go through the array every three bytes, we'll deal with trailing stuff later
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
-  }
-
-  // pad the end with zeros, but make sure to not forget the extra bytes
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
-  }
-
-  parts.push(output)
-
-  return parts.join('')
-}
-
-},{}],5:[function(require,module,exports){
-
-},{}],6:[function(require,module,exports){
-/*!
- * Cross-Browser Split 1.1.1
- * Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
- * Available under the MIT License
- * ECMAScript compliant, uniform cross-browser split method
- */
-
-/**
- * Splits a string into an array of strings using a regex or string separator. Matches of the
- * separator are not included in the result array. However, if `separator` is a regex that contains
- * capturing groups, backreferences are spliced into the result each time `separator` is matched.
- * Fixes browser bugs compared to the native `String.prototype.split` and can be used reliably
- * cross-browser.
- * @param {String} str String to split.
- * @param {RegExp|String} separator Regex or string to use for separating the string.
- * @param {Number} [limit] Maximum number of items to include in the result array.
- * @returns {Array} Array of substrings.
- * @example
- *
- * // Basic use
- * split('a b c d', ' ');
- * // -> ['a', 'b', 'c', 'd']
- *
- * // With limit
- * split('a b c d', ' ', 2);
- * // -> ['a', 'b']
- *
- * // Backreferences in result array
- * split('..word1 word2..', /([a-z]+)(\d+)/i);
- * // -> ['..', 'word', '1', ' ', 'word', '2', '..']
- */
-module.exports = (function split(undef) {
-
-  var nativeSplit = String.prototype.split,
-    compliantExecNpcg = /()??/.exec("")[1] === undef,
-    // NPCG: nonparticipating capturing group
-    self;
-
-  self = function(str, separator, limit) {
-    // If `separator` is not a regex, use `nativeSplit`
-    if (Object.prototype.toString.call(separator) !== "[object RegExp]") {
-      return nativeSplit.call(str, separator, limit);
-    }
-    var output = [],
-      flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.extended ? "x" : "") + // Proposed for ES6
-      (separator.sticky ? "y" : ""),
-      // Firefox 3+
-      lastLastIndex = 0,
-      // Make `global` and avoid `lastIndex` issues by working with a copy
-      separator = new RegExp(separator.source, flags + "g"),
-      separator2, match, lastIndex, lastLength;
-    str += ""; // Type-convert
-    if (!compliantExecNpcg) {
-      // Doesn't need flags gy, but they don't hurt
-      separator2 = new RegExp("^" + separator.source + "$(?!\\s)", flags);
-    }
-    /* Values for `limit`, per the spec:
-     * If undefined: 4294967295 // Math.pow(2, 32) - 1
-     * If 0, Infinity, or NaN: 0
-     * If positive number: limit = Math.floor(limit); if (limit > 4294967295) limit -= 4294967296;
-     * If negative number: 4294967296 - Math.floor(Math.abs(limit))
-     * If other: Type-convert, then use the above rules
-     */
-    limit = limit === undef ? -1 >>> 0 : // Math.pow(2, 32) - 1
-    limit >>> 0; // ToUint32(limit)
-    while (match = separator.exec(str)) {
-      // `separator.lastIndex` is not reliable cross-browser
-      lastIndex = match.index + match[0].length;
-      if (lastIndex > lastLastIndex) {
-        output.push(str.slice(lastLastIndex, match.index));
-        // Fix browsers whose `exec` methods don't consistently return `undefined` for
-        // nonparticipating capturing groups
-        if (!compliantExecNpcg && match.length > 1) {
-          match[0].replace(separator2, function() {
-            for (var i = 1; i < arguments.length - 2; i++) {
-              if (arguments[i] === undef) {
-                match[i] = undef;
-              }
-            }
-          });
-        }
-        if (match.length > 1 && match.index < str.length) {
-          Array.prototype.push.apply(output, match.slice(1));
-        }
-        lastLength = match[0].length;
-        lastLastIndex = lastIndex;
-        if (output.length >= limit) {
-          break;
-        }
-      }
-      if (separator.lastIndex === match.index) {
-        separator.lastIndex++; // Avoid an infinite loop
-      }
-    }
-    if (lastLastIndex === str.length) {
-      if (lastLength || !separator.test("")) {
-        output.push("");
-      }
-    } else {
-      output.push(str.slice(lastLastIndex));
-    }
-    return output.length > limit ? output.slice(0, limit) : output;
-  };
-
-  return self;
-})();
-
-},{}],7:[function(require,module,exports){
+var css = ".ec {\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  line-height: 1.5;\n  background: #f5f5f5;\n  float: left;\n  width: 100%;\n  /*!*\n *\n * @csswizardry -- csswizardry.com/beautons\n *\n */\n}\n.ec .table {\n  width: 100%;\n}\n.ec .table [contenteditable=\"true\"]:active,\n.ec .table [contenteditable=\"true\"]:focus {\n  border: none;\n  outline: none;\n  background: #f5f5f5;\n}\n.ec .table th,\n.ec .table td {\n  padding: .3em;\n  text-align: left;\n}\n@media screen and (min-width: 480px) {\n  .ec .table th,\n  .ec .table td {\n    padding: .6em;\n  }\n}\n.ec [colspan] {\n  text-align: center;\n}\n.ec [colspan=\"1\"] {\n  text-align: left;\n}\n.ec [rowspan] {\n  vertical-align: middle;\n}\n.ec [rowspan=\"1\"] {\n  vertical-align: top;\n}\n.ec .numerical {\n  text-align: right;\n}\n.ec .table--bordered {\n  border-collapse: collapse;\n}\n.ec .table--bordered tr {\n  border: 1px solid #DDD;\n}\n.ec .table--bordered th,\n.ec .table--bordered td {\n  border-right: 1px solid #DDD;\n}\n.ec .table--bordered thead tr:last-child th {\n  border-bottom-width: 2px;\n}\n.ec .table--bordered tbody tr th:last-of-type {\n  border-right-width: 2px;\n}\n.ec .table--striped tbody tr:nth-of-type(odd) {\n  background-color: #ffc;\n}\n.ec .table--data {\n  font: 12px/1.5 sans-serif;\n}\n.ec .table--disabled {\n  color: #777;\n  border-color: #777;\n}\n.ec fieldset {\n  background-color: #f5f5f5;\n  border: 1px;\n  margin: 0 0 .6em;\n  padding: 1.2em;\n}\n.ec input,\n.ec label,\n.ec select {\n  display: block;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n}\n.ec label {\n  font-weight: 600;\n}\n.ec label.required::after {\n  content: \"*\";\n}\n.ec label abbr {\n  display: none;\n}\n.ec input[type=\"color\"],\n.ec input[type=\"date\"],\n.ec input[type=\"datetime\"],\n.ec input[type=\"datetime-local\"],\n.ec input[type=\"email\"],\n.ec input[type=\"month\"],\n.ec input[type=\"number\"],\n.ec input[type=\"password\"],\n.ec input[type=\"search\"],\n.ec input[type=\"tel\"],\n.ec input[type=\"text\"],\n.ec input[type=\"time\"],\n.ec input[type=\"url\"],\n.ec input[type=\"week\"],\n.ec input:not([type]),\n.ec textarea,\n.ec select {\n  background-color: #fff;\n  border: 1px solid #bfbfbf;\n  border-radius: 3px;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);\n  box-sizing: border-box;\n  font-family: sans-serif,Arial,Verdana,\"Trebuchet MS\";\n  font-size: 14px;\n  padding: .3em;\n  transition: border-color .2s ease-in;\n  max-width: 100%;\n}\n.ec input[type=\"color\"]:hover,\n.ec input[type=\"date\"]:hover,\n.ec input[type=\"datetime\"]:hover,\n.ec input[type=\"datetime-local\"]:hover,\n.ec input[type=\"email\"]:hover,\n.ec input[type=\"month\"]:hover,\n.ec input[type=\"number\"]:hover,\n.ec input[type=\"password\"]:hover,\n.ec input[type=\"search\"]:hover,\n.ec input[type=\"tel\"]:hover,\n.ec input[type=\"text\"]:hover,\n.ec input[type=\"time\"]:hover,\n.ec input[type=\"url\"]:hover,\n.ec input[type=\"week\"]:hover,\n.ec input:not([type]):hover,\n.ec textarea:hover,\n.ec select:hover {\n  border-color: shade(#DDD, 20%);\n}\n.ec input[type=\"color\"]:focus,\n.ec input[type=\"date\"]:focus,\n.ec input[type=\"datetime\"]:focus,\n.ec input[type=\"datetime-local\"]:focus,\n.ec input[type=\"email\"]:focus,\n.ec input[type=\"month\"]:focus,\n.ec input[type=\"number\"]:focus,\n.ec input[type=\"password\"]:focus,\n.ec input[type=\"search\"]:focus,\n.ec input[type=\"tel\"]:focus,\n.ec input[type=\"text\"]:focus,\n.ec input[type=\"time\"]:focus,\n.ec input[type=\"url\"]:focus,\n.ec input[type=\"week\"]:focus,\n.ec input:not([type]):focus,\n.ec textarea:focus,\n.ec select:focus {\n  border-color: #477dca;\n  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06),0 0 5px rgba(55,112,192,0.7);\n  outline: none;\n}\n.ec input[type=\"color\"]:disabled,\n.ec input[type=\"date\"]:disabled,\n.ec input[type=\"datetime\"]:disabled,\n.ec input[type=\"datetime-local\"]:disabled,\n.ec input[type=\"email\"]:disabled,\n.ec input[type=\"month\"]:disabled,\n.ec input[type=\"number\"]:disabled,\n.ec input[type=\"password\"]:disabled,\n.ec input[type=\"search\"]:disabled,\n.ec input[type=\"tel\"]:disabled,\n.ec input[type=\"text\"]:disabled,\n.ec input[type=\"time\"]:disabled,\n.ec input[type=\"url\"]:disabled,\n.ec input[type=\"week\"]:disabled,\n.ec input:not([type]):disabled,\n.ec textarea:disabled,\n.ec select:disabled {\n  background-color: shade(#fff, 5%);\n  cursor: not-allowed;\n}\n.ec input[type=\"color\"]:disabled:hover,\n.ec input[type=\"date\"]:disabled:hover,\n.ec input[type=\"datetime\"]:disabled:hover,\n.ec input[type=\"datetime-local\"]:disabled:hover,\n.ec input[type=\"email\"]:disabled:hover,\n.ec input[type=\"month\"]:disabled:hover,\n.ec input[type=\"number\"]:disabled:hover,\n.ec input[type=\"password\"]:disabled:hover,\n.ec input[type=\"search\"]:disabled:hover,\n.ec input[type=\"tel\"]:disabled:hover,\n.ec input[type=\"text\"]:disabled:hover,\n.ec input[type=\"time\"]:disabled:hover,\n.ec input[type=\"url\"]:disabled:hover,\n.ec input[type=\"week\"]:disabled:hover,\n.ec input:not([type]):disabled:hover,\n.ec textarea:disabled:hover,\n.ec select:disabled:hover {\n  border: 1px solid #DDD;\n}\n.ec textarea {\n  width: 100%;\n  resize: vertical;\n}\n.ec input[type=\"search\"] {\n  appearance: none;\n}\n.ec input[type=\"checkbox\"],\n.ec input[type=\"radio\"] {\n  display: inline;\n  margin-right: .3em;\n}\n.ec input[type=\"checkbox\"]+label,\n.ec input[type=\"radio\"]+label {\n  display: inline-block;\n}\n.ec input[type=\"file\"] {\n  width: 100%;\n}\n.ec select {\n  max-width: 100%;\n  width: auto;\n}\n.ec .form-item {\n  width: 100%;\n  color: #333;\n  margin-bottom: .6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n  }\n}\n.ec .form-item__input {\n  width: 100%;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__input {\n    width: 60%;\n  }\n}\n.ec .form-item__label {\n  width: 100%;\n  padding-bottom: .6em;\n}\n@media screen and (min-width: 600px) {\n  .ec .form-item__label {\n    padding: 0;\n    width: 40%;\n    text-align: right;\n    margin-right: 1.2em;\n  }\n}\n.ec .field-group {\n  padding: .3em 0 .6em 0;\n}\n.ec .field-group__title {\n  padding-bottom: .6em;\n}\n.ec h1 {\n  margin: 0;\n  padding: 0;\n  font-size: 28px;\n}\n.ec h2 {\n  margin: 0;\n  padding: 0;\n  font-size: 24.5px;\n}\n.ec h3 {\n  margin: 0;\n  padding: 0;\n  font-size: 21px;\n}\n.ec h4 {\n  margin: 0;\n  padding: 0;\n  font-size: 17.5px;\n}\n.ec h5 {\n  margin: 0;\n  padding: 0;\n  font-size: 15.75px;\n}\n.ec h6 {\n  margin: 0;\n  padding: 0;\n  font-size: 14px;\n}\n.ec .vertical-tabs-container {\n  margin-bottom: 1.2em;\n  overflow: hidden;\n  display: flex;\n}\n.ec .vertical-tabs-container::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n.ec .vertical-tabs-container .vertical-tabs {\n  padding: 0;\n  margin: 0;\n  display: inline;\n  float: left;\n  width: 20%;\n  list-style: none;\n  border-right: 1px solid #DDD;\n}\n.ec .vertical-tabs-container li.active {\n  background-color: white;\n  margin-right: -1px;\n  border: 1px solid #DDD;\n  border-right-color: white;\n}\n.ec .vertical-tabs-container li.active .sub-active {\n  color: #477dca;\n}\n.ec .vertical-tabs-container li.active .sub-non-active {\n  color: #333;\n}\n.ec .vertical-tabs-container li a {\n  padding: .6em 15px;\n  text-decoration: none;\n  color: inherit;\n  display: block;\n}\n.ec .vertical-tabs-container li ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.ec .vertical-tabs-container li ul li {\n  padding-bottom: 5px;\n  padding-left: 20px;\n}\n.ec .vertical-tabs-container .vertical-tab:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container {\n  border: 1px solid #DDD;\n  border-left: none;\n  display: inline-block;\n  width: 80%;\n  background-color: white;\n  margin: 0 auto;\n}\n.ec .vertical-tabs-container .vertical-tab-content-container a:focus {\n  outline: none;\n}\n.ec .vertical-tabs-container .vertical-tab-content {\n  display: inline-block;\n  background-color: white;\n  padding: 1.2em 15px;\n  border: none;\n  width: 100%;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading {\n  border-top: 1px solid #DDD;\n  cursor: pointer;\n  display: block;\n  font-weight: bold;\n  padding: .6em 15px;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:hover {\n  color: #477dca;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading:first-child {\n  border-top: none;\n}\n.ec .vertical-tabs-container .vertical-tab-accordion-heading.active {\n  background: white;\n  border-bottom: none;\n}\n.ec .accordion-tabs-minimal {\n  margin: 0 .6em;\n  line-height: 1.5;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal::after {\n  clear: both;\n  content: \"\";\n  display: block;\n}\n.ec .accordion-tabs-minimal ul.tab-list {\n  margin: 0;\n  padding: 0;\n}\n.ec .accordion-tabs-minimal li.tab-header-and-content {\n  list-style: none;\n  display: inline;\n}\n.ec .accordion-tabs-minimal .tab-link {\n  border-top: 1px solid #DDD;\n  display: inline-block;\n  border-top: 0;\n}\n.ec .accordion-tabs-minimal .tab-link a {\n  text-decoration: none;\n  display: block;\n  padding: .6em 30px;\n}\n.ec .accordion-tabs-minimal .tab-link a:hover {\n  color: #2c5999;\n}\n.ec .accordion-tabs-minimal .tab-link a:focus {\n  outline: none;\n}\n.ec .accordion-tabs-minimal .tab-link a.is-active {\n  border: 1px solid #DDD;\n  border-bottom-color: white;\n  background: white;\n  margin-bottom: -1px;\n  color: #477dca;\n}\n.ec .accordion-tabs-minimal .tab-content {\n  border: 1px solid #DDD;\n  padding: 1.2em 30px;\n  width: 100%;\n  float: left;\n  background: white;\n  min-height: 250px;\n}\n.ec .btn {\n  display: inline-block;\n  vertical-align: middle;\n  white-space: nowrap;\n  font-family: inherit;\n  font-size: 100%;\n  cursor: pointer;\n  border: none;\n  margin: 0;\n  padding-top: 0;\n  padding-bottom: 0;\n  line-height: 3;\n  padding-right: 1em;\n  padding-left: 1em;\n  border-radius: 3px;\n  background: #477dca;\n  color: white;\n}\n.ec .btn,\n.ec .btn:hover {\n  text-decoration: none;\n  background: #2c5999;\n}\n.ec .btn:active,\n.ec .btn:focus {\n  outline: none;\n}\n.ec .btn--small {\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n  line-height: 2;\n}\n.ec .btn--large {\n  padding-right: 1.5em;\n  padding-left: 1.5em;\n  line-height: 4;\n}\n.ec .btn--huge {\n  padding-right: 2em;\n  padding-left: 2em;\n  line-height: 5;\n}\n.ec .btn--full {\n  width: 100%;\n  padding-right: 0;\n  padding-left: 0;\n  text-align: center;\n}\n.ec .btn--alpha {\n  font-size: 3rem;\n}\n.ec .btn--beta {\n  font-size: 2rem;\n}\n.ec .btn--gamma {\n  font-size: 1rem;\n}\n.ec .btn--natural {\n  vertical-align: baseline;\n  font-size: inherit;\n  line-height: inherit;\n  padding-right: 0.5em;\n  padding-left: 0.5em;\n}\n.ec .btn--positive {\n  background-color: #4A993E;\n  color: #fff;\n}\n.ec .btn--negative {\n  background-color: #b33630;\n  color: #fff;\n}\n.ec .btn--inactive,\n.ec .btn--inactive:hover,\n.ec .btn--inactive:active,\n.ec .btn--inactive:focus {\n  background-color: #ddd;\n  color: #777;\n  cursor: text;\n}\n.ec .btn--soft {\n  border-radius: 200px;\n}\n.ec .btn--hard {\n  border-radius: 0;\n}\n@media screen and (min-width: 800px) {\n  .ec .left {\n    width: 49%;\n    margin-right: 2%;\n    float: left;\n  }\n}\n@media screen and (min-width: 800px) {\n  .ec .right {\n    width: 49%;\n    float: left;\n  }\n}\n.ec .navigation {\n  padding: 0;\n  margin: 0;\n  display: block;\n}\n.ec .navigation__item {\n  margin: 20px 10px 20px 10px;\n  padding-bottom: 10px;\n  cursor: pointer;\n  display: inline-block;\n}\n.ec .navigation--steps .ec .navigation__item {\n  border-bottom: 5px solid;\n}\n.ec .loader,\n.ec .loader:before,\n.ec .loader:after {\n  border-radius: 50%;\n}\n.ec .loader:before,\n.ec .loader:after {\n  position: absolute;\n  content: '';\n}\n.ec .loader:before {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 10.2em 0 0 10.2em;\n  top: -0.1em;\n  left: -0.1em;\n  -webkit-transform-origin: 5.2em 5.1em;\n  transform-origin: 5.2em 5.1em;\n  -webkit-animation: load2 2s infinite ease 1.5s;\n  animation: load2 2s infinite ease 1.5s;\n}\n.ec .loader {\n  font-size: 11px;\n  text-indent: -99999em;\n  margin: 55px auto;\n  position: relative;\n  width: 10em;\n  height: 10em;\n  box-shadow: inset 0 0 0 1em #ffffff;\n  -webkit-transform: translateZ(0);\n  -ms-transform: translateZ(0);\n  transform: translateZ(0);\n}\n.ec .loader:after {\n  width: 5.2em;\n  height: 10.2em;\n  background: #DDD;\n  border-radius: 0 10.2em 10.2em 0;\n  top: -0.1em;\n  left: 5.1em;\n  -webkit-transform-origin: 0px 5.1em;\n  transform-origin: 0px 5.1em;\n  -webkit-animation: load2 2s infinite ease;\n  animation: load2 2s infinite ease;\n}\n@-webkit-keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n@keyframes load2 {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg);\n  }\n\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg);\n  }\n}\n.ec .templatelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .templatelist__item {\n  float: left;\n  width: 33%;\n  padding: .3em;\n  margin: 2px;\n  width: 110px;\n  font-size: .8em;\n  text-align: center;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in .2s,border-color ease-in .2s;\n  position: relative;\n  overflow: hidden;\n  color: #333333;\n}\n.ec .templatelist__item svg {\n  max-height: 80px;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item div {\n  transition: bottom ease-in .2s;\n  padding-top: 2px;\n  position: absolute;\n  bottom: -40px;\n  left: .3em;\n  height: 26px;\n  width: 100px;\n  background: #f5f5f5;\n}\n.ec .templatelist__item:hover {\n  background: #f5f5f5;\n  border: 1px solid #DDD;\n}\n.ec .templatelist__item:hover div {\n  bottom: .3em;\n}\n.ec .themelist {\n  display: flex;\n  flex-wrap: wrap;\n}\n.ec .themelist__item {\n  float: left;\n  width: 33%;\n  padding: .3em;\n  margin: 2px;\n  width: 110px;\n  font-size: .8em;\n  text-align: center;\n  cursor: pointer;\n  border: 1px solid white;\n  background: white;\n  transition: background-color ease-in .2s,border-color ease-in .2s;\n  position: relative;\n  overflow: hidden;\n  color: #333333;\n}\n.ec .themelist__item svg {\n  max-height: 80px;\n  border: 1px solid #DDD;\n}\n.ec .themelist__item div {\n  transition: bottom ease-in .2s;\n  padding-top: 2px;\n  position: absolute;\n  bottom: -40px;\n  left: .3em;\n  height: 26px;\n  width: 100px;\n  background: #f5f5f5;\n}\n.ec .themelist__item:hover {\n  background: #f5f5f5;\n  border: 1px solid #DDD;\n}\n.ec .themelist__item:hover div {\n  bottom: .3em;\n}\n.ec .Scp {\n  width: 175px;\n  height: 150px;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  position: relative;\n}\n.ec .Scp-saturation {\n  position: relative;\n  width: calc(100% - 25px);\n  height: 100%;\n  background: -webkit-linear-gradient(left, #fff, red);\n  background: linear-gradient(to right, #fff, red);\n  float: left;\n  margin-right: 5px;\n}\n.ec .Scp-brightness {\n  width: 100%;\n  height: 100%;\n  background: -webkit-linear-gradient(rgba(255,255,255,0), #000);\n  background: linear-gradient(rgba(255,255,255,0), #000);\n}\n.ec .Scp-sbSelector {\n  border: 2px solid #fff;\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  background: #fff;\n  border-radius: 10px;\n  top: -7px;\n  left: -7px;\n  box-sizing: border-box;\n  z-index: 10;\n}\n.ec .Scp-hue {\n  width: 20px;\n  height: 100%;\n  position: relative;\n  float: left;\n  background: -webkit-linear-gradient(red 0%, #f0f 17%, blue 34%, cyan 50%, lime 67%, #ff0 84%, red 100%);\n  background: linear-gradient(red 0%, #f0f 17%, blue 34%, cyan 50%, lime 67%, #ff0 84%, red 100%);\n}\n.ec .Scp-hSelector {\n  position: absolute;\n  background: #fff;\n  border-bottom: 1px solid #000;\n  right: -3px;\n  width: 10px;\n  height: 2px;\n}\n.ec a,\n.ec .hover {\n  color: #477dca;\n  cursor: pointer;\n}\n.ec .active {\n  color: #477dca;\n}\n.ec .container {\n  clear: both;\n}\n.ec .Scp {\n  position: absolute;\n  margin-top: 5px;\n  width: 200px;\n  height: 150px;\n  border: 1px solid #DDD;\n  border-radius: 3px;\n}\n.ec .header {\n  margin-bottom: 20px;\n  background-color: #333;\n  width: 100%;\n  display: inline-block;\n  position: relative;\n  min-height: 48px;\n}\n.ec .header .logo {\n  text-align: right;\n  color: white;\n  font-weight: 100;\n  font-size: 1.5em;\n  position: absolute;\n  bottom: 4px;\n  right: 15px;\n}\n.ec .header .navigation {\n  margin-left: 10px;\n  margin-top: 10px;\n  float: left;\n}\n.ec .header .navigation .tab-link a {\n  text-decoration: none;\n  color: white;\n}\n.ec .header .navigation .tab-link.is-active {\n  background: #f5f5f5;\n  border: none;\n}\n.ec .header .navigation .tab-link.is-active a {\n  color: #477dca;\n}\n.ec .header:after {\n  clear: both;\n}\n.ec .revisionElement {\n  margin-top: 20px;\n  border: 1px solid #DDD;\n  background: white;\n  padding: 20px;\n  display: block;\n  float: left;\n  width: 100%;\n}\n.ec .objectArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .objectArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #f5f5f5;\n}\n.ec .objectArray .title h4,\n.ec .objectArray .title h5 {\n  float: left;\n}\n.ec .objectArray .title .btn {\n  float: right;\n}\n.ec .objectArray .list {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item {\n  width: 100%;\n  float: left;\n}\n.ec .objectArray .list .item .title {\n  border-bottom: 1px solid #DDD;\n  border-top: 1px solid #DDD;\n}\n.ec .objectArray .list .item .options {\n  float: left;\n  width: 100%;\n  padding-top: 20px;\n}\n.ec .arrayArray {\n  border: 1px solid #DDD;\n  display: inline-block;\n  width: 100%;\n}\n.ec .arrayArray .title {\n  padding: 7.5px 10px;\n  width: 100%;\n  float: left;\n  background: #f5f5f5;\n}\n.ec .arrayArray .title h4,\n.ec .arrayArray .title h5 {\n  float: left;\n}\n.ec .arrayArray .title .btn {\n  float: right;\n}\n.ec .arrayArray input {\n  display: inline-block;\n}\n.ec .readOnlyBox {\n  border: 1px solid #DDD;\n  background: white;\n  padding: 10px 20px;\n  display: block;\n  margin-bottom: 10px;\n}\n.ec .titleBar {\n  display: inline-block;\n  width: 100%;\n  padding-bottom: 20px;\n}\n.ec .titleBar h3 {\n  float: left;\n}\n.ec .titleBar .btn {\n  margin-left: 10px;\n  float: right;\n}\n.ec .file_drop {\n  padding: 50px;\n  background: #DDD;\n}\n"; (require("browserify-css").createStyle(css, { "href": "dist/ec.css" }, { "insertAt": "bottom" })); module.exports = css;
+},{"browserify-css":2}],2:[function(require,module,exports){
 'use strict';
 // For more information about browser field, check out the browser field at https://github.com/substack/browserify-handbook#browser-field.
 
@@ -590,9 +83,11 @@ module.exports = {
     }
 };
 
-},{}],8:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}],9:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+
+},{}],4:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],5:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -2385,345 +1880,398 @@ function isnan (val) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":4,"ieee754":32,"isarray":40}],10:[function(require,module,exports){
-module.exports = function(obj) {
-    if (typeof obj === 'string') return camelCase(obj);
-    return walk(obj);
-};
+},{"base64-js":6,"ieee754":7,"isarray":8}],6:[function(require,module,exports){
+'use strict'
 
-function walk (obj) {
-    if (!obj || typeof obj !== 'object') return obj;
-    if (isDate(obj) || isRegex(obj)) return obj;
-    if (isArray(obj)) return map(obj, walk);
-    return reduce(objectKeys(obj), function (acc, key) {
-        var camel = camelCase(key);
-        acc[camel] = walk(obj[key]);
-        return acc;
-    }, {});
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
 }
 
-function camelCase(str) {
-    return str.replace(/[_.-](\w|$)/g, function (_,x) {
-        return x.toUpperCase();
-    });
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function placeHoldersCount (b64) {
+  var len = b64.length
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
 }
 
-var isArray = Array.isArray || function (obj) {
-    return Object.prototype.toString.call(obj) === '[object Array]';
-};
-
-var isDate = function (obj) {
-    return Object.prototype.toString.call(obj) === '[object Date]';
-};
-
-var isRegex = function (obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-var has = Object.prototype.hasOwnProperty;
-var objectKeys = Object.keys || function (obj) {
-    var keys = [];
-    for (var key in obj) {
-        if (has.call(obj, key)) keys.push(key);
-    }
-    return keys;
-};
-
-function map (xs, f) {
-    if (xs.map) return xs.map(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        res.push(f(xs[i], i));
-    }
-    return res;
+function byteLength (b64) {
+  // base64 is 4/3 + up to two characters of the original data
+  return b64.length * 3 / 4 - placeHoldersCount(b64)
 }
 
-function reduce (xs, f, acc) {
-    if (xs.reduce) return xs.reduce(f, acc);
-    for (var i = 0; i < xs.length; i++) {
-        acc = f(acc, xs[i], i);
-    }
-    return acc;
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
+
+  arr = new Arr(len * 3 / 4 - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
 }
 
-},{}],11:[function(require,module,exports){
-
-/**
- * Expose `Emitter`.
- */
-
-if (typeof module !== 'undefined') {
-  module.exports = Emitter;
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
 }
 
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
   }
-  return obj;
+  return output.join('')
 }
 
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
 
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
   }
 
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
   }
 
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
+  parts.push(output)
 
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
+  return parts.join('')
+}
 
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
+},{}],7:[function(require,module,exports){
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
 
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
+  i += d
 
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks['$' + event];
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
 
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-},{}],12:[function(require,module,exports){
-/**
- * cuid.js
- * Collision-resistant UID generator for browsers and node.
- * Sequential for fast db lookups and recency sorting.
- * Safe for element IDs and server-side lookups.
- *
- * Extracted from CLCTR
- *
- * Copyright (c) Eric Elliott 2012
- * MIT License
- */
-
-/*global window, navigator, document, require, process, module */
-(function (app) {
-  'use strict';
-  var namespace = 'cuid',
-    c = 0,
-    blockSize = 4,
-    base = 36,
-    discreteValues = Math.pow(base, blockSize),
-
-    pad = function pad(num, size) {
-      var s = "000000000" + num;
-      return s.substr(s.length-size);
-    },
-
-    randomBlock = function randomBlock() {
-      return pad((Math.random() *
-            discreteValues << 0)
-            .toString(base), blockSize);
-    },
-
-    safeCounter = function () {
-      c = (c < discreteValues) ? c : 0;
-      c++; // this is not subliminal
-      return c - 1;
-    },
-
-    api = function cuid() {
-      // Starting with a lowercase letter makes
-      // it HTML element ID friendly.
-      var letter = 'c', // hard-coded allows for sequential access
-
-        // timestamp
-        // warning: this exposes the exact date and time
-        // that the uid was created.
-        timestamp = (new Date().getTime()).toString(base),
-
-        // Prevent same-machine collisions.
-        counter,
-
-        // A few chars to generate distinct ids for different
-        // clients (so different computers are far less
-        // likely to generate the same id)
-        fingerprint = api.fingerprint(),
-
-        // Grab some more chars from Math.random()
-        random = randomBlock() + randomBlock();
-
-        counter = pad(safeCounter().toString(base), blockSize);
-
-      return  (letter + timestamp + counter + fingerprint + random);
-    };
-
-  api.slug = function slug() {
-    var date = new Date().getTime().toString(36),
-      counter,
-      print = api.fingerprint().slice(0,1) +
-        api.fingerprint().slice(-1),
-      random = randomBlock().slice(-2);
-
-      counter = safeCounter().toString(36).slice(-4);
-
-    return date.slice(-2) +
-      counter + print + random;
-  };
-
-  api.globalCount = function globalCount() {
-    // We want to cache the results of this
-    var cache = (function calc() {
-        var i,
-          count = 0;
-
-        for (i in window) {
-          count++;
-        }
-
-        return count;
-      }());
-
-    api.globalCount = function () { return cache; };
-    return cache;
-  };
-
-  api.fingerprint = function browserPrint() {
-    return pad((navigator.mimeTypes.length +
-      navigator.userAgent.length).toString(36) +
-      api.globalCount().toString(36), 4);
-  };
-
-  // don't change anything from here down.
-  if (app.register) {
-    app.register(namespace, api);
-  } else if (typeof module !== 'undefined') {
-    module.exports = api;
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
   } else {
-    app[namespace] = api;
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
   }
 
-}(this.applitude || this));
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
 
-},{}],13:[function(require,module,exports){
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+},{}],8:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],9:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],10:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = addEvent
@@ -2743,7 +2291,7 @@ function addEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":23}],14:[function(require,module,exports){
+},{"ev-store":14}],11:[function(require,module,exports){
 var globalDocument = require("global/document")
 var EvStore = require("ev-store")
 var createStore = require("weakmap-shim/create-store")
@@ -2932,7 +2480,7 @@ function Handle() {
     this.type = "dom-delegator-handle"
 }
 
-},{"./add-event.js":13,"./proxy-event.js":16,"./remove-event.js":17,"ev-store":23,"global/document":28,"weakmap-shim/create-store":109}],15:[function(require,module,exports){
+},{"./add-event.js":10,"./proxy-event.js":22,"./remove-event.js":23,"ev-store":14,"global/document":17,"weakmap-shim/create-store":20}],12:[function(require,module,exports){
 var Individual = require("individual")
 var cuid = require("cuid")
 var globalDocument = require("global/document")
@@ -2994,7 +2542,293 @@ function Delegator(opts) {
 Delegator.allocateHandle = DOMDelegator.allocateHandle;
 Delegator.transformHandle = DOMDelegator.transformHandle;
 
-},{"./dom-delegator.js":14,"cuid":12,"global/document":28,"individual":33}],16:[function(require,module,exports){
+},{"./dom-delegator.js":11,"cuid":13,"global/document":17,"individual":18}],13:[function(require,module,exports){
+/**
+ * cuid.js
+ * Collision-resistant UID generator for browsers and node.
+ * Sequential for fast db lookups and recency sorting.
+ * Safe for element IDs and server-side lookups.
+ *
+ * Extracted from CLCTR
+ *
+ * Copyright (c) Eric Elliott 2012
+ * MIT License
+ */
+
+/*global window, navigator, document, require, process, module */
+(function (app) {
+  'use strict';
+  var namespace = 'cuid',
+    c = 0,
+    blockSize = 4,
+    base = 36,
+    discreteValues = Math.pow(base, blockSize),
+
+    pad = function pad(num, size) {
+      var s = "000000000" + num;
+      return s.substr(s.length-size);
+    },
+
+    randomBlock = function randomBlock() {
+      return pad((Math.random() *
+            discreteValues << 0)
+            .toString(base), blockSize);
+    },
+
+    safeCounter = function () {
+      c = (c < discreteValues) ? c : 0;
+      c++; // this is not subliminal
+      return c - 1;
+    },
+
+    api = function cuid() {
+      // Starting with a lowercase letter makes
+      // it HTML element ID friendly.
+      var letter = 'c', // hard-coded allows for sequential access
+
+        // timestamp
+        // warning: this exposes the exact date and time
+        // that the uid was created.
+        timestamp = (new Date().getTime()).toString(base),
+
+        // Prevent same-machine collisions.
+        counter,
+
+        // A few chars to generate distinct ids for different
+        // clients (so different computers are far less
+        // likely to generate the same id)
+        fingerprint = api.fingerprint(),
+
+        // Grab some more chars from Math.random()
+        random = randomBlock() + randomBlock();
+
+        counter = pad(safeCounter().toString(base), blockSize);
+
+      return  (letter + timestamp + counter + fingerprint + random);
+    };
+
+  api.slug = function slug() {
+    var date = new Date().getTime().toString(36),
+      counter,
+      print = api.fingerprint().slice(0,1) +
+        api.fingerprint().slice(-1),
+      random = randomBlock().slice(-2);
+
+      counter = safeCounter().toString(36).slice(-4);
+
+    return date.slice(-2) +
+      counter + print + random;
+  };
+
+  api.globalCount = function globalCount() {
+    // We want to cache the results of this
+    var cache = (function calc() {
+        var i,
+          count = 0;
+
+        for (i in window) {
+          count++;
+        }
+
+        return count;
+      }());
+
+    api.globalCount = function () { return cache; };
+    return cache;
+  };
+
+  api.fingerprint = function browserPrint() {
+    return pad((navigator.mimeTypes.length +
+      navigator.userAgent.length).toString(36) +
+      api.globalCount().toString(36), 4);
+  };
+
+  // don't change anything from here down.
+  if (app.register) {
+    app.register(namespace, api);
+  } else if (typeof module !== 'undefined') {
+    module.exports = api;
+  } else {
+    app[namespace] = api;
+  }
+
+}(this.applitude || this));
+
+},{}],14:[function(require,module,exports){
+'use strict';
+
+var OneVersionConstraint = require('individual/one-version');
+
+var MY_VERSION = '7';
+OneVersionConstraint('ev-store', MY_VERSION);
+
+var hashKey = '__EV_STORE_KEY@' + MY_VERSION;
+
+module.exports = EvStore;
+
+function EvStore(elem) {
+    var hash = elem[hashKey];
+
+    if (!hash) {
+        hash = elem[hashKey] = {};
+    }
+
+    return hash;
+}
+
+},{"individual/one-version":16}],15:[function(require,module,exports){
+(function (global){
+'use strict';
+
+/*global window, global*/
+
+var root = typeof window !== 'undefined' ?
+    window : typeof global !== 'undefined' ?
+    global : {};
+
+module.exports = Individual;
+
+function Individual(key, value) {
+    if (key in root) {
+        return root[key];
+    }
+
+    root[key] = value;
+
+    return value;
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],16:[function(require,module,exports){
+'use strict';
+
+var Individual = require('./index.js');
+
+module.exports = OneVersion;
+
+function OneVersion(moduleName, version, defaultValue) {
+    var key = '__INDIVIDUAL_ONE_VERSION_' + moduleName;
+    var enforceKey = key + '_ENFORCE_SINGLETON';
+
+    var versionValue = Individual(enforceKey, version);
+
+    if (versionValue !== version) {
+        throw new Error('Can only have one copy of ' +
+            moduleName + '.\n' +
+            'You already have version ' + versionValue +
+            ' installed.\n' +
+            'This means you cannot install version ' + version);
+    }
+
+    return Individual(key, defaultValue);
+}
+
+},{"./index.js":15}],17:[function(require,module,exports){
+(function (global){
+var topLevel = typeof global !== 'undefined' ? global :
+    typeof window !== 'undefined' ? window : {}
+var minDoc = require('min-document');
+
+if (typeof document !== 'undefined') {
+    module.exports = document;
+} else {
+    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+
+    if (!doccy) {
+        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
+    }
+
+    module.exports = doccy;
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"min-document":4}],18:[function(require,module,exports){
+(function (global){
+var root = typeof window !== 'undefined' ?
+    window : typeof global !== 'undefined' ?
+    global : {};
+
+module.exports = Individual
+
+function Individual(key, value) {
+    if (root[key]) {
+        return root[key]
+    }
+
+    Object.defineProperty(root, key, {
+        value: value
+        , configurable: true
+    })
+
+    return value
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],19:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],20:[function(require,module,exports){
+var hiddenStore = require('./hidden-store.js');
+
+module.exports = createStore;
+
+function createStore() {
+    var key = {};
+
+    return function (obj) {
+        if ((typeof obj !== 'object' || obj === null) &&
+            typeof obj !== 'function'
+        ) {
+            throw new Error('Weakmap-shim: Key must be object')
+        }
+
+        var store = obj.valueOf(key);
+        return store && store.identity === key ?
+            store : hiddenStore(obj, key);
+    };
+}
+
+},{"./hidden-store.js":21}],21:[function(require,module,exports){
+module.exports = hiddenStore;
+
+function hiddenStore(obj, key) {
+    var store = { identity: key };
+    var valueOf = obj.valueOf;
+
+    Object.defineProperty(obj, "valueOf", {
+        value: function (value) {
+            return value !== key ?
+                valueOf.apply(this, arguments) : store;
+        },
+        writable: true
+    });
+
+    return store;
+}
+
+},{}],22:[function(require,module,exports){
 var inherits = require("inherits")
 
 var ALL_PROPS = [
@@ -3074,7 +2908,7 @@ function KeyEvent(ev) {
 
 inherits(KeyEvent, ProxyEvent)
 
-},{"inherits":34}],17:[function(require,module,exports){
+},{"inherits":19}],23:[function(require,module,exports){
 var EvStore = require("ev-store")
 
 module.exports = removeEvent
@@ -3095,210 +2929,7 @@ function removeEvent(target, type, handler) {
     }
 }
 
-},{"ev-store":23}],18:[function(require,module,exports){
-'use strict';
-
-var prefix = require('prefix');
-var isArray = require('is-array');
-var properties = require('./lib/properties');
-var applyDefaultUnit = require('./lib/default-unit');
-
-var _has = Object.prototype.hasOwnProperty;
-var transformProp = prefix('transform');
-var propNameAliases = {
-  x: 'translateX',
-  y: 'translateY',
-  z: 'translateZ',
-  origin: 'transformOrigin'
-};
-
-exports = module.exports = transform;
-function transform(target, opts) {
-  var transformOutput = [];
-  var propName;
-  var propValue;
-  var propData;
-
-  replaceAliases(opts);
-
-  for (propName in opts) {
-    if (!_has.call(opts, propName)) continue;
-
-    propValue = opts[propName];
-
-    // If it's a transform property.
-    if (_has.call(properties.transform, propName)) {
-      propData = properties.transform[propName];
-
-      if (isArray(propValue)) {
-        propValue = propValue.join(propData.separator);
-      }
-
-      transformOutput.push(
-        propName + '(' + applyDefaultUnit(
-          propValue,
-          propData.defaultUnit,
-          propData.separator
-        ) + ')'
-      );
-
-      continue;
-    }
-
-    // For other properties like transform-origin.
-    if (_has.call(properties, propName)) {
-      propData = properties[propName];
-
-      if (isArray(propValue)) {
-        propValue = propValue.join(propData.separator);
-      }
-
-      target.style[prefix(propName)] = applyDefaultUnit(
-        propValue,
-        propData.defaultUnit,
-        propData.separator
-      );
-
-      continue;
-    }
-
-    console.warn(
-      'dom-transform: this property (`' + propName + '`) is not supported.'
-    );
-  }
-
-  // Apply transform property values.
-  target.style[transformProp] = transformOutput.join(' ');
-}
-
-exports.get = get;
-function get(target, props) {
-  var s = target.style;
-
-  if (typeof props === 'string') {
-    if (_has.call(properties.transform, props)) {
-      return s[transformProp];
-    }
-
-    return s[prefix(props)];
-  }
-
-  if (!props) {
-    props = getPropertiesName();
-  }
-
-  var values = {};
-  props.forEach(function(propName) {
-    values[propName] = s[prefix(propName)];
-  });
-
-  return values;
-}
-
-exports.reset = reset;
-function reset(target, props) {
-  var s = target.style;
-
-  if (typeof props === 'string') {
-    s[prefix(props)] = null;
-    return;
-  }
-
-  if (!props) {
-    props = getPropertiesName();
-  }
-
-  props.forEach(function(propName) {
-    s[prefix(propName)] = null;
-  });
-}
-
-exports.isSupported = isSupported;
-function isSupported() {
-  return transformProp.length > 0;
-}
-
-function replaceAliases(obj) {
-  var propName;
-  for (propName in obj) {
-    if (_has.call(propNameAliases, propName)) {
-      obj[propNameAliases[propName]] = obj[propName];
-      delete obj[propName];
-    }
-  }
-}
-
-function getPropertiesName() {
-  return Object.keys(properties).map(function(propName) {
-    return propName;
-  });
-}
-
-},{"./lib/default-unit":19,"./lib/properties":20,"is-array":35,"prefix":72}],19:[function(require,module,exports){
-'use strict';
-
-var trim = require('trim');
-var NUMBER_REGEX = /^-?\d+(\.\d+)?$/;
-
-module.exports = function(value, unit, separator) {
-  separator = separator || ',';
-
-  if (typeof value === 'number') {
-    return '' + value + unit;
-  }
-
-  // Allow to use either the defined separator or space
-  // to delimitate the values.
-  // Ex: '10 10' or '10, 10'.
-  var separatorRegExp = new RegExp(separator, 'g');
-  var values = value.split(separatorRegExp.test(value) ? separator : ' ');
-
-  return values.map(function(v) {
-    v = trim(v);
-
-    if (NUMBER_REGEX.test(v)) {
-      v += unit;
-    }
-
-    return v;
-  }).join(separator);
-};
-
-},{"trim":80}],20:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  transform: {
-    translate: {defaultUnit: 'px'},
-    translate3d: {defaultUnit: 'px'},
-    translateX: {defaultUnit: 'px'},
-    translateY: {defaultUnit: 'px'},
-    translateZ: {defaultUnit: 'px'},
-    scale: {defaultUnit: ''},
-    scale3d: {defaultUnit: ''},
-    scaleX: {defaultUnit: ''},
-    scaleY: {defaultUnit: ''},
-    scaleZ: {defaultUnit: ''},
-    rotate: {defaultUnit: 'deg'},
-    rotate3d: {defaultUnit: ''},
-    rotateX: {defaultUnit: 'deg'},
-    rotateY: {defaultUnit: 'deg'},
-    rotateZ: {defaultUnit: 'deg'},
-    skew: {defaultUnit: 'deg'},
-    skewX: {defaultUnit: 'deg'},
-    skewY: {defaultUnit: 'deg'},
-    perspective: {defaultUnit: 'px'},
-    matrix: {defaultUnit: ''},
-    matrix3d: {defaultUnit: ''}
-  },
-
-  transformOrigin: {
-    defaultUnit: 'px',
-    separator: ' '
-  }
-};
-
-},{}],21:[function(require,module,exports){
+},{"ev-store":14}],24:[function(require,module,exports){
 module.exports = dragDrop
 
 var flatten = require('flatten')
@@ -3479,126 +3110,7 @@ function toArray (list) {
   return Array.prototype.slice.call(list || [], 0)
 }
 
-},{"flatten":26,"run-parallel":75}],22:[function(require,module,exports){
-var camelize = require("camelize")
-var template = require("string-template")
-var extend = require("xtend/mutable")
-
-module.exports = TypedError
-
-function TypedError(args) {
-    if (!args) {
-        throw new Error("args is required");
-    }
-    if (!args.type) {
-        throw new Error("args.type is required");
-    }
-    if (!args.message) {
-        throw new Error("args.message is required");
-    }
-
-    var message = args.message
-
-    if (args.type && !args.name) {
-        var errorName = camelize(args.type) + "Error"
-        args.name = errorName[0].toUpperCase() + errorName.substr(1)
-    }
-
-    extend(createError, args);
-    createError._name = args.name;
-
-    return createError;
-
-    function createError(opts) {
-        var result = new Error()
-
-        Object.defineProperty(result, "type", {
-            value: result.type,
-            enumerable: true,
-            writable: true,
-            configurable: true
-        })
-
-        var options = extend({}, args, opts)
-
-        extend(result, options)
-        result.message = template(message, options)
-
-        return result
-    }
-}
-
-
-},{"camelize":10,"string-template":78,"xtend/mutable":114}],23:[function(require,module,exports){
-'use strict';
-
-var OneVersionConstraint = require('individual/one-version');
-
-var MY_VERSION = '7';
-OneVersionConstraint('ev-store', MY_VERSION);
-
-var hashKey = '__EV_STORE_KEY@' + MY_VERSION;
-
-module.exports = EvStore;
-
-function EvStore(elem) {
-    var hash = elem[hashKey];
-
-    if (!hash) {
-        hash = elem[hashKey] = {};
-    }
-
-    return hash;
-}
-
-},{"individual/one-version":25}],24:[function(require,module,exports){
-(function (global){
-'use strict';
-
-/*global window, global*/
-
-var root = typeof window !== 'undefined' ?
-    window : typeof global !== 'undefined' ?
-    global : {};
-
-module.exports = Individual;
-
-function Individual(key, value) {
-    if (key in root) {
-        return root[key];
-    }
-
-    root[key] = value;
-
-    return value;
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],25:[function(require,module,exports){
-'use strict';
-
-var Individual = require('./index.js');
-
-module.exports = OneVersion;
-
-function OneVersion(moduleName, version, defaultValue) {
-    var key = '__INDIVIDUAL_ONE_VERSION_' + moduleName;
-    var enforceKey = key + '_ENFORCE_SINGLETON';
-
-    var versionValue = Individual(enforceKey, version);
-
-    if (versionValue !== version) {
-        throw new Error('Can only have one copy of ' +
-            moduleName + '.\n' +
-            'You already have version ' + versionValue +
-            ' installed.\n' +
-            'This means you cannot install version ' + version);
-    }
-
-    return Individual(key, defaultValue);
-}
-
-},{"./index.js":24}],26:[function(require,module,exports){
+},{"flatten":25,"run-parallel":26}],25:[function(require,module,exports){
 module.exports = function flatten(list, depth) {
   depth = (typeof depth == 'number') ? depth : Infinity;
 
@@ -3623,87 +3135,57 @@ module.exports = function flatten(list, depth) {
   }
 };
 
-},{}],27:[function(require,module,exports){
-var isFunction = require('is-function')
+},{}],26:[function(require,module,exports){
+(function (process){
+module.exports = function (tasks, cb) {
+  var results, pending, keys
+  var isSync = true
 
-module.exports = forEach
+  if (Array.isArray(tasks)) {
+    results = []
+    pending = tasks.length
+  } else {
+    keys = Object.keys(tasks)
+    results = {}
+    pending = keys.length
+  }
 
-var toString = Object.prototype.toString
-var hasOwnProperty = Object.prototype.hasOwnProperty
-
-function forEach(list, iterator, context) {
-    if (!isFunction(iterator)) {
-        throw new TypeError('iterator must be a function')
+  function done (err) {
+    function end () {
+      if (cb) cb(err, results)
+      cb = null
     }
+    if (isSync) process.nextTick(end)
+    else end()
+  }
 
-    if (arguments.length < 3) {
-        context = this
+  function each (i, err, result) {
+    results[i] = result
+    if (--pending === 0 || err) {
+      done(err)
     }
-    
-    if (toString.call(list) === '[object Array]')
-        forEachArray(list, iterator, context)
-    else if (typeof list === 'string')
-        forEachString(list, iterator, context)
-    else
-        forEachObject(list, iterator, context)
+  }
+
+  if (!pending) {
+    // empty
+    done(null)
+  } else if (keys) {
+    // object
+    keys.forEach(function (key) {
+      tasks[key](function (err, result) { each(key, err, result) })
+    })
+  } else {
+    // array
+    tasks.forEach(function (task, i) {
+      task(function (err, result) { each(i, err, result) })
+    })
+  }
+
+  isSync = false
 }
 
-function forEachArray(array, iterator, context) {
-    for (var i = 0, len = array.length; i < len; i++) {
-        if (hasOwnProperty.call(array, i)) {
-            iterator.call(context, array[i], i, array)
-        }
-    }
-}
-
-function forEachString(string, iterator, context) {
-    for (var i = 0, len = string.length; i < len; i++) {
-        // no such thing as a sparse string.
-        iterator.call(context, string.charAt(i), i, string)
-    }
-}
-
-function forEachObject(object, iterator, context) {
-    for (var k in object) {
-        if (hasOwnProperty.call(object, k)) {
-            iterator.call(context, object[k], k, object)
-        }
-    }
-}
-
-},{"is-function":37}],28:[function(require,module,exports){
-(function (global){
-var topLevel = typeof global !== 'undefined' ? global :
-    typeof window !== 'undefined' ? window : {}
-var minDoc = require('min-document');
-
-if (typeof document !== 'undefined') {
-    module.exports = document;
-} else {
-    var doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-
-    module.exports = doccy;
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"min-document":5}],29:[function(require,module,exports){
-(function (global){
-if (typeof window !== "undefined") {
-    module.exports = window;
-} else if (typeof global !== "undefined") {
-    module.exports = global;
-} else if (typeof self !== "undefined"){
-    module.exports = self;
-} else {
-    module.exports = {};
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],30:[function(require,module,exports){
+}).call(this,require('_process'))
+},{"_process":9}],27:[function(require,module,exports){
 /*
 Syntax highlighting with language autodetection.
 https://highlightjs.org/
@@ -4523,7 +4005,7 @@ https://highlightjs.org/
   return hljs;
 }));
 
-},{}],31:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 module.exports = function(hljs) {
   var LITERALS = {literal: 'true false null'};
   var TYPES = [
@@ -4560,250 +4042,7 @@ module.exports = function(hljs) {
     illegal: '\\S'
   };
 };
-},{}],32:[function(require,module,exports){
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
-
-  i += d
-
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
-  }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-}
-
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-  value = Math.abs(value)
-
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
-    }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
-
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
-  }
-
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-  buffer[offset + i - d] |= s * 128
-}
-
-},{}],33:[function(require,module,exports){
-(function (global){
-var root = typeof window !== 'undefined' ?
-    window : typeof global !== 'undefined' ?
-    global : {};
-
-module.exports = Individual
-
-function Individual(key, value) {
-    if (root[key]) {
-        return root[key]
-    }
-
-    Object.defineProperty(root, key, {
-        value: value
-        , configurable: true
-    })
-
-    return value
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],34:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],35:[function(require,module,exports){
-
-/**
- * isArray
- */
-
-var isArray = Array.isArray;
-
-/**
- * toString
- */
-
-var str = Object.prototype.toString;
-
-/**
- * Whether or not the given `val`
- * is an array.
- *
- * example:
- *
- *        isArray([]);
- *        // > true
- *        isArray(arguments);
- *        // > false
- *        isArray('');
- *        // > false
- *
- * @param {mixed} val
- * @return {bool}
- */
-
-module.exports = isArray || function (val) {
-  return !! val && '[object Array]' == str.call(val);
-};
-
-},{}],36:[function(require,module,exports){
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
-}
-
-},{}],37:[function(require,module,exports){
-module.exports = isFunction
-
-var toString = Object.prototype.toString
-
-function isFunction (fn) {
-  var string = toString.call(fn)
-  return string === '[object Function]' ||
-    (typeof fn === 'function' && string !== '[object RegExp]') ||
-    (typeof window !== 'undefined' &&
-     // IE8 and below
-     (fn === window.setTimeout ||
-      fn === window.alert ||
-      fn === window.confirm ||
-      fn === window.prompt))
-};
-
-},{}],38:[function(require,module,exports){
-/*!
- * is-number <https://github.com/jonschlinkert/is-number>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
-'use strict';
-
-var typeOf = require('kind-of');
-
-module.exports = function isNumber(num) {
-  var type = typeOf(num);
-  if (type !== 'number' && type !== 'string') {
-    return false;
-  }
-  var n = +num;
-  return (n - n + 1) >= 0 && num !== '';
-};
-
-},{"kind-of":42}],39:[function(require,module,exports){
-"use strict";
-
-module.exports = function isObject(x) {
-	return typeof x === "object" && x !== null;
-};
-
-},{}],40:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],41:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /**
 * JSONfn - javascript (both node.js and browser) plugin to stringify,
 *          parse and clone objects with Functions, Regexp and Date.
@@ -4899,1638 +4138,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 
-},{}],42:[function(require,module,exports){
-(function (Buffer){
-var isBuffer = require('is-buffer');
-var toString = Object.prototype.toString;
-
-/**
- * Get the native `typeof` a value.
- *
- * @param  {*} `val`
- * @return {*} Native javascript type
- */
-
-module.exports = function kindOf(val) {
-  // primitivies
-  if (typeof val === 'undefined') {
-    return 'undefined';
-  }
-  if (val === null) {
-    return 'null';
-  }
-  if (val === true || val === false || val instanceof Boolean) {
-    return 'boolean';
-  }
-  if (typeof val === 'string' || val instanceof String) {
-    return 'string';
-  }
-  if (typeof val === 'number' || val instanceof Number) {
-    return 'number';
-  }
-
-  // functions
-  if (typeof val === 'function' || val instanceof Function) {
-    return 'function';
-  }
-
-  // array
-  if (typeof Array.isArray !== 'undefined' && Array.isArray(val)) {
-    return 'array';
-  }
-
-  // check for instances of RegExp and Date before calling `toString`
-  if (val instanceof RegExp) {
-    return 'regexp';
-  }
-  if (val instanceof Date) {
-    return 'date';
-  }
-
-  // other objects
-  var type = toString.call(val);
-
-  if (type === '[object RegExp]') {
-    return 'regexp';
-  }
-  if (type === '[object Date]') {
-    return 'date';
-  }
-  if (type === '[object Arguments]') {
-    return 'arguments';
-  }
-
-  // buffer
-  if (typeof Buffer !== 'undefined' && isBuffer(val)) {
-    return 'buffer';
-  }
-
-  // es6: Map, WeakMap, Set, WeakSet
-  if (type === '[object Set]') {
-    return 'set';
-  }
-  if (type === '[object WeakSet]') {
-    return 'weakset';
-  }
-  if (type === '[object Map]') {
-    return 'map';
-  }
-  if (type === '[object WeakMap]') {
-    return 'weakmap';
-  }
-  if (type === '[object Symbol]') {
-    return 'symbol';
-  }
-
-  // typed arrays
-  if (type === '[object Int8Array]') {
-    return 'int8array';
-  }
-  if (type === '[object Uint8Array]') {
-    return 'uint8array';
-  }
-  if (type === '[object Uint8ClampedArray]') {
-    return 'uint8clampedarray';
-  }
-  if (type === '[object Int16Array]') {
-    return 'int16array';
-  }
-  if (type === '[object Uint16Array]') {
-    return 'uint16array';
-  }
-  if (type === '[object Int32Array]') {
-    return 'int32array';
-  }
-  if (type === '[object Uint32Array]') {
-    return 'uint32array';
-  }
-  if (type === '[object Float32Array]') {
-    return 'float32array';
-  }
-  if (type === '[object Float64Array]') {
-    return 'float64array';
-  }
-
-  // must be a plain object
-  return 'object';
-};
-
-}).call(this,require("buffer").Buffer)
-},{"buffer":9,"is-buffer":36}],43:[function(require,module,exports){
-(function (global){
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/** Used as the internal argument placeholder. */
-var PLACEHOLDER = '__lodash_placeholder__';
-
-/** Used to compose bitmasks for function metadata. */
-var BIND_FLAG = 1,
-    BIND_KEY_FLAG = 2,
-    CURRY_BOUND_FLAG = 4,
-    CURRY_FLAG = 8,
-    CURRY_RIGHT_FLAG = 16,
-    PARTIAL_FLAG = 32,
-    PARTIAL_RIGHT_FLAG = 64,
-    ARY_FLAG = 128,
-    REARG_FLAG = 256,
-    FLIP_FLAG = 512;
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0,
-    MAX_SAFE_INTEGER = 9007199254740991,
-    MAX_INTEGER = 1.7976931348623157e+308,
-    NAN = 0 / 0;
-
-/** Used to associate wrap methods with their bit flags. */
-var wrapFlags = [
-  ['ary', ARY_FLAG],
-  ['bind', BIND_FLAG],
-  ['bindKey', BIND_KEY_FLAG],
-  ['curry', CURRY_FLAG],
-  ['curryRight', CURRY_RIGHT_FLAG],
-  ['flip', FLIP_FLAG],
-  ['partial', PARTIAL_FLAG],
-  ['partialRight', PARTIAL_RIGHT_FLAG],
-  ['rearg', REARG_FLAG]
-];
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    symbolTag = '[object Symbol]';
-
-/**
- * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
- */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to match wrap detail comments. */
-var reWrapComment = /\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/,
-    reWrapDetails = /\{\n\/\* \[wrapped with (.+)\] \*/,
-    reSplitDetails = /,? & /;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect host constructors (Safari). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-/**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
- *
- * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {Array} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
- */
-function apply(func, thisArg, args) {
-  switch (args.length) {
-    case 0: return func.call(thisArg);
-    case 1: return func.call(thisArg, args[0]);
-    case 2: return func.call(thisArg, args[0], args[1]);
-    case 3: return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
-
-/**
- * A specialized version of `_.forEach` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns `array`.
- */
-function arrayEach(array, iteratee) {
-  var index = -1,
-      length = array ? array.length : 0;
-
-  while (++index < length) {
-    if (iteratee(array[index], index, array) === false) {
-      break;
-    }
-  }
-  return array;
-}
-
-/**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludes(array, value) {
-  var length = array ? array.length : 0;
-  return !!length && baseIndexOf(array, value, 0) > -1;
-}
-
-/**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush(array, values) {
-  var index = -1,
-      length = values.length,
-      offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-}
-
-/**
- * The base implementation of `_.findIndex` and `_.findLastIndex` without
- * support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Function} predicate The function invoked per iteration.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseFindIndex(array, predicate, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 1 : -1);
-
-  while ((fromRight ? index-- : ++index < length)) {
-    if (predicate(array[index], index, array)) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-/**
- * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseIndexOf(array, value, fromIndex) {
-  if (value !== value) {
-    return baseFindIndex(array, baseIsNaN, fromIndex);
-  }
-  var index = fromIndex - 1,
-      length = array.length;
-
-  while (++index < length) {
-    if (array[index] === value) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-/**
- * The base implementation of `_.isNaN` without support for number objects.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
- */
-function baseIsNaN(value) {
-  return value !== value;
-}
-
-/**
- * Gets the number of `placeholder` occurrences in `array`.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} placeholder The placeholder to search for.
- * @returns {number} Returns the placeholder count.
- */
-function countHolders(array, placeholder) {
-  var length = array.length,
-      result = 0;
-
-  while (length--) {
-    if (array[length] === placeholder) {
-      result++;
-    }
-  }
-  return result;
-}
-
-/**
- * Gets the value at `key` of `object`.
- *
- * @private
- * @param {Object} [object] The object to query.
- * @param {string} key The key of the property to get.
- * @returns {*} Returns the property value.
- */
-function getValue(object, key) {
-  return object == null ? undefined : object[key];
-}
-
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-/**
- * Replaces all `placeholder` elements in `array` with an internal placeholder
- * and returns an array of their indexes.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {*} placeholder The placeholder to replace.
- * @returns {Array} Returns the new array of placeholder indexes.
- */
-function replaceHolders(array, placeholder) {
-  var index = -1,
-      length = array.length,
-      resIndex = 0,
-      result = [];
-
-  while (++index < length) {
-    var value = array[index];
-    if (value === placeholder || value === PLACEHOLDER) {
-      array[index] = PLACEHOLDER;
-      result[resIndex++] = index;
-    }
-  }
-  return result;
-}
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to detect overreaching core-js shims. */
-var coreJsData = root['__core-js_shared__'];
-
-/** Used to detect methods masquerading as native. */
-var maskSrcKey = (function() {
-  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-  return uid ? ('Symbol(src)_1.' + uid) : '';
-}());
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/** Built-in value references. */
-var Symbol = root.Symbol,
-    objectCreate = Object.create,
-    propertyIsEnumerable = objectProto.propertyIsEnumerable,
-    spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/* Used to set `toString` methods. */
-var defineProperty = (function() {
-  var func = getNative(Object, 'defineProperty'),
-      name = getNative.name;
-
-  return (name && name.length > 2) ? func : undefined;
-}());
-
-/**
- * The base implementation of `_.create` without support for assigning
- * properties to the created object.
- *
- * @private
- * @param {Object} prototype The object to inherit from.
- * @returns {Object} Returns the new object.
- */
-function baseCreate(proto) {
-  return isObject(proto) ? objectCreate(proto) : {};
-}
-
-/**
- * The base implementation of `_.flatten` with support for restricting flattening.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {number} depth The maximum recursion depth.
- * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
- * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten(array, depth, predicate, isStrict, result) {
-  var index = -1,
-      length = array.length;
-
-  predicate || (predicate = isFlattenable);
-  result || (result = []);
-
-  while (++index < length) {
-    var value = array[index];
-    if (depth > 0 && predicate(value)) {
-      if (depth > 1) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, depth - 1, predicate, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.isNative` without bad shim checks.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function,
- *  else `false`.
- */
-function baseIsNative(value) {
-  if (!isObject(value) || isMasked(value)) {
-    return false;
-  }
-  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
-  return pattern.test(toSource(value));
-}
-
-/**
- * The base implementation of `_.rest` which doesn't validate or coerce arguments.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- */
-function baseRest(func, start) {
-  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax(args.length - start, 0),
-        array = Array(length);
-
-    while (++index < length) {
-      array[index] = args[start + index];
-    }
-    index = -1;
-    var otherArgs = Array(start + 1);
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = array;
-    return apply(func, this, otherArgs);
-  };
-}
-
-/**
- * Creates an array that is the composition of partially applied arguments,
- * placeholders, and provided arguments into a single array of arguments.
- *
- * @private
- * @param {Array} args The provided arguments.
- * @param {Array} partials The arguments to prepend to those provided.
- * @param {Array} holders The `partials` placeholder indexes.
- * @params {boolean} [isCurried] Specify composing for a curried function.
- * @returns {Array} Returns the new array of composed arguments.
- */
-function composeArgs(args, partials, holders, isCurried) {
-  var argsIndex = -1,
-      argsLength = args.length,
-      holdersLength = holders.length,
-      leftIndex = -1,
-      leftLength = partials.length,
-      rangeLength = nativeMax(argsLength - holdersLength, 0),
-      result = Array(leftLength + rangeLength),
-      isUncurried = !isCurried;
-
-  while (++leftIndex < leftLength) {
-    result[leftIndex] = partials[leftIndex];
-  }
-  while (++argsIndex < holdersLength) {
-    if (isUncurried || argsIndex < argsLength) {
-      result[holders[argsIndex]] = args[argsIndex];
-    }
-  }
-  while (rangeLength--) {
-    result[leftIndex++] = args[argsIndex++];
-  }
-  return result;
-}
-
-/**
- * This function is like `composeArgs` except that the arguments composition
- * is tailored for `_.partialRight`.
- *
- * @private
- * @param {Array} args The provided arguments.
- * @param {Array} partials The arguments to append to those provided.
- * @param {Array} holders The `partials` placeholder indexes.
- * @params {boolean} [isCurried] Specify composing for a curried function.
- * @returns {Array} Returns the new array of composed arguments.
- */
-function composeArgsRight(args, partials, holders, isCurried) {
-  var argsIndex = -1,
-      argsLength = args.length,
-      holdersIndex = -1,
-      holdersLength = holders.length,
-      rightIndex = -1,
-      rightLength = partials.length,
-      rangeLength = nativeMax(argsLength - holdersLength, 0),
-      result = Array(rangeLength + rightLength),
-      isUncurried = !isCurried;
-
-  while (++argsIndex < rangeLength) {
-    result[argsIndex] = args[argsIndex];
-  }
-  var offset = argsIndex;
-  while (++rightIndex < rightLength) {
-    result[offset + rightIndex] = partials[rightIndex];
-  }
-  while (++holdersIndex < holdersLength) {
-    if (isUncurried || argsIndex < argsLength) {
-      result[offset + holders[holdersIndex]] = args[argsIndex++];
-    }
-  }
-  return result;
-}
-
-/**
- * Copies the values of `source` to `array`.
- *
- * @private
- * @param {Array} source The array to copy values from.
- * @param {Array} [array=[]] The array to copy values to.
- * @returns {Array} Returns `array`.
- */
-function copyArray(source, array) {
-  var index = -1,
-      length = source.length;
-
-  array || (array = Array(length));
-  while (++index < length) {
-    array[index] = source[index];
-  }
-  return array;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with the optional `this`
- * binding of `thisArg`.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createBind(func, bitmask, thisArg) {
-  var isBind = bitmask & BIND_FLAG,
-      Ctor = createCtor(func);
-
-  function wrapper() {
-    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-    return fn.apply(isBind ? thisArg : this, arguments);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that produces an instance of `Ctor` regardless of
- * whether it was invoked as part of a `new` expression or by `call` or `apply`.
- *
- * @private
- * @param {Function} Ctor The constructor to wrap.
- * @returns {Function} Returns the new wrapped function.
- */
-function createCtor(Ctor) {
-  return function() {
-    // Use a `switch` statement to work with class constructors. See
-    // http://ecma-international.org/ecma-262/7.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
-    // for more details.
-    var args = arguments;
-    switch (args.length) {
-      case 0: return new Ctor;
-      case 1: return new Ctor(args[0]);
-      case 2: return new Ctor(args[0], args[1]);
-      case 3: return new Ctor(args[0], args[1], args[2]);
-      case 4: return new Ctor(args[0], args[1], args[2], args[3]);
-      case 5: return new Ctor(args[0], args[1], args[2], args[3], args[4]);
-      case 6: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
-      case 7: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
-    }
-    var thisBinding = baseCreate(Ctor.prototype),
-        result = Ctor.apply(thisBinding, args);
-
-    // Mimic the constructor's `return` behavior.
-    // See https://es5.github.io/#x13.2.2 for more details.
-    return isObject(result) ? result : thisBinding;
-  };
-}
-
-/**
- * Creates a function that wraps `func` to enable currying.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
- * @param {number} arity The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createCurry(func, bitmask, arity) {
-  var Ctor = createCtor(func);
-
-  function wrapper() {
-    var length = arguments.length,
-        args = Array(length),
-        index = length,
-        placeholder = getHolder(wrapper);
-
-    while (index--) {
-      args[index] = arguments[index];
-    }
-    var holders = (length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder)
-      ? []
-      : replaceHolders(args, placeholder);
-
-    length -= holders.length;
-    if (length < arity) {
-      return createRecurry(
-        func, bitmask, createHybrid, wrapper.placeholder, undefined,
-        args, holders, undefined, undefined, arity - length);
-    }
-    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-    return apply(fn, this, args);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with optional `this`
- * binding of `thisArg`, partial application, and currying.
- *
- * @private
- * @param {Function|string} func The function or method name to wrap.
- * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {Array} [partials] The arguments to prepend to those provided to
- *  the new function.
- * @param {Array} [holders] The `partials` placeholder indexes.
- * @param {Array} [partialsRight] The arguments to append to those provided
- *  to the new function.
- * @param {Array} [holdersRight] The `partialsRight` placeholder indexes.
- * @param {Array} [argPos] The argument positions of the new function.
- * @param {number} [ary] The arity cap of `func`.
- * @param {number} [arity] The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
-  var isAry = bitmask & ARY_FLAG,
-      isBind = bitmask & BIND_FLAG,
-      isBindKey = bitmask & BIND_KEY_FLAG,
-      isCurried = bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG),
-      isFlip = bitmask & FLIP_FLAG,
-      Ctor = isBindKey ? undefined : createCtor(func);
-
-  function wrapper() {
-    var length = arguments.length,
-        args = Array(length),
-        index = length;
-
-    while (index--) {
-      args[index] = arguments[index];
-    }
-    if (isCurried) {
-      var placeholder = getHolder(wrapper),
-          holdersCount = countHolders(args, placeholder);
-    }
-    if (partials) {
-      args = composeArgs(args, partials, holders, isCurried);
-    }
-    if (partialsRight) {
-      args = composeArgsRight(args, partialsRight, holdersRight, isCurried);
-    }
-    length -= holdersCount;
-    if (isCurried && length < arity) {
-      var newHolders = replaceHolders(args, placeholder);
-      return createRecurry(
-        func, bitmask, createHybrid, wrapper.placeholder, thisArg,
-        args, newHolders, argPos, ary, arity - length
-      );
-    }
-    var thisBinding = isBind ? thisArg : this,
-        fn = isBindKey ? thisBinding[func] : func;
-
-    length = args.length;
-    if (argPos) {
-      args = reorder(args, argPos);
-    } else if (isFlip && length > 1) {
-      args.reverse();
-    }
-    if (isAry && ary < length) {
-      args.length = ary;
-    }
-    if (this && this !== root && this instanceof wrapper) {
-      fn = Ctor || createCtor(fn);
-    }
-    return fn.apply(thisBinding, args);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to invoke it with the `this` binding
- * of `thisArg` and `partials` prepended to the arguments it receives.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {Array} partials The arguments to prepend to those provided to
- *  the new function.
- * @returns {Function} Returns the new wrapped function.
- */
-function createPartial(func, bitmask, thisArg, partials) {
-  var isBind = bitmask & BIND_FLAG,
-      Ctor = createCtor(func);
-
-  function wrapper() {
-    var argsIndex = -1,
-        argsLength = arguments.length,
-        leftIndex = -1,
-        leftLength = partials.length,
-        args = Array(leftLength + argsLength),
-        fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-
-    while (++leftIndex < leftLength) {
-      args[leftIndex] = partials[leftIndex];
-    }
-    while (argsLength--) {
-      args[leftIndex++] = arguments[++argsIndex];
-    }
-    return apply(fn, isBind ? thisArg : this, args);
-  }
-  return wrapper;
-}
-
-/**
- * Creates a function that wraps `func` to continue currying.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
- * @param {Function} wrapFunc The function to create the `func` wrapper.
- * @param {*} placeholder The placeholder value.
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {Array} [partials] The arguments to prepend to those provided to
- *  the new function.
- * @param {Array} [holders] The `partials` placeholder indexes.
- * @param {Array} [argPos] The argument positions of the new function.
- * @param {number} [ary] The arity cap of `func`.
- * @param {number} [arity] The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
-  var isCurry = bitmask & CURRY_FLAG,
-      newHolders = isCurry ? holders : undefined,
-      newHoldersRight = isCurry ? undefined : holders,
-      newPartials = isCurry ? partials : undefined,
-      newPartialsRight = isCurry ? undefined : partials;
-
-  bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
-  bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
-
-  if (!(bitmask & CURRY_BOUND_FLAG)) {
-    bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
-  }
-
-  var result = wrapFunc(func, bitmask, thisArg, newPartials, newHolders, newPartialsRight, newHoldersRight, argPos, ary, arity);
-  result.placeholder = placeholder;
-  return setWrapToString(result, func, bitmask);
-}
-
-/**
- * Creates a function that either curries or invokes `func` with optional
- * `this` binding and partially applied arguments.
- *
- * @private
- * @param {Function|string} func The function or method name to wrap.
- * @param {number} bitmask The bitmask flags.
- *  The bitmask may be composed of the following flags:
- *     1 - `_.bind`
- *     2 - `_.bindKey`
- *     4 - `_.curry` or `_.curryRight` of a bound function
- *     8 - `_.curry`
- *    16 - `_.curryRight`
- *    32 - `_.partial`
- *    64 - `_.partialRight`
- *   128 - `_.rearg`
- *   256 - `_.ary`
- *   512 - `_.flip`
- * @param {*} [thisArg] The `this` binding of `func`.
- * @param {Array} [partials] The arguments to be partially applied.
- * @param {Array} [holders] The `partials` placeholder indexes.
- * @param {Array} [argPos] The argument positions of the new function.
- * @param {number} [ary] The arity cap of `func`.
- * @param {number} [arity] The arity of `func`.
- * @returns {Function} Returns the new wrapped function.
- */
-function createWrap(func, bitmask, thisArg, partials, holders, argPos, ary, arity) {
-  var isBindKey = bitmask & BIND_KEY_FLAG;
-  if (!isBindKey && typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  var length = partials ? partials.length : 0;
-  if (!length) {
-    bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
-    partials = holders = undefined;
-  }
-  ary = ary === undefined ? ary : nativeMax(toInteger(ary), 0);
-  arity = arity === undefined ? arity : toInteger(arity);
-  length -= holders ? holders.length : 0;
-
-  if (bitmask & PARTIAL_RIGHT_FLAG) {
-    var partialsRight = partials,
-        holdersRight = holders;
-
-    partials = holders = undefined;
-  }
-
-  var newData = [
-    func, bitmask, thisArg, partials, holders, partialsRight, holdersRight,
-    argPos, ary, arity
-  ];
-
-  func = newData[0];
-  bitmask = newData[1];
-  thisArg = newData[2];
-  partials = newData[3];
-  holders = newData[4];
-  arity = newData[9] = newData[9] == null
-    ? (isBindKey ? 0 : func.length)
-    : nativeMax(newData[9] - length, 0);
-
-  if (!arity && bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG)) {
-    bitmask &= ~(CURRY_FLAG | CURRY_RIGHT_FLAG);
-  }
-  if (!bitmask || bitmask == BIND_FLAG) {
-    var result = createBind(func, bitmask, thisArg);
-  } else if (bitmask == CURRY_FLAG || bitmask == CURRY_RIGHT_FLAG) {
-    result = createCurry(func, bitmask, arity);
-  } else if ((bitmask == PARTIAL_FLAG || bitmask == (BIND_FLAG | PARTIAL_FLAG)) && !holders.length) {
-    result = createPartial(func, bitmask, thisArg, partials);
-  } else {
-    result = createHybrid.apply(undefined, newData);
-  }
-  return setWrapToString(result, func, bitmask);
-}
-
-/**
- * Gets the argument placeholder value for `func`.
- *
- * @private
- * @param {Function} func The function to inspect.
- * @returns {*} Returns the placeholder value.
- */
-function getHolder(func) {
-  var object = func;
-  return object.placeholder;
-}
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
-
-/**
- * Extracts wrapper details from the `source` body comment.
- *
- * @private
- * @param {string} source The source to inspect.
- * @returns {Array} Returns the wrapper details.
- */
-function getWrapDetails(source) {
-  var match = source.match(reWrapDetails);
-  return match ? match[1].split(reSplitDetails) : [];
-}
-
-/**
- * Inserts wrapper `details` in a comment at the top of the `source` body.
- *
- * @private
- * @param {string} source The source to modify.
- * @returns {Array} details The details to insert.
- * @returns {string} Returns the modified source.
- */
-function insertWrapDetails(source, details) {
-  var length = details.length,
-      lastIndex = length - 1;
-
-  details[lastIndex] = (length > 1 ? '& ' : '') + details[lastIndex];
-  details = details.join(length > 2 ? ', ' : ' ');
-  return source.replace(reWrapComment, '{\n/* [wrapped with ' + details + '] */\n');
-}
-
-/**
- * Checks if `value` is a flattenable `arguments` object or array.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
- */
-function isFlattenable(value) {
-  return isArray(value) || isArguments(value) ||
-    !!(spreadableSymbol && value && value[spreadableSymbol]);
-}
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return !!length &&
-    (typeof value == 'number' || reIsUint.test(value)) &&
-    (value > -1 && value % 1 == 0 && value < length);
-}
-
-/**
- * Checks if `func` has its source masked.
- *
- * @private
- * @param {Function} func The function to check.
- * @returns {boolean} Returns `true` if `func` is masked, else `false`.
- */
-function isMasked(func) {
-  return !!maskSrcKey && (maskSrcKey in func);
-}
-
-/**
- * Reorder `array` according to the specified indexes where the element at
- * the first index is assigned as the first element, the element at
- * the second index is assigned as the second element, and so on.
- *
- * @private
- * @param {Array} array The array to reorder.
- * @param {Array} indexes The arranged array indexes.
- * @returns {Array} Returns `array`.
- */
-function reorder(array, indexes) {
-  var arrLength = array.length,
-      length = nativeMin(indexes.length, arrLength),
-      oldArray = copyArray(array);
-
-  while (length--) {
-    var index = indexes[length];
-    array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
-  }
-  return array;
-}
-
-/**
- * Sets the `toString` method of `wrapper` to mimic the source of `reference`
- * with wrapper details in a comment at the top of the source body.
- *
- * @private
- * @param {Function} wrapper The function to modify.
- * @param {Function} reference The reference function.
- * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
- * @returns {Function} Returns `wrapper`.
- */
-var setWrapToString = !defineProperty ? identity : function(wrapper, reference, bitmask) {
-  var source = (reference + '');
-  return defineProperty(wrapper, 'toString', {
-    'configurable': true,
-    'enumerable': false,
-    'value': constant(insertWrapDetails(source, updateWrapDetails(getWrapDetails(source), bitmask)))
-  });
-};
-
-/**
- * Converts `value` to a string key if it's not a string or symbol.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {string|symbol} Returns the key.
- */
-function toKey(value) {
-  if (typeof value == 'string' || isSymbol(value)) {
-    return value;
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-/**
- * Converts `func` to its source code.
- *
- * @private
- * @param {Function} func The function to process.
- * @returns {string} Returns the source code.
- */
-function toSource(func) {
-  if (func != null) {
-    try {
-      return funcToString.call(func);
-    } catch (e) {}
-    try {
-      return (func + '');
-    } catch (e) {}
-  }
-  return '';
-}
-
-/**
- * Updates wrapper `details` based on `bitmask` flags.
- *
- * @private
- * @returns {Array} details The details to modify.
- * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
- * @returns {Array} Returns `details`.
- */
-function updateWrapDetails(details, bitmask) {
-  arrayEach(wrapFlags, function(pair) {
-    var value = '_.' + pair[0];
-    if ((bitmask & pair[1]) && !arrayIncludes(details, value)) {
-      details.push(value);
-    }
-  });
-  return details.sort();
-}
-
-/**
- * Creates a function that invokes `func` with the `this` binding of `thisArg`
- * and `partials` prepended to the arguments it receives.
- *
- * The `_.bind.placeholder` value, which defaults to `_` in monolithic builds,
- * may be used as a placeholder for partially applied arguments.
- *
- * **Note:** Unlike native `Function#bind`, this method doesn't set the "length"
- * property of bound functions.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to bind.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {...*} [partials] The arguments to be partially applied.
- * @returns {Function} Returns the new bound function.
- * @example
- *
- * function greet(greeting, punctuation) {
- *   return greeting + ' ' + this.user + punctuation;
- * }
- *
- * var object = { 'user': 'fred' };
- *
- * var bound = _.bind(greet, object, 'hi');
- * bound('!');
- * // => 'hi fred!'
- *
- * // Bound with placeholders.
- * var bound = _.bind(greet, object, _, '!');
- * bound('hi');
- * // => 'hi fred!'
- */
-var bind = baseRest(function(func, thisArg, partials) {
-  var bitmask = BIND_FLAG;
-  if (partials.length) {
-    var holders = replaceHolders(partials, getHolder(bind));
-    bitmask |= PARTIAL_FLAG;
-  }
-  return createWrap(func, bitmask, thisArg, partials, holders);
-});
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an `arguments` object,
- *  else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(value.length) && !isFunction(value);
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object,
- *  else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8-9 which returns 'object' for typed array and other constructors.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This method is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && objectToString.call(value) == symbolTag);
-}
-
-/**
- * Converts `value` to a finite number.
- *
- * @static
- * @memberOf _
- * @since 4.12.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted number.
- * @example
- *
- * _.toFinite(3.2);
- * // => 3.2
- *
- * _.toFinite(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toFinite(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toFinite('3.2');
- * // => 3.2
- */
-function toFinite(value) {
-  if (!value) {
-    return value === 0 ? value : 0;
-  }
-  value = toNumber(value);
-  if (value === INFINITY || value === -INFINITY) {
-    var sign = (value < 0 ? -1 : 1);
-    return sign * MAX_INTEGER;
-  }
-  return value === value ? value : 0;
-}
-
-/**
- * Converts `value` to an integer.
- *
- * **Note:** This method is loosely based on
- * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted integer.
- * @example
- *
- * _.toInteger(3.2);
- * // => 3
- *
- * _.toInteger(Number.MIN_VALUE);
- * // => 0
- *
- * _.toInteger(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toInteger('3.2');
- * // => 3
- */
-function toInteger(value) {
-  var result = toFinite(value),
-      remainder = result % 1;
-
-  return result === result ? (remainder ? result - remainder : result) : 0;
-}
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-/**
- * Binds methods of an object to the object itself, overwriting the existing
- * method.
- *
- * **Note:** This method doesn't set the "length" property of bound functions.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {Object} object The object to bind and assign the bound methods to.
- * @param {...(string|string[])} methodNames The object method names to bind.
- * @returns {Object} Returns `object`.
- * @example
- *
- * var view = {
- *   'label': 'docs',
- *   'click': function() {
- *     console.log('clicked ' + this.label);
- *   }
- * };
- *
- * _.bindAll(view, ['click']);
- * jQuery(element).on('click', view.click);
- * // => Logs 'clicked docs' when clicked.
- */
-var bindAll = baseRest(function(object, methodNames) {
-  arrayEach(baseFlatten(methodNames, 1), function(key) {
-    key = toKey(key);
-    object[key] = bind(object[key], object);
-  });
-  return object;
-});
-
-/**
- * Creates a function that returns `value`.
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Util
- * @param {*} value The value to return from the new function.
- * @returns {Function} Returns the new constant function.
- * @example
- *
- * var objects = _.times(2, _.constant({ 'a': 1 }));
- *
- * console.log(objects);
- * // => [{ 'a': 1 }, { 'a': 1 }]
- *
- * console.log(objects[0] === objects[1]);
- * // => true
- */
-function constant(value) {
-  return function() {
-    return value;
-  };
-}
-
-/**
- * This method returns the first argument it receives.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'a': 1 };
- *
- * console.log(_.identity(object) === object);
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-// Assign default placeholders.
-bind.placeholder = {};
-
-module.exports = bindAll;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],44:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -8282,7 +5890,7 @@ function stubFalse() {
 module.exports = cloneDeep;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],45:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -8583,7 +6191,7 @@ function toNumber(value) {
 
 module.exports = drop;
 
-},{}],46:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -11040,7 +8648,7 @@ function property(path) {
 module.exports = find;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],47:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /**
  * lodash 3.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -11073,7 +8681,7 @@ function first(array) {
 
 module.exports = first;
 
-},{}],48:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11640,7 +9248,7 @@ function identity(value) {
 
 module.exports = forEach;
 
-},{}],49:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /**
  * lodash 4.0.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -11677,7 +9285,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],50:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -12263,7 +9871,7 @@ function stubFalse() {
 module.exports = isEmpty;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],51:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -13916,7 +11524,7 @@ function keys(object) {
 module.exports = isEqual;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],52:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /**
  * lodash 3.0.2 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14028,7 +11636,7 @@ function isNumber(value) {
 
 module.exports = isNaN;
 
-},{}],53:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14125,7 +11733,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{}],54:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /**
  * lodash 3.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern modularize exports="npm" -o ./`
@@ -14157,7 +11765,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],55:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /**
  * lodash 4.0.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14193,7 +11801,7 @@ function join(array, separator) {
 
 module.exports = join;
 
-},{}],56:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -14596,7 +12204,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{}],57:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -16966,7 +14574,7 @@ function property(path) {
 module.exports = map;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],58:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -19177,7 +16785,7 @@ function stubFalse() {
 module.exports = merge;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],59:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -21521,7 +19129,7 @@ function property(path) {
 module.exports = remove;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],60:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -22114,7 +19722,7 @@ function isString(value) {
 module.exports = size;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],61:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /**
  * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -22578,7 +20186,7 @@ function toNumber(value) {
 
 module.exports = slice;
 
-},{}],62:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -23143,7 +20751,7 @@ function split(string, separator, limit) {
 module.exports = split;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],63:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -23309,7 +20917,7 @@ function toLower(value) {
 module.exports = toLower;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],64:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -23702,7 +21310,7 @@ function trim(string, chars, guard) {
 module.exports = trim;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],65:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -24887,7 +22495,7 @@ function noop() {
 module.exports = union;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],66:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (global){
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -25942,7 +23550,7 @@ function isObjectLike(value) {
 module.exports = without;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],67:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 var raf = require("raf")
 var TypedError = require("error/typed")
 
@@ -26024,7 +23632,295 @@ function main(initialState, view, opts) {
     }
 }
 
-},{"error/typed":22,"raf":74}],68:[function(require,module,exports){
+},{"error/typed":57,"raf":58}],54:[function(require,module,exports){
+module.exports = function(obj) {
+    if (typeof obj === 'string') return camelCase(obj);
+    return walk(obj);
+};
+
+function walk (obj) {
+    if (!obj || typeof obj !== 'object') return obj;
+    if (isDate(obj) || isRegex(obj)) return obj;
+    if (isArray(obj)) return map(obj, walk);
+    return reduce(objectKeys(obj), function (acc, key) {
+        var camel = camelCase(key);
+        acc[camel] = walk(obj[key]);
+        return acc;
+    }, {});
+}
+
+function camelCase(str) {
+    return str.replace(/[_.-](\w|$)/g, function (_,x) {
+        return x.toUpperCase();
+    });
+}
+
+var isArray = Array.isArray || function (obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+};
+
+var isDate = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object Date]';
+};
+
+var isRegex = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var has = Object.prototype.hasOwnProperty;
+var objectKeys = Object.keys || function (obj) {
+    var keys = [];
+    for (var key in obj) {
+        if (has.call(obj, key)) keys.push(key);
+    }
+    return keys;
+};
+
+function map (xs, f) {
+    if (xs.map) return xs.map(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        res.push(f(xs[i], i));
+    }
+    return res;
+}
+
+function reduce (xs, f, acc) {
+    if (xs.reduce) return xs.reduce(f, acc);
+    for (var i = 0; i < xs.length; i++) {
+        acc = f(acc, xs[i], i);
+    }
+    return acc;
+}
+
+},{}],55:[function(require,module,exports){
+var nargs = /\{([0-9a-zA-Z]+)\}/g
+var slice = Array.prototype.slice
+
+module.exports = template
+
+function template(string) {
+    var args
+
+    if (arguments.length === 2 && typeof arguments[1] === "object") {
+        args = arguments[1]
+    } else {
+        args = slice.call(arguments, 1)
+    }
+
+    if (!args || !args.hasOwnProperty) {
+        args = {}
+    }
+
+    return string.replace(nargs, function replaceArg(match, i, index) {
+        var result
+
+        if (string[index - 1] === "{" &&
+            string[index + match.length] === "}") {
+            return i
+        } else {
+            result = args.hasOwnProperty(i) ? args[i] : null
+            if (result === null || result === undefined) {
+                return ""
+            }
+
+            return result
+        }
+    })
+}
+
+},{}],56:[function(require,module,exports){
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend(target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+},{}],57:[function(require,module,exports){
+var camelize = require("camelize")
+var template = require("string-template")
+var extend = require("xtend/mutable")
+
+module.exports = TypedError
+
+function TypedError(args) {
+    if (!args) {
+        throw new Error("args is required");
+    }
+    if (!args.type) {
+        throw new Error("args.type is required");
+    }
+    if (!args.message) {
+        throw new Error("args.message is required");
+    }
+
+    var message = args.message
+
+    if (args.type && !args.name) {
+        var errorName = camelize(args.type) + "Error"
+        args.name = errorName[0].toUpperCase() + errorName.substr(1)
+    }
+
+    extend(createError, args);
+    createError._name = args.name;
+
+    return createError;
+
+    function createError(opts) {
+        var result = new Error()
+
+        Object.defineProperty(result, "type", {
+            value: result.type,
+            enumerable: true,
+            writable: true,
+            configurable: true
+        })
+
+        var options = extend({}, args, opts)
+
+        extend(result, options)
+        result.message = template(message, options)
+
+        return result
+    }
+}
+
+
+},{"camelize":54,"string-template":55,"xtend/mutable":56}],58:[function(require,module,exports){
+var now = require('performance-now')
+  , global = typeof window === 'undefined' ? {} : window
+  , vendors = ['moz', 'webkit']
+  , suffix = 'AnimationFrame'
+  , raf = global['request' + suffix]
+  , caf = global['cancel' + suffix] || global['cancelRequest' + suffix]
+  , isNative = true
+
+for(var i = 0; i < vendors.length && !raf; i++) {
+  raf = global[vendors[i] + 'Request' + suffix]
+  caf = global[vendors[i] + 'Cancel' + suffix]
+      || global[vendors[i] + 'CancelRequest' + suffix]
+}
+
+// Some versions of FF have rAF but not cAF
+if(!raf || !caf) {
+  isNative = false
+
+  var last = 0
+    , id = 0
+    , queue = []
+    , frameDuration = 1000 / 60
+
+  raf = function(callback) {
+    if(queue.length === 0) {
+      var _now = now()
+        , next = Math.max(0, frameDuration - (_now - last))
+      last = next + _now
+      setTimeout(function() {
+        var cp = queue.slice(0)
+        // Clear queue here to prevent
+        // callbacks from appending listeners
+        // to the current frame's queue
+        queue.length = 0
+        for(var i = 0; i < cp.length; i++) {
+          if(!cp[i].cancelled) {
+            try{
+              cp[i].callback(last)
+            } catch(e) {
+              setTimeout(function() { throw e }, 0)
+            }
+          }
+        }
+      }, Math.round(next))
+    }
+    queue.push({
+      handle: ++id,
+      callback: callback,
+      cancelled: false
+    })
+    return id
+  }
+
+  caf = function(handle) {
+    for(var i = 0; i < queue.length; i++) {
+      if(queue[i].handle === handle) {
+        queue[i].cancelled = true
+      }
+    }
+  }
+}
+
+module.exports = function(fn) {
+  // Wrap in a new function to prevent
+  // `cancel` potentially being assigned
+  // to the native rAF function
+  if(!isNative) {
+    return raf.call(global, fn)
+  }
+  return raf.call(global, function() {
+    try{
+      fn.apply(this, arguments)
+    } catch(e) {
+      setTimeout(function() { throw e }, 0)
+    }
+  })
+}
+module.exports.cancel = function() {
+  caf.apply(global, arguments)
+}
+
+},{"performance-now":59}],59:[function(require,module,exports){
+(function (process){
+// Generated by CoffeeScript 1.6.3
+(function() {
+  var getNanoSeconds, hrtime, loadTime;
+
+  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
+    module.exports = function() {
+      return performance.now();
+    };
+  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
+    module.exports = function() {
+      return (getNanoSeconds() - loadTime) / 1e6;
+    };
+    hrtime = process.hrtime;
+    getNanoSeconds = function() {
+      var hr;
+      hr = hrtime();
+      return hr[0] * 1e9 + hr[1];
+    };
+    loadTime = getNanoSeconds();
+  } else if (Date.now) {
+    module.exports = function() {
+      return Date.now() - loadTime;
+    };
+    loadTime = Date.now();
+  } else {
+    module.exports = function() {
+      return new Date().getTime() - loadTime;
+    };
+    loadTime = new Date().getTime();
+  }
+
+}).call(this);
+
+/*
+
+*/
+
+}).call(this,require('_process'))
+},{"_process":9}],60:[function(require,module,exports){
 // Generated by CoffeeScript 1.8.0
 (function() {
   var Events, Mediator, mediator;
@@ -26058,7 +23954,288 @@ function main(initialState, view, opts) {
 
 }).call(this);
 
-},{"backbone-events-standalone":3}],69:[function(require,module,exports){
+},{"backbone-events-standalone":62}],61:[function(require,module,exports){
+/**
+ * Standalone extraction of Backbone.Events, no external dependency required.
+ * Degrades nicely when Backone/underscore are already available in the current
+ * global context.
+ *
+ * Note that docs suggest to use underscore's `_.extend()` method to add Events
+ * support to some given object. A `mixin()` method has been added to the Events
+ * prototype to avoid using underscore for that sole purpose:
+ *
+ *     var myEventEmitter = BackboneEvents.mixin({});
+ *
+ * Or for a function constructor:
+ *
+ *     function MyConstructor(){}
+ *     MyConstructor.prototype.foo = function(){}
+ *     BackboneEvents.mixin(MyConstructor.prototype);
+ *
+ * (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
+ * (c) 2013 Nicolas Perriault
+ */
+/* global exports:true, define, module */
+(function() {
+  var root = this,
+      nativeForEach = Array.prototype.forEach,
+      hasOwnProperty = Object.prototype.hasOwnProperty,
+      slice = Array.prototype.slice,
+      idCounter = 0;
+
+  // Returns a partial implementation matching the minimal API subset required
+  // by Backbone.Events
+  function miniscore() {
+    return {
+      keys: Object.keys || function (obj) {
+        if (typeof obj !== "object" && typeof obj !== "function" || obj === null) {
+          throw new TypeError("keys() called on a non-object");
+        }
+        var key, keys = [];
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            keys[keys.length] = key;
+          }
+        }
+        return keys;
+      },
+
+      uniqueId: function(prefix) {
+        var id = ++idCounter + '';
+        return prefix ? prefix + id : id;
+      },
+
+      has: function(obj, key) {
+        return hasOwnProperty.call(obj, key);
+      },
+
+      each: function(obj, iterator, context) {
+        if (obj == null) return;
+        if (nativeForEach && obj.forEach === nativeForEach) {
+          obj.forEach(iterator, context);
+        } else if (obj.length === +obj.length) {
+          for (var i = 0, l = obj.length; i < l; i++) {
+            iterator.call(context, obj[i], i, obj);
+          }
+        } else {
+          for (var key in obj) {
+            if (this.has(obj, key)) {
+              iterator.call(context, obj[key], key, obj);
+            }
+          }
+        }
+      },
+
+      once: function(func) {
+        var ran = false, memo;
+        return function() {
+          if (ran) return memo;
+          ran = true;
+          memo = func.apply(this, arguments);
+          func = null;
+          return memo;
+        };
+      }
+    };
+  }
+
+  var _ = miniscore(), Events;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = {};
+        return this;
+      }
+
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeners = this._listeners;
+      if (!listeners) return this;
+      var deleteListener = !name && !callback;
+      if (typeof name === 'object') callback = this;
+      if (obj) (listeners = {})[obj._listenerId] = obj;
+      for (var id in listeners) {
+        listeners[id].off(name, callback, this);
+        if (deleteListener) delete this._listeners[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args);
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeners = this._listeners || (this._listeners = {});
+      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
+      listeners[id] = obj;
+      if (typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Mixin utility
+  Events.mixin = function(proto) {
+    var exports = ['on', 'once', 'off', 'trigger', 'stopListening', 'listenTo',
+                   'listenToOnce', 'bind', 'unbind'];
+    _.each(exports, function(name) {
+      proto[name] = this[name];
+    }, this);
+    return proto;
+  };
+
+  // Export Events as BackboneEvents depending on current context
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = Events;
+    }
+    exports.BackboneEvents = Events;
+  }else if (typeof define === "function"  && typeof define.amd == "object") {
+    define(function() {
+      return Events;
+    });
+  } else {
+    root.BackboneEvents = Events;
+  }
+})(this);
+
+},{}],62:[function(require,module,exports){
+module.exports = require('./backbone-events-standalone');
+
+},{"./backbone-events-standalone":61}],63:[function(require,module,exports){
 /*!
 	Papa Parse
 	v4.1.2
@@ -27463,464 +25640,7 @@ function main(initialState, view, opts) {
 	}
 })(typeof window !== 'undefined' ? window : this);
 
-},{}],70:[function(require,module,exports){
-var trim = require('trim')
-  , forEach = require('for-each')
-  , isArray = function(arg) {
-      return Object.prototype.toString.call(arg) === '[object Array]';
-    }
-
-module.exports = function (headers) {
-  if (!headers)
-    return {}
-
-  var result = {}
-
-  forEach(
-      trim(headers).split('\n')
-    , function (row) {
-        var index = row.indexOf(':')
-          , key = trim(row.slice(0, index)).toLowerCase()
-          , value = trim(row.slice(index + 1))
-
-        if (typeof(result[key]) === 'undefined') {
-          result[key] = value
-        } else if (isArray(result[key])) {
-          result[key].push(value)
-        } else {
-          result[key] = [ result[key], value ]
-        }
-      }
-  )
-
-  return result
-}
-},{"for-each":27,"trim":80}],71:[function(require,module,exports){
-(function (process){
-// Generated by CoffeeScript 1.6.3
-(function() {
-  var getNanoSeconds, hrtime, loadTime;
-
-  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
-    module.exports = function() {
-      return performance.now();
-    };
-  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
-    module.exports = function() {
-      return (getNanoSeconds() - loadTime) / 1e6;
-    };
-    hrtime = process.hrtime;
-    getNanoSeconds = function() {
-      var hr;
-      hr = hrtime();
-      return hr[0] * 1e9 + hr[1];
-    };
-    loadTime = getNanoSeconds();
-  } else if (Date.now) {
-    module.exports = function() {
-      return Date.now() - loadTime;
-    };
-    loadTime = Date.now();
-  } else {
-    module.exports = function() {
-      return new Date().getTime() - loadTime;
-    };
-    loadTime = new Date().getTime();
-  }
-
-}).call(this);
-
-/*
-
-*/
-
-}).call(this,require('_process'))
-},{"_process":73}],72:[function(require,module,exports){
-// check document first so it doesn't error in node.js
-var style = typeof document != 'undefined'
-  ? document.createElement('p').style
-  : {}
-
-var prefixes = ['O', 'ms', 'Moz', 'Webkit']
-var upper = /([A-Z])/g
-var memo = {}
-
-/**
- * prefix `key`
- *
- *   prefix('transform') // => WebkitTransform
- *
- * @param {String} key
- * @return {String}
- * @api public
- */
-function prefix(key){
-  // Camel case
-  key = key.replace(/-([a-z])/g, function(_, char){
-    return char.toUpperCase()
-  })
-
-  // Without prefix
-  if (style[key] !== undefined) return key
-
-  // With prefix
-  var Key = key.charAt(0).toUpperCase() + key.slice(1)
-  var i = prefixes.length
-  while (i--) {
-    var name = prefixes[i] + Key
-    if (style[name] !== undefined) return name
-  }
-
-  return key
-}
-
-/**
- * Memoized version of `prefix`
- *
- * @param {String} key
- * @return {String}
- * @api public
- */
-function prefixMemozied(key){
-  return key in memo
-    ? memo[key]
-    : memo[key] = prefix(key)
-}
-
-/**
- * Create a dashed prefix
- *
- * @param {String} key
- * @return {String}
- * @api public
- */
-function prefixDashed(key){
-  key = prefix(key)
-  if (upper.test(key)) {
-    key = '-' + key.replace(upper, '-$1')
-    upper.lastIndex = 0
-  }
-  return key.toLowerCase()
-}
-
-module.exports = prefixMemozied
-module.exports.dash = prefixDashed
-
-},{}],73:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],74:[function(require,module,exports){
-var now = require('performance-now')
-  , global = typeof window === 'undefined' ? {} : window
-  , vendors = ['moz', 'webkit']
-  , suffix = 'AnimationFrame'
-  , raf = global['request' + suffix]
-  , caf = global['cancel' + suffix] || global['cancelRequest' + suffix]
-  , isNative = true
-
-for(var i = 0; i < vendors.length && !raf; i++) {
-  raf = global[vendors[i] + 'Request' + suffix]
-  caf = global[vendors[i] + 'Cancel' + suffix]
-      || global[vendors[i] + 'CancelRequest' + suffix]
-}
-
-// Some versions of FF have rAF but not cAF
-if(!raf || !caf) {
-  isNative = false
-
-  var last = 0
-    , id = 0
-    , queue = []
-    , frameDuration = 1000 / 60
-
-  raf = function(callback) {
-    if(queue.length === 0) {
-      var _now = now()
-        , next = Math.max(0, frameDuration - (_now - last))
-      last = next + _now
-      setTimeout(function() {
-        var cp = queue.slice(0)
-        // Clear queue here to prevent
-        // callbacks from appending listeners
-        // to the current frame's queue
-        queue.length = 0
-        for(var i = 0; i < cp.length; i++) {
-          if(!cp[i].cancelled) {
-            try{
-              cp[i].callback(last)
-            } catch(e) {
-              setTimeout(function() { throw e }, 0)
-            }
-          }
-        }
-      }, Math.round(next))
-    }
-    queue.push({
-      handle: ++id,
-      callback: callback,
-      cancelled: false
-    })
-    return id
-  }
-
-  caf = function(handle) {
-    for(var i = 0; i < queue.length; i++) {
-      if(queue[i].handle === handle) {
-        queue[i].cancelled = true
-      }
-    }
-  }
-}
-
-module.exports = function(fn) {
-  // Wrap in a new function to prevent
-  // `cancel` potentially being assigned
-  // to the native rAF function
-  if(!isNative) {
-    return raf.call(global, fn)
-  }
-  return raf.call(global, function() {
-    try{
-      fn.apply(this, arguments)
-    } catch(e) {
-      setTimeout(function() { throw e }, 0)
-    }
-  })
-}
-module.exports.cancel = function() {
-  caf.apply(global, arguments)
-}
-
-},{"performance-now":71}],75:[function(require,module,exports){
-(function (process){
-module.exports = function (tasks, cb) {
-  var results, pending, keys
-  var isSync = true
-
-  if (Array.isArray(tasks)) {
-    results = []
-    pending = tasks.length
-  } else {
-    keys = Object.keys(tasks)
-    results = {}
-    pending = keys.length
-  }
-
-  function done (err) {
-    function end () {
-      if (cb) cb(err, results)
-      cb = null
-    }
-    if (isSync) process.nextTick(end)
-    else end()
-  }
-
-  function each (i, err, result) {
-    results[i] = result
-    if (--pending === 0 || err) {
-      done(err)
-    }
-  }
-
-  if (!pending) {
-    // empty
-    done(null)
-  } else if (keys) {
-    // object
-    keys.forEach(function (key) {
-      tasks[key](function (err, result) { each(key, err, result) })
-    })
-  } else {
-    // array
-    tasks.forEach(function (task, i) {
-      task(function (err, result) { each(i, err, result) })
-    })
-  }
-
-  isSync = false
-}
-
-}).call(this,require('_process'))
-},{"_process":73}],76:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
 
 var bindAll = require('lodash.bindall');
@@ -28281,49 +26001,2172 @@ SimpleColorPicker.prototype._onHueMouseUp = function() {
 
 module.exports = SimpleColorPicker;
 
-},{"./src/utils/maths/clamp":77,"component-emitter":11,"dom-transform":18,"is-number":38,"lodash.bindall":43,"tinycolor2":79}],77:[function(require,module,exports){
-'use strict';
+},{"./src/utils/maths/clamp":77,"component-emitter":65,"dom-transform":66,"is-number":72,"lodash.bindall":75,"tinycolor2":76}],65:[function(require,module,exports){
 
-module.exports = function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
-};
-},{}],78:[function(require,module,exports){
-var nargs = /\{([0-9a-zA-Z]+)\}/g
-var slice = Array.prototype.slice
+/**
+ * Expose `Emitter`.
+ */
 
-module.exports = template
-
-function template(string) {
-    var args
-
-    if (arguments.length === 2 && typeof arguments[1] === "object") {
-        args = arguments[1]
-    } else {
-        args = slice.call(arguments, 1)
-    }
-
-    if (!args || !args.hasOwnProperty) {
-        args = {}
-    }
-
-    return string.replace(nargs, function replaceArg(match, i, index) {
-        var result
-
-        if (string[index - 1] === "{" &&
-            string[index + match.length] === "}") {
-            return i
-        } else {
-            result = args.hasOwnProperty(i) ? args[i] : null
-            if (result === null || result === undefined) {
-                return ""
-            }
-
-            return result
-        }
-    })
+if (typeof module !== 'undefined') {
+  module.exports = Emitter;
 }
 
-},{}],79:[function(require,module,exports){
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  function on() {
+    this.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks['$' + event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks['$' + event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks['$' + event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks['$' + event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
+};
+
+},{}],66:[function(require,module,exports){
+'use strict';
+
+var prefix = require('prefix');
+var isArray = require('is-array');
+var properties = require('./lib/properties');
+var applyDefaultUnit = require('./lib/default-unit');
+
+var _has = Object.prototype.hasOwnProperty;
+var transformProp = prefix('transform');
+var propNameAliases = {
+  x: 'translateX',
+  y: 'translateY',
+  z: 'translateZ',
+  origin: 'transformOrigin'
+};
+
+exports = module.exports = transform;
+function transform(target, opts) {
+  var transformOutput = [];
+  var propName;
+  var propValue;
+  var propData;
+
+  replaceAliases(opts);
+
+  for (propName in opts) {
+    if (!_has.call(opts, propName)) continue;
+
+    propValue = opts[propName];
+
+    // If it's a transform property.
+    if (_has.call(properties.transform, propName)) {
+      propData = properties.transform[propName];
+
+      if (isArray(propValue)) {
+        propValue = propValue.join(propData.separator);
+      }
+
+      transformOutput.push(
+        propName + '(' + applyDefaultUnit(
+          propValue,
+          propData.defaultUnit,
+          propData.separator
+        ) + ')'
+      );
+
+      continue;
+    }
+
+    // For other properties like transform-origin.
+    if (_has.call(properties, propName)) {
+      propData = properties[propName];
+
+      if (isArray(propValue)) {
+        propValue = propValue.join(propData.separator);
+      }
+
+      target.style[prefix(propName)] = applyDefaultUnit(
+        propValue,
+        propData.defaultUnit,
+        propData.separator
+      );
+
+      continue;
+    }
+
+    console.warn(
+      'dom-transform: this property (`' + propName + '`) is not supported.'
+    );
+  }
+
+  // Apply transform property values.
+  target.style[transformProp] = transformOutput.join(' ');
+}
+
+exports.get = get;
+function get(target, props) {
+  var s = target.style;
+
+  if (typeof props === 'string') {
+    if (_has.call(properties.transform, props)) {
+      return s[transformProp];
+    }
+
+    return s[prefix(props)];
+  }
+
+  if (!props) {
+    props = getPropertiesName();
+  }
+
+  var values = {};
+  props.forEach(function(propName) {
+    values[propName] = s[prefix(propName)];
+  });
+
+  return values;
+}
+
+exports.reset = reset;
+function reset(target, props) {
+  var s = target.style;
+
+  if (typeof props === 'string') {
+    s[prefix(props)] = null;
+    return;
+  }
+
+  if (!props) {
+    props = getPropertiesName();
+  }
+
+  props.forEach(function(propName) {
+    s[prefix(propName)] = null;
+  });
+}
+
+exports.isSupported = isSupported;
+function isSupported() {
+  return transformProp.length > 0;
+}
+
+function replaceAliases(obj) {
+  var propName;
+  for (propName in obj) {
+    if (_has.call(propNameAliases, propName)) {
+      obj[propNameAliases[propName]] = obj[propName];
+      delete obj[propName];
+    }
+  }
+}
+
+function getPropertiesName() {
+  return Object.keys(properties).map(function(propName) {
+    return propName;
+  });
+}
+
+},{"./lib/default-unit":67,"./lib/properties":68,"is-array":69,"prefix":70}],67:[function(require,module,exports){
+'use strict';
+
+var trim = require('trim');
+var NUMBER_REGEX = /^-?\d+(\.\d+)?$/;
+
+module.exports = function(value, unit, separator) {
+  separator = separator || ',';
+
+  if (typeof value === 'number') {
+    return '' + value + unit;
+  }
+
+  // Allow to use either the defined separator or space
+  // to delimitate the values.
+  // Ex: '10 10' or '10, 10'.
+  var separatorRegExp = new RegExp(separator, 'g');
+  var values = value.split(separatorRegExp.test(value) ? separator : ' ');
+
+  return values.map(function(v) {
+    v = trim(v);
+
+    if (NUMBER_REGEX.test(v)) {
+      v += unit;
+    }
+
+    return v;
+  }).join(separator);
+};
+
+},{"trim":71}],68:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  transform: {
+    translate: {defaultUnit: 'px'},
+    translate3d: {defaultUnit: 'px'},
+    translateX: {defaultUnit: 'px'},
+    translateY: {defaultUnit: 'px'},
+    translateZ: {defaultUnit: 'px'},
+    scale: {defaultUnit: ''},
+    scale3d: {defaultUnit: ''},
+    scaleX: {defaultUnit: ''},
+    scaleY: {defaultUnit: ''},
+    scaleZ: {defaultUnit: ''},
+    rotate: {defaultUnit: 'deg'},
+    rotate3d: {defaultUnit: ''},
+    rotateX: {defaultUnit: 'deg'},
+    rotateY: {defaultUnit: 'deg'},
+    rotateZ: {defaultUnit: 'deg'},
+    skew: {defaultUnit: 'deg'},
+    skewX: {defaultUnit: 'deg'},
+    skewY: {defaultUnit: 'deg'},
+    perspective: {defaultUnit: 'px'},
+    matrix: {defaultUnit: ''},
+    matrix3d: {defaultUnit: ''}
+  },
+
+  transformOrigin: {
+    defaultUnit: 'px',
+    separator: ' '
+  }
+};
+
+},{}],69:[function(require,module,exports){
+
+/**
+ * isArray
+ */
+
+var isArray = Array.isArray;
+
+/**
+ * toString
+ */
+
+var str = Object.prototype.toString;
+
+/**
+ * Whether or not the given `val`
+ * is an array.
+ *
+ * example:
+ *
+ *        isArray([]);
+ *        // > true
+ *        isArray(arguments);
+ *        // > false
+ *        isArray('');
+ *        // > false
+ *
+ * @param {mixed} val
+ * @return {bool}
+ */
+
+module.exports = isArray || function (val) {
+  return !! val && '[object Array]' == str.call(val);
+};
+
+},{}],70:[function(require,module,exports){
+// check document first so it doesn't error in node.js
+var style = typeof document != 'undefined'
+  ? document.createElement('p').style
+  : {}
+
+var prefixes = ['O', 'ms', 'Moz', 'Webkit']
+var upper = /([A-Z])/g
+var memo = {}
+
+/**
+ * prefix `key`
+ *
+ *   prefix('transform') // => WebkitTransform
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+function prefix(key){
+  // Camel case
+  key = key.replace(/-([a-z])/g, function(_, char){
+    return char.toUpperCase()
+  })
+
+  // Without prefix
+  if (style[key] !== undefined) return key
+
+  // With prefix
+  var Key = key.charAt(0).toUpperCase() + key.slice(1)
+  var i = prefixes.length
+  while (i--) {
+    var name = prefixes[i] + Key
+    if (style[name] !== undefined) return name
+  }
+
+  return key
+}
+
+/**
+ * Memoized version of `prefix`
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+function prefixMemozied(key){
+  return key in memo
+    ? memo[key]
+    : memo[key] = prefix(key)
+}
+
+/**
+ * Create a dashed prefix
+ *
+ * @param {String} key
+ * @return {String}
+ * @api public
+ */
+function prefixDashed(key){
+  key = prefix(key)
+  if (upper.test(key)) {
+    key = '-' + key.replace(upper, '-$1')
+    upper.lastIndex = 0
+  }
+  return key.toLowerCase()
+}
+
+module.exports = prefixMemozied
+module.exports.dash = prefixDashed
+
+},{}],71:[function(require,module,exports){
+
+exports = module.exports = trim;
+
+function trim(str){
+  return str.replace(/^\s*|\s*$/g, '');
+}
+
+exports.left = function(str){
+  return str.replace(/^\s*/, '');
+};
+
+exports.right = function(str){
+  return str.replace(/\s*$/, '');
+};
+
+},{}],72:[function(require,module,exports){
+/*!
+ * is-number <https://github.com/jonschlinkert/is-number>
+ *
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
+ */
+
+'use strict';
+
+var typeOf = require('kind-of');
+
+module.exports = function isNumber(num) {
+  var type = typeOf(num);
+  if (type !== 'number' && type !== 'string') {
+    return false;
+  }
+  var n = +num;
+  return (n - n + 1) >= 0 && num !== '';
+};
+
+},{"kind-of":73}],73:[function(require,module,exports){
+(function (Buffer){
+var isBuffer = require('is-buffer');
+var toString = Object.prototype.toString;
+
+/**
+ * Get the native `typeof` a value.
+ *
+ * @param  {*} `val`
+ * @return {*} Native javascript type
+ */
+
+module.exports = function kindOf(val) {
+  // primitivies
+  if (typeof val === 'undefined') {
+    return 'undefined';
+  }
+  if (val === null) {
+    return 'null';
+  }
+  if (val === true || val === false || val instanceof Boolean) {
+    return 'boolean';
+  }
+  if (typeof val === 'string' || val instanceof String) {
+    return 'string';
+  }
+  if (typeof val === 'number' || val instanceof Number) {
+    return 'number';
+  }
+
+  // functions
+  if (typeof val === 'function' || val instanceof Function) {
+    return 'function';
+  }
+
+  // array
+  if (typeof Array.isArray !== 'undefined' && Array.isArray(val)) {
+    return 'array';
+  }
+
+  // check for instances of RegExp and Date before calling `toString`
+  if (val instanceof RegExp) {
+    return 'regexp';
+  }
+  if (val instanceof Date) {
+    return 'date';
+  }
+
+  // other objects
+  var type = toString.call(val);
+
+  if (type === '[object RegExp]') {
+    return 'regexp';
+  }
+  if (type === '[object Date]') {
+    return 'date';
+  }
+  if (type === '[object Arguments]') {
+    return 'arguments';
+  }
+
+  // buffer
+  if (typeof Buffer !== 'undefined' && isBuffer(val)) {
+    return 'buffer';
+  }
+
+  // es6: Map, WeakMap, Set, WeakSet
+  if (type === '[object Set]') {
+    return 'set';
+  }
+  if (type === '[object WeakSet]') {
+    return 'weakset';
+  }
+  if (type === '[object Map]') {
+    return 'map';
+  }
+  if (type === '[object WeakMap]') {
+    return 'weakmap';
+  }
+  if (type === '[object Symbol]') {
+    return 'symbol';
+  }
+
+  // typed arrays
+  if (type === '[object Int8Array]') {
+    return 'int8array';
+  }
+  if (type === '[object Uint8Array]') {
+    return 'uint8array';
+  }
+  if (type === '[object Uint8ClampedArray]') {
+    return 'uint8clampedarray';
+  }
+  if (type === '[object Int16Array]') {
+    return 'int16array';
+  }
+  if (type === '[object Uint16Array]') {
+    return 'uint16array';
+  }
+  if (type === '[object Int32Array]') {
+    return 'int32array';
+  }
+  if (type === '[object Uint32Array]') {
+    return 'uint32array';
+  }
+  if (type === '[object Float32Array]') {
+    return 'float32array';
+  }
+  if (type === '[object Float64Array]') {
+    return 'float64array';
+  }
+
+  // must be a plain object
+  return 'object';
+};
+
+}).call(this,require("buffer").Buffer)
+},{"buffer":5,"is-buffer":74}],74:[function(require,module,exports){
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+
+// The _isBuffer check is for Safari 5-7 support, because it's missing
+// Object.prototype.constructor. Remove this eventually
+module.exports = function (obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
+}
+
+function isBuffer (obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
+}
+
+// For Node v0.10 support. Remove this eventually.
+function isSlowBuffer (obj) {
+  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+}
+
+},{}],75:[function(require,module,exports){
+(function (global){
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as the internal argument placeholder. */
+var PLACEHOLDER = '__lodash_placeholder__';
+
+/** Used to compose bitmasks for function metadata. */
+var BIND_FLAG = 1,
+    BIND_KEY_FLAG = 2,
+    CURRY_BOUND_FLAG = 4,
+    CURRY_FLAG = 8,
+    CURRY_RIGHT_FLAG = 16,
+    PARTIAL_FLAG = 32,
+    PARTIAL_RIGHT_FLAG = 64,
+    ARY_FLAG = 128,
+    REARG_FLAG = 256,
+    FLIP_FLAG = 512;
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0,
+    MAX_SAFE_INTEGER = 9007199254740991,
+    MAX_INTEGER = 1.7976931348623157e+308,
+    NAN = 0 / 0;
+
+/** Used to associate wrap methods with their bit flags. */
+var wrapFlags = [
+  ['ary', ARY_FLAG],
+  ['bind', BIND_FLAG],
+  ['bindKey', BIND_KEY_FLAG],
+  ['curry', CURRY_FLAG],
+  ['curryRight', CURRY_RIGHT_FLAG],
+  ['flip', FLIP_FLAG],
+  ['partial', PARTIAL_FLAG],
+  ['partialRight', PARTIAL_RIGHT_FLAG],
+  ['rearg', REARG_FLAG]
+];
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    symbolTag = '[object Symbol]';
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to match wrap detail comments. */
+var reWrapComment = /\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/,
+    reWrapDetails = /\{\n\/\* \[wrapped with (.+)\] \*/,
+    reSplitDetails = /,? & /;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/**
+ * A faster alternative to `Function#apply`, this function invokes `func`
+ * with the `this` binding of `thisArg` and the arguments of `args`.
+ *
+ * @private
+ * @param {Function} func The function to invoke.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {Array} args The arguments to invoke `func` with.
+ * @returns {*} Returns the result of `func`.
+ */
+function apply(func, thisArg, args) {
+  switch (args.length) {
+    case 0: return func.call(thisArg);
+    case 1: return func.call(thisArg, args[0]);
+    case 2: return func.call(thisArg, args[0], args[1]);
+    case 3: return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+
+/**
+ * A specialized version of `_.forEach` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns `array`.
+ */
+function arrayEach(array, iteratee) {
+  var index = -1,
+      length = array ? array.length : 0;
+
+  while (++index < length) {
+    if (iteratee(array[index], index, array) === false) {
+      break;
+    }
+  }
+  return array;
+}
+
+/**
+ * A specialized version of `_.includes` for arrays without support for
+ * specifying an index to search from.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludes(array, value) {
+  var length = array ? array.length : 0;
+  return !!length && baseIndexOf(array, value, 0) > -1;
+}
+
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  if (value !== value) {
+    return baseFindIndex(array, baseIsNaN, fromIndex);
+  }
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.isNaN` without support for number objects.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ */
+function baseIsNaN(value) {
+  return value !== value;
+}
+
+/**
+ * Gets the number of `placeholder` occurrences in `array`.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} placeholder The placeholder to search for.
+ * @returns {number} Returns the placeholder count.
+ */
+function countHolders(array, placeholder) {
+  var length = array.length,
+      result = 0;
+
+  while (length--) {
+    if (array[length] === placeholder) {
+      result++;
+    }
+  }
+  return result;
+}
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Replaces all `placeholder` elements in `array` with an internal placeholder
+ * and returns an array of their indexes.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {*} placeholder The placeholder to replace.
+ * @returns {Array} Returns the new array of placeholder indexes.
+ */
+function replaceHolders(array, placeholder) {
+  var index = -1,
+      length = array.length,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (value === placeholder || value === PLACEHOLDER) {
+      array[index] = PLACEHOLDER;
+      result[resIndex++] = index;
+    }
+  }
+  return result;
+}
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Symbol = root.Symbol,
+    objectCreate = Object.create,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable,
+    spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/* Used to set `toString` methods. */
+var defineProperty = (function() {
+  var func = getNative(Object, 'defineProperty'),
+      name = getNative.name;
+
+  return (name && name.length > 2) ? func : undefined;
+}());
+
+/**
+ * The base implementation of `_.create` without support for assigning
+ * properties to the created object.
+ *
+ * @private
+ * @param {Object} prototype The object to inherit from.
+ * @returns {Object} Returns the new object.
+ */
+function baseCreate(proto) {
+  return isObject(proto) ? objectCreate(proto) : {};
+}
+
+/**
+ * The base implementation of `_.flatten` with support for restricting flattening.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+ * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, depth, predicate, isStrict, result) {
+  var index = -1,
+      length = array.length;
+
+  predicate || (predicate = isFlattenable);
+  result || (result = []);
+
+  while (++index < length) {
+    var value = array[index];
+    if (depth > 0 && predicate(value)) {
+      if (depth > 1) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, depth - 1, predicate, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ */
+function baseRest(func, start) {
+  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    index = -1;
+    var otherArgs = Array(start + 1);
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = array;
+    return apply(func, this, otherArgs);
+  };
+}
+
+/**
+ * Creates an array that is the composition of partially applied arguments,
+ * placeholders, and provided arguments into a single array of arguments.
+ *
+ * @private
+ * @param {Array} args The provided arguments.
+ * @param {Array} partials The arguments to prepend to those provided.
+ * @param {Array} holders The `partials` placeholder indexes.
+ * @params {boolean} [isCurried] Specify composing for a curried function.
+ * @returns {Array} Returns the new array of composed arguments.
+ */
+function composeArgs(args, partials, holders, isCurried) {
+  var argsIndex = -1,
+      argsLength = args.length,
+      holdersLength = holders.length,
+      leftIndex = -1,
+      leftLength = partials.length,
+      rangeLength = nativeMax(argsLength - holdersLength, 0),
+      result = Array(leftLength + rangeLength),
+      isUncurried = !isCurried;
+
+  while (++leftIndex < leftLength) {
+    result[leftIndex] = partials[leftIndex];
+  }
+  while (++argsIndex < holdersLength) {
+    if (isUncurried || argsIndex < argsLength) {
+      result[holders[argsIndex]] = args[argsIndex];
+    }
+  }
+  while (rangeLength--) {
+    result[leftIndex++] = args[argsIndex++];
+  }
+  return result;
+}
+
+/**
+ * This function is like `composeArgs` except that the arguments composition
+ * is tailored for `_.partialRight`.
+ *
+ * @private
+ * @param {Array} args The provided arguments.
+ * @param {Array} partials The arguments to append to those provided.
+ * @param {Array} holders The `partials` placeholder indexes.
+ * @params {boolean} [isCurried] Specify composing for a curried function.
+ * @returns {Array} Returns the new array of composed arguments.
+ */
+function composeArgsRight(args, partials, holders, isCurried) {
+  var argsIndex = -1,
+      argsLength = args.length,
+      holdersIndex = -1,
+      holdersLength = holders.length,
+      rightIndex = -1,
+      rightLength = partials.length,
+      rangeLength = nativeMax(argsLength - holdersLength, 0),
+      result = Array(rangeLength + rightLength),
+      isUncurried = !isCurried;
+
+  while (++argsIndex < rangeLength) {
+    result[argsIndex] = args[argsIndex];
+  }
+  var offset = argsIndex;
+  while (++rightIndex < rightLength) {
+    result[offset + rightIndex] = partials[rightIndex];
+  }
+  while (++holdersIndex < holdersLength) {
+    if (isUncurried || argsIndex < argsLength) {
+      result[offset + holders[holdersIndex]] = args[argsIndex++];
+    }
+  }
+  return result;
+}
+
+/**
+ * Copies the values of `source` to `array`.
+ *
+ * @private
+ * @param {Array} source The array to copy values from.
+ * @param {Array} [array=[]] The array to copy values to.
+ * @returns {Array} Returns `array`.
+ */
+function copyArray(source, array) {
+  var index = -1,
+      length = source.length;
+
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+
+/**
+ * Creates a function that wraps `func` to invoke it with the optional `this`
+ * binding of `thisArg`.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createBind(func, bitmask, thisArg) {
+  var isBind = bitmask & BIND_FLAG,
+      Ctor = createCtor(func);
+
+  function wrapper() {
+    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+    return fn.apply(isBind ? thisArg : this, arguments);
+  }
+  return wrapper;
+}
+
+/**
+ * Creates a function that produces an instance of `Ctor` regardless of
+ * whether it was invoked as part of a `new` expression or by `call` or `apply`.
+ *
+ * @private
+ * @param {Function} Ctor The constructor to wrap.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createCtor(Ctor) {
+  return function() {
+    // Use a `switch` statement to work with class constructors. See
+    // http://ecma-international.org/ecma-262/7.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
+    // for more details.
+    var args = arguments;
+    switch (args.length) {
+      case 0: return new Ctor;
+      case 1: return new Ctor(args[0]);
+      case 2: return new Ctor(args[0], args[1]);
+      case 3: return new Ctor(args[0], args[1], args[2]);
+      case 4: return new Ctor(args[0], args[1], args[2], args[3]);
+      case 5: return new Ctor(args[0], args[1], args[2], args[3], args[4]);
+      case 6: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
+      case 7: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+    }
+    var thisBinding = baseCreate(Ctor.prototype),
+        result = Ctor.apply(thisBinding, args);
+
+    // Mimic the constructor's `return` behavior.
+    // See https://es5.github.io/#x13.2.2 for more details.
+    return isObject(result) ? result : thisBinding;
+  };
+}
+
+/**
+ * Creates a function that wraps `func` to enable currying.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {number} arity The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createCurry(func, bitmask, arity) {
+  var Ctor = createCtor(func);
+
+  function wrapper() {
+    var length = arguments.length,
+        args = Array(length),
+        index = length,
+        placeholder = getHolder(wrapper);
+
+    while (index--) {
+      args[index] = arguments[index];
+    }
+    var holders = (length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder)
+      ? []
+      : replaceHolders(args, placeholder);
+
+    length -= holders.length;
+    if (length < arity) {
+      return createRecurry(
+        func, bitmask, createHybrid, wrapper.placeholder, undefined,
+        args, holders, undefined, undefined, arity - length);
+    }
+    var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+    return apply(fn, this, args);
+  }
+  return wrapper;
+}
+
+/**
+ * Creates a function that wraps `func` to invoke it with optional `this`
+ * binding of `thisArg`, partial application, and currying.
+ *
+ * @private
+ * @param {Function|string} func The function or method name to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {Array} [partials] The arguments to prepend to those provided to
+ *  the new function.
+ * @param {Array} [holders] The `partials` placeholder indexes.
+ * @param {Array} [partialsRight] The arguments to append to those provided
+ *  to the new function.
+ * @param {Array} [holdersRight] The `partialsRight` placeholder indexes.
+ * @param {Array} [argPos] The argument positions of the new function.
+ * @param {number} [ary] The arity cap of `func`.
+ * @param {number} [arity] The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
+  var isAry = bitmask & ARY_FLAG,
+      isBind = bitmask & BIND_FLAG,
+      isBindKey = bitmask & BIND_KEY_FLAG,
+      isCurried = bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG),
+      isFlip = bitmask & FLIP_FLAG,
+      Ctor = isBindKey ? undefined : createCtor(func);
+
+  function wrapper() {
+    var length = arguments.length,
+        args = Array(length),
+        index = length;
+
+    while (index--) {
+      args[index] = arguments[index];
+    }
+    if (isCurried) {
+      var placeholder = getHolder(wrapper),
+          holdersCount = countHolders(args, placeholder);
+    }
+    if (partials) {
+      args = composeArgs(args, partials, holders, isCurried);
+    }
+    if (partialsRight) {
+      args = composeArgsRight(args, partialsRight, holdersRight, isCurried);
+    }
+    length -= holdersCount;
+    if (isCurried && length < arity) {
+      var newHolders = replaceHolders(args, placeholder);
+      return createRecurry(
+        func, bitmask, createHybrid, wrapper.placeholder, thisArg,
+        args, newHolders, argPos, ary, arity - length
+      );
+    }
+    var thisBinding = isBind ? thisArg : this,
+        fn = isBindKey ? thisBinding[func] : func;
+
+    length = args.length;
+    if (argPos) {
+      args = reorder(args, argPos);
+    } else if (isFlip && length > 1) {
+      args.reverse();
+    }
+    if (isAry && ary < length) {
+      args.length = ary;
+    }
+    if (this && this !== root && this instanceof wrapper) {
+      fn = Ctor || createCtor(fn);
+    }
+    return fn.apply(thisBinding, args);
+  }
+  return wrapper;
+}
+
+/**
+ * Creates a function that wraps `func` to invoke it with the `this` binding
+ * of `thisArg` and `partials` prepended to the arguments it receives.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {Array} partials The arguments to prepend to those provided to
+ *  the new function.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createPartial(func, bitmask, thisArg, partials) {
+  var isBind = bitmask & BIND_FLAG,
+      Ctor = createCtor(func);
+
+  function wrapper() {
+    var argsIndex = -1,
+        argsLength = arguments.length,
+        leftIndex = -1,
+        leftLength = partials.length,
+        args = Array(leftLength + argsLength),
+        fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
+
+    while (++leftIndex < leftLength) {
+      args[leftIndex] = partials[leftIndex];
+    }
+    while (argsLength--) {
+      args[leftIndex++] = arguments[++argsIndex];
+    }
+    return apply(fn, isBind ? thisArg : this, args);
+  }
+  return wrapper;
+}
+
+/**
+ * Creates a function that wraps `func` to continue currying.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @param {Function} wrapFunc The function to create the `func` wrapper.
+ * @param {*} placeholder The placeholder value.
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {Array} [partials] The arguments to prepend to those provided to
+ *  the new function.
+ * @param {Array} [holders] The `partials` placeholder indexes.
+ * @param {Array} [argPos] The argument positions of the new function.
+ * @param {number} [ary] The arity cap of `func`.
+ * @param {number} [arity] The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
+  var isCurry = bitmask & CURRY_FLAG,
+      newHolders = isCurry ? holders : undefined,
+      newHoldersRight = isCurry ? undefined : holders,
+      newPartials = isCurry ? partials : undefined,
+      newPartialsRight = isCurry ? undefined : partials;
+
+  bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
+  bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
+
+  if (!(bitmask & CURRY_BOUND_FLAG)) {
+    bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
+  }
+
+  var result = wrapFunc(func, bitmask, thisArg, newPartials, newHolders, newPartialsRight, newHoldersRight, argPos, ary, arity);
+  result.placeholder = placeholder;
+  return setWrapToString(result, func, bitmask);
+}
+
+/**
+ * Creates a function that either curries or invokes `func` with optional
+ * `this` binding and partially applied arguments.
+ *
+ * @private
+ * @param {Function|string} func The function or method name to wrap.
+ * @param {number} bitmask The bitmask flags.
+ *  The bitmask may be composed of the following flags:
+ *     1 - `_.bind`
+ *     2 - `_.bindKey`
+ *     4 - `_.curry` or `_.curryRight` of a bound function
+ *     8 - `_.curry`
+ *    16 - `_.curryRight`
+ *    32 - `_.partial`
+ *    64 - `_.partialRight`
+ *   128 - `_.rearg`
+ *   256 - `_.ary`
+ *   512 - `_.flip`
+ * @param {*} [thisArg] The `this` binding of `func`.
+ * @param {Array} [partials] The arguments to be partially applied.
+ * @param {Array} [holders] The `partials` placeholder indexes.
+ * @param {Array} [argPos] The argument positions of the new function.
+ * @param {number} [ary] The arity cap of `func`.
+ * @param {number} [arity] The arity of `func`.
+ * @returns {Function} Returns the new wrapped function.
+ */
+function createWrap(func, bitmask, thisArg, partials, holders, argPos, ary, arity) {
+  var isBindKey = bitmask & BIND_KEY_FLAG;
+  if (!isBindKey && typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var length = partials ? partials.length : 0;
+  if (!length) {
+    bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
+    partials = holders = undefined;
+  }
+  ary = ary === undefined ? ary : nativeMax(toInteger(ary), 0);
+  arity = arity === undefined ? arity : toInteger(arity);
+  length -= holders ? holders.length : 0;
+
+  if (bitmask & PARTIAL_RIGHT_FLAG) {
+    var partialsRight = partials,
+        holdersRight = holders;
+
+    partials = holders = undefined;
+  }
+
+  var newData = [
+    func, bitmask, thisArg, partials, holders, partialsRight, holdersRight,
+    argPos, ary, arity
+  ];
+
+  func = newData[0];
+  bitmask = newData[1];
+  thisArg = newData[2];
+  partials = newData[3];
+  holders = newData[4];
+  arity = newData[9] = newData[9] == null
+    ? (isBindKey ? 0 : func.length)
+    : nativeMax(newData[9] - length, 0);
+
+  if (!arity && bitmask & (CURRY_FLAG | CURRY_RIGHT_FLAG)) {
+    bitmask &= ~(CURRY_FLAG | CURRY_RIGHT_FLAG);
+  }
+  if (!bitmask || bitmask == BIND_FLAG) {
+    var result = createBind(func, bitmask, thisArg);
+  } else if (bitmask == CURRY_FLAG || bitmask == CURRY_RIGHT_FLAG) {
+    result = createCurry(func, bitmask, arity);
+  } else if ((bitmask == PARTIAL_FLAG || bitmask == (BIND_FLAG | PARTIAL_FLAG)) && !holders.length) {
+    result = createPartial(func, bitmask, thisArg, partials);
+  } else {
+    result = createHybrid.apply(undefined, newData);
+  }
+  return setWrapToString(result, func, bitmask);
+}
+
+/**
+ * Gets the argument placeholder value for `func`.
+ *
+ * @private
+ * @param {Function} func The function to inspect.
+ * @returns {*} Returns the placeholder value.
+ */
+function getHolder(func) {
+  var object = func;
+  return object.placeholder;
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * Extracts wrapper details from the `source` body comment.
+ *
+ * @private
+ * @param {string} source The source to inspect.
+ * @returns {Array} Returns the wrapper details.
+ */
+function getWrapDetails(source) {
+  var match = source.match(reWrapDetails);
+  return match ? match[1].split(reSplitDetails) : [];
+}
+
+/**
+ * Inserts wrapper `details` in a comment at the top of the `source` body.
+ *
+ * @private
+ * @param {string} source The source to modify.
+ * @returns {Array} details The details to insert.
+ * @returns {string} Returns the modified source.
+ */
+function insertWrapDetails(source, details) {
+  var length = details.length,
+      lastIndex = length - 1;
+
+  details[lastIndex] = (length > 1 ? '& ' : '') + details[lastIndex];
+  details = details.join(length > 2 ? ', ' : ' ');
+  return source.replace(reWrapComment, '{\n/* [wrapped with ' + details + '] */\n');
+}
+
+/**
+ * Checks if `value` is a flattenable `arguments` object or array.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+ */
+function isFlattenable(value) {
+  return isArray(value) || isArguments(value) ||
+    !!(spreadableSymbol && value && value[spreadableSymbol]);
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length &&
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Reorder `array` according to the specified indexes where the element at
+ * the first index is assigned as the first element, the element at
+ * the second index is assigned as the second element, and so on.
+ *
+ * @private
+ * @param {Array} array The array to reorder.
+ * @param {Array} indexes The arranged array indexes.
+ * @returns {Array} Returns `array`.
+ */
+function reorder(array, indexes) {
+  var arrLength = array.length,
+      length = nativeMin(indexes.length, arrLength),
+      oldArray = copyArray(array);
+
+  while (length--) {
+    var index = indexes[length];
+    array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
+  }
+  return array;
+}
+
+/**
+ * Sets the `toString` method of `wrapper` to mimic the source of `reference`
+ * with wrapper details in a comment at the top of the source body.
+ *
+ * @private
+ * @param {Function} wrapper The function to modify.
+ * @param {Function} reference The reference function.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @returns {Function} Returns `wrapper`.
+ */
+var setWrapToString = !defineProperty ? identity : function(wrapper, reference, bitmask) {
+  var source = (reference + '');
+  return defineProperty(wrapper, 'toString', {
+    'configurable': true,
+    'enumerable': false,
+    'value': constant(insertWrapDetails(source, updateWrapDetails(getWrapDetails(source), bitmask)))
+  });
+};
+
+/**
+ * Converts `value` to a string key if it's not a string or symbol.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {string|symbol} Returns the key.
+ */
+function toKey(value) {
+  if (typeof value == 'string' || isSymbol(value)) {
+    return value;
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to process.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Updates wrapper `details` based on `bitmask` flags.
+ *
+ * @private
+ * @returns {Array} details The details to modify.
+ * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+ * @returns {Array} Returns `details`.
+ */
+function updateWrapDetails(details, bitmask) {
+  arrayEach(wrapFlags, function(pair) {
+    var value = '_.' + pair[0];
+    if ((bitmask & pair[1]) && !arrayIncludes(details, value)) {
+      details.push(value);
+    }
+  });
+  return details.sort();
+}
+
+/**
+ * Creates a function that invokes `func` with the `this` binding of `thisArg`
+ * and `partials` prepended to the arguments it receives.
+ *
+ * The `_.bind.placeholder` value, which defaults to `_` in monolithic builds,
+ * may be used as a placeholder for partially applied arguments.
+ *
+ * **Note:** Unlike native `Function#bind`, this method doesn't set the "length"
+ * property of bound functions.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to bind.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {...*} [partials] The arguments to be partially applied.
+ * @returns {Function} Returns the new bound function.
+ * @example
+ *
+ * function greet(greeting, punctuation) {
+ *   return greeting + ' ' + this.user + punctuation;
+ * }
+ *
+ * var object = { 'user': 'fred' };
+ *
+ * var bound = _.bind(greet, object, 'hi');
+ * bound('!');
+ * // => 'hi fred!'
+ *
+ * // Bound with placeholders.
+ * var bound = _.bind(greet, object, _, '!');
+ * bound('hi');
+ * // => 'hi fred!'
+ */
+var bind = baseRest(function(func, thisArg, partials) {
+  var bitmask = BIND_FLAG;
+  if (partials.length) {
+    var holders = replaceHolders(partials, getHolder(bind));
+    bitmask |= PARTIAL_FLAG;
+  }
+  return createWrap(func, bitmask, thisArg, partials, holders);
+});
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a finite number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.12.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted number.
+ * @example
+ *
+ * _.toFinite(3.2);
+ * // => 3.2
+ *
+ * _.toFinite(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toFinite(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toFinite('3.2');
+ * // => 3.2
+ */
+function toFinite(value) {
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  if (value === INFINITY || value === -INFINITY) {
+    var sign = (value < 0 ? -1 : 1);
+    return sign * MAX_INTEGER;
+  }
+  return value === value ? value : 0;
+}
+
+/**
+ * Converts `value` to an integer.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToInteger`](http://www.ecma-international.org/ecma-262/7.0/#sec-tointeger).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted integer.
+ * @example
+ *
+ * _.toInteger(3.2);
+ * // => 3
+ *
+ * _.toInteger(Number.MIN_VALUE);
+ * // => 0
+ *
+ * _.toInteger(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toInteger('3.2');
+ * // => 3
+ */
+function toInteger(value) {
+  var result = toFinite(value),
+      remainder = result % 1;
+
+  return result === result ? (remainder ? result - remainder : result) : 0;
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+/**
+ * Binds methods of an object to the object itself, overwriting the existing
+ * method.
+ *
+ * **Note:** This method doesn't set the "length" property of bound functions.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {Object} object The object to bind and assign the bound methods to.
+ * @param {...(string|string[])} methodNames The object method names to bind.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * var view = {
+ *   'label': 'docs',
+ *   'click': function() {
+ *     console.log('clicked ' + this.label);
+ *   }
+ * };
+ *
+ * _.bindAll(view, ['click']);
+ * jQuery(element).on('click', view.click);
+ * // => Logs 'clicked docs' when clicked.
+ */
+var bindAll = baseRest(function(object, methodNames) {
+  arrayEach(baseFlatten(methodNames, 1), function(key) {
+    key = toKey(key);
+    object[key] = bind(object[key], object);
+  });
+  return object;
+});
+
+/**
+ * Creates a function that returns `value`.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Util
+ * @param {*} value The value to return from the new function.
+ * @returns {Function} Returns the new constant function.
+ * @example
+ *
+ * var objects = _.times(2, _.constant({ 'a': 1 }));
+ *
+ * console.log(objects);
+ * // => [{ 'a': 1 }, { 'a': 1 }]
+ *
+ * console.log(objects[0] === objects[1]);
+ * // => true
+ */
+function constant(value) {
+  return function() {
+    return value;
+  };
+}
+
+/**
+ * This method returns the first argument it receives.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ *
+ * console.log(_.identity(object) === object);
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+// Assign default placeholders.
+bind.placeholder = {};
+
+module.exports = bindAll;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],76:[function(require,module,exports){
 // TinyColor v1.4.1
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
@@ -29520,23 +29363,13 @@ else {
 
 })(Math);
 
-},{}],80:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
+'use strict';
 
-exports = module.exports = trim;
-
-function trim(str){
-  return str.replace(/^\s*|\s*$/g, '');
-}
-
-exports.left = function(str){
-  return str.replace(/^\s*/, '');
+module.exports = function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
 };
-
-exports.right = function(str){
-  return str.replace(/\s*$/, '');
-};
-
-},{}],81:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 /*!
 * vdom-virtualize
 * Copyright 2014 by Marcel Klehr <mklehr@gmx.net>
@@ -29780,7 +29613,7 @@ module.exports.attrBlacklist = {
   'class': 'className'
 }
 
-},{"./vcomment":82,"virtual-dom/vnode/vnode":104,"virtual-dom/vnode/vtext":106}],82:[function(require,module,exports){
+},{"./vcomment":79,"virtual-dom/vnode/vnode":108,"virtual-dom/vnode/vtext":110}],79:[function(require,module,exports){
 module.exports = VirtualComment
 
 function VirtualComment(text) {
@@ -29798,27 +29631,160 @@ VirtualComment.prototype.update = function(previous, domNode) {
   domNode.nodeValue = this.text
 }
 
-},{}],83:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 var createElement = require("./vdom/create-element.js")
 
 module.exports = createElement
 
-},{"./vdom/create-element.js":88}],84:[function(require,module,exports){
+},{"./vdom/create-element.js":92}],81:[function(require,module,exports){
 var diff = require("./vtree/diff.js")
 
 module.exports = diff
 
-},{"./vtree/diff.js":108}],85:[function(require,module,exports){
+},{"./vtree/diff.js":112}],82:[function(require,module,exports){
 var h = require("./virtual-hyperscript/index.js")
 
 module.exports = h
 
-},{"./virtual-hyperscript/index.js":95}],86:[function(require,module,exports){
+},{"./virtual-hyperscript/index.js":99}],83:[function(require,module,exports){
+/*!
+ * Cross-Browser Split 1.1.1
+ * Copyright 2007-2012 Steven Levithan <stevenlevithan.com>
+ * Available under the MIT License
+ * ECMAScript compliant, uniform cross-browser split method
+ */
+
+/**
+ * Splits a string into an array of strings using a regex or string separator. Matches of the
+ * separator are not included in the result array. However, if `separator` is a regex that contains
+ * capturing groups, backreferences are spliced into the result each time `separator` is matched.
+ * Fixes browser bugs compared to the native `String.prototype.split` and can be used reliably
+ * cross-browser.
+ * @param {String} str String to split.
+ * @param {RegExp|String} separator Regex or string to use for separating the string.
+ * @param {Number} [limit] Maximum number of items to include in the result array.
+ * @returns {Array} Array of substrings.
+ * @example
+ *
+ * // Basic use
+ * split('a b c d', ' ');
+ * // -> ['a', 'b', 'c', 'd']
+ *
+ * // With limit
+ * split('a b c d', ' ', 2);
+ * // -> ['a', 'b']
+ *
+ * // Backreferences in result array
+ * split('..word1 word2..', /([a-z]+)(\d+)/i);
+ * // -> ['..', 'word', '1', ' ', 'word', '2', '..']
+ */
+module.exports = (function split(undef) {
+
+  var nativeSplit = String.prototype.split,
+    compliantExecNpcg = /()??/.exec("")[1] === undef,
+    // NPCG: nonparticipating capturing group
+    self;
+
+  self = function(str, separator, limit) {
+    // If `separator` is not a regex, use `nativeSplit`
+    if (Object.prototype.toString.call(separator) !== "[object RegExp]") {
+      return nativeSplit.call(str, separator, limit);
+    }
+    var output = [],
+      flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.extended ? "x" : "") + // Proposed for ES6
+      (separator.sticky ? "y" : ""),
+      // Firefox 3+
+      lastLastIndex = 0,
+      // Make `global` and avoid `lastIndex` issues by working with a copy
+      separator = new RegExp(separator.source, flags + "g"),
+      separator2, match, lastIndex, lastLength;
+    str += ""; // Type-convert
+    if (!compliantExecNpcg) {
+      // Doesn't need flags gy, but they don't hurt
+      separator2 = new RegExp("^" + separator.source + "$(?!\\s)", flags);
+    }
+    /* Values for `limit`, per the spec:
+     * If undefined: 4294967295 // Math.pow(2, 32) - 1
+     * If 0, Infinity, or NaN: 0
+     * If positive number: limit = Math.floor(limit); if (limit > 4294967295) limit -= 4294967296;
+     * If negative number: 4294967296 - Math.floor(Math.abs(limit))
+     * If other: Type-convert, then use the above rules
+     */
+    limit = limit === undef ? -1 >>> 0 : // Math.pow(2, 32) - 1
+    limit >>> 0; // ToUint32(limit)
+    while (match = separator.exec(str)) {
+      // `separator.lastIndex` is not reliable cross-browser
+      lastIndex = match.index + match[0].length;
+      if (lastIndex > lastLastIndex) {
+        output.push(str.slice(lastLastIndex, match.index));
+        // Fix browsers whose `exec` methods don't consistently return `undefined` for
+        // nonparticipating capturing groups
+        if (!compliantExecNpcg && match.length > 1) {
+          match[0].replace(separator2, function() {
+            for (var i = 1; i < arguments.length - 2; i++) {
+              if (arguments[i] === undef) {
+                match[i] = undef;
+              }
+            }
+          });
+        }
+        if (match.length > 1 && match.index < str.length) {
+          Array.prototype.push.apply(output, match.slice(1));
+        }
+        lastLength = match[0].length;
+        lastLastIndex = lastIndex;
+        if (output.length >= limit) {
+          break;
+        }
+      }
+      if (separator.lastIndex === match.index) {
+        separator.lastIndex++; // Avoid an infinite loop
+      }
+    }
+    if (lastLastIndex === str.length) {
+      if (lastLength || !separator.test("")) {
+        output.push("");
+      }
+    } else {
+      output.push(str.slice(lastLastIndex));
+    }
+    return output.length > limit ? output.slice(0, limit) : output;
+  };
+
+  return self;
+})();
+
+},{}],84:[function(require,module,exports){
+arguments[4][14][0].apply(exports,arguments)
+},{"dup":14,"individual/one-version":86}],85:[function(require,module,exports){
+arguments[4][15][0].apply(exports,arguments)
+},{"dup":15}],86:[function(require,module,exports){
+arguments[4][16][0].apply(exports,arguments)
+},{"./index.js":85,"dup":16}],87:[function(require,module,exports){
+arguments[4][17][0].apply(exports,arguments)
+},{"dup":17,"min-document":4}],88:[function(require,module,exports){
+"use strict";
+
+module.exports = function isObject(x) {
+	return typeof x === "object" && x !== null;
+};
+
+},{}],89:[function(require,module,exports){
+var nativeIsArray = Array.isArray
+var toString = Object.prototype.toString
+
+module.exports = nativeIsArray || isArray
+
+function isArray(obj) {
+    return toString.call(obj) === "[object Array]"
+}
+
+},{}],90:[function(require,module,exports){
 var patch = require("./vdom/patch.js")
 
 module.exports = patch
 
-},{"./vdom/patch.js":91}],87:[function(require,module,exports){
+},{"./vdom/patch.js":95}],91:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook.js")
 
@@ -29917,7 +29883,7 @@ function getPrototype(value) {
     }
 }
 
-},{"../vnode/is-vhook.js":99,"is-object":39}],88:[function(require,module,exports){
+},{"../vnode/is-vhook.js":103,"is-object":88}],92:[function(require,module,exports){
 var document = require("global/document")
 
 var applyProperties = require("./apply-properties")
@@ -29965,7 +29931,7 @@ function createElement(vnode, opts) {
     return node
 }
 
-},{"../vnode/handle-thunk.js":97,"../vnode/is-vnode.js":100,"../vnode/is-vtext.js":101,"../vnode/is-widget.js":102,"./apply-properties":87,"global/document":28}],89:[function(require,module,exports){
+},{"../vnode/handle-thunk.js":101,"../vnode/is-vnode.js":104,"../vnode/is-vtext.js":105,"../vnode/is-widget.js":106,"./apply-properties":91,"global/document":87}],93:[function(require,module,exports){
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
 // We don't want to read all of the DOM nodes in the tree so we use
 // the in-order tree indexing to eliminate recursion down certain branches.
@@ -30052,7 +30018,7 @@ function ascending(a, b) {
     return a > b ? 1 : -1
 }
 
-},{}],90:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 var applyProperties = require("./apply-properties")
 
 var isWidget = require("../vnode/is-widget.js")
@@ -30205,7 +30171,7 @@ function replaceRoot(oldRoot, newRoot) {
     return newRoot;
 }
 
-},{"../vnode/is-widget.js":102,"../vnode/vpatch.js":105,"./apply-properties":87,"./update-widget":92}],91:[function(require,module,exports){
+},{"../vnode/is-widget.js":106,"../vnode/vpatch.js":109,"./apply-properties":91,"./update-widget":96}],95:[function(require,module,exports){
 var document = require("global/document")
 var isArray = require("x-is-array")
 
@@ -30287,7 +30253,7 @@ function patchIndices(patches) {
     return indices
 }
 
-},{"./create-element":88,"./dom-index":89,"./patch-op":90,"global/document":28,"x-is-array":111}],92:[function(require,module,exports){
+},{"./create-element":92,"./dom-index":93,"./patch-op":94,"global/document":87,"x-is-array":89}],96:[function(require,module,exports){
 var isWidget = require("../vnode/is-widget.js")
 
 module.exports = updateWidget
@@ -30304,7 +30270,7 @@ function updateWidget(a, b) {
     return false
 }
 
-},{"../vnode/is-widget.js":102}],93:[function(require,module,exports){
+},{"../vnode/is-widget.js":106}],97:[function(require,module,exports){
 'use strict';
 
 var EvStore = require('ev-store');
@@ -30333,7 +30299,7 @@ EvHook.prototype.unhook = function(node, propertyName) {
     es[propName] = undefined;
 };
 
-},{"ev-store":23}],94:[function(require,module,exports){
+},{"ev-store":84}],98:[function(require,module,exports){
 'use strict';
 
 module.exports = SoftSetHook;
@@ -30352,7 +30318,7 @@ SoftSetHook.prototype.hook = function (node, propertyName) {
     }
 };
 
-},{}],95:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 'use strict';
 
 var isArray = require('x-is-array');
@@ -30491,7 +30457,7 @@ function errorString(obj) {
     }
 }
 
-},{"../vnode/is-thunk":98,"../vnode/is-vhook":99,"../vnode/is-vnode":100,"../vnode/is-vtext":101,"../vnode/is-widget":102,"../vnode/vnode.js":104,"../vnode/vtext.js":106,"./hooks/ev-hook.js":93,"./hooks/soft-set-hook.js":94,"./parse-tag.js":96,"x-is-array":111}],96:[function(require,module,exports){
+},{"../vnode/is-thunk":102,"../vnode/is-vhook":103,"../vnode/is-vnode":104,"../vnode/is-vtext":105,"../vnode/is-widget":106,"../vnode/vnode.js":108,"../vnode/vtext.js":110,"./hooks/ev-hook.js":97,"./hooks/soft-set-hook.js":98,"./parse-tag.js":100,"x-is-array":89}],100:[function(require,module,exports){
 'use strict';
 
 var split = require('browser-split');
@@ -30547,7 +30513,7 @@ function parseTag(tag, props) {
     return props.namespace ? tagName : tagName.toUpperCase();
 }
 
-},{"browser-split":6}],97:[function(require,module,exports){
+},{"browser-split":83}],101:[function(require,module,exports){
 var isVNode = require("./is-vnode")
 var isVText = require("./is-vtext")
 var isWidget = require("./is-widget")
@@ -30589,14 +30555,14 @@ function renderThunk(thunk, previous) {
     return renderedThunk
 }
 
-},{"./is-thunk":98,"./is-vnode":100,"./is-vtext":101,"./is-widget":102}],98:[function(require,module,exports){
+},{"./is-thunk":102,"./is-vnode":104,"./is-vtext":105,"./is-widget":106}],102:[function(require,module,exports){
 module.exports = isThunk
 
 function isThunk(t) {
     return t && t.type === "Thunk"
 }
 
-},{}],99:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = isHook
 
 function isHook(hook) {
@@ -30605,7 +30571,7 @@ function isHook(hook) {
        typeof hook.unhook === "function" && !hook.hasOwnProperty("unhook"))
 }
 
-},{}],100:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualNode
@@ -30614,7 +30580,7 @@ function isVirtualNode(x) {
     return x && x.type === "VirtualNode" && x.version === version
 }
 
-},{"./version":103}],101:[function(require,module,exports){
+},{"./version":107}],105:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = isVirtualText
@@ -30623,17 +30589,17 @@ function isVirtualText(x) {
     return x && x.type === "VirtualText" && x.version === version
 }
 
-},{"./version":103}],102:[function(require,module,exports){
+},{"./version":107}],106:[function(require,module,exports){
 module.exports = isWidget
 
 function isWidget(w) {
     return w && w.type === "Widget"
 }
 
-},{}],103:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 module.exports = "2"
 
-},{}],104:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 var version = require("./version")
 var isVNode = require("./is-vnode")
 var isWidget = require("./is-widget")
@@ -30707,7 +30673,7 @@ function VirtualNode(tagName, properties, children, key, namespace) {
 VirtualNode.prototype.version = version
 VirtualNode.prototype.type = "VirtualNode"
 
-},{"./is-thunk":98,"./is-vhook":99,"./is-vnode":100,"./is-widget":102,"./version":103}],105:[function(require,module,exports){
+},{"./is-thunk":102,"./is-vhook":103,"./is-vnode":104,"./is-widget":106,"./version":107}],109:[function(require,module,exports){
 var version = require("./version")
 
 VirtualPatch.NONE = 0
@@ -30731,7 +30697,7 @@ function VirtualPatch(type, vNode, patch) {
 VirtualPatch.prototype.version = version
 VirtualPatch.prototype.type = "VirtualPatch"
 
-},{"./version":103}],106:[function(require,module,exports){
+},{"./version":107}],110:[function(require,module,exports){
 var version = require("./version")
 
 module.exports = VirtualText
@@ -30743,7 +30709,7 @@ function VirtualText(text) {
 VirtualText.prototype.version = version
 VirtualText.prototype.type = "VirtualText"
 
-},{"./version":103}],107:[function(require,module,exports){
+},{"./version":107}],111:[function(require,module,exports){
 var isObject = require("is-object")
 var isHook = require("../vnode/is-vhook")
 
@@ -30803,7 +30769,7 @@ function getPrototype(value) {
   }
 }
 
-},{"../vnode/is-vhook":99,"is-object":39}],108:[function(require,module,exports){
+},{"../vnode/is-vhook":103,"is-object":88}],112:[function(require,module,exports){
 var isArray = require("x-is-array")
 
 var VPatch = require("../vnode/vpatch")
@@ -31232,56 +31198,7 @@ function appendPatch(apply, patch) {
     }
 }
 
-},{"../vnode/handle-thunk":97,"../vnode/is-thunk":98,"../vnode/is-vnode":100,"../vnode/is-vtext":101,"../vnode/is-widget":102,"../vnode/vpatch":105,"./diff-props":107,"x-is-array":111}],109:[function(require,module,exports){
-var hiddenStore = require('./hidden-store.js');
-
-module.exports = createStore;
-
-function createStore() {
-    var key = {};
-
-    return function (obj) {
-        if ((typeof obj !== 'object' || obj === null) &&
-            typeof obj !== 'function'
-        ) {
-            throw new Error('Weakmap-shim: Key must be object')
-        }
-
-        var store = obj.valueOf(key);
-        return store && store.identity === key ?
-            store : hiddenStore(obj, key);
-    };
-}
-
-},{"./hidden-store.js":110}],110:[function(require,module,exports){
-module.exports = hiddenStore;
-
-function hiddenStore(obj, key) {
-    var store = { identity: key };
-    var valueOf = obj.valueOf;
-
-    Object.defineProperty(obj, "valueOf", {
-        value: function (value) {
-            return value !== key ?
-                valueOf.apply(this, arguments) : store;
-        },
-        writable: true
-    });
-
-    return store;
-}
-
-},{}],111:[function(require,module,exports){
-var nativeIsArray = Array.isArray
-var toString = Object.prototype.toString
-
-module.exports = nativeIsArray || isArray
-
-function isArray(obj) {
-    return toString.call(obj) === "[object Array]"
-}
-
-},{}],112:[function(require,module,exports){
+},{"../vnode/handle-thunk":101,"../vnode/is-thunk":102,"../vnode/is-vnode":104,"../vnode/is-vtext":105,"../vnode/is-widget":106,"../vnode/vpatch":109,"./diff-props":111,"x-is-array":89}],113:[function(require,module,exports){
 "use strict";
 var window = require("global/window")
 var isFunction = require("is-function")
@@ -31518,7 +31435,119 @@ function getXml(xhr) {
 
 function noop() {}
 
-},{"global/window":29,"is-function":37,"parse-headers":70,"xtend":113}],113:[function(require,module,exports){
+},{"global/window":114,"is-function":115,"parse-headers":118,"xtend":119}],114:[function(require,module,exports){
+(function (global){
+if (typeof window !== "undefined") {
+    module.exports = window;
+} else if (typeof global !== "undefined") {
+    module.exports = global;
+} else if (typeof self !== "undefined"){
+    module.exports = self;
+} else {
+    module.exports = {};
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],115:[function(require,module,exports){
+module.exports = isFunction
+
+var toString = Object.prototype.toString
+
+function isFunction (fn) {
+  var string = toString.call(fn)
+  return string === '[object Function]' ||
+    (typeof fn === 'function' && string !== '[object RegExp]') ||
+    (typeof window !== 'undefined' &&
+     // IE8 and below
+     (fn === window.setTimeout ||
+      fn === window.alert ||
+      fn === window.confirm ||
+      fn === window.prompt))
+};
+
+},{}],116:[function(require,module,exports){
+var isFunction = require('is-function')
+
+module.exports = forEach
+
+var toString = Object.prototype.toString
+var hasOwnProperty = Object.prototype.hasOwnProperty
+
+function forEach(list, iterator, context) {
+    if (!isFunction(iterator)) {
+        throw new TypeError('iterator must be a function')
+    }
+
+    if (arguments.length < 3) {
+        context = this
+    }
+    
+    if (toString.call(list) === '[object Array]')
+        forEachArray(list, iterator, context)
+    else if (typeof list === 'string')
+        forEachString(list, iterator, context)
+    else
+        forEachObject(list, iterator, context)
+}
+
+function forEachArray(array, iterator, context) {
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (hasOwnProperty.call(array, i)) {
+            iterator.call(context, array[i], i, array)
+        }
+    }
+}
+
+function forEachString(string, iterator, context) {
+    for (var i = 0, len = string.length; i < len; i++) {
+        // no such thing as a sparse string.
+        iterator.call(context, string.charAt(i), i, string)
+    }
+}
+
+function forEachObject(object, iterator, context) {
+    for (var k in object) {
+        if (hasOwnProperty.call(object, k)) {
+            iterator.call(context, object[k], k, object)
+        }
+    }
+}
+
+},{"is-function":115}],117:[function(require,module,exports){
+arguments[4][71][0].apply(exports,arguments)
+},{"dup":71}],118:[function(require,module,exports){
+var trim = require('trim')
+  , forEach = require('for-each')
+  , isArray = function(arg) {
+      return Object.prototype.toString.call(arg) === '[object Array]';
+    }
+
+module.exports = function (headers) {
+  if (!headers)
+    return {}
+
+  var result = {}
+
+  forEach(
+      trim(headers).split('\n')
+    , function (row) {
+        var index = row.indexOf(':')
+          , key = trim(row.slice(0, index)).toLowerCase()
+          , value = trim(row.slice(index + 1))
+
+        if (typeof(result[key]) === 'undefined') {
+          result[key] = value
+        } else if (isArray(result[key])) {
+          result[key].push(value)
+        } else {
+          result[key] = [ result[key], value ]
+        }
+      }
+  )
+
+  return result
+}
+},{"for-each":116,"trim":117}],119:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -31539,26 +31568,7 @@ function extend() {
     return target
 }
 
-},{}],114:[function(require,module,exports){
-module.exports = extend
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-function extend(target) {
-    for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i]
-
-        for (var key in source) {
-            if (hasOwnProperty.call(source, key)) {
-                target[key] = source[key]
-            }
-        }
-    }
-
-    return target
-}
-
-},{}],115:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 var css = require('../../dist/ec.css');
 var Delegator = require("dom-delegator");
 Delegator();
@@ -31569,6 +31579,7 @@ function constructor(opts) {
     var optionsService = require('./services/options');
     var revisionService = require('./services/revision');
     var templateService = require('./services/templates');
+    var themeService = require('./services/themes');
     var initializer = require('./services/initializer');
     var Api = require('./services/api');
     var mediator = require('mediatorjs');
@@ -31583,6 +31594,7 @@ function constructor(opts) {
         mediator: mInstance,
         options: optionsService(mInstance),
         templates: templateService(),
+        themes: themeService(),
         revision: revisionService(mInstance)
     };
 
@@ -31633,6 +31645,20 @@ function constructor(opts) {
         }
     }
 
+    if (opts.themesTab != false) {
+        states.themes = {
+            title: 'Themes',
+            dependencies: function () {
+                var that = {};
+                that.themeSelection = require('./components/themeSelection.js')(services);
+                return that;
+            },
+            template: function (dependencies) {
+                return h('div', [dependencies.themeSelection.theme()]);
+            }
+        }
+    }
+
     if (opts.customiseTab != false) {
         states.customise = {
             title: 'Customise',
@@ -31675,6 +31701,8 @@ function constructor(opts) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
             mainRouter.goToState('templates');
+        } else if(opts.themesTab != false) {
+            mainRouter.goToState('themes');
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');
         } else if(opts.debuggerTab == true) {
@@ -31687,7 +31715,7 @@ function constructor(opts) {
 
 module.exports = constructor;
 window.ec = constructor;
-},{"../../dist/ec.css":1,"./components/configure.js":117,"./components/debug.js":121,"./components/import.js":123,"./components/templateSelection.js":130,"./services/api":147,"./services/config":148,"./services/data":149,"./services/initializer":150,"./services/options":151,"./services/revision":152,"./services/router.js":153,"./services/templates":154,"dom-delegator":15,"mediatorjs":68,"virtual-dom/h":85}],116:[function(require,module,exports){
+},{"../../dist/ec.css":1,"./components/configure.js":122,"./components/debug.js":126,"./components/import.js":128,"./components/templateSelection.js":135,"./components/themeSelection.js":136,"./services/api":154,"./services/config":155,"./services/data":156,"./services/initializer":157,"./services/options":158,"./services/revision":159,"./services/router.js":160,"./services/templates":161,"./services/themes":162,"dom-delegator":12,"mediatorjs":60,"virtual-dom/h":82}],121:[function(require,module,exports){
 (function() {
     // Load the framework and Highcharts. Framework is passed as a parameter.
     var mediator;
@@ -31708,7 +31736,7 @@ window.ec = constructor;
 
     module.exports = that;
 })();
-},{}],117:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var optionsService = services.options;
@@ -31798,7 +31826,7 @@ window.ec = constructor;
 
     module.exports = constructor;
 })();
-},{"./configure/axisTabs":118,"./configure/genericTabs":119,"./configure/seriesTabs":120,"lodash.clonedeep":44,"lodash.find":46,"lodash.first":47,"lodash.foreach":48,"lodash.isundefined":54,"lodash.map":57,"lodash.remove":59,"virtual-dom/h":85}],118:[function(require,module,exports){
+},{"./configure/axisTabs":123,"./configure/genericTabs":124,"./configure/seriesTabs":125,"lodash.clonedeep":30,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isundefined":40,"lodash.map":43,"lodash.remove":45,"virtual-dom/h":82}],123:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -32007,7 +32035,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":134,"lodash.clonedeep":44,"lodash.find":46,"lodash.first":47,"lodash.foreach":48,"lodash.isundefined":54,"lodash.map":57,"lodash.remove":59,"lodash.trim":64,"virtual-dom/h":85}],119:[function(require,module,exports){
+},{"../../factories/properties":141,"lodash.clonedeep":30,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isundefined":40,"lodash.map":43,"lodash.remove":45,"lodash.trim":50,"virtual-dom/h":82}],124:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -32083,7 +32111,7 @@ function constructor(services) {
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":134,"lodash.clonedeep":44,"lodash.find":46,"lodash.first":47,"lodash.foreach":48,"lodash.isundefined":54,"lodash.map":57,"lodash.remove":59,"virtual-dom/h":85}],120:[function(require,module,exports){
+},{"../../factories/properties":141,"lodash.clonedeep":30,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isundefined":40,"lodash.map":43,"lodash.remove":45,"virtual-dom/h":82}],125:[function(require,module,exports){
 var propertyServices = require('../../factories/properties');
 var _ = {
     isUndefined: require('lodash.isundefined'),
@@ -32182,7 +32210,7 @@ function constructor (services){
     }
 }
 module.exports = constructor;
-},{"../../factories/properties":134,"lodash.clonedeep":44,"lodash.find":46,"lodash.first":47,"lodash.foreach":48,"lodash.isundefined":54,"lodash.map":57,"lodash.remove":59,"virtual-dom/h":85}],121:[function(require,module,exports){
+},{"../../factories/properties":141,"lodash.clonedeep":30,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isundefined":40,"lodash.map":43,"lodash.remove":45,"virtual-dom/h":82}],126:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -32210,7 +32238,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../../../node_modules/highlight.js/lib/highlight":30,"../../../node_modules/highlight.js/lib/languages/json":31,"virtual-dom/h":85}],122:[function(require,module,exports){
+},{"../../../node_modules/highlight.js/lib/highlight":27,"../../../node_modules/highlight.js/lib/languages/json":28,"virtual-dom/h":82}],127:[function(require,module,exports){
 (function () {
     //var _ = require('lodash');
 
@@ -32331,7 +32359,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"lodash.foreach":48,"lodash.isempty":50,"lodash.isundefined":54,"virtual-dom/create-element":83,"virtual-dom/h":85}],123:[function(require,module,exports){
+},{"lodash.foreach":34,"lodash.isempty":36,"lodash.isundefined":40,"virtual-dom/create-element":80,"virtual-dom/h":82}],128:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var h = require('virtual-dom/h');
@@ -32441,7 +32469,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./hot":122,"./import/dragAndDrop":124,"./import/paste":125,"./import/upload":126,"./import/url":127,"./table":129,"virtual-dom/h":85}],124:[function(require,module,exports){
+},{"./hot":127,"./import/dragAndDrop":129,"./import/paste":130,"./import/upload":131,"./import/url":132,"./table":134,"virtual-dom/h":82}],129:[function(require,module,exports){
 (function () {
     var dragDrop = require('drag-drop');
     var dataService;
@@ -32490,7 +32518,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"drag-drop":21,"virtual-dom/h":85}],125:[function(require,module,exports){
+},{"drag-drop":24,"virtual-dom/h":82}],130:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -32526,7 +32554,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":85}],126:[function(require,module,exports){
+},{"virtual-dom/h":82}],131:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var that = {};
@@ -32573,7 +32601,7 @@ module.exports = constructor;
 
     module.exports = that;
 })();
-},{"virtual-dom/h":85}],127:[function(require,module,exports){
+},{"virtual-dom/h":82}],132:[function(require,module,exports){
 (function () {
     var that = {};
     var h = require('virtual-dom/h');
@@ -32616,7 +32644,7 @@ module.exports = constructor;
     module.exports = that;
 })();
 
-},{"virtual-dom/h":85}],128:[function(require,module,exports){
+},{"virtual-dom/h":82}],133:[function(require,module,exports){
 var constructor = function (mediator, list) {
     var h = require('virtual-dom/h');
     var createElement = require('virtual-dom/create-element');
@@ -32680,7 +32708,7 @@ module.exports = constructor;
 
 
 
-},{"virtual-dom/create-element":83,"virtual-dom/h":85}],129:[function(require,module,exports){
+},{"virtual-dom/create-element":80,"virtual-dom/h":82}],134:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var _ = {
@@ -32751,7 +32779,7 @@ module.exports = constructor;
 
 
 
-},{"lodash.foreach":48,"lodash.isequal":51,"lodash.trim":64,"virtual-dom/h":85}],130:[function(require,module,exports){
+},{"lodash.foreach":34,"lodash.isequal":37,"lodash.trim":50,"virtual-dom/h":82}],135:[function(require,module,exports){
 (function () {
     var constructor = function (services) {
         var that = {};
@@ -32824,7 +32852,86 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"../factories/iconLoader":133,"lodash.find":46,"lodash.first":47,"lodash.foreach":48,"virtual-dom/h":85}],131:[function(require,module,exports){
+},{"../factories/iconLoader":140,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"virtual-dom/h":82}],136:[function(require,module,exports){
+(function () {
+    var constructor = function (services) {
+        var that = {};
+        var _ = {
+            find: require('lodash.find'),
+            forEach: require('lodash.foreach'),
+            first: require('lodash.first')
+        };
+        var h = require('virtual-dom/h');
+        var iconLoader = require('../factories/iconLoader');
+        var mediator = services.mediator;
+        var activeId = _.first(services.themes.get()).id;
+        var config = services.config;
+
+        that.theme = function () {
+            var activeType = _.find(services.themes.get(), function (type) {
+                return type.id == activeId;
+            });
+            var themes = services.themes.get();
+            var tabs = generateTabs(themes, activeId);
+            var content = generateContent(activeType);
+            return h('div', {className: 'vertical-tabs-container'}, [tabs, content]);
+        };
+
+        function generateContent(activeType) {
+            var themeList = [];
+
+            _.forEach(activeType.themes, function (theme) {
+                var svg = iconLoader.get(theme.icon ? theme.icon : activeType.icon);
+                var item = h('a',
+                    {
+                        className: "themelist__item",
+                        'ev-click': function (e) {
+                            //if (theme.path) {
+                            //    var temp = require("../config/" + theme.path);
+                            //    var definition = jsonfn.parse(jsonfn.stringify(temp));
+                            //} else {
+                                var definition = theme.definition;
+                            //}
+                            config.setTheme(definition);
+                            e.preventDefault();
+                        }
+                    }, [
+                        svg,
+                        h('div', theme.title)
+                    ]);
+                themeList.push(item)
+            });
+            var themeGrid = h('div', {className: "themelist"}, themeList);
+            return h('div.vertical-tab-content-container', h('div.vertical-tab-content', themeGrid));
+        }
+
+        function generateTabs(types, active) {
+            var links = [];
+            _.forEach(types, function (type, index) {
+                var className = type.id === active ? 'active' : '';
+
+                var link = h('li', {
+                    'className': className
+                }, h('a', {
+                    'href': '#' + type.type,
+                    'ev-click': function (e) {
+                        activeId = type.id;
+                        mediator.trigger('treeUpdate');
+                        e.preventDefault();
+                    }
+                }, type.type));
+
+                links.push(link);
+            });
+            return h('ul', {className: "vertical-tabs"}, links);
+        }
+
+        return that;
+    };
+
+    module.exports = constructor;
+})();
+},{"../factories/iconLoader":140,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"virtual-dom/h":82}],137:[function(require,module,exports){
 module.exports=module.exports = [
     {
         "id": "chart",
@@ -34194,7 +34301,7 @@ module.exports=module.exports = [
         ]
     }
 ]
-},{}],132:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 module.exports=module.exports = [
   {
     "id": "line",
@@ -36480,7 +36587,1485 @@ module.exports=module.exports = [
     ]
   }
 ]
-},{}],133:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
+module.exports=module.exports = [
+  {
+    "id": "Basic",
+    "type": "basic",
+    "icon": "placeholder",
+    "themes": [
+      {
+        "id": "dark-blue",
+        "icon": "theme_dark_blue",
+        "title": "Dark Blue",
+        "desc": "Dark blue theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#DDDF0D",
+            "#55BF3B",
+            "#DF5353",
+            "#7798BF",
+            "#aaeeee",
+            "#ff0066",
+            "#eeaaee",
+            "#55BF3B",
+            "#DF5353",
+            "#7798BF",
+            "#aaeeee"
+          ],
+          "chart": {
+            "backgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 1,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "rgb(48, 48, 96)"
+                ],
+                [
+                  1,
+                  "rgb(0, 0, 0)"
+                ]
+              ]
+            },
+            "borderColor": "#000000",
+            "borderWidth": 2,
+            "className": "dark-container",
+            "plotBackgroundColor": "rgba(255, 255, 255, .1)",
+            "plotBorderColor": "#CCCCCC",
+            "plotBorderWidth": 1
+          },
+          "title": {
+            "style": {
+              "color": "#C0C0C0",
+              "font": "bold 16px \"Trebuchet MS\", Verdana, sans-serif"
+            }
+          },
+          "subtitle": {
+            "style": {
+              "color": "#666666",
+              "font": "bold 12px \"Trebuchet MS\", Verdana, sans-serif"
+            }
+          },
+          "xAxis": {
+            "gridLineColor": "#333333",
+            "gridLineWidth": 1,
+            "labels": {
+              "style": {
+                "color": "#A0A0A0"
+              }
+            },
+            "lineColor": "#A0A0A0",
+            "tickColor": "#A0A0A0",
+            "title": {
+              "style": {
+                "color": "#CCC",
+                "fontWeight": "bold",
+                "fontSize": "12px",
+                "fontFamily": "Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          },
+          "yAxis": {
+            "gridLineColor": "#333333",
+            "labels": {
+              "style": {
+                "color": "#A0A0A0"
+              }
+            },
+            "lineColor": "#A0A0A0",
+            "minorTickInterval": null,
+            "tickColor": "#A0A0A0",
+            "tickWidth": 1,
+            "title": {
+              "style": {
+                "color": "#CCC",
+                "fontWeight": "bold",
+                "fontSize": "12px",
+                "fontFamily": "Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          },
+          "tooltip": {
+            "backgroundColor": "rgba(0, 0, 0, 0.75)",
+            "style": {
+              "color": "#F0F0F0"
+            }
+          },
+          "toolbar": {
+            "itemStyle": {
+              "color": "silver"
+            }
+          },
+          "plotOptions": {
+            "line": {
+              "dataLabels": {
+                "color": "#CCC"
+              },
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "spline": {
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "scatter": {
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "candlestick": {
+              "lineColor": "white"
+            }
+          },
+          "legend": {
+            "itemStyle": {
+              "font": "9pt Trebuchet MS, Verdana, sans-serif",
+              "color": "#A0A0A0"
+            },
+            "itemHoverStyle": {
+              "color": "#FFF"
+            },
+            "itemHiddenStyle": {
+              "color": "#444"
+            }
+          },
+          "credits": {
+            "style": {
+              "color": "#666"
+            }
+          },
+          "labels": {
+            "style": {
+              "color": "#CCC"
+            }
+          },
+          "navigation": {
+            "buttonOptions": {
+              "symbolStroke": "#DDDDDD",
+              "hoverSymbolStroke": "#FFFFFF",
+              "theme": {
+                "fill": {
+                  "linearGradient": {
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 0,
+                    "y2": 1
+                  },
+                  "stops": [
+                    [
+                      0.4,
+                      "#606060"
+                    ],
+                    [
+                      0.6,
+                      "#333333"
+                    ]
+                  ]
+                },
+                "stroke": "#000000"
+              }
+            }
+          },
+          "rangeSelector": {
+            "buttonTheme": {
+              "fill": {
+                "linearGradient": {
+                  "x1": 0,
+                  "y1": 0,
+                  "x2": 0,
+                  "y2": 1
+                },
+                "stops": [
+                  [
+                    0.4,
+                    "#888"
+                  ],
+                  [
+                    0.6,
+                    "#555"
+                  ]
+                ]
+              },
+              "stroke": "#000000",
+              "style": {
+                "color": "#CCC",
+                "fontWeight": "bold"
+              },
+              "states": {
+                "hover": {
+                  "fill": {
+                    "linearGradient": {
+                      "x1": 0,
+                      "y1": 0,
+                      "x2": 0,
+                      "y2": 1
+                    },
+                    "stops": [
+                      [
+                        0.4,
+                        "#BBB"
+                      ],
+                      [
+                        0.6,
+                        "#888"
+                      ]
+                    ]
+                  },
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "white"
+                  }
+                },
+                "select": {
+                  "fill": {
+                    "linearGradient": {
+                      "x1": 0,
+                      "y1": 0,
+                      "x2": 0,
+                      "y2": 1
+                    },
+                    "stops": [
+                      [
+                        0.1,
+                        "#000"
+                      ],
+                      [
+                        0.3,
+                        "#333"
+                      ]
+                    ]
+                  },
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "yellow"
+                  }
+                }
+              }
+            },
+            "inputStyle": {
+              "backgroundColor": "#333",
+              "color": "silver"
+            },
+            "labelStyle": {
+              "color": "silver"
+            }
+          },
+          "navigator": {
+            "handles": {
+              "backgroundColor": "#666",
+              "borderColor": "#AAA"
+            },
+            "outlineColor": "#CCC",
+            "maskFill": "rgba(16, 16, 16, 0.5)",
+            "series": {
+              "color": "#7798BF",
+              "lineColor": "#A6C7ED"
+            }
+          },
+          "scrollbar": {
+            "barBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0.4,
+                  "#888"
+                ],
+                [
+                  0.6,
+                  "#555"
+                ]
+              ]
+            },
+            "barBorderColor": "#CCC",
+            "buttonArrowColor": "#CCC",
+            "buttonBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0.4,
+                  "#888"
+                ],
+                [
+                  0.6,
+                  "#555"
+                ]
+              ]
+            },
+            "buttonBorderColor": "#CCC",
+            "rifleColor": "#FFF",
+            "trackBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "#000"
+                ],
+                [
+                  1,
+                  "#333"
+                ]
+              ]
+            },
+            "trackBorderColor": "#666"
+          },
+          "legendBackgroundColor": "rgba(0, 0, 0, 0.5)",
+          "background2": "rgb(35, 35, 70)",
+          "dataLabelsColor": "#444",
+          "textColor": "#C0C0C0",
+          "maskColor": "rgba(255,255,255,0.3)"
+        }
+      },
+      {
+        "id": "dark-green",
+        "icon": "theme_dark_green",
+        "title": "Dark Green",
+        "desc": "Dark green theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#DDDF0D",
+            "#55BF3B",
+            "#DF5353",
+            "#7798BF",
+            "#aaeeee",
+            "#ff0066",
+            "#eeaaee",
+            "#55BF3B",
+            "#DF5353",
+            "#7798BF",
+            "#aaeeee"
+          ],
+          "chart": {
+            "backgroundColor": {
+              "linearGradient": [
+                0,
+                0,
+                250,
+                500
+              ],
+              "stops": [
+                [
+                  0,
+                  "rgb(48, 96, 48)"
+                ],
+                [
+                  1,
+                  "rgb(0, 0, 0)"
+                ]
+              ]
+            },
+            "borderColor": "#000000",
+            "borderWidth": 2,
+            "className": "dark-container",
+            "plotBackgroundColor": "rgba(255, 255, 255, .1)",
+            "plotBorderColor": "#CCCCCC",
+            "plotBorderWidth": 1
+          },
+          "title": {
+            "style": {
+              "color": "#C0C0C0",
+              "font": "bold 16px \"Trebuchet MS\", Verdana, sans-serif"
+            }
+          },
+          "subtitle": {
+            "style": {
+              "color": "#666666",
+              "font": "bold 12px \"Trebuchet MS\", Verdana, sans-serif"
+            }
+          },
+          "xAxis": {
+            "gridLineColor": "#333333",
+            "gridLineWidth": 1,
+            "labels": {
+              "style": {
+                "color": "#A0A0A0"
+              }
+            },
+            "lineColor": "#A0A0A0",
+            "tickColor": "#A0A0A0",
+            "title": {
+              "style": {
+                "color": "#CCC",
+                "fontWeight": "bold",
+                "fontSize": "12px",
+                "fontFamily": "Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          },
+          "yAxis": {
+            "gridLineColor": "#333333",
+            "labels": {
+              "style": {
+                "color": "#A0A0A0"
+              }
+            },
+            "lineColor": "#A0A0A0",
+            "minorTickInterval": null,
+            "tickColor": "#A0A0A0",
+            "tickWidth": 1,
+            "title": {
+              "style": {
+                "color": "#CCC",
+                "fontWeight": "bold",
+                "fontSize": "12px",
+                "fontFamily": "Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          },
+          "tooltip": {
+            "backgroundColor": "rgba(0, 0, 0, 0.75)",
+            "style": {
+              "color": "#F0F0F0"
+            }
+          },
+          "toolbar": {
+            "itemStyle": {
+              "color": "silver"
+            }
+          },
+          "plotOptions": {
+            "line": {
+              "dataLabels": {
+                "color": "#CCC"
+              },
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "spline": {
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "scatter": {
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "candlestick": {
+              "lineColor": "white"
+            }
+          },
+          "legend": {
+            "itemStyle": {
+              "font": "9pt Trebuchet MS, Verdana, sans-serif",
+              "color": "#A0A0A0"
+            },
+            "itemHoverStyle": {
+              "color": "#FFF"
+            },
+            "itemHiddenStyle": {
+              "color": "#444"
+            }
+          },
+          "credits": {
+            "style": {
+              "color": "#666"
+            }
+          },
+          "labels": {
+            "style": {
+              "color": "#CCC"
+            }
+          },
+          "navigation": {
+            "buttonOptions": {
+              "symbolStroke": "#DDDDDD",
+              "hoverSymbolStroke": "#FFFFFF",
+              "theme": {
+                "fill": {
+                  "linearGradient": {
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 0,
+                    "y2": 1
+                  },
+                  "stops": [
+                    [
+                      0.4,
+                      "#606060"
+                    ],
+                    [
+                      0.6,
+                      "#333333"
+                    ]
+                  ]
+                },
+                "stroke": "#000000"
+              }
+            }
+          },
+          "rangeSelector": {
+            "buttonTheme": {
+              "fill": {
+                "linearGradient": {
+                  "x1": 0,
+                  "y1": 0,
+                  "x2": 0,
+                  "y2": 1
+                },
+                "stops": [
+                  [
+                    0.4,
+                    "#888"
+                  ],
+                  [
+                    0.6,
+                    "#555"
+                  ]
+                ]
+              },
+              "stroke": "#000000",
+              "style": {
+                "color": "#CCC",
+                "fontWeight": "bold"
+              },
+              "states": {
+                "hover": {
+                  "fill": {
+                    "linearGradient": {
+                      "x1": 0,
+                      "y1": 0,
+                      "x2": 0,
+                      "y2": 1
+                    },
+                    "stops": [
+                      [
+                        0.4,
+                        "#BBB"
+                      ],
+                      [
+                        0.6,
+                        "#888"
+                      ]
+                    ]
+                  },
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "white"
+                  }
+                },
+                "select": {
+                  "fill": {
+                    "linearGradient": {
+                      "x1": 0,
+                      "y1": 0,
+                      "x2": 0,
+                      "y2": 1
+                    },
+                    "stops": [
+                      [
+                        0.1,
+                        "#000"
+                      ],
+                      [
+                        0.3,
+                        "#333"
+                      ]
+                    ]
+                  },
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "yellow"
+                  }
+                }
+              }
+            },
+            "inputStyle": {
+              "backgroundColor": "#333",
+              "color": "silver"
+            },
+            "labelStyle": {
+              "color": "silver"
+            }
+          },
+          "navigator": {
+            "handles": {
+              "backgroundColor": "#666",
+              "borderColor": "#AAA"
+            },
+            "outlineColor": "#CCC",
+            "maskFill": "rgba(16, 16, 16, 0.5)",
+            "series": {
+              "color": "#7798BF",
+              "lineColor": "#A6C7ED"
+            }
+          },
+          "scrollbar": {
+            "barBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0.4,
+                  "#888"
+                ],
+                [
+                  0.6,
+                  "#555"
+                ]
+              ]
+            },
+            "barBorderColor": "#CCC",
+            "buttonArrowColor": "#CCC",
+            "buttonBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0.4,
+                  "#888"
+                ],
+                [
+                  0.6,
+                  "#555"
+                ]
+              ]
+            },
+            "buttonBorderColor": "#CCC",
+            "rifleColor": "#FFF",
+            "trackBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "#000"
+                ],
+                [
+                  1,
+                  "#333"
+                ]
+              ]
+            },
+            "trackBorderColor": "#666"
+          },
+          "legendBackgroundColor": "rgba(0, 0, 0, 0.5)",
+          "background2": "rgb(35, 35, 70)",
+          "dataLabelsColor": "#444",
+          "textColor": "#C0C0C0",
+          "maskColor": "rgba(255,255,255,0.3)"
+        }
+      },
+      {
+        "id": "dark-unica",
+        "icon": "theme_dark_unica",
+        "title": "Dark Unica",
+        "desc": "Dark theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#2b908f",
+            "#90ee7e",
+            "#f45b5b",
+            "#7798BF",
+            "#aaeeee",
+            "#ff0066",
+            "#eeaaee",
+            "#55BF3B",
+            "#DF5353",
+            "#7798BF",
+            "#aaeeee"
+          ],
+          "chart": {
+            "backgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 1,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "#2a2a2b"
+                ],
+                [
+                  1,
+                  "#3e3e40"
+                ]
+              ]
+            },
+            "style": {
+              "fontFamily": "'Unica One', sans-serif"
+            },
+            "plotBorderColor": "#606063"
+          },
+          "title": {
+            "style": {
+              "color": "#E0E0E3",
+              "textTransform": "uppercase",
+              "fontSize": "20px"
+            }
+          },
+          "subtitle": {
+            "style": {
+              "color": "#E0E0E3",
+              "textTransform": "uppercase"
+            }
+          },
+          "xAxis": {
+            "gridLineColor": "#707073",
+            "labels": {
+              "style": {
+                "color": "#E0E0E3"
+              }
+            },
+            "lineColor": "#707073",
+            "minorGridLineColor": "#505053",
+            "tickColor": "#707073",
+            "title": {
+              "style": {
+                "color": "#A0A0A3"
+              }
+            }
+          },
+          "yAxis": {
+            "gridLineColor": "#707073",
+            "labels": {
+              "style": {
+                "color": "#E0E0E3"
+              }
+            },
+            "lineColor": "#707073",
+            "minorGridLineColor": "#505053",
+            "tickColor": "#707073",
+            "tickWidth": 1,
+            "title": {
+              "style": {
+                "color": "#A0A0A3"
+              }
+            }
+          },
+          "tooltip": {
+            "backgroundColor": "rgba(0, 0, 0, 0.85)",
+            "style": {
+              "color": "#F0F0F0"
+            }
+          },
+          "plotOptions": {
+            "series": {
+              "dataLabels": {
+                "color": "#B0B0B3"
+              },
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "boxplot": {
+              "fillColor": "#505053"
+            },
+            "candlestick": {
+              "lineColor": "white"
+            },
+            "errorbar": {
+              "color": "white"
+            }
+          },
+          "legend": {
+            "itemStyle": {
+              "color": "#E0E0E3"
+            },
+            "itemHoverStyle": {
+              "color": "#FFF"
+            },
+            "itemHiddenStyle": {
+              "color": "#606063"
+            }
+          },
+          "credits": {
+            "style": {
+              "color": "#666"
+            }
+          },
+          "labels": {
+            "style": {
+              "color": "#707073"
+            }
+          },
+          "drilldown": {
+            "activeAxisLabelStyle": {
+              "color": "#F0F0F3"
+            },
+            "activeDataLabelStyle": {
+              "color": "#F0F0F3"
+            }
+          },
+          "navigation": {
+            "buttonOptions": {
+              "symbolStroke": "#DDDDDD",
+              "theme": {
+                "fill": "#505053"
+              }
+            }
+          },
+          "rangeSelector": {
+            "buttonTheme": {
+              "fill": "#505053",
+              "stroke": "#000000",
+              "style": {
+                "color": "#CCC"
+              },
+              "states": {
+                "hover": {
+                  "fill": "#707073",
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "white"
+                  }
+                },
+                "select": {
+                  "fill": "#000003",
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "white"
+                  }
+                }
+              }
+            },
+            "inputBoxBorderColor": "#505053",
+            "inputStyle": {
+              "backgroundColor": "#333",
+              "color": "silver"
+            },
+            "labelStyle": {
+              "color": "silver"
+            }
+          },
+          "navigator": {
+            "handles": {
+              "backgroundColor": "#666",
+              "borderColor": "#AAA"
+            },
+            "outlineColor": "#CCC",
+            "maskFill": "rgba(255,255,255,0.1)",
+            "series": {
+              "color": "#7798BF",
+              "lineColor": "#A6C7ED"
+            },
+            "xAxis": {
+              "gridLineColor": "#505053"
+            }
+          },
+          "scrollbar": {
+            "barBackgroundColor": "#808083",
+            "barBorderColor": "#808083",
+            "buttonArrowColor": "#CCC",
+            "buttonBackgroundColor": "#606063",
+            "buttonBorderColor": "#606063",
+            "rifleColor": "#FFF",
+            "trackBackgroundColor": "#404043",
+            "trackBorderColor": "#404043"
+          },
+          "legendBackgroundColor": "rgba(0, 0, 0, 0.5)",
+          "background2": "#505053",
+          "dataLabelsColor": "#B0B0B3",
+          "textColor": "#C0C0C0",
+          "contrastTextColor": "#F0F0F3",
+          "maskColor": "rgba(255,255,255,0.3)"
+        }
+      },
+      {
+        "id": "gray",
+        "icon": "theme_gray",
+        "title": "Gray",
+        "desc": "Gray theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#DDDF0D",
+            "#7798BF",
+            "#55BF3B",
+            "#DF5353",
+            "#aaeeee",
+            "#ff0066",
+            "#eeaaee",
+            "#55BF3B",
+            "#DF5353",
+            "#7798BF",
+            "#aaeeee"
+          ],
+          "chart": {
+            "backgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "rgb(96, 96, 96)"
+                ],
+                [
+                  1,
+                  "rgb(16, 16, 16)"
+                ]
+              ]
+            },
+            "borderWidth": 0,
+            "borderRadius": 0,
+            "plotBackgroundColor": null,
+            "plotShadow": false,
+            "plotBorderWidth": 0
+          },
+          "title": {
+            "style": {
+              "color": "#FFF",
+              "font": "16px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif"
+            }
+          },
+          "subtitle": {
+            "style": {
+              "color": "#DDD",
+              "font": "12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif"
+            }
+          },
+          "xAxis": {
+            "gridLineWidth": 0,
+            "lineColor": "#999",
+            "tickColor": "#999",
+            "labels": {
+              "style": {
+                "color": "#999",
+                "fontWeight": "bold"
+              }
+            },
+            "title": {
+              "style": {
+                "color": "#AAA",
+                "font": "bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif"
+              }
+            }
+          },
+          "yAxis": {
+            "alternateGridColor": null,
+            "minorTickInterval": null,
+            "gridLineColor": "rgba(255, 255, 255, .1)",
+            "minorGridLineColor": "rgba(255,255,255,0.07)",
+            "lineWidth": 0,
+            "tickWidth": 0,
+            "labels": {
+              "style": {
+                "color": "#999",
+                "fontWeight": "bold"
+              }
+            },
+            "title": {
+              "style": {
+                "color": "#AAA",
+                "font": "bold 12px Lucida Grande, Lucida Sans Unicode, Verdana, Arial, Helvetica, sans-serif"
+              }
+            }
+          },
+          "legend": {
+            "itemStyle": {
+              "color": "#CCC"
+            },
+            "itemHoverStyle": {
+              "color": "#FFF"
+            },
+            "itemHiddenStyle": {
+              "color": "#333"
+            }
+          },
+          "labels": {
+            "style": {
+              "color": "#CCC"
+            }
+          },
+          "tooltip": {
+            "backgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "rgba(96, 96, 96, .8)"
+                ],
+                [
+                  1,
+                  "rgba(16, 16, 16, .8)"
+                ]
+              ]
+            },
+            "borderWidth": 0,
+            "style": {
+              "color": "#FFF"
+            }
+          },
+          "plotOptions": {
+            "series": {
+              "nullColor": "#444444"
+            },
+            "line": {
+              "dataLabels": {
+                "color": "#CCC"
+              },
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "spline": {
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "scatter": {
+              "marker": {
+                "lineColor": "#333"
+              }
+            },
+            "candlestick": {
+              "lineColor": "white"
+            }
+          },
+          "toolbar": {
+            "itemStyle": {
+              "color": "#CCC"
+            }
+          },
+          "navigation": {
+            "buttonOptions": {
+              "symbolStroke": "#DDDDDD",
+              "hoverSymbolStroke": "#FFFFFF",
+              "theme": {
+                "fill": {
+                  "linearGradient": {
+                    "x1": 0,
+                    "y1": 0,
+                    "x2": 0,
+                    "y2": 1
+                  },
+                  "stops": [
+                    [
+                      0.4,
+                      "#606060"
+                    ],
+                    [
+                      0.6,
+                      "#333333"
+                    ]
+                  ]
+                },
+                "stroke": "#000000"
+              }
+            }
+          },
+          "rangeSelector": {
+            "buttonTheme": {
+              "fill": {
+                "linearGradient": {
+                  "x1": 0,
+                  "y1": 0,
+                  "x2": 0,
+                  "y2": 1
+                },
+                "stops": [
+                  [
+                    0.4,
+                    "#888"
+                  ],
+                  [
+                    0.6,
+                    "#555"
+                  ]
+                ]
+              },
+              "stroke": "#000000",
+              "style": {
+                "color": "#CCC",
+                "fontWeight": "bold"
+              },
+              "states": {
+                "hover": {
+                  "fill": {
+                    "linearGradient": {
+                      "x1": 0,
+                      "y1": 0,
+                      "x2": 0,
+                      "y2": 1
+                    },
+                    "stops": [
+                      [
+                        0.4,
+                        "#BBB"
+                      ],
+                      [
+                        0.6,
+                        "#888"
+                      ]
+                    ]
+                  },
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "white"
+                  }
+                },
+                "select": {
+                  "fill": {
+                    "linearGradient": {
+                      "x1": 0,
+                      "y1": 0,
+                      "x2": 0,
+                      "y2": 1
+                    },
+                    "stops": [
+                      [
+                        0.1,
+                        "#000"
+                      ],
+                      [
+                        0.3,
+                        "#333"
+                      ]
+                    ]
+                  },
+                  "stroke": "#000000",
+                  "style": {
+                    "color": "yellow"
+                  }
+                }
+              }
+            },
+            "inputStyle": {
+              "backgroundColor": "#333",
+              "color": "silver"
+            },
+            "labelStyle": {
+              "color": "silver"
+            }
+          },
+          "navigator": {
+            "handles": {
+              "backgroundColor": "#666",
+              "borderColor": "#AAA"
+            },
+            "outlineColor": "#CCC",
+            "maskFill": "rgba(16, 16, 16, 0.5)",
+            "series": {
+              "color": "#7798BF",
+              "lineColor": "#A6C7ED"
+            }
+          },
+          "scrollbar": {
+            "barBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0.4,
+                  "#888"
+                ],
+                [
+                  0.6,
+                  "#555"
+                ]
+              ]
+            },
+            "barBorderColor": "#CCC",
+            "buttonArrowColor": "#CCC",
+            "buttonBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0.4,
+                  "#888"
+                ],
+                [
+                  0.6,
+                  "#555"
+                ]
+              ]
+            },
+            "buttonBorderColor": "#CCC",
+            "rifleColor": "#FFF",
+            "trackBackgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 0,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "#000"
+                ],
+                [
+                  1,
+                  "#333"
+                ]
+              ]
+            },
+            "trackBorderColor": "#666"
+          },
+          "legendBackgroundColor": "rgba(48, 48, 48, 0.8)",
+          "background2": "rgb(70, 70, 70)",
+          "dataLabelsColor": "#444",
+          "textColor": "#E0E0E0",
+          "maskColor": "rgba(255,255,255,0.3)"
+        }
+      },
+      {
+        "id": "grid-light",
+        "icon": "theme_grid_light",
+        "title": "Grid Light",
+        "desc": "Grid-light theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#7cb5ec",
+            "#f7a35c",
+            "#90ee7e",
+            "#7798BF",
+            "#aaeeee",
+            "#ff0066",
+            "#eeaaee",
+            "#55BF3B",
+            "#DF5353",
+            "#7798BF",
+            "#aaeeee"
+          ],
+          "chart": {
+            "backgroundColor": null,
+            "style": {
+              "fontFamily": "Dosis, sans-serif"
+            }
+          },
+          "title": {
+            "style": {
+              "fontSize": "16px",
+              "fontWeight": "bold",
+              "textTransform": "uppercase"
+            }
+          },
+          "tooltip": {
+            "borderWidth": 0,
+            "backgroundColor": "rgba(219,219,216,0.8)",
+            "shadow": false
+          },
+          "legend": {
+            "itemStyle": {
+              "fontWeight": "bold",
+              "fontSize": "13px"
+            }
+          },
+          "xAxis": {
+            "gridLineWidth": 1,
+            "labels": {
+              "style": {
+                "fontSize": "12px"
+              }
+            }
+          },
+          "yAxis": {
+            "minorTickInterval": "auto",
+            "title": {
+              "style": {
+                "textTransform": "uppercase"
+              }
+            },
+            "labels": {
+              "style": {
+                "fontSize": "12px"
+              }
+            }
+          },
+          "plotOptions": {
+            "candlestick": {
+              "lineColor": "#404048"
+            }
+          },
+          "background2": "#F0F0EA"
+        }
+      },
+      {
+        "id": "grid",
+        "icon": "theme_grid",
+        "title": "Grid",
+        "desc": "Grid theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#058DC7",
+            "#50B432",
+            "#ED561B",
+            "#DDDF00",
+            "#24CBE5",
+            "#64E572",
+            "#FF9655",
+            "#FFF263",
+            "#6AF9C4"
+          ],
+          "chart": {
+            "backgroundColor": {
+              "linearGradient": {
+                "x1": 0,
+                "y1": 0,
+                "x2": 1,
+                "y2": 1
+              },
+              "stops": [
+                [
+                  0,
+                  "rgb(255, 255, 255)"
+                ],
+                [
+                  1,
+                  "rgb(240, 240, 255)"
+                ]
+              ]
+            },
+            "borderWidth": 2,
+            "plotBackgroundColor": "rgba(255, 255, 255, .9)",
+            "plotShadow": true,
+            "plotBorderWidth": 1
+          },
+          "title": {
+            "style": {
+              "color": "#000",
+              "font": "bold 16px \"Trebuchet MS\", Verdana, sans-serif"
+            }
+          },
+          "subtitle": {
+            "style": {
+              "color": "#666666",
+              "font": "bold 12px \"Trebuchet MS\", Verdana, sans-serif"
+            }
+          },
+          "xAxis": {
+            "gridLineWidth": 1,
+            "lineColor": "#000",
+            "tickColor": "#000",
+            "labels": {
+              "style": {
+                "color": "#000",
+                "font": "11px Trebuchet MS, Verdana, sans-serif"
+              }
+            },
+            "title": {
+              "style": {
+                "color": "#333",
+                "fontWeight": "bold",
+                "fontSize": "12px",
+                "fontFamily": "Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          },
+          "yAxis": {
+            "minorTickInterval": "auto",
+            "lineColor": "#000",
+            "lineWidth": 1,
+            "tickWidth": 1,
+            "tickColor": "#000",
+            "labels": {
+              "style": {
+                "color": "#000",
+                "font": "11px Trebuchet MS, Verdana, sans-serif"
+              }
+            },
+            "title": {
+              "style": {
+                "color": "#333",
+                "fontWeight": "bold",
+                "fontSize": "12px",
+                "fontFamily": "Trebuchet MS, Verdana, sans-serif"
+              }
+            }
+          },
+          "legend": {
+            "itemStyle": {
+              "font": "9pt Trebuchet MS, Verdana, sans-serif",
+              "color": "black"
+            },
+            "itemHoverStyle": {
+              "color": "#039"
+            },
+            "itemHiddenStyle": {
+              "color": "gray"
+            }
+          },
+          "labels": {
+            "style": {
+              "color": "#99b"
+            }
+          },
+          "navigation": {
+            "buttonOptions": {
+              "theme": {
+                "stroke": "#CCCCCC"
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "grayscale",
+        "icon": "theme_grayscale",
+        "title": "Grayscale",
+        "desc": "Grayscale theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#5E5E5E",
+            "#A3A3A3",
+            "#7A7A7A",
+            "#505050",
+            "#8A8A8A",
+            "#C4C4C4",
+            "#9E9E9E",
+            "#CACACA",
+            "#AEAEAE"
+          ]
+        }
+      }
+    ]
+  }
+]
+},{}],140:[function(require,module,exports){
 (function () {
     var includeFolder = undefined,
         icons = (function(){var self={},fs = require("fs");
@@ -36544,6 +38129,13 @@ self["spider"] = "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/
 self["spline_basic"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:8px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-39\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-39)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-39)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:8px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
 self["spline_labels"] = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" style=\"font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:8px;\" xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"80\"><desc>Created with Highcharts 4.2.3</desc><defs><clipPath id=\"highcharts-49\"><rect x=\"0\" y=\"0\" width=\"80\" height=\"55\"></rect></clipPath></defs><rect x=\"0\" y=\"0\" width=\"100\" height=\"80\" fill=\"#FFFFFF\" class=\" highcharts-background\"></rect><g class=\"highcharts-grid\" ></g><g class=\"highcharts-grid\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path><path fill=\"none\" d=\"M 10 9.5 L 90 9.5\" stroke=\"#D8D8D8\" stroke-width=\"1\"  opacity=\"1\"></path></g><g class=\"highcharts-axis\" ><path fill=\"none\" d=\"M 10 65.5 L 90 65.5\" stroke=\"#C0D0E0\" stroke-width=\"1\" ></path></g><g class=\"highcharts-axis\" ></g><g class=\"highcharts-series-group\" ><g class=\"highcharts-series highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-49)\"><path fill=\"none\" d=\"M 0.7843137254901962 46.75 C 0.7843137254901962 46.75 12.549019607843139 35.75 20.3921568627451 35.75 C 28.23529411764706 35.75 32.15686274509804 38.5 40 38.5 C 47.84313725490196 38.5 51.76470588235294 28.599999999999998 59.6078431372549 24.75 C 67.45098039215686 20.9 79.2156862745098 19.25 79.2156862745098 19.25\" stroke=\"#d071c3\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-0\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g><g class=\"highcharts-series highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#highcharts-49)\"><path fill=\"none\" d=\"M 0.7843137254901962 55 C 0.7843137254901962 55 12.549019607843139 27.5 20.3921568627451 24.75 C 28.23529411764706 22 32.15686274509804 22 40 22 C 47.84313725490196 22 51.76470588235294 33 59.6078431372549 33 C 67.45098039215686 33 79.2156862745098 27.5 79.2156862745098 27.5\" stroke=\"#39b9be\" stroke-width=\"2\"  stroke-linejoin=\"round\" stroke-linecap=\"round\"></path></g><g class=\"highcharts-markers highcharts-series-1\"  transform=\"translate(10,10) scale(1 1)\" clip-path=\"none\"></g></g><g class=\"highcharts-data-labels highcharts-series-0\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,24)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>3</tspan></text></g><g  style=\"\" transform=\"translate(12,13)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>7</tspan></text></g><g  style=\"\" transform=\"translate(31,16)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>6</tspan></text></g><g  style=\"\" transform=\"translate(47,2)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(60,-4)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>13</tspan></text></g></g><g class=\"highcharts-data-labels highcharts-series-1\"  visibility=\"visible\" transform=\"translate(10,10) scale(1 1)\" opacity=\"1\"><g  style=\"\" transform=\"translate(-5,32)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>0</tspan></text></g><g  style=\"\" transform=\"translate(8,2)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>11</tspan></text></g><g  style=\"\" transform=\"translate(28,-1)\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>12</tspan></text></g><g  style=\"\" transform=\"translate(51,10)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>8</tspan></text></g><g  style=\"\" transform=\"translate(60,5)\" opacity=\"0\" visibility=\"hidden\"><text x=\"5\"  style=\"font-size:11px;font-weight:bold;color:#000000;text-shadow:0 0 6px #ffffff, 0 0 3px #ffffff;fill:#000000;text-rendering:geometricprecision;\" y=\"16\"><tspan>10</tspan></text></g></g><g class=\"highcharts-axis-labels highcharts-xaxis-labels\" ></g><g class=\"highcharts-axis-labels highcharts-yaxis-labels\" ></g><g class=\"highcharts-tooltip\"  style=\"cursor:default;padding:0;pointer-events:none;white-space:nowrap;\" transform=\"translate(0,-9999)\"><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.049999999999999996\" stroke-width=\"5\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.09999999999999999\" stroke-width=\"3\" transform=\"translate(1, 1)\"></path><path fill=\"none\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"  stroke=\"black\" stroke-opacity=\"0.15\" stroke-width=\"1\" transform=\"translate(1, 1)\"></path><path fill=\"rgb(249, 249, 249)\" fill-opacity=\" .85\" d=\"M 3.5 0.5 L 13.5 0.5 C 16.5 0.5 16.5 0.5 16.5 3.5 L 16.5 13.5 C 16.5 16.5 16.5 16.5 13.5 16.5 L 3.5 16.5 C 0.5 16.5 0.5 16.5 0.5 13.5 L 0.5 3.5 C 0.5 0.5 0.5 0.5 3.5 0.5\"></path><text x=\"8\"  style=\"font-size:8px;color:#333333;fill:#333333;\" y=\"20\"></text></g></svg>";
 self["test"] = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\r\n\t viewBox=\"260 -160 600 400\" enable-background=\"new 260 -160 600 400\" xml:space=\"preserve\">\r\n<desc>Created with Highcharts 4.2.3</desc>\r\n<rect x=\"260\" y=\"-160\" fill=\"#FFFFFF\" width=\"162\" height=\"108\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-55.9h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-72.7h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-89.7h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-106.4h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-123.4h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-140.2h156.6\"/>\r\n<path fill=\"none\" stroke=\"#D8D8D8\" stroke-width=\"0.27\" d=\"M262.7-157.4h156.6\"/>\r\n<g>\r\n\t<path fill=\"none\" stroke=\"#C0D0E0\" stroke-width=\"0.27\" d=\"M262.7-55.9h156.6\"/>\r\n</g>\r\n<g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_1_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_2_\">\r\n\t\t\t<use xlink:href=\"#SVGID_1_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_2_)\">\r\n\t\t\t<path fill=\"none\" stroke=\"#7CB5EC\" stroke-width=\"0.54\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M254.2-86.3l38.4-27\r\n\t\t\t\tl38.4,6.8l38.4-33.8l38.4-13.5\"/>\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_3_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_4_\">\r\n\t\t\t<use xlink:href=\"#SVGID_3_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_4_)\">\r\n\t\t\t<path fill=\"none\" stroke=\"#434348\" stroke-width=\"0.54\" stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M254.2-66.1\r\n\t\t\t\tl38.4-74.2l38.4-6.8l38.4,27l38.4-13.5\"/>\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_5_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_6_\">\r\n\t\t\t<use xlink:href=\"#SVGID_5_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_6_)\">\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n\t<g>\r\n\t\t<defs>\r\n\t\t\t<rect id=\"SVGID_7_\" x=\"262.7\" y=\"-157.3\" width=\"156.6\" height=\"101.2\"/>\r\n\t\t</defs>\r\n\t\t<clipPath id=\"SVGID_8_\">\r\n\t\t\t<use xlink:href=\"#SVGID_7_\"  overflow=\"visible\"/>\r\n\t\t</clipPath>\r\n\t\t<g transform=\"translate(10,10) scale(1 1)\" clip-path=\"url(#SVGID_8_)\">\r\n\t\t</g>\r\n\t</g>\r\n\t<g transform=\"translate(10,10) scale(1 1)\">\r\n\t</g>\r\n</g>\r\n<g transform=\"translate(0,-9999)\">\r\n\t<path fill=\"none\" stroke=\"#000000\" stroke-width=\"5\" stroke-opacity=\"5.000000e-02\" d=\"M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3\r\n\t\th-10c-3,0-3,0-3-3v-10C261.5-158.5,261.5-158.5,264.5-158.5\"/>\r\n\t<path fill=\"none\" stroke=\"#000000\" stroke-width=\"3\" stroke-opacity=\"0.1\" d=\"M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10\r\n\t\tc-3,0-3,0-3-3v-10C261.5-158.5,261.5-158.5,264.5-158.5\"/>\r\n\t<path fill=\"none\" stroke=\"#000000\" stroke-opacity=\"0.15\" d=\"M264.5-158.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10\r\n\t\tC261.5-158.5,261.5-158.5,264.5-158.5\"/>\r\n\t<path fill=\"#F9F9F9\" fill-opacity=\"0.85\" d=\"M263.5-159.5h10c3,0,3,0,3,3v10c0,3,0,3-3,3h-10c-3,0-3,0-3-3v-10\r\n\t\tC260.5-159.5,260.5-159.5,263.5-159.5\"/>\r\n</g>\r\n</svg>\r\n";
+self["theme_dark_blue"] = "<svg\n   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n   xmlns:cc=\"http://creativecommons.org/ns#\"\n   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n   version=\"1.1\"\n   class=\"highcharts-root\"\n   style=\"font-size:12px\"\n   width=\"100\"\n   viewBox=\"0 0 100 66.666672\"\n   height=\"66.666672\"\n   id=\"svg2\"\n   inkscape:version=\"0.48.4 r9939\"\n   sodipodi:docname=\"chart.svg\">\n  <metadata\n     id=\"metadata154\">\n    <rdf:RDF>\n      <cc:Work\n         rdf:about=\"\">\n        <dc:format>image/svg+xml</dc:format>\n        <dc:type\n           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n        <dc:title></dc:title>\n      </cc:Work>\n    </rdf:RDF>\n  </metadata>\n  <sodipodi:namedview\n     pagecolor=\"#ffffff\"\n     bordercolor=\"#666666\"\n     borderopacity=\"1\"\n     objecttolerance=\"10\"\n     gridtolerance=\"10\"\n     guidetolerance=\"10\"\n     inkscape:pageopacity=\"0\"\n     inkscape:pageshadow=\"2\"\n     inkscape:window-width=\"733\"\n     inkscape:window-height=\"480\"\n     id=\"namedview152\"\n     showgrid=\"false\"\n     fit-margin-top=\"0\"\n     fit-margin-left=\"0\"\n     fit-margin-right=\"0\"\n     fit-margin-bottom=\"0\"\n     inkscape:zoom=\"0.48666667\"\n     inkscape:cx=\"49.999995\"\n     inkscape:cy=\"33.333331\"\n     inkscape:window-x=\"336\"\n     inkscape:window-y=\"57\"\n     inkscape:window-maximized=\"0\"\n     inkscape:current-layer=\"svg2\" />\n  <desc\n     id=\"desc4\">Created with Highcharts 5.0.2</desc>\n  <defs\n     id=\"defs6\">\n    <linearGradient\n       x1=\"0\"\n       y1=\"0\"\n       x2=\"489.89795\"\n       y2=\"489.89795\"\n       id=\"highcharts-393\"\n       gradientTransform=\"matrix(0.20412415,0,0,0.13608277,-5.081296e-6,8.4245634e-6)\"\n       gradientUnits=\"userSpaceOnUse\">\n      <stop\n         offset=\"0\"\n         stop-color=\"rgb(48, 48, 96)\"\n         stop-opacity=\"1\"\n         id=\"stop9\" />\n      <stop\n         offset=\"1\"\n         stop-color=\"rgb(0, 0, 0)\"\n         stop-opacity=\"1\"\n         id=\"stop11\" />\n    </linearGradient>\n    <clipPath\n       id=\"highcharts-394\">\n      <rect\n         x=\"0\"\n         y=\"0\"\n         width=\"529\"\n         height=\"282\"\n         id=\"rect14\"\n         style=\"fill:none\" />\n    </clipPath>\n  </defs>\n  <rect\n     class=\"highcharts-background\"\n     x=\"0.16666667\"\n     y=\"0.16666667\"\n     width=\"99.666664\"\n     height=\"66.333336\"\n     rx=\"0\"\n     ry=\"0\"\n     id=\"rect16\"\n     style=\"fill:url(#highcharts-393);stroke:#000000;stroke-width:0.33333334\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.166652\"\n     y=\"7.3333383\"\n     width=\"88.166664\"\n     height=\"47\"\n     id=\"rect18\"\n     style=\"fill:#ffffff;fill-opacity:0.1\" />\n  <g\n     class=\"highcharts-grid highcharts-xaxis-grid \"\n     id=\"g20\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,-5.081296e-6,8.4245634e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 236.5,44 0,282\"\n       id=\"path22\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 413.5,44 0,282\"\n       id=\"path24\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 589.5,44 0,282\"\n       id=\"path26\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 60.5,44 0,282\"\n       id=\"path28\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-grid highcharts-yaxis-grid \"\n     id=\"g30\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,-5.081296e-6,8.4245634e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,326.5 529,0\"\n       id=\"path32\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,270.5 529,0\"\n       id=\"path34\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,213.5 529,0\"\n       id=\"path36\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,157.5 529,0\"\n       id=\"path38\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,100.5 529,0\"\n       id=\"path40\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,43.5 529,0\"\n       id=\"path42\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n  </g>\n  <rect\n     class=\"highcharts-plot-border\"\n     x=\"10.083339\"\n     y=\"7.25001\"\n     width=\"88.333336\"\n     height=\"47.166668\"\n     id=\"rect44\"\n     style=\"fill:none;stroke:#cccccc;stroke-width:0.16666667\" />\n  <g\n     class=\"highcharts-axis highcharts-xaxis \"\n     id=\"g46\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,-5.081296e-6,8.4245634e-6)\">\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 236.5,326 0,10\"\n       id=\"path48\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 413.5,326 0,10\"\n       id=\"path50\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 590.5,326 0,10\"\n       id=\"path52\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 60.5,326 0,10\"\n       id=\"path54\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,326.5 529,0\"\n       id=\"path56\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n  </g>\n  <g\n     class=\"highcharts-axis highcharts-yaxis \"\n     id=\"g58\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,-5.081296e-6,8.4245634e-6)\">\n    <text\n       x=\"24\"\n       transform=\"matrix(0,-1,1,0,-161,209)\"\n       class=\"highcharts-axis-title\"\n       style=\"text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"185\"\n       id=\"text60\">Values</text>\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,44 0,282\"\n       id=\"path62\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-series-group\"\n     id=\"g64\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,-5.081296e-6,8.4245634e-6)\">\n    <g\n       class=\"highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-394)\"\n       id=\"g66\">\n      <rect\n         x=\"40.5\"\n         y=\"169.5\"\n         width=\"43\"\n         height=\"113\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect68\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"216.5\"\n         y=\"197.5\"\n         width=\"43\"\n         height=\"85\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect70\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"392.5\"\n         y=\"254.5\"\n         width=\"43\"\n         height=\"28\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect72\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g74\" />\n    <g\n       class=\"highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-394)\"\n       id=\"g76\">\n      <rect\n         x=\"92.5\"\n         y=\"226.5\"\n         width=\"43\"\n         height=\"56\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect78\"\n         style=\"fill:#55bf3b;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"269.5\"\n         y=\"141.5\"\n         width=\"43\"\n         height=\"141\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect80\"\n         style=\"fill:#55bf3b;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"445.5\"\n         y=\"56.5\"\n         width=\"43\"\n         height=\"226\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect82\"\n         style=\"fill:#55bf3b;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g84\" />\n  </g>\n  <text\n     x=\"49.999996\"\n     class=\"highcharts-title\"\n     style=\"font-size:3px;text-anchor:middle;color:#c0c0c0;fill:#c0c0c0\"\n     y=\"4.00001\"\n     id=\"text86\">\n    <tspan\n       id=\"tspan88\">Chart title</tspan>\n  </text>\n  <g\n     class=\"highcharts-legend\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,36.166665,59.833338)\"\n     id=\"g90\">\n    <rect\n       class=\"highcharts-legend-box\"\n       rx=\"0\"\n       ry=\"0\"\n       x=\"0\"\n       y=\"0\"\n       width=\"166\"\n       height=\"26\"\n       visibility=\"visible\"\n       id=\"rect92\"\n       style=\"fill:none;visibility:visible\" />\n    <g\n       id=\"g94\">\n      <g\n         id=\"g96\">\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0\"\n           transform=\"translate(8,3)\"\n           id=\"g98\">\n          <text\n             x=\"21\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#a0a0a0;fill:#a0a0a0\"\n             y=\"15\"\n             id=\"text100\">move</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect102\"\n             style=\"fill:#dddf0d\" />\n        </g>\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1\"\n           transform=\"translate(82,3)\"\n           id=\"g104\">\n          <text\n             x=\"21\"\n             y=\"15\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#a0a0a0;fill:#a0a0a0\"\n             id=\"text106\">excersise</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect108\"\n             style=\"fill:#55bf3b\" />\n        </g>\n      </g>\n    </g>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-xaxis-labels \"\n     id=\"g110\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,-5.081296e-6,8.4245634e-6)\">\n    <text\n       x=\"149.16667\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text112\">\n      <tspan\n         id=\"tspan114\">0</tspan>\n    </text>\n    <text\n       x=\"325.5\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text116\">\n      <tspan\n         id=\"tspan118\">1</tspan>\n    </text>\n    <text\n       x=\"501.83334\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text120\">\n      <tspan\n         id=\"tspan122\">2</tspan>\n    </text>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-yaxis-labels \"\n     id=\"g124\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,-5.081296e-6,8.4245634e-6)\">\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"331\"\n       id=\"text126\">\n      <tspan\n         id=\"tspan128\">0</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"274\"\n       id=\"text130\">\n      <tspan\n         id=\"tspan132\">2</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"218\"\n       id=\"text134\">\n      <tspan\n         id=\"tspan136\">4</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"161\"\n       id=\"text138\">\n      <tspan\n         id=\"tspan140\">6</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"105\"\n       id=\"text142\">\n      <tspan\n         id=\"tspan144\">8</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"49\"\n       id=\"text146\">\n      <tspan\n         id=\"tspan148\">10</tspan>\n    </text>\n  </g>\n  <text\n     x=\"98.333336\"\n     class=\"highcharts-credits\"\n     style=\"font-size:1.5px;text-anchor:end;color:#666666;fill:#666666\"\n     y=\"65.833336\"\n     id=\"text150\">Highcharts.com</text>\n</svg>\n";
+self["theme_dark_green"] = "<svg\n   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n   xmlns:cc=\"http://creativecommons.org/ns#\"\n   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n   version=\"1.1\"\n   class=\"highcharts-root\"\n   style=\"font-size:12px\"\n   width=\"100\"\n   viewBox=\"0 0 100 66.6875\"\n   height=\"66.6875\"\n   id=\"svg2\"\n   inkscape:version=\"0.48.4 r9939\"\n   sodipodi:docname=\"chart.svg\">\n  <metadata\n     id=\"metadata154\">\n    <rdf:RDF>\n      <cc:Work\n         rdf:about=\"\">\n        <dc:format>image/svg+xml</dc:format>\n        <dc:type\n           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n        <dc:title></dc:title>\n      </cc:Work>\n    </rdf:RDF>\n  </metadata>\n  <sodipodi:namedview\n     pagecolor=\"#ffffff\"\n     bordercolor=\"#666666\"\n     borderopacity=\"1\"\n     objecttolerance=\"10\"\n     gridtolerance=\"10\"\n     guidetolerance=\"10\"\n     inkscape:pageopacity=\"0\"\n     inkscape:pageshadow=\"2\"\n     inkscape:window-width=\"733\"\n     inkscape:window-height=\"480\"\n     id=\"namedview152\"\n     showgrid=\"false\"\n     fit-margin-top=\"0\"\n     fit-margin-left=\"0\"\n     fit-margin-right=\"0\"\n     fit-margin-bottom=\"0\"\n     inkscape:zoom=\"0.48666667\"\n     inkscape:cx=\"50\"\n     inkscape:cy=\"33.34375\"\n     inkscape:window-x=\"65\"\n     inkscape:window-y=\"24\"\n     inkscape:window-maximized=\"0\"\n     inkscape:current-layer=\"svg2\" />\n  <desc\n     id=\"desc4\">Created with Highcharts 5.0.2</desc>\n  <defs\n     id=\"defs6\">\n    <linearGradient\n       x1=\"0\"\n       y1=\"0\"\n       x2=\"250\"\n       y2=\"500\"\n       gradientUnits=\"userSpaceOnUse\"\n       id=\"highcharts-404\"\n       gradientTransform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n      <stop\n         offset=\"0\"\n         stop-color=\"rgb(48, 96, 48)\"\n         stop-opacity=\"1\"\n         id=\"stop9\" />\n      <stop\n         offset=\"1\"\n         stop-color=\"rgb(0, 0, 0)\"\n         stop-opacity=\"1\"\n         id=\"stop11\" />\n    </linearGradient>\n    <clipPath\n       id=\"highcharts-405\">\n      <rect\n         x=\"0\"\n         y=\"0\"\n         width=\"529\"\n         height=\"282\"\n         id=\"rect14\"\n         style=\"fill:none\" />\n    </clipPath>\n  </defs>\n  <rect\n     class=\"highcharts-background\"\n     x=\"0.16667175\"\n     y=\"0.17707825\"\n     width=\"99.666664\"\n     height=\"66.333336\"\n     rx=\"0\"\n     ry=\"0\"\n     id=\"rect16\"\n     style=\"fill:url(#highcharts-404);stroke:#000000;stroke-width:0.33333334\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.166656\"\n     y=\"7.34375\"\n     width=\"88.166664\"\n     height=\"47\"\n     id=\"rect18\"\n     style=\"fill:#ffffff;fill-opacity:0.1\" />\n  <g\n     class=\"highcharts-grid highcharts-xaxis-grid \"\n     id=\"g20\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 236.5,44 0,282\"\n       id=\"path22\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 413.5,44 0,282\"\n       id=\"path24\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 589.5,44 0,282\"\n       id=\"path26\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 60.5,44 0,282\"\n       id=\"path28\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-grid highcharts-yaxis-grid \"\n     id=\"g30\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,326.5 529,0\"\n       id=\"path32\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,270.5 529,0\"\n       id=\"path34\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,213.5 529,0\"\n       id=\"path36\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,157.5 529,0\"\n       id=\"path38\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,100.5 529,0\"\n       id=\"path40\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,43.5 529,0\"\n       id=\"path42\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n  </g>\n  <rect\n     class=\"highcharts-plot-border\"\n     x=\"10.083344\"\n     y=\"7.2604218\"\n     width=\"88.333336\"\n     height=\"47.166668\"\n     id=\"rect44\"\n     style=\"fill:none;stroke:#cccccc;stroke-width:0.16666667\" />\n  <g\n     class=\"highcharts-axis highcharts-xaxis \"\n     id=\"g46\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 236.5,326 0,10\"\n       id=\"path48\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 413.5,326 0,10\"\n       id=\"path50\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 590.5,326 0,10\"\n       id=\"path52\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 60.5,326 0,10\"\n       id=\"path54\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,326.5 529,0\"\n       id=\"path56\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n  </g>\n  <g\n     class=\"highcharts-axis highcharts-yaxis \"\n     id=\"g58\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <text\n       x=\"24\"\n       transform=\"matrix(0,-1,1,0,-161,209)\"\n       class=\"highcharts-axis-title\"\n       style=\"text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"185\"\n       id=\"text60\">Values</text>\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,44 0,282\"\n       id=\"path62\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-series-group\"\n     id=\"g64\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <g\n       class=\"highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-405)\"\n       id=\"g66\">\n      <rect\n         x=\"40.5\"\n         y=\"169.5\"\n         width=\"43\"\n         height=\"113\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect68\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"216.5\"\n         y=\"197.5\"\n         width=\"43\"\n         height=\"85\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect70\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"392.5\"\n         y=\"254.5\"\n         width=\"43\"\n         height=\"28\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect72\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g74\" />\n    <g\n       class=\"highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-405)\"\n       id=\"g76\">\n      <rect\n         x=\"92.5\"\n         y=\"226.5\"\n         width=\"43\"\n         height=\"56\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect78\"\n         style=\"fill:#55bf3b;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"269.5\"\n         y=\"141.5\"\n         width=\"43\"\n         height=\"141\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect80\"\n         style=\"fill:#55bf3b;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"445.5\"\n         y=\"56.5\"\n         width=\"43\"\n         height=\"226\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect82\"\n         style=\"fill:#55bf3b;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g84\" />\n  </g>\n  <text\n     x=\"50\"\n     class=\"highcharts-title\"\n     style=\"font-size:3px;text-anchor:middle;color:#c0c0c0;fill:#c0c0c0\"\n     y=\"4.0104218\"\n     id=\"text86\">\n    <tspan\n       id=\"tspan88\">Chart title</tspan>\n  </text>\n  <g\n     class=\"highcharts-legend\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,36.16667,59.84375)\"\n     id=\"g90\">\n    <rect\n       class=\"highcharts-legend-box\"\n       rx=\"0\"\n       ry=\"0\"\n       x=\"0\"\n       y=\"0\"\n       width=\"166\"\n       height=\"26\"\n       visibility=\"visible\"\n       id=\"rect92\"\n       style=\"fill:none;visibility:visible\" />\n    <g\n       id=\"g94\">\n      <g\n         id=\"g96\">\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0\"\n           transform=\"translate(8,3)\"\n           id=\"g98\">\n          <text\n             x=\"21\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#a0a0a0;fill:#a0a0a0\"\n             y=\"15\"\n             id=\"text100\">move</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect102\"\n             style=\"fill:#dddf0d\" />\n        </g>\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1\"\n           transform=\"translate(82,3)\"\n           id=\"g104\">\n          <text\n             x=\"21\"\n             y=\"15\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#a0a0a0;fill:#a0a0a0\"\n             id=\"text106\">excersise</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect108\"\n             style=\"fill:#55bf3b\" />\n        </g>\n      </g>\n    </g>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-xaxis-labels \"\n     id=\"g110\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <text\n       x=\"149.16667\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text112\">\n      <tspan\n         id=\"tspan114\">0</tspan>\n    </text>\n    <text\n       x=\"325.5\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text116\">\n      <tspan\n         id=\"tspan118\">1</tspan>\n    </text>\n    <text\n       x=\"501.83334\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text120\">\n      <tspan\n         id=\"tspan122\">2</tspan>\n    </text>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-yaxis-labels \"\n     id=\"g124\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"331\"\n       id=\"text126\">\n      <tspan\n         id=\"tspan128\">0</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"274\"\n       id=\"text130\">\n      <tspan\n         id=\"tspan132\">2</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"218\"\n       id=\"text134\">\n      <tspan\n         id=\"tspan136\">4</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"161\"\n       id=\"text138\">\n      <tspan\n         id=\"tspan140\">6</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"105\"\n       id=\"text142\">\n      <tspan\n         id=\"tspan144\">8</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"49\"\n       id=\"text146\">\n      <tspan\n         id=\"tspan148\">10</tspan>\n    </text>\n  </g>\n  <text\n     x=\"98.333344\"\n     class=\"highcharts-credits\"\n     style=\"font-size:1.5px;text-anchor:end;color:#666666;fill:#666666\"\n     y=\"65.84375\"\n     id=\"text150\">Highcharts.com</text>\n</svg>\n";
+self["theme_dark_unica"] = "<svg\n   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n   xmlns:cc=\"http://creativecommons.org/ns#\"\n   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n   version=\"1.1\"\n   class=\"highcharts-root\"\n   style=\"font-size:12px\"\n   width=\"100\"\n   viewBox=\"0 0 100 66.666664\"\n   height=\"66.666664\"\n   id=\"svg2\"\n   inkscape:version=\"0.48.4 r9939\"\n   sodipodi:docname=\"chart(1).svg\">\n  <metadata\n     id=\"metadata154\">\n    <rdf:RDF>\n      <cc:Work\n         rdf:about=\"\">\n        <dc:format>image/svg+xml</dc:format>\n        <dc:type\n           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n        <dc:title></dc:title>\n      </cc:Work>\n    </rdf:RDF>\n  </metadata>\n  <sodipodi:namedview\n     pagecolor=\"#ffffff\"\n     bordercolor=\"#666666\"\n     borderopacity=\"1\"\n     objecttolerance=\"10\"\n     gridtolerance=\"10\"\n     guidetolerance=\"10\"\n     inkscape:pageopacity=\"0\"\n     inkscape:pageshadow=\"2\"\n     inkscape:window-width=\"733\"\n     inkscape:window-height=\"480\"\n     id=\"namedview152\"\n     showgrid=\"false\"\n     fit-margin-top=\"0\"\n     fit-margin-left=\"0\"\n     fit-margin-right=\"0\"\n     fit-margin-bottom=\"0\"\n     inkscape:zoom=\"0.48666667\"\n     inkscape:cx=\"50\"\n     inkscape:cy=\"33.333336\"\n     inkscape:window-x=\"65\"\n     inkscape:window-y=\"24\"\n     inkscape:window-maximized=\"0\"\n     inkscape:current-layer=\"svg2\" />\n  <desc\n     id=\"desc4\">Created with Highcharts 5.0.2</desc>\n  <defs\n     id=\"defs6\">\n    <linearGradient\n       x1=\"0\"\n       y1=\"0\"\n       x2=\"489.89795\"\n       y2=\"489.89795\"\n       id=\"highcharts-414\"\n       gradientTransform=\"matrix(0.20412415,0,0,0.13608276,0,-1.7529297e-6)\"\n       gradientUnits=\"userSpaceOnUse\">\n      <stop\n         offset=\"0\"\n         stop-color=\"#2a2a2b\"\n         stop-opacity=\"1\"\n         id=\"stop9\" />\n      <stop\n         offset=\"1\"\n         stop-color=\"#3e3e40\"\n         stop-opacity=\"1\"\n         id=\"stop11\" />\n    </linearGradient>\n    <clipPath\n       id=\"highcharts-415\">\n      <rect\n         x=\"0\"\n         y=\"0\"\n         width=\"526\"\n         height=\"276\"\n         id=\"rect14\"\n         style=\"fill:none\" />\n    </clipPath>\n  </defs>\n  <rect\n     class=\"highcharts-background\"\n     x=\"0\"\n     y=\"0\"\n     width=\"100\"\n     height=\"66.666664\"\n     rx=\"0\"\n     ry=\"0\"\n     id=\"rect16\"\n     style=\"fill:url(#highcharts-414)\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.666656\"\n     y=\"8.1666565\"\n     width=\"87.666664\"\n     height=\"46\"\n     id=\"rect18\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-grid highcharts-xaxis-grid \"\n     id=\"g20\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 238.5,49 0,276\"\n       id=\"path22\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 414.5,49 0,276\"\n       id=\"path24\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 589.5,49 0,276\"\n       id=\"path26\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 63.5,49 0,276\"\n       id=\"path28\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-grid highcharts-yaxis-grid \"\n     id=\"g30\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,325.5 526,0\"\n       id=\"path32\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,270.5 526,0\"\n       id=\"path34\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,215.5 526,0\"\n       id=\"path36\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,159.5 526,0\"\n       id=\"path38\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,104.5 526,0\"\n       id=\"path40\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,48.5 526,0\"\n       id=\"path42\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n  </g>\n  <rect\n     class=\"highcharts-plot-border\"\n     x=\"10.666656\"\n     y=\"8.1666565\"\n     width=\"87.666664\"\n     height=\"46\"\n     id=\"rect44\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-axis highcharts-xaxis \"\n     id=\"g46\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 238.5,325 0,10\"\n       id=\"path48\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 414.5,325 0,10\"\n       id=\"path50\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 590.5,325 0,10\"\n       id=\"path52\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 63.5,325 0,10\"\n       id=\"path54\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 64,325.5 526,0\"\n       id=\"path56\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n  </g>\n  <g\n     class=\"highcharts-axis highcharts-yaxis \"\n     id=\"g58\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"25\"\n       transform=\"matrix(0,-1,1,0,-162,212)\"\n       class=\"highcharts-axis-title\"\n       style=\"text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"187\"\n       id=\"text60\">Values</text>\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 64,49 0,276\"\n       id=\"path62\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-series-group\"\n     id=\"g64\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <g\n       class=\"highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(64,49)\"\n       width=\"276\"\n       height=\"526\"\n       clip-path=\"url(#highcharts-415)\"\n       id=\"g66\">\n      <rect\n         x=\"39.5\"\n         y=\"166.5\"\n         width=\"43\"\n         height=\"110\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect68\"\n         style=\"fill:#2b908f;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"215.5\"\n         y=\"193.5\"\n         width=\"43\"\n         height=\"83\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect70\"\n         style=\"fill:#2b908f;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"390.5\"\n         y=\"248.5\"\n         width=\"43\"\n         height=\"28\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect72\"\n         style=\"fill:#2b908f;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(64,49)\"\n       width=\"276\"\n       height=\"526\"\n       clip-path=\"none\"\n       id=\"g74\" />\n    <g\n       class=\"highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(64,49)\"\n       width=\"276\"\n       height=\"526\"\n       clip-path=\"url(#highcharts-415)\"\n       id=\"g76\">\n      <rect\n         x=\"92.5\"\n         y=\"221.5\"\n         width=\"43\"\n         height=\"55\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect78\"\n         style=\"fill:#90ee7e;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"267.5\"\n         y=\"138.5\"\n         width=\"43\"\n         height=\"138\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect80\"\n         style=\"fill:#90ee7e;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"443.5\"\n         y=\"55.5\"\n         width=\"43\"\n         height=\"221\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect82\"\n         style=\"fill:#90ee7e;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(64,49)\"\n       width=\"276\"\n       height=\"526\"\n       clip-path=\"none\"\n       id=\"g84\" />\n  </g>\n  <text\n     x=\"50\"\n     class=\"highcharts-title\"\n     style=\"font-size:3.33333325px;text-transform:uppercase;text-anchor:middle;color:#e0e0e3;fill:#e0e0e3\"\n     y=\"4.1666565\"\n     id=\"text86\">\n    <tspan\n       id=\"tspan88\">Chart title</tspan>\n  </text>\n  <g\n     class=\"highcharts-legend\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,35.16667,59.833328)\"\n     id=\"g90\">\n    <rect\n       class=\"highcharts-legend-box\"\n       rx=\"0\"\n       ry=\"0\"\n       x=\"0\"\n       y=\"0\"\n       width=\"178\"\n       height=\"26\"\n       visibility=\"visible\"\n       id=\"rect92\"\n       style=\"fill:none;visibility:visible\" />\n    <g\n       id=\"g94\">\n      <g\n         id=\"g96\">\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0\"\n           transform=\"translate(8,3)\"\n           id=\"g98\">\n          <text\n             x=\"21\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#e0e0e3;fill:#e0e0e3\"\n             y=\"15\"\n             id=\"text100\">move</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect102\"\n             style=\"fill:#2b908f\" />\n        </g>\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1\"\n           transform=\"translate(86,3)\"\n           id=\"g104\">\n          <text\n             x=\"21\"\n             y=\"15\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#e0e0e3;fill:#e0e0e3\"\n             id=\"text106\">excersise</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect108\"\n             style=\"fill:#90ee7e\" />\n        </g>\n      </g>\n    </g>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-xaxis-labels \"\n     id=\"g110\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"151.66667\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"344\"\n       id=\"text112\">\n      <tspan\n         id=\"tspan114\">0</tspan>\n    </text>\n    <text\n       x=\"327\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"344\"\n       id=\"text116\">\n      <tspan\n         id=\"tspan118\">1</tspan>\n    </text>\n    <text\n       x=\"502.33334\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"344\"\n       id=\"text120\">\n      <tspan\n         id=\"tspan122\">2</tspan>\n    </text>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-yaxis-labels \"\n     id=\"g124\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"329\"\n       id=\"text126\">\n      <tspan\n         id=\"tspan128\">0</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"274\"\n       id=\"text130\">\n      <tspan\n         id=\"tspan132\">2</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"219\"\n       id=\"text134\">\n      <tspan\n         id=\"tspan136\">4</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"163\"\n       id=\"text138\">\n      <tspan\n         id=\"tspan140\">6</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"108\"\n       id=\"text142\">\n      <tspan\n         id=\"tspan144\">8</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"53\"\n       id=\"text146\">\n      <tspan\n         id=\"tspan148\">10</tspan>\n    </text>\n  </g>\n  <text\n     x=\"98.333344\"\n     class=\"highcharts-credits\"\n     style=\"font-size:1.5px;text-anchor:end;color:#666666;fill:#666666\"\n     y=\"65.833328\"\n     id=\"text150\">Highcharts.com</text>\n</svg>\n";
+self["theme_gray"] = "<svg\n   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n   xmlns:cc=\"http://creativecommons.org/ns#\"\n   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n   version=\"1.1\"\n   class=\"highcharts-root\"\n   style=\"font-size:12px\"\n   width=\"100\"\n   viewBox=\"0 0 100 66.666664\"\n   height=\"66.666664\"\n   id=\"svg2\"\n   inkscape:version=\"0.48.4 r9939\"\n   sodipodi:docname=\"chart.svg\">\n  <metadata\n     id=\"metadata154\">\n    <rdf:RDF>\n      <cc:Work\n         rdf:about=\"\">\n        <dc:format>image/svg+xml</dc:format>\n        <dc:type\n           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n        <dc:title></dc:title>\n      </cc:Work>\n    </rdf:RDF>\n  </metadata>\n  <sodipodi:namedview\n     pagecolor=\"#ffffff\"\n     bordercolor=\"#666666\"\n     borderopacity=\"1\"\n     objecttolerance=\"10\"\n     gridtolerance=\"10\"\n     guidetolerance=\"10\"\n     inkscape:pageopacity=\"0\"\n     inkscape:pageshadow=\"2\"\n     inkscape:window-width=\"733\"\n     inkscape:window-height=\"480\"\n     id=\"namedview152\"\n     showgrid=\"false\"\n     fit-margin-top=\"0\"\n     fit-margin-left=\"0\"\n     fit-margin-right=\"0\"\n     fit-margin-bottom=\"0\"\n     inkscape:zoom=\"0.48666667\"\n     inkscape:cx=\"50\"\n     inkscape:cy=\"33.333336\"\n     inkscape:window-x=\"65\"\n     inkscape:window-y=\"24\"\n     inkscape:window-maximized=\"0\"\n     inkscape:current-layer=\"svg2\" />\n  <desc\n     id=\"desc4\">Created with Highcharts 5.0.2</desc>\n  <defs\n     id=\"defs6\">\n    <linearGradient\n       x1=\"0\"\n       y1=\"0\"\n       x2=\"0\"\n       y2=\"489.89795\"\n       id=\"highcharts-426\"\n       gradientTransform=\"matrix(0.20412415,0,0,0.13608276,0,-1.7529297e-6)\"\n       gradientUnits=\"userSpaceOnUse\">\n      <stop\n         offset=\"0\"\n         stop-color=\"rgb(96, 96, 96)\"\n         stop-opacity=\"1\"\n         id=\"stop9\" />\n      <stop\n         offset=\"1\"\n         stop-color=\"rgb(16, 16, 16)\"\n         stop-opacity=\"1\"\n         id=\"stop11\" />\n    </linearGradient>\n    <clipPath\n       id=\"highcharts-427\">\n      <rect\n         x=\"0\"\n         y=\"0\"\n         width=\"529\"\n         height=\"283\"\n         id=\"rect14\"\n         style=\"fill:none\" />\n    </clipPath>\n  </defs>\n  <rect\n     class=\"highcharts-background\"\n     x=\"0\"\n     y=\"0\"\n     width=\"100\"\n     height=\"66.666664\"\n     rx=\"0\"\n     ry=\"0\"\n     id=\"rect16\"\n     style=\"fill:url(#highcharts-426)\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.166656\"\n     y=\"7.3333282\"\n     width=\"88.166664\"\n     height=\"47.166668\"\n     id=\"rect18\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-grid highcharts-xaxis-grid \"\n     id=\"g20\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 236.5,44 0,283\"\n       id=\"path22\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 413.5,44 0,283\"\n       id=\"path24\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 589.5,44 0,283\"\n       id=\"path26\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 60.5,44 0,283\"\n       id=\"path28\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-grid highcharts-yaxis-grid \"\n     id=\"g30\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,327.5 529,0\"\n       id=\"path32\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,270.5 529,0\"\n       id=\"path34\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,214.5 529,0\"\n       id=\"path36\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,157.5 529,0\"\n       id=\"path38\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,101.5 529,0\"\n       id=\"path40\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,43.5 529,0\"\n       id=\"path42\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n  </g>\n  <rect\n     class=\"highcharts-plot-border\"\n     x=\"10.166656\"\n     y=\"7.3333282\"\n     width=\"88.166664\"\n     height=\"47.166668\"\n     id=\"rect44\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-axis highcharts-xaxis \"\n     id=\"g46\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 236.5,327 0,10\"\n       id=\"path48\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 413.5,327 0,10\"\n       id=\"path50\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 590.5,327 0,10\"\n       id=\"path52\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 60.5,327 0,10\"\n       id=\"path54\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,327.5 529,0\"\n       id=\"path56\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n  </g>\n  <g\n     class=\"highcharts-axis highcharts-yaxis \"\n     id=\"g58\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"24\"\n       transform=\"matrix(0,-1,1,0,-161.5,209.5)\"\n       class=\"highcharts-axis-title\"\n       style=\"text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"185.5\"\n       id=\"text60\">Values</text>\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,44 0,283\"\n       id=\"path62\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-series-group\"\n     id=\"g64\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <g\n       class=\"highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"283\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-427)\"\n       id=\"g66\">\n      <rect\n         x=\"40.5\"\n         y=\"170.5\"\n         width=\"43\"\n         height=\"113\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect68\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"216.5\"\n         y=\"198.5\"\n         width=\"43\"\n         height=\"85\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect70\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"392.5\"\n         y=\"255.5\"\n         width=\"43\"\n         height=\"28\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect72\"\n         style=\"fill:#dddf0d;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"283\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g74\" />\n    <g\n       class=\"highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"283\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-427)\"\n       id=\"g76\">\n      <rect\n         x=\"92.5\"\n         y=\"226.5\"\n         width=\"43\"\n         height=\"57\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect78\"\n         style=\"fill:#7798bf;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"269.5\"\n         y=\"142.5\"\n         width=\"43\"\n         height=\"141\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect80\"\n         style=\"fill:#7798bf;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"445.5\"\n         y=\"57.5\"\n         width=\"43\"\n         height=\"226\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect82\"\n         style=\"fill:#7798bf;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"283\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g84\" />\n  </g>\n  <text\n     x=\"50\"\n     class=\"highcharts-title\"\n     style=\"font-size:3px;text-anchor:middle;color:#ffffff;fill:#ffffff\"\n     y=\"4\"\n     id=\"text86\">\n    <tspan\n       id=\"tspan88\">Chart title</tspan>\n  </text>\n  <g\n     class=\"highcharts-legend\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,36.16667,59.999998)\"\n     id=\"g90\">\n    <rect\n       class=\"highcharts-legend-box\"\n       rx=\"0\"\n       ry=\"0\"\n       x=\"0\"\n       y=\"0\"\n       width=\"167\"\n       height=\"25\"\n       visibility=\"visible\"\n       id=\"rect92\"\n       style=\"fill:none;visibility:visible\" />\n    <g\n       id=\"g94\">\n      <g\n         id=\"g96\">\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0\"\n           transform=\"translate(8,3)\"\n           id=\"g98\">\n          <text\n             x=\"21\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#cccccc;fill:#cccccc\"\n             y=\"15\"\n             id=\"text100\">move</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect102\"\n             style=\"fill:#dddf0d\" />\n        </g>\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1\"\n           transform=\"translate(81,3)\"\n           id=\"g104\">\n          <text\n             x=\"21\"\n             y=\"15\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#cccccc;fill:#cccccc\"\n             id=\"text106\">excersise</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect108\"\n             style=\"fill:#7798bf\" />\n        </g>\n      </g>\n    </g>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-xaxis-labels \"\n     id=\"g110\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"149.16667\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"346\"\n       id=\"text112\">\n      <tspan\n         id=\"tspan114\">0</tspan>\n    </text>\n    <text\n       x=\"325.5\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"346\"\n       id=\"text116\">\n      <tspan\n         id=\"tspan118\">1</tspan>\n    </text>\n    <text\n       x=\"501.83334\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"346\"\n       id=\"text120\">\n      <tspan\n         id=\"tspan122\">2</tspan>\n    </text>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-yaxis-labels \"\n     id=\"g124\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"332\"\n       id=\"text126\">\n      <tspan\n         id=\"tspan128\">0</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"275\"\n       id=\"text130\">\n      <tspan\n         id=\"tspan132\">2</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"218\"\n       id=\"text134\">\n      <tspan\n         id=\"tspan136\">4</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"162\"\n       id=\"text138\">\n      <tspan\n         id=\"tspan140\">6</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"105\"\n       id=\"text142\">\n      <tspan\n         id=\"tspan144\">8</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"49\"\n       id=\"text146\">\n      <tspan\n         id=\"tspan148\">10</tspan>\n    </text>\n  </g>\n  <text\n     x=\"98.333344\"\n     class=\"highcharts-credits\"\n     style=\"font-size:1.5px;text-anchor:end;color:#999999;fill:#999999\"\n     y=\"65.833328\"\n     id=\"text150\">Highcharts.com</text>\n</svg>\n";
+self["theme_grayscale"] = "<svg\n   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n   xmlns:cc=\"http://creativecommons.org/ns#\"\n   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n   version=\"1.1\"\n   class=\"highcharts-root\"\n   style=\"font-size:12px\"\n   width=\"100\"\n   viewBox=\"0 0 100 66.666664\"\n   height=\"66.666664\"\n   id=\"svg2\"\n   inkscape:version=\"0.48.4 r9939\"\n   sodipodi:docname=\"chart(3).svg\">\n  <metadata\n     id=\"metadata149\">\n    <rdf:RDF>\n      <cc:Work\n         rdf:about=\"\">\n        <dc:format>image/svg+xml</dc:format>\n        <dc:type\n           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n        <dc:title></dc:title>\n      </cc:Work>\n    </rdf:RDF>\n  </metadata>\n  <sodipodi:namedview\n     pagecolor=\"#ffffff\"\n     bordercolor=\"#666666\"\n     borderopacity=\"1\"\n     objecttolerance=\"10\"\n     gridtolerance=\"10\"\n     guidetolerance=\"10\"\n     inkscape:pageopacity=\"0\"\n     inkscape:pageshadow=\"2\"\n     inkscape:window-width=\"733\"\n     inkscape:window-height=\"480\"\n     id=\"namedview147\"\n     showgrid=\"false\"\n     fit-margin-top=\"0\"\n     fit-margin-left=\"0\"\n     fit-margin-right=\"0\"\n     fit-margin-bottom=\"0\"\n     inkscape:zoom=\"0.48666667\"\n     inkscape:cx=\"50\"\n     inkscape:cy=\"33.333336\"\n     inkscape:window-x=\"1933\"\n     inkscape:window-y=\"177\"\n     inkscape:window-maximized=\"0\"\n     inkscape:current-layer=\"svg2\" />\n  <desc\n     id=\"desc4\">Created with Highcharts 5.0.2</desc>\n  <defs\n     id=\"defs6\">\n    <clipPath\n       id=\"highcharts-41\">\n      <rect\n         x=\"0\"\n         y=\"0\"\n         width=\"529\"\n         height=\"281\"\n         id=\"rect9\"\n         style=\"fill:none\" />\n    </clipPath>\n  </defs>\n  <rect\n     class=\"highcharts-background\"\n     x=\"0\"\n     y=\"0\"\n     width=\"100\"\n     height=\"66.666664\"\n     rx=\"0\"\n     ry=\"0\"\n     id=\"rect11\"\n     style=\"fill:#ffffff\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.166656\"\n     y=\"7.6666565\"\n     width=\"88.166664\"\n     height=\"46.833332\"\n     id=\"rect13\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-grid highcharts-xaxis-grid \"\n     id=\"g15\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 236.5,46 0,281\"\n       id=\"path17\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 413.5,46 0,281\"\n       id=\"path19\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 589.5,46 0,281\"\n       id=\"path21\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 60.5,46 0,281\"\n       id=\"path23\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-grid highcharts-yaxis-grid \"\n     id=\"g25\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,327.5 529,0\"\n       id=\"path27\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,271.5 529,0\"\n       id=\"path29\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,215.5 529,0\"\n       id=\"path31\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,158.5 529,0\"\n       id=\"path33\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,102.5 529,0\"\n       id=\"path35\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,45.5 529,0\"\n       id=\"path37\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n  </g>\n  <rect\n     class=\"highcharts-plot-border\"\n     x=\"10.166656\"\n     y=\"7.6666565\"\n     width=\"88.166664\"\n     height=\"46.833332\"\n     id=\"rect39\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-axis highcharts-xaxis \"\n     id=\"g41\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 236.5,327 0,10\"\n       id=\"path43\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 413.5,327 0,10\"\n       id=\"path45\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 590.5,327 0,10\"\n       id=\"path47\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 60.5,327 0,10\"\n       id=\"path49\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,327.5 529,0\"\n       id=\"path51\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n  </g>\n  <g\n     class=\"highcharts-axis highcharts-yaxis \"\n     id=\"g53\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"24\"\n       transform=\"matrix(0,-1,1,0,-162.5,210.5)\"\n       class=\"highcharts-axis-title\"\n       style=\"text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"186.5\"\n       id=\"text55\">Values</text>\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,46 0,281\"\n       id=\"path57\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-series-group\"\n     id=\"g59\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <g\n       class=\"highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,46)\"\n       width=\"281\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-41)\"\n       id=\"g61\">\n      <rect\n         x=\"40.5\"\n         y=\"169.5\"\n         width=\"43\"\n         height=\"112\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect63\"\n         style=\"fill:#5e5e5e;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"216.5\"\n         y=\"197.5\"\n         width=\"43\"\n         height=\"84\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect65\"\n         style=\"fill:#5e5e5e;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"392.5\"\n         y=\"253.5\"\n         width=\"43\"\n         height=\"28\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect67\"\n         style=\"fill:#5e5e5e;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,46)\"\n       width=\"281\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g69\" />\n    <g\n       class=\"highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,46)\"\n       width=\"281\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-41)\"\n       id=\"g71\">\n      <rect\n         x=\"92.5\"\n         y=\"225.5\"\n         width=\"43\"\n         height=\"56\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect73\"\n         style=\"fill:#a3a3a3;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"269.5\"\n         y=\"141.5\"\n         width=\"43\"\n         height=\"140\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect75\"\n         style=\"fill:#a3a3a3;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"445.5\"\n         y=\"56.5\"\n         width=\"43\"\n         height=\"225\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect77\"\n         style=\"fill:#a3a3a3;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,46)\"\n       width=\"281\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g79\" />\n  </g>\n  <text\n     x=\"50\"\n     class=\"highcharts-title\"\n     style=\"font-size:3px;text-anchor:middle;color:#333333;fill:#333333\"\n     y=\"4\"\n     id=\"text81\">\n    <tspan\n       id=\"tspan83\">Chart title</tspan>\n  </text>\n  <g\n     class=\"highcharts-legend\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,36.16667,59.999998)\"\n     id=\"g85\">\n    <rect\n       class=\"highcharts-legend-box\"\n       rx=\"0\"\n       ry=\"0\"\n       x=\"0\"\n       y=\"0\"\n       width=\"167\"\n       height=\"25\"\n       visibility=\"visible\"\n       id=\"rect87\"\n       style=\"fill:none;visibility:visible\" />\n    <g\n       id=\"g89\">\n      <g\n         id=\"g91\">\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0\"\n           transform=\"translate(8,3)\"\n           id=\"g93\">\n          <text\n             x=\"21\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#333333;fill:#333333\"\n             y=\"15\"\n             id=\"text95\">move</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect97\"\n             style=\"fill:#5e5e5e\" />\n        </g>\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1\"\n           transform=\"translate(81,3)\"\n           id=\"g99\">\n          <text\n             x=\"21\"\n             y=\"15\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#333333;fill:#333333\"\n             id=\"text101\">excersise</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect103\"\n             style=\"fill:#a3a3a3\" />\n        </g>\n      </g>\n    </g>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-xaxis-labels \"\n     id=\"g105\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"149.16667\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"346\"\n       id=\"text107\">\n      <tspan\n         id=\"tspan109\">0</tspan>\n    </text>\n    <text\n       x=\"325.5\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"346\"\n       id=\"text111\">\n      <tspan\n         id=\"tspan113\">1</tspan>\n    </text>\n    <text\n       x=\"501.83334\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"346\"\n       id=\"text115\">\n      <tspan\n         id=\"tspan117\">2</tspan>\n    </text>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-yaxis-labels \"\n     id=\"g119\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"332\"\n       id=\"text121\">\n      <tspan\n         id=\"tspan123\">0</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"275\"\n       id=\"text125\">\n      <tspan\n         id=\"tspan127\">2</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"219\"\n       id=\"text129\">\n      <tspan\n         id=\"tspan131\">4</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"163\"\n       id=\"text133\">\n      <tspan\n         id=\"tspan135\">6</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"107\"\n       id=\"text137\">\n      <tspan\n         id=\"tspan139\">8</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"51\"\n       id=\"text141\">\n      <tspan\n         id=\"tspan143\">10</tspan>\n    </text>\n  </g>\n  <text\n     x=\"98.333344\"\n     class=\"highcharts-credits\"\n     style=\"font-size:1.5px;text-anchor:end;color:#999999;fill:#999999\"\n     y=\"65.833328\"\n     id=\"text145\">Highcharts.com</text>\n</svg>\n";
+self["theme_grid"] = "<svg\n   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n   xmlns:cc=\"http://creativecommons.org/ns#\"\n   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n   version=\"1.1\"\n   class=\"highcharts-root\"\n   style=\"font-size:12px\"\n   width=\"100\"\n   viewBox=\"0 0 100 66.6875\"\n   height=\"66.6875\"\n   id=\"svg2\"\n   inkscape:version=\"0.48.4 r9939\"\n   sodipodi:docname=\"chart(2).svg\">\n  <metadata\n     id=\"metadata160\">\n    <rdf:RDF>\n      <cc:Work\n         rdf:about=\"\">\n        <dc:format>image/svg+xml</dc:format>\n        <dc:type\n           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n        <dc:title></dc:title>\n      </cc:Work>\n    </rdf:RDF>\n  </metadata>\n  <sodipodi:namedview\n     pagecolor=\"#ffffff\"\n     bordercolor=\"#666666\"\n     borderopacity=\"1\"\n     objecttolerance=\"10\"\n     gridtolerance=\"10\"\n     guidetolerance=\"10\"\n     inkscape:pageopacity=\"0\"\n     inkscape:pageshadow=\"2\"\n     inkscape:window-width=\"733\"\n     inkscape:window-height=\"480\"\n     id=\"namedview158\"\n     showgrid=\"false\"\n     fit-margin-top=\"0\"\n     fit-margin-left=\"0\"\n     fit-margin-right=\"0\"\n     fit-margin-bottom=\"0\"\n     inkscape:zoom=\"0.48666667\"\n     inkscape:cx=\"307.87671\"\n     inkscape:cy=\"33.34375\"\n     inkscape:window-x=\"184\"\n     inkscape:window-y=\"48\"\n     inkscape:window-maximized=\"0\"\n     inkscape:current-layer=\"svg2\" />\n  <desc\n     id=\"desc4\">Created with Highcharts 5.0.2</desc>\n  <defs\n     id=\"defs6\">\n    <linearGradient\n       x1=\"0\"\n       y1=\"0\"\n       x2=\"489.89795\"\n       y2=\"489.89795\"\n       id=\"highcharts-444\"\n       gradientTransform=\"matrix(0.20412415,0,0,0.13608277,0,0.01042)\"\n       gradientUnits=\"userSpaceOnUse\">\n      <stop\n         offset=\"0\"\n         stop-color=\"rgb(255, 255, 255)\"\n         stop-opacity=\"1\"\n         id=\"stop9\" />\n      <stop\n         offset=\"1\"\n         stop-color=\"rgb(240, 240, 255)\"\n         stop-opacity=\"1\"\n         id=\"stop11\" />\n    </linearGradient>\n    <clipPath\n       id=\"highcharts-445\">\n      <rect\n         x=\"0\"\n         y=\"0\"\n         width=\"529\"\n         height=\"282\"\n         id=\"rect14\"\n         style=\"fill:none\" />\n    </clipPath>\n  </defs>\n  <rect\n     class=\"highcharts-background\"\n     x=\"0.16667175\"\n     y=\"0.17707825\"\n     width=\"99.666664\"\n     height=\"66.333336\"\n     rx=\"0\"\n     ry=\"0\"\n     id=\"rect16\"\n     style=\"fill:url(#highcharts-444);stroke:#335cad;stroke-width:0.33333334\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.333344\"\n     y=\"7.5104218\"\n     width=\"88.166664\"\n     height=\"47\"\n     id=\"rect18\"\n     style=\"fill:none;stroke:#000000;stroke-width:0.83333331;stroke-opacity:0.05\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.333344\"\n     y=\"7.5104218\"\n     width=\"88.166664\"\n     height=\"47\"\n     id=\"rect20\"\n     style=\"fill:none;stroke:#000000;stroke-width:0.5;stroke-opacity:0.1\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.333344\"\n     y=\"7.5104218\"\n     width=\"88.166664\"\n     height=\"47\"\n     id=\"rect22\"\n     style=\"fill:none;stroke:#000000;stroke-width:0.16666667;stroke-opacity:0.15\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.166656\"\n     y=\"7.34375\"\n     width=\"88.166664\"\n     height=\"47\"\n     id=\"rect24\"\n     style=\"fill:#ffffff;fill-opacity:0.9\" />\n  <g\n     class=\"highcharts-grid highcharts-xaxis-grid \"\n     id=\"g26\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 236.5,44 0,282\"\n       id=\"path28\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 413.5,44 0,282\"\n       id=\"path30\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 589.5,44 0,282\"\n       id=\"path32\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 60.5,44 0,282\"\n       id=\"path34\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-grid highcharts-yaxis-grid \"\n     id=\"g36\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,326.5 529,0\"\n       id=\"path38\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,270.5 529,0\"\n       id=\"path40\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,213.5 529,0\"\n       id=\"path42\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,157.5 529,0\"\n       id=\"path44\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,100.5 529,0\"\n       id=\"path46\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 61,43.5 529,0\"\n       id=\"path48\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n  </g>\n  <rect\n     class=\"highcharts-plot-border\"\n     x=\"10.083344\"\n     y=\"7.2604218\"\n     width=\"88.333336\"\n     height=\"47.166668\"\n     id=\"rect50\"\n     style=\"fill:none;stroke:#cccccc;stroke-width:0.16666667\" />\n  <g\n     class=\"highcharts-axis highcharts-xaxis \"\n     id=\"g52\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 236.5,326 0,10\"\n       id=\"path54\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 413.5,326 0,10\"\n       id=\"path56\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 590.5,326 0,10\"\n       id=\"path58\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 60.5,326 0,10\"\n       id=\"path60\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,326.5 529,0\"\n       id=\"path62\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n  </g>\n  <g\n     class=\"highcharts-axis highcharts-yaxis \"\n     id=\"g64\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <text\n       x=\"24\"\n       transform=\"matrix(0,-1,1,0,-161,209)\"\n       class=\"highcharts-axis-title\"\n       style=\"text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"185\"\n       id=\"text66\">Values</text>\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 61,44 0,282\"\n       id=\"path68\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-series-group\"\n     id=\"g70\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <g\n       class=\"highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-445)\"\n       id=\"g72\">\n      <rect\n         x=\"40.5\"\n         y=\"169.5\"\n         width=\"43\"\n         height=\"113\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect74\"\n         style=\"fill:#058dc7;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"216.5\"\n         y=\"197.5\"\n         width=\"43\"\n         height=\"85\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect76\"\n         style=\"fill:#058dc7;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"392.5\"\n         y=\"254.5\"\n         width=\"43\"\n         height=\"28\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect78\"\n         style=\"fill:#058dc7;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g80\" />\n    <g\n       class=\"highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"url(#highcharts-445)\"\n       id=\"g82\">\n      <rect\n         x=\"92.5\"\n         y=\"226.5\"\n         width=\"43\"\n         height=\"56\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect84\"\n         style=\"fill:#50b432;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"269.5\"\n         y=\"141.5\"\n         width=\"43\"\n         height=\"141\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect86\"\n         style=\"fill:#50b432;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"445.5\"\n         y=\"56.5\"\n         width=\"43\"\n         height=\"226\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect88\"\n         style=\"fill:#50b432;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(61,44)\"\n       width=\"282\"\n       height=\"529\"\n       clip-path=\"none\"\n       id=\"g90\" />\n  </g>\n  <text\n     x=\"50\"\n     class=\"highcharts-title\"\n     style=\"font-size:3px;text-anchor:middle;color:#000000;fill:#000000\"\n     y=\"4.0104218\"\n     id=\"text92\">\n    <tspan\n       id=\"tspan94\">Chart title</tspan>\n  </text>\n  <g\n     class=\"highcharts-legend\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,36.16667,59.84375)\"\n     id=\"g96\">\n    <rect\n       class=\"highcharts-legend-box\"\n       rx=\"0\"\n       ry=\"0\"\n       x=\"0\"\n       y=\"0\"\n       width=\"166\"\n       height=\"26\"\n       visibility=\"visible\"\n       id=\"rect98\"\n       style=\"fill:none;visibility:visible\" />\n    <g\n       id=\"g100\">\n      <g\n         id=\"g102\">\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0\"\n           transform=\"translate(8,3)\"\n           id=\"g104\">\n          <text\n             x=\"21\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#000000;fill:#000000\"\n             y=\"15\"\n             id=\"text106\">move</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect108\"\n             style=\"fill:#058dc7\" />\n        </g>\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1\"\n           transform=\"translate(82,3)\"\n           id=\"g110\">\n          <text\n             x=\"21\"\n             y=\"15\"\n             style=\"font-size:12px;font-weight:bold;text-anchor:start;color:#000000;fill:#000000\"\n             id=\"text112\">excersise</text>\n          <rect\n             x=\"2\"\n             y=\"4\"\n             width=\"12\"\n             height=\"12\"\n             rx=\"6\"\n             ry=\"6\"\n             class=\"highcharts-point\"\n             id=\"rect114\"\n             style=\"fill:#50b432\" />\n        </g>\n      </g>\n    </g>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-xaxis-labels \"\n     id=\"g116\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <text\n       x=\"149.16667\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text118\">\n      <tspan\n         id=\"tspan120\">0</tspan>\n    </text>\n    <text\n       x=\"325.5\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text122\">\n      <tspan\n         id=\"tspan124\">1</tspan>\n    </text>\n    <text\n       x=\"501.83334\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"345\"\n       id=\"text126\">\n      <tspan\n         id=\"tspan128\">2</tspan>\n    </text>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-yaxis-labels \"\n     id=\"g130\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,0.01042)\">\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"331\"\n       id=\"text132\">\n      <tspan\n         id=\"tspan134\">0</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"274\"\n       id=\"text136\">\n      <tspan\n         id=\"tspan138\">2</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"218\"\n       id=\"text140\">\n      <tspan\n         id=\"tspan142\">4</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"161\"\n       id=\"text144\">\n      <tspan\n         id=\"tspan146\">6</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"105\"\n       id=\"text148\">\n      <tspan\n         id=\"tspan150\">8</tspan>\n    </text>\n    <text\n       x=\"46\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"49\"\n       id=\"text152\">\n      <tspan\n         id=\"tspan154\">10</tspan>\n    </text>\n  </g>\n  <text\n     x=\"98.333344\"\n     class=\"highcharts-credits\"\n     style=\"font-size:1.5px;text-anchor:end;color:#999999;fill:#999999\"\n     y=\"65.84375\"\n     id=\"text156\">Highcharts.com</text>\n</svg>\n";
+self["theme_grid_light"] = "<svg\n   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n   xmlns:cc=\"http://creativecommons.org/ns#\"\n   xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n   xmlns:svg=\"http://www.w3.org/2000/svg\"\n   xmlns=\"http://www.w3.org/2000/svg\"\n   xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\"\n   xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"\n   version=\"1.1\"\n   class=\"highcharts-root\"\n   style=\"font-size:12px;font-family:'dosis, sans-serif'\"\n   width=\"100\"\n   viewBox=\"0 0 100 66.666664\"\n   height=\"66.666664\"\n   id=\"svg2\"\n   inkscape:version=\"0.48.4 r9939\"\n   sodipodi:docname=\"chart(1).svg\">\n  <metadata\n     id=\"metadata149\">\n    <rdf:RDF>\n      <cc:Work\n         rdf:about=\"\">\n        <dc:format>image/svg+xml</dc:format>\n        <dc:type\n           rdf:resource=\"http://purl.org/dc/dcmitype/StillImage\" />\n        <dc:title></dc:title>\n      </cc:Work>\n    </rdf:RDF>\n  </metadata>\n  <sodipodi:namedview\n     pagecolor=\"#ffffff\"\n     bordercolor=\"#666666\"\n     borderopacity=\"1\"\n     objecttolerance=\"10\"\n     gridtolerance=\"10\"\n     guidetolerance=\"10\"\n     inkscape:pageopacity=\"0\"\n     inkscape:pageshadow=\"2\"\n     inkscape:window-width=\"733\"\n     inkscape:window-height=\"480\"\n     id=\"namedview147\"\n     showgrid=\"false\"\n     fit-margin-top=\"0\"\n     fit-margin-left=\"0\"\n     fit-margin-right=\"0\"\n     fit-margin-bottom=\"0\"\n     inkscape:zoom=\"0.48666667\"\n     inkscape:cx=\"50\"\n     inkscape:cy=\"33.333336\"\n     inkscape:window-x=\"65\"\n     inkscape:window-y=\"24\"\n     inkscape:window-maximized=\"0\"\n     inkscape:current-layer=\"svg2\" />\n  <desc\n     id=\"desc4\">Created with Highcharts 5.0.2</desc>\n  <defs\n     id=\"defs6\">\n    <clipPath\n       id=\"highcharts-435\">\n      <rect\n         x=\"0\"\n         y=\"0\"\n         width=\"526\"\n         height=\"279\"\n         id=\"rect9\"\n         style=\"fill:none\" />\n    </clipPath>\n  </defs>\n  <rect\n     class=\"highcharts-background\"\n     x=\"0\"\n     y=\"0\"\n     width=\"100\"\n     height=\"66.666664\"\n     rx=\"0\"\n     ry=\"0\"\n     id=\"rect11\"\n     style=\"fill:none\" />\n  <rect\n     class=\"highcharts-plot-background\"\n     x=\"10.666656\"\n     y=\"7.3333282\"\n     width=\"87.666664\"\n     height=\"46.5\"\n     id=\"rect13\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-grid highcharts-xaxis-grid \"\n     id=\"g15\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 238.5,44 0,279\"\n       id=\"path17\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 414.5,44 0,279\"\n       id=\"path19\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 589.5,44 0,279\"\n       id=\"path21\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 63.5,44 0,279\"\n       id=\"path23\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-grid highcharts-yaxis-grid \"\n     id=\"g25\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,323.5 526,0\"\n       id=\"path27\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,267.5 526,0\"\n       id=\"path29\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,211.5 526,0\"\n       id=\"path31\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,156.5 526,0\"\n       id=\"path33\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,100.5 526,0\"\n       id=\"path35\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n    <path\n       class=\"highcharts-grid-line\"\n       d=\"m 64,43.5 526,0\"\n       id=\"path37\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#e6e6e6;stroke-width:1\" />\n  </g>\n  <rect\n     class=\"highcharts-plot-border\"\n     x=\"10.666656\"\n     y=\"7.3333282\"\n     width=\"87.666664\"\n     height=\"46.5\"\n     id=\"rect39\"\n     style=\"fill:none\" />\n  <g\n     class=\"highcharts-axis highcharts-xaxis \"\n     id=\"g41\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 238.5,323 0,10\"\n       id=\"path43\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 414.5,323 0,10\"\n       id=\"path45\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 590.5,323 0,10\"\n       id=\"path47\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-tick\"\n       d=\"m 63.5,323 0,10\"\n       id=\"path49\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 64,323.5 526,0\"\n       id=\"path51\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none;stroke:#ccd6eb;stroke-width:1\" />\n  </g>\n  <g\n     class=\"highcharts-axis highcharts-yaxis \"\n     id=\"g53\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"25\"\n       transform=\"matrix(0,-1,1,0,-158.5,208.5)\"\n       class=\"highcharts-axis-title\"\n       style=\"text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"183.5\"\n       id=\"text55\">Values</text>\n    <path\n       class=\"highcharts-axis-line\"\n       d=\"m 64,44 0,279\"\n       id=\"path57\"\n       inkscape:connector-curvature=\"0\"\n       style=\"fill:none\" />\n  </g>\n  <g\n     class=\"highcharts-series-group\"\n     id=\"g59\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <g\n       class=\"highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(64,44)\"\n       width=\"279\"\n       height=\"526\"\n       clip-path=\"url(#highcharts-435)\"\n       id=\"g61\">\n      <rect\n         x=\"39.5\"\n         y=\"167.5\"\n         width=\"43\"\n         height=\"112\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect63\"\n         style=\"fill:#7cb5ec;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"215.5\"\n         y=\"195.5\"\n         width=\"43\"\n         height=\"84\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect65\"\n         style=\"fill:#7cb5ec;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"390.5\"\n         y=\"251.5\"\n         width=\"43\"\n         height=\"28\"\n         class=\"highcharts-point highcharts-color-0\"\n         id=\"rect67\"\n         style=\"fill:#7cb5ec;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 \"\n       transform=\"translate(64,44)\"\n       width=\"279\"\n       height=\"526\"\n       clip-path=\"none\"\n       id=\"g69\" />\n    <g\n       class=\"highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(64,44)\"\n       width=\"279\"\n       height=\"526\"\n       clip-path=\"url(#highcharts-435)\"\n       id=\"g71\">\n      <rect\n         x=\"92.5\"\n         y=\"223.5\"\n         width=\"43\"\n         height=\"56\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect73\"\n         style=\"fill:#f7a35c;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"267.5\"\n         y=\"140.5\"\n         width=\"43\"\n         height=\"139\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect75\"\n         style=\"fill:#f7a35c;stroke:#ffffff;stroke-width:1\" />\n      <rect\n         x=\"443.5\"\n         y=\"56.5\"\n         width=\"43\"\n         height=\"223\"\n         class=\"highcharts-point highcharts-color-1\"\n         id=\"rect77\"\n         style=\"fill:#f7a35c;stroke:#ffffff;stroke-width:1\" />\n    </g>\n    <g\n       class=\"highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 \"\n       transform=\"translate(64,44)\"\n       width=\"279\"\n       height=\"526\"\n       clip-path=\"none\"\n       id=\"g79\" />\n  </g>\n  <text\n     x=\"50\"\n     class=\"highcharts-title\"\n     style=\"font-size:2.66666675px;font-weight:bold;text-transform:uppercase;text-anchor:middle;color:#333333;fill:#333333\"\n     y=\"3.6666565\"\n     id=\"text81\">\n    <tspan\n       id=\"tspan83\">Chart title</tspan>\n  </text>\n  <g\n     class=\"highcharts-legend\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,34.5,59.499998)\"\n     id=\"g85\">\n    <rect\n       class=\"highcharts-legend-box\"\n       rx=\"0\"\n       ry=\"0\"\n       x=\"0\"\n       y=\"0\"\n       width=\"187\"\n       height=\"28\"\n       visibility=\"visible\"\n       id=\"rect87\"\n       style=\"fill:none;visibility:visible\" />\n    <g\n       id=\"g89\">\n      <g\n         id=\"g91\">\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-0 highcharts-series-0\"\n           transform=\"translate(8,3)\"\n           id=\"g93\">\n          <text\n             x=\"21\"\n             style=\"font-size:13px;font-weight:bold;text-anchor:start;color:#333333;fill:#333333\"\n             y=\"16\"\n             id=\"text95\">move</text>\n          <rect\n             x=\"1.5\"\n             y=\"4\"\n             width=\"13\"\n             height=\"13\"\n             rx=\"6.5\"\n             ry=\"6.5\"\n             class=\"highcharts-point\"\n             id=\"rect97\"\n             style=\"fill:#7cb5ec\" />\n        </g>\n        <g\n           class=\"highcharts-legend-item highcharts-column-series highcharts-color-1 highcharts-series-1\"\n           transform=\"translate(89,3)\"\n           id=\"g99\">\n          <text\n             x=\"21\"\n             y=\"16\"\n             style=\"font-size:13px;font-weight:bold;text-anchor:start;color:#333333;fill:#333333\"\n             id=\"text101\">excersise</text>\n          <rect\n             x=\"1.5\"\n             y=\"4\"\n             width=\"13\"\n             height=\"13\"\n             rx=\"6.5\"\n             ry=\"6.5\"\n             class=\"highcharts-point\"\n             id=\"rect103\"\n             style=\"fill:#f7a35c\" />\n        </g>\n      </g>\n    </g>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-xaxis-labels \"\n     id=\"g105\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"151.66667\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"342\"\n       id=\"text107\">\n      <tspan\n         id=\"tspan109\">0</tspan>\n    </text>\n    <text\n       x=\"327\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"342\"\n       id=\"text111\">\n      <tspan\n         id=\"tspan113\">1</tspan>\n    </text>\n    <text\n       x=\"502.33334\"\n       style=\"font-size:11px;text-anchor:middle;color:#666666;fill:#666666\"\n       y=\"342\"\n       id=\"text115\">\n      <tspan\n         id=\"tspan117\">2</tspan>\n    </text>\n  </g>\n  <g\n     class=\"highcharts-axis-labels highcharts-yaxis-labels \"\n     id=\"g119\"\n     transform=\"matrix(0.16666667,0,0,0.16666667,0,-1.7529297e-6)\">\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"327\"\n       id=\"text121\">\n      <tspan\n         id=\"tspan123\">0</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"271\"\n       id=\"text125\">\n      <tspan\n         id=\"tspan127\">2</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"215\"\n       id=\"text129\">\n      <tspan\n         id=\"tspan131\">4</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"160\"\n       id=\"text133\">\n      <tspan\n         id=\"tspan135\">6</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"104\"\n       id=\"text137\">\n      <tspan\n         id=\"tspan139\">8</tspan>\n    </text>\n    <text\n       x=\"49\"\n       style=\"font-size:11px;text-anchor:end;color:#666666;fill:#666666\"\n       y=\"48\"\n       id=\"text141\">\n      <tspan\n         id=\"tspan143\">10</tspan>\n    </text>\n  </g>\n  <text\n     x=\"98.333344\"\n     class=\"highcharts-credits\"\n     style=\"font-size:1.5px;text-anchor:end;color:#999999;fill:#999999\"\n     y=\"65.833328\"\n     id=\"text145\">Highcharts.com</text>\n</svg>\n";
 return self})();
     var virtualize = require('vdom-virtualize');
     var _ = {
@@ -36564,7 +38156,7 @@ return self})();
     module.exports = that;
 })();
 
-},{"fs":8,"lodash.isundefined":54,"vdom-virtualize":81}],134:[function(require,module,exports){
+},{"fs":3,"lodash.isundefined":40,"vdom-virtualize":78}],141:[function(require,module,exports){
 (function () {
     var _ = {
         isUndefined: require('lodash.isundefined'),
@@ -36662,7 +38254,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"./properties/array":135,"./properties/arrayArray":136,"./properties/arrayColor":137,"./properties/arrayObject":138,"./properties/arrayString":139,"./properties/boolean":140,"./properties/color":141,"./properties/number":142,"./properties/object":143,"./properties/select":144,"./properties/string":145,"lodash.clonedeep":44,"lodash.first":47,"lodash.foreach":48,"lodash.isarray":49,"lodash.isstring":53,"lodash.isundefined":54}],135:[function(require,module,exports){
+},{"./properties/array":142,"./properties/arrayArray":143,"./properties/arrayColor":144,"./properties/arrayObject":145,"./properties/arrayString":146,"./properties/boolean":147,"./properties/color":148,"./properties/number":149,"./properties/object":150,"./properties/select":151,"./properties/string":152,"lodash.clonedeep":30,"lodash.first":33,"lodash.foreach":34,"lodash.isarray":35,"lodash.isstring":39,"lodash.isundefined":40}],142:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -36713,7 +38305,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.clonedeep":44,"lodash.foreach":48,"lodash.isequal":51,"lodash.isundefined":54,"lodash.merge":58,"virtual-dom/h":85}],136:[function(require,module,exports){
+},{"lodash.clonedeep":30,"lodash.foreach":34,"lodash.isequal":37,"lodash.isundefined":40,"lodash.merge":44,"virtual-dom/h":82}],143:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var _ = {
@@ -36795,7 +38387,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":44,"lodash.foreach":48,"lodash.isequal":51,"lodash.isundefined":54,"lodash.join":55,"lodash.merge":58,"lodash.split":62,"virtual-dom/h":85}],137:[function(require,module,exports){
+},{"lodash.clonedeep":30,"lodash.foreach":34,"lodash.isequal":37,"lodash.isundefined":40,"lodash.join":41,"lodash.merge":44,"lodash.split":48,"virtual-dom/h":82}],144:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
     var h = require('virtual-dom/h');
@@ -36881,7 +38473,7 @@ return self})();
     }
     module.exports = constructor;
 })();
-},{"lodash.clonedeep":44,"lodash.foreach":48,"lodash.isequal":51,"lodash.isundefined":54,"lodash.map":57,"lodash.merge":58,"lodash.tolower":63,"lodash.trim":64,"simple-color-picker":76,"virtual-dom/h":85}],138:[function(require,module,exports){
+},{"lodash.clonedeep":30,"lodash.foreach":34,"lodash.isequal":37,"lodash.isundefined":40,"lodash.map":43,"lodash.merge":44,"lodash.tolower":49,"lodash.trim":50,"simple-color-picker":64,"virtual-dom/h":82}],145:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -36936,7 +38528,7 @@ return self})();
 
 })();
 
-},{"lodash.clonedeep":44,"lodash.foreach":48,"lodash.isequal":51,"lodash.isundefined":54,"lodash.merge":58,"virtual-dom/h":85}],139:[function(require,module,exports){
+},{"lodash.clonedeep":30,"lodash.foreach":34,"lodash.isequal":37,"lodash.isundefined":40,"lodash.merge":44,"virtual-dom/h":82}],146:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -36971,7 +38563,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":85}],140:[function(require,module,exports){
+},{"virtual-dom/h":82}],147:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -37020,7 +38612,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"lodash.isstring":53,"lodash.isundefined":54,"virtual-dom/h":85}],141:[function(require,module,exports){
+},{"lodash.isstring":39,"lodash.isundefined":40,"virtual-dom/h":82}],148:[function(require,module,exports){
 (function () {
     var ColorPicker = require('simple-color-picker');
 
@@ -37087,7 +38679,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"lodash.tolower":63,"lodash.trim":64,"simple-color-picker":76,"virtual-dom/h":85}],142:[function(require,module,exports){
+},{"lodash.tolower":49,"lodash.trim":50,"simple-color-picker":64,"virtual-dom/h":82}],149:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
 
@@ -37120,7 +38712,7 @@ return self})();
 
     module.exports = constructor;
 })();
-},{"virtual-dom/h":85}],143:[function(require,module,exports){
+},{"virtual-dom/h":82}],150:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -37155,7 +38747,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":85}],144:[function(require,module,exports){
+},{"virtual-dom/h":82}],151:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
   var _ = {
@@ -37206,7 +38798,7 @@ return self})();
 
   module.exports = constructor;
 })();
-},{"lodash.foreach":48,"lodash.isundefined":54,"virtual-dom/h":85}],145:[function(require,module,exports){
+},{"lodash.foreach":34,"lodash.isundefined":40,"virtual-dom/h":82}],152:[function(require,module,exports){
 (function () {
   var h = require('virtual-dom/h');
 
@@ -37238,7 +38830,7 @@ return self})();
   module.exports = constructor;
 })();
 
-},{"virtual-dom/h":85}],146:[function(require,module,exports){
+},{"virtual-dom/h":82}],153:[function(require,module,exports){
 (function () {
     var that = {};
     var _ = {
@@ -37459,7 +39051,7 @@ return self})();
 
     module.exports = that;
 })();
-},{"lodash.clonedeep":44,"lodash.drop":45,"lodash.find":46,"lodash.first":47,"lodash.foreach":48,"lodash.isarray":49,"lodash.isempty":50,"lodash.isundefined":54,"lodash.map":57,"lodash.merge":58,"lodash.remove":59,"lodash.size":60,"lodash.slice":61,"lodash.union":65}],147:[function(require,module,exports){
+},{"lodash.clonedeep":30,"lodash.drop":31,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isarray":35,"lodash.isempty":36,"lodash.isundefined":40,"lodash.map":43,"lodash.merge":44,"lodash.remove":45,"lodash.size":46,"lodash.slice":47,"lodash.union":51}],154:[function(require,module,exports){
 (function () {
     function constructor(services) {
         // data
@@ -37511,6 +39103,14 @@ return self})();
             return services.templates.get();
         }
 
+        // themes
+        function setThemes(themes) {
+            services.themes.set(themes);
+        }
+
+        function getThemes() {
+            return services.themes.get();
+        }
         // config
         function setConfig(config) {
             services.config.set(config);
@@ -37558,6 +39158,8 @@ return self})();
             getOptions: getOptions,
             setTemplates: setTemplates,
             getTemplates: getTemplates,
+            setThemes: setThemes,
+            getThemes: getThemes,
             setConfig: setConfig,
             setConfigStringified: setConfigStringified,
             getConfig: getConfig,
@@ -37574,7 +39176,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{}],148:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 (function () {
     function constructor(mediator, data) {
         var _ = {
@@ -37604,11 +39206,12 @@ return self})();
 
 
         var config = _.cloneDeep(presets);
+        var theme = {};
         var configCache;
 
         that.get = function () {
             var labels = hasLabels(data.get());
-            var _configObject = _.merge(_.cloneDeep(config), _.cloneDeep(presets));
+            var _configObject = _.merge(_.cloneDeep(config), _.cloneDeep(theme), _.cloneDeep(presets));
             var _data = data.getData(labels.series, labels.categories);
 
             // TODO FIX: getCategories() only when there are cats
@@ -37753,6 +39356,11 @@ return self})();
             configUpdate();
         };
 
+        that.setTheme = function (_theme_) {
+            theme = _theme_;
+            configUpdate();
+        };
+
         that.setPresets = function (_presets_) {
             presets = _presets_;
             configUpdate();
@@ -37811,7 +39419,7 @@ return self})();
     module.exports = constructor;
 })();
 
-},{"../factories/series.js":146,"json-fn":41,"lodash.clonedeep":44,"lodash.find":46,"lodash.foreach":48,"lodash.isarray":49,"lodash.isempty":50,"lodash.isundefined":54,"lodash.map":57,"lodash.merge":58}],149:[function(require,module,exports){
+},{"../factories/series.js":153,"json-fn":29,"lodash.clonedeep":30,"lodash.find":32,"lodash.foreach":34,"lodash.isarray":35,"lodash.isempty":36,"lodash.isundefined":40,"lodash.map":43,"lodash.merge":44}],156:[function(require,module,exports){
 (function () {
     function constructor (_mediator_){
         var mediator = _mediator_;
@@ -37939,7 +39547,7 @@ return self})();
 })
 ();
 
-},{"lodash.clonedeep":44,"lodash.find":46,"lodash.first":47,"lodash.foreach":48,"lodash.isequal":51,"lodash.isnan":52,"lodash.isundefined":54,"lodash.map":57,"lodash.slice":61,"papaparse":69,"xhr":112}],150:[function(require,module,exports){
+},{"lodash.clonedeep":30,"lodash.find":32,"lodash.first":33,"lodash.foreach":34,"lodash.isequal":37,"lodash.isnan":38,"lodash.isundefined":40,"lodash.map":43,"lodash.slice":47,"papaparse":63,"xhr":113}],157:[function(require,module,exports){
 var _ = {
     forEach: require('lodash.foreach')
 };
@@ -37981,7 +39589,7 @@ function constructor(opts, services) {
 
 module.exports = constructor;
 
-},{"lodash.foreach":48}],151:[function(require,module,exports){
+},{"lodash.foreach":34}],158:[function(require,module,exports){
 (function () {
     /**
      * Service for setting and getting the customisable options list for the customise page.
@@ -38029,7 +39637,7 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/options.json":131,"lodash.clonedeep":44,"xhr":112}],152:[function(require,module,exports){
+},{"../config/options.json":137,"lodash.clonedeep":30,"xhr":113}],159:[function(require,module,exports){
 function constructor(mediator) {
     var undoAmount = 5;
     var backup = [];
@@ -38071,7 +39679,7 @@ function constructor(mediator) {
 }
 
 module.exports = constructor;
-},{"lodash.clonedeep":44}],153:[function(require,module,exports){
+},{"lodash.clonedeep":30}],160:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var diff = require('virtual-dom/diff');
@@ -38189,7 +39797,7 @@ module.exports = constructor;
 
     module.exports = constructor;
 })();
-},{"./../components/chart.js":116,"./../components/revision":128,"./../templates/logo":155,"lodash.keys":56,"lodash.size":60,"lodash.slice":61,"lodash.without":66,"main-loop":67,"virtual-dom/create-element":83,"virtual-dom/diff":84,"virtual-dom/h":85,"virtual-dom/patch":86}],154:[function(require,module,exports){
+},{"./../components/chart.js":121,"./../components/revision":133,"./../templates/logo":163,"lodash.keys":42,"lodash.size":46,"lodash.slice":47,"lodash.without":52,"main-loop":53,"virtual-dom/create-element":80,"virtual-dom/diff":81,"virtual-dom/h":82,"virtual-dom/patch":90}],161:[function(require,module,exports){
 (function () {
     function constructor(){
         var jsonfn = require('json-fn');
@@ -38213,7 +39821,31 @@ module.exports = constructor;
     module.exports = constructor;
 })();
 
-},{"../config/templates.json":132,"json-fn":41,"lodash.clonedeep":44}],155:[function(require,module,exports){
+},{"../config/templates.json":138,"json-fn":29,"lodash.clonedeep":30}],162:[function(require,module,exports){
+(function () {
+    function constructor(){
+        var jsonfn = require('json-fn');
+        var temp = require('../config/themes.json');
+        var themes = jsonfn.parse(jsonfn.stringify(temp));
+        var that = {};
+        var _ = {
+            cloneDeep: require('lodash.clonedeep')
+        };
+
+        that.get = function(){
+            return _.cloneDeep(themes);
+        };
+
+        that.set = function(_themes_){
+            themes = _themes_;
+        };
+        return that;
+    }
+
+    module.exports = constructor;
+})();
+
+},{"../config/themes.json":139,"json-fn":29,"lodash.clonedeep":30}],163:[function(require,module,exports){
 (function () {
     var h = require('virtual-dom/h');
     var iconLoader = require('../factories/iconLoader');
@@ -38221,4 +39853,4 @@ module.exports = constructor;
     module.exports = h('div.logo',[logo]);
 })();
 
-},{"../factories/iconLoader":133,"virtual-dom/h":85}]},{},[115]);
+},{"../factories/iconLoader":140,"virtual-dom/h":82}]},{},[120]);
