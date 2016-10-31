@@ -44,13 +44,12 @@
         };
 
         that.getRaw = function () {
-            return _.cloneDeep(config);
+            return _.merge(_.cloneDeep(config), _.cloneDeep(theme));
         };
 
-        that.getStringified = function(){
-            return stringify(config);
+        that.getStringified = function() {
+            return stringify(this.getRaw());
         };
-
 
         that.set = function (_config_) {
             _config_.series = _.map(_config_.series, function(serie){

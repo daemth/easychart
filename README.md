@@ -190,7 +190,7 @@ var templatesArray = [
 ];
 
 new ec({
-    templates:templatesObject
+    templates:templatesArray
 });
 ```
 example [templates](src/js/config/templates.js)
