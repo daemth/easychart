@@ -1,1 +1,99 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="highcharts-root" style="font-family:'lucida grande', 'lucida sans unicode', arial, helvetica, sans-serif;font-size:12px;" xmlns="http://www.w3.org/2000/svg" width="100" viewBox="0 0 100 70" height="70"><desc>Created with Highcharts 5.0.0</desc><defs><clipPath id="highcharts-9"><rect x="0" y="0" width="100" height="70" fill="none"></rect></clipPath></defs><rect fill="#ffffff" class="highcharts-background" x="0" y="0" width="100" height="70" rx="0" ry="0"></rect><rect fill="none" class="highcharts-plot-background" x="0" y="0" width="100" height="70"></rect><g stroke-linejoin="round" class="highcharts-3d-frame highcharts-3d-frame-back"><path fill="none" d="M 87.51958563244574 8.679941658645856 L 86.35782884707069 50.212728275273214 L 86.45418417111884 50.040652107266595 L 87.61713310316344 8.569648435415996 Z" class="highcharts-3d-side"></path><path fill="none" d="M 87.51958563244574 8.679941658645856 L 87.61713310316344 8.569648435415996 L 28.86697110608696 5.714775232709172 L 28.682220713549064 5.815992733879419 Z" class="highcharts-3d-top"></path><path fill="none" d="M 29.315366476804915 45.73887903019228 L 86.35782884707069 50.212728275273214 L 87.51958563244574 8.679941658645856 L 28.682220713549064 5.815992733879419 Z" class="highcharts-3d-front"></path></g><g stroke-linejoin="round" class="highcharts-3d-frame highcharts-3d-frame-side"><path fill="none" d="M 8.285387013319266 64.41131236135271 L 8.91360557595987 64.47025762312748 L 7.423819279818808 17.856984013369424 L 6.773567390492168 17.818885463378024 Z" class="highcharts-3d-front"></path><path fill="none" d="M 7.423819279818808 17.856984013369424 L 29.240499760741457 5.843167347819566 L 28.682220713549064 5.815992733879419 L 6.773567390492168 17.818885463378024 Z" class="highcharts-3d-top"></path><path fill="none" d="M 7.423819279818808 17.856984013369424 L 8.91360557595987 64.47025762312748 L 29.85731366474156 45.781384032902125 L 29.240499760741457 5.843167347819566 Z" class="highcharts-3d-side"></path></g><g stroke-linejoin="round" class="highcharts-3d-frame highcharts-3d-frame-bottom"><path fill="none" d="M 8.91360557595987 64.47025762312748 L 74.90690726666064 70.6623580717185 L 74.91980240246409 70 L 8.893346900661136 63.83639276806903 Z" class="highcharts-3d-front"></path><path fill="none" d="M 74.91980240246409 70 L 74.90690726666064 70.6623580717185 L 86.35782884707069 50.212728275273214 L 86.37369187976026 49.64562510868756 Z" class="highcharts-3d-side"></path><path fill="none" d="M 74.91980240246409 70 L 86.37369187976026 49.64562510868756 L 29.84888074270531 45.23535894269618 L 8.893346900661136 63.83639276806903 Z" class="highcharts-3d-top"></path></g><g class="highcharts-grid highcharts-xaxis-grid "><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 47.641266526360084 6.738837238303496 L 47.641266526360084 6.738837238303496 L 47.71131251845285 46.62904919867769 L 29.651237253255044 65.77415365685981" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 67.43979973340875 7.7025443650322245 L 67.43979973340875 7.7025443650322245 L 66.91458213533345 48.12735637678375 L 52.07747263097181 67.86765550408992" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 87.21558893834359 8.665144411923361 L 87.21558893834359 8.665144411923361 L 86.07921906804428 49.622649295903926 L 74.57324712910084 69.96764886782228" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 28.961302104099577 5.829577211183782 L 28.961302104099577 5.829577211183782 L 29.57774065189127 45.21420363152032 L 8.579012816741894 63.807049502280165" opacity="1"></path></g><g class="highcharts-grid highcharts-zaxis-grid "></g><g class="highcharts-grid highcharts-yaxis-grid "><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 8.903478734956735 64.15340331207325 L 29.853098086168924 45.508428625452794 L 86.36575863352036 49.92923853570358 L 86.36575863352036 49.92923853570358" opacity="1"></path><path fill="none" stroke="#e6e6e6" stroke-width="1" class="highcharts-grid-line" d="M 7.41294463172391 17.51673189239715 L 29.23602201963229 5.553237121672254 L 87.52803034173517 8.378043435736146 L 87.52803034173517 8.378043435736146" opacity="1"></path></g><rect fill="none" class="highcharts-plot-border" x="0" y="0" width="100" height="70"></rect><g class="highcharts-axis highcharts-xaxis "><path fill="none" class="highcharts-axis-line" stroke="#ccd6eb" stroke-width="1" d="M 0 0"></path></g><g class="highcharts-axis highcharts-zaxis "><path fill="none" class="highcharts-axis-line" d="M 0 0"></path></g><g class="highcharts-axis highcharts-yaxis "><path fill="none" class="highcharts-axis-line" d="M 0 0"></path></g><g class="highcharts-series-group"><g class="highcharts-series highcharts-series-0 highcharts-column-series highcharts-color-0 " transform="translate(0,0) scale(1 1)" width="70" height="100" clip-path="url(#highcharts-9)"><g stroke-linejoin="round" class="highcharts-point highcharts-color-0" stroke="#7cb5ec" stroke-width="1"><path fill="#7cb5ec" d="M 13.874129099762513 64.37549654838735 L 18.95085209597563 64.84969556018588 L 18.513808783634474 46.760042077624334 L 13.367594273559625 46.34919396474117 Z" class="highcharts-3d-front"></path><path fill="rgb(149,206,255)" d="M 18.513808783634474 46.760042077624334 L 24.114835709320374 42.15832873583804 L 19.170102696696567 41.78225940722567 L 13.367594273559625 46.34919396474117 Z" class="highcharts-3d-top"></path><path fill="rgb(99,156,211)" d="M 18.513808783634474 46.760042077624334 L 18.95085209597563 64.84969556018588 L 24.458768445290648 59.53550733148979 L 24.114835709320374 42.15832873583804 Z" class="highcharts-3d-side"></path></g><g stroke-linejoin="round" class="highcharts-point highcharts-color-0" stroke="#7cb5ec" stroke-width="1"><path fill="#7cb5ec" d="M 35.06933912855344 66.35526728987001 L 40.31006743836453 66.84478546674725 L 40.206476449478515 53.12706491724731 L 34.91034716751537 52.68608575726352 Z" class="highcharts-3d-front"></path><path fill="rgb(149,206,255)" d="M 40.206476449478515 53.12706491724731 L 44.92374181762163 48.19033564484385 L 39.84138761955882 47.78712694380427 L 34.91034716751537 52.68608575726352 Z" class="highcharts-3d-top"></path><path fill="rgb(99,156,211)" d="M 40.206476449478515 53.12706491724731 L 40.31006743836453 66.84478546674725 L 44.97510440039974 61.362348771587804 L 44.92374181762163 48.19033564484385 Z" class="highcharts-3d-side"></path></g><g stroke-linejoin="round" class="highcharts-point highcharts-color-0" stroke="#7cb5ec" stroke-width="1"><path fill="#7cb5ec" d="M 56.953524921252495 68.39939285761403 L 62.36633622647659 68.90498470769208 L 62.41080869040894 64.29782763549704 L 56.97843266789117 63.80864263326892 Z" class="highcharts-3d-front"></path><path fill="rgb(149,206,255)" d="M 62.41080869040894 64.29782763549704 L 66.1869053835654 58.82344579036085 L 60.97973757680447 58.376518919450376 L 56.97843266789117 63.80864263326892 Z" class="highcharts-3d-top"></path><path fill="rgb(99,156,211)" d="M 62.41080869040894 64.29782763549704 L 62.36633622647659 68.90498470769208 L 66.13145973394165 63.24617962371072 L 66.1869053835654 58.82344579036085 Z" class="highcharts-3d-side"></path></g></g><g class="highcharts-markers highcharts-series-0 highcharts-column-series highcharts-color-0 " transform="translate(0,0) scale(1 1)" width="70" height="100" clip-path="none"></g><g class="highcharts-series highcharts-series-1 highcharts-column-series highcharts-color-1 " transform="translate(0,0) scale(1 1)" width="70" height="100" clip-path="url(#highcharts-9)"><g stroke-linejoin="round" class="highcharts-point highcharts-color-1" stroke="#434348" stroke-width="1"><path fill="#434348" d="M 20.226116011302835 64.96881352050823 L 25.35171507279397 65.44757787531893 L 25.178619943227343 56.42664384131319 L 20.01783317398168 55.97936204117897 Z" class="highcharts-3d-front"></path><path fill="rgb(92,92,97)" d="M 25.178619943227343 56.42664384131319 L 30.479716937581966 51.4164235730776 L 25.52172961932206 51.006927718639034 L 20.01783317398168 55.97936204117897 Z" class="highcharts-3d-top"></path><path fill="rgb(42,42,47)" d="M 25.178619943227343 56.42664384131319 L 25.35171507279397 65.44757787531893 L 30.609995788673345 60.08323266816508 L 30.479716937581966 51.4164235730776 Z" class="highcharts-3d-side"></path></g><g stroke-linejoin="round" class="highcharts-point highcharts-color-1" stroke="#434348" stroke-width="1"><path fill="#434348" d="M 41.626630122034754 66.96776100116836 L 46.918627886910635 67.46206807926107 L 46.86305580480085 44.33160785285175 L 41.47621657204786 43.920156718066124 Z" class="highcharts-3d-front"></path><path fill="rgb(92,92,97)" d="M 46.86305580480085 44.33160785285175 L 51.33987615837203 39.72768471348089 L 46.17421474534422 39.351875434684004 L 41.47621657204786 43.920156718066124 Z" class="highcharts-3d-top"></path><path fill="rgb(42,42,47)" d="M 46.86305580480085 44.33160785285175 L 46.918627886910635 67.46206807926107 L 51.317175288925235 61.9270674397042 L 51.33987615837203 39.72768471348089 Z" class="highcharts-3d-side"></path></g><g stroke-linejoin="round" class="highcharts-point highcharts-color-1" stroke="#434348" stroke-width="1"><path fill="#434348" d="M 63.72623681068347 69.03200828444744 L 69.19286981483631 69.54262743195031 L 69.76220667464099 31.559034213215142 L 64.13175169166301 31.188174786144142 Z" class="highcharts-3d-front"></path><path fill="rgb(92,92,97)" d="M 69.76220667464099 31.559034213215142 L 73.31533307978415 27.414002226402793 L 67.92659709703784 27.076105615093248 L 64.13175169166301 31.188174786144142 Z" class="highcharts-3d-top"></path><path fill="rgb(42,42,47)" d="M 69.76220667464099 31.559034213215142 L 69.19286981483631 69.54262743195031 L 72.67339540537307 63.82869490368937 L 73.31533307978415 27.414002226402793 Z" class="highcharts-3d-side"></path></g></g><g class="highcharts-markers highcharts-series-1 highcharts-column-series highcharts-color-1 " transform="translate(0,0) scale(1 1)" width="70" height="100" clip-path="none"></g></g><g class="highcharts-axis-labels highcharts-xaxis-labels "></g><g class="highcharts-axis-labels highcharts-zaxis-labels "></g><g class="highcharts-axis-labels highcharts-yaxis-labels "></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.2" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="221.5 721.2 100 70" xml:space="preserve">
+<g id="Layer_1">
+</g>
+<g id="not_x5F_found">
+</g>
+<g id="line_charts">
+</g>
+<g id="area_charts">
+</g>
+<g id="bar_charts">
+</g>
+<g id="column_charts">
+</g>
+<g id="_x33_D_charts">
+	<polyline fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" points="230.9,766.8 238,759.3 310.1,763 	"/>
+	<polyline fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" points="230.5,751.2 237.6,743.7 309.7,747.5 	
+		"/>
+	<polyline fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" points="255.3,783.7 262.4,776.1 261.2,729.4 	
+		"/>
+	<polyline fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" points="279.4,784.9 286.5,777.4 285.2,730.6 	
+		"/>
+	<polyline fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" points="303.4,786.2 310.5,778.6 238.4,774.8 
+		231.3,782.4 	"/>
+	<g>
+		<g>
+			<g>
+				<polygon fill="#5B85AE" points="244.5,768.6 244.8,779.3 239,779 238.7,768.3 				"/>
+			</g>
+			<g>
+				<polygon fill="#5982AA" points="244.5,768.6 247.1,765.8 247.4,776.5 244.8,779.3 				"/>
+			</g>
+			<g>
+				<polygon fill="#577FA6" points="238.7,768.3 241.3,765.5 247.1,765.8 244.5,768.6 				"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<polygon fill="#313135" points="252.5,737.3 253.7,779.8 247.9,779.5 246.7,737 				"/>
+			</g>
+			<g>
+				<polygon fill="#303034" points="252.5,737.3 255.2,734.5 256.3,777 253.7,779.8 				"/>
+			</g>
+			<g>
+				<polygon fill="#2F2F33" points="246.7,737 249.4,734.2 255.2,734.5 252.5,737.3 				"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<polygon fill="#5B85AE" points="268.2,749.8 269,780.6 263.2,780.3 262.4,749.5 				"/>
+			</g>
+			<g>
+				<polygon fill="#5982AA" points="268.2,749.8 270.8,747 271.6,777.8 269,780.6 				"/>
+			</g>
+			<g>
+				<polygon fill="#577FA6" points="262.4,749.5 265,746.7 270.8,747 268.2,749.8 				"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<polygon fill="#313135" points="277.4,761 277.9,781.1 272.1,780.8 271.6,760.7 				"/>
+			</g>
+			<g>
+				<polygon fill="#303034" points="277.4,761 280,758.2 280.5,778.3 277.9,781.1 				"/>
+			</g>
+			<g>
+				<polygon fill="#2F2F33" points="271.6,760.7 274.2,757.9 280,758.2 277.4,761 				"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<polygon fill="#5B85AE" points="292.1,738.4 293.2,781.9 287.4,781.6 286.3,738.1 				"/>
+			</g>
+			<g>
+				<polygon fill="#5982AA" points="292.1,738.4 294.7,735.6 295.9,779.1 293.2,781.9 				"/>
+			</g>
+			<g>
+				<polygon fill="#577FA6" points="286.3,738.1 288.9,735.3 294.7,735.6 292.1,738.4 				"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<polygon fill="#313135" points="301.9,771.6 302.1,782.3 296.4,782 296.1,771.3 				"/>
+			</g>
+			<g>
+				<polygon fill="#303034" points="301.9,771.6 304.5,768.8 304.8,779.6 302.1,782.3 				"/>
+			</g>
+			<g>
+				<polygon fill="#2F2F33" points="296.1,771.3 298.7,768.5 304.5,768.8 301.9,771.6 				"/>
+			</g>
+		</g>
+	</g>
+	<line fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" x1="238.4" y1="774.8" x2="237.2" y2="728.1"/>
+	<polyline fill="none" stroke="#CCCCCC" stroke-width="0.25" stroke-miterlimit="10" points="310.5,778.6 309.3,731.9 237.2,728.1 
+		230.1,735.6 	"/>
+</g>
+</svg>
