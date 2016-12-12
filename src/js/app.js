@@ -74,7 +74,7 @@ function constructor(opts) {
         }
     }
 
-    if (opts.themesTab != false) {
+    if (opts.themesTab == true) {
         states.themes = {
             title: 'Themes',
             dependencies: function () {
@@ -130,7 +130,7 @@ function constructor(opts) {
             mainRouter.goToState('data');
         } else if(opts.templatesTab != false) {
             mainRouter.goToState('templates');
-        } else if(opts.themesTab != false) {
+        } else if(opts.themesTab == true) {
             mainRouter.goToState('themes');
         } else if(opts.customiseTab != false) {
             mainRouter.goToState('customise');

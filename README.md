@@ -57,7 +57,7 @@ new ec({
 });
 ```
 ### options.themesTab
-Toggles the themes tab [default:true]
+Toggles the themes tab [default:false]
 ```javascript
 new ec({
     themesTab: true

@@ -5,6 +5,106 @@
     "icon": "placeholder",
     "themes": [
       {
+        "id": "default",
+        "icon": "theme_default",
+        "title": "Default",
+        "desc": "Default theme for Highcharts JS",
+        "definition": {
+          "colors": [
+            "#7cb5ec",
+            "#434348",
+            "#90ed7d",
+            "#f7a35c",
+            "#8085e9",
+            "#f15c80",
+            "#e4d354",
+            "#2b908f",
+            "#f45b5b",
+            "#91e8e1"
+          ],
+          "chart": {
+            "backgroundColor": "#FFFFFF",
+            "style": {
+              "fontFamily": "'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif",
+              "fontSize": "12px"
+            }
+          },
+          "title": {
+            "style": {
+              "color": "#333333",
+              "fontSize": "18px"
+            }
+          },
+          "subtitle": {
+            "style": {
+              "color": "#666666"
+            }
+          },
+          "xAxis": {
+            "gridLineWidth": 0,
+            "lineColor": "#ccd6eb",
+            "tickColor": "#ccd6eb",
+            "labels": {
+              "style": {
+                "color": "#666666",
+                "cursor": "default",
+                "fontSize": "11px"
+              }
+            },
+            "title": {
+              "style": {
+                "color": "#666666"
+              }
+            }
+          },
+          "yAxis": {
+            "minorTickInterval": "auto",
+            "lineColor": "#ccd6eb",
+            "lineWidth": 0,
+            "tickWidth": 0,
+            "tickColor": "#ccd6eb",
+            "labels": {
+              "style": {
+                "color": "#666666",
+                "cursor": "default",
+                "fontSize": "11px"
+              }
+            },
+            "title": {
+              "style": {
+                "color": "#666666"
+              }
+            }
+          },
+          "legend": {
+            "itemStyle":  {
+              "color": "#333333",
+              "cursor": "pointer",
+              "fontSize": "12px",
+              "fontWeight": "bold"
+            },
+            "itemHoverStyle": {
+              "color": "#000000"
+            },
+            "itemHiddenStyle": {
+              "color": "#cccccc"
+            }
+          },
+          "labels": {
+            "style": {
+              "color": "#333333"
+            }
+          },
+          "navigation": {
+            "buttonOptions": {
+              "theme": {
+                "stroke": "#CCCCCC"
+              }
+            }
+          }
+        }
+      },
+      {
         "id": "dark-blue",
         "icon": "theme_dark_blue",
         "title": "Dark Blue",
