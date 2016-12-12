@@ -56,6 +56,13 @@ new ec({
     templatesTab: true
 });
 ```
+### options.themesTab
+Toggles the themes tab [default:false]
+```javascript
+new ec({
+    themesTab: true
+});
+```
 ### options.dataTab
 Toggles the data tab [default:true]
 ```javascript
@@ -183,10 +190,51 @@ var templatesArray = [
 ];
 
 new ec({
-    templates:templatesObject
+    templates:templatesArray
 });
 ```
 example [templates](src/js/config/templates.js)
+
+
+### options.themes
+Pass a array with preconfigured templates for the template page.
+```javascript
+var themesArray = [
+    {
+        "id": "Custom",
+        "type": "custom",
+        "icon": "placeholder",
+        "themes": [
+            {
+                "id": "grayscale",
+                "icon": "theme_grayscale",
+                "title": "Grayscale",
+                "desc": "Grayscale theme for Highcharts JS",
+                "definition": {
+                    "colors": [
+						"#5E5E5E",
+						"#A3A3A3",
+						"#7A7A7A",
+						"#505050",
+						"#8A8A8A",
+						"#C4C4C4",
+						"#9E9E9E",
+						"#CACACA",
+						"#AEAEAE"
+					]
+                }
+            }
+        ]
+    }
+];
+
+new ec({
+    themes:themesArray
+});
+```
+example [themes](src/js/config/themes.js)
+
+
 ### options.config
 Load a existing config object
 ```javascript
@@ -344,6 +392,46 @@ Get the current template list.
 ```javascript
 var instance = new ec();
 instance.getTemplates();
+```
+### instance.setThemes
+Set an array with preconfigured themes for the theme page.
+```javascript
+var themesArray = [
+    {
+        "id": "Custom",
+        "type": "custom",
+        "icon": "placeholder",
+        "themes": [
+            {
+                "id": "grayscale",
+                "icon": "theme_grayscale",
+                "title": "Grayscale",
+                "desc": "Grayscale theme for Highcharts JS",
+                "definition": {
+                    "colors": [
+						"#5E5E5E",
+						"#A3A3A3",
+						"#7A7A7A",
+						"#505050",
+						"#8A8A8A",
+						"#C4C4C4",
+						"#9E9E9E",
+						"#CACACA",
+						"#AEAEAE"
+					]
+                }
+            }
+        ]
+    }
+];
+var instance = new ec();
+instance.setThemes(themesArray);
+```
+### instance.getThemes
+Get the current theme list.
+```javascript
+var instance = new ec();
+instance.getThemes();
 ```
 ### instance.setConfig
 Set the current config from code
