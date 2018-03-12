@@ -564,6 +564,17 @@
                                 "returnType": "Number",
                                 "description": "The width or thickness of the plot line.",
                                 "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">2px wide line from X axis</a>"
+                            },
+                            {
+                                "name": "xAxis-plotLines--zIndex",
+                                "fullname": "xAxis.plotLines.zIndex",
+                                "title": "zIndex",
+                                "parent": "xAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "since": "1.2",
+                                "description": "The z index of the plot line within the chart.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-zindex-behind/\" target=\"_blank\">Behind plot lines by default</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-zindex-above/\" target=\"_blank\">above plot lines</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-zindex-above-all/\" target=\"_blank\">above plot lines and series</a>."
                             }
                         ]
                     },
@@ -850,6 +861,17 @@
                                 "returnType": "Number",
                                 "description": "The width or thickness of the plot line.",
                                 "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-color/\" target=\"_blank\">2px wide line from X axis</a>"
+                            },
+                            {
+                                "name": "yAxis-plotLines--zIndex",
+                                "fullname": "yAxis.plotLines.zIndex",
+                                "title": "zIndex",
+                                "parent": "yAxis-plotLines",
+                                "isParent": false,
+                                "returnType": "Number",
+                                "since": "1.2",
+                                "description": "The z index of the plot line within the chart.",
+                                "demo": "<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-zindex-behind/\" target=\"_blank\">Behind plot lines by default</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-zindex-above/\" target=\"_blank\">above plot lines</a>,\n\t\t\t<a href=\"http://jsfiddle.net/gh/get/jquery/1.7.2/highslide-software/highcharts.com/tree/master/samples/highcharts/xaxis/plotlines-zindex-above-all/\" target=\"_blank\">above plot lines and series</a>."
                             }
                         ]
                     },

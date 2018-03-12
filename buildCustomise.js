@@ -29,6 +29,7 @@ function panesMap(panes){
     });
 }
 function optionsMap(options){
+
     return _.map(options, function(item){
         var _item_ = _.find(highchartsOptionsDump, function (record) {
             return record.fullname.toLowerCase() == item.fullname.toLowerCase();

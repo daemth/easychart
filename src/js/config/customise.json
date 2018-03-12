@@ -195,6 +195,9 @@
               },
               {
                 "fullname": "xAxis.plotLines.width"
+              },
+              {
+                "fullname": "xAxis.plotLines.zIndex"
               }
             ]
           },
@@ -286,6 +289,9 @@
               },
               {
                 "fullname": "yAxis.plotLines.width"
+              },
+              {
+                "fullname": "yAxis.plotLines.zIndex"
               }
             ]
           },
