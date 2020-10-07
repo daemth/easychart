@@ -19368,6 +19368,10 @@ function extend() {
             services.config.setPresets(presets);
         }
 
+        function setGlobalOptions(opts) {
+            services.config.setGlobalOptions(opts);
+        }
+
         return {
             setData: setData,
             setDataUrl: setDataUrl,
@@ -19375,6 +19379,7 @@ function extend() {
             setConfigStringified: setConfigStringified,
             getConfig: getConfig,
             getConfigStringified: getConfigStringified,
+            setGlobalOptions: setGlobalOptions,
             setPresets: setPresets
         }
     }
@@ -19491,6 +19496,10 @@ function extend() {
         that.setStringified = function(string){
             that.set(jsonfn.parse(string));
             configUpdate();
+        };
+
+        that.setGlobalOptions = function(opts){
+          Highcharts.setOptions(opts);
         };
 
         that.getValue = function (path) {
