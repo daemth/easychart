@@ -31,9 +31,6 @@ With Easychart we hope to make the beauty of Highcharts accessible to almost eve
 
 If [Handsontable] (https://handsontable.com/) is loaded before Easychart, it will use it automatically as data editor. Otherwise it will fallback to a simple editable table.
 
-## support
-[![Support](https://supporterhq.com/api/b/457908od976fe6w5ijy7a91kn/Easychart)](https://supporterhq.com/support/457908od976fe6w5ijy7a91kn/Easychart)
-
 ## options
 You can pass on a options object to the easychart intialiser. The initialiser is best wrapped in a DOMContentLoaded wrapper.
 ```javascript
